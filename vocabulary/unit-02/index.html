@@ -1,0 +1,1739 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Unit 2 Word Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn:#C77700; --warn-bg:#FFF0D1;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --c5:#E23F66; --c5t:#FFDDE6;
+  --col:var(--c1); --tint:var(--c1t);
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.land-c1{--col:var(--c1);--tint:var(--c1t)} .land-c2{--col:var(--c2);--tint:var(--c2t)} .land-c3{--col:var(--c3);--tint:var(--c3t)}
+.land-c4{--col:var(--c4);--tint:var(--c4t)} .land-c5{--col:var(--c5);--tint:var(--c5t)}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:900px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.xp{display:flex;align-items:center;gap:6px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;white-space:nowrap}
+.xp svg{width:20px;height:20px}
+.xp.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{50%{transform:scale(1.18)}}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink)}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:520px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:16px;line-height:1.2;box-shadow:var(--shadow-sm);transition:transform .08s,box-shadow .08s;text-align:center}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn-go{background:var(--sun)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.btn-sm{min-height:38px;padding:6px 12px;font-size:14px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:var(--shadow-sm)}
+.btn svg{width:18px;height:18px;flex:none}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.screen{animation:enter .35s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* home */
+.hero{margin-top:20px;padding:20px;display:grid;grid-template-columns:1.35fr 1fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(42px,7vw,66px)}
+.hero h1 span{color:var(--c2);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero p{margin-top:10px;max-width:50ch;color:var(--ink-2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;background:var(--page);text-align:center}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+@media (max-width:680px){.hero{grid-template-columns:1fr}}
+.banner{margin-top:16px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--sun-2)}
+.banner.alert{background:var(--bad-bg)}
+.banner p{flex:1 1 260px}
+.sec-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:34px 0 14px}
+.sec-title h2{font-size:36px}
+.sec-title p{color:var(--ink-2);font-size:14px}
+
+/* quest trail */
+.trail{position:relative;display:grid;gap:20px;padding-block:4px}
+.trail::before{content:"";position:absolute;top:0;bottom:-20px;left:50%;border-left:4px dashed var(--ink-3);transform:translateX(-2px)}
+.land{position:relative;width:calc(50% - 26px);display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px;text-align:left;background:var(--tint);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);transition:transform .15s}
+.land:nth-child(odd){justify-self:start}
+.land:nth-child(even){justify-self:end}
+.land:hover{transform:translateY(-3px) rotate(-.4deg)}
+.land::after{content:"";position:absolute;top:24px;width:22px;height:22px;border-radius:50%;background:var(--col);border:3px solid var(--ink)}
+.land:nth-child(odd)::after{right:-40px}
+.land:nth-child(even)::after{left:-40px}
+@media (max-width:680px){.trail::before{left:18px}.land{width:calc(100% - 44px);justify-self:end!important}.land::after{left:-40px!important;right:auto!important}}
+.badge{width:56px;height:56px;border-radius:50%;background:var(--col);border:3px solid var(--ink);display:grid;place-items:center;box-shadow:2px 2px 0 var(--ink)}
+.badge svg{width:32px;height:32px}
+.land-num{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.land h3{font-size:30px}
+.land .sub{font-size:14px;color:var(--ink-2)}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pill{font-size:13px;font-weight:700;padding:2px 9px;border:2px solid var(--ink);border-radius:999px;background:var(--paper)}
+.land-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.progress-note{font-size:13px;font-weight:700;color:var(--ink-2)}
+.stars{display:flex;gap:2px}
+.stars svg{width:24px;height:24px}
+.sticker{position:absolute;top:-19px;right:12px;font-family:var(--display);font-size:18px;letter-spacing:.05em;background:var(--bad);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 8px;transform:rotate(4deg);box-shadow:2px 2px 0 var(--ink)}
+.sticker.ok{background:var(--good)}
+.final{position:relative;margin:36px auto 0;max-width:560px;padding:18px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:var(--sun)}
+.final h3{font-size:34px}
+.final p{font-size:14px;color:var(--ink)}
+.final .row{grid-column:1 / -1}
+.final .badge{background:var(--ink)}
+.bank{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:760px){.bank{grid-template-columns:repeat(2,1fr)}}
+.tile{position:relative;text-align:left;padding:10px 30px 10px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:3px 3px 0 var(--col);display:grid;gap:1px;transition:transform .1s}
+.tile:hover{transform:translate(-1px,-1px)}
+.tile b{font-size:16px;font-weight:700;overflow-wrap:anywhere}
+.tile span{font-size:12px;color:var(--ink-2)}
+.tile i{position:absolute;top:12px;right:10px;width:13px;height:13px;border-radius:50%;border:2px solid var(--ink);background:var(--paper)}
+.tile i.ok{background:var(--good)} .tile i.slip{background:var(--sun)} .tile i.bad{background:var(--bad)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:12px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:50%;border:2px solid var(--ink);display:inline-block}
+
+/* lesson */
+.lesson-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.chip-land{font-family:var(--display);font-size:22px;letter-spacing:.04em;padding:3px 12px;border:3px solid var(--ink);border-radius:10px;background:var(--col);color:#fff;-webkit-text-stroke:.5px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.steps{display:flex;gap:6px;margin-left:auto}
+.step{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);display:grid;place-items:center;font-weight:800;font-size:13px;padding:0}
+.step.done{background:var(--col);color:#fff}
+.step.now{box-shadow:0 0 0 3px var(--sun);transform:scale(1.1)}
+.step svg{width:18px;height:18px}
+.card{margin-top:14px;padding:16px;display:grid;gap:16px}
+.word-top{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px 22px;align-items:center}
+@media (max-width:700px){.word-top{grid-template-columns:1fr}}
+.scene{position:relative;background:var(--tint);border:3px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;aspect-ratio:16/9;width:100%;max-width:100%}
+.scene svg{width:100%;height:100%;display:block}
+.word-head{display:grid;gap:12px;align-content:center;min-width:0}
+.word-title{font-family:var(--display);font-size:clamp(44px,6.6vw,78px);line-height:.95;letter-spacing:.03em;color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink);overflow-wrap:anywhere}
+.word-title.long{font-size:clamp(34px,4.6vw,56px)}
+.word-title .l{display:inline-block;animation:letterPop .5s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes letterPop{0%{transform:translateY(30px) scale(.3) rotate(-20deg);opacity:0}100%{transform:none;opacity:1}}
+.word-count{font-size:13px;font-weight:800;color:var(--ink-2);text-transform:uppercase;letter-spacing:.08em}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pos{font-size:13px;font-weight:800;padding:3px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--sun-2)}
+.say{font-weight:700;font-size:19px;letter-spacing:.02em}
+.say em{font-style:normal;background:var(--ink);color:#fff;padding:0 5px;border-radius:5px}
+.info{display:grid;grid-template-columns:1.25fr 1fr;gap:14px}
+@media (max-width:700px){.info{grid-template-columns:1fr}}
+.box{border:2px solid var(--ink);border-radius:var(--r-sm);padding:12px 14px;background:var(--paper)}
+.box h4{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2);margin:0 0 6px}
+.kid-def{font-size:19px;font-weight:500;line-height:1.45}
+.book-def{margin-top:10px;padding-top:8px;border-top:2px dashed var(--ink-3);font-size:14px;color:var(--ink-2)}
+.trick{background:var(--sun-2);transform:rotate(.7deg);box-shadow:3px 3px 0 var(--ink)}
+.trick p{font-size:17px;font-weight:500}
+.sent{font-size:18px;line-height:1.7}
+.sent + .sent{margin-top:12px;padding-top:12px;border-top:2px dashed var(--ink-3)}
+.tag-pos{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.blank{display:inline-block;min-width:5.5ch;margin:0 2px;padding:0 6px;border:0;border-bottom:3px solid var(--ink);background:var(--sun-2);border-radius:6px 6px 0 0;font-weight:800;color:var(--ink-2);text-align:center}
+button.blank{font-size:inherit;line-height:1.3}
+.blank.filled{background:var(--tint);color:var(--ink);animation:fillIn .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes fillIn{0%{transform:scale(.4)}100%{transform:none}}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:600px){.two-col{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14px;font-weight:600;padding:3px 10px;border-radius:8px;border:2px solid var(--ink)}
+.chip.syn{background:var(--good-bg)} .chip.ant{background:var(--bad-bg)}
+.none{color:var(--ink-2);font-size:14px}
+.lesson-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.intro{margin-top:14px;padding:22px;display:grid;gap:14px;background:var(--tint)}
+.intro h2{font-size:clamp(40px,8vw,64px);color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink)}
+.intro p{font-size:18px;max-width:60ch}
+.intro .pill{font-size:16px;padding:4px 12px}
+
+/* questions */
+.q-card{padding:18px;display:grid;gap:14px}
+.q-kicker{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.q-text{font-size:20px;line-height:1.55;font-weight:500}
+.q-text b{background:var(--sun-2);padding:0 5px;border-radius:5px;box-shadow:inset 0 -3px 0 var(--sun)}
+.q-text .blank{min-width:7ch}
+.quote{margin:0;padding:12px 16px;border-left:6px solid var(--col);background:var(--tint);border-radius:0 10px 10px 0;font-style:italic;font-size:17px;line-height:1.6}
+.quote b{font-style:normal;background:var(--paper);padding:0 4px;border-radius:4px}
+.quote cite{display:block;margin-top:6px;font-style:normal;font-size:12px;font-weight:700;color:var(--ink-2)}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;min-height:56px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:600;font-size:17px;line-height:1.35;box-shadow:3px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+.opt:hover:not([disabled]){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.opt:active:not([disabled]){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.opt .k{flex:none;width:30px;height:30px;border-radius:8px;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:14px;background:var(--page)}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--good-bg);animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+.opt.right .k{background:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-bg);animation:shake .4s}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt.dim{opacity:.5}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes pop{50%{transform:scale(1.04)}}
+.fb{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:start;padding:12px 14px;border:3px solid var(--ink);border-radius:12px;animation:slideUp .3s ease-out}
+.fb.ok{background:var(--good-bg)} .fb.no{background:var(--bad-bg)} .fb.slip{background:var(--warn-bg)}
+.fb .burst{font-family:var(--display);font-size:30px;line-height:1;transform:rotate(-4deg);-webkit-text-stroke:1px var(--ink)}
+.fb.ok .burst{color:var(--good)} .fb.no .burst{color:var(--bad)} .fb.slip .burst{color:var(--sun)}
+.fb .fb-body{font-size:16px}
+.fb .row{grid-column:1 / -1;justify-content:flex-end}
+.spell{letter-spacing:.08em;white-space:nowrap}
+@keyframes slideUp{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.type-row{display:flex;gap:10px;flex-wrap:wrap}
+.type-in{flex:1 1 220px;min-width:0;font:inherit;font-size:22px;font-weight:700;letter-spacing:.04em;padding:10px 14px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink)}
+.type-in:focus{outline:none;box-shadow:0 0 0 4px var(--sun)}
+.type-in.ok{background:var(--good-bg)} .type-in.no{background:var(--bad-bg);animation:shake .4s} .type-in.slip{background:var(--warn-bg)}
+.hint{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px 10px;font-size:13px;font-weight:700;color:var(--ink-2)}
+.hint-boxes{display:flex;flex-wrap:wrap;gap:4px}
+.hb{width:20px;height:26px;border-bottom:3px solid var(--ink-3);display:grid;place-items:end center;font-weight:800;font-size:16px;color:var(--ink);text-transform:lowercase}
+.test-top{display:grid;gap:10px;margin-top:16px}
+.test-top .row{justify-content:space-between}
+.round-name{font-family:var(--display);font-size:26px;letter-spacing:.04em}
+.counter{font-weight:800;font-variant-numeric:tabular-nums}
+.progress{height:16px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--sun);border-right:2px solid var(--ink);transition:width .4s}
+.splash{margin-top:16px;padding:34px 20px;text-align:center;display:grid;gap:14px;justify-items:center;background:var(--sun)}
+.splash .big{font-family:var(--display);font-size:clamp(46px,10vw,78px);line-height:1;color:#fff;-webkit-text-stroke:2px var(--ink);text-shadow:5px 5px 0 var(--ink);animation:zoomIn .6s cubic-bezier(.3,1.6,.5,1)}
+.splash .round-no{font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.splash p{max-width:46ch;font-size:17px}
+@keyframes zoomIn{0%{transform:scale(.2) rotate(-12deg);opacity:0}100%{transform:none;opacity:1}}
+.test-intro{margin-top:16px;padding:22px;display:grid;gap:16px}
+.test-intro h2{font-size:clamp(40px,8vw,60px)}
+.rounds{display:grid;gap:8px;margin:0;padding:0;list-style:none;counter-reset:r}
+.rounds li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:8px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--page);counter-increment:r}
+.rounds li::before{content:counter(r);width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800}
+.rounds small{color:var(--ink-2);font-size:13px}
+
+/* match game */
+.match{display:grid;grid-template-columns:1fr 1.35fr;gap:12px}
+.match-col{display:grid;gap:10px;align-content:start}
+.m-item{padding:10px 12px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:600;text-align:left;box-shadow:3px 3px 0 var(--ink);min-height:56px;line-height:1.3;transition:transform .08s}
+.m-item.word{font-family:var(--display);font-size:24px;letter-spacing:.04em;font-weight:400}
+.m-item.sel{background:var(--sun);transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.m-item.done{background:var(--good-bg);box-shadow:none;cursor:default;animation:pop .35s}
+.m-item.nope{animation:shake .4s;background:var(--bad-bg)}
+@media (max-width:520px){.match{gap:8px}.m-item{padding:8px 10px;font-size:14px}.m-item.word{font-size:19px}}
+.result-stars{display:flex;gap:10px;justify-content:center}
+.result-stars span{display:inline-block;animation:starIn .6s cubic-bezier(.3,1.6,.5,1) both}
+.result-stars svg{width:64px;height:64px;display:block}
+.q-how{font-size:14px;font-weight:700;color:var(--ink-2)}
+@keyframes starIn{0%{transform:scale(0) rotate(-40deg)}100%{transform:none}}
+.check-list{display:grid;gap:8px;list-style:none;margin:0;padding:0}
+.check-list li{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:8px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--paper)}
+
+/* report */
+.report-head{margin-top:16px;padding:20px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+@media (max-width:600px){.report-head{grid-template-columns:1fr;justify-items:center;text-align:center}.report-head .row{justify-content:center}}
+.ring{width:156px;height:156px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:grid;place-items:center;align-content:center;font-family:var(--display);font-size:46px;line-height:1}
+.ring .num small{font-family:var(--body);font-size:12px;font-weight:800;color:var(--ink-2);letter-spacing:.06em}
+.rank{font-family:var(--display);font-size:clamp(36px,6vw,54px);line-height:1}
+.report-head p{margin-top:6px;color:var(--ink-2)}
+.bars{padding:16px;display:grid;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(130px,210px) 1fr auto;gap:10px 12px;align-items:center}
+.bar-label{font-weight:700;line-height:1.25}
+.bar-label small{display:block;font-weight:500;font-size:12px;color:var(--ink-2)}
+.bar{height:22px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--col);border-right:2px solid var(--ink);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar i.zero{border-right:0}
+.bar-end{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct{font-weight:800;font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.status{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:999px;border:2px solid var(--ink);white-space:nowrap}
+.status.good{background:var(--good-bg)} .status.mid{background:var(--warn-bg)} .status.low{background:var(--bad-bg)} .status.na{background:var(--page)}
+@media (max-width:600px){.bar-row{grid-template-columns:1fr auto}.bar-row .bar{grid-column:1 / -1;grid-row:2}}
+.word-chips{display:flex;flex-wrap:wrap;gap:8px}
+.wchip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);font-weight:700;box-shadow:2px 2px 0 var(--col)}
+.wchip i{width:10px;height:10px;border-radius:50%;background:var(--col);border:2px solid var(--ink)}
+.spell-list{display:grid;gap:8px;margin-top:12px}
+.spell-list div{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding:8px 12px;border:2px dashed var(--ink-3);border-radius:10px;background:var(--warn-bg)}
+.spell-list s{color:var(--bad);text-decoration-thickness:2px}
+.plan{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:p}
+.plan li{counter-increment:p;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+.plan li::before{content:counter(p);grid-row:span 2;width:40px;height:40px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:24px}
+.plan .row{margin-top:4px}
+.history{padding:16px;display:flex;align-items:flex-end;gap:10px;min-height:170px;overflow-x:auto}
+.hcol{flex:0 0 52px;display:grid;justify-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--ink-2)}
+.hbar{width:34px;background:var(--c1);border:2px solid var(--ink);border-radius:6px 6px 0 0}
+.hbar.p{background:var(--c4)}
+.hcol b{color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}
+.answers{padding:6px 16px 16px}
+.answers summary{cursor:pointer;font-weight:800;padding:10px 0}
+.ans{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 0;border-top:2px dashed var(--ink-3);font-size:14px}
+.ans .mark{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;color:#fff}
+.ans .mark.ok{background:var(--good)} .ans .mark.no{background:var(--bad)} .ans .mark.slip{background:var(--sun);color:var(--ink)}
+.ans small{color:var(--ink-2)}
+.copy-note{font-size:13px;color:var(--ink-2)}
+.copy-area{width:100%;min-height:160px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;border:2px solid var(--ink);border-radius:10px;padding:10px;background:var(--page);color:var(--ink)}
+
+/* scenes */
+.scene *{transform-box:fill-box;transform-origin:center}
+.scene .o{stroke:var(--ink);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.scene .o2{stroke:var(--ink);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.scene .t{font-family:var(--display);fill:var(--ink);letter-spacing:.04em}
+.a-bob{animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.a-sway{animation:sway 3s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes sway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.a-wave{animation:wave 3s linear infinite}
+@keyframes wave{to{transform:translateX(-80px)}}
+.a-puff{animation:puff 1.6s ease-in-out infinite alternate;transform-origin:0% 50%}
+@keyframes puff{from{transform:scaleX(.75)}to{transform:scaleX(1.25)}}
+.a-spin{animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.a-pulse{animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.1)}}
+.a-drift{animation:drift 8s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translateX(-20px)}to{transform:translateX(20px)}}
+.a-ripple{animation:ripple 3s ease-out infinite}
+@keyframes ripple{0%{transform:scale(.3);opacity:.9}100%{transform:scale(1.7);opacity:0}}
+.a-rise{animation:rise 2.2s ease-in infinite}
+@keyframes rise{0%{transform:translateY(8px);opacity:0}30%{opacity:1}100%{transform:translateY(-28px);opacity:0}}
+.a-rain{animation:rain .9s linear infinite}
+@keyframes rain{0%{transform:translateY(-6px);opacity:0}30%{opacity:1}100%{transform:translateY(26px);opacity:0}}
+.a-roll{animation:roll 6s linear infinite}
+@keyframes roll{0%{transform:translateX(-40px) rotate(0)}100%{transform:translateX(380px) rotate(900deg)}}
+.a-streak{animation:streak 1.3s linear infinite}
+@keyframes streak{0%{transform:translateX(50px);opacity:0}25%{opacity:1}100%{transform:translateX(-150px);opacity:0}}
+.a-streak-r{animation:streakR 1.4s linear infinite}
+@keyframes streakR{0%{transform:translateX(-50px);opacity:0}25%{opacity:1}100%{transform:translateX(150px);opacity:0}}
+.a-push{animation:push 3s ease-in-out infinite}
+@keyframes push{0%,100%{transform:translateX(0)}40%{transform:translateX(26px)}70%{transform:translateX(-16px)}}
+.a-pop{animation:popLoop 3.2s ease-in-out infinite}
+@keyframes popLoop{0%,10%{transform:scale(0);opacity:0}22%,80%{transform:scale(1);opacity:1}94%,100%{transform:scale(0);opacity:0}}
+.a-step{animation:stepIn 3s ease-in-out infinite}
+@keyframes stepIn{0%,100%{transform:translateX(0)}50%{transform:translateX(28px)}}
+.a-shrink{animation:shrink 3s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes shrink{0%,100%{transform:scale(1)}50%{transform:scale(.76)}}
+.a-sneak{animation:sneak 3.4s ease-in-out infinite}
+@keyframes sneak{0%{transform:translateX(-80px)}58%{transform:translateX(0)}66%{transform:translate(10px,-10px)}76%,100%{transform:translateX(0)}}
+.a-bang{animation:bang 3.4s ease-out infinite}
+@keyframes bang{0%,60%{transform:scale(0);opacity:0}67%{transform:scale(1.25);opacity:1}73%,88%{transform:scale(1);opacity:1}95%,100%{transform:scale(0);opacity:0}}
+.a-squash{animation:squash 1.4s ease-in-out infinite;transform-origin:50% 0%}
+@keyframes squash{0%,100%{transform:translateY(6px) scale(1,1)}50%{transform:translateY(-6px) scale(1.12,.86)}}
+.a-leg{animation:leg .45s ease-in-out infinite alternate;transform-origin:50% 0%}
+.a-leg2{animation:leg .45s ease-in-out infinite alternate-reverse;transform-origin:50% 0%}
+@keyframes leg{from{transform:rotate(-32deg)}to{transform:rotate(32deg)}}
+.a-track{animation:track .6s linear infinite}
+@keyframes track{to{transform:translateX(-40px)}}
+.a-energy{animation:energy 3s ease-in-out infinite;transform-origin:0% 50%}
+@keyframes energy{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.8)}}
+.a-blush{animation:blush 1.8s ease-in-out infinite}
+@keyframes blush{50%{opacity:.3}}
+.a-tilt{animation:tilt 4s ease-in-out infinite}
+@keyframes tilt{0%,100%{transform:rotate(0)}20%{transform:rotate(-9deg)}45%{transform:rotate(7deg)}65%,90%{transform:rotate(0)}}
+.a-glitch{animation:glitch .4s steps(2) infinite}
+@keyframes glitch{0%{transform:translate(0,0)}25%{transform:translate(-3px,1px)}50%{transform:translate(2px,-2px)}75%{transform:translate(-1px,2px)}100%{transform:translate(0,0)}}
+.a-fall{animation:fall 3.4s cubic-bezier(.6,0,.9,.5) infinite}
+@keyframes fall{0%,30%{transform:translateY(0) rotate(0)}40%{transform:rotate(-7deg)}50%{transform:rotate(6deg)}88%{transform:translateY(150px) rotate(28deg);opacity:1}89%,100%{transform:translateY(0);opacity:0}}
+.a-draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 4s ease-in-out infinite}
+@keyframes draw{0%{stroke-dashoffset:var(--len)}50%,88%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+.a-orbit{animation:orbit 4s ease-in-out infinite;transform-box:view-box;transform-origin:160px 95px}
+@keyframes orbit{0%{transform:rotate(0)}50%,100%{transform:rotate(360deg)}}
+.a-grow{animation:grow 4s ease-out infinite;transform-origin:50% 100%}
+@keyframes grow{0%{transform:scaleY(0)}40%,90%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.a-fade{animation:fadeOld 4s ease-in-out infinite}
+@keyframes fadeOld{0%{opacity:1}40%,90%{opacity:.25}100%{opacity:1}}
+.a-blink{animation:blink 1.6s steps(1) infinite}
+@keyframes blink{50%{opacity:.25}}
+.a-brush{animation:brush 4s ease-in-out infinite}
+@keyframes brush{0%{transform:translate(0,0)}22%{transform:translate(40px,-48px)}50%{transform:translate(118px,0)}75%,100%{transform:translate(0,0)}}
+.a-puppet{animation:puppet 2.6s ease-in-out infinite;transform-origin:50% 0%}
+@keyframes puppet{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
+.a-arm{animation:arm 1.3s ease-in-out infinite alternate;transform-origin:50% 0%}
+.a-arm2{animation:arm 1.3s ease-in-out infinite alternate-reverse;transform-origin:50% 0%}
+@keyframes arm{from{transform:rotate(-40deg)}to{transform:rotate(40deg)}}
+.a-tuft{animation:tuft 2.4s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes tuft{0%,35%{transform:scaleY(.5) rotate(0)}50%{transform:scaleY(1.3) rotate(-14deg)}65%{transform:scaleY(1.2) rotate(12deg)}85%,100%{transform:scaleY(1) rotate(0)}}
+.a-needle{animation:needle 3.6s cubic-bezier(.3,1.4,.5,1) infinite;transform-box:view-box;transform-origin:160px 140px}
+@keyframes needle{0%{transform:rotate(-80deg)}45%,85%{transform:rotate(80deg)}100%{transform:rotate(-80deg)}}
+.a-fill{animation:fillUp 3.6s ease-out infinite;transform-origin:50% 100%}
+@keyframes fillUp{0%{transform:scaleY(.1)}45%,85%{transform:scaleY(1)}100%{transform:scaleY(.1)}}
+.a-maxpop{animation:maxpop 3.6s ease-out infinite}
+@keyframes maxpop{0%,40%{transform:scale(0) rotate(-10deg);opacity:0}48%{transform:scale(1.25) rotate(-10deg);opacity:1}55%,85%{transform:scale(1) rotate(-10deg);opacity:1}92%,100%{transform:scale(0);opacity:0}}
+.a-balance{animation:balance 4s ease-in-out infinite;transform-box:view-box;transform-origin:160px 62px}
+@keyframes balance{0%{transform:rotate(-12deg)}25%{transform:rotate(9deg)}45%{transform:rotate(-5deg)}60%,100%{transform:rotate(0)}}
+.a-stamp{animation:stamp 4s ease-out infinite}
+@keyframes stamp{0%,58%{transform:scale(2) rotate(-8deg);opacity:0}66%,92%{transform:scale(1) rotate(-8deg);opacity:1}100%{opacity:0}}
+.a-say1{animation:say1 3.6s ease-in-out infinite}
+@keyframes say1{0%{transform:scale(0)}10%,40%{transform:scale(1)}46%,100%{transform:scale(0)}}
+.a-say2{animation:say2 3.6s ease-in-out infinite}
+@keyframes say2{0%,46%{transform:scale(0)}56%,86%{transform:scale(1)}92%,100%{transform:scale(0)}}
+.d1{animation-delay:.4s} .d2{animation-delay:.8s} .d3{animation-delay:1.2s} .d4{animation-delay:1.6s} .d5{animation-delay:2s}
+
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.xp-float{position:fixed;z-index:60;font-family:var(--display);font-size:32px;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);pointer-events:none;animation:floatUp 1s ease-out forwards}
+@keyframes floatUp{0%{transform:translate(-50%,0) scale(.6);opacity:0}20%{opacity:1;transform:translate(-50%,-10px) scale(1.1)}100%{transform:translate(-50%,-72px) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  .scene *,.word-title .l,.splash .big,.screen,.result-stars span,.fb,.m-item,.opt{animation:none!important}
+  .btn,.opt,.land,.tile,.bar i,.progress i{transition:none!important}
+}
+</style>
+</head><body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="logo" data-act="home" aria-label="Back to the quest map">
+      <span class="logo-mark">WORD QUEST</span>
+      <span class="unit-chip">Sadlier · Unit 2</span>
+    </button>
+    <span class="spacer"></span>
+    <span class="xp" id="xpBox" title="Your XP points"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="#FFD23F" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/></svg><b id="xpVal">0</b> XP</span>
+    <button class="icon-btn" id="soundBtn" data-act="sound" aria-label="Turn sound off"></button>
+  </div>
+</header>
+<main class="wrap">
+  <section id="scr-home" class="screen"></section>
+  <section id="scr-lesson" class="screen" hidden></section>
+  <section id="scr-challenge" class="screen" hidden></section>
+  <section id="scr-test" class="screen" hidden></section>
+  <section id="scr-report" class="screen" hidden></section>
+</main>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<script>
+"use strict";
+/* ---------- LANDS (chapters) ---------- */
+const CHAPTERS = [
+  {key:"c1", name:"Storm Sea", tag:"Weather & water", icon:"wave", words:["billow","serene","arid","adverse"],
+   intro:"Set sail! Out here the sea can be calm or wild, the land can be bone-dry, and the wind can turn against you."},
+  {key:"c2", name:"Hero Arena", tag:"Courage & strength", icon:"shield", words:["confront","assailant","constrain","stamina"],
+   intro:"Welcome to the arena. Heroes face their challenges, stand up to attackers, break free, and keep going."},
+  {key:"c3", name:"Mask Town", tag:"People & faces", icon:"mask", words:["hypocrite","mimic","sheepish","disinterested"],
+   intro:"In Mask Town, people are not always what they seem. Someone pretends, someone copies, someone blushes, and one person stays fair."},
+  {key:"c4", name:"Puzzle Library", tag:"Ideas & time", icon:"puzzle", words:["incomprehensible","groundless","encompass","contemporary"],
+   intro:"The library is full of puzzles: messages nobody understands, rumors with no proof, circles that hold everything, and things from our own time."},
+  {key:"c5", name:"Art Workshop", tag:"Make & control", icon:"brush", words:["depict","manipulate","ruffle","maximum"],
+   intro:"Artists paint pictures, puppet masters pull strings, the wind messes things up, and the volume goes all the way up!"}
+];
+
+/* part-of-speech codes used to pick fair wrong answers: a = adjective, n = noun, v = verb */
+const POS = {adverse:"a", arid:"a", assailant:"n", billow:"nv", confront:"v", constrain:"v", contemporary:"an", depict:"v",
+  disinterested:"a", encompass:"v", groundless:"a", hypocrite:"n", incomprehensible:"a", manipulate:"v", maximum:"na",
+  mimic:"nv", ruffle:"vn", serene:"a", sheepish:"a", stamina:"n"};
+
+/* ---------- THE 20 WORDS ---------- */
+const WORDS = {
+  billow:{pos:"noun · verb", say:"BIL-oh",
+    kid:"A billow is a big, rolling wave. To billow means to swell and puff out like a wave, the way sails, flags, or smoke do in the wind.",
+    book:"(n.) a large wave; (v.) to rise or swell like a wave",
+    trick:"BILLOW rhymes with PILLOW. Picture a big, puffy wave shaped like a pillow.",
+    sents:[["noun","The ocean ___ rose and fell, attracting the most daring surfers.","billows"],
+           ["verb","Fans cheered enthusiastically when they saw their team's flags ___ over the stadium.","billow"]],
+    syn:["breaker","surge","bulge","balloon"], ant:["trough","deflate","collapse"],
+    short:"a big wave; to swell up like one",
+    qc:["Which of these can BILLOW?",["A flag in a strong wind","A rock on the ground","A closed book"],"Flags, sails, smoke, and waves can swell up and roll. They billow."]},
+  serene:{pos:"adjective", say:"suh-REEN",
+    kid:"Serene means very calm and peaceful: no storm outside and no worry inside.",
+    book:"(adj.) peaceful, calm; free of emotional upset; clear and free of storm; majestic, grand",
+    trick:"SERENE sounds a bit like \"sea scene.\" Picture a calm, quiet sea at sunset.",
+    sents:[["","She stayed ___ in the face of chaos.","serene"]],
+    syn:["composed","fair","august"], ant:["agitated","troubled","inclement"],
+    short:"calm and peaceful",
+    qc:["Which place is the most SERENE?",["A quiet lake at sunrise","A noisy football stadium","A classroom during a fire drill"],"A quiet lake at sunrise is calm and peaceful. That is serene."]},
+  arid:{pos:"adjective", say:"AR-id",
+    kid:"Arid means extremely dry, with almost no rain, like a desert. It can also describe something dull and boring, like an arid speech.",
+    book:"(adj.) extremely dry; uninteresting, dull",
+    trick:"ARID = A Really Incredibly Dry place.",
+    sents:[["","Although California leads the nation in farming, crops won't grow in its most ___ regions.","arid"]],
+    syn:["waterless","parched","boring","unimaginative"], ant:["waterlogged","soggy","fertile","lush"],
+    short:"extremely dry (or dull)",
+    qc:["An ARID lecture is one that is…",["dull and boring","wet and rainy","loud and exciting"],"Arid has two meanings: very dry, or dull. A lecture can't be dry like a desert, so here it means dull."]},
+  adverse:{pos:"adjective", say:"ad-VURS",
+    kid:"Adverse means bad for you, or working against you, like a strong wind that pushes your boat backward.",
+    book:"(adj.) unfavorable, negative; working against, hostile",
+    trick:"ADVERSE is related to ADVERSARY, which means opponent. Adverse things work against you like an opponent.",
+    sents:[["","Some people suffer an ___ reaction when they eat peanut butter or anything with peanuts.","adverse"]],
+    syn:["difficult","trying"], ant:["favorable","positive","helpful","beneficial"],
+    short:"working against you; unfavorable",
+    qc:["Which is an ADVERSE effect?",["A medicine that gives you a rash","A medicine that makes you feel better","A vitamin that makes you stronger"],"A rash is harmful. It works against you, so it is adverse."]},
+
+  confront:{pos:"verb", say:"kun-FRUNT",
+    kid:"To confront is to face someone or something head-on, especially a challenge or a problem, instead of running away.",
+    book:"(v.) to meet face-to-face, especially as a challenge; come to grips with",
+    trick:"CON-FRONT: step to the FRONT and face it!",
+    sents:[["","In court, defendants can ___ their accusers in a controlled setting.","confront"]],
+    syn:["face","encounter"], ant:["avoid","evade","sidestep"],
+    short:"to face a challenge head-on",
+    qc:["Maya was scared of the big test, but she decided to CONFRONT it. What did she do?",["She studied hard and faced it","She hid under her bed","She pretended the test wasn't real"],"To confront means to face it instead of running away."]},
+  assailant:{pos:"noun", say:"uh-SAY-lunt",
+    kid:"An assailant is a person who attacks someone, with blows or even with mean words.",
+    book:"(n.) a person who attacks violently (with blows or words)",
+    trick:"To ASSAIL means to attack. Picture a pirate who SAILS in to attack: an as-SAIL-ant!",
+    sents:[["","The jogger was injured by an unknown ___, who left him immobile at the side of the road.","assailant"]],
+    syn:["assaulter","mugger"], ant:["victim","prey"],
+    short:"a person who attacks",
+    qc:["In a story, who is the ASSAILANT?",["The one who attacks","The one who gets hurt","The one who calls for help"],"The assailant is the attacker. The one who gets hurt is the victim, its opposite."]},
+  constrain:{pos:"verb", say:"kun-STRAYN",
+    kid:"To constrain means to hold someone back or limit them. It can also mean to force someone to do something.",
+    book:"(v.) to force, compel; to restrain, hold back",
+    trick:"Hear the CHAIN in con-STRAIN? A chain holds you back, or pulls you where you don't want to go.",
+    sents:[["","You can't ___ me against my will.","constrain"]],
+    syn:["pressure","confine","limit"], ant:["loosen","liberate","unfetter","relax"],
+    short:"to hold back or force",
+    qc:["A tight seatbelt CONSTRAINS you. That means it…",["holds you back","makes you laugh","paints a picture of you"],"To constrain is to hold back or limit."]},
+  stamina:{pos:"noun", say:"STAM-uh-nuh",
+    kid:"Stamina is the strength to keep going for a long time without giving up, in your body or in your mind.",
+    book:"(n.) the strength needed to keep going or overcome physical or mental strain; staying power",
+    trick:"STAMINA sounds like STAY-mina. It is your STAYING power.",
+    sents:[["","Marathon runners need a great deal of ___ to cover the many miles.","stamina"]],
+    syn:["endurance"], ant:[],
+    short:"staying power; strength to keep going",
+    qc:["Who shows the most STAMINA?",["A swimmer who keeps going for two hours","A runner who stops after ten seconds","A cat taking a nap"],"Stamina means keeping going for a long time."]},
+
+  hypocrite:{pos:"noun", say:"HIP-uh-krit",
+    kid:"A hypocrite pretends to be better than they really are. They say one thing but do the opposite: a two-faced person.",
+    book:"(n.) a person who pretends to be what he or she is not or better than he or she really is; a two-faced person",
+    trick:"A hypo-CRIT-e is a CRITic of others who does the very same thing. \"Never eat candy!\" …then eats candy.",
+    sents:[["","The speaker who said one thing but did something else entirely was regarded as a ___.","hypocrite"]],
+    syn:["phony","charlatan","fraud"], ant:[],
+    short:"a two-faced person who pretends",
+    qc:["Which person is a HYPOCRITE?",["A coach who says \"Never be late!\" but is always late","A coach who is always on time","A coach who forgets a player's name"],"Saying one thing and doing the opposite is what a hypocrite does."]},
+  mimic:{pos:"noun · verb", say:"MIM-ik",
+    kid:"To mimic is to copy how someone talks or acts, sometimes to make fun of them. A mimic is a person (or animal) who does imitations.",
+    book:"(n.) a person who does imitations; (v.) to imitate; to make fun of",
+    trick:"Parrots are champion MIMICS. They copy every sound they hear.",
+    sents:[["noun","The comedy troupe needs to hire a ___.","mimic"],["verb","Troy can ___ any accent he hears.","mimic"]],
+    syn:["copycat","impersonator","parrot","impersonate"], ant:[],
+    short:"to copy someone; a copycat",
+    qc:["When you MIMIC someone, you…",["copy the way they talk or act","attack them","ignore them"],"Mimic means copy or imitate."]},
+  sheepish:{pos:"adjective", say:"SHEEP-ish",
+    kid:"Sheepish means embarrassed and a little shy, usually because you did something silly, like a shy sheep.",
+    book:"(adj.) embarrassed; resembling a sheep in meekness, timid",
+    trick:"SHEEP-ish: picture a shy sheep with red cheeks after a silly mistake.",
+    sents:[["","His ___ grin made the crowds cheer all the more for his unlikely victory.","sheepish"]],
+    syn:["shamefaced","meek"], ant:["bold","saucy","brazen"],
+    short:"embarrassed and shy",
+    qc:["Omar tripped on stage and gave a SHEEPISH smile. He felt…",["embarrassed","angry","proud and bold"],"A sheepish smile is an embarrassed one."]},
+  disinterested:{pos:"adjective", say:"dis-IN-truh-stid",
+    kid:"Disinterested means fair: you don't take sides because you won't gain anything either way. A good referee is disinterested. (It can also mean \"not caring,\" but in this unit it mostly means fair.)",
+    book:"(adj.) fair-minded, free from selfish motives; indifferent",
+    trick:"DIS-INTEREST-ed: you have no interest (no prize) in who wins, so you can be fair, like a referee.",
+    sents:[["","A judge must remain ___ in order to render an evenhanded and logical decision.","disinterested"]],
+    syn:["impartial","unbiased","apathetic"], ant:["partial","biased","prejudiced"],
+    short:"fair; not taking sides",
+    qc:["Why is a DISINTERESTED referee a good referee?",["Because they don't take sides","Because they love one of the teams","Because they want their friend to win"],"Disinterested means fair, with no side to help."]},
+
+  incomprehensible:{pos:"adjective", say:"in-kom-prih-HEN-suh-bul",
+    kid:"Incomprehensible means impossible to understand, like a message full of static or a riddle with no answer.",
+    book:"(adj.) impossible to understand",
+    trick:"IN (not) + COMPREHEND (understand) + IBLE (able) = NOT able to be understood.",
+    sents:[["","Our school's intercom system is so old that this morning's announcements were almost ___.","incomprehensible"]],
+    syn:["baffling","confusing","bewildering"], ant:["understandable","plain","intelligible"],
+    short:"impossible to understand",
+    qc:["A message is INCOMPREHENSIBLE when…",["nobody can understand it","it is very short","it is written in red"],"Incomprehensible means impossible to understand."]},
+  groundless:{pos:"adjective", say:"GROUND-lis",
+    kid:"Groundless means having no good reason behind it. A groundless fear or rumor has nothing real to stand on.",
+    book:"(adj.) without any good reason or cause, unjustified",
+    trick:"GROUND-LESS: no ground to stand on. A groundless idea falls down because nothing holds it up.",
+    sents:[["","Kate's ___ fear of hurting herself during exercise has left her weak and out of shape.","groundless"]],
+    syn:["baseless","unsupported"], ant:["well-founded","reasonable","justified"],
+    short:"with no good reason",
+    qc:["Sara worried that a shark lived in the school pool. Her fear was GROUNDLESS, which means…",["there was no good reason for it","it was very smart","it came true"],"Groundless means without a good reason. There is no shark in a school pool!"]},
+  encompass:{pos:"verb", say:"en-KUM-puhs",
+    kid:"To encompass means to go all the way around something, or to include many things inside one group.",
+    book:"(v.) to encircle, go or reach around; to enclose; to include with a certain group or class",
+    trick:"A COMPASS (the math tool) draws a circle. To en-COMPASS is to draw a circle around things and include them all.",
+    sents:[["","Oceans ___ about three-fourths of the surface of our planet.","encompass"]],
+    syn:["surround","envelop","comprise"], ant:["leave out","omit","exclude"],
+    short:"to surround or include",
+    qc:["\"Science class ENCOMPASSES biology and chemistry\" means science class…",["includes them","leaves them out","draws pictures of them"],"To encompass is to include or surround."]},
+  contemporary:{pos:"adjective · noun", say:"kun-TEM-puh-rair-ee",
+    kid:"Contemporary means from the same time, or modern (from today). A contemporary is a person who lives at the same time as someone else.",
+    book:"(adj.) belonging to the same period of time as oneself; (n.) a person of the same time",
+    trick:"CON (with) + TEMPOR (time): WITH the same TIME. Your classmates are your contemporaries!",
+    sents:[["adjective","His novel used a ___ style but had a historical setting.","contemporary"],
+           ["noun","Rather than ask parents for help, teens often turn to a ___ for advice.","contemporary"]],
+    syn:["present-day","modern","current","peer"], ant:["ancient","prehistoric","antique","antiquated"],
+    short:"modern; from the same time",
+    qc:["Which building is CONTEMPORARY?",["A glass skyscraper built last year","An ancient pyramid","A castle from long ago"],"Contemporary means modern, from our own time."]},
+
+  depict:{pos:"verb", say:"dih-PIKT",
+    kid:"To depict is to show something in a picture, or to describe it in words so people can \"see\" it.",
+    book:"(v.) to portray; to represent or show in the form of a picture",
+    trick:"de-PICT: make a PICTure of it.",
+    sents:[["","The painter chose to ___ a plain prairie landscape using bold colors and shadows.","depict"]],
+    syn:["sketch","draw","picture","illustrate"], ant:[],
+    short:"to show in a picture or in words",
+    qc:["An artist wants to DEPICT a camel. She will…",["draw or paint a camel","ride a camel","sell a camel"],"To depict is to show in a picture."]},
+  manipulate:{pos:"verb", say:"muh-NIP-yuh-layt",
+    kid:"To manipulate is to handle or control something skillfully with your hands. It can also mean to control people or facts in a sneaky way to get what you want.",
+    book:"(v.) to handle or use skillfully; to manage or control for personal gain or advantage",
+    trick:"MANI means hand (as in MANIcure). Manipulate = work it with your hands, like a puppet master pulling strings.",
+    sents:[["","Scientists should not ___ data.","manipulate"]],
+    syn:["work","maneuver","exploit","influence"], ant:[],
+    short:"to handle skillfully or control",
+    qc:["A puppet master MANIPULATES the puppet. He…",["controls it","draws it","forgets it"],"Manipulate means to handle or control."]},
+  ruffle:{pos:"verb · noun", say:"RUF-ul",
+    kid:"To ruffle is to mess up something smooth (like hair, feathers, or water), or to annoy someone. A ruffle is also a frilly edge on clothes or a pillow.",
+    book:"(v.) to wrinkle, make uneven; to annoy, upset; to flip through; (n.) material used for trimming edges; a ripple; a low drumbeat",
+    trick:"RUFFLE a bird's smooth feathers and it gets upset. Ruffle = mess up something smooth AND annoy someone.",
+    sents:[["verb","His wisecracks always ___ my feelings.","ruffle"],["noun","My favorite pillow has a velvet ___.","ruffle"]],
+    syn:["disturb","frill"], ant:["smooth out","soothe"],
+    short:"to mess up something smooth; to annoy",
+    qc:["The wind RUFFLED the calm lake. The water became…",["wrinkly with little waves","perfectly flat","frozen solid"],"To ruffle is to make something smooth uneven."]},
+  maximum:{pos:"noun · adjective", say:"MAK-suh-mum",
+    kid:"The maximum is the most: the highest amount that is possible or allowed.",
+    book:"(n.) the greatest possible amount or degree; (adj.) reaching the greatest possible amount or degree",
+    trick:"MAXimum = MAX! Think of the volume turned all the way up.",
+    sents:[["noun","This postage scale can weigh a ___ of only five pounds.","maximum"],
+           ["adjective","To ease the patient's suffering, the doctor prescribed the ___ dosage of painkillers.","maximum"]],
+    syn:["highest","utmost"], ant:["least","minimum","lowest","smallest"],
+    short:"the greatest amount possible",
+    qc:["A sign says: MAXIMUM 5 PEOPLE in the elevator. How many can ride?",["5 or fewer","at least 6","any number"],"Maximum means the most allowed. Five is the top limit."]}
+};
+/* ---------- QUESTION BANK (book exercises + extra practice) ---------- */
+/* Choosing the Right Word (book): [sentence, option A, option B, answer index, word] */
+const R1 = [
+  ["After many stormy years in the service of his country, George Washington retired to the ___ life of his beloved Mount Vernon.","serene","adverse",0,"serene"],
+  ["His decision not to accept our sincere offer of assistance is completely ___ to me.","disinterested","incomprehensible",1,"incomprehensible"],
+  ["We expected the lecture on the energy crisis to be exciting, but it turned out to be a(n) ___ rundown of well-known facts and figures.","ruffled","arid",1,"arid"],
+  ["After giving a few ___ excuses, the swimmers packed up and left the private beach.","sheepish","serene",0,"sheepish"],
+  ["Anyone who has ever sailed a small boat knows how thrilling it is to feel the spray in your face while the sails ___ overhead.","billow","encompass",0,"billow"],
+  ["After the storm, residents were ___ to stay in their homes, as all roads were impassable.","constrained","depicted",0,"constrain"],
+  ["The big-league shortstop ___ his glove like a magician, snaring every ball hit within reach.","manipulates","constrains",0,"manipulate"],
+  ["After living for many years in that roomy old farmhouse, I felt awfully ___ in that small apartment.","arid","constrained",1,"constrain"],
+  ["While some find her smile comical, I have always found the Mona Lisa's smile to be ___ and mysterious.","serene","sheepish",0,"serene"],
+  ["If you ___ your problems honestly and openly, instead of trying to hide them, you will have a better chance of solving them.","billow","confront",1,"confront"],
+  ["Do you think it would be a good idea to set a ___ figure for the amount of homework any teacher is allowed to assign?","maximum","contemporary",0,"maximum"],
+  ["A good scientist must have a keen mind, an unquenchable curiosity, and a ___ desire to discover the truth.","groundless","disinterested",1,"disinterested"],
+  ["She has gained success as a writer who knows how to ___ in a lifelike way the hopes, fears, and problems of young people today.","confront","depict",1,"depict"],
+  ["She has many interesting ideas, but she seems to lack the physical and mental ___ to make good use of them.","stamina","assailant",0,"stamina"],
+  ["The man was trying to ___ the young woman as a troublemaker, simply because she had dyed her hair purple and dressed in an unusual manner.","depict","manipulate",0,"depict"],
+  ["My idea of a(n) ___ is a person who gives advice that he or she is not willing to follow.","assailant","hypocrite",1,"hypocrite"],
+  ["The ___ publicity that he received during the investigation was probably the cause of his defeat in the next election.","adverse","sheepish",0,"adverse"],
+  ["Instead of working so hard to ___ popular TV stars, why don't you try to develop an acting style of your own?","mimic","ruffle",0,"mimic"],
+  ["It was ___ to think that our grandparents had to spend sweltering summers without air-conditioning.","groundless","incomprehensible",1,"incomprehensible"],
+  ["Our school's science program ___ biology, chemistry, physics, earth science, and other related courses.","depicts","encompasses",1,"encompass"],
+  ["I didn't want to ___ the feelings of the hotel manager, but I felt that I had to complain about the miserable service.","ruffle","manipulate",0,"ruffle"],
+  ["Despite the fact that she was in shock, the victim gave a clear description of her ___.","hypocrite","assailant",1,"assailant"],
+  ["Martin Luther King, Jr. and Robert F. Kennedy were ___, born within a few years of each other.","contemporaries","mimics",0,"contemporary"],
+  ["What a relief to learn that my parents had been delayed by a storm, and that all my fears about an accident were ___!","groundless","maximum",0,"groundless"],
+  ["Report any ___ side effects to your doctor immediately.","sheepish","adverse",1,"adverse"]
+];
+
+/* Synonyms: [phrase with **bold** words, answer word, part of speech] (first 10 from the book) */
+const R2 = [
+  ["possesses **determination** for the walkathon","stamina","n"],
+  ["the **largest quantity** available","maximum","n"],
+  ["always remembered the **attacker's** voice","assailant","n"],
+  ["able to **replicate** a bird's call","mimic","v"],
+  ["ran away with a **humiliated** look","sheepish","a"],
+  ["confused by the child's **puzzling** behavior","incomprehensible","a"],
+  ["mistrustful of that **impostor**","hypocrite","n"],
+  ["a **tranquil** expanse of clear blue sky","serene","a"],
+  ["tried to **restrict** the patient","constrain","v"],
+  ["to serve as a **neutral** witness","disinterested","a"],
+  ["sailed through **unfavorable** weather","adverse","a"],
+  ["a **parched**, sandy plain","arid","a"],
+  ["watched the sails **swell** in the wind","billow","v"],
+  ["decided to **face** the bully","confront","v"],
+  ["loves **modern** art and music","contemporary","a"],
+  ["tried to **illustrate** the story with pictures","depict","v"],
+  ["the city walls **surround** the old market","encompass","v"],
+  ["a **baseless** rumor about the new teacher","groundless","a"],
+  ["**handled** the robot's controls with great skill","manipulate","v"],
+  ["the wind began to **disturb** the calm pond","ruffle","v"]
+];
+
+/* Antonyms: [phrase with **bold** words, answer word, part of speech] (first 5 from the book) */
+const R3 = [
+  ["exhibits a **confident** attitude","sheepish","a"],
+  ["hopes to **release** the prisoner soon","constrain","v"],
+  ["trying to control his **stormy** emotions","serene","a"],
+  ["protecting the **injured party**","assailant","n"],
+  ["rules that are quite **clear**","incomprehensible","a"],
+  ["a **favorable** report from the coach","adverse","a"],
+  ["a **lush**, green valley","arid","a"],
+  ["watched the balloon **deflate**","billow","v"],
+  ["tried to **avoid** the problem","confront","v"],
+  ["a room full of **ancient** furniture","contemporary","a"],
+  ["a **biased** judge","disinterested","a"],
+  ["decided to **exclude** the new students","encompass","v"],
+  ["a **well-founded** worry","groundless","a"],
+  ["drove at the **minimum** speed","maximum","a"],
+  ["tried to **smooth out** the wrinkled sheet","ruffle","v"]
+];
+
+/* Completing the Sentence (book): [sentence, answer form, word, accepted forms] */
+const R4 = [
+  ["As you become a more experienced driver, you will be able to ___ all the controls of the car while keeping your eyes on the road.","manipulate","manipulate"],
+  ["This basic textbook ___ all the information you will have to master for the entrance examination.","encompasses","encompass",["encompasses","encompass"]],
+  ["The jury found the defendant \"not guilty\" because they were convinced that the charges against her were ___.","groundless","groundless"],
+  ["You and Lucy will never settle your quarrel unless you ___ each other directly and listen to what the other person has to say.","confront","confront"],
+  ["The brisk breeze caused the sheets on the line to ___ like the sails on a yacht that is running with the wind.","billow","billow"],
+  ["Under the law, the ___ number of people who may ride in this bus is seventy-five.","maximum","maximum"],
+  ["For a long time, I thought that he was a good and sincere person, but I finally saw that he was no more than a(n) ___.","hypocrite","hypocrite"],
+  ["I was so embarrassed by my blunder that I could do nothing but grin in a(n) ___ and self-conscious way.","sheepish","sheepish"],
+  ["The hot, ___ climate of Arizona is favorable for many people suffering from various diseases, such as arthritis.","arid","arid"],
+  ["Since Tom is both smart and ___, he is just the person to decide which of us is right in this long and bitter quarrel.","disinterested","disinterested"],
+  ["The skyscraper is one of the best-known and widely admired forms of ___ architecture.","contemporary","contemporary"],
+  ["A breeze sprang up and began to ___ the smooth and tranquil surface of the water.","ruffle","ruffle"],
+  ["You talk so fast and in such a low tone of voice that you are going to be completely ___ to most people.","incomprehensible","incomprehensible"],
+  ["Although I may hurt your feelings, my conscience ___ me to tell you exactly what is on my mind.","constrains","constrain",["constrains","constrain"]],
+  ["Held back by ___ winds, the plane arrived at the airport two hours late.","adverse","adverse"],
+  ["Fortunately, I was able to fight off my ___, even though his attack took me by complete surprise.","assailant","assailant"],
+  ["Parrots and a few other kinds of birds can ___ sounds, particularly human speech.","mimic","mimic"],
+  ["The ___ expression on her face showed that she was totally undisturbed by the confusion and turmoil around her.","serene","serene"],
+  ["Using the entire east wall of the new post office building, the painter tried to ___ the founding of our city.","depict","depict"],
+  ["Very few starting pitchers have the ___ to pitch consistently well for nine innings.","stamina","stamina"]
+];
+
+/* Vocabulary in Context, Walt Whitman, Leaves of Grass (book): [lines, question, options, answer index, word] */
+const WH = [
+  ["Thou ever-darting Globe! through Space and Air!<br>Thou waters that <b>encompass</b> us!","Waters that encompass the Globe…",["cover it","expose it","widen it","seep into it"],0,"encompass"],
+  ["Those of earth-born passion, simple, never <b>constrain'd</b>, never obedient,<br>Those of inland America.","Someone who is NOT constrained is…",["controlled","restricted","free","loyal"],2,"constrain"],
+  ["The mocking-bird, the American <b>mimic</b>, singing all the forenoon,<br>singing through the moon-lit night…","A bird that is a mimic is a(n)…",["originator","traitor","creator","imitator"],3,"mimic"],
+  ["With re-appearing day as now so happy and <b>serene</b>,<br>The rosy and elastic dawn, the flashing sun…","A serene day is one that is…",["blistering","soothing","humid","noisy"],1,"serene"],
+  ["O to be self-balanced for contingencies,<br>To <b>confront</b> night, storms, hunger, ridicule, accidents, rebuffs, as the trees and animals do.","To confront something is to…",["ignore it","alert it","tackle it","support it"],2,"confront"]
+];
+
+/* Use it right: [correct sentence, wrong use, wrong use] */
+const USAGE = {
+  adverse:["The adverse weather forced the pilot to land early.","We had an adverse time at the party and laughed all night.","Mom gave me an adverse hug because she loves me."],
+  arid:["Cactus plants can survive in arid deserts.","The towel was so arid that water dripped from it.","The rain forest is arid and full of frogs."],
+  assailant:["Police are searching for the assailant who attacked the store owner.","The assailant kindly helped the old man cross the street.","My assailant baked me a birthday cake."],
+  billow:["Smoke began to billow from the chimney.","The heavy stone began to billow on the ground.","She billowed her homework neatly into her notebook."],
+  confront:["Hana decided to confront the problem instead of hiding from it.","He confronted his fear by running away and hiding.","To confront a test, you should forget all about it."],
+  constrain:["The small cage constrained the bird, so it couldn't fly.","The wide open field constrained the horses to run freely.","We constrained the balloon by letting it float away."],
+  contemporary:["The museum's new room shows contemporary art made this year.","Dinosaurs are contemporary animals that live in my garden.","The contemporary pyramids were built thousands of years ago."],
+  depict:["The mural depicts the history of our town.","She depicted her lunch because she was hungry.","The runner depicted the race by crossing the finish line first."],
+  disinterested:["We asked a disinterested teacher to judge the contest fairly.","The disinterested coach always helped his own son win.","She was so disinterested that she cheated to get the prize for her team."],
+  encompass:["The fence encompasses the whole farm.","He encompassed the ball by kicking it far away.","The party encompassed nobody, so everyone was invited."],
+  groundless:["The rumor that school was canceled turned out to be groundless.","Her fear of the storm was groundless, because the storm really did flood her street.","The groundless tree grew deep roots into the soil."],
+  hypocrite:["He's a hypocrite: he tells us to recycle but throws bottles in the trash.","She's a hypocrite because she always keeps her promises.","The hypocrite always did exactly what he told others to do."],
+  incomprehensible:["The note was so messy that it was incomprehensible.","The teacher's clear, simple answer was incomprehensible, so we all understood it.","I read the incomprehensible sign easily and followed it."],
+  manipulate:["The surgeon can manipulate tiny tools with great skill.","To manipulate a book, you just look at its cover from far away.","The statue manipulated the wind by standing still."],
+  maximum:["The maximum score on this test is 100.","I ate the maximum amount of vegetables: just one tiny pea.","The maximum speed is the slowest you are allowed to drive."],
+  mimic:["My little brother likes to mimic the way our dad sneezes.","She mimicked the song by writing a brand-new one nobody had heard.","A good mimic never copies anyone."],
+  ruffle:["Grandma likes to ruffle my hair when she says hello.","He ruffled the sheet until it was perfectly smooth and flat.","The ruffled lake was completely still, like glass."],
+  serene:["The serene lake was perfectly still at sunrise.","The serene crowd screamed and pushed at the gates.","The storm made the sea serene with huge crashing waves."],
+  sheepish:["Caught eating the last cookie, Ali gave a sheepish smile.","The sheepish lion roared bravely at the whole crowd.","Feeling sheepish, she proudly shouted her name to everyone."],
+  stamina:["Swimming every day built up her stamina for the long race.","He had so much stamina that he got tired after one minute.","The stamina of the rock made it crumble easily."]
+};
+
+const ROUNDS = [
+  {key:"choose", name:"Pick the Right Word", skill:"Picking the right word", how:"Read the sentence. Tap the word that fits best.", from:"Book: Choosing the Right Word"},
+  {key:"syn", name:"Twin Words", skill:"Synonyms (same meaning)", how:"Tap the unit word that means the SAME as the bold words.", from:"Book: Synonyms"},
+  {key:"ant", name:"Opposite Day", skill:"Antonyms (opposite meaning)", how:"Tap the unit word that means the OPPOSITE of the bold words.", from:"Book: Antonyms"},
+  {key:"type", name:"Fill It In", skill:"Using words in sentences", how:"Type the missing word. Spelling counts!", from:"Book: Completing the Sentence"},
+  {key:"detective", name:"Word Detective", skill:"Reading clues", how:"Read closely: poem lines by Walt Whitman, and sentences where only one uses the word the right way.", from:"Book: Vocabulary in Context"}
+];
+
+const SKILL_TIPS = {
+  choose:"When you choose between two words, read the whole sentence first and look for clue words (like \"stormy\" or \"calm\") before you tap.",
+  syn:"For Twin Words, say the bold words in your own words first, then find the unit word that means the same thing.",
+  ant:"For Opposite Day, first think of a word that means the SAME as the bold words, then flip it. Example: stormy → calm → serene is the opposite of stormy.",
+  type:"For Fill It In, read the sentence twice and ask: is the missing word a person, an action, or a describing word?",
+  spell:"Break long words into chunks and spell one chunk at a time: in-com-pre-hen-si-ble. Say it, cover it, write it, check it.",
+  detective:"In Word Detective questions, the words around the unit word are your clues. Ask: does the sentence make sense with the word's meaning?"
+};
+/* ---------- ANIMATED SCENES (one per word) ---------- */
+const SV = inner => '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">' + inner + '</svg>';
+function wavePath(y, h){ let d = "M-10 " + y + " q20 -" + h + " 40 0"; for (let i = 0; i < 11; i++) d += " t40 0"; return d; }
+function rays(n, r1, r2){ let s = ""; for (let i = 0; i < n; i++){ const a = i * 2 * Math.PI / n;
+  s += '<line class="o" x1="' + (Math.cos(a)*r1).toFixed(1) + '" y1="' + (Math.sin(a)*r1).toFixed(1) + '" x2="' + (Math.cos(a)*r2).toFixed(1) + '" y2="' + (Math.sin(a)*r2).toFixed(1) + '"/>'; } return s; }
+function burst(cx, cy, r1, r2, n){ let d = ""; for (let i = 0; i < n*2; i++){ const a = Math.PI*i/n - Math.PI/2, r = i % 2 ? r2 : r1;
+  d += (i ? "L" : "M") + (cx + Math.cos(a)*r).toFixed(1) + " " + (cy + Math.sin(a)*r).toFixed(1) + " "; } return d + "Z"; }
+const LBL = 'style="font:700 12px var(--body);fill:#14163A"';
+
+const SCENES = {
+billow: () => SV(`
+  <circle class="o a-pulse" cx="266" cy="40" r="20" fill="#FFD23F"/>
+  <g class="a-drift"><path class="o2" d="M34 46 q2-14 18-12 q8-12 22-4 q14-4 16 10 q10 4 4 12 h-56 q-10-2-4-6z" fill="#fff"/></g>
+  <g class="a-bob">
+    <path class="o" d="M108 116 h94 l-16 22 h-62 z" fill="#E23F66"/>
+    <line class="o" x1="154" y1="116" x2="154" y2="40"/>
+    <path class="o a-puff" d="M157 44 Q206 78 157 112 Z" fill="#fff"/>
+    <path class="o" d="M151 50 L116 110 H151 Z" fill="#FFD23F"/>
+    <path class="o2" d="M154 40 l18 6 l-18 6 z" fill="#2F7DE1"/>
+  </g>
+  <g class="a-wave" style="animation-duration:4.2s"><path class="o" d="${wavePath(126,16)} V190 H-10 Z" fill="#2F7DE1"/></g>
+  <g class="a-wave" style="animation-duration:2.8s"><path class="o" d="${wavePath(150,14)} V190 H-10 Z" fill="#7FC4F5"/></g>`),
+
+serene: () => SV(`
+  <path class="o" d="M-5 112 L50 64 L92 96 L146 44 L206 104 L252 74 L325 112 Z" fill="#B79BF0"/>
+  <circle class="o a-pulse" cx="160" cy="110" r="28" fill="#FFB84D" style="animation-duration:4s"/>
+  <rect class="o" x="-5" y="110" width="330" height="80" fill="#7FC4F5"/>
+  <line class="o2" x1="132" y1="124" x2="188" y2="124" style="stroke-dasharray:10 8"/>
+  <line class="o2" x1="142" y1="134" x2="178" y2="134" style="stroke-dasharray:8 8"/>
+  <ellipse class="o2 a-ripple" cx="84" cy="152" rx="34" ry="7" fill="none"/>
+  <ellipse class="o2 a-ripple d3" cx="84" cy="152" rx="34" ry="7" fill="none"/>
+  <ellipse class="o2 a-ripple d5" cx="240" cy="158" rx="30" ry="6" fill="none"/>
+  <g class="a-drift" style="animation-duration:11s"><path class="o2" d="M64 44 q8-9 16 0 q8-9 16 0" fill="none"/><path class="o2" d="M104 30 q6-7 12 0 q6-7 12 0" fill="none"/></g>`),
+
+arid: () => SV(`
+  <g transform="translate(262 44)"><g class="a-spin">${rays(8, 24, 34)}</g><circle class="o" r="18" fill="#FFD23F"/></g>
+  <path class="o" d="M-5 128 H325 V190 H-5 Z" fill="#F2C572"/>
+  <path class="o2" d="M40 150 l14 8 l10 -6 l12 10 M186 160 l12 -8 l14 6 l8 -10 M112 142 l-8 10 l10 6 M258 146 l10 8 l-4 10" fill="none"/>
+  <g class="a-sway" style="animation-duration:5s">
+    <path class="o" d="M84 128 V74 q0-12 12-12 q12 0 12 12 V128 Z" fill="#119C77"/>
+    <path class="o" d="M84 104 h-12 q-8 0 -8 -8 v-16 q0 -6 6 -6 q6 0 6 6 v12 h8" fill="#119C77"/>
+    <path class="o" d="M108 96 h10 q8 0 8 -8 v-12 q0 -6 -6 -6 q-6 0 -6 6 v8 h-6" fill="#119C77"/>
+  </g>
+  <path class="o2 a-rise" d="M150 118 q6-6 0-12 q-6-6 0-12" fill="none"/>
+  <path class="o2 a-rise d2" d="M180 120 q6-6 0-12 q-6-6 0-12" fill="none"/>
+  <path class="o2 a-rise d4" d="M210 118 q6-6 0-12 q-6-6 0-12" fill="none"/>
+  <g class="a-roll"><circle class="o2" cx="0" cy="116" r="11" fill="#C98A4B"/><path class="o2" d="M-8 110 l14 12 M-9 120 l16 -9 M-2 106 l2 20" fill="none"/></g>`),
+
+adverse: () => SV(`
+  <path class="o" d="M196 44 q-2-20 20-20 q8-14 26-8 q18-8 28 10 q18 2 14 18 z" fill="#8A8DB0"/>
+  <line class="o2 a-rain" x1="214" y1="52" x2="210" y2="62"/><line class="o2 a-rain d1" x1="236" y1="52" x2="232" y2="62"/>
+  <line class="o2 a-rain d2" x1="258" y1="52" x2="254" y2="62"/><line class="o2 a-rain d3" x1="278" y1="52" x2="274" y2="62"/>
+  <path class="o2 a-streak" d="M250 78 h46" fill="none"/>
+  <path class="o2 a-streak d1" d="M262 98 h40" fill="none"/>
+  <path class="o2 a-streak d3" d="M240 116 h52" fill="none"/>
+  <path class="o2 a-streak d4" d="M270 66 h30" fill="none"/>
+  <line class="o" x1="296" y1="134" x2="296" y2="96"/><path class="o2" d="M296 96 l18 7 l-18 7 z" fill="#FFD23F"/>
+  <g class="a-push"><g class="a-bob">
+    <path class="o" d="M60 120 h84 l-14 20 h-56 z" fill="#F39200"/>
+    <line class="o" x1="102" y1="120" x2="102" y2="56"/>
+    <path class="o" d="M99 60 Q70 88 99 114 Z" fill="#fff"/>
+  </g></g>
+  <rect class="o" x="-5" y="134" width="330" height="60" fill="#2F7DE1"/>
+  <text class="t" x="16" y="34" font-size="22">HEADWIND!</text>`),
+
+confront: () => SV(`
+  <line class="o" x1="-5" y1="152" x2="325" y2="152"/>
+  <g class="a-shrink"><path class="o" d="M196 152 q-8-86 52-92 q60 6 52 92 z" fill="#4A4D78"/>
+    <circle class="o2" cx="232" cy="96" r="9" fill="#fff"/><circle class="o2" cx="264" cy="96" r="9" fill="#fff"/>
+    <circle cx="229" cy="97" r="3.5" fill="#14163A"/><circle cx="261" cy="97" r="3.5" fill="#14163A"/>
+    <path class="o2" d="M226 124 l8 -6 l8 6 l8 -6 l8 6 l8 -6" fill="none" style="stroke:#fff"/></g>
+  <g class="a-step">
+    <path class="o" d="M66 118 l-18 34 h18 z" fill="#E23F66"/>
+    <path class="o" d="M64 152 v-30 q0-12 14-12 q14 0 14 12 v30 z" fill="#F39200"/>
+    <circle class="o" cx="78" cy="94" r="16" fill="#FFD9B0"/>
+    <path class="o2" d="M69 87 l7 3 M87 87 l-7 3" fill="none"/>
+    <circle cx="74" cy="95" r="2.2" fill="#14163A"/><circle cx="83" cy="95" r="2.2" fill="#14163A"/>
+    <path class="o2" d="M72 103 h12" fill="none"/></g>
+  <g class="a-pop"><path class="o" d="${burst(150,58,28,16,8)}" fill="#FFD23F"/><text class="t" x="150" y="67" font-size="24" text-anchor="middle">!</text></g>`),
+
+assailant: () => SV(`
+  <line class="o" x1="-5" y1="152" x2="325" y2="152"/>
+  <path class="o" d="M222 152 v-34 q0-12 16-12 q16 0 16 12 v34 z" fill="#2F7DE1"/>
+  <circle class="o" cx="238" cy="88" r="16" fill="#FFD9B0"/>
+  <circle class="o2" cx="232" cy="86" r="3.5" fill="#fff"/><circle class="o2" cx="244" cy="86" r="3.5" fill="#fff"/>
+  <ellipse class="o2" cx="238" cy="97" rx="3" ry="4" fill="#14163A"/>
+  <rect class="o" x="252" y="120" width="22" height="20" rx="4" fill="#FFD23F"/>
+  <g class="a-bang"><text class="t" x="258" y="66" font-size="30">!</text></g>
+  <g class="a-sneak">
+    <path class="o" d="M118 152 l6 -30 q2-16 22-16 q20 0 22 16 l6 30 z" fill="#4A4D78"/>
+    <circle class="o" cx="146" cy="88" r="17" fill="#4A4D78"/>
+    <rect class="o2" x="130" y="82" width="32" height="10" rx="5" fill="#14163A"/>
+    <circle cx="140" cy="87" r="3" fill="#fff"/><circle cx="153" cy="87" r="3" fill="#fff"/></g>
+  <g class="a-bang"><path class="o" d="${burst(196,62,40,24,10)}" fill="#FFD23F"/><text class="t" x="196" y="70" font-size="22" text-anchor="middle">POW!</text></g>`),
+
+constrain: () => SV(`
+  <g class="a-squash"><ellipse class="o" cx="160" cy="86" rx="28" ry="33" fill="#E23F66"/>
+    <circle cx="150" cy="82" r="3" fill="#14163A"/><circle cx="170" cy="82" r="3" fill="#14163A"/>
+    <path class="o2" d="M152 99 q8 -6 16 0" fill="none"/>
+    <path class="o2" d="M160 119 q-6 8 0 16 q6 8 0 16" fill="none"/></g>
+  <path class="o" d="M110 150 V58 q0-26 50-26 q50 0 50 26 V150" fill="none"/>
+  <path class="o" d="M130 150 V40 M150 150 V34 M170 150 V34 M190 150 V40" fill="none"/>
+  <rect class="o" x="100" y="148" width="120" height="14" rx="4" fill="#C98A4B"/>
+  <circle class="o" cx="160" cy="26" r="6" fill="#FFD23F"/>
+  <path class="o2 a-rise" d="M70 110 v-26 m-8 8 l8 -8 l8 8" fill="none"/>
+  <path class="o2 a-rise d3" d="M250 110 v-26 m-8 8 l8 -8 l8 8" fill="none"/>`),
+
+stamina: () => SV(`
+  <rect class="o" x="-5" y="138" width="330" height="56" fill="#E23F66"/>
+  <g class="a-track"><path d="M-10 160 H400" style="stroke:#fff;stroke-width:4;stroke-dasharray:20 20" fill="none"/></g>
+  <rect class="o" x="18" y="18" width="92" height="28" rx="6" fill="#fff"/>
+  <rect class="o2" x="110" y="26" width="6" height="12" rx="2" fill="#14163A"/>
+  <rect class="a-energy" x="23" y="23" width="82" height="18" rx="3" fill="#12A15E"/>
+  <text class="t" x="124" y="40" font-size="18">ENERGY</text>
+  <path class="o2 a-streak" d="M136 96 h-20" fill="none"/><path class="o2 a-streak d2" d="M132 114 h-26" fill="none"/>
+  <g class="a-bob" style="animation-duration:.45s">
+    <line class="o a-leg" x1="170" y1="112" x2="170" y2="138" style="stroke-width:5"/>
+    <line class="o a-leg2" x1="170" y1="112" x2="170" y2="138" style="stroke-width:5"/>
+    <line class="o" x1="170" y1="86" x2="170" y2="114" style="stroke-width:6"/>
+    <line class="o a-leg2" x1="170" y1="90" x2="170" y2="110" style="stroke-width:4"/>
+    <line class="o a-leg" x1="170" y1="90" x2="170" y2="110" style="stroke-width:4"/>
+    <circle class="o" cx="172" cy="72" r="13" fill="#FFD9B0"/>
+    <path d="M160 66 h24" style="stroke:#F39200;stroke-width:5;stroke-linecap:round"/></g>
+  <g class="a-pop"><text class="t" x="304" y="104" font-size="22" text-anchor="end">STILL GOING!</text></g>`),
+
+hypocrite: () => SV(`
+  <g class="a-tilt">
+    <path class="o" d="M160 40 a50 50 0 0 0 0 100 z" fill="#FFD9B0"/>
+    <path class="o" d="M160 40 a50 50 0 0 1 0 100 z" fill="#9A4FE0"/>
+    <circle cx="140" cy="80" r="5" fill="#14163A"/>
+    <path class="o2" d="M128 67 q10 -6 20 0" fill="none"/>
+    <path class="o" d="M130 106 q14 16 30 4" fill="none"/>
+    <path class="o2" d="M170 82 q9 -6 18 0" fill="none" style="stroke:#fff"/>
+    <path class="o2" d="M168 67 l22 8" fill="none" style="stroke:#fff"/>
+    <path class="o" d="M160 110 q12 0 26 -12" fill="none" style="stroke:#fff"/></g>
+  <g class="a-say1"><path class="o" d="M8 22 h128 v44 h-70 l-14 14 v-14 h-44 z" fill="#fff"/><text class="t" x="72" y="51" font-size="18" text-anchor="middle">ALWAYS SHARE!</text></g>
+  <g class="a-say2"><path class="o" d="M184 22 h128 v44 h-44 v14 l-14 -14 h-70 z" fill="#fff"/><text class="t" x="248" y="51" font-size="18" text-anchor="middle">NOT MY COOKIE!</text></g>
+  <g class="a-bob"><circle class="o" cx="258" cy="142" r="18" fill="#C98A4B"/><circle cx="252" cy="136" r="3" fill="#14163A"/><circle cx="264" cy="144" r="3" fill="#14163A"/><circle cx="255" cy="150" r="2.5" fill="#14163A"/></g>`),
+
+mimic: () => SV(`
+  <path d="M190 130 H325" style="stroke:#8B5A2B;stroke-width:7;stroke-linecap:round"/>
+  <path class="o" d="M50 164 v-30 q0-12 16-12 q16 0 16 12 v30 z" fill="#2F7DE1"/>
+  <circle class="o" cx="66" cy="104" r="16" fill="#FFD9B0"/><circle cx="61" cy="102" r="2.4" fill="#14163A"/><circle cx="71" cy="102" r="2.4" fill="#14163A"/>
+  <ellipse class="o2" cx="66" cy="112" rx="4" ry="3" fill="#E23F66"/>
+  <g class="a-bob">
+    <path class="o" d="M262 124 l18 30 l-12 -2 z" fill="#2F7DE1"/>
+    <path class="o" d="M250 128 q-24 -8 -18 -40 q8 -22 28 -18 q18 6 14 30 q-4 22 -24 28z" fill="#119C77"/>
+    <circle class="o" cx="248" cy="62" r="16" fill="#119C77"/>
+    <path class="o" d="M233 58 q-13 4 -8 15 q6 -2 10 -7 z" fill="#FFD23F"/>
+    <circle cx="245" cy="57" r="3" fill="#14163A"/>
+    <path class="o2" d="M248 96 q10 10 20 4" fill="none"/></g>
+  <g class="a-say1"><path class="o" d="M20 32 h96 v40 h-50 l-12 12 v-12 h-34 z" fill="#fff"/><text class="t" x="68" y="59" font-size="22" text-anchor="middle">HELLO!</text></g>
+  <g class="a-say2"><path class="o" d="M130 16 h96 v40 h-16 l-10 12 v-12 h-70 z" fill="#FFD23F"/><text class="t" x="178" y="43" font-size="22" text-anchor="middle">HELLO!</text></g>`),
+
+sheepish: () => SV(`
+  <rect class="o" x="-5" y="146" width="330" height="40" fill="#8BD17C"/>
+  <g class="a-sway" style="animation-duration:3.6s">
+    <line class="o" x1="128" y1="126" x2="128" y2="148" style="stroke-width:6"/><line class="o" x1="146" y1="128" x2="146" y2="148" style="stroke-width:6"/>
+    <line class="o" x1="192" y1="128" x2="192" y2="148" style="stroke-width:6"/><line class="o" x1="208" y1="126" x2="208" y2="148" style="stroke-width:6"/>
+    <path class="o" d="M112 116 q-14-16 4-30 q2-20 24-18 q12-16 32-6 q20-10 34 8 q20 2 18 24 q12 18-8 28 q-8 14-28 10 q-14 10-30 2 q-20 6-28-6 q-20 0-18-12z" fill="#fff"/>
+    <ellipse class="o" cx="112" cy="98" rx="22" ry="24" fill="#4A4D78"/>
+    <path class="o2" d="M100 94 q4 4 8 0 M116 94 q4 4 8 0" fill="none" style="stroke:#fff"/>
+    <ellipse class="a-blush" cx="100" cy="106" rx="6" ry="4" fill="#FF7A9A"/><ellipse class="a-blush" cx="124" cy="106" rx="6" ry="4" fill="#FF7A9A"/>
+    <path class="o2" d="M106 114 q6 -3 12 0" fill="none" style="stroke:#fff"/></g>
+  <path class="o2 a-rain" d="M84 62 q-5 8 0 10 q5-2 0-10z" fill="#7FC4F5"/>
+  <g class="a-pop"><path class="o" d="M196 24 h86 v38 h-58 l-12 12 v-12 h-16 z" fill="#fff"/><text class="t" x="239" y="50" font-size="22" text-anchor="middle">OOPS…</text></g>`),
+
+disinterested: () => SV(`
+  <path class="o" d="M30 150 V74 l34 11 l-34 11" fill="#E23F66"/>
+  <path class="o" d="M290 150 V74 l-34 11 l34 11" fill="#2F7DE1"/>
+  <line class="o" x1="160" y1="62" x2="160" y2="146" style="stroke-width:5"/>
+  <path class="o" d="M128 152 h64 l-8 -10 h-48 z" fill="#8A8DB0"/>
+  <g class="a-balance">
+    <line class="o" x1="100" y1="62" x2="220" y2="62" style="stroke-width:5"/>
+    <path class="o2" d="M100 62 l-14 40 M100 62 l14 40 M220 62 l-14 40 M220 62 l14 40" fill="none"/>
+    <path class="o" d="M80 102 h40 q-4 14 -20 14 q-16 0 -20 -14z" fill="#FFD23F"/>
+    <path class="o" d="M200 102 h40 q-4 14 -20 14 q-16 0 -20 -14z" fill="#FFD23F"/></g>
+  <circle class="o" cx="160" cy="62" r="7" fill="#fff"/>
+  <g class="a-stamp"><rect class="o" x="118" y="12" width="84" height="32" rx="6" fill="#12A15E"/><text class="t" x="160" y="36" font-size="22" text-anchor="middle" style="fill:#fff">FAIR!</text></g>`),
+
+incomprehensible: () => SV(`
+  <rect class="o" x="24" y="44" width="72" height="92" rx="12" fill="#8A8DB0"/>
+  <circle class="o" cx="60" cy="78" r="22" fill="#4A4D78"/><circle cx="60" cy="78" r="8" fill="#14163A"/>
+  <rect class="o2" x="40" y="112" width="40" height="12" rx="4" fill="#FFD23F"/>
+  <path class="o2 a-blink" d="M104 70 q10 10 0 20" fill="none"/><path class="o2 a-blink d1" d="M112 62 q16 18 0 36" fill="none"/>
+  <path class="o" d="M126 22 h176 v62 h-120 l-16 16 v-16 h-40 z" fill="#fff"/>
+  <g class="a-glitch"><text class="t" x="214" y="64" font-size="30" text-anchor="middle">#@?%&amp;*!</text></g>
+  <circle class="o" cx="244" cy="166" r="24" fill="#FFD9B0"/>
+  <circle cx="236" cy="160" r="2.6" fill="#14163A"/><circle cx="252" cy="160" r="2.6" fill="#14163A"/>
+  <text class="t a-pop" x="206" y="134" font-size="24">?</text><text class="t a-pop d2" x="236" y="126" font-size="30">?</text><text class="t a-pop d4" x="268" y="134" font-size="24">?</text>`),
+
+groundless: () => SV(`
+  <path class="o" d="M-5 132 H118 V190 H-5 Z" fill="#119C77"/>
+  <path class="o" d="M202 132 H325 V190 H202 Z" fill="#119C77"/>
+  <line x1="118" y1="132" x2="202" y2="132" style="stroke:#14163A;stroke-width:2;stroke-dasharray:6 6"/>
+  <g class="a-fall">
+    <rect class="o" x="155" y="84" width="10" height="46" fill="#C98A4B"/>
+    <rect class="o" x="114" y="42" width="92" height="44" rx="6" fill="#fff"/>
+    <text class="t" x="160" y="72" font-size="22" text-anchor="middle">RUMOR!</text></g>
+  <text x="160" y="158" text-anchor="middle" ${LBL}>no ground</text>
+  <text x="160" y="173" text-anchor="middle" ${LBL}>= no proof</text>`),
+
+encompass: () => SV(`
+  <path class="o2" d="M140 70 l5 10 l11 1 l-8 7 l3 11 l-11 -6 l-11 6 l3 -11 l-8 -7 l11 -1z" fill="#FFD23F"/>
+  <circle class="o2" cx="182" cy="82" r="11" fill="#2F7DE1"/>
+  <rect class="o2" x="130" y="106" width="22" height="18" rx="3" fill="#E23F66"/>
+  <path class="o2" d="M176 124 l12 -22 l12 22z" fill="#119C77"/>
+  <circle class="a-draw" cx="160" cy="95" r="62" fill="none" style="stroke:#9A4FE0;stroke-width:5;--len:390"/>
+  <g class="a-orbit">
+    <line class="o" x1="160" y1="95" x2="191" y2="38"/>
+    <line class="o" x1="191" y1="38" x2="220" y2="92"/>
+    <path class="o2" d="M217 90 l5 6 l2 -8 z" fill="#14163A"/>
+    <line class="o" x1="191" y1="38" x2="191" y2="24"/>
+    <circle class="o" cx="191" cy="38" r="5" fill="#FFD23F"/></g>`),
+
+contemporary: () => SV(`
+  <line class="o" x1="-5" y1="150" x2="325" y2="150"/>
+  <g class="a-fade"><path class="o" d="M24 150 L78 78 L132 150 Z" fill="#E0C68A"/><path class="o2" d="M42 126 h72 M56 106 h44" fill="none"/></g>
+  <text x="78" y="168" text-anchor="middle" ${LBL}>long ago</text>
+  <g class="a-grow">
+    <rect class="o" x="160" y="40" width="64" height="110" fill="#5FA3F0"/>
+    <rect class="o" x="180" y="26" width="24" height="14" fill="#5FA3F0"/>
+    <line class="o" x1="192" y1="26" x2="192" y2="10"/>
+    ${[0,1,2].map(c => [0,1,2,3,4].map(r => '<rect class="a-blink' + ((c+r)%3 ? ' d' + ((c*2+r)%5+1) : '') + '" x="' + (168+c*18) + '" y="' + (50+r*19) + '" width="12" height="11" rx="2" fill="#FFD23F"/>').join("")).join("")}</g>
+  <text x="192" y="168" text-anchor="middle" ${LBL}>today</text>
+  <rect class="o" x="252" y="28" width="56" height="52" rx="6" fill="#fff"/>
+  <path class="o" d="M252 44 v-10 q0-6 6-6 h44 q6 0 6 6 v10z" fill="#E23F66"/>
+  <text class="t" x="280" y="70" font-size="17" text-anchor="middle">TODAY</text>
+  <g class="a-pop"><path class="o" d="${burst(272,120,30,18,9)}" fill="#FFD23F"/><text class="t" x="272" y="127" font-size="19" text-anchor="middle">NEW!</text></g>`),
+
+depict: () => SV(`
+  <line class="o" x1="120" y1="128" x2="100" y2="172"/><line class="o" x1="200" y1="128" x2="220" y2="172"/><line class="o" x1="160" y1="128" x2="160" y2="172"/>
+  <rect class="o" x="90" y="22" width="140" height="108" rx="4" fill="#fff"/>
+  <path class="a-draw" d="M100 118 L140 70 L165 98 L185 78 L220 118" fill="none" style="stroke:#E23F66;stroke-width:4;stroke-linejoin:round;stroke-linecap:round;--len:182"/>
+  <circle class="a-draw" cx="200" cy="48" r="12" fill="none" style="stroke:#F39200;stroke-width:4;--len:76"/>
+  <g class="a-brush"><g transform="translate(100 118)"><path class="o2" d="M0 0 l-6 -6 l30 -30 l6 6 z" fill="#C98A4B"/><path class="o2" d="M0 0 l-6 -6 l-6 10 z" fill="#E23F66"/></g></g>
+  <path class="o" d="M18 152 q0-26 30-26 q30 0 30 20 q0 8-10 8 q-8 0-8 8 q0 8-14 8 q-28 0-28-18z" fill="#F2C572"/>
+  <circle cx="36" cy="140" r="5" fill="#E23F66"/><circle cx="52" cy="134" r="5" fill="#2F7DE1"/><circle cx="66" cy="140" r="5" fill="#119C77"/>`),
+
+manipulate: () => SV(`
+  <path class="o" d="M138 4 h44 v12 q0 8 -8 8 h-28 q-8 0 -8 -8z" fill="#FFD9B0"/>
+  <g class="a-puppet">
+    <line x1="112" y1="30" x2="208" y2="30" style="stroke:#8B5A2B;stroke-width:6;stroke-linecap:round"/>
+    <line x1="160" y1="20" x2="160" y2="42" style="stroke:#8B5A2B;stroke-width:6;stroke-linecap:round"/>
+    <path d="M112 30 L146 92 M208 30 L174 92 M160 30 V60" style="stroke:#14163A;stroke-width:1.3" fill="none"/>
+    <line class="o a-arm" x1="147" y1="94" x2="147" y2="120" style="stroke-width:5"/>
+    <line class="o a-arm2" x1="173" y1="94" x2="173" y2="120" style="stroke-width:5"/>
+    <line class="o a-arm2" x1="153" y1="122" x2="153" y2="152" style="stroke-width:5"/>
+    <line class="o a-arm" x1="167" y1="122" x2="167" y2="152" style="stroke-width:5"/>
+    <rect class="o" x="146" y="88" width="28" height="36" rx="6" fill="#E23F66"/>
+    <circle class="o" cx="160" cy="74" r="14" fill="#FFD9B0"/>
+    <circle cx="155" cy="72" r="2.2" fill="#14163A"/><circle cx="165" cy="72" r="2.2" fill="#14163A"/>
+    <path class="o2" d="M155 79 q5 4 10 0" fill="none"/></g>
+  <text class="t" x="24" y="160" font-size="20">PULL THE STRINGS!</text>`),
+
+ruffle: () => SV(`
+  <g class="a-wave" style="animation-duration:3s"><path class="o" d="${wavePath(152,6)} V190 H-10 Z" fill="#7FC4F5"/></g>
+  <path class="o2 a-streak-r" d="M20 70 h44" fill="none"/><path class="o2 a-streak-r d2" d="M10 92 h36" fill="none"/><path class="o2 a-streak-r d4" d="M24 116 h40" fill="none"/>
+  <g class="a-tuft"><path class="o" d="M160 62 q-10 -24 -2 -30 q2 14 8 22 q2 -18 12 -24 q-2 16 0 28z" fill="#F39200"/></g>
+  <line class="o" x1="158" y1="136" x2="154" y2="150"/><line class="o" x1="176" y1="136" x2="180" y2="150"/>
+  <circle class="o" cx="166" cy="98" r="40" fill="#FFD23F"/>
+  <ellipse cx="172" cy="114" rx="22" ry="16" fill="#FFF3C4"/>
+  <path class="o a-glitch" d="M196 94 q18 6 10 26 q-10 -2 -18 -12z" fill="#F39200"/>
+  <circle cx="150" cy="90" r="4.5" fill="#14163A"/>
+  <path class="o" d="M140 78 l18 6" fill="none"/>
+  <path class="o" d="M127 96 l-16 6 l16 6z" fill="#F39200"/>
+  <g class="a-pop"><path class="o" d="M222 24 h78 v36 h-52 l-10 12 v-12 h-16 z" fill="#fff"/><text class="t" x="261" y="49" font-size="22" text-anchor="middle">HEY!</text></g>`),
+
+maximum: () => SV(`
+  ${[[14,20],[27,35],[40,50],[53,65]].map((b,i) => '<rect class="o2 a-fill' + (i ? ' d' + i : '') + '" x="' + b[0] + '" y="' + (150-b[1]) + '" width="9" height="' + b[1] + '" rx="2" fill="' + ["#12A15E","#12A15E","#FFD23F","#E23D45"][i] + '"/>').join("")}
+  <path d="M80 140 A80 80 0 0 1 120 70.7" fill="none" style="stroke:#12A15E;stroke-width:18"/>
+  <path d="M120 70.7 A80 80 0 0 1 200 70.7" fill="none" style="stroke:#FFD23F;stroke-width:18"/>
+  <path d="M200 70.7 A80 80 0 0 1 240 140" fill="none" style="stroke:#E23D45;stroke-width:18"/>
+  <path class="o" d="M71 140 A89 89 0 0 1 249 140" fill="none"/>
+  <path class="o" d="M89 140 A71 71 0 0 1 231 140" fill="none"/>
+  <line class="o" x1="71" y1="140" x2="89" y2="140"/><line class="o" x1="231" y1="140" x2="249" y2="140"/>
+  <text x="80" y="160" text-anchor="middle" ${LBL}>MIN</text>
+  <text x="240" y="160" text-anchor="middle" ${LBL}>MAX</text>
+  <g class="a-needle"><line class="o" x1="160" y1="140" x2="160" y2="74" style="stroke-width:5"/></g>
+  <circle class="o" cx="160" cy="140" r="9" fill="#14163A"/>
+  <g class="a-maxpop"><path class="o" d="${burst(268,48,34,20,10)}" fill="#FFD23F"/><text class="t" x="268" y="56" font-size="22" text-anchor="middle">MAX!</text></g>`)
+};
+
+/* ---------- ICONS ---------- */
+const INK = "#14163A";
+const LAND_ICONS = {
+  wave:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 12 q4.3-6 8.6 0 t8.6 0 t8.6 0" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><path d="M3 21 q4.3-6 8.6 0 t8.6 0 t8.6 0" fill="none" stroke="'+INK+'" stroke-width="3.4" stroke-linecap="round"/></svg>',
+  shield:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 l11 4 v8 c0 8-5 12-11 14 c-6-2-11-6-11-14 v-8z" fill="#fff" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/><path d="M11 15 l4 4 l7-8" fill="none" stroke="'+INK+'" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  mask:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 9 q12-5 24 0 v6 q0 11-12 13 q-12-2-12-13z" fill="#fff" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/><circle cx="11" cy="14" r="2.3" fill="'+INK+'"/><circle cx="21" cy="14" r="2.3" fill="'+INK+'"/><path d="M11 21 q5 4 10 0" fill="none" stroke="'+INK+'" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  puzzle:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 11 h6 a3.2 3.2 0 1 1 6.4 0 h6.6 v5 a3.2 3.2 0 1 1 0 6.4 v6.6 h-19z" fill="#fff" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/></svg>',
+  brush:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M22 3 l7 7 l-12 12 l-7 -7z" fill="#fff" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/><path d="M10 16 l6 6 q-2 7 -12 7 q0 -9 6 -13z" fill="'+INK+'"/></svg>',
+  castle:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 28 V11 h4 v4 h4 v-4 h6 v4 h4 v-4 h4 v17 z" fill="#FFD23F" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M13 28 v-6 a3 3 0 0 1 6 0 v6" fill="'+INK+'"/></svg>'
+};
+const STAR = on => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="' + (on ? "#FFD23F" : "#fff") + '" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/></svg>';
+const ICON_SOUND = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9q2 3 0 6M18.5 6.5q4 5.5 0 11" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+const ICON_MUTE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#fff" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+const ICON_TROPHY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3" fill="none" stroke="' + INK + '" stroke-width="2"/><path d="M12 14v4M8 20h8" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+/* ---------- CORE HELPERS ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const reduceMotion = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+const CH_OF = {}; CHAPTERS.forEach((c, i) => c.words.forEach(w => { CH_OF[w] = i; }));
+const ALL = CHAPTERS.flatMap(c => c.words);
+const pctOf = (a, b) => b ? Math.round(a / b * 100) : 0;
+const fmtDate = t => { try { return new Date(t).toLocaleString("en-GB", {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"}); } catch (e) { return ""; } };
+const bold = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+const withBlank = (s, inner) => esc(s).replace("___", inner || '<span class="blank">?</span>');
+const norm = s => String(s || "").toLowerCase().replace(/[^a-z]/g, "");
+function lev(a, b){
+  const m = a.length, n = b.length; if (!m) return n; if (!n) return m;
+  let prev = Array.from({length: n + 1}, (_, j) => j);
+  for (let i = 1; i <= m; i++){
+    const cur = [i];
+    for (let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+    prev = cur;
+  }
+  return prev[n];
+}
+
+/* ---------- SAVED PROGRESS (this device only) ---------- */
+const KEY = "wordquest-sadlier-unit2-v1";
+const fresh = () => ({xp:0, seen:{}, lands:{}, mastery:{}, attempts:[], run:null, sound:true});
+let S = (() => { try { const raw = localStorage.getItem(KEY); if (raw) return Object.assign(fresh(), JSON.parse(raw)); } catch (e) {} return fresh(); })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+/* ---------- SOUND (tiny synth, no files) ---------- */
+const Sound = {
+  ctx:null,
+  get(){ try { if (!this.ctx){ const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; this.ctx = new AC(); }
+    if (this.ctx.state === "suspended") this.ctx.resume(); return this.ctx; } catch (e) { return null; } },
+  tone(f, at, dur, type, vol){ const c = this.get(); if (!c) return; try {
+    const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + at;
+    o.type = type || "triangle"; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05); } catch (e) {} },
+  good(){ if (!S.sound) return; this.tone(660, 0, .15); this.tone(990, .1, .25); },
+  bad(){ if (!S.sound) return; this.tone(196, 0, .28, "square", .05); this.tone(147, .12, .3, "square", .05); },
+  win(){ if (!S.sound) return; [523, 659, 784, 1047].forEach((f, i) => this.tone(f, i * .11, .3)); },
+  tap(){ if (!S.sound) return; this.tone(520, 0, .06, "sine", .05); }
+};
+
+/* ---------- SPEECH ---------- */
+const canSpeak = "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
+function speak(text){
+  if (!canSpeak) return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = .88;
+    const vs = speechSynthesis.getVoices().filter(v => /^en[-_]/i.test(v.lang));
+    const v = vs.find(v => /en[-_]US/i.test(v.lang)) || vs[0]; if (v) u.voice = v;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+/* ---------- CONFETTI ---------- */
+const FX = (() => {
+  const cv = $("#fx"), ctx = cv && cv.getContext ? cv.getContext("2d") : null;
+  let parts = [], raf = 0;
+  const COLS = ["#FFD23F","#2F7DE1","#F39200","#9A4FE0","#119C77","#E23F66"];
+  function size(){ if (!cv) return; const d = window.devicePixelRatio || 1; cv.width = innerWidth * d; cv.height = innerHeight * d; }
+  size(); addEventListener("resize", size);
+  function tick(){
+    const d = window.devicePixelRatio || 1;
+    ctx.setTransform(d, 0, 0, d, 0, 0); ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => p.life < p.max);
+    parts.forEach(p => {
+      p.life++; p.vy += .25; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      ctx.save(); ctx.globalAlpha = Math.max(0, 1 - p.life / p.max); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.c;
+      if (p.sq) ctx.fillRect(-p.r/2, -p.r/4, p.r, p.r/2); else { ctx.beginPath(); ctx.arc(0, 0, p.r/2.6, 0, Math.PI*2); ctx.fill(); }
+      ctx.restore();
+    });
+    raf = parts.length ? requestAnimationFrame(tick) : 0;
+  }
+  function burstAt(x, y, n){
+    if (reduceMotion || !ctx) return;
+    for (let i = 0; i < (n || 36); i++){ const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
+      parts.push({x, y, vx:Math.cos(a)*v, vy:Math.sin(a)*v - 4, r:5 + Math.random()*6, rot:Math.random()*6, vr:(Math.random()-.5)*.4, c:COLS[i % COLS.length], life:0, max:55 + Math.random()*40, sq:Math.random() < .55}); }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function burstEl(el, n){ if (!el) return; const r = el.getBoundingClientRect(); burstAt(r.left + r.width/2, r.top + r.height/2, n); }
+  function party(){ for (let k = 0; k < 5; k++) setTimeout(() => burstAt(innerWidth * (.15 + Math.random()*.7), innerHeight * (.2 + Math.random()*.25), 40), k * 170); }
+  return {burstEl, party};
+})();
+
+function floatXP(el, text){
+  if (!el || reduceMotion) return;
+  const r = el.getBoundingClientRect(), f = document.createElement("div");
+  f.className = "xp-float"; f.textContent = text; f.style.left = (r.left + r.width/2) + "px"; f.style.top = (r.top - 6) + "px";
+  document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
+}
+function addXP(n, el){
+  S.xp += n; save();
+  const v = $("#xpVal"); if (v) v.textContent = S.xp;
+  const box = $("#xpBox"); if (box){ box.classList.remove("bump"); void box.offsetWidth; box.classList.add("bump"); }
+  if (el) floatXP(el, "+" + n);
+}
+function announce(t){ const l = $("#live"); if (l) l.textContent = t; }
+
+/* ---------- SCREENS ---------- */
+const SCREENS = ["home", "lesson", "challenge", "test", "report"];
+let current = "home";
+function show(name){
+  SCREENS.forEach(s => { const el = $("#scr-" + s); el.hidden = s !== name; });
+  const el = $("#scr-" + name); el.classList.remove("screen"); void el.offsetWidth; el.classList.add("screen");
+  current = name; window.scrollTo(0, 0);
+  if (canSpeak) try { speechSynthesis.cancel(); } catch (e) {}
+}
+function renderSoundBtn(){
+  const b = $("#soundBtn"); b.innerHTML = S.sound ? ICON_SOUND : ICON_MUTE;
+  b.setAttribute("aria-label", S.sound ? "Turn sound off" : "Turn sound on");
+}
+
+/* ---------- QUESTION BANK → objects ---------- */
+const POOL = {choose:[], syn:[], ant:[], type:[], whitman:[], usage:[]};
+R1.forEach((r, i) => POOL.choose.push({id:"c" + i, type:"choose", word:r[4], prompt:r[0], opts:[r[1], r[2]], ans:r[3]}));
+R2.forEach((r, i) => POOL.syn.push({id:"s" + i, type:"syn", word:r[1], prompt:r[0], pos:r[2]}));
+R3.forEach((r, i) => POOL.ant.push({id:"a" + i, type:"ant", word:r[1], prompt:r[0], pos:r[2]}));
+R4.forEach((r, i) => POOL.type.push({id:"t" + i, type:"type", word:r[2], prompt:r[0], answer:r[1], accept:r[3] || [r[1]]}));
+WH.forEach((r, i) => POOL.whitman.push({id:"w" + i, type:"whitman", word:r[4], quote:r[0], prompt:r[1], opts:r[2], ans:r[3]}));
+Object.keys(USAGE).forEach(w => POOL.usage.push({id:"u-" + w, type:"usage", word:w, sents:USAGE[w]}));
+const ROUND_OF = {choose:0, syn:1, ant:2, type:3, whitman:4, usage:4};
+
+/* make a playable copy: shuffles options and picks fair wrong answers */
+function inst(q){
+  const o = Object.assign({}, q);
+  if (q.type === "syn" || q.type === "ant"){
+    const same = shuffle(ALL.filter(w => w !== q.word && POS[w].includes(q.pos)));
+    const rest = shuffle(ALL.filter(w => w !== q.word && !same.includes(w)));
+    o.opts = shuffle([q.word].concat(same.concat(rest).slice(0, 3)));
+    o.ans = o.opts.indexOf(q.word);
+  } else if (q.type === "usage"){
+    const mixed = shuffle(q.sents.map((s, i) => ({s, ok:i === 0})));
+    o.opts = mixed.map(x => x.s); o.ans = mixed.findIndex(x => x.ok);
+  }
+  o.round = ROUND_OF[q.type];
+  return o;
+}
+function correctText(q){ return q.type === "type" ? q.answer : q.opts[q.ans]; }
+function plainPrompt(q){
+  if (q.type === "usage") return "Which sentence uses \"" + q.word + "\" correctly?";
+  if (q.type === "whitman") return q.prompt;
+  return q.prompt.replace(/\*\*/g, "");
+}
+
+/* pick n questions, always preferring words that have been asked the least */
+function pickGreedy(pool, n, cov){
+  const items = shuffle(pool.slice()), out = [], used = new Set();
+  for (let k = 0; k < n && items.length; k++){
+    let best = 0, score = Infinity;
+    items.forEach((it, i) => { const s = cov[it.word] * 10 + (used.has(it.word) ? 5 : 0); if (s < score){ score = s; best = i; } });
+    const it = items.splice(best, 1)[0]; out.push(it); used.add(it.word); cov[it.word]++;
+  }
+  return out;
+}
+function buildFinal(){
+  const cov = {}; ALL.forEach(w => { cov[w] = 0; });
+  const rounds = [
+    pickGreedy(POOL.choose, 6, cov), pickGreedy(POOL.syn, 6, cov), pickGreedy(POOL.ant, 6, cov),
+    pickGreedy(POOL.type, 6, cov), pickGreedy(POOL.whitman, 2, cov).concat(pickGreedy(POOL.usage, 4, cov))
+  ];
+  return rounds.flatMap(r => shuffle(r).map(inst));
+}
+function buildPractice(words, spellWords){
+  const qs = [];
+  words.forEach(w => {
+    const picked = [], types = new Set();
+    if ((spellWords || []).includes(w)){ const t = POOL.type.find(q => q.word === w); if (t){ picked.push(t); types.add("type"); } }
+    const avail = shuffle(["syn", "ant", "usage", "choose", "type", "whitman"].flatMap(p => POOL[p].filter(q => q.word === w)));
+    for (const q of avail){ if (picked.length >= 2) break; if (!types.has(q.type)){ picked.push(q); types.add(q.type); } }
+    picked.forEach(q => qs.push(inst(q)));
+  });
+  return shuffle(qs).slice(0, 16);
+}
+/* ---------- HOME ---------- */
+const SK = [["choose","Picking the right word"],["syn","Twin words (synonyms)"],["ant","Opposites (antonyms)"],["type","Using words in sentences"],["spell","Spelling"],["detective","Reading clues (Word Detective)"]];
+function lastFinal(){ for (let i = S.attempts.length - 1; i >= 0; i--) if (S.attempts[i].kind === "final") return S.attempts[i]; return null; }
+function weakWords(att){ return att ? ALL.filter(w => att.words[w] && (att.words[w].bad || att.words[w].slip)) : []; }
+function spellSlips(att){ return att ? att.res.filter(r => r.slip).map(r => ({w:r.w, g:r.g, c:r.c})) : []; }
+function landStatus(i){ const f = lastFinal(); if (!f) return null; const [u, t] = f.byCh[i]; if (!t) return null; const p = u / t; return p >= .85 ? "good" : p >= .6 ? "mid" : "low"; }
+
+function renderHome(){
+  const cleared = CHAPTERS.filter((c, i) => (S.lands[i] || {}).stars).length;
+  const finals = S.attempts.filter(a => a.kind === "final");
+  const best = finals.reduce((m, a) => Math.max(m, a.pct), 0);
+  const f = lastFinal();
+  let h = `<div class="panel hero">
+    <div><h1>Hey <span>Mohammed!</span></h1>
+      <p>Twenty new words are hiding in five lands. Explore each land, win its challenge, then face the Final Challenge. At the end you'll see exactly which lands to visit again.</p></div>
+    <div class="stats">
+      <div class="stat"><b>${cleared}/5</b><span>Lands won</span></div>
+      <div class="stat"><b>${S.xp}</b><span>XP</span></div>
+      <div class="stat"><b>${finals.length ? best + "%" : "–"}</b><span>Best score</span></div>
+    </div></div>`;
+  if (S.run){
+    const R = S.run;
+    h += `<div class="panel banner"><p><b>Your ${R.kind === "final" ? "Final Challenge" : "practice round"} is waiting.</b> You stopped at question ${Math.min(R.res.length + 1, R.qs.length)} of ${R.qs.length}.</p>
+      <div class="row"><button class="btn btn-go" data-act="resume">Continue</button><button class="btn btn-sm" data-act="discard">Start over</button></div></div>`;
+  } else if (f){
+    const weak = f.byCh.map(([u, t], i) => ({i, p:t ? u / t : 1})).filter(x => x.p < .85);
+    h += `<div class="panel banner ${weak.length ? "alert" : ""}"><p><b>Last Final Challenge: ${f.pct}%.</b> ${weak.length ? "Lands to visit again: " + weak.map(x => CHAPTERS[x.i].name).join(", ") + "." : "No weak lands. Great work!"}</p>
+      <div class="row"><button class="btn btn-sm" data-act="report" data-id="${f.id}">See my report</button>${weakWords(f).length ? `<button class="btn btn-sm btn-go" data-act="practice" data-id="${f.id}">Practice weak words</button>` : ""}</div></div>`;
+  }
+  h += `<div class="sec-title"><h2>The Quest Map</h2><p>Five lands, four words each. Every land ends with a challenge.</p></div><div class="trail">`;
+  CHAPTERS.forEach((c, i) => {
+    const Ld = S.lands[i] || {}, seen = c.words.filter(w => S.seen[w]).length, st = landStatus(i);
+    const sticker = st === "low" ? '<span class="sticker">Review me!</span>' : st === "mid" ? '<span class="sticker">Almost!</span>' : st === "good" ? '<span class="sticker ok">Mastered</span>' : "";
+    h += `<div class="land land-${c.key}">${sticker}
+      <div class="badge">${LAND_ICONS[c.icon]}</div>
+      <div><div class="land-num">Land ${i + 1} · ${c.tag}</div><h3>${c.name}</h3>
+        <div class="pills">${c.words.map(w => `<span class="pill">${w}</span>`).join("")}</div></div>
+      <div class="land-foot"><div class="stars" role="img" aria-label="${Ld.stars || 0} of 3 stars">${[1, 2, 3].map(k => STAR((Ld.stars || 0) >= k)).join("")}</div>
+        <span class="progress-note">${Ld.stars ? "Challenge won" : seen + "/4 words explored"}</span>
+        <button class="btn btn-sm ${Ld.stars ? "" : "btn-go"}" data-act="land" data-ch="${i}">${Ld.stars ? "Play again" : seen ? "Continue" : "Start"}</button></div></div>`;
+  });
+  h += `</div>
+    <div class="panel final"><div class="badge">${LAND_ICONS.castle}</div>
+      <div><div class="land-num">The boss level</div><h3>Final Challenge</h3>
+      <p>30 questions in 5 rounds, built from the book's exercises. Best after all five lands, but you can try it any time. It shows your weak spots at the end.</p></div>
+      <div class="row">${S.run && S.run.kind === "final" ? `<button class="btn btn-ink" data-act="resume">Continue the Final Challenge</button>` : `<button class="btn btn-ink" data-act="final">Start the Final Challenge</button>`}${f ? `<button class="btn btn-sm" data-act="report" data-id="${f.id}">Last report</button>` : ""}</div></div>
+    <div class="sec-title"><h2>Word Bank</h2><p>Tap any word to open its card.</p></div><div class="bank">`;
+  ALL.forEach(w => {
+    const c = CHAPTERS[CH_OF[w]], m = S.mastery[w];
+    h += `<button class="tile land-${c.key}" data-act="word" data-w="${w}"><b>${w}</b><span>${WORDS[w].pos}</span><i class="${m ? m.last : ""}" aria-hidden="true"></i></button>`;
+  });
+  h += `</div><div class="legend"><span><i style="background:var(--good)"></i>Right last time</span><span><i style="background:var(--sun)"></i>Spelling slip</span><span><i style="background:var(--bad)"></i>Needs practice</span><span><i style="background:var(--paper)"></i>Not tested yet</span></div>`;
+  $("#scr-home").innerHTML = h;
+}
+
+/* ---------- LESSONS ---------- */
+let L = {ch:0, w:-1, from:null};
+const qcState = {};
+function openLand(ch){ L = {ch, w:-1, from:null}; renderLesson(); show("lesson"); }
+function openWord(w, from){ const ch = CH_OF[w]; L = {ch, w:CHAPTERS[ch].words.indexOf(w), from:from || null}; renderLesson(); show("lesson"); }
+function qcFeedback(w, ok){ return `<div class="fb ${ok ? "ok" : "no"}"><span class="burst">${ok ? "YES!" : "NOT QUITE"}</span><div class="fb-body">${esc(WORDS[w].qc[2])}</div></div>`; }
+
+function renderLesson(){
+  const c = CHAPTERS[L.ch], sec = $("#scr-lesson");
+  sec.className = "screen land-" + c.key;
+  const steps = c.words.map((w, i) => `<button class="step ${S.seen[w] ? "done" : ""} ${L.w === i ? "now" : ""}" data-act="goword" data-i="${i}" aria-label="Word ${i + 1}: ${w}">${i + 1}</button>`).join("")
+    + `<button class="step ${(S.lands[L.ch] || {}).stars ? "done" : ""}" data-act="challenge" data-ch="${L.ch}" aria-label="Land challenge">${ICON_TROPHY}</button>`;
+  const top = `<div class="lesson-top">${L.from === "report" ? '<button class="btn btn-sm" data-act="backreport">← My report</button>' : '<button class="btn btn-sm" data-act="home">← Map</button>'}
+    <span class="chip-land">Land ${L.ch + 1}: ${c.name}</span><div class="steps">${steps}</div></div>`;
+  if (L.w < 0){
+    sec.innerHTML = top + `<div class="panel intro"><div class="land-num">Land ${L.ch + 1} of 5 · ${c.tag}</div><h2>${c.name}</h2><p>${esc(c.intro)}</p>
+      <div class="pills">${c.words.map(w => `<span class="pill">${w}</span>`).join("")}</div>
+      <p class="none">For each word: watch the picture, hear it, learn the memory trick, and answer one quick check. Then win the land challenge.</p>
+      <div class="row"><button class="btn btn-go" data-act="goword" data-i="0">Let's go →</button></div></div>`;
+    return;
+  }
+  const w = c.words[L.w], W = WORDS[w];
+  S.seen[w] = true; save();
+  const letters = w.split("").map((ch, i) => `<span class="l" style="animation-delay:${i * 45}ms">${ch}</span>`).join("");
+  const say = W.say.split("-").map(p => /[A-Z]/.test(p) ? `<em>${p}</em>` : p).join("-");
+  const sents = W.sents.map((s, i) => `<p class="sent">${s[0] ? `<span class="tag-pos">as a ${s[0]}</span>` : ""}${withBlank(s[1], `<button class="blank" data-act="fill" data-i="${i}" aria-label="Fill in the blank">tap me</button>`)}</p>`).join("");
+  const q = W.qc, st = qcState[w] || (qcState[w] = {order:shuffle([0, 1, 2]), picked:null});
+  const opts = st.order.map((oi, k) => {
+    const cls = st.picked === null ? "" : oi === 0 ? "right" : oi === st.picked ? "wrong" : "dim";
+    return `<button class="opt ${cls}" data-act="qc" data-i="${oi}" ${st.picked !== null ? "disabled" : ""}><span class="k">${"ABC"[k]}</span><span>${esc(q[1][oi])}</span></button>`;
+  }).join("");
+  const last = L.w === 3;
+  sec.innerHTML = top + `<article class="panel card">
+    <div class="word-top"><div class="scene">${SCENES[w]()}</div>
+    <div class="word-head"><div><div class="word-count">Word ${L.w + 1} of 4</div><h2 class="word-title${w.length > 11 ? " long" : ""}" aria-label="${w}">${letters}</h2></div>
+      <div class="meta"><span class="pos">${W.pos}</span><span class="say">say it: ${say}</span>${canSpeak ? `<button class="btn btn-sm" data-act="say" data-t="${w}">${ICON_SOUND} Hear it</button>` : ""}</div></div></div>
+    <div class="info">
+      <div class="box"><h4>What it means</h4><p class="kid-def">${esc(W.kid)}</p><p class="book-def"><b>Book definition:</b> ${esc(W.book)}</p></div>
+      <div class="box trick"><h4>Memory trick</h4><p>${esc(W.trick)}</p></div>
+    </div>
+    <div class="box"><div class="row" style="justify-content:space-between;margin-bottom:4px"><h4 style="margin:0">Use it in a sentence (tap the blank)</h4>${canSpeak ? `<button class="btn btn-sm" data-act="saysent">${ICON_SOUND} Read to me</button>` : ""}</div>${sents}</div>
+    <div class="two-col">
+      <div class="box"><h4>Twin words (synonyms)</h4>${W.syn.length ? `<div class="chips">${W.syn.map(s => `<span class="chip syn">${esc(s)}</span>`).join("")}</div>` : '<p class="none">The book lists no synonyms.</p>'}</div>
+      <div class="box"><h4>Opposite words (antonyms)</h4>${W.ant.length ? `<div class="chips">${W.ant.map(s => `<span class="chip ant">${esc(s)}</span>`).join("")}</div>` : '<p class="none">The book lists no antonyms.</p>'}</div>
+    </div>
+    <div class="box"><h4>Quick check</h4><p class="q-text" style="font-size:18px">${esc(q[0])}</p>
+      <div class="opts" style="margin-top:10px">${opts}</div><div class="qc-fb" style="margin-top:10px">${st.picked !== null ? qcFeedback(w, st.picked === 0) : ""}</div></div>
+    <div class="lesson-nav"><button class="btn" data-act="goword" data-i="${L.w - 1}">← ${L.w === 0 ? "Land intro" : "Previous"}</button>
+      <button class="btn btn-go" id="nextBtn" data-act="${last ? "challenge" : "goword"}" data-ch="${L.ch}" data-i="${L.w + 1}" ${st.picked === null ? "disabled" : ""}>${last ? "Land Challenge →" : "Next word →"}</button></div>
+    ${st.picked === null ? '<p class="none" id="nextHint" style="text-align:right">Answer the quick check to unlock the next step.</p>' : ""}
+  </article>`;
+}
+function answerQC(i, btn){
+  const w = CHAPTERS[L.ch].words[L.w], st = qcState[w];
+  if (!st || st.picked !== null) return;
+  st.picked = i; const ok = i === 0, box = btn.closest(".box");
+  box.querySelectorAll(".opt").forEach(b => { const oi = +b.dataset.i; b.disabled = true; b.classList.add(oi === 0 ? "right" : oi === i ? "wrong" : "dim"); });
+  box.querySelector(".qc-fb").innerHTML = qcFeedback(w, ok);
+  if (ok){ Sound.good(); FX.burstEl(btn, 26); addXP(10, btn); } else Sound.bad();
+  const nb = $("#nextBtn"); if (nb) nb.disabled = false;
+  const nh = $("#nextHint"); if (nh) nh.remove();
+  announce(ok ? "Correct!" : "Not quite. " + WORDS[w].qc[2]);
+}
+function fillBlank(i, btn){
+  const W = WORDS[CHAPTERS[L.ch].words[L.w]], s = W.sents[i];
+  const span = document.createElement("span"); span.className = "blank filled"; span.textContent = s[2];
+  btn.replaceWith(span); Sound.tap(); speak(s[1].replace("___", s[2]));
+}
+
+/* ---------- LAND CHALLENGE ---------- */
+let CHG = null;
+const HOW = {choose:"Tap the word that best completes the sentence.", syn:"Which unit word means the SAME as the bold words?", ant:"Which unit word means the OPPOSITE of the bold words?",
+  type:"Type the missing word from this unit.", whitman:"Read the poem lines, then pick the best answer.", usage:"Only one sentence uses the word the right way. Find it!"};
+function qBody(q, act){
+  let h = `<p class="q-how">${HOW[q.type]}</p>`;
+  if (q.type === "whitman") h += `<blockquote class="quote">${q.quote}<cite>Walt Whitman, Leaves of Grass</cite></blockquote>`;
+  if (q.type === "choose" || q.type === "type") h += `<p class="q-text">${withBlank(q.prompt, '<span class="blank">' + (q.type === "choose" ? "?" : "&nbsp;") + "</span>")}</p>`;
+  else if (q.type === "syn" || q.type === "ant") h += `<p class="q-text">${bold(q.prompt)}</p>`;
+  else if (q.type === "usage") h += `<p class="q-text">Which sentence uses <b>${q.word}</b> correctly?</p>`;
+  else h += `<p class="q-text">${esc(q.prompt)}</p>`;
+  if (q.type === "type"){
+    h += `<div class="type-row"><input id="typeIn" class="type-in" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="type the word" aria-label="Your answer"><button class="btn btn-go" data-act="tsubmit">Check</button></div>
+      <div class="hint"><span>Hint:</span><span class="hint-boxes" aria-hidden="true">${q.answer.split("").map((ch, i) => `<span class="hb">${i === 0 ? ch : ""}</span>`).join("")}</span><span>${q.answer.length} letters</span></div>`;
+  } else {
+    h += `<div class="opts ${q.opts.length === 2 ? "two" : ""}">${q.opts.map((o, i) => `<button class="opt" data-act="${act}" data-i="${i}"><span class="k">${"ABCD"[i]}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
+  }
+  return h + '<div class="fb-slot"></div>';
+}
+function markOptions(scope, q, picked){
+  scope.querySelectorAll(".opt").forEach((b, i) => { b.disabled = true; b.classList.add(i === q.ans ? "right" : i === picked ? "wrong" : "dim"); });
+}
+const pick = a => a[Math.floor(Math.random() * a.length)];
+function fbHTML(kind, q, extra, nextAct, nextLabel){
+  const W = WORDS[q.word];
+  const head = kind === "ok" ? pick(["YES!", "BOOM!", "NAILED IT!", "SUPER!"]) : "OOPS!";
+  const body = kind === "ok" ? `<b>${q.word}</b>: ${esc(W.short)}.` : `The answer is <b>${esc(correctText(q))}</b>. <b>${q.word}</b> means ${esc(W.short)}.`;
+  return `<div class="fb ${kind}"><span class="burst">${head}</span><div class="fb-body">${body}${extra || ""}</div><div class="row"><button class="btn btn-go" data-act="${nextAct}" id="nextQ">${nextLabel}</button></div></div>`;
+}
+
+function openChallenge(ch){
+  const c = CHAPTERS[ch], words = shuffle(c.words.slice()).slice(0, 3), types = shuffle(["syn", "ant", "usage"]);
+  const mcq = words.map((w, k) => {
+    let pool = POOL[types[k]].filter(q => q.word === w);
+    if (!pool.length) pool = POOL.syn.filter(q => q.word === w).concat(POOL.usage.filter(q => q.word === w));
+    return inst(shuffle(pool)[0]);
+  });
+  CHG = {ch, phase:"match", left:shuffle(c.words.slice()), right:shuffle(c.words.slice()), selW:null, selD:null, done:{}, miss:{}, mcq, mi:0, mres:[], locked:false};
+  renderChallenge(); show("challenge");
+}
+function renderChallenge(){
+  const c = CHAPTERS[CHG.ch], sec = $("#scr-challenge");
+  sec.className = "screen land-" + c.key;
+  const head = `<div class="lesson-top"><button class="btn btn-sm" data-act="land" data-ch="${CHG.ch}">← Words</button><span class="chip-land">Land ${CHG.ch + 1} Challenge</span></div>`;
+  if (CHG.phase === "match"){
+    sec.innerHTML = head + `<div class="panel q-card"><div class="q-kicker">Part 1 of 2 · Match-up</div><p class="q-text">Tap a word, then tap its meaning.</p>
+      <div class="match"><div class="match-col">${CHG.left.map(w => `<button class="m-item word" data-act="mw" data-w="${w}">${w}</button>`).join("")}</div>
+      <div class="match-col">${CHG.right.map(w => `<button class="m-item" data-act="md" data-w="${w}">${esc(WORDS[w].short)}</button>`).join("")}</div></div></div>`;
+  } else if (CHG.phase === "mcq"){
+    sec.innerHTML = head + `<div class="panel q-card"><div class="q-kicker">Part 2 of 2 · Question ${CHG.mi + 1} of ${CHG.mcq.length}</div>${qBody(CHG.mcq[CHG.mi], "cq")}</div>`;
+  } else {
+    const r = CHG.result, next = CHG.ch < 4;
+    const rows = c.words.map(w => {
+      const bad = !!CHG.miss[w] || CHG.mres.some(x => x.w === w && !x.ok);
+      return `<li><span><b>${w}</b> · ${esc(WORDS[w].short)}</span>${bad ? `<button class="btn btn-sm" data-act="word" data-w="${w}">Review</button>` : '<span class="status good">Got it</span>'}</li>`;
+    }).join("");
+    sec.innerHTML = head + `<div class="panel q-card" style="text-align:center">
+      <div class="q-kicker">Land ${CHG.ch + 1} complete</div>
+      <h2 style="font-size:clamp(40px,8vw,60px)">${r.stars === 3 ? "PERFECT!" : r.stars === 2 ? "GREAT JOB!" : "GOOD START!"}</h2>
+      <div class="result-stars">${[1, 2, 3].map((k, i) => `<span style="animation-delay:${i * .18}s">${STAR(r.stars >= k)}</span>`).join("")}</div>
+      <p>You scored <b>${r.total} of 7</b>: ${r.firstTry} of 4 matched on the first try, and ${r.mc} of 3 questions right.</p>
+      <ul class="check-list" style="text-align:left">${rows}</ul>
+      <div class="row" style="justify-content:center">${next ? `<button class="btn btn-go" data-act="land" data-ch="${CHG.ch + 1}">Next land: ${CHAPTERS[CHG.ch + 1].name} →</button>` : `<button class="btn btn-go" data-act="final">Final Challenge →</button>`}
+        <button class="btn" data-act="challenge" data-ch="${CHG.ch}">Try again</button><button class="btn" data-act="home">Map</button></div></div>`;
+  }
+}
+function matchPick(kind, w, btn){
+  if (!CHG || CHG.phase !== "match" || CHG.done[w]) return;
+  if (kind === "w") CHG.selW = w; else CHG.selD = w;
+  const sec = $("#scr-challenge");
+  sec.querySelectorAll(".m-item").forEach(b => b.classList.toggle("sel", (b.dataset.act === "mw" && b.dataset.w === CHG.selW) || (b.dataset.act === "md" && b.dataset.w === CHG.selD)));
+  if (!(CHG.selW && CHG.selD)){ Sound.tap(); return; }
+  const bw = sec.querySelector(`[data-act="mw"][data-w="${CHG.selW}"]`), bd = sec.querySelector(`[data-act="md"][data-w="${CHG.selD}"]`);
+  if (CHG.selW === CHG.selD){
+    CHG.done[CHG.selW] = true;
+    [bw, bd].forEach(b => { b.classList.remove("sel"); b.classList.add("done"); b.disabled = true; });
+    Sound.good(); FX.burstEl(bd, 18); if (!CHG.miss[CHG.selW]) addXP(5, bd);
+  } else {
+    CHG.miss[CHG.selW] = (CHG.miss[CHG.selW] || 0) + 1;
+    [bw, bd].forEach(b => { b.classList.remove("sel", "nope"); void b.offsetWidth; b.classList.add("nope"); });
+    Sound.bad();
+  }
+  CHG.selW = CHG.selD = null;
+  if (Object.keys(CHG.done).length === 4) setTimeout(() => { CHG.phase = "mcq"; renderChallenge(); }, 700);
+}
+function answerCQ(i, btn){
+  if (!CHG || CHG.locked) return; CHG.locked = true;
+  const q = CHG.mcq[CHG.mi], ok = i === q.ans, sec = $("#scr-challenge");
+  markOptions(sec, q, i); CHG.mres.push({w:q.word, ok});
+  if (ok){ Sound.good(); FX.burstEl(btn, 24); addXP(10, btn); } else Sound.bad();
+  sec.querySelector(".fb-slot").innerHTML = fbHTML(ok ? "ok" : "no", q, "", "cnext", CHG.mi < CHG.mcq.length - 1 ? "Next →" : "See my stars →");
+  announce(ok ? "Correct!" : "Not correct. The answer is " + correctText(q));
+}
+function nextCQ(){
+  CHG.locked = false;
+  if (CHG.mi < CHG.mcq.length - 1){ CHG.mi++; renderChallenge(); window.scrollTo(0, 0); return; }
+  const c = CHAPTERS[CHG.ch];
+  const firstTry = c.words.filter(w => !CHG.miss[w]).length, mc = CHG.mres.filter(r => r.ok).length, total = firstTry + mc;
+  const stars = total >= 7 ? 3 : total >= 5 ? 2 : 1, prev = S.lands[CHG.ch] || {};
+  S.lands[CHG.ch] = {stars:Math.max(prev.stars || 0, stars), best:Math.max(prev.best || 0, total), last:total, at:Date.now()};
+  c.words.forEach(w => {
+    const bad = !!CHG.miss[w] || CHG.mres.some(r => r.w === w && !r.ok);
+    const m = S.mastery[w] || (S.mastery[w] = {ok:0, bad:0, slip:0, last:""});
+    if (bad){ m.bad++; m.last = "bad"; } else { m.ok++; m.last = "ok"; }
+  });
+  CHG.phase = "done"; CHG.result = {stars, total, firstTry, mc};
+  addXP(stars * 10); save();
+  renderChallenge(); window.scrollTo(0, 0); Sound.win(); FX.party();
+}
+/* ---------- FINAL CHALLENGE & PRACTICE ---------- */
+function startRun(kind, qs){
+  if (!qs.length) return;
+  S.run = {kind, qs, i:0, res:[], at:Date.now(), splash:-1, locked:false};
+  save(); renderTest(); show("test");
+}
+function resumeRun(){
+  const R = S.run; if (!R) return;
+  R.locked = false; if (R.res.length > R.i) R.i = R.res.length; save();
+  if (R.i >= R.qs.length) finishRun(); else { renderTest(); show("test"); }
+}
+function renderTest(){
+  const R = S.run, sec = $("#scr-test");
+  if (!R){ renderHome(); show("home"); return; }
+  const q = R.qs[R.i], round = ROUNDS[q.round], n = R.qs.length;
+  if (R.kind === "final" && R.splash !== q.round){
+    sec.innerHTML = `<div class="panel splash"><div class="round-no">Round ${q.round + 1} of 5</div><div class="big">${round.name}</div>
+      <p>${esc(round.how)}</p><p class="none" style="color:var(--ink)">${esc(round.from)}</p><button class="btn btn-ink" data-act="go" id="goBtn">Go!</button></div>`;
+    return;
+  }
+  sec.innerHTML = `<div class="test-top"><div class="row"><span class="round-name">${R.kind === "final" ? "Round " + (q.round + 1) + ": " + round.name : "Weak Words Practice"}</span><span class="counter">Question ${R.i + 1} of ${n}</span></div>
+      <div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${R.i}"><i style="width:${pctOf(R.i, n)}%"></i></div></div>
+    <div class="panel q-card" style="margin-top:14px">${qBody(q, "opt")}</div>
+    <div class="row" style="margin-top:14px;justify-content:space-between"><button class="btn btn-sm" data-act="quit">Save &amp; exit</button><span class="none">Progress is saved on this device after every answer.</span></div>`;
+  if (q.type === "type"){
+    const inp = $("#typeIn");
+    inp.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); submitTyped(); } });
+    setTimeout(() => { try { inp.focus({preventScroll:true}); } catch (e) {} }, 60);
+  }
+}
+function record(q, ok, slip, given){
+  S.run.res.push({id:q.id, t:q.type, r:q.round, w:q.word, ok, slip, g:String(given || "").slice(0, 40), c:correctText(q), p:plainPrompt(q).slice(0, 170)});
+  save();
+}
+const nextLabel = () => S.run.i < S.run.qs.length - 1 ? "Next →" : "See my results →";
+function answerOpt(i, btn){
+  const R = S.run; if (!R || R.locked) return; R.locked = true;
+  const q = R.qs[R.i], ok = i === q.ans, sec = $("#scr-test");
+  markOptions(sec, q, i); record(q, ok, false, q.opts[i]);
+  if (ok){ Sound.good(); FX.burstEl(btn, 24); addXP(10, btn); } else Sound.bad();
+  sec.querySelector(".fb-slot").innerHTML = fbHTML(ok ? "ok" : "no", q, "", "tnext", nextLabel());
+  announce(ok ? "Correct!" : "Not correct. The answer is " + correctText(q));
+}
+function submitTyped(){
+  const R = S.run; if (!R || R.locked) return;
+  const q = R.qs[R.i], inp = $("#typeIn"), given = (inp.value || "").trim(), t = norm(given);
+  if (!t){ inp.placeholder = "type a word first"; inp.focus(); return; }
+  R.locked = true;
+  const forms = q.accept.map(norm);
+  let kind = "no";
+  if (forms.includes(t)) kind = "ok";
+  else {
+    const d = Math.min.apply(null, forms.map(f => lev(t, f)));
+    const lim = q.answer.length <= 5 ? 1 : q.answer.length <= 9 ? 2 : 3;
+    if (d <= lim && t.length >= 3 && !ALL.includes(t)) kind = "slip";
+  }
+  inp.disabled = true; inp.classList.add(kind);
+  const sb = $('#scr-test [data-act="tsubmit"]'); if (sb) sb.disabled = true;
+  record(q, kind === "ok", kind === "slip", given);
+  const slot = $("#scr-test .fb-slot");
+  if (kind === "ok"){
+    Sound.good(); FX.burstEl(inp, 24); addXP(10, inp);
+    slot.innerHTML = fbHTML("ok", q, t !== norm(q.answer) ? ` This sentence needs the form <b>${q.answer}</b>.` : "", "tnext", nextLabel());
+  } else if (kind === "slip"){
+    Sound.tap(); addXP(5, inp);
+    slot.innerHTML = `<div class="fb slip"><span class="burst">SO CLOSE!</span><div class="fb-body">Right word, but check the spelling. You wrote <s>${esc(given)}</s>. It's spelled <b class="spell">${q.answer.toUpperCase().split("").join(" ")}</b>.</div>
+      <div class="row"><button class="btn btn-go" data-act="tnext" id="nextQ">${nextLabel()}</button></div></div>`;
+  } else {
+    Sound.bad();
+    slot.innerHTML = fbHTML("no", q, ` You wrote "${esc(given)}".`, "tnext", nextLabel());
+  }
+  announce(kind === "ok" ? "Correct!" : kind === "slip" ? "Right word, spelling slip. It is spelled " + q.answer : "Not correct. The answer is " + q.answer);
+}
+function nextQ(){
+  const R = S.run; if (!R || !R.locked) return;
+  R.locked = false; R.i++; save();
+  if (R.i >= R.qs.length) finishRun(); else { renderTest(); window.scrollTo(0, 0); }
+}
+function analyze(R){
+  const res = R.res, n = res.length;
+  const pts = res.reduce((s, r) => s + (r.ok ? 1 : r.slip ? .5 : 0), 0);
+  const byCh = CHAPTERS.map(() => [0, 0]);
+  res.forEach(r => { const c = byCh[CH_OF[r.w]]; c[1]++; if (r.ok || r.slip) c[0]++; });
+  const skills = {choose:[0,0], syn:[0,0], ant:[0,0], type:[0,0], spell:[0,0], detective:[0,0]};
+  res.forEach(r => {
+    const k = (r.t === "whitman" || r.t === "usage") ? "detective" : r.t;
+    skills[k][1]++; if (r.ok || r.slip) skills[k][0]++;
+    if (r.t === "type" && (r.ok || r.slip)){ skills.spell[1]++; if (r.ok) skills.spell[0]++; }
+  });
+  const words = {};
+  res.forEach(r => { const w = words[r.w] || (words[r.w] = {t:0, ok:0, slip:0, bad:0}); w.t++; if (r.ok) w.ok++; else if (r.slip) w.slip++; else w.bad++; });
+  return {id:"a" + Date.now().toString(36), kind:R.kind, at:Date.now(), n, pts, pct:pctOf(pts, n), byCh, skills, words, res};
+}
+function finishRun(){
+  const att = analyze(S.run);
+  S.attempts.push(att); if (S.attempts.length > 40) S.attempts.splice(0, S.attempts.length - 40);
+  Object.keys(att.words).forEach(w => {
+    const x = att.words[w], m = S.mastery[w] || (S.mastery[w] = {ok:0, bad:0, slip:0, last:""});
+    m.ok += x.ok; m.bad += x.bad; m.slip += x.slip; m.last = x.bad ? "bad" : x.slip ? "slip" : "ok";
+  });
+  S.run = null; save();
+  showReport(att.id); Sound.win(); if (att.pct >= 60) FX.party();
+}
+
+/* ---------- REPORT & WEAK SPOTS ---------- */
+let lastReportId = null;
+const statusOf = (u, t) => !t ? ["na", "Not tested"] : u / t >= .85 ? ["good", "Mastered"] : u / t >= .6 ? ["mid", "Almost there"] : ["low", "Go back here"];
+const rankOf = p => p >= 90 ? "WORD MASTER" : p >= 75 ? "WORD HERO" : p >= 50 ? "WORD EXPLORER" : "WORD ROOKIE";
+const ptsTxt = a => Number.isInteger(a.pts) ? String(a.pts) : a.pts.toFixed(1);
+function showReport(id){
+  const att = S.attempts.find(a => a.id === id) || S.attempts[S.attempts.length - 1];
+  if (!att){ renderHome(); show("home"); return; }
+  lastReportId = att.id; renderReport(att); show("report"); animateReport(att);
+}
+function summaryLine(att){
+  const weak = att.byCh.map(([u, t], i) => ({i, p:t ? u / t : 1})).filter(x => x.p < .85).map(x => CHAPTERS[x.i].name);
+  if (!weak.length) return "Every land tested is at 85% or more. Brilliant, Mohammed!";
+  return `Lands to visit again: <b>${weak.join(", ")}</b>. Your study plan below shows exactly what to do next.`;
+}
+function planFor(att){
+  const steps = [], ww = weakWords(att), sw = spellSlips(att);
+  const chs = att.byCh.map(([u, t], i) => ({i, u, t, p:t ? u / t : 1})).filter(c => c.t).sort((a, b) => a.p - b.p);
+  const missedIn = i => CHAPTERS[i].words.filter(w => att.words[w] && att.words[w].bad);
+  chs.filter(c => c.p < .6).forEach(c => {
+    const m = missedIn(c.i), C = CHAPTERS[c.i];
+    steps.push({text:`Replay <b>Land ${c.i + 1}: ${C.name}</b> from the start: all 4 word cards, then the land challenge. You got ${c.u} of ${c.t} there${m.length ? "; the tricky words were <b>" + m.join(", ") + "</b>" : ""}.`,
+      btn:`<button class="btn btn-sm btn-col land-${C.key}" data-act="land" data-ch="${c.i}">Replay Land ${c.i + 1}</button>`});
+  });
+  chs.filter(c => c.p >= .6 && c.p < .85).forEach(c => {
+    const m = missedIn(c.i), C = CHAPTERS[c.i];
+    steps.push({text:`Quick review in <b>Land ${c.i + 1}: ${C.name}</b>${m.length ? ": look again at <b>" + m.join(", ") + "</b>" : ""}.`,
+      btn:m.length ? m.map(w => `<button class="btn btn-sm" data-act="word" data-w="${w}" data-from="report">Open "${w}"</button>`).join("") : `<button class="btn btn-sm" data-act="land" data-ch="${c.i}">Open Land ${c.i + 1}</button>`});
+  });
+  if (sw.length) steps.push({text:`Spelling practice: <b>${[...new Set(sw.map(s => s.w))].join(", ")}</b>. Say the word slowly, cover it, write it, then check it. Do it three times.`,
+    btn:`<button class="btn btn-sm" data-act="spellprac" data-id="${att.id}">Spelling round</button>`});
+  const sk = SK.map(([k]) => ({k, a:att.skills[k][0], t:att.skills[k][1]})).filter(x => x.t >= 2 && x.a / x.t < .7).sort((a, b) => a.a / a.t - b.a / b.t)[0];
+  if (sk) steps.push({text:`Tricky question type: <b>${SK.find(x => x[0] === sk.k)[1]}</b>. ${esc(SKILL_TIPS[sk.k])}`});
+  if (ww.length) steps.push({text:`Lock it in with <b>Weak Words Practice</b>: up to ${Math.min(16, ww.length * 2)} new questions only on the words you missed.`,
+    btn:`<button class="btn btn-sm btn-go" data-act="practice" data-id="${att.id}">Start practice</button>`});
+  if (!steps.length) steps.push({text:"No weak spots at all. Amazing! Try the Final Challenge again (it picks different questions each time) or teach three of the words to someone at home.",
+    btn:`<button class="btn btn-sm btn-go" data-act="final">Final Challenge</button>`});
+  return steps;
+}
+function reportText(att){
+  const out = ["Word Quest · Sadlier Vocabulary Unit 2 · Mohammed",
+    (att.kind === "final" ? "Final Challenge" : "Weak Words Practice") + " · " + fmtDate(att.at),
+    "Score: " + ptsTxt(att) + " / " + att.n + " (" + att.pct + "%) · " + rankOf(att.pct), "", "Lands:"];
+  CHAPTERS.forEach((c, i) => { const [u, t] = att.byCh[i]; if (t) out.push("  " + (i + 1) + ". " + c.name + ": " + u + "/" + t + " (" + pctOf(u, t) + "%) " + statusOf(u, t)[1]); });
+  out.push("", "Skills:");
+  SK.forEach(([k, label]) => { const [a, t] = att.skills[k]; if (t) out.push("  " + label + ": " + a + "/" + t + " (" + pctOf(a, t) + "%)"); });
+  const ww = weakWords(att), sw = spellSlips(att);
+  out.push("", "Words to practice: " + (ww.length ? ww.join(", ") : "none"));
+  if (sw.length) out.push("Spelling slips: " + sw.map(s => s.g + " → " + s.c).join("; "));
+  return out.join("\n");
+}
+function barRow(label, sub, a, t, extraClass, style){
+  const [cls, st] = statusOf(a, t);
+  return `<div class="bar-row ${extraClass || ""}" ${style ? `style="${style}"` : ""}><div class="bar-label">${label}<small>${sub}</small></div>
+    <div class="bar"><i data-w="${pctOf(a, t)}"></i></div><div class="bar-end"><span class="pct">${t ? pctOf(a, t) + "%" : "–"}</span><span class="status ${cls}">${st}</span></div></div>`;
+}
+function renderReport(att){
+  const sec = $("#scr-report"), isFinal = att.kind === "final", C = 2 * Math.PI * 62;
+  const ringCol = att.pct >= 85 ? "var(--good)" : att.pct >= 60 ? "var(--sun)" : "var(--bad)";
+  const ww = weakWords(att), sw = spellSlips(att), hist = S.attempts.slice(-8);
+  let h = `<div class="panel report-head">
+    <div class="ring"><svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="62" fill="none" style="stroke:var(--page);stroke-width:16"/>
+      <circle id="ringArc" cx="75" cy="75" r="62" fill="none" style="stroke:${ringCol};stroke-width:16;stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${C.toFixed(1)};transition:stroke-dashoffset 1.2s cubic-bezier(.2,.8,.2,1)"/>
+      <circle cx="75" cy="75" r="70" fill="none" style="stroke:var(--ink);stroke-width:3"/><circle cx="75" cy="75" r="54" fill="none" style="stroke:var(--ink);stroke-width:3"/></svg>
+      <div class="num"><span id="ringNum">${reduceMotion ? att.pct : 0}%</span><small>${ptsTxt(att)} / ${att.n}</small></div></div>
+    <div><div class="q-kicker">${isFinal ? "Final Challenge" : "Weak Words Practice"} · ${fmtDate(att.at)}</div><div class="rank">${rankOf(att.pct)}</div>
+      <p>${summaryLine(att)}</p>
+      <div class="row" style="margin-top:12px">${ww.length ? `<button class="btn btn-go" data-act="practice" data-id="${att.id}">Practice my weak words (${ww.length})</button>` : ""}
+        <button class="btn" data-act="final">${isFinal ? "Try the Final again" : "Final Challenge"}</button><button class="btn btn-sm" data-act="home">Map</button></div></div></div>`;
+  h += `<div class="sec-title"><h2>Your Lands</h2><p>How well you understood each land's words. A spelling slip still counts as understood here.</p></div><div class="panel bars">`;
+  CHAPTERS.forEach((c, i) => { const [u, t] = att.byCh[i]; h += barRow(`Land ${i + 1}: ${c.name}`, t ? u + " of " + t + " right" : "no questions this time", u, t, "land-" + c.key); });
+  h += `</div><div class="sec-title"><h2>Your Skills</h2><p>Which kind of question was easy, and which was tricky.</p></div><div class="panel bars">`;
+  SK.forEach(([k, label]) => { const [a, t] = att.skills[k]; h += barRow(label, t ? a + " of " + t : (k === "spell" ? "no typed answers to check" : "not in this round"), a, t, "", "--col:#4A4D78"); });
+  h += `</div><div class="sec-title"><h2>Words to Practice</h2><p>Tap a word to open its card again.</p></div><div class="panel" style="padding:16px">`;
+  h += ww.length ? `<div class="word-chips">${ww.map(w => `<button class="wchip land-${CHAPTERS[CH_OF[w]].key}" data-act="word" data-w="${w}" data-from="report"><i></i>${w}</button>`).join("")}</div>` : "<p>No weak words this time. Every word was right!</p>";
+  if (sw.length) h += `<div class="spell-list"><b>Spelling watch</b>${sw.map(s => `<div>You wrote <s>${esc(s.g)}</s> → it's <b class="spell">${esc(s.c)}</b></div>`).join("")}</div>`;
+  h += `</div><div class="sec-title"><h2>Your Study Plan</h2><p>Do these in order.</p></div><ol class="plan">${planFor(att).map(s => `<li><div>${s.text}</div>${s.btn ? `<div class="row">${s.btn}</div>` : ""}</li>`).join("")}</ol>`;
+  if (hist.length > 1) h += `<div class="sec-title"><h2>Progress</h2><p>Your last ${hist.length} rounds. Blue = Final Challenge, green = practice.</p></div>
+    <div class="panel history">${hist.map(a => `<div class="hcol"><b>${a.pct}%</b><div class="hbar ${a.kind === "final" ? "" : "p"}" style="height:${Math.max(6, a.pct)}px"></div><span>${fmtDate(a.at).split(",")[0]}</span></div>`).join("")}</div>`;
+  h += `<div class="sec-title"><h2>Every Answer</h2><p>Check what you picked and what was right.</p></div>
+    <details class="panel answers"><summary>Show all ${att.n} answers</summary>${att.res.map((r, i) => `<div class="ans"><span class="mark ${r.ok ? "ok" : r.slip ? "slip" : "no"}" aria-label="${r.ok ? "right" : r.slip ? "spelling slip" : "wrong"}">${r.ok ? "✓" : r.slip ? "~" : "✗"}</span>
+      <div><small>${i + 1}. ${esc(ROUNDS[r.r].name)} · ${esc(r.w)}</small><div>${esc(r.p)}</div><div>${r.ok ? "" : "Your answer: <b>" + esc(r.g || "—") + "</b> · "}Correct: <b>${esc(r.c)}</b></div></div></div>`).join("")}</details>`;
+  h += `<div class="sec-title"><h2>For a Parent</h2><p>Copy this summary to send or keep.</p></div>
+    <div class="panel" style="padding:16px;display:grid;gap:10px"><textarea class="copy-area" id="copyText" readonly aria-label="Report summary">${esc(reportText(att))}</textarea>
+    <div class="row"><button class="btn btn-sm btn-go" data-act="copy">Copy summary</button><span class="copy-note" id="copyNote"></span></div></div>`;
+  sec.innerHTML = h;
+}
+function animateReport(att){
+  const sec = $("#scr-report"), C = 2 * Math.PI * 62;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    sec.querySelectorAll(".bar i").forEach(i => { const w = +i.dataset.w; i.style.width = w + "%"; if (!w) i.classList.add("zero"); });
+    const arc = $("#ringArc"); if (arc) arc.style.strokeDashoffset = (C * (1 - att.pct / 100)).toFixed(1);
+    const num = $("#ringNum"); if (!num || reduceMotion) return;
+    const t0 = performance.now();
+    const step = t => { const k = Math.min(1, (t - t0) / 1100); num.textContent = Math.round(att.pct * (1 - Math.pow(1 - k, 3))) + "%"; if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }));
+}
+function copyReport(){
+  const ta = $("#copyText"), note = $("#copyNote"); if (!ta) return;
+  const fallback = () => { ta.focus(); ta.select(); note.textContent = "Selected. Press copy on your keyboard or menu."; };
+  try { navigator.clipboard.writeText(ta.value).then(() => { note.textContent = "Copied!"; }, fallback); } catch (e) { fallback(); }
+}
+
+/* ---------- EVENTS ---------- */
+let discardArm = false;
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b || b.disabled) return;
+  const d = b.dataset;
+  switch (d.act){
+    case "home": renderHome(); show("home"); break;
+    case "sound": S.sound = !S.sound; save(); renderSoundBtn(); Sound.tap(); break;
+    case "land": openLand(+d.ch); break;
+    case "word": openWord(d.w, d.from || null); break;
+    case "goword": L.w = Math.max(-1, Math.min(3, +d.i)); renderLesson(); window.scrollTo(0, 0); break;
+    case "say": speak(d.t); break;
+    case "saysent": { const W = WORDS[CHAPTERS[L.ch].words[L.w]]; speak(W.sents.map(s => s[1].replace("___", s[2])).join(" ")); break; }
+    case "fill": fillBlank(+d.i, b); break;
+    case "qc": answerQC(+d.i, b); break;
+    case "challenge": openChallenge(+d.ch); break;
+    case "mw": matchPick("w", d.w, b); break;
+    case "md": matchPick("d", d.w, b); break;
+    case "cq": answerCQ(+d.i, b); break;
+    case "cnext": nextCQ(); break;
+    case "final": startRun("final", buildFinal()); break;
+    case "resume": resumeRun(); break;
+    case "discard":
+      if (!discardArm){ discardArm = true; b.textContent = "Tap again to start over"; setTimeout(() => { discardArm = false; }, 4000); }
+      else { discardArm = false; S.run = null; save(); renderHome(); }
+      break;
+    case "go": if (S.run){ S.run.splash = S.run.qs[S.run.i].round; save(); renderTest(); } break;
+    case "opt": answerOpt(+d.i, b); break;
+    case "tsubmit": submitTyped(); break;
+    case "tnext": nextQ(); break;
+    case "quit": renderHome(); show("home"); break;
+    case "report": showReport(d.id); break;
+    case "backreport": showReport(lastReportId); break;
+    case "practice": {
+      const att = S.attempts.find(x => x.id === d.id) || lastFinal(), ww = weakWords(att);
+      if (ww.length) startRun("practice", buildPractice(ww, spellSlips(att).filter(s => !att.words[s.w].bad).map(s => s.w)));
+      break;
+    }
+    case "spellprac": {
+      const att = S.attempts.find(x => x.id === d.id), ws = [...new Set(spellSlips(att).map(s => s.w))];
+      if (ws.length) startRun("practice", shuffle(ws.map(w => inst(POOL.type.find(q => q.word === w)))));
+      break;
+    }
+    case "copy": copyReport(); break;
+  }
+});
+document.addEventListener("keydown", e => {
+  if (current !== "test" || !S.run || e.altKey || e.ctrlKey || e.metaKey) return;
+  const tag = (document.activeElement || {}).tagName;
+  if (e.target && e.target.tagName === "INPUT") return;
+  if (e.key === "Enter"){
+    if (tag === "BUTTON") return;
+    const go = $("#goBtn") || (S.run.locked ? $("#nextQ") : null);
+    if (go){ e.preventDefault(); go.click(); }
+    return;
+  }
+  if (S.run.locked) return;
+  const k = e.key.toLowerCase(), idx = "1234".indexOf(k) >= 0 ? "1234".indexOf(k) : "abcd".indexOf(k);
+  if (k.length === 1 && idx >= 0){ const opt = document.querySelectorAll("#scr-test .opt")[idx]; if (opt) opt.click(); }
+});
+
+/* ---------- START ---------- */
+if (canSpeak) try { speechSynthesis.getVoices(); } catch (e) {}
+$("#xpVal").textContent = S.xp;
+renderSoundBtn();
+renderHome();
+</script>
+</body></html>
