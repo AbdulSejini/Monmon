@@ -50,4 +50,5 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 | Science | 3 pages: key ideas and word bank, then a label-the-cell sheet with an answer key |
 | Vocabulary Unit 2 | 2 pages: word list, then "Test yourself" with an answer key |
 | Vocabulary Review Units 1–3 | 3 pages: one per unit, with a word table and a short test |
+
 Progress is saved in the browser of the device being used (`localStorage`). Homework ticks are shared between the dashboard and the weekly plans, keyed by EduPage item id.
