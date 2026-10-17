@@ -2,6 +2,12 @@
 
 Learning materials for Mohammed.
 
+## Weekly plans
+
+| Week | Page | What's inside |
+| --- | --- | --- |
+| Week 8 (18–22 Oct 2026), Class 6.3 | [`weekly/week-08/index.html`](weekly/week-08/index.html) | The school's Weekly Study Plan as one page: tests (Qur'an periodic test, Arabic dictation), a homework checklist grouped by due date, the day-by-day timetable, a suggested evening plan with "tonight's jobs" picked from today's date (Jeddah time), a friendly-letter planner, and links to this week's practice pages. Prints as a one-week sheet. |
+
 ## Vocabulary
 
 | Unit | Page | What's inside |
