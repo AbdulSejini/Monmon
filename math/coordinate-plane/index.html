@@ -318,6 +318,54 @@ a{color:var(--c1);font-weight:700;overflow-wrap:anywhere}
   .screen,.splash .big,.result-stars span,.fb,.opt,.hint-box,.plane .walk,.plane .mk circle.ring,.type-in{animation:none!important}
   .btn,.opt,.land,.bar i,.progress i{transition:none!important}
 }
+/* ---------- PRINT: an A4 study sheet replaces the interactive page ---------- */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important;background-image:none!important}
+  body > :not(.print-sheet){display:none!important}
+  .print-sheet{display:block;color:#111;font-family:var(--body);font-size:10pt;line-height:1.38}
+  .print-sheet *{animation:none!important;transition:none!important;box-shadow:none!important}
+  .print-sheet h1,.print-sheet h2,.print-sheet h3{font-family:var(--body);font-weight:800;letter-spacing:0;line-height:1.2;color:#111}
+  .print-sheet h1{font-size:16pt}
+  .print-sheet h2{font-size:14pt;margin:8pt 0 3pt;break-after:avoid}
+  .print-sheet h3{font-size:10.5pt;margin:0 0 2pt;break-after:avoid}
+  .print-sheet p{margin:0 0 3pt}
+  .print-sheet ul,.print-sheet ol{margin:0;padding-left:13pt}
+  .print-sheet li{margin:0 0 2pt}
+  .print-sheet b{font-weight:800}
+  .ps-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10pt;border-bottom:0.75pt solid #999;padding-bottom:4pt;margin-bottom:5pt}
+  .ps-sub{font-size:9.5pt;color:#333;margin:1pt 0 0}
+  .ps-meta{font-size:9.5pt;font-weight:700;white-space:nowrap;text-align:right;margin:0}
+  .ps-page2{break-before:page}
+  .ps-row{display:grid;grid-template-columns:62mm 1fr;gap:6mm;align-items:start}
+  .ps-fig{margin:0}
+  .ps-fig figcaption{font-size:8.5pt;color:#333;margin-top:2pt}
+  .ps-box{border:0.75pt solid #999;border-radius:3pt;padding:4pt 7pt;break-inside:avoid}
+  .ps-table{width:100%;border-collapse:collapse;font-size:9.5pt;break-inside:avoid}
+  .ps-table th,.ps-table td{border:0.75pt solid #999;padding:2.5pt 5pt;text-align:left;vertical-align:top}
+  .ps-two{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin:3pt 0}
+  .ps-check{display:grid;grid-template-columns:auto 1fr;gap:6pt;align-items:start;margin:0 0 4pt;break-inside:avoid}
+  .ps-check .box{width:10pt;height:10pt;border:1pt solid #333;margin-top:2pt}
+  .ps-url{font-size:9pt;overflow-wrap:anywhere}
+  .print-sheet .plane{max-width:none;border:0.75pt solid #999;border-radius:3pt}
+  .print-sheet .plane .gl{stroke:#c3c7d3}
+  .print-sheet .plane .gh{stroke:#dfe2ea}
+  .print-sheet .plane .tl{font-size:15px;fill:#333}
+  .print-sheet .plane .pl{font-size:20px}
+  .print-sheet .psq{font-family:var(--body);font-size:20px;font-weight:800;fill:#444}
+  .ps-grids{display:grid;grid-template-columns:1fr 1fr;gap:10mm;margin:2pt 0 5pt;padding:0 6mm}
+  .ps-grids figure{margin:0;break-inside:avoid}
+  .ps-grids figcaption{font-weight:800;font-size:10pt;margin-bottom:2pt}
+  .ps-qs{columns:2;column-gap:8mm;padding-left:15pt}
+  .ps-qs li{break-inside:avoid;margin-bottom:5pt}
+  .ps-line{display:block;height:7mm;border-bottom:0.75pt solid #999}
+  .ps-fills{display:block;margin-top:3pt;line-height:2.1}
+  .ps-blank{display:inline-block;width:21mm;border-bottom:0.75pt solid #999;margin:0 3mm 0 1mm;vertical-align:baseline}
+  .ps-key{margin-top:5pt;border-top:0.75pt dashed #999;padding-top:3pt;font-size:8pt;line-height:1.35;color:#333;break-inside:avoid}
+  .ps-key h3{font-size:9pt}
+  .ps-key ol{columns:2;column-gap:8mm}
+}
 </style>
 </head><body>
 
@@ -342,6 +390,7 @@ a{color:var(--c1);font-weight:700;overflow-wrap:anywhere}
 </main>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div id="live" class="sr-only" aria-live="polite"></div>
+<div class="print-sheet" id="printSheet" aria-hidden="true"></div>
 <script>
 "use strict";
 
@@ -1403,9 +1452,73 @@ document.addEventListener("change", e => {
   if (c.checked){ Sound.win(); FX.burstEl(c, 30); }
 });
 
+/* ---------- PRINT SHEET (A4; only visible when printing) ---------- */
+/* fixed questions, so the printed answer key always matches */
+const PS_QS = [
+  {q:"Plot and label these points on Grid A: A(3, −2), B(−4, 1½), C(0, −3), D(−2.5, −3.5).",
+   key:"A is in Quadrant IV, B is in Quadrant II, C is on the y-axis, D is in Quadrant III."},
+  {q:"Write the coordinates of points E, F and G on Grid B.", blanks:["E", "F", "G"],
+   key:"E(−4, 3), F(2.5, −2), G(0, −4)"},
+  {q:"Which quadrant is each point in? If it is on an axis, name the axis. a) (−7, 2) b) (4.5, −1) c) (−3, −8¼) d) (0, 6)", blanks:["a)", "b)", "c)", "d)"],
+   key:"a) II, b) IV, c) III, d) on the y-axis (no quadrant)"},
+  {q:"Reflect P(−3, 4): a) across the x-axis, b) across the y-axis, c) across both axes.", blanks:["a)", "b)", "c)"],
+   key:"a) (−3, −4), b) (3, 4), c) (3, −4)"},
+  {q:"How far apart are (−4, 2) and (5, 2)?", line:true, key:"Same y. Opposite signs, so add: 4 + 5 = 9 units"},
+  {q:"How far apart are (1, −6) and (1, −2.5)?", line:true, key:"Same x. Same sign, so subtract: 6 − 2.5 = 3.5 units"},
+  {q:"How far apart are (−1¾, 3) and (2½, 3)?", line:true, key:"Same y. Opposite signs, so add: 1¾ + 2½ = 4¼ units"},
+  {q:"On a map, the library is at (−3, 4) and the park is at (5, 4). Each unit is 2 blocks. How many blocks apart are they?", line:true,
+   key:"3 + 5 = 8 units, and 8 × 2 = 16 blocks"},
+  {q:"A rectangle has corners (−2, 3), (4, 3), (4, −1) and (−2, −1). What is its perimeter?", line:true,
+   key:"Length 2 + 4 = 6, width 1 + 3 = 4, perimeter 6 + 4 + 6 + 4 = 20 units"},
+  {q:"Three corners of a rectangle are (−5, 2), (1, 2) and (1, −3). Where is the fourth corner?", line:true, key:"(−5, −3)"}
+];
+function psPlane(o, extra){ return '<div class="plane">' + planeSVG(o, planeDesc(o)).replace('<g class="mk"></g>', extra || "") + '</div>'; }
+function renderPrintSheet(){
+  const el = $("#printSheet"); if (!el) return;
+  const g = geom({min:-5, max:5});
+  const quads = [["I", "(+, +)", 3.1, 4.2], ["II", "(−, +)", -3.1, 4.2], ["III", "(−, −)", -3.1, -4.4], ["IV", "(+, −)", 3.1, -4.4]]
+    .map(([q, sg, x, y]) => '<text class="psq" x="' + f2(g.X(x)) + '" y="' + f2(g.Y(y)) + '" text-anchor="middle">' + q + ' ' + sg + '</text>').join("");
+  const head = (title, sub) => '<header class="ps-head"><div><h1>' + title + '</h1><p class="ps-sub">' + sub + '</p></div><p class="ps-meta">Class 6.3 · Week 8 (18–22 Oct 2026)</p></header>';
+  const check = body => '<div class="ps-check"><span class="box"></span><div>' + body + '</div></div>';
+  el.innerHTML = head("Coordinate Plane: Study Sheet", "enVision Mathematics, Volume 1 · Lesson 2-4 (pp. 89–94) and Lesson 2-5 (pp. 99–104)")
+    + '<div class="ps-row"><figure class="ps-fig">' + psPlane({min:-5, max:5, pts:[{x:3, y:2, label:"A", c:"c1"}, {x:-2.5, y:-1.5, label:"B", c:"c2"}]}, quads)
+    + '<figcaption>A(3, 2) is in Quadrant I. B(−2.5, −1.5) is in Quadrant III.</figcaption></figure>'
+    + '<div class="ps-box"><h3>Reading a point (x, y)</h3><ul>'
+    + '<li>Start at the <b>origin</b> (0, 0). Move across by <b>x</b> first, then up or down by <b>y</b>.</li>'
+    + '<li>Positive x goes right, negative x goes left. Positive y goes up, negative y goes down.</li>'
+    + '<li>The signs tell you the quadrant: I (+, +), II (−, +), III (−, −), IV (+, −).</li>'
+    + '<li>Fractions and decimals sit between the grid lines: 2½ (2.5) is halfway between 2 and 3.</li>'
+    + '<li>A point on an axis, like (0, 4) or (−3, 0), is in <b>no quadrant</b>.</li></ul></div></div>'
+    + '<h2>Reflections</h2><table class="ps-table"><tr><th>Reflect across…</th><th>What happens</th><th>Rule</th><th>(3, 2) becomes</th></tr>'
+    + '<tr><td>the x-axis</td><td>x stays the same, y changes sign</td><td>(x, y) → (x, −y)</td><td>(3, −2)</td></tr>'
+    + '<tr><td>the y-axis</td><td>y stays the same, x changes sign</td><td>(x, y) → (−x, y)</td><td>(−3, 2)</td></tr>'
+    + '<tr><td>both axes</td><td>both coordinates change sign</td><td>(x, y) → (−x, −y)</td><td>(−3, −2)</td></tr></table>'
+    + '<h2>Distance between two points</h2><p>If the points have the <b>same x</b>, they are on a vertical line: use the y-values. If they have the <b>same y</b>, they are on a horizontal line: use the x-values.</p>'
+    + '<div class="ps-two"><div class="ps-box"><h3>Same sign → subtract</h3><p>Both on the same side of the axis. Subtract the absolute values: bigger minus smaller.</p><p>(−7, 4) and (−2, 4): 7 − 2 = <b>5 units</b></p></div>'
+    + '<div class="ps-box"><h3>Opposite signs → add</h3><p>On different sides of the axis. Add the absolute values.</p><p>(2, −3) and (2, 5): 3 + 5 = <b>8 units</b></p></div></div>'
+    + '<div class="ps-box"><h3>Worked example with fractions</h3><p>How far apart are (−4½, 1) and (−1¼, 1)? Same y, so use the x-values. −4½ and −1¼ have the same sign, so subtract: |−4½| − |−1¼| = 4½ − 1¼ = <b>3¼ units</b>.</p>'
+    + '<h3>Worked example with decimals</h3><p>How far apart are (−2.5, 3) and (−2.5, −1.5)? Same x, so use the y-values. 3 and −1.5 have opposite signs, so add: 3 + 1.5 = <b>4.5 units</b>.</p></div>'
+    + '<h2>Map problems</h2><ul>'
+    + '<li><b>Scale:</b> find the distance in units, then multiply by the scale. If 1 unit = 2 blocks, then 8 units = 16 blocks.</li>'
+    + '<li><b>A walk with a turn:</b> find the length of each straight leg, then add the legs.</li>'
+    + '<li><b>Perimeter of a rectangle:</b> find the length and the width from the corners, then add all four sides.</li>'
+    + '<li><b>Missing corner:</b> corners on the same vertical side share x; corners on the same horizontal side share y.</li></ul>'
+    + '<h2>Homework · due Saturday 24/10/2026</h2>'
+    + check('<b>H.W. 8.1 · IXL "Objects on a coordinate plane"</b>: score 70% or more.<br><span class="ps-url">https://www.ixl.com/math/grade-6/objects-on-a-coordinate-plane</span>')
+    + check('<b>H.W. 8.2 · enVision Mathematics, Volume 1</b>: page 102, questions 7, 8, 9 and page 103, questions 12, 15, 17, 18.')
+    + '<section class="ps-page2">' + head("Coordinate Plane: Practice", "Show your work. The answer key is at the bottom: cover it while you practice.")
+    + '<div class="ps-grids"><figure><figcaption>Grid A · question 1</figcaption>' + psPlane({min:-6, max:6, half:true}) + '</figure>'
+    + '<figure><figcaption>Grid B · question 2</figcaption>' + psPlane({min:-6, max:6, pts:[{x:-4, y:3, label:"E", c:"c1"}, {x:2.5, y:-2, label:"F", c:"c1"}, {x:0, y:-4, label:"G", c:"c1"}]}) + '</figure></div>'
+    + '<ol class="ps-qs">' + PS_QS.map(q => '<li>' + q.q
+      + (q.blanks ? '<span class="ps-fills">' + q.blanks.map(b => b + '<span class="ps-blank"></span>').join("") + '</span>' : "")
+      + (q.line ? '<span class="ps-line"></span>' : "") + '</li>').join("") + '</ol>'
+    + '<div class="ps-key"><h3>Answer key</h3><ol>' + PS_QS.map(q => '<li>' + q.key + '</li>').join("") + '</ol></div></section>';
+}
+
 /* ---------- START ---------- */
 $("#xpVal").textContent = S.xp;
 renderSoundBtn();
 renderHome();
+renderPrintSheet();
 </script>
 </body></html>
