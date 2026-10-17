@@ -132,7 +132,7 @@ p{margin:0}
 .xcard.final .badge{background:var(--ink)}
 .bank{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 @media (max-width:760px){.bank{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:420px){.bank{grid-template-columns:1fr}}
+@media (max-width:340px){.bank{grid-template-columns:1fr}}
 .vw{border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:3px 3px 0 var(--col)}
 .vw summary{list-style:none;cursor:pointer;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:700;overflow-wrap:anywhere}
 .vw summary::-webkit-details-marker{display:none}
@@ -154,10 +154,11 @@ p{margin:0}
 .intro .bigq{font-size:clamp(19px,2.6vw,23px);font-weight:700;max-width:46ch}
 .intro .from{font-size:14px;color:var(--ink-2)}
 .scene-box{margin:16px 0 0;padding:12px;display:grid;gap:10px;position:relative}
-.scene{position:relative;background:var(--tint);border:3px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;width:100%;max-width:100%}
+.scene{position:relative;background:var(--tint);border:3px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;width:100%;max-width:680px;margin-inline:auto}
 .scene svg{width:100%;height:100%;display:block}
 .scene-box figcaption{font-size:15px;color:var(--ink-2)}
-.motion-btn{position:absolute;top:20px;right:20px;z-index:2;display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:4px 10px;font-size:13px;font-weight:800;border:2px solid var(--ink);border-radius:999px;background:var(--paper);box-shadow:2px 2px 0 var(--ink)}
+.scene-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.motion-btn{margin-left:auto;display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:4px 10px;font-size:13px;font-weight:800;border:2px solid var(--ink);border-radius:999px;background:var(--paper);box-shadow:2px 2px 0 var(--ink)}
 .motion-btn svg{width:14px;height:14px}
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;font-weight:600;color:var(--ink-2)}
 .legend span{display:inline-flex;align-items:center;gap:6px}
@@ -329,6 +330,8 @@ button.pin:hover:not([disabled]){background:#fff}
 .plan{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:p}
 .plan li{counter-increment:p;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow-sm)}
 .plan li::before{content:counter(p);grid-row:span 2;width:40px;height:40px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:24px}
+.plan li > *{grid-column:2;min-width:0}
+.plan li span{display:block}
 .plan .row{margin-top:4px}
 .history{padding:16px;display:flex;align-items:flex-end;gap:10px;min-height:170px;overflow-x:auto}
 .hcol{flex:0 0 52px;display:grid;justify-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--ink-2)}
@@ -353,8 +356,9 @@ button.pin:hover:not([disabled]){background:#fff}
 .scene *,.mini *{transform-box:fill-box;transform-origin:center}
 .o{stroke:var(--ink);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
 .o2{stroke:var(--ink);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
-.t{font-family:var(--display);fill:var(--ink);letter-spacing:.04em}
-.lb{font-family:var(--body);font-weight:700;fill:var(--ink)}
+.scene svg,.mini svg,.figure svg,.vessels svg,.jar svg{fill:var(--ink)}
+.t{font-family:var(--display);letter-spacing:.04em}
+.lb{font-family:var(--body);font-weight:700}
 .a-bob{animation:bob 2.4s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-6px)}}
 .a-sway{animation:sway 3s ease-in-out infinite;transform-origin:50% 100%}
@@ -748,7 +752,7 @@ ${alveoli(58, 112)}${alveoli(74, 128)}${alveoli(55, 144)}${alveoli(142, 112)}${a
 <text x="100" y="179" text-anchor="middle" class="lb" font-size="8.5">diaphragm</text>
 <text x="112" y="14" class="lb" font-size="9">trachea</text>
 <text x="118" y="80" class="lb" font-size="9">bronchi</text>
-<text x="174" y="150" class="lb" font-size="9">alveoli</text>
+<text x="176" y="168" class="lb" font-size="9">alveoli</text>
 <path id="o1" d="M100 -4 L100 76 L78 94 L58 113" fill="none"/>
 <path id="o2" d="M100 -4 L100 76 L122 94 L126 129" fill="none"/>
 <path id="o3" d="M100 -4 L100 76 L78 94 L55 145" fill="none"/>
@@ -763,7 +767,6 @@ ${alveoli(58, 112)}${alveoli(74, 128)}${alveoli(55, 144)}${alveoli(142, 112)}${a
   <path d="M206 138 C 232 132, 262 124, 282 104 C 296 90, 304 70, 318 56" stroke="#14163A" stroke-width="18" fill="none" stroke-linecap="round"/>
   <path id="cap" d="M206 138 C 232 132, 262 124, 282 104 C 296 90, 304 70, 318 56" stroke="url(#capg)" stroke-width="13" fill="none" stroke-linecap="round"/>
   <text x="250" y="76" text-anchor="middle" class="lb" font-size="10">alveolus</text>
-  <text x="284" y="142" text-anchor="middle" class="lb" font-size="10">capillary</text>
   <text x="226" y="104" text-anchor="middle" class="lb" font-size="9" fill="#C21F2C">O₂</text>
   <text x="280" y="84" text-anchor="middle" class="lb" font-size="9" fill="#4A4D78">CO₂</text>
   <path id="dO1" d="M240 92 L246 124" fill="none"/>
@@ -772,6 +775,7 @@ ${alveoli(58, 112)}${alveoli(74, 128)}${alveoli(55, 144)}${alveoli(142, 112)}${a
   <path id="dC1" d="M253 127 L251 100" fill="none"/>
   <path id="dC2" d="M287 98 L268 88" fill="none"/>
 </g>
+<text x="318" y="38" text-anchor="end" class="lb" font-size="10">capillary</text><line x1="306" y1="42" x2="303" y2="60" stroke="#14163A" stroke-width="1.2"/>
 <text x="262" y="170" text-anchor="middle" class="t" font-size="13">ZOOM: ONE ALVEOLUS</text>
 </svg>`};
   },
@@ -788,31 +792,31 @@ ${alveoli(58, 112)}${alveoli(74, 128)}${alveoli(55, 144)}${alveoli(142, 112)}${a
   <linearGradient id="gb" gradientUnits="userSpaceOnUse" x1="164" y1="0" x2="40" y2="0"><stop offset="0" stop-color="#F08A96"/><stop offset="1" stop-color="#7FA9F0"/></linearGradient>
 </defs>
 <rect width="320" height="200" fill="#FFE6EC"/>
-<g class="pul"><rect x="120" y="6" width="180" height="44" rx="10" fill="#fff" class="o"/><text x="292" y="44" text-anchor="end" class="t" font-size="13">LUNGS</text></g>
+<g class="pul"><rect x="120" y="6" width="180" height="44" rx="10" fill="#fff" class="o"/><text x="218" y="46" text-anchor="middle" class="t" font-size="13">LUNGS</text></g>
 <g class="sys"><rect x="20" y="150" width="180" height="44" rx="10" fill="#fff" class="o"/><text x="28" y="190" class="t" font-size="13">BODY CELLS</text></g>
 <rect x="98" y="72" width="124" height="72" rx="20" fill="#FF9FB2" opacity=".35"/>
 ${vessel("h1", "M40 168 L40 92 L112 92", "#7FA9F0", "sys")}
-${vessel("h3", "M127 124 L156 124 L156 24", "#7FA9F0", "pul")}
+${vessel("h3", "M127 132 L156 132 L156 24", "#7FA9F0", "pul")}
 ${vessel("h4", "M156 24 C 170 14, 180 34, 194 24 S 220 14, 232 24 S 258 34, 280 24", "url(#gl)", "pul")}
 ${vessel("h5", "M280 24 L280 92 L208 92", "#F08A96", "pul")}
-${vessel("h7", "M193 124 L164 124 L164 168", "#F08A96", "sys")}
+${vessel("h7", "M193 132 L164 132 L164 168", "#F08A96", "sys")}
 ${vessel("h8", "M164 168 C 150 158, 140 178, 126 168 S 100 158, 86 168 S 60 178, 40 168", "url(#gb)", "sys")}
 <rect x="104" y="78" width="46" height="28" rx="8" fill="#CFE3FF" class="o2"/>
 <rect x="104" y="108" width="46" height="30" rx="8" fill="#B7D3FF" class="o2"/>
 <rect x="170" y="78" width="46" height="28" rx="8" fill="#FFD0D6" class="o2"/>
 <rect x="170" y="108" width="46" height="30" rx="8" fill="#FFB8C2" class="o2"/>
-<path id="h2" d="M112 92 L127 92 L127 124" fill="none" stroke="#7FA9F0" stroke-width="3" stroke-dasharray="3 3"/>
-<path id="h6" d="M208 92 L193 92 L193 124" fill="none" stroke="#F08A96" stroke-width="3" stroke-dasharray="3 3"/>
+<path id="h2" d="M112 92 L127 92 L127 132" fill="none" stroke="#7FA9F0" stroke-width="3" stroke-dasharray="3 3"/>
+<path id="h6" d="M208 92 L193 92 L193 132" fill="none" stroke="#F08A96" stroke-width="3" stroke-dasharray="3 3"/>
 <text x="141" y="97" text-anchor="middle" class="t" font-size="12">RA</text>
-<text x="141" y="128" text-anchor="middle" class="t" font-size="12">RV</text>
+<text x="141" y="124" text-anchor="middle" class="t" font-size="12">RV</text>
 <text x="181" y="97" text-anchor="middle" class="t" font-size="12">LA</text>
-<text x="181" y="128" text-anchor="middle" class="t" font-size="12">LV</text>
-<text x="122" y="68" text-anchor="middle" class="lb" font-size="8.5">RIGHT SIDE</text>
-<text x="198" y="68" text-anchor="middle" class="lb" font-size="8.5">LEFT SIDE</text>
-<text x="170" y="147" class="lb" font-size="8.5">aorta</text>
-<g class="pul"><text x="64" y="63" text-anchor="middle" class="lb" font-size="8.5">pulmonary artery</text><line x1="103" y1="60" x2="149" y2="60" stroke="#14163A" stroke-width="1.2"/></g>
-<g class="pul"><text x="304" y="140" text-anchor="end" class="lb" font-size="8.5">pulmonary vein</text><line x1="283" y1="131" x2="281" y2="100" stroke="#14163A" stroke-width="1.2"/></g>
-<g class="sys"><text transform="translate(31 128) rotate(-90)" text-anchor="middle" class="lb" font-size="8.5">vena cava</text></g>
+<text x="181" y="124" text-anchor="middle" class="t" font-size="12">LV</text>
+<text x="120" y="69" text-anchor="middle" class="lb" font-size="9.5">RIGHT SIDE</text>
+<text x="198" y="69" text-anchor="middle" class="lb" font-size="9.5">LEFT SIDE</text>
+<text x="170" y="147.5" class="lb" font-size="9.5">aorta</text>
+<g class="pul"><text x="56" y="58" text-anchor="middle" class="lb" font-size="9.5">pulmonary artery</text><line x1="108" y1="55" x2="150" y2="55" stroke="#14163A" stroke-width="1.2"/></g>
+<g class="pul"><text x="306" y="141" text-anchor="end" class="lb" font-size="9.5">pulmonary vein</text><line x1="283" y1="131" x2="281" y2="100" stroke="#14163A" stroke-width="1.2"/></g>
+<g class="sys"><text transform="translate(31 121) rotate(-90)" text-anchor="middle" class="lb" font-size="9.5">vena cava</text></g>
 </svg>`};
   },
   oc(){
@@ -870,7 +874,7 @@ ${vessel("h8", "M164 168 C 150 158, 140 178, 126 168 S 100 158, 86 168 S 60 178,
 <g class="a-bob"><circle cx="248" cy="44" r="20" fill="#E23D45" class="o2"/><circle cx="248" cy="44" r="9" fill="#B4122B" opacity=".55"/></g>
 <text x="248" y="80" text-anchor="middle" class="lb" font-size="9.5">red blood cell</text>
 <g class="a-bob d2"><path d="M224 100 C 224 90, 236 92, 246 96 C 256 92, 268 90, 268 100 C 268 110, 256 108, 246 104 C 236 108, 224 110, 224 100 Z" fill="#E23D45" class="o2"/></g>
-<text x="246" y="124" text-anchor="middle" class="lb" font-size="8.5">(side view: dented disc)</text>
+<text x="246" y="122" text-anchor="middle" class="lb" font-size="9">side view</text>
 <g class="a-bob d1"><circle cx="292" cy="146" r="16" fill="#EEE8FF" class="o2"/><path d="M283 146 C 283 138, 291 138, 292 144 C 293 138, 302 139, 300 147 C 303 152, 296 155, 292 151 C 288 156, 281 153, 283 146 Z" fill="#7E5BD8" class="o2"/></g>
 <text x="318" y="174" text-anchor="end" class="lb" font-size="9">white blood cell</text>
 <g class="a-bob d3"><path d="M214 142 l6 -3 l5 3 l-1 6 l-7 1 z" fill="#F2C14E" class="o2"/><path d="M230 152 l5 -2 l4 4 l-4 4 l-5 -2 z" fill="#F2C14E" class="o2"/><path d="M216 160 l4 -3 l5 2 l-2 5 l-5 0 z" fill="#F2C14E" class="o2"/></g>
@@ -882,8 +886,8 @@ ${vessel("h8", "M164 168 C 150 158, 140 178, 126 168 S 100 158, 86 168 S 60 178,
 /* ---------- MINI ANIMAL SCENES (Part 6) ---------- */
 const ANIMALS = [
   {key:"fish", name:"Fish", tool:"gills", flows:[{segs:[["fw1", "#2F7DE1"]], n:3, dur:3.4, r:2.6}, {segs:[["fw2", "#2F7DE1"]], n:3, dur:3.8, r:2.6}],
-   text:"Water enters the mouth and flows over the <b>gills</b> — feathery filaments packed with capillaries. Oxygen dissolved in the water diffuses into the blood; carbon dioxide diffuses out. Then the water leaves through the gill slits.",
-   svg:`<svg id="mini-fish" viewBox="0 0 160 90" role="img" aria-label="A fish with water flowing in through its mouth, over its red gills, and out of its gill slit.">
+   text:"Water enters the mouth and flows over the <b>gills</b> — feathery filaments packed with capillaries. Oxygen dissolved in the water diffuses into the blood; carbon dioxide diffuses out. Then the water leaves through the gill openings.",
+   svg:`<svg id="mini-fish" viewBox="0 0 160 90" role="img" aria-label="A fish with water flowing in through its mouth, over its red gills, and out through its gill opening.">
 <rect width="160" height="90" fill="#D9F3F8"/>
 <path d="M120 45 L148 24 L143 45 L148 66 Z" fill="#7FD1E0" class="o2"/>
 <path d="M26 45 C 48 16, 104 16, 122 45 C 104 74, 48 74, 26 45 Z" fill="#7FD1E0" class="o2"/>
@@ -983,7 +987,7 @@ const FIGS = {
       const id = "hclip" + (++figUid);
       return `<svg viewBox="0 0 240 210" role="img" aria-label="Diagram of the heart, drawn as if you are facing the person: the heart's right side is on your left.">
 <path d="M66 70 L66 8" stroke="#14163A" stroke-width="18" stroke-linecap="round"/><path d="M66 70 L66 8" stroke="#7FA9F0" stroke-width="12" stroke-linecap="round"/>
-<path d="M102 70 L102 22 M80 22 L124 22" stroke="#14163A" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M102 70 L102 22 M80 22 L124 22" stroke="#7FA9F0" stroke-width="12" stroke-linecap="round" fill="none"/>
+<path d="M104 70 L104 24 M90 24 L124 24" stroke="#14163A" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M104 70 L104 24 M90 24 L124 24" stroke="#7FA9F0" stroke-width="12" stroke-linecap="round" fill="none"/>
 <path d="M138 70 C 138 26, 178 10, 198 34 L198 60" stroke="#14163A" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M138 70 C 138 26, 178 10, 198 34 L198 60" stroke="#F08A96" stroke-width="12" stroke-linecap="round" fill="none"/>
 <path d="M196 84 L230 76 M196 100 L230 106" stroke="#14163A" stroke-width="14" stroke-linecap="round"/><path d="M196 84 L230 76 M196 100 L230 106" stroke="#F08A96" stroke-width="8" stroke-linecap="round"/>
 <defs><clipPath id="${id}"><path d="${HEART_PATH}"/></clipPath></defs>
@@ -1102,10 +1106,10 @@ const CH = [
    q:"How does oxygen reach your toes, and how does dye get into a flower's petals?",
    from:"Week 7 · Encounter the Phenomenon: How does the dye move from the water to the flower petals?",
    scene:"phenom",
-   caption:"Left: oxygen you breathe in travels all the way to your toes. Right: dye in the water climbs a flower's stem into its petals, just like the Week 7 demo.",
+   caption:"Left: oxygen you breathe in travels all the way to your toes. Right: dye in the water climbs a flower's stem into its petals, just like the Week 7 phenomenon.",
    legend:[["#E23D45", "oxygen (O₂)"], ["#6A4BD6", "dye moving with the water"]],
    cards:[
-     {h:"Remember the flower?", p:"In Week 7 a white flower stood in a glass of colored water. After some hours, its petals started to change color. The dye was only in the water, so the water must have traveled up the stem and into the petals. But how?"},
+     {h:"Remember the flower?", p:"In Week 7 you met a white flower standing in a glass of colored water. After some hours, its petals turned the color of the dye. The dye was only in the water, so the water must have traveled up the stem and into the petals. But how?"},
      {h:"Take a deep breath", p:"Some of the oxygen you just breathed in will reach your toes. Your blood can carry it around your whole body in about a minute. How does it get from your lungs all the way down there?"},
      {h:"Every cell needs deliveries", p:"Your body is made of trillions of cells. Each one needs <b>oxygen</b> and <b>nutrients</b> to release energy, and each one makes <b>wastes</b>, like carbon dioxide, that must be carried away. Most of your cells are far from your lungs and stomach!"},
      {h:"Plants need deliveries too", p:"Leaves need water and minerals from the soil to make food (sugar) by photosynthesis. Roots can't make food, so sugar made in the leaves has to travel down to them."}
@@ -1120,7 +1124,7 @@ const CH = [
      {t:"sort", q:"Is each one delivered TO your cells or carried AWAY from them?", groups:["Delivered to cells", "Carried away"],
       items:[["Oxygen", 0], ["Nutrients such as sugar", 0], ["Carbon dioxide", 1], ["Other wastes", 1]],
       why:"Blood drops off oxygen and nutrients, and picks up carbon dioxide and other wastes."},
-     {t:"mc", q:"In the Week 7 demo, the petals of a white flower turned the color of the dye in its water. What does that show?",
+     {t:"mc", q:"In the Week 7 phenomenon, the petals of a white flower turned the color of the dye in its water. What does that show?",
       o:["Water from the glass traveled up the stem and into the petals", "The petals made the dye themselves", "The dye soaked into the petals from the air", "The flower pushed its water down into the glass"], a:0,
       why:"The dye was only in the water, so it must have traveled with the water up the stem. In Part 2 you'll meet the tubes that carry it: xylem."}
    ]},
@@ -1334,8 +1338,7 @@ const REVIEW = [
   {ch:"ch4", t:"mc", q:"When oxygen-poor blood reaches the lungs, which way does carbon dioxide move?",
    o:["From the blood into the alveoli", "From the alveoli into the blood", "From the trachea into the heart", "It stays in the blood"], a:0,
    why:"There is more carbon dioxide in the blood than in the alveoli, so it diffuses into the alveoli and you breathe it out."},
-  {ch:"ch5", t:"mc", q:"Which side of the heart pumps blood to the lungs?",
-   o:["The right side", "The left side", "Both sides take turns", "Neither; the lungs pull it in"], a:0,
+  {ch:"ch5", t:"find", fig:"heart", pins:["ra", "rv", "la", "lv"], a:"rv", q:"Tap the chamber that pumps blood to the lungs.",
    why:"The right ventricle pumps oxygen-poor blood to the lungs through the pulmonary artery. The left side pumps oxygen-rich blood to the body."},
   {ch:"ch5", t:"mc", q:"Why does the left ventricle have the thickest wall?",
    o:["It pumps blood all the way around the body", "It holds air from the lungs", "It only pumps blood to the lungs", "It stores extra blood"], a:0,
@@ -1494,17 +1497,16 @@ function renderHome(){
 function sceneBox(sc, c){
   const leg = (c.legend || []).map(([col, t]) => `<span><i style="background:${col}"></i>${t}</span>`).join("");
   return `<figure class="scene-box panel">
-    <button class="motion-btn" data-act="motion" aria-label="${motionOn() ? "Pause the animations" : "Play the animations"}">${motionBtnHTML()}</button>
     <div class="scene" style="aspect-ratio:${sc.ratio}">${sc.svg}</div>
-    ${sc.controls || ""}
+    <div class="scene-tools">${sc.controls || ""}<button class="motion-btn" data-act="motion" aria-label="${motionOn() ? "Pause the animations" : "Play the animations"}">${motionBtnHTML()}</button></div>
     <figcaption>${c.caption}</figcaption>
     ${leg ? `<div class="legend">${leg}</div>` : ""}
   </figure>`;
 }
 function animalsBox(){
   return `<figure class="scene-box panel">
-    <button class="motion-btn" data-act="motion" aria-label="${motionOn() ? "Pause the animations" : "Play the animations"}">${motionBtnHTML()}</button>
-    <div class="animal-grid" style="margin-top:34px">${ANIMALS.map(a => `<div class="acard"><div class="mini">${a.svg}</div><div class="txt"><h4>${a.name}<small>${a.tool}</small></h4><p>${a.text}</p></div></div>`).join("")}</div>
+    <div class="animal-grid">${ANIMALS.map(a => `<div class="acard"><div class="mini">${a.svg}</div><div class="txt"><h4>${a.name}<small>${a.tool}</small></h4><p>${a.text}</p></div></div>`).join("")}</div>
+    <div class="scene-tools"><button class="motion-btn" data-act="motion" aria-label="${motionOn() ? "Pause the animations" : "Play the animations"}">${motionBtnHTML()}</button></div>
     <figcaption>Four animals, four breathing tools. The moving dots show water, air, oxygen, and carbon dioxide.</figcaption>
   </figure>`;
 }
@@ -1569,7 +1571,7 @@ function renderLesson(id){
   $("#scr-lesson").innerHTML = `<div class="col-${c.col}">
     <div class="lesson-top"><span class="chip-land">Part ${c.n} of ${CH.length}</span><span class="day">${c.day || "Core idea"}</span>
       <nav class="steps" aria-label="Lesson parts">${CH.map(x => `<button class="step${chState(x.id).done ? " done" : ""}${x.id === id ? " now" : ""}" data-act="open" data-ch="${x.id}" aria-label="Part ${x.n}: ${x.name}"${x.id === id ? ' aria-current="step"' : ""}>${x.n}</button>`).join("")}</nav></div>
-    <div class="intro panel"><p class="kick">${c.label}</p><h2>${c.name}</h2><p class="bigq">${c.q}</p>${c.from ? `<p class="from">${c.from}</p>` : ""}</div>
+    <div class="intro panel"><p class="kick">${c.q.startsWith(c.label.replace("?", "")) ? "Module 2 · Lesson 4 · Moving Material" : c.label}</p><h2>${c.name}</h2><p class="bigq">${c.q}</p>${c.from ? `<p class="from">${c.from}</p>` : ""}</div>
     ${sc ? sceneBox(sc, c) : ""}${c.animals ? animalsBox() : ""}
     <div class="info-grid">${cards}</div>
     ${(c.widgets || []).map(w => WIDGETS[w]()).join("")}
