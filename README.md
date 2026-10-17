@@ -39,4 +39,15 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 | Sadlier Vocabulary Workshop Level A (Enriched Edition), Review Units 1–3 (pp. 42–49) | [`vocabulary/review-units-1-3/index.html`](vocabulary/review-units-1-3/index.html) | All 60 words with meaning, pronunciation, memory trick, synonyms, antonyms and word family; flashcards and a 13-question warm-up per unit; a randomized 40-question Final Review in the style of the book's review pages (stories, two-word completions, right meaning, synonyms, antonyms, using the word, shades of meaning, word families and spelling); a report by unit and skill with a spelling watch list and study plan. Unit 1's list is from the school's Week 3 test sheet. |
 
 Each page is a single self-contained HTML file: open it in a browser, no build step or server needed.
+
+Every page has its own A4 print layout. The screen view is hidden and a paper version is printed instead:
+
+| Page | Prints as |
+| --- | --- |
+| Dashboard | 1 page: homework still due, with boxes to tick by hand, and the coming tests with what to study |
+| Week 8 plan | 2 pages: tests, homework and evening plan; then the Sun–Thu timetable as a grid |
+| Math | 2 pages: study sheet, then 10 practice questions with an answer key |
+| Science | 3 pages: key ideas and word bank, then a label-the-cell sheet with an answer key |
+| Vocabulary Unit 2 | 2 pages: word list, then "Test yourself" with an answer key |
+| Vocabulary Review Units 1–3 | 3 pages: one per unit, with a word table and a short test |
 Progress is saved in the browser of the device being used (`localStorage`). Homework ticks are shared between the dashboard and the weekly plans, keyed by EduPage item id.

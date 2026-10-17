@@ -339,6 +339,8 @@ a{color:var(--c1);font-weight:700;overflow-wrap:anywhere}
   .ps-meta{font-size:9.5pt;font-weight:700;white-space:nowrap;text-align:right;margin:0}
   .ps-page2{break-before:page}
   .ps-row{display:grid;grid-template-columns:62mm 1fr;gap:6mm;align-items:start}
+  .ps-fig{margin:0}
+  .ps-fig figcaption{font-size:8.5pt;color:#333;margin-top:2pt}
   .ps-box{border:0.75pt solid #999;border-radius:3pt;padding:4pt 7pt;break-inside:avoid}
   .ps-table{width:100%;border-collapse:collapse;font-size:9.5pt;break-inside:avoid}
   .ps-table th,.ps-table td{border:0.75pt solid #999;padding:2.5pt 5pt;text-align:left;vertical-align:top}
@@ -349,7 +351,7 @@ a{color:var(--c1);font-weight:700;overflow-wrap:anywhere}
   .print-sheet .plane{max-width:none;border:0.75pt solid #999;border-radius:3pt}
   .print-sheet .plane .gl{stroke:#c3c7d3}
   .print-sheet .plane .gh{stroke:#dfe2ea}
-  .print-sheet .plane .tl{font-size:17px;fill:#333}
+  .print-sheet .plane .tl{font-size:15px;fill:#333}
   .print-sheet .plane .pl{font-size:20px}
   .print-sheet .psq{font-family:var(--body);font-size:20px;font-weight:800;fill:#444}
   .ps-grids{display:grid;grid-template-columns:1fr 1fr;gap:10mm;margin:2pt 0 5pt;padding:0 6mm}
@@ -1479,7 +1481,8 @@ function renderPrintSheet(){
   const head = (title, sub) => '<header class="ps-head"><div><h1>' + title + '</h1><p class="ps-sub">' + sub + '</p></div><p class="ps-meta">Class 6.3 · Week 8 (18–22 Oct 2026)</p></header>';
   const check = body => '<div class="ps-check"><span class="box"></span><div>' + body + '</div></div>';
   el.innerHTML = head("Coordinate Plane: Study Sheet", "enVision Mathematics, Volume 1 · Lesson 2-4 (pp. 89–94) and Lesson 2-5 (pp. 99–104)")
-    + '<div class="ps-row">' + psPlane({min:-5, max:5, pts:[{x:3, y:2, label:"A(3, 2)", c:"c1"}, {x:-2.5, y:-1.5, label:"B(−2.5, −1.5)", c:"c2"}]}, quads)
+    + '<div class="ps-row"><figure class="ps-fig">' + psPlane({min:-5, max:5, pts:[{x:3, y:2, label:"A", c:"c1"}, {x:-2.5, y:-1.5, label:"B", c:"c2"}]}, quads)
+    + '<figcaption>A(3, 2) is in Quadrant I. B(−2.5, −1.5) is in Quadrant III.</figcaption></figure>'
     + '<div class="ps-box"><h3>Reading a point (x, y)</h3><ul>'
     + '<li>Start at the <b>origin</b> (0, 0). Move across by <b>x</b> first, then up or down by <b>y</b>.</li>'
     + '<li>Positive x goes right, negative x goes left. Positive y goes up, negative y goes down.</li>'
