@@ -882,6 +882,16 @@ const KEY = "gridquest-envision-2-4-2-5-v1";
 const fresh = () => ({xp:0, zones:{}, skills:{}, attempts:[], last:null, hw:{}, sound:true});
 let S = (() => { try { const raw = localStorage.getItem(KEY); if (raw) return Object.assign(fresh(), JSON.parse(raw)); } catch (e) {} return fresh(); })();
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+/* Homework ticks are shared with the dashboard and the Week 8 plan, keyed by EduPage item id. */
+const DONE_KEY = "monmon-done-v1";
+const HW_EP = {ixl:"2026-10-19-5935EF89C537CDB41A40", book:"2026-10-22-D07FE1AF26AC823D24B5"};
+function hwDone(k){ try { const v = JSON.parse(localStorage.getItem(DONE_KEY) || "null"); return !!(v && v.done && v.done[HW_EP[k]]); } catch (e) { return !!S.hw[k]; } }
+function setHwDone(k, on){
+  S.hw[k] = on; save();
+  try { const v = JSON.parse(localStorage.getItem(DONE_KEY) || "null") || {done:{}}; v.done = v.done || {};
+    if (on) v.done[HW_EP[k]] = true; else delete v.done[HW_EP[k]];
+    localStorage.setItem(DONE_KEY, JSON.stringify(v)); } catch (e) {}
+}
 
 /* ---------- SOUND (tiny synth, no files) ---------- */
 const Sound = {
@@ -1037,7 +1047,7 @@ function renderHome(){
   let h = '<div class="panel hero"><div><h1>Coordinate <span>Quest</span></h1>'
     + '<p>This week\'s math, Lessons 2-4 and 2-5 of enVision Mathematics (Volume 1): plot points with fractions and decimals, reflect them across the axes, and find distances with absolute value. Learn each zone, win its 6-question practice, then take the Final Challenge.</p></div>'
     + '<div class="stats"><div class="stat"><b>' + stars + '/15</b><span>Stars</span></div><div class="stat"><b>' + S.xp + '</b><span>XP</span></div><div class="stat"><b>' + (fs.length ? best + "%" : "–") + '</b><span>Best final</span></div></div></div>';
-  const done = ["ixl", "book"].filter(k => S.hw[k]).length;
+  const done = ["ixl", "book"].filter(hwDone).length;
   h += '<div class="panel banner' + (S.last && S.last.pct < 70 ? " alert" : "") + '"><p><b>Homework due Saturday 24/10:</b> IXL (score 70% or more) and book p. 102–103. ' + (done === 2 ? "Both marked done. Well done!" : done + " of 2 marked done.") + '</p><div class="row"><button class="btn btn-sm btn-go" data-act="tohw">Homework check</button>'
     + (S.last ? '<button class="btn btn-sm" data-act="lastreport">Last report (' + S.last.pct + '%)</button>' : "") + '</div></div>';
   h += '<div class="sec-title"><h2>The Quest Map</h2><p>Five zones. Read the lesson, then win the practice.</p></div><div class="trail">';
@@ -1063,7 +1073,7 @@ function zoneStatus(i){
   const p = c / n; return p >= .85 ? "good" : p < .6 ? "low" : "";
 }
 function renderHW(){
-  const item = (key, title, due, body) => '<div class="hw-item ' + (S.hw[key] ? "done" : "") + '"><input type="checkbox" class="hw-check" id="hw-' + key + '" data-hw="' + key + '" ' + (S.hw[key] ? "checked" : "") + '>'
+  const item = (key, title, due, body) => '<div class="hw-item ' + (hwDone(key) ? "done" : "") + '"><input type="checkbox" class="hw-check" id="hw-' + key + '" data-hw="' + key + '" ' + (hwDone(key) ? "checked" : "") + '>'
     + '<div class="hw-body"><label for="hw-' + key + '"><h3>' + title + '</h3></label><span class="due">' + due + '</span>' + body + '</div></div>';
   return '<div class="sec-title" id="hw"><h2>Homework Check</h2><p>Class 6.3 · Week 8 · tick each one when it\'s done.</p></div><div class="panel hw">'
     + item("ixl", "H.W. 8.1 · IXL", "Due Sat 24/10/2026 · score 70% or more",
@@ -1387,7 +1397,7 @@ document.addEventListener("keydown", e => {
 document.addEventListener("mousedown", e => { if (e.target.closest(".key")) e.preventDefault(); });
 document.addEventListener("change", e => {
   const c = e.target.closest("[data-hw]"); if (!c) return;
-  S.hw[c.dataset.hw] = c.checked; save();
+  setHwDone(c.dataset.hw, c.checked);
   c.closest(".hw-item").classList.toggle("done", c.checked);
   if (c.checked){ Sound.win(); FX.burstEl(c, 30); }
 });
