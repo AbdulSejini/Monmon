@@ -224,7 +224,9 @@ a{color:var(--c1);font-weight:700;overflow-wrap:anywhere}
 .type-in{min-width:0;font:inherit;font-size:22px;font-weight:700;letter-spacing:.02em;padding:10px 12px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums}
 .type-in:focus{outline:none;box-shadow:0 0 0 4px var(--sun)}
 .type-in.ok{background:var(--good-bg)} .type-in.no{background:var(--bad-bg);animation:shake .4s}
-.type-in.pair{width:7.2em;text-align:center}
+.type-in.pair{width:6em;text-align:center}
+.ans-row.pair-row{flex-wrap:nowrap;gap:6px}
+@media (max-width:420px){.type-in.pair{width:4.6em;padding:10px 6px}.paren{font-size:28px}}
 .type-in.num{width:9em}
 .lbl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:2px;text-align:center}
 .unit{font-weight:800;font-size:18px;color:var(--ink-2)}
@@ -839,10 +841,10 @@ const LESSONS = [
      ex:{h:"Example", q:"How far is (−4, 2½) from each axis?", steps:["From the x-axis: |2½| = 2½ units (up or down).", "From the y-axis: |−4| = 4 units (left or right)."]},
      plane:{min:-5, max:5, half:true, segs:[{a:[-4, 2.5], b:[-4, 0], dash:true}, {a:[-4, 2.5], b:[0, 2.5], dash:true}], pts:[{x:-4, y:2.5, label:"(−4, 2½)"}]}},
     {t:"Find the matching coordinate", b:"To find the distance between two points on the same line, look for the coordinate they <b>share</b>. Same <b>x</b> → the points are on a <b>vertical</b> line, so use the y-values. Same <b>y</b> → a <b>horizontal</b> line, so use the x-values."},
-    {t:"Same side → subtract", ex:{h:"Example", q:"(−6, −1) and (−2, −1)", steps:["Same y (−1), so the segment is horizontal. Use x: −6 and −2.", "Both negative → same side of the y-axis.", "Subtract the absolute values: |−6| − |−2| = 6 − 2 = 4.", "Distance = 4 units."]},
-     plane:{min:-7, max:7, segs:[{a:[-6, -1], b:[-2, -1]}], pts:[{x:-6, y:-1, label:"(−6, −1)"}, {x:-2, y:-1, label:"(−2, −1)"}]}},
-    {t:"Opposite sides → add", ex:{h:"Example", q:"(3, 5) and (3, −2)", steps:["Same x (3), so the segment is vertical. Use y: 5 and −2.", "Opposite signs → the segment crosses the x-axis.", "Add the absolute values: |5| + |−2| = 5 + 2 = 7.", "Distance = 7 units."]},
-     plane:{min:-7, max:7, segs:[{a:[3, 5], b:[3, -2]}], pts:[{x:3, y:5, label:"(3, 5)"}, {x:3, y:-2, label:"(3, −2)"}]}},
+    {t:"Same side → subtract", ex:{h:"Example", q:"A(−6, −1) and B(−2, −1)", steps:["Same y (−1), so the segment is horizontal. Use x: −6 and −2.", "Both negative → same side of the y-axis.", "Subtract the absolute values: |−6| − |−2| = 6 − 2 = 4.", "Distance = 4 units."]},
+     plane:{min:-7, max:7, segs:[{a:[-6, -1], b:[-2, -1]}], pts:[{x:-6, y:-1, label:"A"}, {x:-2, y:-1, label:"B"}]}},
+    {t:"Opposite sides → add", ex:{h:"Example", q:"A(3, 5) and B(3, −2)", steps:["Same x (3), so the segment is vertical. Use y: 5 and −2.", "Opposite signs → the segment crosses the x-axis.", "Add the absolute values: |5| + |−2| = 5 + 2 = 7.", "Distance = 7 units."]},
+     plane:{min:-7, max:7, segs:[{a:[3, 5], b:[3, -2]}], pts:[{x:3, y:5, label:"A"}, {x:3, y:-2, label:"B"}]}},
     {t:"It works with fractions too", ex:{h:"Example", q:"(2½, 4) and (−1¾, 4)", steps:["Same y (4): use x, 2½ and −1¾.", "Opposite signs → add: |2½| + |−1¾| = 2½ + 1¾.", "2½ + 1¾ = 2 + 1 + ½ + ¾ = 3 + 1¼ = 4¼.", "Distance = 4¼ units (or 4.25)."]},
      note:"Why does adding work? From −1¾ to 0 is 1¾ units, and from 0 to 2½ is 2½ units. Together that's 4¼. You can type answers like <b>4 1/4</b> or <b>4.25</b>."}
   ],
@@ -945,11 +947,22 @@ function announce(t){ const l = $("#live"); if (l) l.textContent = t; }
 const VB = 420, PM = 20;
 function geom(o){ const u = (VB - 2 * PM) / (o.max - o.min); return {u, X:x => PM + (x - o.min) * u, Y:y => PM + (o.max - y) * u}; }
 const f2 = n => +n.toFixed(2);
-function labelAt(X, Y, text, cls, size){
+/* y0 / x0 = the axes: a label moves to the other side of its point rather than sit on the axis numbers */
+function labelAt(X, Y, text, cls, size, pos, y0, x0){
   const w = String(text).length * (size || 16) * .56;
-  let ax = X + 12, anch = "start";
-  if (ax + w > VB - 4){ ax = X - 12; anch = "end"; if (ax - w < 4){ ax = clamp(X, w / 2 + 4, VB - w / 2 - 4); anch = "middle"; } }
-  let ay = Y - 12; if (ay < 18) ay = Y + 28;
+  const fits = (a, anch) => anch === "start" ? a + w <= VB - 4 : a - w >= 4;
+  const crossesY = (a, anch) => {
+    if (x0 === undefined || Math.abs(X - x0) < 40) return false;
+    const l = anch === "start" ? a : a - w, r = anch === "start" ? a + w : a;
+    return l < x0 + 6 && r > x0 - 34;
+  };
+  const cands = [[X + 12, "start"], [X - 12, "end"]];
+  const c = cands.find(k => fits(k[0], k[1]) && !crossesY(k[0], k[1])) || cands.find(k => fits(k[0], k[1]));
+  const ax = c ? c[0] : clamp(X, w / 2 + 4, VB - w / 2 - 4), anch = c ? c[1] : "middle";
+  let ay = pos === "below" ? Y + 28 : Y - 12;
+  if (ay < 18) ay = Y + 28; else if (ay > VB - 6) ay = Y - 12;
+  const hitsAxis = a => y0 !== undefined && Math.abs(Y - y0) > 1 && a + 3 > y0 - 6 && a - 15 < y0 + 22;
+  if (hitsAxis(ay)){ const alt = ay === Y - 12 ? Y + 28 : Y - 12; if (!hitsAxis(alt) && alt > 18 && alt < VB - 6) ay = alt; }
   return '<text class="pl ' + (cls || "") + '" x="' + f2(ax) + '" y="' + f2(ay) + '" text-anchor="' + anch + '">' + esc(text) + '</text>';
 }
 const PT_FILL = {ok:"var(--good)", you:"var(--bad)", ghost:"#fff", c1:"var(--c1)", c2:"var(--c2)", c3:"var(--c3)", c4:"var(--c4)", c5:"var(--c5)"};
@@ -982,14 +995,14 @@ function planeSVG(o, aria){
   });
   if (o.path){ const pts = o.path.map(p => f2(X(p[0])) + "," + f2(Y(p[1]))).join(" "); s += '<polyline class="walk-u" points="' + pts + '"/><polyline class="walk" points="' + pts + '"/>'; }
   (o.places || []).forEach(p => {
-    s += '<circle class="pin" cx="' + f2(X(p.x)) + '" cy="' + f2(Y(p.y)) + '" r="9"/>' + labelAt(X(p.x), Y(p.y), p.name, "", 16);
+    s += '<circle class="pin" cx="' + f2(X(p.x)) + '" cy="' + f2(Y(p.y)) + '" r="9"/>' + labelAt(X(p.x), Y(p.y), p.name, "", 16, p.pos, y0, x0);
   });
   (o.pts || []).forEach(p => {
     if (p.guides) s += '<path class="guide" d="M' + f2(X(p.x)) + ' ' + f2(Y(p.y)) + 'V' + f2(y0) + 'M' + f2(X(p.x)) + ' ' + f2(Y(p.y)) + 'H' + f2(x0) + '"/>';
   });
   (o.pts || []).forEach(p => {
     s += '<circle class="pt" cx="' + f2(X(p.x)) + '" cy="' + f2(Y(p.y)) + '" r="' + (p.c === "you" || p.c === "ok" ? 9 : 8) + '" fill="' + (PT_FILL[p.c] || "var(--col)") + '"/>';
-    if (p.label) s += labelAt(X(p.x), Y(p.y), p.label, p.c === "you" || p.c === "ok" ? p.c : "", 16);
+    if (p.label) s += labelAt(X(p.x), Y(p.y), p.label, p.c === "you" || p.c === "ok" ? p.c : "", 16, p.pos, y0, x0);
   });
   s += '<g class="mk"></g><rect class="hit" width="' + VB + '" height="' + VB + '" fill="transparent"/></svg>';
   return s;
@@ -1032,7 +1045,7 @@ function renderHome(){
     const Z = S.zones[z.key] || {}, st = zoneStatus(i);
     const sticker = st === "low" ? '<span class="sticker">Review me!</span>' : st === "good" ? '<span class="sticker ok">Mastered</span>' : "";
     h += '<div class="land land-' + z.col + '">' + sticker + '<div class="badge">' + ICONS[z.icon] + '</div>'
-      + '<div><div class="land-num">Zone ' + (i + 1) + ' · ' + z.lesson + '</div><h3>' + z.name + '</h3><p class="sub">' + z.tag + '</p></div>'
+      + '<div><div class="land-num">Zone ' + (i + 1) + ' · ' + z.lesson.split(" · ")[0] + '</div><h3>' + z.name + '</h3><p class="sub">' + z.tag + '</p></div>'
       + '<div class="land-foot">' + starRow(Z.stars || 0) + '<span class="progress-note">' + (Z.plays ? "Best: " + Z.best + "/6" : "Not started") + '</span>'
       + '<div class="row"><button class="btn btn-sm" data-act="zone" data-z="' + i + '">Lesson</button><button class="btn btn-sm ' + (Z.stars ? "" : "btn-go") + '" data-act="practice" data-z="' + i + '">' + (Z.plays ? "Practice again" : "Practice") + '</button></div></div></div>';
   });
@@ -1055,7 +1068,7 @@ function renderHW(){
   return '<div class="sec-title" id="hw"><h2>Homework Check</h2><p>Class 6.3 · Week 8 · tick each one when it\'s done.</p></div><div class="panel hw">'
     + item("ixl", "H.W. 8.1 · IXL", "Due Sat 24/10/2026 · score 70% or more",
       '<p>Lesson 2-4: Represent Rational Numbers on the Coordinate Plane. Skill: <a href="https://www.ixl.com/math/grade-6/objects-on-a-coordinate-plane" target="_blank" rel="noopener">Objects on a coordinate plane</a>.</p>'
-      + '<ul><li>Read x first (left or right), then y (up or down).</li><li>Before you answer, check that the signs match the quadrant.</li><li>Keep going until you pass 70%. A wrong answer only drops the score a little, so read the explanation and keep practicing.</li></ul>'
+      + '<ul><li>Read x first (left or right), then y (up or down).</li><li>Before you answer, check that the signs match the quadrant.</li><li>Keep going until you pass 70%. If the score drops after a mistake, read IXL’s explanation, then keep practicing.</li></ul>'
       + '<div class="row"><button class="btn btn-sm" data-act="practice" data-z="0">Warm up: Grid City</button><button class="btn btn-sm" data-act="practice" data-z="1">Warm up: Fraction Forest</button></div>')
     + item("book", "H.W. 8.2 · Book", "Due Sat 24/10/2026",
       '<p>Lesson 2-5: Find Distances on the Coordinate Plane. <i>enVision Mathematics, Volume 1</i>: <b>p. 102</b> Questions 7, 8, 9 and <b>p. 103</b> Questions 12, 15, 17, 18.</p>'
@@ -1123,7 +1136,7 @@ function renderQ(){
       ? '<button class="opt big" data-act="mc" data-i="' + i + '">' + o + '</button>'
       : '<button class="opt" data-act="mc" data-i="' + i + '"><span class="k">' + "ABCDE"[i] + '</span><span>' + o + '</span></button>').join("") + '</div>';
   } else if (q.kind === "pair"){
-    h += '<div class="ans-row"><span class="paren" aria-hidden="true">(</span><label><span class="lbl">x</span><input class="type-in pair" id="inX" aria-label="x-coordinate" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="next"></label>'
+    h += '<div class="ans-row pair-row"><span class="paren" aria-hidden="true">(</span><label><span class="lbl">x</span><input class="type-in pair" id="inX" aria-label="x-coordinate" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="next"></label>'
       + '<span class="paren" aria-hidden="true">,</span><label><span class="lbl">y</span><input class="type-in pair" id="inY" aria-label="y-coordinate" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done"></label><span class="paren" aria-hidden="true">)</span></div>' + keysRow();
   } else if (q.kind === "num"){
     h += '<div class="ans-row"><input class="type-in num" id="inN" aria-label="Your answer' + (q.unit ? " in " + q.unit : "") + '" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done">' + (q.unit ? '<span class="unit">' + q.unit + '</span>' : "") + '</div>' + keysRow();
@@ -1208,7 +1221,7 @@ function chooseMC(i){
   const q = R.qs[R.i]; if (R.locked) return;
   const ok = i === q.ans;
   $$("#scr-quiz .opt").forEach((b, k) => { b.disabled = true; if (k === q.ans) b.classList.add("right"); else if (k === i) b.classList.add("wrong"); else b.classList.add("dim"); });
-  finish(ok, strip(q.opts[i]), "");
+  finish(ok, (q.layout === "four" ? "Point " : "") + strip(q.opts[i]), "");
 }
 const YES = ["NAILED IT!", "BOOM!", "SPOT ON!", "YES!", "PERFECT!"];
 function finish(ok, given, extra, g){
@@ -1230,8 +1243,9 @@ function finish(ok, given, extra, g){
     rp.pts = (rp.pts || []).slice();
     if (q.reveal === "walk") rp.path = [[0, 0], [t.x, 0], [t.x, t.y]];
     if (q.reveal === "mirror") rp.segs = [{a:[q.from.x, q.from.y], b:[t.x, t.y], dash:true}];
-    rp.pts.push({x:t.x, y:t.y, label:(q.ansLabel || "") + P(t.x, t.y, q.st), c:"ok"});
-    if (!ok) rp.pts.push({x:g.x, y:g.y, label:"you", c:"you"});
+    const youHigher = !ok && g.y > t.y;
+    rp.pts.push({x:t.x, y:t.y, label:(q.ansLabel || "") + P(t.x, t.y, q.st), c:"ok", pos:youHigher ? "below" : "above"});
+    if (!ok) rp.pts.push({x:g.x, y:g.y, label:"you", c:"you", pos:youHigher ? "above" : "below"});
     const pw = $("#pw"); pw.classList.remove("live"); pw.removeAttribute("tabindex"); pw.removeAttribute("aria-label");
     pw.innerHTML = planeSVG(rp, planeDesc(rp));
     $("#readout").textContent = "Your point: " + given;
