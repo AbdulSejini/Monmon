@@ -119,7 +119,34 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
 .foot a{font-weight:700}
 .btn-sm{justify-self:start;margin-top:6px;min-height:36px;padding:5px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);font-weight:800;font-size:14px;box-shadow:2px 2px 0 var(--ink)}
 @media (max-width:520px){.tiles{gap:6px}.tile b{font-size:26px}.tile b.small{font-size:16px}.top-link{font-size:13px;padding:5px 8px}}
+@media (max-width:400px){.chip-class{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* print: one A4 page, built by renderPrint() */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important}
+  body{background-image:none!important;color:#000;font-size:10pt;line-height:1.45}
+  .topbar,main{display:none!important}
+  .print-sheet{display:block}
+  .ps-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4pt 12pt;border-bottom:1.5pt solid #000;padding-bottom:4pt}
+  .ps-head h1{font-size:18pt}
+  .ps-head p{font-size:9pt;font-weight:700;color:#333}
+  .ps-sec{font-size:13pt;margin:12pt 0 4pt}
+  .ps-table{width:100%;border-collapse:collapse;font-size:9.5pt}
+  .ps-table th{text-align:start;font-size:8.5pt;border-bottom:1pt solid #000;padding:2pt 4pt}
+  .ps-table td{vertical-align:top;border-bottom:.75pt solid #999;padding:4pt}
+  .ps-table tr{break-inside:avoid}
+  .ps-box{display:inline-block;width:12pt;height:12pt;border:1.2pt solid #000;border-radius:2pt;text-align:center;line-height:11pt;font-weight:800}
+  .ps-subj{font-weight:800}
+  .ps-subj small,.ps-when small{display:block;font-size:8pt;font-weight:500;color:#444}
+  .ps-when{font-weight:800;white-space:nowrap}
+  .ps-text{white-space:pre-line;overflow-wrap:anywhere}
+  .ps-note{margin-top:3pt;font-weight:700;border-inline-start:2pt solid #000;padding-inline-start:5pt}
+  .ps-done .ps-text{text-decoration:line-through;color:#555}
+  .ps-foot{margin-top:12pt;padding-top:4pt;border-top:.75pt solid #999;font-size:8pt;color:#444}
+}
 </style>
 </head>
 <body>
@@ -129,6 +156,7 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
     <span class="chip-class">الصف 6.3</span>
     <span class="spacer"></span>
     <a class="top-link" href="#practice">صفحات المذاكرة</a>
+    <button class="top-link" id="printBtn" type="button">طباعة</button>
   </div>
 </header>
 
@@ -177,6 +205,8 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
     <button class="btn-sm" id="resetBtn" type="button">مسح كل العلامات</button>
   </footer>
 </main>
+
+<section class="print-sheet" id="printSheet" aria-hidden="true"></section>
 
 <!-- EDUPAGE-DATA:BEGIN -->
 <script id="edupage-data" type="application/json">
@@ -740,13 +770,16 @@ const todo = ITEMS.filter(i => i.kind !== "test" && i.due >= TODAY);
 const tests = ITEMS.filter(i => i.kind === "test" && i.date >= TODAY);
 const past = ITEMS.filter(i => !todo.includes(i) && !tests.includes(i));
 
+/* On Friday and Saturday the coming school week is the one that matters. */
+function weekInfo(){
+  const p = parts(TODAY), n = weekNo(TODAY);
+  if (p.wd === 5 || p.wd === 6) return {week:n + 1, text:"إجازة نهاية الأسبوع، والأسبوع " + (n + 1) + " يبدأ " + (p.wd === 6 ? "غدًا" : "بعد غد")};
+  return {week:n, text:"الأسبوع " + n};
+}
+
 function renderHello(){
-  const p = parts(TODAY);
-  const n = weekNo(TODAY);
-  const weekend = p.wd === 5 || p.wd === 6;
-  const schoolWeek = weekend ? n + 1 : n;
-  document.getElementById("today").textContent = "اليوم " + longDate(TODAY) + " · " +
-    (weekend ? "إجازة نهاية الأسبوع، والأسبوع " + schoolWeek + " يبدأ " + (p.wd === 6 ? "غدًا" : "بعد غد") : "الأسبوع " + schoolWeek);
+  const {week:schoolWeek, text} = weekInfo();
+  document.getElementById("today").textContent = "اليوم " + longDate(TODAY) + " · " + text;
   const left = todo.filter(i => !S.done[i.id]);
   document.getElementById("tTodo").textContent = left.length;
   document.getElementById("tTests").textContent = tests.length;
@@ -824,14 +857,40 @@ function renderHistory(){
   }).join("");
 }
 
-function renderSynced(){
-  const el = document.getElementById("synced");
-  if (!DATA.synced) { el.textContent = ""; return; }
+function syncedText(){
+  if (!DATA.synced) return "";
   const [date, time] = DATA.synced.split("T");
-  el.textContent = "آخر تحديث من EduPage: " + longDate(date) + " الساعة " + time.slice(0, 5) + " (بتوقيت السعودية).";
+  return "آخر تحديث من EduPage: " + longDate(date) + " الساعة " + time.slice(0, 5) + " (بتوقيت السعودية).";
+}
+function renderSynced(){ document.getElementById("synced").textContent = syncedText(); }
+
+/* Print: one A4 page with what is still due (boxes to tick by hand) and the coming tests. */
+function renderPrint(){
+  const hw = todo.slice().sort((a, b) => a.due.localeCompare(b.due) || a.date.localeCompare(b.date)).map(i => {
+    const done = !!S.done[i.id];
+    return '<tr' + (done ? ' class="ps-done"' : "") + '><td><span class="ps-box">' + (done ? "✓" : "") + '</span></td>' +
+      '<td class="ps-subj">' + esc(subj(i.subject)[0]) + '<small>' + esc(typeAr(i.type)) + '</small></td>' +
+      '<td class="ps-text" dir="auto">' + esc(i.text) + '</td>' +
+      '<td class="ps-when">' + shortDate(i.due) + '<small>' + (done ? "خلص" : dueLabel(dayDiff(TODAY, i.due))) + '</small></td></tr>';
+  }).join("");
+  const ts = tests.slice().sort((a, b) => a.date.localeCompare(b.date)).map(i =>
+    '<tr><td class="ps-when">' + shortDate(i.date) + '<small>' + whenLabel(dayDiff(TODAY, i.date)) + '</small></td>' +
+    '<td class="ps-subj">' + esc(subj(i.subject)[0]) + '<small>' + esc(typeAr(i.type)) + '</small></td>' +
+    '<td class="ps-text" dir="auto">' + esc(i.text) + (NOTES[i.id] ? '<div class="ps-note" dir="auto">' + esc(NOTES[i.id]) + '</div>' : "") + '</td></tr>').join("");
+  document.getElementById("printSheet").innerHTML =
+    '<div class="ps-head"><h1>ايش المطلوب؟ · الصف 6.3</h1><p>طُبعت ' + longDate(TODAY) + ' · ' + weekInfo().text + '</p></div>' +
+    '<h2 class="ps-sec">لازم يسويه</h2>' +
+    (hw ? '<table class="ps-table"><colgroup><col style="width:7%"><col style="width:16%"><col><col style="width:15%"></colgroup>' +
+      '<thead><tr><th>تم</th><th>المادة</th><th>المطلوب</th><th>التسليم</th></tr></thead><tbody>' + hw + '</tbody></table>'
+      : '<p>ما عنده واجبات مطلوبة الحين.</p>') +
+    '<h2 class="ps-sec">عنده اختبارات</h2>' +
+    (ts ? '<table class="ps-table"><colgroup><col style="width:15%"><col style="width:16%"><col></colgroup>' +
+      '<thead><tr><th>اليوم</th><th>المادة</th><th>الاختبار وايش يذاكر له</th></tr></thead><tbody>' + ts + '</tbody></table>'
+      : '<p>ما فيه اختبارات معلنة في EduPage الحين.</p>') +
+    '<p class="ps-foot">' + esc(syncedText()) + ' المصدر: EduPage والخطة الأسبوعية للمدرسة.</p>';
 }
 
-function renderAll(){ renderHello(); renderTodo(); renderTests(); renderHistory(); }
+function renderAll(){ renderHello(); renderTodo(); renderTests(); renderHistory(); renderPrint(); }
 
 document.getElementById("todo").addEventListener("click", e => {
   const btn = e.target.closest(".check");
@@ -843,6 +902,7 @@ document.getElementById("todo").addEventListener("click", e => {
   const again = document.querySelector('.check[data-id="' + id + '"]');
   if (again) again.focus();
 });
+document.getElementById("printBtn").addEventListener("click", () => window.print());
 document.getElementById("resetBtn").addEventListener("click", () => {
   if (!confirm("تمسح كل العلامات على هذا الجهاز؟")) return;
   S = {done:{}}; save(); renderAll();

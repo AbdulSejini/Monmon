@@ -201,14 +201,42 @@ details.helper[open] summary::before{content:"−"}
 .foot .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* print: two A4 pages built by renderPrint(): the week at a glance, then the timetable grid */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
 @media print{
-  body{background:#fff;font-size:12px}
-  .topbar,.tabs,.tonight,.study,.hw-actions,details.helper,.foot .row,.no-print{display:none!important}
-  .panel{box-shadow:none;border-width:2px}
-  .day-panel[hidden]{display:block!important}
-  .day-title{display:block}
-  .period,.hw,.test,.plan-day{break-inside:avoid}
-  .sec-title{margin-top:18px}
+  html,body{background:#fff!important}
+  body{background-image:none!important;color:#000;font-size:9pt;line-height:1.35}
+  .topbar,main{display:none!important}
+  .print-sheet{display:block}
+  .print-sheet .ar{font-size:1em;line-height:1.4}
+  .ps-break{break-before:page}
+  .ps-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2pt 12pt;border-bottom:1.5pt solid #000;padding-bottom:3pt}
+  .ps-head h1,.ps-sec{font-family:var(--body);font-weight:800;letter-spacing:0}
+  .ps-head h1{font-size:17pt}
+  .ps-head p{font-size:9pt;font-weight:700;color:#333}
+  .ps-value{margin-top:3pt;font-size:8.5pt;color:#333}
+  .ps-sec{font-size:12pt;margin:10pt 0 3pt}
+  .ps-table{width:100%;border-collapse:collapse}
+  .ps-table th{text-align:start;font-size:8pt;border-bottom:1pt solid #000;padding:2pt 4pt}
+  .ps-table td{vertical-align:top;border-bottom:.75pt solid #999;padding:2.5pt 4pt}
+  .ps-table tr{break-inside:avoid}
+  .ps-box{display:inline-block;width:12pt;height:12pt;border:1.2pt solid #000;border-radius:2pt;text-align:center;line-height:11pt;font-weight:800}
+  .ps-subj{font-weight:800}
+  .ps-subj small,.ps-when small{display:block;font-size:7.5pt;font-weight:500;color:#444}
+  .ps-when{font-weight:800;white-space:nowrap}
+  .ps-url{font-size:7.5pt;color:#333;overflow-wrap:anywhere}
+  .ps-done .ps-text{text-decoration:line-through;color:#555}
+  .ps-job{margin-inline-end:6pt}
+  .ps-job.key{font-weight:800}
+  .ps-grid{width:100%;border-collapse:collapse;table-layout:fixed;font-size:7.8pt;line-height:1.3;margin-top:8pt}
+  .ps-grid th,.ps-grid td{border:.75pt solid #777;padding:3pt;vertical-align:top}
+  .ps-grid thead th{font-size:8.5pt;text-align:center}
+  .ps-grid tbody th{text-align:center;font-size:8pt}
+  .ps-grid td b{display:block;font-size:8.2pt}
+  .ps-grid .ar{font-size:8.4pt}
+  .ps-tag{display:inline-block;border:.75pt solid #000;border-radius:3pt;padding:0 2pt;margin-inline-start:3pt;font-size:6.8pt;font-weight:800}
+  .ps-foot{margin-top:8pt;padding-top:3pt;border-top:.75pt solid #999;font-size:7.5pt;color:#444}
 }
 </style>
 </head>
@@ -281,6 +309,8 @@ details.helper[open] summary::before{content:"−"}
     </div>
   </footer>
 </main>
+
+<section class="print-sheet" id="printSheet" aria-hidden="true"></section>
 
 <script>
 "use strict";
@@ -545,6 +575,7 @@ document.getElementById("homework").addEventListener("click", e => {
   save();
   renderHomework();
   updateMeter(true);
+  renderPrint();
   const again = document.querySelector('.check[data-id="' + id + '"]');
   if (again) again.focus();
 });
@@ -617,10 +648,60 @@ function renderStudy(){
     '<a class="panel ' + c.cls + '" href="' + PAGES[c.page].href + '"><h3>' + esc(c.title) + '</h3><p>' + esc(c.text) + '</p><span class="go">Open →</span></a>').join("");
 }
 
-document.getElementById("printBtn").addEventListener("click", () => window.print());
+/* ---------- print ---------- */
+function dm(iso){ const [, m, d] = iso.split("-").map(Number); return d + "/" + m; }
+/* keep ranges such as 1-33 or 73 - 74 on one line */
+function arPrint(s){ return esc(s).replace(/\d+\s*-\s*\d+/g, m => '<span style="white-space:nowrap">' + m + '</span>'); }
+function gridTopic(t){
+  if (typeof t !== "string") return '<div class="ar" lang="ar">' + arPrint(t.ar) + '</div>';
+  return '<div>' + esc(t.replace("Module 2: Body Systems · L4: Moving Material — ", "L4 Moving Material: ")) + '</div>';
+}
+function renderPrint(){
+  const head = sub => '<div class="ps-head"><h1>Week 8 Plan · Class 6.3</h1><p>Sun 18 – Thu 22 October 2026' + (sub ? " · " + sub : "") + '</p></div>';
+  const dayOf = key => DAYS.find(d => d.key === key);
+  const tests = TESTS.map(t => {
+    const d = dayOf(t.day);
+    return '<tr><td class="ps-when">' + d.short + ' ' + dm(d.date) + '<small>' + t.per + '</small></td>' +
+      '<td class="ps-subj">' + esc(SUBJ[t.s].label) + '<small>' + (t.soft ? "Recitation check" : "Test") + '</small></td>' +
+      '<td><b>' + esc(t.title) + '</b><div class="ar" lang="ar">' + esc(t.ar) + ': ' + t.lines.map(arPrint).join(" · ") + '</div></td></tr>';
+  }).join("");
+  const order = key => DAYS.findIndex(d => d.key === key);
+  const hw = HW.slice().sort((a, b) => a.due.localeCompare(b.due) || order(a.day) - order(b.day)).map(h => {
+    const done = !!S.done[h.ep];
+    return '<tr' + (done ? ' class="ps-done"' : "") + '><td><span class="ps-box">' + (done ? "✓" : "") + '</span></td>' +
+      '<td class="ps-subj">' + esc(SUBJ[h.s].label) + '<small>' + esc(h.code) + '</small></td>' +
+      '<td class="ps-text"><b>' + esc(h.title) + '.</b>' + (h.detail ? " " + esc(h.detail) : "") +
+      (h.ar ? '<div class="ar" lang="ar">' + esc(h.ar) + '</div>' : "") + (h.link ? '<div class="ps-url">' + esc(h.link) + '</div>' : "") + '</td>' +
+      '<td class="ps-when">' + fmtDate(h.due) + '<small>set ' + dayOf(h.day).short + '</small></td></tr>';
+  }).join("");
+  const plan = DAYS.map(d => '<tr><td class="ps-when">' + d.short + ' ' + dm(d.date) + '</td><td>' +
+    PLAN[d.key].map(([text, , key], k) => '<span class="ps-job' + (key ? " key" : "") + '">' + (k + 1) + '. ' + esc(text) + '</span>').join(" ") + '</td></tr>').join("");
+  const grid = '<table class="ps-grid"><colgroup><col style="width:9mm">' + DAYS.map(() => '<col>').join("") + '</colgroup><thead><tr><th></th>' + DAYS.map(d => '<th>' + d.name + ' ' + dm(d.date) + '</th>').join("") + '</tr></thead><tbody>' +
+    PERIOD_NAMES.map((pn, j) => '<tr><th>' + pn + '</th>' + DAYS.map(d => {
+      const p = TIMETABLE[d.key][j];
+      if (!p) return '<td></td>';
+      const tags = (p.test ? '<span class="ps-tag">' + (TESTS.find(t => t.id === p.test).soft ? "CHECK" : "TEST") + '</span>' : "") +
+        (p.hw ? '<span class="ps-tag">HW</span>' : "");
+      return '<td><b>' + esc(SUBJ[p.s].label) + tags + '</b>' + gridTopic(p.topic) + '</td>';
+    }).join("") + '</tr>').join("") + '</tbody></table>';
+  document.getElementById("printSheet").innerHTML =
+    head("") +
+    '<p class="ps-value"><b>Value of the week:</b> Integrity · <span lang="ar">الاستقامة</span></p>' +
+    '<h2 class="ps-sec">Tests</h2><table class="ps-table"><colgroup><col style="width:15%"><col style="width:17%"><col></colgroup>' +
+    '<thead><tr><th>Day</th><th>Subject</th><th>What and what to study</th></tr></thead><tbody>' + tests + '</tbody></table>' +
+    '<h2 class="ps-sec">Homework</h2><table class="ps-table"><colgroup><col style="width:6%"><col style="width:17%"><col><col style="width:13%"></colgroup>' +
+    '<thead><tr><th>Done</th><th>Subject</th><th>Task</th><th>Due</th></tr></thead><tbody>' + hw + '</tbody></table>' +
+    '<h2 class="ps-sec">Evening plan</h2><table class="ps-table"><colgroup><col style="width:15%"><col></colgroup><tbody>' + plan + '</tbody></table>' +
+    '<p class="ps-foot">Source: the school\'s Week 8 Weekly Study Plan and Weekly Events for Class 6.3. Bold job = the most important one that evening.</p>' +
+    '<div class="ps-break">' + head("Timetable") + grid +
+    '<p class="ps-foot">HW = homework set in that period · TEST / CHECK = test or recitation check in that period.</p></div>';
+}
+
+document.getElementById("printBtn").addEventListener("click", () => { renderPrint(); window.print(); });
+window.addEventListener("beforeprint", renderPrint);
 document.getElementById("resetBtn").addEventListener("click", () => {
   if (!confirm("Clear this week's homework ticks on this device?")) return;
-  HW.forEach(h => delete S.done[h.ep]); save(); renderHomework(); updateMeter(false);
+  HW.forEach(h => delete S.done[h.ep]); save(); renderHomework(); updateMeter(false); renderPrint();
 });
 
 renderTonight();
@@ -630,6 +711,7 @@ renderTimetable(dayIndex >= 0 ? dayIndex : (afterWeek ? DAYS.length - 1 : 0));
 renderPlan();
 renderStudy();
 updateMeter(false);
+renderPrint();
 </script>
 </body>
 </html>
