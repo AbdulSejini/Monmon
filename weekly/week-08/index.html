@@ -276,7 +276,7 @@ details.helper[open] summary::before{content:"−"}
       <div class="stat"><b id="statHw">8</b><span>Homework</span></div>
       <div class="stat"><b>3</b><span>Tests</span></div>
       <div class="stat"><b id="statLeft">8</b><span>To do</span></div>
-      <p class="stats-note">Most homework is due <b>Saturday 24/10</b>. The science worksheet goes back on <b>Sunday 25/10</b>.</p>
+      <p class="stats-note">Most homework is due <b>Saturday 24/10</b>. Monday 19/10 is a <b>shortened school day</b>, and the school calendar marks <b>Sunday 25/10</b> as a long weekend.</p>
     </div>
   </section>
 
@@ -419,7 +419,11 @@ const HW = [
   {id:"eng82", ep:"2026-10-22-6F431794C3FD3CA27618", s:"eng", code:"HWK 8.2", day:"thu", due:"2026-10-24", title:"Writing: a friendly letter",
    detail:"Write to a friend who lives in another country, inviting him to visit Saudi Arabia. Describe the places he can visit and the activities he can enjoy. Bring the English notebook for correction.", letter:true},
   {id:"sci82", ep:"2026-10-21-7AC940BD462598F6F251", s:"sci", code:"HW 8.2", day:"wed", due:"2026-10-25", title:"Solve Worksheet 5 – Term 1",
-   detail:"Bring the completed worksheet to school on Sunday."}
+   detail:"Bring the completed worksheet to school on Sunday. The school calendar marks Sunday 25/10 as a long weekend, so check the hand-in day."},
+  /* from the class's Art messages on EduPage (11 and 13 Oct), not on the homework list */
+  {id:"art", ep:"msg-2026-10-20-art", s:"art", code:"Art", day:"sun", from:"Art messages", due:"2026-10-20", title:"Finish the Islamic ornament design",
+   ar:"إنهاء تصميم الزخرفة الإسلامية وتلوينه بزوج ألوان متقابل وتسليمه في حصة الفنية",
+   detail:"Choose one of the two designs, trace it, and colour it with yellow + purple, red + green or blue + orange. Bring the sketchbook, compass, ruler and colored pencils."}
 ];
 
 /* evening plan: items are [text, link key or null, isKey] */
@@ -429,7 +433,8 @@ const PLAN = {
        ["Start the Islamic Studies questions on EduPage.", null]],
   mon:[["Math HW 8.1 on IXL: objects on a coordinate plane (do the plotting practice first).", "math", true],
        ["Arabic homework, page 83.", null],
-       ["Vocabulary review, Units 1–3.", "vocab"]],
+       ["Vocabulary review, Units 1–3.", "vocab"],
+       ["Art tomorrow (P5U): finish and colour the ornament design; pack sketchbook, compass, ruler and colored pencils.", null]],
   tue:[["English HWK 8.1 on IXL: common and proper nouns.", null, true],
        ["Science: lungs, oxygen and blood chapters.", "sci"],
        ["Finish the EduPage questions if any are left.", null]],
@@ -539,7 +544,7 @@ function hwHTML(h){
   if (h.page) actions.push('<a class="btn btn-sm btn-col" href="' + PAGES[h.page].href + '">' + esc(h.pageLabel || PAGES[h.page].label) + ' →</a>');
   return '<li class="hw panel ' + SUBJ[h.s].cls + (done ? " is-done" : "") + '" id="hw-' + h.id + '">' +
     '<button class="check" type="button" role="checkbox" aria-checked="' + done + '" data-id="' + h.ep + '" aria-label="Mark done: ' + esc(SUBJ[h.s].label + " " + h.title) + '">' + ICON_CHECK + '</button>' +
-    '<div class="hw-body"><div class="hw-top"><span class="subj">' + esc(SUBJ[h.s].label) + '</span><span class="hw-code">' + esc(h.code) + ' · set ' + esc(dayName) + '</span></div>' +
+    '<div class="hw-body"><div class="hw-top"><span class="subj">' + esc(SUBJ[h.s].label) + '</span><span class="hw-code">' + esc(h.code) + ' · ' + esc(h.from || "set " + dayName) + '</span></div>' +
     '<p class="hw-title">' + esc(h.title) + '</p>' +
     (h.ar ? '<p class="hw-detail ar" lang="ar">' + esc(h.ar) + '</p>' : "") +
     (h.detail ? '<p class="hw-detail">' + esc(h.detail) + '</p>' : "") +
@@ -672,7 +677,7 @@ function renderPrint(){
       '<td class="ps-subj">' + esc(SUBJ[h.s].label) + '<small>' + esc(h.code) + '</small></td>' +
       '<td class="ps-text"><b>' + esc(h.title) + '.</b>' + (h.detail ? " " + esc(h.detail) : "") +
       (h.ar ? '<div class="ar" lang="ar">' + esc(h.ar) + '</div>' : "") + (h.link ? '<div class="ps-url">' + esc(h.link) + '</div>' : "") + '</td>' +
-      '<td class="ps-when">' + fmtDate(h.due) + '<small>set ' + dayOf(h.day).short + '</small></td></tr>';
+      '<td class="ps-when">' + fmtDate(h.due) + '<small>' + esc(h.from || "set " + dayOf(h.day).short) + '</small></td></tr>';
   }).join("");
   const plan = DAYS.map(d => '<tr><td class="ps-when">' + d.short + ' ' + dm(d.date) + '</td><td>' +
     PLAN[d.key].map(([text, , key], k) => '<span class="ps-job' + (key ? " key" : "") + '">' + (k + 1) + '. ' + esc(text) + '</span>').join(" ") + '</td></tr>').join("");

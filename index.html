@@ -31,7 +31,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
 .s-math{--col:#2F7DE1;--tint:#DCEBFF} .s-ar{--col:#F39200;--tint:#FFE8C2} .s-isl{--col:#9A4FE0;--tint:#EEE0FF}
 .s-sci{--col:#119C77;--tint:#D2F4E8} .s-eng{--col:#E23F66;--tint:#FFDDE6} .s-soc{--col:#8C5A2B;--tint:#F5E6D6}
-.s-quran{--col:#1E7A46;--tint:#D9F0E2} .s-pe{--col:#0E8C9E;--tint:#D3F2F6}
+.s-quran{--col:#1E7A46;--tint:#D9F0E2} .s-pe{--col:#0E8C9E;--tint:#D3F2F6} .s-art{--col:#B8559A;--tint:#F6E0F0}
 .panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
 
 /* top bar */
@@ -112,6 +112,7 @@ details.week summary b{font-size:18px}
 details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
 .rows{padding:0 14px 14px;display:grid;gap:8px}
 .row{display:grid;gap:4px;padding:8px 10px;border-inline-start:6px solid var(--col);background:var(--tint);border-radius:0 8px 8px 0}
+.notices{display:grid;gap:8px;margin-top:12px}
 .row .item-text{font-size:15px}
 .done-mark{font-size:12px;font-weight:800;color:#fff;background:var(--good);border-radius:999px;padding:0 8px}
 
@@ -127,16 +128,16 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
 @page{size:A4;margin:12mm}
 @media print{
   html,body{background:#fff!important}
-  body{background-image:none!important;color:#000;font-size:10pt;line-height:1.45}
+  body{background-image:none!important;color:#000;font-size:10pt;line-height:1.4}
   .topbar,main{display:none!important}
   .print-sheet{display:block}
   .ps-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4pt 12pt;border-bottom:1.5pt solid #000;padding-bottom:4pt}
-  .ps-head h1{font-size:18pt}
+  .ps-head h1{font-size:16pt}
   .ps-head p{font-size:9pt;font-weight:700;color:#333}
-  .ps-sec{font-size:13pt;margin:12pt 0 4pt}
-  .ps-table{width:100%;border-collapse:collapse;font-size:9.5pt}
+  .ps-sec{font-size:13pt;margin:9pt 0 3pt}
+  .ps-table{width:100%;border-collapse:collapse;font-size:9pt}
   .ps-table th{text-align:start;font-size:8.5pt;border-bottom:1pt solid #000;padding:2pt 4pt}
-  .ps-table td{vertical-align:top;border-bottom:.75pt solid #999;padding:4pt}
+  .ps-table td{vertical-align:top;border-bottom:.75pt solid #999;padding:3pt 4pt}
   .ps-table tr{break-inside:avoid}
   .ps-box{display:inline-block;width:12pt;height:12pt;border:1.2pt solid #000;border-radius:2pt;text-align:center;line-height:11pt;font-weight:800}
   .ps-subj{font-weight:800}
@@ -145,7 +146,9 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
   .ps-text{white-space:pre-line;overflow-wrap:anywhere}
   .ps-note{margin-top:3pt;font-weight:700;border-inline-start:2pt solid #000;padding-inline-start:5pt}
   .ps-done .ps-text{text-decoration:line-through;color:#555}
-  .ps-foot{margin-top:12pt;padding-top:4pt;border-top:.75pt solid #999;font-size:8pt;color:#444}
+  .ps-list{padding-inline-start:14pt;font-size:9pt}
+  .ps-list li{list-style:disc;margin-bottom:2pt}
+  .ps-foot{margin-top:8pt;padding-top:3pt;border-top:.75pt solid #999;font-size:8pt;color:#444}
 }
 </style>
 </head>
@@ -184,6 +187,13 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
     <div class="sec-head"><h2 id="testsTitle">عنده اختبارات</h2>
       <p>الاختبارات القادمة وايش يذاكر لها.</p></div>
     <ul class="list" id="tests"></ul>
+  </section>
+
+  <section class="sec" aria-labelledby="datesTitle">
+    <div class="sec-head"><h2 id="datesTitle">مواعيد وتنبيهات</h2>
+      <p>من تقويم المدرسة ورسائل EduPage للصف.</p></div>
+    <ul class="list" id="dates"></ul>
+    <ul class="notices" id="notices"></ul>
   </section>
 
   <section class="sec" id="practice" aria-labelledby="practiceTitle">
@@ -707,16 +717,33 @@ const PRACTICE_BY_ID = {
   "2026-10-22-D07FE1AF26AC823D24B5": ["math/coordinate-plane/index.html", "تدرّب على حساب المسافة"]
 };
 
-/* What to study, from the school's Weekly Study Plan and Weekly Events (EduPage only gives the title). */
+/* What to study or bring, from the Weekly Study Plan, Weekly Events and EduPage messages (EduPage's list only gives the title). */
 const NOTES = {
   "2026-10-19-57A7A5E7CEEDD3AB": "التلاوة: سورة الكهف 1-18 · الحفظ: سورة القلم 1-30",
-  "2026-10-22-FCDC333DBF0EE2FA": "إملاء ص 65: من (تحرص حكومة خادم الحرمين الشريفين) حتى (واحترام التنوع الثقافي). يحضر دفتر الإملاء."
+  "2026-10-22-FCDC333DBF0EE2FA": "إملاء ص 65: من (تحرص حكومة خادم الحرمين الشريفين) حتى (واحترام التنوع الثقافي). يحضر دفتر الإملاء.",
+  "2026-10-21-7AC940BD462598F6F251": "تقويم المدرسة يذكر إجازة نهاية أسبوع طويلة يوم الأحد 25/10، فتأكدوا من يوم التسليم مع المعلم.",
+  "msg-2026-10-20-art": "يحضر للحصة: كراسة الرسم، الأدوات الهندسية (خصوصًا الفرجار)، المسطرة، الألوان الخشبية."
 };
 
-/* In the Weekly Study Plan but not on EduPage. */
+/* In the Weekly Study Plan or the class's EduPage messages, but not on the public homework list. */
 const EXTRA = [
   {id:"wsp-2026-10-22-kahf", date:"2026-10-22", kind:"test", type:"Oral exam", subject:"Qur'an", due:"2026-10-22",
-   text:"تقييم تلاوة سورة الكهف 19-20", fromPlan:true}
+   text:"تقييم تلاوة سورة الكهف 19-20", fromPlan:true},
+  {id:"msg-2026-10-20-art", date:"2026-10-13", kind:"hw", type:"homework", subject:"Art", due:"2026-10-20",
+   text:"إنهاء تصميم الزخرفة الإسلامية (تصميم واحد من التصميمين المرسلين) وتلوينه بزوج ألوان متقابل: الأصفر مع البنفسجي، أو الأحمر مع الأخضر، أو الأزرق مع البرتقالي، ثم تسليمه في حصة الفنية القادمة.",
+   fromMsg:true}
+];
+
+/* School calendar entries and class notices from EduPage messages. */
+const SCHOOL_DATES = [
+  {date:"2026-10-19", title:"يوم دوام مختصر", en:"Shortened Schedule"},
+  {date:"2026-10-25", title:"إجازة نهاية أسبوع طويلة", en:"Long Weekend"},
+  {date:"2026-11-22", title:"إجازة الخريف", en:"Autumn Break"},
+  {date:"2027-01-10", title:"إجازة منتصف العام", en:"Mid-Year Break"}
+];
+const NOTICES = [
+  {date:"2026-10-14", subject:"Be Well", text:"مشروع Be Well يُحسب من 15 درجة ويحل محل الاختبار. التفاصيل في خطاب المعلم المرفق في EduPage."},
+  {date:"2026-10-03", subject:"Math", text:"واجبات الرياضيات تُحل في الدفتر مع كتابة خطوات الحل، عشان ما تنخصم درجات."}
 ];
 
 const PRACTICE_PAGES = [
@@ -730,7 +757,7 @@ const PRACTICE_PAGES = [
 const SUBJ = {
   "Math":["رياضيات","s-math"], "English":["إنجليزي","s-eng"], "Science":["علوم","s-sci"], "Arabic":["لغتي","s-ar"],
   "Islamic Studies":["دراسات إسلامية","s-isl"], "Qur'an":["قرآن كريم","s-quran"], "Social Studies":["اجتماعيات","s-soc"],
-  "PE":["تربية بدنية","s-pe"]
+  "PE":["تربية بدنية","s-pe"], "Art":["فنية","s-art"], "Be Well":["Be Well","s-well"]
 };
 const TYPE_AR = {"homework":"واجب", "Small exam":"اختبار قصير", "Big exam":"اختبار", "Oral exam":"اختبار شفهي",
   "Unit Test (W2)":"اختبار وحدة", "Test":"اختبار", "Project":"مشروع", "Report":"تقرير"};
@@ -798,6 +825,8 @@ function itemCard(i){
     '<button class="check" type="button" role="checkbox" aria-checked="' + done + '" data-id="' + esc(i.id) + '" aria-label="خلص: ' + esc(sName) + '">' + ICON_CHECK + '</button>' +
     '<div class="item-body"><div class="item-meta"><span class="subj">' + esc(sName) + '</span><span class="meta-note">' + esc(meta) + '</span></div>' +
     '<p class="item-text" dir="auto">' + textHTML(i.text) + '</p>' +
+    (NOTES[i.id] ? '<p class="note" dir="auto">' + esc(NOTES[i.id]) + '</p>' : "") +
+    (i.fromMsg ? '<p class="meta-note">من رسائل EduPage (مو في قائمة الواجبات)</p>' : "") +
     (prac ? '<div class="actions"><a class="act" href="' + prac[0] + '">' + esc(prac[1]) + ' ←</a></div>' : "") +
     '</div></li>';
 }
@@ -828,6 +857,21 @@ function renderTests(){
       (note ? '<p class="note" dir="auto">' + esc(note) + '</p>' : "") +
       (i.fromPlan ? '<p class="meta-note">من الخطة الأسبوعية (مو موجود في EduPage)</p>' : "") +
       '</div></li>';
+  }).join("");
+}
+
+function renderDates(){
+  const dates = SCHOOL_DATES.filter(d => d.date >= TODAY);
+  document.getElementById("dates").innerHTML = dates.map(d => {
+    const p = parts(d.date), n = dayDiff(TODAY, d.date);
+    return '<li class="test panel"><div class="cal"><small>' + WD[p.wd] + '</small><b>' + p.d + '</b><span>' + MONTHS[p.m-1] + '</span></div>' +
+      '<div class="item-body"><div class="item-meta"><span class="subj">تقويم المدرسة</span><span class="badge' + (n <= 1 ? " hot" : "") + '">' + whenLabel(n) + '</span></div>' +
+      '<p class="item-text">' + esc(d.title) + ' <span class="meta-note" dir="ltr" style="white-space:nowrap">(' + esc(d.en) + ')</span></p></div></li>';
+  }).join("");
+  document.getElementById("notices").innerHTML = NOTICES.map(t => {
+    const [sName, sCls] = subj(t.subject);
+    return '<li class="row ' + sCls + '"><div class="item-meta"><span class="subj">' + esc(sName) + '</span><span class="meta-note">رسالة ' + shortDate(t.date) + '</span></div>' +
+      '<p class="item-text">' + esc(t.text) + '</p></li>';
   }).join("");
 }
 
@@ -865,12 +909,14 @@ function syncedText(){
 function renderSynced(){ document.getElementById("synced").textContent = syncedText(); }
 
 /* Print: one A4 page with what is still due (boxes to tick by hand) and the coming tests. */
+/* the due date has its own column on paper, so drop "Due date: 24/10/2026" from the text */
+function printText(t){ return t.replace(/\s*Due\s*date:?\s*\d{1,2}\s*\/\s*\d{1,2}\s*\/\s*\d{2,4}\.?/gi, "").trim(); }
 function renderPrint(){
   const hw = todo.slice().sort((a, b) => a.due.localeCompare(b.due) || a.date.localeCompare(b.date)).map(i => {
     const done = !!S.done[i.id];
     return '<tr' + (done ? ' class="ps-done"' : "") + '><td><span class="ps-box">' + (done ? "✓" : "") + '</span></td>' +
       '<td class="ps-subj">' + esc(subj(i.subject)[0]) + '<small>' + esc(typeAr(i.type)) + '</small></td>' +
-      '<td class="ps-text" dir="auto">' + esc(i.text) + '</td>' +
+      '<td class="ps-text" dir="auto">' + esc(printText(i.text)) + (NOTES[i.id] ? '<div class="ps-note" dir="auto">' + esc(NOTES[i.id]) + '</div>' : "") + '</td>' +
       '<td class="ps-when">' + shortDate(i.due) + '<small>' + (done ? "خلص" : dueLabel(dayDiff(TODAY, i.due))) + '</small></td></tr>';
   }).join("");
   const ts = tests.slice().sort((a, b) => a.date.localeCompare(b.date)).map(i =>
@@ -887,10 +933,13 @@ function renderPrint(){
     (ts ? '<table class="ps-table"><colgroup><col style="width:15%"><col style="width:16%"><col></colgroup>' +
       '<thead><tr><th>اليوم</th><th>المادة</th><th>الاختبار وايش يذاكر له</th></tr></thead><tbody>' + ts + '</tbody></table>'
       : '<p>ما فيه اختبارات معلنة في EduPage الحين.</p>') +
-    '<p class="ps-foot">' + esc(syncedText()) + ' المصدر: EduPage والخطة الأسبوعية للمدرسة.</p>';
+    '<h2 class="ps-sec">مواعيد وتنبيهات</h2><ul class="ps-list"><li>' +
+      SCHOOL_DATES.filter(d => d.date >= TODAY).map(d => '<b>' + shortDate(d.date) + ':</b> ' + esc(d.title)).join(" · ") + '</li>' +
+      NOTICES.map(t => '<li><b>' + esc(subj(t.subject)[0]) + ':</b> ' + esc(t.text) + '</li>').join("") + '</ul>' +
+    '<p class="ps-foot">' + esc(syncedText()) + ' المصدر: EduPage ورسائله والخطة الأسبوعية للمدرسة.</p>';
 }
 
-function renderAll(){ renderHello(); renderTodo(); renderTests(); renderHistory(); renderPrint(); }
+function renderAll(){ renderHello(); renderTodo(); renderTests(); renderDates(); renderHistory(); renderPrint(); }
 
 document.getElementById("todo").addEventListener("click", e => {
   const btn = e.target.closest(".check");

@@ -11,7 +11,7 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 - `tools/edupage_sync.py` re-reads that list and rewrites the data block in `index.html` (standard library only; `--dry-run` prints the items without changing anything).
 - `.github/workflows/edupage-sync.yml` runs it at 06:23 and 16:23 Jeddah time and commits only when something changed. It can also be started by hand from the Actions tab ("Sync EduPage", then "Run workflow").
 - The site is published with GitHub Pages at <https://abdulsejini.github.io/Monmon/>, built from the root of the main branch (`.nojekyll` serves the files as they are). Any commit to the main branch, including the sync's, goes live within a couple of minutes.
-- Notes on what to study for a test, and anything the Weekly Study Plan has that EduPage doesn't, are kept by hand in `NOTES` and `EXTRA` near the top of the script in `index.html`.
+- Notes on what to study or bring, items from the Weekly Study Plan or the class's EduPage messages that the public list doesn't have (`EXTRA`), school calendar dates (`SCHOOL_DATES`) and class notices (`NOTICES`) are kept by hand near the top of the script in `index.html`. Nothing personal (messages to or about the student, reports, behaviour notes) goes on this public site.
 
 ## Weekly plans
 
