@@ -287,6 +287,37 @@ button.blank{font-size:inherit;line-height:1.3}
   .word-title .l,.splash .big,.screen,.result-stars span,.fb,.opt,.flash,.blank.filled,.xp.bump{animation:none!important}
   .btn,.opt,.tile,.bar i,.progress i{transition:none!important}
 }
+/* ---------- print: an A4 study sheet replaces the quest on paper ---------- */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important;background-image:none!important;color:#000}
+  body{font-size:10pt;line-height:1.35}
+  .topbar,main.wrap,#fx,#live{display:none!important}
+  .print-sheet{display:block!important}
+  *,*::before,*::after{animation:none!important;transition:none!important;box-shadow:none!important;text-shadow:none!important}
+  .ps-head{border-bottom:.75pt solid #999;padding-bottom:4pt;margin-bottom:8pt}
+  .ps-head h1{font-size:16pt;color:#000}
+  .ps-head p{margin-top:2pt;font-size:9.5pt;color:#333}
+  .print-sheet h2{font-size:14pt;color:#000;margin:0 0 4pt}
+  .print-sheet h3{font-size:12pt;color:#000;margin:10pt 0 2pt}
+  .ps-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:9.5pt;line-height:1.3}
+  .ps-table thead{display:table-header-group}
+  .ps-table th,.ps-table td{border:.75pt solid #999;padding:2.5pt 4pt;text-align:left;vertical-align:top;overflow-wrap:break-word}
+  .ps-table th{font-size:8pt;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+  .ps-table tr{break-inside:avoid}
+  .ps-table .grp td{font-weight:800;font-size:8.5pt;text-transform:uppercase;letter-spacing:.05em;border-top:1.5pt solid #000}
+  .ps-say{font-style:italic;color:#333}
+  .ps-page{break-before:page}
+  .ps-test p{font-size:9.5pt}
+  .ps-test ol{margin:4pt 0 0;padding-left:18pt}
+  .ps-test li{margin:0 0 7pt;break-inside:avoid}
+  .ps-box{border:.75pt solid #999;padding:4pt 6pt;margin:5pt 0 8pt;font-weight:700;word-spacing:.4em}
+  .ps-blank{display:inline-block;width:30mm;border-bottom:.75pt solid #000}
+  .ps-key{margin-top:8pt;padding-top:4pt;border-top:.75pt dashed #999;font-size:8pt;color:#333}
+  .ps-box span,.ps-key span{white-space:nowrap}
+  .ps-roomy li{margin-bottom:14pt;font-size:10.5pt}
+}
 </style>
 </head><body>
 
@@ -308,6 +339,7 @@ button.blank{font-size:inherit;line-height:1.3}
   <section id="scr-test" class="screen" hidden></section>
   <section id="scr-report" class="screen" hidden></section>
 </main>
+<div class="print-sheet" id="printSheet"></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div id="live" class="sr-only" aria-live="polite"></div>
 <script>
@@ -1732,10 +1764,34 @@ document.addEventListener("keydown", e => {
   if (k.length === 1 && idx >= 0){ const opt = document.querySelectorAll("#scr-test .opt")[idx]; if (opt) opt.click(); }
 });
 
+/* ---------- PRINT SHEET: A4 word list + a short test per unit, shown only when printing ---------- */
+const PRINT_TEST_IDX = [17, 1, 9, 5, 13]; /* five fixed words per unit, spread through its list */
+function buildPrintSheet(){
+  const one = a => (a && a.length) ? a[0] : "—";
+  let h = '<header class="ps-head"><h1>Units 1–3 Word List</h1><p>Class 6.3 · Sadlier Vocabulary Workshop Level A · Review Units 1–3 (book pages 42–49)</p></header>';
+  UNITS.forEach((u, ui) => {
+    h += '<section class="ps-unit' + (ui ? " ps-page" : "") + '"><h2>' + esc(u.name) + '</h2>'
+      + '<table class="ps-table"><colgroup><col style="width:18%"><col style="width:15%"><col style="width:35%"><col style="width:16%"><col style="width:16%"></colgroup>'
+      + '<thead><tr><th>Word</th><th>Part of speech</th><th>Meaning</th><th>Synonym</th><th>Antonym</th></tr></thead><tbody>'
+      + u.words.map(w => {
+          const W = WORDS[w];
+          return '<tr><td><b>' + esc(w) + '</b></td><td>' + esc(W.pos) + '</td><td>' + esc(W.short) + '</td><td>' + esc(one(W.syn)) + '</td><td>' + esc(one(W.ant)) + '</td></tr>';
+        }).join("")
+      + '</tbody></table>';
+    const qs = PRINT_TEST_IDX.map(i => u.words[i]);
+    h += '<div class="ps-test"><h3>Test yourself</h3><p>Write the word from the box that completes each sentence. Change its form if you need to.</p>'
+      + '<div class="ps-box">' + qs.slice().sort().map(w => '<span>' + esc(w) + '</span>').join(" · ") + '</div><ol>'
+      + qs.map(w => '<li>' + esc(WORDS[w].ex).replace(/\{[^}]+\}/, '<span class="ps-blank"></span>') + '</li>').join("")
+      + '</ol><p class="ps-key"><b>Answers:</b> ' + qs.map((w, i) => '<span>' + (i + 1) + ". " + esc(WORDS[w].ex.match(/\{([^}]+)\}/)[1]) + '</span>').join(" · ") + '</p></div></section>';
+  });
+  $("#printSheet").innerHTML = h;
+}
+
 /* ---------- START ---------- */
 if (canSpeak) try { speechSynthesis.getVoices(); } catch (e) {}
 $("#xpVal").textContent = S.xp;
 renderSoundBtn();
 renderHome();
+buildPrintSheet();
 </script>
 </body></html>
