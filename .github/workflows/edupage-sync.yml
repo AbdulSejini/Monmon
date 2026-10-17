@@ -1,10 +1,14 @@
 name: Sync EduPage
 
 # Refreshes index.html from the school's public EduPage homework/tests list
-# twice a day (06:23 and 16:23 Jeddah time) and commits only when it changed.
+# twice a day (06:23 and 16:23 Jeddah time), commits only when it changed,
+# then publishes the main branch to gh-pages, which GitHub Pages serves.
+# A push to the main branch runs it too, so manual changes go live as well.
 on:
   schedule:
     - cron: "23 3,13 * * *"
+  push:
+    branches: [claude/epic-ptolemy-7hl9cc]
   workflow_dispatch:
 
 permissions:
@@ -33,3 +37,7 @@ jobs:
           git add index.html
           git commit -m "Sync homework and tests from EduPage"
           git push
+      # publish even if EduPage was unreachable, so a pushed change still goes live
+      - name: Publish to GitHub Pages (gh-pages branch)
+        if: ${{ !cancelled() && github.ref == 'refs/heads/claude/epic-ptolemy-7hl9cc' }}
+        run: git push --force origin HEAD:refs/heads/gh-pages
