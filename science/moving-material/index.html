@@ -217,7 +217,8 @@ button.pin:hover:not([disabled]){background:#fff}
 .jar-layer{transition:opacity .25s}
 .jar[data-sel] .jar-layer{opacity:.35}
 .jar[data-sel="plasma"] .jl-plasma,.jar[data-sel="buffy"] .jl-buffy,.jar[data-sel="red"] .jl-red{opacity:1}
-.animal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.animal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:560px){.animal-grid{grid-template-columns:1fr}}
 .acard{border:3px solid var(--ink);border-radius:var(--r);background:var(--paper);box-shadow:var(--shadow-sm);overflow:hidden;min-width:0}
 .acard .mini{aspect-ratio:160/90;border-bottom:3px solid var(--ink);background:var(--tint)}
 .acard .mini svg{width:100%;height:100%;display:block}
@@ -902,7 +903,7 @@ const ANIMALS = [
    text:"Air enters small openings called <b>spiracles</b> along the sides of the body. It travels through branching tubes called <b>tracheae</b> straight to the cells. Insect blood carries very little oxygen.",
    svg:`<svg id="mini-insect" viewBox="0 0 160 90" role="img" aria-label="A grasshopper. Air enters spiracles on its side and travels through branching tracheae tubes to its cells.">
 <rect width="160" height="90" fill="#EAF6D8"/>
-<path d="M66 58 L92 30 L118 70" stroke="#14163A" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M66 60 L90 80 L122 84" stroke="#14163A" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M44 58 L38 76 M54 58 L58 78" stroke="#14163A" stroke-width="2.5" stroke-linecap="round"/>
 <ellipse cx="100" cy="50" rx="46" ry="14" fill="#9BCB3C" class="o2"/>
 <ellipse cx="48" cy="48" rx="15" ry="13" fill="#86B82E" class="o2"/>
@@ -911,7 +912,7 @@ const ANIMALS = [
 <path d="M22 35 C 18 22, 26 12, 40 8" stroke="#14163A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
 <path d="M76 58 V46 L70 40 M76 46 L84 40 M98 61 V46 L92 40 M98 46 L106 40 M120 58 V46 L114 40 M120 46 L128 42" stroke="#3F6212" stroke-width="1.4" fill="none"/>
 <g fill="#14163A"><circle cx="76" cy="58" r="2.4"/><circle cx="98" cy="61" r="2.4"/><circle cx="120" cy="58" r="2.4"/></g>
-<text x="146" y="84" text-anchor="end" class="lb" font-size="9">spiracles</text>
+<text x="152" y="20" text-anchor="end" class="lb" font-size="9">spiracles</text><line x1="128" y1="24" x2="121" y2="54" stroke="#14163A" stroke-width="1.2"/>
 <path id="a1" d="M76 86 L76 58 L76 46 L70 40" fill="none"/>
 <path id="a2" d="M98 88 L98 61 L98 46 L106 40" fill="none"/>
 <path id="a3" d="M120 86 L120 58 L120 46 L114 40" fill="none"/>
@@ -945,7 +946,7 @@ const ANIMALS = [
 <circle cx="76" cy="36" r="1.2" fill="#14163A"/><circle cx="84" cy="36" r="1.2" fill="#14163A"/>
 <ellipse cx="72" cy="64" rx="6" ry="9" fill="#FF9FB2" stroke="#14163A" stroke-width="1.5"/>
 <ellipse cx="88" cy="64" rx="6" ry="9" fill="#FF9FB2" stroke="#14163A" stroke-width="1.5"/>
-<text x="80" y="88" text-anchor="middle" class="lb" font-size="9">lungs</text>
+<text x="152" y="76" text-anchor="end" class="lb" font-size="9">lungs</text><line x1="126" y1="72" x2="95" y2="66" stroke="#14163A" stroke-width="1.2"/>
 <path id="n1" d="M80 2 L80 36 L80 50 L72 60" fill="none"/>
 <path id="n2" d="M80 2 L80 36 L80 50 L88 60" fill="none"/>
 <path id="s1" d="M6 52 L44 58" fill="none"/>

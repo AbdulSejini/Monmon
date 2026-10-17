@@ -24,6 +24,12 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 | --- | --- | --- |
 | enVision Mathematics Grade 6, Lessons 2-4 and 2-5 (coordinate plane) | [`math/coordinate-plane/index.html`](math/coordinate-plane/index.html) | Five zones (axes and quadrants, fractions and decimals, reflections, distance with absolute value, map problems), each with lesson cards and a 6-question practice; a tap-to-plot grid that works on iPad; typed answers that accept fractions, mixed numbers and decimals; explanations for every answer with tips for common slips; a 20-question Final Challenge with a skill report and study plan; and a homework check for H.W. 8.1 (IXL) and 8.2 (book pp. 102–103). |
 
+## Science
+
+| Lesson | Page | What's inside |
+| --- | --- | --- |
+| Module 2: Body Systems, L4 Moving Material | [`science/moving-material/index.html`](science/moving-material/index.html) | Eight parts following the week's lesson questions (the phenomenon, transport in plants, the human circulatory system, the lungs and gas exchange, the heart's two loops, how other animals breathe, open and closed circulatory systems, the cardiovascular technologist and blood cells), each with an animated diagram and a quick check; a Cell Lab for the IXL animal-cell labeling homework; a 20-question Lesson Review with a weak-spot report; and a 37-word word bank. |
+
 ## Vocabulary
 
 | Unit | Page | What's inside |
