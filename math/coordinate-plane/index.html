@@ -1,0 +1,1410 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Coordinate Plane Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn:#C77700; --warn-bg:#FFF0D1;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --c5:#E23F66; --c5t:#FFDDE6;
+  --col:var(--c1); --tint:var(--c1t);
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--c1);font-weight:700;overflow-wrap:anywhere}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.land-c1{--col:var(--c1);--tint:var(--c1t)} .land-c2{--col:var(--c2);--tint:var(--c2t)} .land-c3{--col:var(--c3);--tint:var(--c3t)}
+.land-c4{--col:var(--c4);--tint:var(--c4t)} .land-c5{--col:var(--c5);--tint:var(--c5t)}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:900px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.xp{display:flex;align-items:center;gap:6px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;white-space:nowrap}
+.xp svg{width:20px;height:20px}
+.xp.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{50%{transform:scale(1.18)}}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink)}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:520px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:16px;line-height:1.2;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn-go{background:var(--sun)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.btn-sm{min-height:38px;padding:6px 12px;font-size:14px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:var(--shadow-sm)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.screen{animation:enter .35s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* home */
+.hero{margin-top:20px;padding:20px;display:grid;grid-template-columns:1.35fr 1fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(42px,7vw,66px)}
+.hero h1 span{color:var(--c1);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero p{margin-top:10px;max-width:50ch;color:var(--ink-2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;background:var(--page);text-align:center}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+@media (max-width:680px){.hero{grid-template-columns:1fr}}
+.banner{margin-top:16px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--sun-2)}
+.banner.alert{background:var(--bad-bg)}
+.banner p{flex:1 1 260px}
+.sec-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:34px 0 14px}
+.sec-title h2{font-size:36px}
+.sec-title p{color:var(--ink-2);font-size:14px}
+
+/* quest trail */
+.trail{position:relative;display:grid;gap:20px;padding-block:4px}
+.trail::before{content:"";position:absolute;top:0;bottom:-20px;left:50%;border-left:4px dashed var(--ink-3);transform:translateX(-2px)}
+.land{position:relative;width:calc(50% - 26px);display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px;text-align:left;background:var(--tint);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);transition:transform .12s}
+.land:nth-child(odd){justify-self:start}
+.land:nth-child(even){justify-self:end}
+.land:hover{transform:translateY(-3px) rotate(-.4deg)}
+.land::after{content:"";position:absolute;top:24px;width:22px;height:22px;border-radius:50%;background:var(--col);border:3px solid var(--ink)}
+.land:nth-child(odd)::after{right:-40px}
+.land:nth-child(even)::after{left:-40px}
+@media (max-width:680px){.trail::before{left:18px}.land{width:calc(100% - 44px);justify-self:end!important}.land::after{left:-40px!important;right:auto!important}}
+.badge{width:56px;height:56px;border-radius:50%;background:var(--col);border:3px solid var(--ink);display:grid;place-items:center;box-shadow:2px 2px 0 var(--ink)}
+.badge svg{width:32px;height:32px}
+.land-num{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.land h3{font-size:30px}
+.land .sub{font-size:14px;color:var(--ink-2)}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pill{font-size:13px;font-weight:700;padding:2px 9px;border:2px solid var(--ink);border-radius:999px;background:var(--paper)}
+.land-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.progress-note{font-size:13px;font-weight:700;color:var(--ink-2)}
+.stars{display:flex;gap:2px}
+.stars svg{width:24px;height:24px}
+.sticker{position:absolute;top:-19px;right:12px;font-family:var(--display);font-size:18px;letter-spacing:.05em;background:var(--bad);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 8px;transform:rotate(4deg);box-shadow:2px 2px 0 var(--ink)}
+.sticker.ok{background:var(--good)}
+.final{position:relative;margin:36px auto 0;max-width:560px;padding:18px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:var(--sun)}
+.final h3{font-size:34px}
+.final p{font-size:14px;color:var(--ink)}
+.final .row{grid-column:1 / -1}
+.final .badge{background:var(--ink)}
+
+/* homework */
+.hw{padding:16px;display:grid;gap:14px}
+.hw-item{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+.hw-item.done{background:var(--good-bg)}
+.hw-check{width:30px;height:30px;margin:2px 0 0;accent-color:var(--good);cursor:pointer}
+.hw-item h3{font-size:24px}
+.hw-item .due{font-size:13px;font-weight:800;color:var(--bad);text-transform:uppercase;letter-spacing:.06em}
+.hw-item ul{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}
+.hw-body{grid-column:2;display:grid;gap:8px;min-width:0}
+.hw-note{font-size:13px;color:var(--ink-2)}
+.foot-note{margin-top:28px;text-align:center;font-size:13px;color:var(--ink-2)}
+.link-btn{background:none;border:0;padding:0;color:var(--ink-2);text-decoration:underline;font-size:13px}
+
+/* lesson */
+.lesson-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.chip-land{font-family:var(--display);font-size:22px;letter-spacing:.04em;padding:3px 12px;border:3px solid var(--ink);border-radius:10px;background:var(--col);color:#fff;-webkit-text-stroke:.5px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.intro{margin-top:14px;padding:22px;display:grid;gap:14px;background:var(--tint)}
+.intro h2{font-size:clamp(40px,8vw,64px);color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink)}
+.intro p{font-size:18px;max-width:60ch}
+.lcards{display:grid;gap:18px;margin-top:18px}
+.lcard{padding:16px;display:grid;gap:14px}
+.lcard-num{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.lcard h3{font-size:32px;color:var(--col);-webkit-text-stroke:1px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.lgrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px 20px;align-items:center}
+.lgrid.solo{grid-template-columns:1fr}
+@media (max-width:720px){.lgrid{grid-template-columns:1fr}}
+.ltext{display:grid;gap:12px;min-width:0;font-size:17px;line-height:1.6}
+.ltext b{background:var(--sun-2);padding:0 4px;border-radius:4px}
+.trick-inline{display:block;padding:10px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--sun-2);transform:rotate(-.6deg);box-shadow:2px 2px 0 var(--ink);font-weight:500}
+.ex{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--page);padding:12px 14px}
+.ex h4{margin:0;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.ex .ex-q{margin-top:2px;font-weight:800;font-size:18px}
+.ex ol{margin:8px 0 0;padding-left:22px;display:grid;gap:4px}
+.note{font-size:15px;padding:10px 12px;border-left:6px solid var(--col);background:var(--tint);border-radius:0 10px 10px 0}
+.rtable{width:100%;border-collapse:separate;border-spacing:0;border:2px solid var(--ink);border-radius:10px;overflow:hidden;font-size:15px;background:var(--paper)}
+.rtable th,.rtable td{padding:7px 10px;text-align:left;border-bottom:2px solid var(--page)}
+.rtable th{background:var(--ink);color:#fff;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.rtable tr:last-child td{border-bottom:0}
+.rtable td:first-child{font-weight:800}
+.lesson-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+/* coordinate plane */
+.plane{position:relative;width:100%;max-width:440px;margin:0 auto;border:3px solid var(--ink);border-radius:var(--r-sm);background:#fff;overflow:hidden;box-shadow:var(--shadow-sm)}
+.plane svg{display:block;width:100%;height:auto;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.plane.live{cursor:crosshair}
+.plane.live:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.plane.small{max-width:300px}
+.plane .gl{stroke:#D3D9EE;stroke-width:1.2}
+.plane .gh{stroke:#E3E7F4;stroke-width:1;stroke-dasharray:3 3}
+.plane .ax{stroke:var(--ink);stroke-width:2.6}
+.plane .tk{stroke:var(--ink);stroke-width:2}
+.plane .tl{font-family:var(--body);font-size:14px;font-weight:600;fill:var(--ink-2);paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+.plane .axn{font-family:var(--body);font-size:17px;font-weight:800;font-style:italic;fill:var(--ink)}
+.plane .qd{font-family:var(--display);font-size:52px;fill:var(--col);opacity:.22}
+.plane .pt{stroke:var(--ink);stroke-width:2.5}
+.plane .pl{font-family:var(--body);font-size:16px;font-weight:800;fill:var(--ink);paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round}
+.plane .pl.you{fill:var(--bad)} .plane .pl.ok{fill:var(--good)}
+.plane .guide{stroke:var(--ink-2);stroke-width:2;stroke-dasharray:5 4;fill:none}
+.plane .seg-u{stroke:var(--ink);stroke-width:9;stroke-linecap:round}
+.plane .seg{stroke:var(--col);stroke-width:5;stroke-linecap:round}
+.plane .seg-d{stroke:var(--ink-2);stroke-width:2.5;stroke-dasharray:6 5}
+.plane .poly{fill:var(--tint);stroke:var(--ink);stroke-width:3;stroke-linejoin:round}
+.plane .walk{fill:none;stroke:var(--c2);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:10 8;animation:march 1s linear infinite}
+.plane .walk-u{fill:none;stroke:var(--ink);stroke-width:9;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+@keyframes march{to{stroke-dashoffset:-18}}
+.plane .pin{stroke:var(--ink);stroke-width:2.5;fill:var(--sun)}
+.plane .mk{pointer-events:none}
+.plane .mk circle.ring{fill:none;stroke:var(--sun);stroke-width:4;animation:ringPulse 1.2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes ringPulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.9);opacity:0}}
+.plot-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+.readout{font-weight:800;font-size:18px;padding:6px 14px;border:2px solid var(--ink);border-radius:10px;background:var(--sun-2);font-variant-numeric:tabular-nums;min-width:12ch;text-align:center}
+.nudge{display:flex;gap:6px}
+.nudge button{width:44px;height:44px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);display:grid;place-items:center;padding:0}
+.nudge button svg{width:20px;height:20px}
+.nudge button:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+.nudge button[disabled]{opacity:.4;cursor:default}
+
+/* questions */
+.test-top{display:grid;gap:10px;margin-top:16px}
+.test-top .row{justify-content:space-between}
+.round-name{font-family:var(--display);font-size:26px;letter-spacing:.04em}
+.counter{font-weight:800;font-variant-numeric:tabular-nums}
+.progress{height:16px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--sun);border-right:2px solid var(--ink);transition:width .4s}
+.q-card{margin-top:14px;padding:18px;display:grid;gap:14px}
+.q-kicker{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.q-text{font-size:20px;line-height:1.55;font-weight:500}
+.q-text b{background:var(--sun-2);padding:0 5px;border-radius:5px;box-shadow:inset 0 -3px 0 var(--sun);white-space:nowrap}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opts.four{grid-template-columns:repeat(4,1fr)}
+@media (max-width:420px){.opts.two{grid-template-columns:1fr}}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;min-height:56px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:600;font-size:18px;line-height:1.35;box-shadow:3px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s;font-variant-numeric:tabular-nums}
+.opt:hover:not([disabled]){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.opt:active:not([disabled]){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.opt .k{flex:none;width:30px;height:30px;border-radius:8px;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:14px;background:var(--page)}
+.opt.big{justify-content:center;font-family:var(--display);font-size:34px;font-weight:400;letter-spacing:.04em;min-height:64px}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--good-bg);animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+.opt.right .k{background:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-bg);animation:shake .4s}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt.dim{opacity:.5}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes pop{50%{transform:scale(1.04)}}
+.ans-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.paren{font-size:34px;font-weight:500;line-height:1}
+.type-in{min-width:0;font:inherit;font-size:22px;font-weight:700;letter-spacing:.02em;padding:10px 12px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums}
+.type-in:focus{outline:none;box-shadow:0 0 0 4px var(--sun)}
+.type-in.ok{background:var(--good-bg)} .type-in.no{background:var(--bad-bg);animation:shake .4s}
+.type-in.pair{width:6em;text-align:center}
+.ans-row.pair-row{flex-wrap:nowrap;gap:6px}
+@media (max-width:420px){.type-in.pair{width:4.6em;padding:10px 6px}.paren{font-size:28px}}
+.type-in.num{width:9em}
+.lbl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:2px;text-align:center}
+.unit{font-weight:800;font-size:18px;color:var(--ink-2)}
+.keys{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.keys span{font-size:12px;font-weight:700;color:var(--ink-2);margin-right:4px}
+.key{min-width:44px;height:40px;padding:0 10px;border:2px solid var(--ink);border-radius:9px;background:var(--page);font-weight:800;font-size:18px;box-shadow:2px 2px 0 var(--ink)}
+.key:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+.input-msg{font-size:14px;font-weight:700;color:var(--bad);min-height:0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.hint-box{padding:10px 14px;border:2px dashed var(--ink);border-radius:10px;background:var(--sun-2);font-size:16px;animation:slideUp .3s ease-out}
+.hint-box b.tag,.tip b.tag{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:#fff;padding:2px 7px;border-radius:5px;margin-right:6px}
+.fb{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:start;padding:12px 14px;border:3px solid var(--ink);border-radius:12px;animation:slideUp .3s ease-out}
+.fb.ok{background:var(--good-bg)} .fb.no{background:var(--bad-bg)} .fb.slip{background:var(--warn-bg)}
+.fb .burst{font-family:var(--display);font-size:30px;line-height:1;transform:rotate(-4deg);-webkit-text-stroke:1px var(--ink);white-space:nowrap}
+.fb.ok .burst{color:var(--good)} .fb.no .burst{color:var(--bad)} .fb.slip .burst{color:var(--sun)}
+.fb .fb-body{font-size:16px;display:grid;gap:8px;min-width:0}
+.fb .fb-body b{white-space:nowrap}
+.fb .row{grid-column:1 / -1;justify-content:flex-end}
+.fb .plane{grid-column:1 / -1}
+@media (max-width:480px){.fb{grid-template-columns:1fr}}
+.tip{padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.7);border:2px solid var(--ink);font-weight:600}
+.your{font-size:14px;color:var(--ink-2)}
+@keyframes slideUp{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+
+/* results */
+.splash{margin-top:16px;padding:28px 20px;text-align:center;display:grid;gap:14px;justify-items:center;background:var(--tint)}
+.splash .big{font-family:var(--display);font-size:clamp(46px,10vw,78px);line-height:1;color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:5px 5px 0 var(--ink);animation:zoomIn .6s cubic-bezier(.3,1.6,.5,1)}
+.splash p{max-width:46ch;font-size:17px}
+@keyframes zoomIn{0%{transform:scale(.2) rotate(-12deg);opacity:0}100%{transform:none;opacity:1}}
+.result-stars{display:flex;gap:10px;justify-content:center}
+.result-stars span{display:inline-block;animation:starIn .6s cubic-bezier(.3,1.6,.5,1) both}
+.result-stars svg{width:64px;height:64px;display:block}
+@keyframes starIn{0%{transform:scale(0) rotate(-40deg)}100%{transform:none}}
+.miss-list{display:grid;gap:12px;margin-top:16px}
+.miss{padding:14px;display:grid;gap:6px;background:var(--paper)}
+.miss .q{font-weight:600}
+.miss .a{font-size:14px;color:var(--ink-2)}
+.miss .w{font-size:15px}
+.test-intro{margin-top:16px;padding:22px;display:grid;gap:16px}
+.test-intro h2{font-size:clamp(40px,8vw,60px)}
+.rounds{display:grid;gap:8px;margin:0;padding:0;list-style:none;counter-reset:r}
+.rounds li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:8px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--page);counter-increment:r}
+.rounds li::before{content:counter(r);width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800}
+.rounds small{color:var(--ink-2);font-size:13px}
+
+/* report */
+.report-head{margin-top:16px;padding:20px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+@media (max-width:600px){.report-head{grid-template-columns:1fr;justify-items:center;text-align:center}.report-head .row{justify-content:center}}
+.ring{width:156px;height:156px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:grid;place-items:center;align-content:center;font-family:var(--display);font-size:46px;line-height:1}
+.ring .num small{font-family:var(--body);font-size:12px;font-weight:800;color:var(--ink-2);letter-spacing:.06em}
+.rank{font-family:var(--display);font-size:clamp(36px,6vw,54px);line-height:1}
+.report-head p{margin-top:6px;color:var(--ink-2)}
+.bars{padding:16px;display:grid;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(130px,230px) 1fr auto;gap:10px 12px;align-items:center}
+.bar-label{font-weight:700;line-height:1.25}
+.bar-label small{display:block;font-weight:500;font-size:12px;color:var(--ink-2)}
+.bar{height:22px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--col);border-right:2px solid var(--ink);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar i.zero{border-right:0}
+.bar-end{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct{font-weight:800;font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.status{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:999px;border:2px solid var(--ink);white-space:nowrap}
+.status.good{background:var(--good-bg)} .status.mid{background:var(--warn-bg)} .status.low{background:var(--bad-bg)}
+@media (max-width:600px){.bar-row{grid-template-columns:1fr auto}.bar-row .bar{grid-column:1 / -1;grid-row:2}}
+.plan{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:p}
+.plan li{counter-increment:p;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+.plan li::before{content:counter(p);grid-row:span 3;width:40px;height:40px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:24px}
+.plan li > *{grid-column:2;min-width:0}
+.plan .row{margin-top:4px}
+.history{padding:16px;display:flex;align-items:flex-end;gap:10px;min-height:170px;overflow-x:auto}
+.hcol{flex:0 0 52px;display:grid;justify-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--ink-2)}
+.hbar{width:34px;background:var(--c1);border:2px solid var(--ink);border-radius:6px 6px 0 0}
+.hcol b{color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}
+.answers{padding:6px 16px 16px}
+.answers summary{cursor:pointer;font-weight:800;padding:10px 0}
+.ans{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 0;border-top:2px dashed var(--ink-3);font-size:14px}
+.ans > div{min-width:0}
+.ans .mark{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;color:#fff}
+.ans .mark.ok{background:var(--good)} .ans .mark.no{background:var(--bad)}
+.ans small{color:var(--ink-2)}
+
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.xp-float{position:fixed;z-index:60;font-family:var(--display);font-size:32px;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);pointer-events:none;animation:floatUp 1s ease-out forwards}
+@keyframes floatUp{0%{transform:translate(-50%,0) scale(.6);opacity:0}20%{opacity:1;transform:translate(-50%,-10px) scale(1.1)}100%{transform:translate(-50%,-72px) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  .screen,.splash .big,.result-stars span,.fb,.opt,.hint-box,.plane .walk,.plane .mk circle.ring,.type-in{animation:none!important}
+  .btn,.opt,.land,.bar i,.progress i{transition:none!important}
+}
+</style>
+</head><body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="logo" data-act="home" aria-label="Back to the quest map">
+      <span class="logo-mark">GRID QUEST</span>
+      <span class="unit-chip">enVision · 2-4 &amp; 2-5</span>
+    </button>
+    <span class="spacer"></span>
+    <span class="xp" id="xpBox" title="Your XP points"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="#FFD23F" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/></svg><b id="xpVal">0</b> XP</span>
+    <button class="icon-btn" id="soundBtn" data-act="sound" aria-label="Turn sound off"></button>
+  </div>
+</header>
+<main class="wrap">
+  <section id="scr-home" class="screen"></section>
+  <section id="scr-zone" class="screen" hidden></section>
+  <section id="scr-quiz" class="screen" hidden></section>
+  <section id="scr-result" class="screen" hidden></section>
+  <section id="scr-final" class="screen" hidden></section>
+  <section id="scr-report" class="screen" hidden></section>
+</main>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<script>
+"use strict";
+
+/* ---------- CORE HELPERS ---------- */
+const INK = "#14163A";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const strip = h => String(h).replace(/<[^>]*>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&");
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const reduceMotion = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+const finePointer = !!(window.matchMedia && matchMedia("(pointer: fine)").matches);
+const pctOf = (a, b) => b ? Math.round(a / b * 100) : 0;
+const fmtDate = t => { try { return new Date(t).toLocaleString("en-GB", {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"}); } catch (e) { return ""; } };
+
+/* ---------- NUMBERS ---------- */
+const MINUS = "−";
+const near = (a, b) => Math.abs(a - b) < 1e-9;
+const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const sgn = () => Math.random() < .5 ? -1 : 1;
+const nz = (a, b) => { let v; do { v = rnd(a, b); } while (!v); return v; };
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+/* a positive number between lo and hi in steps of 1/den (den = 1, 2 or 4); frac = must not be a whole number */
+function mag(lo, hi, den, frac){
+  let v;
+  do { v = rnd(Math.ceil(lo * den), Math.floor(hi * den)) / den; } while (!v || (frac && v % 1 === 0));
+  return v;
+}
+const FR = {"0.25":"¼", "0.5":"½", "0.75":"¾"};
+/* st: null (whole numbers), "frac" (mixed numbers like 2½) or "dec" (decimals like 2.5) */
+function fmtN(v, st){
+  v = +(+v).toFixed(4) || 0;
+  const a = Math.abs(v), w = Math.floor(a), r = +(a - w).toFixed(4);
+  let s;
+  if (!r) s = String(w);
+  else if (st === "dec" || !FR[r]) s = String(a);
+  else s = (w ? w : "") + FR[r];
+  return (v < 0 ? MINUS : "") + s;
+}
+const P = (x, y, st) => "(" + fmtN(x, st) + ", " + fmtN(y, st) + ")";
+const isWhole = v => near(v, Math.round(v));
+const otherStyle = st => st === "dec" ? "frac" : "dec";
+const unitWord = (v, unit) => unit && near(Math.abs(v), 1) ? unit.replace(/s$/, "") : unit;
+function numAns(v, st, unit){
+  unit = unitWord(v, unit);
+  const u = unit ? " " + unit : "";
+  return isWhole(v) ? fmtN(v) + u : fmtN(v, st || "frac") + u + " (or " + fmtN(v, otherStyle(st || "frac")) + ")";
+}
+/* reads 3, -2.5, −2.5, 3 1/2, 7/2, 2½, "4 units" … returns NaN if it can't */
+function parseNum(raw){
+  let s = String(raw == null ? "" : raw).trim().toLowerCase();
+  s = s.replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 0x660)).replace(/[۰-۹]/g, d => String(d.charCodeAt(0) - 0x6F0));
+  s = s.replace(/[−‒–—﹣－]/g, "-").replace(/[⁄∕]/g, "/").replace(/[()]/g, " ");
+  s = s.replace(/½/g, " 1/2").replace(/¼/g, " 1/4").replace(/¾/g, " 3/4");
+  s = s.replace(/(\d)[,٫](\d)/g, "$1.$2");
+  s = s.replace(/[a-z]+\.?/g, " ").replace(/\s+/g, " ").trim().replace(/^\+\s*/, "").replace(/^-\s+/, "-");
+  let m;
+  if ((m = s.match(/^(-?)(\d+\.?\d*|\.\d+)$/))) return (m[1] ? -1 : 1) * parseFloat(m[2]);
+  if ((m = s.match(/^(-?)(\d+) (\d+) ?\/ ?(\d+)$/)) && +m[4]) return (m[1] ? -1 : 1) * (+m[2] + +m[3] / +m[4]);
+  if ((m = s.match(/^(-?)(\d+) ?\/ ?(\d+)$/)) && +m[3]) return (m[1] ? -1 : 1) * (+m[2] / +m[3]);
+  return NaN;
+}
+
+/* ---------- QUADRANT & WALKING WORDS ---------- */
+const QS = {I:[1, 1], II:[-1, 1], III:[-1, -1], IV:[1, -1]};
+const QW = {I:"to the right and up", II:"to the left and up", III:"to the left and down", IV:"to the right and down"};
+const quadOf = (x, y) => (!x || !y) ? null : x > 0 ? (y > 0 ? "I" : "IV") : (y > 0 ? "II" : "III");
+const sgnTxt = v => v > 0 ? "+" : v < 0 ? MINUS : "0";
+const sigPair = q => "(" + sgnTxt(QS[q][0]) + ", " + sgnTxt(QS[q][1]) + ")";
+const units = (v, st) => fmtN(Math.abs(v), st) + " unit" + (near(Math.abs(v), 1) ? "" : "s");
+function walk(x, y, st){
+  return [
+    x ? "x = " + fmtN(x, st) + ", so go " + units(x, st) + (x > 0 ? " right" : " left") : "x = 0, so don't move left or right",
+    y ? "y = " + fmtN(y, st) + ", so go " + units(y, st) + (y > 0 ? " up" : " down") : "y = 0, so don't move up or down"
+  ];
+}
+function where(x, y){
+  const q = quadOf(x, y);
+  if (q) return "The point is in Quadrant " + q + ".";
+  return "The point sits on " + (!x && !y ? "the origin" : !x ? "the y-axis" : "the x-axis") + ", so it is in no quadrant.";
+}
+const side = (v, ax, st) => !v ? (ax === "x" ? "right on the y-axis (x = 0)" : "right on the x-axis (y = 0)")
+  : units(v, st) + " " + (ax === "x" ? (v > 0 ? "right" : "left") : (v > 0 ? "up" : "down")) + " (" + ax + " = " + fmtN(v, st) + ")";
+const between = v => { const a = Math.trunc(v), b = a + Math.sign(v); return fmtN(a) + " and " + fmtN(b); };
+/* the absolute-value working for the distance between v1 and v2 on one line */
+function distSteps(v1, v2, st){
+  const d = Math.abs(v1 - v2);
+  if (!v1 || !v2){ const v = v1 || v2; return "|" + fmtN(v, st) + "| = " + fmtN(d, st); }
+  if ((v1 > 0) === (v2 > 0)){
+    const [b, s] = Math.abs(v1) >= Math.abs(v2) ? [v1, v2] : [v2, v1];
+    return "|" + fmtN(b, st) + "| " + MINUS + " |" + fmtN(s, st) + "| = " + fmtN(Math.abs(b), st) + " " + MINUS + " " + fmtN(Math.abs(s), st) + " = " + fmtN(d, st);
+  }
+  return "|" + fmtN(v1, st) + "| + |" + fmtN(v2, st) + "| = " + fmtN(Math.abs(v1), st) + " + " + fmtN(Math.abs(v2), st) + " = " + fmtN(d, st);
+}
+function diagPair(t, g, st){
+  if (near(g.x, t.y) && near(g.y, t.x) && !near(t.x, t.y)) return "You swapped x and y. The first number is x (left or right), the second is y (up or down).";
+  if (near(g.x, -t.x) && near(g.y, -t.y)) return "Both signs are flipped. A negative x means LEFT, a negative y means DOWN.";
+  if (near(g.x, -t.x) && near(g.y, t.y)) return "Check the sign of x: " + fmtN(t.x, st) + " means go " + (t.x > 0 ? "right" : "left") + ".";
+  if (near(g.y, -t.y) && near(g.x, t.x)) return "Check the sign of y: " + fmtN(t.y, st) + " means go " + (t.y > 0 ? "up" : "down") + ".";
+  if (Math.abs(g.x - t.x) <= 1 && Math.abs(g.y - t.y) <= 1) return "So close! Count the units again" + (isWhole(t.x) && isWhole(t.y) ? "." : ", and watch the halfway lines.");
+  return "";
+}
+function distDiag(g, v1, v2, ot){
+  if (g < 0) return "Distance is never negative. It counts how many units apart the points are.";
+  const same = (v1 > 0) === (v2 > 0) && v1 && v2;
+  const add = Math.abs(v1) + Math.abs(v2), sub = Math.abs(Math.abs(v1) - Math.abs(v2));
+  if (same && near(g, add)) return "You added, but both " + ot + "-values have the same sign. When the points are on the same side of the axis, subtract.";
+  if (!same && v1 && v2 && near(g, sub)) return "You subtracted, but the " + ot + "-values have opposite signs. The segment crosses the axis, so add.";
+  return "";
+}
+
+/* ---------- QUESTION GENERATORS ---------- */
+const PLACES = ["School", "Park", "Mosque", "Library", "Bakery", "Clinic", "Souq", "Mall", "Museum", "Sports club", "Bookshop", "Fire station"];
+const SCALES = [{s:"1 block", m:1, u:"blocks"}, {s:"100 meters", m:100, u:"m"}, {s:"50 meters", m:50, u:"m"}, {s:"10 meters", m:10, u:"m"}, {s:"2 kilometers", m:2, u:"km"}];
+const AXN = {x:"the <b>x-axis</b>", y:"the <b>y-axis</b>", both:"the <b>x-axis</b> and then the <b>y-axis</b>"};
+const RHINT = {x:"Across the x-axis, x stays the same and y changes sign.", y:"Across the y-axis, y stays the same and x changes sign.", both:"Across both axes, x and y both change sign."};
+const reflect = (axis, x, y) => [axis === "x" ? x : -x, axis === "y" ? y : -y];
+function reflWhy(axis, x, y, st){
+  const [nx, ny] = reflect(axis, x, y);
+  if (axis === "x") return "The x-axis is the mirror, so the point flips up ↔ down. x stays " + fmtN(x, st) + " and y changes sign: " + fmtN(y, st) + " → " + fmtN(ny, st) + ". New point: <b>" + P(nx, ny, st) + "</b>.";
+  if (axis === "y") return "The y-axis is the mirror, so the point flips left ↔ right. y stays " + fmtN(y, st) + " and x changes sign: " + fmtN(x, st) + " → " + fmtN(nx, st) + ". New point: <b>" + P(nx, ny, st) + "</b>.";
+  return "Reflecting across both axes flips the point twice, so both signs change: " + P(x, y, st) + " → <b>" + P(nx, ny, st) + "</b>.";
+}
+function farApart(pts, p, gap){ return pts.every(q => Math.max(Math.abs(q.x - p.x), Math.abs(q.y - p.y)) >= gap); }
+
+function plotQ(skill, x, y, st, plane, snap){
+  const w = walk(x, y, st);
+  return {skill, kind:"plot", text:"Tap the grid to plot the point <b>" + P(x, y, st) + "</b>.", target:{x, y}, st, plane, snap, reveal:"walk",
+    hint:"Start at the origin (0, 0). First, " + w[0] + ". Then " + w[1] + ".",
+    why:"Start at (0, 0). First, " + w[0] + ". Then " + w[1] + ". " + where(x, y),
+    ansText:P(x, y, st)};
+}
+function readQ(skill, x, y, st, base){
+  const alt = st && !(isWhole(x) && isWhole(y)) ? " Writing it as " + P(x, y, otherStyle(st)) + " is also correct." : "";
+  return {skill, kind:"pair", text:"What are the coordinates of point <b>P</b>?", target:{x, y}, st,
+    plane:Object.assign({}, base, {pts:[{x, y, label:"P"}]}),
+    revealPlane:Object.assign({}, base, {pts:[{x, y, label:"P", guides:true, c:"ok"}]}),
+    hint:"From P, go straight up or down to the x-axis to read x. Then go straight across to the y-axis to read y.",
+    why:"P is " + side(x, "x", st) + " and " + side(y, "y", st) + ", so P = <b>" + P(x, y, st) + "</b>." + alt,
+    ansText:P(x, y, st)};
+}
+function quadPickQ(skill, st, magFn){
+  const t = pick(["I", "II", "III", "IV"]);
+  const pts = shuffle(["I", "II", "III", "IV"].map(q => ({q, x:QS[q][0] * magFn(), y:QS[q][1] * magFn()})));
+  const ans = pts.findIndex(p => p.q === t), c = pts[ans];
+  return {skill, kind:"mc", layout:"two", text:"Which point is in <b>Quadrant " + t + "</b>?", opts:pts.map(p => P(p.x, p.y, st)), ans,
+    hint:"Quadrant " + t + " is " + QW[t] + " from the origin. Check the signs of each point.",
+    why:"Quadrant " + t + " is " + QW[t] + ", so the signs must be " + sigPair(t) + ". Only <b>" + P(c.x, c.y, st) + "</b> matches.",
+    ansText:P(c.x, c.y, st)};
+}
+function distQ(kind, rat){
+  const st = rat ? pick(["frac", "dec"]) : null, vert = Math.random() < .5;
+  const den1 = rat ? pick([2, 4]) : 1, den2 = rat ? pick([2, 4]) : 1;
+  const c = rat && Math.random() < .5 ? sgn() * mag(1, 8, 2) : nz(-9, 9);
+  let v1, v2;
+  do {
+    if (kind === "same"){ const s = sgn(); v1 = s * mag(1, 9, den1, rat); v2 = s * mag(1, 9, den2); }
+    else { v1 = mag(1, 9, den1, rat); v2 = -mag(1, 9, den2); if (Math.random() < .5) [v1, v2] = [v2, v1]; }
+  } while (kind === "same" && Math.abs(Math.abs(v1) - Math.abs(v2)) < 1);
+  const A = vert ? {x:c, y:v1} : {x:v1, y:c}, B = vert ? {x:c, y:v2} : {x:v2, y:c}, d = Math.abs(v1 - v2);
+  const sh = vert ? "x" : "y", ot = vert ? "y" : "x", mirror = vert ? "x-axis" : "y-axis";
+  const q = {skill:kind === "same" ? "distSame" : "distOpp", kind:"num", unit:"units", num:d, st,
+    text:"Find the distance between <b>A" + P(A.x, A.y, st) + "</b> and <b>B" + P(B.x, B.y, st) + "</b>.",
+    hint:"Both points have the same " + sh + " (" + fmtN(c, st) + "). Look at the " + ot + "-values, " + fmtN(v1, st) + " and " + fmtN(v2, st) + ". Same sign, or opposite signs?",
+    why:"Same " + sh + " (" + fmtN(c, st) + "), so the segment is " + (vert ? "vertical" : "horizontal") + ". The " + ot + "-values " + fmtN(v1, st) + " and " + fmtN(v2, st)
+      + (kind === "same" ? " have the same sign (same side of the " + mirror + "), so subtract the absolute values: " : " have opposite signs (opposite sides of the " + mirror + "), so add the absolute values: ")
+      + distSteps(v1, v2, st) + ". Distance = <b>" + units(d, st) + "</b>.",
+    diag:g => distDiag(g, v1, v2, ot) || ([Math.abs(c) + Math.abs(v1), Math.abs(c) + Math.abs(v2), Math.abs(Math.abs(c) - Math.abs(v1)), Math.abs(Math.abs(c) - Math.abs(v2))].some(v => near(v, g)) ? "Use the " + ot + "-coordinates (the ones that are different), not the shared " + sh + "." : ""),
+    ansText:numAns(d, st, "units")};
+  if (!rat && Math.random() < .5){
+    const base = {min:-10, max:10}, pts = [{x:A.x, y:A.y, label:"A"}, {x:B.x, y:B.y, label:"B"}];
+    q.plane = Object.assign({}, base, {pts});
+    q.revealPlane = Object.assign({}, base, {segs:[{a:[A.x, A.y], b:[B.x, B.y]}], pts});
+  }
+  return q;
+}
+function perimQ(scaled){
+  const half = !scaled && Math.random() < .35, st = half ? pick(["frac", "dec"]) : null, den = half ? 2 : 1;
+  let a, b, c, d;
+  do { a = sgn() * mag(0, 7, den); b = sgn() * mag(0, 7, den); c = sgn() * mag(0, 7, den); d = sgn() * mag(0, 7, den); }
+  while (Math.abs(a - b) < 2 || Math.abs(c - d) < 2 || (half && [a, b, c, d].every(isWhole)));
+  const x1 = Math.min(a, b), x2 = Math.max(a, b), y1 = Math.min(c, d), y2 = Math.max(c, d);
+  const V = [[x1, y2], [x2, y2], [x2, y1], [x1, y1]], w = x2 - x1, h = y2 - y1, per = 2 * (w + h);
+  const m = scaled ? pick([2, 3, 5, 10]) : 1;
+  const vt = "A" + P(x1, y2, st) + "</b>, <b>B" + P(x2, y2, st) + "</b>, <b>C" + P(x2, y1, st) + "</b> and <b>D" + P(x1, y1, st);
+  const q = {skill:"perim", kind:"num", st, unit:scaled ? "m" : "units", num:per * m,
+    text:"Rectangle ABCD has vertices <b>" + vt + "</b>. " + (scaled ? "On this plan, 1 unit = <b>" + m + " meters</b>. How many meters of fence go all the way around it?" : "What is its perimeter?"),
+    hint:"Find the length of AB (same y) and BC (same x) with the distance rule. A rectangle has two of each." + (scaled ? " Then use the scale." : ""),
+    why:"AB is horizontal (same y = " + fmtN(y2, st) + "): " + distSteps(x1, x2, st) + " units. BC is vertical (same x = " + fmtN(x2, st) + "): " + distSteps(y2, y1, st) + " units. Opposite sides are equal, so the perimeter is "
+      + fmtN(w, st) + " + " + fmtN(h, st) + " + " + fmtN(w, st) + " + " + fmtN(h, st) + " = <b>" + fmtN(per, st) + " units</b>."
+      + (scaled ? " Each unit is " + m + " m: " + fmtN(per) + " × " + m + " = <b>" + fmtN(per * m) + " m</b> of fence." : ""),
+    diag:g => near(g, (w + h) * m) ? "That's only two sides. A rectangle has four sides, so add the other two as well."
+      : (near(g, w * h * m) || near(g, w * h)) ? "That's the area (length × width). The perimeter adds up the four sides."
+      : (scaled && near(g, per)) ? "That's the perimeter in units. Now multiply by the scale (1 unit = " + m + " m)." : "",
+    ansText:numAns(per * m, st, scaled ? "m" : "units")};
+  if (!half){
+    const pts = V.map((v, i) => ({x:v[0], y:v[1], label:"ABCD"[i]}));
+    q.plane = {min:-8, max:8, poly:V, pts};
+  }
+  return q;
+}
+
+const G = {
+  quadrant(){
+    let x = nz(-9, 9), y = nz(-9, 9); const r = Math.random();
+    if (r < .1) x = 0; else if (r < .2) y = 0;
+    const q = quadOf(x, y), ans = q ? ["I", "II", "III", "IV"].indexOf(q) : 4;
+    const opts = ["Quadrant I", "Quadrant II", "Quadrant III", "Quadrant IV", "On an axis (no quadrant)"];
+    return {skill:"quadrant", kind:"mc", layout:"two", text:"Where is the point <b>" + P(x, y) + "</b>?", opts, ans,
+      hint:"Look at the signs. A negative x means left and a negative y means down. Is either number 0?",
+      why:q ? "x = " + fmtN(x) + " is " + (x > 0 ? "positive (right)" : "negative (left)") + " and y = " + fmtN(y) + " is " + (y > 0 ? "positive (up)" : "negative (down)") + ". Signs " + sigPair(q) + " mean <b>Quadrant " + q + "</b>."
+        : (x === 0 ? "x" : "y") + " is 0, so the point sits on the " + (x === 0 ? "y-axis" : "x-axis") + ". Points on an axis are <b>not in any quadrant</b>.",
+      ansText:opts[ans]};
+  },
+  quadSign(){
+    if (Math.random() < .5) return quadPickQ("quadrant", null, () => rnd(1, 9));
+    const t = pick(["I", "II", "III", "IV"]), xs = QS[t][0] > 0 ? "positive" : "negative", ys = QS[t][1] > 0 ? "positive" : "negative";
+    const opts = ["Quadrant I", "Quadrant II", "Quadrant III", "Quadrant IV"], ans = opts.indexOf("Quadrant " + t);
+    return {skill:"quadrant", kind:"mc", layout:"two", text:"A point has a <b>" + xs + "</b> x-coordinate and a <b>" + ys + "</b> y-coordinate. Which quadrant is it in?", opts, ans,
+      hint:"Positive x is right, negative x is left. Positive y is up, negative y is down.",
+      why:"A " + xs + " x means " + (QS[t][0] > 0 ? "right" : "left") + " and a " + ys + " y means " + (QS[t][1] > 0 ? "up" : "down") + ". That's <b>Quadrant " + t + "</b>, signs " + sigPair(t) + ".",
+      ansText:opts[ans]};
+  },
+  plotInt(){
+    let x = nz(-7, 7), y = nz(-7, 7); const r = Math.random();
+    if (r < .08) x = 0; else if (r < .16) y = 0;
+    return plotQ("plot", x, y, null, {min:-8, max:8}, 1);
+  },
+  readInt(){
+    let x = nz(-7, 7), y = nz(-7, 7); const r = Math.random();
+    if (r < .08) x = 0; else if (r < .16) y = 0;
+    return readQ("read", x, y, null, {min:-8, max:8});
+  },
+  plotRat(){
+    const st = pick(["frac", "dec"]); let x, y;
+    do { x = sgn() * mag(0, 4.5, 2); y = sgn() * mag(0, 4.5, 2); } while (isWhole(x) && isWhole(y));
+    return plotQ("rational", x, y, st, {min:-5, max:5, half:true}, .5);
+  },
+  readRat(){
+    const st = pick(["frac", "dec"]); let x, y;
+    do { x = sgn() * mag(0, 4.5, 2); y = sgn() * mag(0, 4.5, 2); } while (isWhole(x) && isWhole(y));
+    return readQ("rational", x, y, st, {min:-5, max:5, half:true});
+  },
+  pickRat(){
+    const st = pick(["frac", "frac", "dec"]); let x, y;
+    do { x = sgn() * mag(1, 4.75, 4); y = sgn() * mag(1, 4.75, 4); } while (Math.abs(Math.abs(x) - Math.abs(y)) < 1 || (x % .5 === 0 && y % .5 === 0));
+    const L = shuffle(["A", "B", "C", "D"]);
+    const pts = [{x, y}, {x:-x, y}, {x, y:-y}, {x:y, y:x}].map((p, i) => Object.assign(p, {label:L[i]}));
+    const ans = ["A", "B", "C", "D"].indexOf(L[0]);
+    return {skill:"rational", kind:"mc", layout:"four", text:"Which point is at <b>" + P(x, y, st) + "</b>?", opts:["A", "B", "C", "D"], ans,
+      plane:{min:-5, max:5, half:true, pts},
+      revealPlane:{min:-5, max:5, half:true, pts:pts.map((p, i) => i ? p : Object.assign({}, p, {c:"ok", guides:true}))},
+      hint:"Use the signs to find the quadrant first. Then make sure x and y aren't swapped.",
+      why:"x = " + fmtN(x, st) + ": go " + (x > 0 ? "right" : "left") + ", between " + between(x) + ". y = " + fmtN(y, st) + ": go " + (y > 0 ? "up" : "down") + ", between " + between(y) + ". That's point <b>" + L[0] + "</b> in Quadrant " + quadOf(x, y) + ". The other points have a sign flipped or x and y swapped.",
+      ansText:"Point " + L[0]};
+  },
+  compareRat(){
+    const st = pick(["frac", "dec"]), w = rnd(0, 4), c = nz(-5, 5);
+    const [a, b] = shuffle([w, w + .25, w + .5, w + .75].filter(v => v)).slice(0, 2).map(v => -v);
+    const horiz = Math.random() < .5, dir = horiz ? pick(["left", "right"]) : pick(["down", "up"]);
+    const A = horiz ? {x:a, y:c} : {x:c, y:a}, B = horiz ? {x:b, y:c} : {x:c, y:b};
+    const low = dir === "left" || dir === "down", win = low ? Math.min(a, b) : Math.max(a, b), ans = win === a ? 0 : 1;
+    const lo = Math.min(a, b), hi = Math.max(a, b), ax = horiz ? "x" : "y", opts = ["A" + P(A.x, A.y, st), "B" + P(B.x, B.y, st)];
+    return {skill:"rational", kind:"mc", layout:"list", text:"Which point is farther <b>" + dir + "</b>?", opts, ans,
+      hint:"Compare the " + ax + "-coordinates. On the negative side, the number farther from 0 is the smaller one.",
+      why:"Compare the " + ax + "-coordinates: " + fmtN(lo, st) + " < " + fmtN(hi, st) + ", because " + fmtN(lo, st) + " is farther from 0 on the negative side. Smaller numbers are farther " + (horiz ? "left" : "down") + ", so <b>" + "AB"[ans] + "</b> is farther " + dir + ".",
+      ansText:opts[ans]};
+  },
+  quadRat(){ return quadPickQ("rational", pick(["frac", "dec"]), () => mag(0, 6, 4, true)); },
+  reflPlot(){
+    const half = Math.random() < .35, st = half ? pick(["frac", "dec"]) : null; let x, y;
+    do { x = sgn() * mag(0, 5, half ? 2 : 1); y = sgn() * mag(0, 5, half ? 2 : 1); } while (half && isWhole(x) && isWhole(y));
+    const axis = pick(["x", "y", "x", "y", "both"]), [rx, ry] = reflect(axis, x, y);
+    return {skill:"reflect", kind:"plot", text:"Point <b>P" + P(x, y, st) + "</b> is reflected across " + AXN[axis] + ". Tap where <b>P′</b> lands.",
+      target:{x:rx, y:ry}, st, snap:half ? .5 : 1, plane:{min:-6, max:6, half, pts:[{x, y, label:"P"}]}, reveal:"mirror", from:{x, y}, ansLabel:"P′",
+      hint:RHINT[axis], why:reflWhy(axis, x, y, st),
+      diag:g => {
+        if (near(g.x, x) && near(g.y, y)) return "That's P itself. The reflection lands on the other side of the mirror.";
+        const o = ["x", "y", "both"].find(a => a !== axis && near(g.x, reflect(a, x, y)[0]) && near(g.y, reflect(a, x, y)[1]));
+        return o ? "That's the reflection across " + (o === "both" ? "both axes" : "the " + o + "-axis") + ". " + RHINT[axis] : diagPair({x:rx, y:ry}, g, st);
+      },
+      ansText:P(rx, ry, st)};
+  },
+  reflMC(){
+    const rat = Math.random() < .4, st = rat ? pick(["frac", "dec"]) : null; let x, y;
+    do { x = sgn() * mag(1, 9, rat ? 2 : 1); y = sgn() * mag(1, 9, rat ? 2 : 1); } while (Math.abs(Math.abs(x) - Math.abs(y)) < .5 || (rat && isWhole(x) && isWhole(y)));
+    const axis = pick(["x", "y", "both"]);
+    const cands = shuffle([reflect("x", x, y), reflect("y", x, y), reflect("both", x, y), [y, x]]);
+    const right = reflect(axis, x, y), ans = cands.findIndex(p => near(p[0], right[0]) && near(p[1], right[1]));
+    return {skill:"reflect", kind:"mc", layout:"two", text:"<b>" + P(x, y, st) + "</b> is reflected across " + AXN[axis] + ". What are the new coordinates?",
+      opts:cands.map(p => P(p[0], p[1], st)), ans, hint:RHINT[axis], why:reflWhy(axis, x, y, st), ansText:P(right[0], right[1], st)};
+  },
+  reflWhich(){
+    let a, b; do { a = nz(-9, 9); b = nz(-9, 9); } while (Math.abs(a) === Math.abs(b));
+    const type = pick(["x", "y", "both", "none"]);
+    const q2 = {x:[a, -b], y:[-a, b], both:[-a, -b], none:[b, a]}[type];
+    const opts = ["The x-axis", "The y-axis", "Both axes (one after the other)", "They are not reflections of each other"];
+    const ans = {x:0, y:1, both:2, none:3}[type];
+    const why = {
+      x:"Same x, and the y-values are opposites (" + fmtN(b) + " and " + fmtN(-b) + "). The point flipped up ↔ down, so the mirror is <b>the x-axis</b>.",
+      y:"Same y, and the x-values are opposites (" + fmtN(a) + " and " + fmtN(-a) + "). The point flipped left ↔ right, so the mirror is <b>the y-axis</b>.",
+      both:"Both coordinates changed sign. That takes two flips: across <b>one axis and then the other</b>.",
+      none:"The numbers swapped places instead of changing sign. A reflection across an axis changes a sign. It never swaps x and y, so these are <b>not reflections</b>."
+    }[type];
+    return {skill:"reflect", kind:"mc", layout:"list", text:"<b>" + P(a, b) + "</b> and <b>" + P(q2[0], q2[1]) + "</b> are reflections of each other across…", opts, ans,
+      hint:"Which coordinate stayed the same? Which one changed sign?", why, ansText:opts[ans]};
+  },
+  reflQuad(){
+    const q = pick(["I", "II", "III", "IV"]), axis = pick(["x", "y"]);
+    const ns = reflect(axis, QS[q][0], QS[q][1]), nq = quadOf(ns[0], ns[1]);
+    const opts = ["Quadrant I", "Quadrant II", "Quadrant III", "Quadrant IV"], ans = opts.indexOf("Quadrant " + nq);
+    return {skill:"reflect", kind:"mc", layout:"two", text:"A point in <b>Quadrant " + q + "</b> is reflected across <b>the " + axis + "-axis</b>. Which quadrant is the new point in?", opts, ans,
+      hint:"Write the signs for Quadrant " + q + ". Which sign changes when you reflect across the " + axis + "-axis?",
+      why:"Quadrant " + q + " has signs " + sigPair(q) + ". Across the " + axis + "-axis, " + (axis === "x" ? "y" : "x") + " changes sign, giving " + sigPair(nq) + ". That's <b>Quadrant " + nq + "</b>.",
+      ansText:opts[ans]};
+  },
+  absVal(){
+    const st = pick(["frac", "dec"]);
+    if (Math.random() < .45){
+      const v = sgn() * mag(0, 9, pick([2, 4]), true);
+      return {skill:"absval", kind:"num", unit:"", num:Math.abs(v), st, text:"What is <b>|" + fmtN(v, st) + "|</b>?",
+        hint:"Absolute value is the distance from 0 on the number line. Distance is never negative.",
+        why:fmtN(v, st) + " is " + fmtN(Math.abs(v), st) + " units from 0, so <b>|" + fmtN(v, st) + "| = " + fmtN(Math.abs(v), st) + "</b>. Absolute value is a distance, so it is never negative.",
+        diag:g => g < 0 ? "Absolute value is never negative: it's a distance from 0." : "",
+        ansText:numAns(Math.abs(v), st, "")};
+    }
+    let x, y; do { x = sgn() * mag(0, 8, pick([1, 2, 4])); y = sgn() * mag(0, 8, pick([1, 2, 4])); } while (near(Math.abs(x), Math.abs(y)) || (isWhole(x) && isWhole(y)));
+    const from = pick(["x", "y"]), d = from === "x" ? Math.abs(y) : Math.abs(x), use = from === "x" ? "y" : "x";
+    return {skill:"absval", kind:"num", unit:"units", num:d, st, text:"How far is the point <b>" + P(x, y, st) + "</b> from the <b>" + from + "-axis</b>?",
+      hint:"The " + from + "-axis is " + (from === "x" ? "the flat line. Going straight " + "to it means moving up or down" : "the standing line. Going straight to it means moving left or right") + ". Which coordinate tells you that?",
+      why:"To reach the " + from + "-axis you move " + (from === "x" ? "up or down" : "left or right") + ", so use " + use + " = " + fmtN(use === "y" ? y : x, st) + ". Its distance from 0 is its absolute value: <b>|" + fmtN(use === "y" ? y : x, st) + "| = " + units(d, st) + "</b>.",
+      diag:g => near(g, from === "x" ? Math.abs(x) : Math.abs(y)) ? "That's the distance from the other axis. Distance from the x-axis uses y; distance from the y-axis uses x." : (g < 0 ? "Distance is never negative." : ""),
+      ansText:numAns(d, st, "units")};
+  },
+  distSame(){ return distQ("same", false); },
+  distOpp(){ return distQ("opp", false); },
+  distRat(){ return distQ(pick(["same", "opp"]), true); },
+  distExpr(){
+    const kind = pick(["same", "opp"]), vert = Math.random() < .5; let c, v1, v2;
+    do {
+      c = nz(-9, 9);
+      if (kind === "same"){ const s = sgn(); v1 = s * rnd(1, 9); v2 = s * rnd(1, 9); }
+      else { v1 = rnd(1, 9); v2 = -rnd(1, 9); if (Math.random() < .5) [v1, v2] = [v2, v1]; }
+    } while (new Set([Math.abs(c), Math.abs(v1), Math.abs(v2)]).size < 3 || [
+        kind === "same" ? Math.abs(v1) + Math.abs(v2) : Math.abs(Math.abs(v1) - Math.abs(v2)),
+        kind === "same" ? Math.abs(c) - Math.abs(v2) : Math.abs(c) + Math.abs(v2),
+        v1 + v2].some(v => near(v, Math.abs(v1 - v2))));
+    const A = vert ? [c, v1] : [v1, c], B = vert ? [c, v2] : [v2, c], d = Math.abs(v1 - v2);
+    const [b, s] = Math.abs(v1) >= Math.abs(v2) ? [v1, v2] : [v2, v1], ab = v => "|" + fmtN(v) + "|";
+    const right = kind === "same" ? ab(b) + " " + MINUS + " " + ab(s) : ab(v1) + " + " + ab(v2);
+    const opts = shuffle([right,
+      kind === "same" ? ab(b) + " + " + ab(s) : ab(b) + " " + MINUS + " " + ab(s),
+      ab(c) + (kind === "same" ? " " + MINUS + " " : " + ") + ab(v2),
+      fmtN(v1) + " + " + (v2 < 0 ? "(" + fmtN(v2) + ")" : fmtN(v2))]);
+    const sh = vert ? "x" : "y", ot = vert ? "y" : "x";
+    return {skill:kind === "same" ? "distSame" : "distOpp", kind:"mc", layout:"two", text:"Which expression gives the distance between <b>" + P(A[0], A[1]) + "</b> and <b>" + P(B[0], B[1]) + "</b>?",
+      opts, ans:opts.indexOf(right), hint:"Which coordinate do the points share? Use the other one. Same signs → subtract; opposite signs → add.",
+      why:"The points share " + sh + " = " + fmtN(c) + ", so use the " + ot + "-values " + fmtN(v1) + " and " + fmtN(v2) + ". They have " + (kind === "same" ? "the same sign, so subtract" : "opposite signs, so add") + " their absolute values: <b>" + right + "</b> = " + d + " units.",
+      ansText:right};
+  },
+  mapDist(){
+    const sc = pick(SCALES), names = shuffle(PLACES.slice()).slice(0, 4), vert = Math.random() < .5; let c, v1, v2;
+    do { c = nz(-7, 7); v1 = nz(-7, 7); v2 = nz(-7, 7); } while (Math.abs(v1 - v2) < 3);
+    const A = vert ? {x:c, y:v1} : {x:v1, y:c}, B = vert ? {x:c, y:v2} : {x:v2, y:c}, d = Math.abs(v1 - v2), tot = d * sc.m;
+    const used = [A, B];
+    while (used.length < 4){ const p = {x:nz(-7, 7), y:nz(-7, 7)}; if (farApart(used, p, 3)) used.push(p); }
+    const places = used.map((p, i) => ({x:p.x, y:p.y, name:names[i]}));
+    const sh = vert ? "x" : "y", ot = vert ? "y" : "x";
+    return {skill:"word", kind:"num", unit:sc.u, num:tot,
+      text:"On this map, 1 unit = <b>" + sc.s + "</b>. The <b>" + names[0] + "</b> is at " + P(A.x, A.y) + " and the <b>" + names[1] + "</b> is at " + P(B.x, B.y) + ". How far apart are they along the street?",
+      plane:{min:-8, max:8, places}, revealPlane:{min:-8, max:8, places, segs:[{a:[A.x, A.y], b:[B.x, B.y]}]},
+      hint:"Step 1: find the distance in units (same " + sh + ", so use the " + ot + "-values). Step 2: multiply by the scale.",
+      why:"Same " + sh + " (" + fmtN(c) + "), so it's a straight " + (vert ? "vertical" : "horizontal") + " street. Using the " + ot + "-values: " + distSteps(v1, v2) + " units. "
+        + (sc.m === 1 ? "Each unit is 1 block, so that's <b>" + tot + " blocks</b>." : "Multiply by the scale: " + d + " × " + sc.m + " = <b>" + fmtN(tot) + " " + sc.u + "</b>."),
+      diag:g => (sc.m !== 1 && near(g, d)) ? "That's the distance in units. Now multiply by the scale (1 unit = " + sc.s + ")." : distDiag(g / sc.m, v1, v2, ot),
+      ansText:fmtN(tot) + " " + sc.u};
+  },
+  route(){
+    const names = shuffle(PLACES.slice()).slice(0, 2); let h1, h2, a2, b1;
+    do { h1 = nz(-7, 7); h2 = nz(-7, 7); a2 = nz(-7, 7); b1 = nz(-7, 7); }
+    while (Math.abs(h2 - a2) < 2 || Math.abs(h1 - b1) < 2 || (Math.sign(h2) === Math.sign(a2) && Math.sign(h1) === Math.sign(b1)));
+    const d1 = Math.abs(h2 - a2), d2 = Math.abs(h1 - b1), tot = d1 + d2;
+    const places = [{x:h1, y:h2, name:"Home"}, {x:h1, y:a2, name:names[0]}, {x:b1, y:a2, name:names[1]}];
+    return {skill:"word", kind:"num", unit:"blocks", num:tot,
+      text:"You walk from <b>Home</b> " + P(h1, h2) + " to the <b>" + names[0] + "</b> " + P(h1, a2) + ", then on to the <b>" + names[1] + "</b> " + P(b1, a2) + ". Each unit is 1 block. How many blocks do you walk in all?",
+      plane:{min:-8, max:8, places}, revealPlane:{min:-8, max:8, places, path:[[h1, h2], [h1, a2], [b1, a2]]},
+      hint:"The walk has two straight legs. Find the length of each leg, then add them.",
+      why:"Leg 1 (Home → " + names[0] + "): same x (" + fmtN(h1) + "), so use y: " + distSteps(h2, a2) + " blocks. Leg 2 (" + names[0] + " → " + names[1] + "): same y (" + fmtN(a2) + "), so use x: " + distSteps(h1, b1) + " blocks. Total: " + d1 + " + " + d2 + " = <b>" + tot + " blocks</b>.",
+      diag:g => (near(g, d1) || near(g, d2)) ? "That's only one leg of the walk. Add both legs together." : "",
+      ansText:tot + " blocks"};
+  },
+  perim(){ return perimQ(false); },
+  perimScale(){ return perimQ(true); },
+  missing(){
+    let a, b, c, d; do { a = nz(-7, 7); b = nz(-7, 7); c = nz(-7, 7); d = nz(-7, 7); } while (Math.abs(a - b) < 2 || Math.abs(c - d) < 2);
+    const x1 = Math.min(a, b), x2 = Math.max(a, b), y1 = Math.min(c, d), y2 = Math.max(c, d);
+    const V = [[x1, y2], [x2, y2], [x2, y1], [x1, y1]], L = "ABCD", k = rnd(0, 3), T = V[k];
+    const prev = (k + 3) % 4, next = (k + 1) % 4, sx = V[prev][0] === T[0] ? prev : next, sy = sx === prev ? next : prev;
+    const shown = [0, 1, 2, 3].filter(i => i !== k), pts = shown.map(i => ({x:V[i][0], y:V[i][1], label:L[i]}));
+    return {skill:"perim", kind:"plot", text:"Three corners of rectangle ABCD are <b>" + shown.map(i => L[i] + P(V[i][0], V[i][1])).join("</b>, <b>") + "</b>. Tap where corner <b>" + L[k] + "</b> goes.",
+      target:{x:T[0], y:T[1]}, st:null, snap:1, plane:{min:-8, max:8, pts}, revealPlane:{min:-8, max:8, poly:V, pts}, ansLabel:L[k],
+      hint:L[k] + " is next to " + L[prev] + " and " + L[next] + ". It shares its x with one of them and its y with the other.",
+      why:L[k] + " sits between " + L[prev] + " and " + L[next] + ". It lines up with " + L[sx] + " (same x = " + fmtN(T[0]) + ") and with " + L[sy] + " (same y = " + fmtN(T[1]) + "). So " + L[k] + " = <b>" + P(T[0], T[1]) + "</b>.",
+      diag:g => V.some((v, i) => i !== k && near(g.x, v[0]) && near(g.y, v[1])) ? "That corner is already taken. Look for the empty corner." : diagPair({x:T[0], y:T[1]}, g),
+      ansText:P(T[0], T[1])};
+  },
+  moveTo(){
+    const dir = pick(["up", "down", "left", "right"]), cross = Math.random() < .7, vertMove = dir === "up" || dir === "down"; let x, y, n, nx, ny;
+    do {
+      x = nz(-6, 6); y = nz(-6, 6); n = rnd(3, 9);
+      nx = x + (dir === "right" ? n : dir === "left" ? -n : 0); ny = y + (dir === "up" ? n : dir === "down" ? -n : 0);
+    } while (Math.abs(nx) > 9 || Math.abs(ny) > 9 || !nx || !ny || (cross && (vertMove ? Math.sign(ny) === Math.sign(y) : Math.sign(nx) === Math.sign(x))));
+    const word = {up:"above", down:"below", left:"to the left of", right:"to the right of"}[dir];
+    const ax = vertMove ? "y" : "x", v = vertMove ? y : x, nv = vertMove ? ny : nx, op = dir === "up" || dir === "right" ? "+" : MINUS;
+    const ox = x - (nx - x), oy = y - (ny - y);
+    return {skill:"word", kind:"pair", st:null, target:{x:nx, y:ny},
+      text:"Point <b>A" + P(x, y) + "</b>. Point <b>B</b> is " + n + " units " + word + " A. What are the coordinates of B?",
+      revealPlane:{min:-10, max:10, segs:[{a:[x, y], b:[nx, ny]}], pts:[{x, y, label:"A"}, {x:nx, y:ny, label:"B", c:"ok"}]},
+      hint:vertMove ? "Up or down changes only y. Up adds, down subtracts." : "Left or right changes only x. Right adds, left subtracts.",
+      why:"Moving " + dir + " changes only " + ax + ": " + fmtN(v) + " " + op + " " + n + " = " + fmtN(nv) + ". " + (vertMove ? "x" : "y") + " stays " + fmtN(vertMove ? x : y) + ". So B = <b>" + P(nx, ny) + "</b>.",
+      diag:g => (near(g.x, ox) && near(g.y, oy)) ? "You moved the wrong way. " + cap(word) + " means " + dir + "." :
+        (vertMove ? (near(g.y, y) && !near(g.x, x)) : (near(g.x, x) && !near(g.y, y))) ? "You changed " + (vertMove ? "x" : "y") + ", but moving " + dir + " changes only " + ax + "." : diagPair({x:nx, y:ny}, g),
+      ansText:P(nx, ny)};
+  }
+};
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* ---------- SKILLS & ZONES ---------- */
+const SKILLS = {
+  quadrant:{name:"Quadrants & signs", zone:0, tip:"Say the signs out loud: I (+, +), II (−, +), III (−, −), IV (+, −). A 0 means the point sits on an axis, so it is in no quadrant."},
+  plot:{name:"Plotting points", zone:0, tip:"Always start at the origin. x first: left or right. Then y: up or down."},
+  read:{name:"Reading points", zone:0, tip:"Go from the point straight to the x-axis to read x, then straight across to the y-axis to read y. Write (x, y), x first."},
+  rational:{name:"Fractions & decimals", zone:1, tip:"Halfway between two gridlines is ½ (0.5). On the negative side, −2¾ is farther from 0 than −2½, so it's farther left or lower."},
+  reflect:{name:"Reflections", zone:2, tip:"Across the x-axis, y changes sign. Across the y-axis, x changes sign. The other number stays the same."},
+  absval:{name:"Absolute value", zone:3, tip:"Absolute value is the distance from 0, so it's never negative: |−3½| = 3½. The distance from the x-axis is |y|; from the y-axis it's |x|."},
+  distSame:{name:"Distance: same side", zone:3, tip:"Same signs: subtract the absolute values (bigger minus smaller)."},
+  distOpp:{name:"Distance: across an axis", zone:3, tip:"Opposite signs: add the absolute values, because the segment crosses the axis."},
+  word:{name:"Map word problems", zone:4, tip:"Find the distance in units first, then multiply by the scale. For a trip with turns, add the legs. Up and down change only y; left and right change only x."},
+  perim:{name:"Perimeter & missing corner", zone:4, tip:"Find each side length with the distance rule, then add all 4 sides. A missing rectangle corner takes its x from one neighbor and its y from the other."}
+};
+const SKILL_ORDER = Object.keys(SKILLS);
+
+const ZONES = [
+  {key:"z1", col:"c1", name:"Grid City", tag:"Axes · ordered pairs · quadrants", icon:"grid", lesson:"Lesson 2-4 · pp. 89–94",
+   intro:"Every point on the plane has an address: an ordered pair (x, y). Learn to read the address, find the right quadrant, and land exactly on the spot.",
+   set:["quadrant", "quadSign", "plotInt", "plotInt", "readInt", "readInt"]},
+  {key:"z2", col:"c4", name:"Fraction Forest", tag:"Fractions & decimals as points", icon:"half", lesson:"Lesson 2-4 · pp. 89–94",
+   intro:"Not every point lives on a gridline crossing. Here the coordinates are halves, quarters and decimals, like (−1½, 2.5).",
+   set:["plotRat", "plotRat", "readRat", "pickRat", "compareRat", "quadRat"]},
+  {key:"z3", col:"c3", name:"Mirror Lake", tag:"Reflections across the axes", icon:"mirror", lesson:"Lesson 2-4 · pp. 89–94",
+   intro:"The axes are mirrors. Flip a point across one and watch which sign changes.",
+   set:["reflPlot", "reflPlot", "reflMC", "reflWhich", "reflQuad", "reflMC"]},
+  {key:"z4", col:"c2", name:"Distance Dunes", tag:"Distance with absolute value", icon:"ruler", lesson:"Lesson 2-5 · pp. 99–104",
+   intro:"How far apart are two points? Use what you learned in Lesson 2-3: absolute value is a distance from 0.",
+   set:["absVal", "distSame", "distOpp", "distRat", "distRat", "distExpr"]},
+  {key:"z5", col:"c5", name:"Town Map", tag:"Word problems · perimeter", icon:"pin", lesson:"Lesson 2-5 · pp. 99–104",
+   intro:"Put it all together on a town map: walking routes, scales, rectangle fences and a missing corner.",
+   set:["mapDist", "route", "perim", "missing", "moveTo", "perimScale"]}
+];
+const FINAL_SET = [["quadrant", "plotInt", "readInt"], ["plotRat", "readRat", "pickRat|compareRat"], ["reflPlot", "reflMC", "reflWhich"],
+  ["absVal", "distSame", "distOpp", "distRat", "distRat", "distExpr"], ["mapDist", "route", "perim", "missing", "moveTo"]];
+
+/* ---------- LESSON CARDS ---------- */
+const LESSONS = [
+  [
+    {t:"Meet the plane", b:"Two number lines cross at 0. The flat one is the <b>x-axis</b> and the standing one is the <b>y-axis</b>. They meet at the <b>origin</b>, (0, 0). The axes cut the plane into 4 parts called <b>quadrants</b>.",
+     plane:{min:-5, max:5, quad:true, pts:[{x:0, y:0, label:"origin (0, 0)", c:"c2"}]}},
+    {t:"(x, y): x comes first", b:"An <b>ordered pair</b> tells you how to walk from the origin. The first number, <b>x</b>, says left or right. The second number, <b>y</b>, says up or down.<span class=\"trick-inline\">Memory trick: walk along the hall (x) before you take the elevator (y).</span>",
+     ex:{h:"Example", q:"Plot A(−4, 3)", steps:["Start at the origin (0, 0).", "x = −4 is negative: go 4 units <b>left</b>.", "y = 3 is positive: go 3 units <b>up</b>.", "Draw the dot. A is in Quadrant II."]},
+     plane:{min:-5, max:5, path:[[0, 0], [-4, 0], [-4, 3]], pts:[{x:-4, y:3, label:"A(−4, 3)"}]}},
+    {t:"The four quadrants", b:"The quadrants are numbered I, II, III, IV going <b>counterclockwise</b>, starting at the top right. Trick: write a big letter <b>C</b>. Your pen starts in I and travels through II, III and IV.",
+     table:[["Quadrant", "Signs", "Direction"], ["I", "(+, +)", "right, up"], ["II", "(−, +)", "left, up"], ["III", "(−, −)", "left, down"], ["IV", "(+, −)", "right, down"]],
+     note:"A point with a 0 in it, like (0, −4) or (5, 0), sits <b>on an axis</b>. It is not in any quadrant.",
+     plane:{min:-5, max:5, quad:true, pts:[{x:3, y:2, label:"(3, 2)"}, {x:-2, y:4, label:"(−2, 4)"}, {x:-3, y:-3, label:"(−3, −3)"}, {x:4, y:-2, label:"(4, −2)"}, {x:0, y:-4, label:"(0, −4)", c:"ghost"}]}}
+  ],
+  [
+    {t:"Between the gridlines", b:"Points don't always sit where gridlines cross. <b>2½</b> is halfway between 2 and 3. As a decimal, the same number is <b>2.5</b>. The dashed halfway lines help you find halves.",
+     ex:{h:"Example", q:"Plot (2½, 1.5)", steps:["x = 2½: go right and stop halfway between 2 and 3.", "y = 1.5 is the same as 1½: go up, halfway between 1 and 2.", "Both positive, so Quadrant I."]},
+     plane:{min:-4, max:4, half:true, path:[[0, 0], [2.5, 0], [2.5, 1.5]], pts:[{x:2.5, y:1.5, label:"(2½, 1.5)"}]}},
+    {t:"Negative fractions", b:"<b>−1½</b> is halfway between −1 and −2, so it's to the <b>left</b> of −1. The bigger the number after the minus sign, the farther from 0 you go. So <b>−2¾ is farther left than −2½</b>, and −2¾ &lt; −2½.",
+     ex:{h:"Example", q:"Plot (−1½, −2.5)", steps:["x = −1½: go 1½ units left.", "y = −2.5: go 2½ units down.", "Both negative, so Quadrant III."]},
+     plane:{min:-4, max:4, half:true, path:[[0, 0], [-1.5, 0], [-1.5, -2.5]], pts:[{x:-1.5, y:-2.5, label:"(−1½, −2.5)"}]}},
+    {t:"Quarters", b:"<b>¼</b> (0.25) is one quarter of the way to the next whole number, and <b>¾</b> (0.75) is three quarters of the way. So 3¼ is just past 3, and 1¾ is almost 2. To find a quarter, find the halfway line first, then go halfway again.",
+     note:"(3¼, −1¾): go right just past 3, then down almost to −2. Quadrant IV.",
+     plane:{min:-4, max:4, half:true, pts:[{x:3.25, y:-1.75, label:"(3¼, −1¾)", guides:true}]}}
+  ],
+  [
+    {t:"The axis is a mirror", b:"Fold the plane along an axis and a point lands on its <b>reflection</b>. Across the <b>x-axis</b> the point flips up ↔ down, so <b>y changes sign</b>. Across the <b>y-axis</b> it flips left ↔ right, so <b>x changes sign</b>. The other coordinate stays the same.",
+     plane:{min:-5, max:5, segs:[{a:[3, 2], b:[3, -2], dash:true}, {a:[3, 2], b:[-3, 2], dash:true}], pts:[{x:3, y:2, label:"P(3, 2)"}, {x:3, y:-2, label:"(3, −2)", c:"c2"}, {x:-3, y:2, label:"(−3, 2)", c:"c4"}]}},
+    {t:"The rules", table:[["Reflect (x, y) across…", "New point", "What changes"], ["the x-axis", "(x, −y)", "y flips sign"], ["the y-axis", "(−x, y)", "x flips sign"], ["both axes", "(−x, −y)", "both flip"]],
+     note:"A point and its reflection are the same distance from the mirror. (3, 2) is 2 units above the x-axis, and (3, −2) is 2 units below it."},
+    {t:"Example", ex:{h:"Example", q:"Reflect (−4, 1½) across the y-axis", steps:["The y-axis is the mirror, so the point flips left ↔ right.", "x changes sign: −4 → 4.", "y stays 1½.", "New point: (4, 1½). It moved from Quadrant II to Quadrant I."]},
+     plane:{min:-5, max:5, half:true, segs:[{a:[-4, 1.5], b:[4, 1.5], dash:true}], pts:[{x:-4, y:1.5, label:"(−4, 1½)"}, {x:4, y:1.5, label:"(4, 1½)", c:"ok"}]}}
+  ],
+  [
+    {t:"Quick refresher: absolute value (2-3)", b:"The <b>absolute value</b> of a number is its <b>distance from 0</b>. Distance is never negative, so |−3½| = 3½ and |3½| = 3½. On the plane, a point's distance from the <b>x-axis</b> is <b>|y|</b>, and its distance from the <b>y-axis</b> is <b>|x|</b>.",
+     ex:{h:"Example", q:"How far is (−4, 2½) from each axis?", steps:["From the x-axis: |2½| = 2½ units (up or down).", "From the y-axis: |−4| = 4 units (left or right)."]},
+     plane:{min:-5, max:5, half:true, segs:[{a:[-4, 2.5], b:[-4, 0], dash:true}, {a:[-4, 2.5], b:[0, 2.5], dash:true}], pts:[{x:-4, y:2.5, label:"(−4, 2½)"}]}},
+    {t:"Find the matching coordinate", b:"To find the distance between two points on the same line, look for the coordinate they <b>share</b>. Same <b>x</b> → the points are on a <b>vertical</b> line, so use the y-values. Same <b>y</b> → a <b>horizontal</b> line, so use the x-values."},
+    {t:"Same side → subtract", ex:{h:"Example", q:"A(−6, −1) and B(−2, −1)", steps:["Same y (−1), so the segment is horizontal. Use x: −6 and −2.", "Both negative → same side of the y-axis.", "Subtract the absolute values: |−6| − |−2| = 6 − 2 = 4.", "Distance = 4 units."]},
+     plane:{min:-7, max:7, segs:[{a:[-6, -1], b:[-2, -1]}], pts:[{x:-6, y:-1, label:"A"}, {x:-2, y:-1, label:"B"}]}},
+    {t:"Opposite sides → add", ex:{h:"Example", q:"A(3, 5) and B(3, −2)", steps:["Same x (3), so the segment is vertical. Use y: 5 and −2.", "Opposite signs → the segment crosses the x-axis.", "Add the absolute values: |5| + |−2| = 5 + 2 = 7.", "Distance = 7 units."]},
+     plane:{min:-7, max:7, segs:[{a:[3, 5], b:[3, -2]}], pts:[{x:3, y:5, label:"A"}, {x:3, y:-2, label:"B"}]}},
+    {t:"It works with fractions too", ex:{h:"Example", q:"(2½, 4) and (−1¾, 4)", steps:["Same y (4): use x, 2½ and −1¾.", "Opposite signs → add: |2½| + |−1¾| = 2½ + 1¾.", "2½ + 1¾ = 2 + 1 + ½ + ¾ = 3 + 1¼ = 4¼.", "Distance = 4¼ units (or 4.25)."]},
+     note:"Why does adding work? From −1¾ to 0 is 1¾ units, and from 0 to 2½ is 2½ units. Together that's 4¼. You can type answers like <b>4 1/4</b> or <b>4.25</b>."}
+  ],
+  [
+    {t:"Maps use a scale", b:"On a map grid, each unit stands for a real distance, like 1 block or 100 meters. <b>Step 1:</b> find the distance in units. <b>Step 2:</b> multiply by the scale.",
+     ex:{h:"Example · 1 unit = 100 m", q:"Home (−3, −2) to School (−3, 4)", steps:["Same x (−3): use y, −2 and 4.", "Opposite signs → add: 2 + 4 = 6 units.", "6 × 100 = 600 meters."]},
+     plane:{min:-6, max:6, segs:[{a:[-3, -2], b:[-3, 4]}], places:[{x:-3, y:-2, name:"Home"}, {x:-3, y:4, name:"School"}]}},
+    {t:"Perimeter from vertices", b:"Rectangle sides are horizontal or vertical, so find each side with the distance rule and add all four.",
+     ex:{h:"Example", q:"A(−3, 2), B(4, 2), C(4, −1), D(−3, −1)", steps:["AB: same y, x goes from −3 to 4 → 3 + 4 = 7 units.", "BC: same x, y goes from 2 to −1 → 2 + 1 = 3 units.", "Opposite sides are equal: CD = 7 and DA = 3.", "Perimeter = 7 + 3 + 7 + 3 = 20 units."]},
+     plane:{min:-6, max:6, poly:[[-3, 2], [4, 2], [4, -1], [-3, -1]], pts:[{x:-3, y:2, label:"A"}, {x:4, y:2, label:"B"}, {x:4, y:-1, label:"C"}, {x:-3, y:-1, label:"D"}]}},
+    {t:"The missing corner", b:"A missing corner of a rectangle lines up with its two neighbors. It copies the <b>x</b> from one neighbor and the <b>y</b> from the other.",
+     ex:{h:"Example", q:"A(−2, 3), B(5, 3), C(5, −2). Where is D?", steps:["D is next to A and C.", "D is straight below A, so it has the same x: −2.", "D is straight left of C, so it has the same y: −2.", "D = (−2, −2)."]},
+     plane:{min:-6, max:6, poly:[[-2, 3], [5, 3], [5, -2], [-2, -2]], pts:[{x:-2, y:3, label:"A"}, {x:5, y:3, label:"B"}, {x:5, y:-2, label:"C"}, {x:-2, y:-2, label:"D", c:"ok"}]}},
+    {t:"Moving a point", b:"Moving <b>up or down</b> changes only <b>y</b>. Moving <b>left or right</b> changes only <b>x</b>.",
+     ex:{h:"Example", q:"Start at (1, −3) and move 5 units up", steps:["Up changes y: −3 + 5 = 2.", "x stays 1.", "New point: (1, 2)."]}}
+  ]
+];
+
+/* ---------- ICONS ---------- */
+const ICONS = {
+  grid:'<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="4" width="24" height="24" rx="3" fill="#fff" stroke="' + INK + '" stroke-width="2.5"/><path d="M16 5v22M5 16h22" stroke="' + INK + '" stroke-width="2.5"/><circle cx="22" cy="10" r="3.2" fill="#FFD23F" stroke="' + INK + '" stroke-width="2"/></svg>',
+  half:'<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="#fff" stroke="' + INK + '" stroke-width="2.5"/><path d="M16 4a12 12 0 0 1 0 24z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/></svg>',
+  mirror:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3v26" stroke="#fff" stroke-width="2.5" stroke-dasharray="3 3"/><path d="M12.5 8 L3.5 24 H12.5z" fill="#fff" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/><path d="M19.5 8 L28.5 24 H19.5z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/></svg>',
+  ruler:'<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="10" width="26" height="12" rx="2" fill="#fff" stroke="' + INK + '" stroke-width="2.5"/><path d="M8 10v5M13 10v7M18 10v5M23 10v7" stroke="' + INK + '" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  pin:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s-9-8.5-9-16a9 9 0 0 1 18 0c0 7.5-9 16-9 16z" fill="#fff" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/><circle cx="16" cy="13" r="3.6" fill="#FFD23F" stroke="' + INK + '" stroke-width="2"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z" fill="#FFD23F" stroke="#fff" stroke-width="1.8"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M12 14v4M8 20h8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>'
+};
+const STAR = on => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="' + (on ? "#FFD23F" : "#fff") + '" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/></svg>';
+const ICON_SOUND = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9q2 3 0 6M18.5 6.5q4 5.5 0 11" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+const ICON_MUTE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#fff" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+const ARROW = d => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + {l:"M15 5l-7 7 7 7", r:"M9 5l7 7-7 7", u:"M5 15l7-7 7 7", d:"M5 9l7 7 7-7"}[d] + '" fill="none" stroke="' + INK + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/* ---------- SAVED PROGRESS (this device only) ---------- */
+const KEY = "gridquest-envision-2-4-2-5-v1";
+const fresh = () => ({xp:0, zones:{}, skills:{}, attempts:[], last:null, hw:{}, sound:true});
+let S = (() => { try { const raw = localStorage.getItem(KEY); if (raw) return Object.assign(fresh(), JSON.parse(raw)); } catch (e) {} return fresh(); })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+/* Homework ticks are shared with the dashboard and the Week 8 plan, keyed by EduPage item id. */
+const DONE_KEY = "monmon-done-v1";
+const HW_EP = {ixl:"2026-10-19-5935EF89C537CDB41A40", book:"2026-10-22-D07FE1AF26AC823D24B5"};
+function hwDone(k){ try { const v = JSON.parse(localStorage.getItem(DONE_KEY) || "null"); return !!(v && v.done && v.done[HW_EP[k]]); } catch (e) { return !!S.hw[k]; } }
+function setHwDone(k, on){
+  S.hw[k] = on; save();
+  try { const v = JSON.parse(localStorage.getItem(DONE_KEY) || "null") || {done:{}}; v.done = v.done || {};
+    if (on) v.done[HW_EP[k]] = true; else delete v.done[HW_EP[k]];
+    localStorage.setItem(DONE_KEY, JSON.stringify(v)); } catch (e) {}
+}
+
+/* ---------- SOUND (tiny synth, no files) ---------- */
+const Sound = {
+  ctx:null,
+  get(){ try { if (!this.ctx){ const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; this.ctx = new AC(); }
+    if (this.ctx.state === "suspended") this.ctx.resume(); return this.ctx; } catch (e) { return null; } },
+  tone(f, at, dur, type, vol){ const c = this.get(); if (!c) return; try {
+    const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + at;
+    o.type = type || "triangle"; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05); } catch (e) {} },
+  good(){ if (!S.sound) return; this.tone(660, 0, .15); this.tone(990, .1, .25); },
+  bad(){ if (!S.sound) return; this.tone(196, 0, .28, "square", .05); this.tone(147, .12, .3, "square", .05); },
+  win(){ if (!S.sound) return; [523, 659, 784, 1047].forEach((f, i) => this.tone(f, i * .11, .3)); },
+  tap(){ if (!S.sound) return; this.tone(520, 0, .06, "sine", .05); }
+};
+
+/* ---------- CONFETTI ---------- */
+const FX = (() => {
+  const cv = $("#fx"), ctx = cv && cv.getContext ? cv.getContext("2d") : null;
+  let parts = [], raf = 0;
+  const COLS = ["#FFD23F", "#2F7DE1", "#F39200", "#9A4FE0", "#119C77", "#E23F66"];
+  function size(){ if (!cv) return; const d = window.devicePixelRatio || 1; cv.width = innerWidth * d; cv.height = innerHeight * d; }
+  size(); addEventListener("resize", size);
+  function tick(){
+    const d = window.devicePixelRatio || 1;
+    ctx.setTransform(d, 0, 0, d, 0, 0); ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => p.life < p.max);
+    parts.forEach(p => {
+      p.life++; p.vy += .25; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      ctx.save(); ctx.globalAlpha = Math.max(0, 1 - p.life / p.max); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.c;
+      if (p.sq) ctx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); else { ctx.beginPath(); ctx.arc(0, 0, p.r / 2.6, 0, Math.PI * 2); ctx.fill(); }
+      ctx.restore();
+    });
+    raf = parts.length ? requestAnimationFrame(tick) : 0;
+  }
+  function burstAt(x, y, n){
+    if (reduceMotion || !ctx) return;
+    for (let i = 0; i < (n || 36); i++){ const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
+      parts.push({x, y, vx:Math.cos(a) * v, vy:Math.sin(a) * v - 4, r:5 + Math.random() * 6, rot:Math.random() * 6, vr:(Math.random() - .5) * .4, c:COLS[i % COLS.length], life:0, max:55 + Math.random() * 40, sq:Math.random() < .55}); }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function burstEl(el, n){ if (!el) return; const r = el.getBoundingClientRect(); burstAt(r.left + r.width / 2, r.top + r.height / 2, n); }
+  function party(){ for (let k = 0; k < 5; k++) setTimeout(() => burstAt(innerWidth * (.15 + Math.random() * .7), innerHeight * (.2 + Math.random() * .25), 40), k * 170); }
+  return {burstEl, party};
+})();
+
+function floatXP(el, text){
+  if (!el || reduceMotion) return;
+  const r = el.getBoundingClientRect(), f = document.createElement("div");
+  f.className = "xp-float"; f.textContent = text; f.style.left = (r.left + r.width / 2) + "px"; f.style.top = (r.top - 6) + "px";
+  document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
+}
+function addXP(n, el){
+  S.xp += n; save();
+  const v = $("#xpVal"); if (v) v.textContent = S.xp;
+  const box = $("#xpBox"); if (box){ box.classList.remove("bump"); void box.offsetWidth; box.classList.add("bump"); }
+  if (el) floatXP(el, "+" + n);
+}
+function announce(t){ const l = $("#live"); if (l) l.textContent = t; }
+
+/* ---------- COORDINATE PLANE (SVG) ---------- */
+const VB = 420, PM = 20;
+function geom(o){ const u = (VB - 2 * PM) / (o.max - o.min); return {u, X:x => PM + (x - o.min) * u, Y:y => PM + (o.max - y) * u}; }
+const f2 = n => +n.toFixed(2);
+/* y0 / x0 = the axes: a label moves to the other side of its point rather than sit on the axis numbers */
+function labelAt(X, Y, text, cls, size, pos, y0, x0){
+  const w = String(text).length * (size || 16) * .56;
+  const fits = (a, anch) => anch === "start" ? a + w <= VB - 4 : a - w >= 4;
+  const crossesY = (a, anch) => {
+    if (x0 === undefined || Math.abs(X - x0) < 40) return false;
+    const l = anch === "start" ? a : a - w, r = anch === "start" ? a + w : a;
+    return l < x0 + 6 && r > x0 - 34;
+  };
+  const cands = [[X + 12, "start"], [X - 12, "end"]];
+  const c = cands.find(k => fits(k[0], k[1]) && !crossesY(k[0], k[1])) || cands.find(k => fits(k[0], k[1]));
+  const ax = c ? c[0] : clamp(X, w / 2 + 4, VB - w / 2 - 4), anch = c ? c[1] : "middle";
+  let ay = pos === "below" ? Y + 28 : Y - 12;
+  if (ay < 18) ay = Y + 28; else if (ay > VB - 6) ay = Y - 12;
+  const hitsAxis = a => y0 !== undefined && Math.abs(Y - y0) > 1 && a + 3 > y0 - 6 && a - 15 < y0 + 22;
+  if (hitsAxis(ay)){ const alt = ay === Y - 12 ? Y + 28 : Y - 12; if (!hitsAxis(alt) && alt > 18 && alt < VB - 6) ay = alt; }
+  return '<text class="pl ' + (cls || "") + '" x="' + f2(ax) + '" y="' + f2(ay) + '" text-anchor="' + anch + '">' + esc(text) + '</text>';
+}
+const PT_FILL = {ok:"var(--good)", you:"var(--bad)", ghost:"#fff", c1:"var(--c1)", c2:"var(--c2)", c3:"var(--c3)", c4:"var(--c4)", c5:"var(--c5)"};
+function planeSVG(o, aria){
+  const {X, Y} = geom(o), lo = o.min, hi = o.max, every = hi - lo > 12 ? 2 : 1;
+  let s = '<svg viewBox="0 0 ' + VB + ' ' + VB + '" role="img" aria-label="' + esc(aria || "Coordinate plane") + '"><rect width="' + VB + '" height="' + VB + '" fill="#fff"/>';
+  if (o.half) for (let v = lo + .5; v < hi; v++) s += '<line class="gh" x1="' + f2(X(v)) + '" y1="' + f2(Y(lo)) + '" x2="' + f2(X(v)) + '" y2="' + f2(Y(hi)) + '"/><line class="gh" x1="' + f2(X(lo)) + '" y1="' + f2(Y(v)) + '" x2="' + f2(X(hi)) + '" y2="' + f2(Y(v)) + '"/>';
+  for (let v = lo; v <= hi; v++) if (v) s += '<line class="gl" x1="' + f2(X(v)) + '" y1="' + f2(Y(lo)) + '" x2="' + f2(X(v)) + '" y2="' + f2(Y(hi)) + '"/><line class="gl" x1="' + f2(X(lo)) + '" y1="' + f2(Y(v)) + '" x2="' + f2(X(hi)) + '" y2="' + f2(Y(v)) + '"/>';
+  if (o.quad){
+    const m = (hi + lo) / 2, qx = (hi - m) / 2;
+    [["I", qx, qx], ["II", -qx, qx], ["III", -qx, -qx], ["IV", qx, -qx]].forEach(q => { s += '<text class="qd" x="' + f2(X(m + q[1])) + '" y="' + f2(Y(m + q[2]) + 18) + '" text-anchor="middle">' + q[0] + '</text>'; });
+  }
+  if (o.poly) s += '<polygon class="poly" points="' + o.poly.map(p => f2(X(p[0])) + "," + f2(Y(p[1]))).join(" ") + '"/>';
+  /* axes with arrowheads */
+  const x0 = X(0), y0 = Y(0), e1 = 4, e2 = VB - 4;
+  s += '<line class="ax" x1="' + e1 + '" y1="' + f2(y0) + '" x2="' + e2 + '" y2="' + f2(y0) + '"/><line class="ax" x1="' + f2(x0) + '" y1="' + e1 + '" x2="' + f2(x0) + '" y2="' + e2 + '"/>';
+  s += '<path d="M' + e2 + ' ' + f2(y0) + 'l-10 -6v12zM' + e1 + ' ' + f2(y0) + 'l10 -6v12zM' + f2(x0) + ' ' + e1 + 'l-6 10h12zM' + f2(x0) + ' ' + e2 + 'l-6 -10h12z" fill="' + INK + '"/>';
+  for (let v = lo; v <= hi; v++){
+    if (!v) continue;
+    s += '<line class="tk" x1="' + f2(X(v)) + '" y1="' + f2(y0 - 4) + '" x2="' + f2(X(v)) + '" y2="' + f2(y0 + 4) + '"/><line class="tk" x1="' + f2(x0 - 4) + '" y1="' + f2(Y(v)) + '" x2="' + f2(x0 + 4) + '" y2="' + f2(Y(v)) + '"/>';
+    if (v % every || v === lo || v === hi) continue;
+    s += '<text class="tl" x="' + f2(X(v)) + '" y="' + f2(y0 + 19) + '" text-anchor="middle">' + fmtN(v) + '</text>';
+    s += '<text class="tl" x="' + f2(x0 - 8) + '" y="' + f2(Y(v) + 5) + '" text-anchor="end">' + fmtN(v) + '</text>';
+  }
+  s += '<text class="tl" x="' + f2(x0 - 7) + '" y="' + f2(y0 + 19) + '" text-anchor="end">0</text>';
+  s += '<text class="axn" x="' + (VB - 8) + '" y="' + f2(y0 - 12) + '" text-anchor="end">x</text><text class="axn" x="' + f2(x0 + 12) + '" y="18">y</text>';
+  (o.segs || []).forEach(g => {
+    const a = 'x1="' + f2(X(g.a[0])) + '" y1="' + f2(Y(g.a[1])) + '" x2="' + f2(X(g.b[0])) + '" y2="' + f2(Y(g.b[1])) + '"';
+    s += g.dash ? '<line class="seg-d" ' + a + '/>' : '<line class="seg-u" ' + a + '/><line class="seg" ' + a + '/>';
+  });
+  if (o.path){ const pts = o.path.map(p => f2(X(p[0])) + "," + f2(Y(p[1]))).join(" "); s += '<polyline class="walk-u" points="' + pts + '"/><polyline class="walk" points="' + pts + '"/>'; }
+  (o.places || []).forEach(p => {
+    s += '<circle class="pin" cx="' + f2(X(p.x)) + '" cy="' + f2(Y(p.y)) + '" r="9"/>' + labelAt(X(p.x), Y(p.y), p.name, "", 16, p.pos, y0, x0);
+  });
+  (o.pts || []).forEach(p => {
+    if (p.guides) s += '<path class="guide" d="M' + f2(X(p.x)) + ' ' + f2(Y(p.y)) + 'V' + f2(y0) + 'M' + f2(X(p.x)) + ' ' + f2(Y(p.y)) + 'H' + f2(x0) + '"/>';
+  });
+  (o.pts || []).forEach(p => {
+    s += '<circle class="pt" cx="' + f2(X(p.x)) + '" cy="' + f2(Y(p.y)) + '" r="' + (p.c === "you" || p.c === "ok" ? 9 : 8) + '" fill="' + (PT_FILL[p.c] || "var(--col)") + '"/>';
+    if (p.label) s += labelAt(X(p.x), Y(p.y), p.label, p.c === "you" || p.c === "ok" ? p.c : "", 16, p.pos, y0, x0);
+  });
+  s += '<g class="mk"></g><rect class="hit" width="' + VB + '" height="' + VB + '" fill="transparent"/></svg>';
+  return s;
+}
+function planeDesc(o){
+  const bits = ["Coordinate plane from " + fmtN(o.min) + " to " + fmtN(o.max)];
+  (o.pts || []).forEach(p => bits.push((p.label && p.label.length < 4 ? "point " + p.label + " at " : "a point at ") + P(p.x, p.y)));
+  (o.places || []).forEach(p => bits.push(p.name + " at " + P(p.x, p.y)));
+  return bits.join(", ");
+}
+const planeBox = (o, extra) => '<div class="plane ' + (extra || "") + '">' + planeSVG(o, planeDesc(o)) + '</div>';
+
+/* ---------- SCREENS ---------- */
+const SCREENS = ["home", "zone", "quiz", "result", "final", "report"];
+let current = "home";
+function show(name){
+  SCREENS.forEach(s => { $("#scr-" + s).hidden = s !== name; });
+  const el = $("#scr-" + name); el.classList.remove("screen"); void el.offsetWidth; el.classList.add("screen");
+  current = name; window.scrollTo(0, 0);
+}
+function renderSoundBtn(){
+  const b = $("#soundBtn"); b.innerHTML = S.sound ? ICON_SOUND : ICON_MUTE;
+  b.setAttribute("aria-label", S.sound ? "Turn sound off" : "Turn sound on");
+}
+const starRow = (n, label) => '<div class="stars" role="img" aria-label="' + (label || n + " of 3 stars") + '">' + [1, 2, 3].map(k => STAR(n >= k)).join("") + '</div>';
+const finals = () => S.attempts.filter(a => a.kind === "final");
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const stars = ZONES.reduce((m, z) => m + ((S.zones[z.key] || {}).stars || 0), 0);
+  const fs = finals(), best = fs.reduce((m, a) => Math.max(m, a.pct), 0);
+  let h = '<div class="panel hero"><div><h1>Coordinate <span>Quest</span></h1>'
+    + '<p>This week\'s math, Lessons 2-4 and 2-5 of enVision Mathematics (Volume 1): plot points with fractions and decimals, reflect them across the axes, and find distances with absolute value. Learn each zone, win its 6-question practice, then take the Final Challenge.</p></div>'
+    + '<div class="stats"><div class="stat"><b>' + stars + '/15</b><span>Stars</span></div><div class="stat"><b>' + S.xp + '</b><span>XP</span></div><div class="stat"><b>' + (fs.length ? best + "%" : "–") + '</b><span>Best final</span></div></div></div>';
+  const done = ["ixl", "book"].filter(hwDone).length;
+  h += '<div class="panel banner' + (S.last && S.last.pct < 70 ? " alert" : "") + '"><p><b>Homework due Saturday 24/10:</b> IXL (score 70% or more) and book p. 102–103. ' + (done === 2 ? "Both marked done. Well done!" : done + " of 2 marked done.") + '</p><div class="row"><button class="btn btn-sm btn-go" data-act="tohw">Homework check</button>'
+    + (S.last ? '<button class="btn btn-sm" data-act="lastreport">Last report (' + S.last.pct + '%)</button>' : "") + '</div></div>';
+  h += '<div class="sec-title"><h2>The Quest Map</h2><p>Five zones. Read the lesson, then win the practice.</p></div><div class="trail">';
+  ZONES.forEach((z, i) => {
+    const Z = S.zones[z.key] || {}, st = zoneStatus(i);
+    const sticker = st === "low" ? '<span class="sticker">Review me!</span>' : st === "good" ? '<span class="sticker ok">Mastered</span>' : "";
+    h += '<div class="land land-' + z.col + '">' + sticker + '<div class="badge">' + ICONS[z.icon] + '</div>'
+      + '<div><div class="land-num">Zone ' + (i + 1) + ' · ' + z.lesson.split(" · ")[0] + '</div><h3>' + z.name + '</h3><p class="sub">' + z.tag + '</p></div>'
+      + '<div class="land-foot">' + starRow(Z.stars || 0) + '<span class="progress-note">' + (Z.plays ? "Best: " + Z.best + "/6" : "Not started") + '</span>'
+      + '<div class="row"><button class="btn btn-sm" data-act="zone" data-z="' + i + '">Lesson</button><button class="btn btn-sm ' + (Z.stars ? "" : "btn-go") + '" data-act="practice" data-z="' + i + '">' + (Z.plays ? "Practice again" : "Practice") + '</button></div></div></div>';
+  });
+  h += '</div><div class="panel final"><div class="badge">' + ICONS.trophy + '</div><div><div class="land-num">The boss level</div><h3>Final Challenge</h3>'
+    + '<p>20 mixed questions from all five zones, no hints. At the end you get a skill-by-skill report and a study plan.</p></div>'
+    + '<div class="row"><button class="btn btn-ink" data-act="final">Start the Final Challenge</button>' + (S.last ? '<button class="btn btn-sm" data-act="lastreport">See my last report</button>' : "") + '</div></div>';
+  h += renderHW();
+  h += '<p class="foot-note">Progress is saved on this device only. <button class="link-btn" data-act="reset">Reset progress</button></p>';
+  $("#scr-home").innerHTML = h;
+}
+function zoneStatus(i){
+  const ks = Object.keys(SKILLS).filter(k => SKILLS[k].zone === i).map(k => S.skills[k]).filter(Boolean);
+  const n = ks.reduce((m, s) => m + s.n, 0), c = ks.reduce((m, s) => m + s.c, 0);
+  if (n < 4) return "";
+  const p = c / n; return p >= .85 ? "good" : p < .6 ? "low" : "";
+}
+function renderHW(){
+  const item = (key, title, due, body) => '<div class="hw-item ' + (hwDone(key) ? "done" : "") + '"><input type="checkbox" class="hw-check" id="hw-' + key + '" data-hw="' + key + '" ' + (hwDone(key) ? "checked" : "") + '>'
+    + '<div class="hw-body"><label for="hw-' + key + '"><h3>' + title + '</h3></label><span class="due">' + due + '</span>' + body + '</div></div>';
+  return '<div class="sec-title" id="hw"><h2>Homework Check</h2><p>Class 6.3 · Week 8 · tick each one when it\'s done.</p></div><div class="panel hw">'
+    + item("ixl", "H.W. 8.1 · IXL", "Due Sat 24/10/2026 · score 70% or more",
+      '<p>Lesson 2-4: Represent Rational Numbers on the Coordinate Plane. Skill: <a href="https://www.ixl.com/math/grade-6/objects-on-a-coordinate-plane" target="_blank" rel="noopener">Objects on a coordinate plane</a>.</p>'
+      + '<ul><li>Read x first (left or right), then y (up or down).</li><li>Before you answer, check that the signs match the quadrant.</li><li>Keep going until you pass 70%. If the score drops after a mistake, read IXL’s explanation, then keep practicing.</li></ul>'
+      + '<div class="row"><button class="btn btn-sm" data-act="practice" data-z="0">Warm up: Grid City</button><button class="btn btn-sm" data-act="practice" data-z="1">Warm up: Fraction Forest</button></div>')
+    + item("book", "H.W. 8.2 · Book", "Due Sat 24/10/2026",
+      '<p>Lesson 2-5: Find Distances on the Coordinate Plane. <i>enVision Mathematics, Volume 1</i>: <b>p. 102</b> Questions 7, 8, 9 and <b>p. 103</b> Questions 12, 15, 17, 18.</p>'
+      + '<ul><li><b>Distance between two points:</b> find the shared coordinate, then use the other one. Same signs → subtract the absolute values; opposite signs → add.</li>'
+      + '<li><b>Word problems on a map:</b> find the distance in units first, then multiply by the scale. Write the unit in your answer.</li>'
+      + '<li><b>Polygons:</b> find every side length, then add them for the perimeter.</li>'
+      + '<li><b>Finding a missing point:</b> moving up or down changes only y; left or right changes only x.</li></ul>'
+      + '<p class="hw-note">We don\'t have the book here, so these tips cover the question types this lesson uses. Show your work: write the absolute values and the + or − step for every distance.</p>'
+      + '<div class="row"><button class="btn btn-sm" data-act="practice" data-z="3">Warm up: Distance Dunes</button><button class="btn btn-sm" data-act="practice" data-z="4">Warm up: Town Map</button></div>')
+    + '</div>';
+}
+
+/* ---------- ZONE LESSON ---------- */
+let ZI = 0;
+function openZone(i){ ZI = i; renderZone(); show("zone"); }
+function renderZone(){
+  const z = ZONES[ZI], sec = $("#scr-zone");
+  let h = '<div class="land-' + z.col + '"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button><span class="chip-land">Zone ' + (ZI + 1) + '</span><span class="spacer"></span><button class="btn btn-sm btn-go" data-act="practice" data-z="' + ZI + '">Skip to practice →</button></div>'
+    + '<div class="panel intro"><div class="land-num">' + z.lesson + '</div><h2>' + z.name + '</h2><p>' + z.intro + '</p></div><div class="lcards">';
+  LESSONS[ZI].forEach((c, k) => {
+    let text = "";
+    if (c.b) text += '<p>' + c.b + '</p>';
+    if (c.table) text += '<table class="rtable"><thead><tr>' + c.table[0].map(t => '<th scope="col">' + t + '</th>').join("") + '</tr></thead><tbody>' + c.table.slice(1).map(r => '<tr>' + r.map(t => '<td>' + t + '</td>').join("") + '</tr>').join("") + '</tbody></table>';
+    if (c.ex) text += '<div class="ex"><h4>' + c.ex.h + '</h4><p class="ex-q">' + c.ex.q + '</p><ol>' + c.ex.steps.map(s => '<li>' + s + '</li>').join("") + '</ol></div>';
+    if (c.note) text += '<p class="note">' + c.note + '</p>';
+    h += '<article class="panel lcard"><div class="lcard-num">Card ' + (k + 1) + ' of ' + LESSONS[ZI].length + '</div><h3>' + c.t + '</h3>'
+      + '<div class="lgrid ' + (c.plane ? "" : "solo") + '"><div class="ltext">' + text + '</div>' + (c.plane ? planeBox(c.plane) : "") + '</div></article>';
+  });
+  h += '</div><div class="lesson-nav">' + (ZI ? '<button class="btn" data-act="zone" data-z="' + (ZI - 1) + '">← ' + ZONES[ZI - 1].name + '</button>' : '<button class="btn" data-act="home">← Map</button>')
+    + '<button class="btn btn-go" data-act="practice" data-z="' + ZI + '">Start practice: 6 questions →</button></div></div>';
+  sec.innerHTML = h;
+}
+
+/* ---------- RUNNING A ROUND ---------- */
+let R = null;
+const gen = name => G[name.includes("|") ? pick(name.split("|")) : name]();
+function startPractice(i){
+  R = {mode:"practice", zi:i, qs:shuffle(ZONES[i].set.slice()).map(gen), i:0, res:[]};
+  show("quiz"); renderQ();
+}
+function startFinal(){
+  const early = shuffle(FINAL_SET.slice(0, 4).flat()), late = shuffle(FINAL_SET[4].slice());
+  R = {mode:"final", qs:early.concat(late).map(gen), i:0, res:[]};
+  show("quiz"); renderQ();
+}
+function qCol(q){ return R.mode === "practice" ? ZONES[R.zi].col : ZONES[SKILLS[q.skill].zone].col; }
+const KICK = {mc:"Choose one", plot:"Tap the grid", pair:"Type the coordinates", num:"Type the answer"};
+
+function renderQ(){
+  const q = R.qs[R.i], n = R.qs.length, sec = $("#scr-quiz");
+  R.locked = false; R.cur = null; R.hinted = false; R.lastInput = null;
+  const title = R.mode === "practice" ? "Zone " + (R.zi + 1) + " · " + ZONES[R.zi].name : "Final Challenge";
+  let h = '<div class="land-' + qCol(q) + '"><div class="test-top"><div class="row"><span class="round-name">' + title + '</span><span class="counter">' + (R.i + 1) + ' / ' + n + '</span></div>'
+    + '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + R.i + '"><i style="width:' + pctOf(R.i, n) + '%"></i></div></div>'
+    + '<article class="panel q-card"><p class="q-kicker">' + SKILLS[q.skill].name + ' · ' + KICK[q.kind] + '</p><p class="q-text" id="qtext">' + q.text + '</p>';
+  if (q.kind === "plot"){
+    h += '<div class="plane live" id="pw" tabindex="0" aria-describedby="qtext" aria-label="Coordinate plane. Tap a spot, or use the arrow keys, to place your point.">' + planeSVG(q.plane, planeDesc(q.plane)) + '</div>'
+      + '<div class="plot-tools"><span class="readout" id="readout" aria-live="polite">Your point: (?, ?)</span><div class="nudge" role="group" aria-label="Move your point">'
+      + [["l", -1, 0, "left"], ["u", 0, 1, "up"], ["d", 0, -1, "down"], ["r", 1, 0, "right"]].map(a => '<button data-act="nudge" data-dx="' + a[1] + '" data-dy="' + a[2] + '" aria-label="Move ' + a[3] + '">' + ARROW(a[0]) + '</button>').join("") + '</div></div>';
+  } else if (q.plane){
+    h += '<div id="pw">' + planeBox(q.plane) + '</div>';
+  }
+  if (q.kind === "mc"){
+    h += '<div class="opts ' + (q.layout || "") + '">' + q.opts.map((o, i) => q.layout === "four"
+      ? '<button class="opt big" data-act="mc" data-i="' + i + '">' + o + '</button>'
+      : '<button class="opt" data-act="mc" data-i="' + i + '"><span class="k">' + "ABCDE"[i] + '</span><span>' + o + '</span></button>').join("") + '</div>';
+  } else if (q.kind === "pair"){
+    h += '<div class="ans-row pair-row"><span class="paren" aria-hidden="true">(</span><label><span class="lbl">x</span><input class="type-in pair" id="inX" aria-label="x-coordinate" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="next"></label>'
+      + '<span class="paren" aria-hidden="true">,</span><label><span class="lbl">y</span><input class="type-in pair" id="inY" aria-label="y-coordinate" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done"></label><span class="paren" aria-hidden="true">)</span></div>' + keysRow();
+  } else if (q.kind === "num"){
+    h += '<div class="ans-row"><input class="type-in num" id="inN" aria-label="Your answer' + (q.unit ? " in " + q.unit : "") + '" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done">' + (q.unit ? '<span class="unit">' + q.unit + '</span>' : "") + '</div>' + keysRow();
+  }
+  h += '<p class="input-msg" id="imsg" aria-live="polite"></p>';
+  if (q.kind !== "mc") h += '<div class="actions">' + (R.mode === "practice" ? '<button class="btn btn-sm" data-act="hint" id="hintBtn">Hint</button>' : '<span class="your">No hints in the Final Challenge.</span>')
+    + '<button class="btn btn-go" data-act="check" id="checkBtn"' + (q.kind === "plot" ? " disabled" : "") + '>Check</button></div>';
+  else if (R.mode === "practice") h += '<div class="actions"><button class="btn btn-sm" data-act="hint" id="hintBtn">Hint</button></div>';
+  h += '<div id="hintBox"></div><div id="fbBox"></div></article></div>';
+  sec.innerHTML = h;
+  if (q.kind === "plot") bindPlot(q);
+  const first = $("#inX") || $("#inN");
+  $$(".type-in", sec).forEach(inp => inp.addEventListener("focus", () => { R.lastInput = inp; }));
+  if (first){ R.lastInput = first; if (finePointer) first.focus({preventScroll:true}); }
+}
+function keysRow(){
+  return '<div class="keys" role="group" aria-label="Extra keys"><span>Keys:</span>' + [["−", "-"], [".", "."], ["/", "/"], ["space", " "]].map(k => '<button class="key" data-act="key" data-k="' + k[1] + '" aria-label="Type ' + (k[0] === "−" ? "minus" : k[0] === "/" ? "fraction slash" : k[0] === "." ? "decimal point" : "space") + '">' + k[0] + '</button>').join("") + '</div>';
+}
+
+/* plot interaction: tap, arrow keys or the nudge buttons */
+function bindPlot(q){
+  const wrap = $("#pw"), svg = wrap.querySelector("svg"), g = geom(q.plane);
+  svg.addEventListener("click", e => {
+    if (R.locked) return;
+    let p;
+    try { const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; p = pt.matrixTransform(svg.getScreenCTM().inverse()); } catch (err) { return; }
+    setMark(q, q.plane.min + (p.x - PM) / g.u, q.plane.max - (p.y - PM) / g.u);
+  });
+  wrap.addEventListener("keydown", e => {
+    if (R.locked) return;
+    const d = {ArrowLeft:[-1, 0], ArrowRight:[1, 0], ArrowUp:[0, 1], ArrowDown:[0, -1]}[e.key];
+    if (d){ e.preventDefault(); nudge(q, d[0], d[1]); }
+    else if (e.key === "Enter" || e.key === " "){ e.preventDefault(); if (R.cur) check(); }
+  });
+}
+function nudge(q, dx, dy){
+  const c = R.cur || {x:0, y:0}, s = q.snap;
+  setMark(q, R.cur ? c.x + dx * s : 0, R.cur ? c.y + dy * s : 0);
+}
+function setMark(q, x, y){
+  const s = q.snap, lo = q.plane.min, hi = q.plane.max;
+  x = clamp(Math.round(x / s) * s, lo, hi) || 0; y = clamp(Math.round(y / s) * s, lo, hi) || 0;
+  R.cur = {x, y};
+  const {X, Y} = geom(q.plane), mk = $("#pw .mk"), x0 = X(0), y0 = Y(0);
+  mk.innerHTML = '<path class="guide" d="M' + f2(X(x)) + ' ' + f2(Y(y)) + 'V' + f2(y0) + 'M' + f2(X(x)) + ' ' + f2(Y(y)) + 'H' + f2(x0) + '"/>'
+    + '<circle class="ring" cx="' + f2(X(x)) + '" cy="' + f2(Y(y)) + '" r="10"/><circle class="pt" cx="' + f2(X(x)) + '" cy="' + f2(Y(y)) + '" r="9" fill="var(--sun)"/>';
+  $("#readout").textContent = "Your point: " + P(x, y, q.st);
+  $("#checkBtn").disabled = false;
+  Sound.tap();
+}
+
+function showHint(){
+  const q = R.qs[R.i]; if (R.locked || R.hinted) return;
+  R.hinted = true;
+  $("#hintBox").innerHTML = '<div class="hint-box"><b class="tag">Hint</b>' + q.hint + '</div>';
+  const b = $("#hintBtn"); if (b) b.disabled = true;
+  announce("Hint: " + strip(q.hint));
+}
+
+function check(){
+  const q = R.qs[R.i]; if (R.locked) return;
+  const msg = $("#imsg");
+  if (q.kind === "plot"){
+    if (!R.cur){ msg.textContent = "Tap the grid to place your point first."; return; }
+    const g = R.cur, ok = near(g.x, q.target.x) && near(g.y, q.target.y);
+    finish(ok, P(g.x, g.y, q.st), ok ? "" : (q.diag ? q.diag(g) : diagPair(q.target, g, q.st)), g);
+  } else if (q.kind === "pair"){
+    const ix = $("#inX"), iy = $("#inY"), gx = parseNum(ix.value), gy = parseNum(iy.value);
+    if (isNaN(gx) || isNaN(gy)){ msg.textContent = "Type a number in both boxes, like −3, 2.5 or 2 1/2."; (isNaN(gx) ? ix : iy).focus(); return; }
+    const okx = near(gx, q.target.x), oky = near(gy, q.target.y), ok = okx && oky, g = {x:gx, y:gy};
+    ix.classList.add(okx ? "ok" : "no"); iy.classList.add(oky ? "ok" : "no");
+    finish(ok, P(gx, gy, q.st), ok ? "" : (q.diag ? q.diag(g) : diagPair(q.target, g, q.st)), g);
+  } else if (q.kind === "num"){
+    const inp = $("#inN"), g = parseNum(inp.value);
+    if (isNaN(g)){ msg.textContent = "Type a number, like 7, 3.5 or 3 1/2."; inp.focus(); return; }
+    const ok = near(g, q.num);
+    inp.classList.add(ok ? "ok" : "no");
+    finish(ok, fmtN(g, q.st || "frac") + (q.unit ? " " + unitWord(g, q.unit) : ""), ok ? "" : (q.diag ? q.diag(g) : ""), g);
+  }
+}
+function chooseMC(i){
+  const q = R.qs[R.i]; if (R.locked) return;
+  const ok = i === q.ans;
+  $$("#scr-quiz .opt").forEach((b, k) => { b.disabled = true; if (k === q.ans) b.classList.add("right"); else if (k === i) b.classList.add("wrong"); else b.classList.add("dim"); });
+  finish(ok, (q.layout === "four" ? "Point " : "") + strip(q.opts[i]), "");
+}
+const YES = ["NAILED IT!", "BOOM!", "SPOT ON!", "YES!", "PERFECT!"];
+function finish(ok, given, extra, g){
+  const q = R.qs[R.i];
+  R.locked = true;
+  R.res.push({ok, hinted:R.hinted, given, skill:q.skill, text:strip(q.text), correct:q.ansText, why:q.why});
+  const sk = S.skills[q.skill] || (S.skills[q.skill] = {c:0, n:0});
+  sk.n++; if (ok) sk.c++;
+  save();
+  $$("#scr-quiz .type-in").forEach(i => { i.readOnly = true; });
+  $$("#scr-quiz .key, #scr-quiz .nudge button").forEach(b => { b.disabled = true; });
+  const cb = $("#checkBtn"); if (cb) cb.disabled = true;
+  const hb = $("#hintBtn"); if (hb) hb.disabled = true;
+  $("#imsg").textContent = "";
+  /* show the answer on the plane */
+  let planeHtml = "";
+  if (q.kind === "plot"){
+    const t = q.target, rp = Object.assign({}, q.revealPlane || q.plane);
+    rp.pts = (rp.pts || []).slice();
+    if (q.reveal === "walk") rp.path = [[0, 0], [t.x, 0], [t.x, t.y]];
+    if (q.reveal === "mirror") rp.segs = [{a:[q.from.x, q.from.y], b:[t.x, t.y], dash:true}];
+    const youHigher = !ok && g.y > t.y;
+    rp.pts.push({x:t.x, y:t.y, label:(q.ansLabel || "") + P(t.x, t.y, q.st), c:"ok", pos:youHigher ? "below" : "above"});
+    if (!ok) rp.pts.push({x:g.x, y:g.y, label:"you", c:"you", pos:youHigher ? "above" : "below"});
+    const pw = $("#pw"); pw.classList.remove("live"); pw.removeAttribute("tabindex"); pw.removeAttribute("aria-label");
+    pw.innerHTML = planeSVG(rp, planeDesc(rp));
+    $("#readout").textContent = "Your point: " + given;
+  } else if (q.revealPlane){
+    if (q.plane) $("#pw").innerHTML = planeBox(q.revealPlane);
+    else planeHtml = planeBox(q.revealPlane, "small");
+  }
+  const burst = ok ? (R.hinted ? "GOT IT!" : pick(YES)) : "NOT QUITE";
+  const body = (ok ? "" : '<p class="your">Your answer: <b>' + esc(given) + '</b> · Correct: <b>' + esc(q.ansText) + '</b></p>')
+    + '<p>' + q.why + '</p>' + (extra ? '<p class="tip"><b class="tag">Tip</b>' + extra + '</p>' : "");
+  const last = R.i === R.qs.length - 1;
+  $("#fbBox").innerHTML = '<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + burst + '</span><div class="fb-body">' + body + '</div>' + planeHtml
+    + '<div class="row"><button class="btn btn-ink" data-act="next" id="nextBtn">' + (last ? "See results →" : "Next →") + '</button></div></div>';
+  if (ok){ Sound.good(); addXP(R.hinted ? 5 : 10, $("#nextBtn")); }
+  else Sound.bad();
+  announce((ok ? "Correct. " : "Not quite. The answer is " + strip(q.ansText) + ". ") + strip(q.why));
+  const nb = $("#nextBtn");
+  nb.focus({preventScroll:true});
+  try { $("#fbBox").scrollIntoView({behavior:reduceMotion ? "auto" : "smooth", block:"nearest"}); } catch (e) {}
+}
+function next(){
+  if (!R) return;
+  if (R.i < R.qs.length - 1){ R.i++; renderQ(); window.scrollTo(0, 0); return; }
+  if (R.mode === "practice") zoneResult(); else finalReport();
+}
+
+/* ---------- PRACTICE RESULT ---------- */
+function zoneResult(){
+  const z = ZONES[R.zi], res = R.res, n = res.length;
+  const right = res.filter(r => r.ok).length, hinted = res.filter(r => r.ok && r.hinted).length;
+  const pts = right - hinted / 2, stars = pts >= 6 ? 3 : pts >= 4 ? 2 : pts >= 2 ? 1 : 0;
+  const Z = S.zones[z.key] || {};
+  S.zones[z.key] = {stars:Math.max(Z.stars || 0, stars), best:Math.max(Z.best || 0, right), plays:(Z.plays || 0) + 1};
+  S.attempts.push({kind:"practice", zone:R.zi, t:Date.now(), pct:pctOf(right, n)}); S.attempts = S.attempts.slice(-60);
+  save();
+  const big = stars === 3 ? "ZONE CLEAR!" : stars === 2 ? "GREAT WORK!" : stars === 1 ? "GOOD START!" : "KEEP GOING!";
+  const nextZ = R.zi < ZONES.length - 1 ? '<button class="btn btn-go" data-act="zone" data-z="' + (R.zi + 1) + '">Next: ' + ZONES[R.zi + 1].name + ' →</button>' : '<button class="btn btn-go" data-act="final">Final Challenge →</button>';
+  let h = '<div class="land-' + z.col + '"><div class="panel splash"><div class="land-num">Zone ' + (R.zi + 1) + ' · ' + z.name + '</div><div class="big">' + big + '</div>'
+    + '<div class="result-stars" role="img" aria-label="' + stars + ' of 3 stars">' + [1, 2, 3].map(k => '<span style="animation-delay:' + (k * .18) + 's">' + STAR(stars >= k) + '</span>').join("") + '</div>'
+    + '<p><b>' + right + ' of ' + n + '</b> correct' + (hinted ? " (" + hinted + " with a hint)" : "") + '. ' + (stars === 3 ? "Perfect round, no hints!" : "3 stars = all 6 right without hints.") + '</p>'
+    + '<div class="row" style="justify-content:center"><button class="btn" data-act="practice" data-z="' + R.zi + '">Practice again</button>' + nextZ + '<button class="btn btn-sm" data-act="home">Map</button></div></div>';
+  const miss = res.filter(r => !r.ok);
+  if (miss.length) h += '<div class="sec-title"><h2>Fix these</h2><p>Read why, then try a new round. The numbers change every time.</p></div><div class="miss-list">'
+    + miss.map(r => '<div class="panel miss"><p class="q">' + esc(r.text) + '</p><p class="a">You: <b>' + esc(r.given) + '</b> · Answer: <b>' + esc(r.correct) + '</b></p><p class="w">' + r.why + '</p></div>').join("") + '</div>';
+  else h += '<p class="foot-note">No mistakes this round. Want a different set of numbers? Practice again.</p>';
+  $("#scr-result").innerHTML = h + '</div>';
+  show("result");
+  if (stars >= 2){ Sound.win(); FX.party(); }
+}
+
+/* ---------- FINAL CHALLENGE ---------- */
+function renderFinalIntro(){
+  $("#scr-final").innerHTML = '<div class="land-c1"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button></div><div class="panel test-intro"><h2>Final Challenge</h2>'
+    + '<p>20 questions from every zone, with new numbers each time. There are no hints, but every answer comes with an explanation. At the end you\'ll see which skills are strong and what to practice before the homework.</p><ol class="rounds">'
+    + ZONES.map((z, i) => '<li><span><b>' + z.name + '</b><br><small>' + z.tag + '</small></span><small>' + FINAL_SET[i].length + ' Qs</small></li>').join("")
+    + '</ol><div class="row"><button class="btn btn-go" data-act="startfinal">Start →</button></div></div></div>';
+  show("final");
+}
+function finalReport(){
+  const res = R.res, n = res.length, right = res.filter(r => r.ok).length, pct = pctOf(right, n);
+  const skills = {};
+  res.forEach(r => { const s = skills[r.skill] || (skills[r.skill] = [0, 0]); s[1]++; if (r.ok) s[0]++; });
+  const rep = {t:Date.now(), pct, right, n, skills, items:res.map(r => ({ok:r.ok, skill:r.skill, text:r.text, given:r.given, correct:r.correct, why:r.why}))};
+  S.last = rep;
+  S.attempts.push({kind:"final", t:rep.t, pct}); S.attempts = S.attempts.slice(-60);
+  addXP(20);
+  save();
+  renderReport(rep);
+  show("report");
+  if (pct >= 75){ Sound.win(); FX.party(); }
+}
+function renderReport(rep){
+  const C = 2 * Math.PI * 64, rank = rep.pct >= 90 ? "Coordinate Captain" : rep.pct >= 75 ? "Grid Navigator" : rep.pct >= 50 ? "Map Reader" : "Explorer in Training";
+  const ready = rep.pct >= 80 ? "You're ready for the IXL homework (target 70%). Do the book questions next."
+    : rep.pct >= 60 ? "Almost ready. Practice the skills marked below first, then try IXL." : "Practice the zones in the study plan below before the homework, then take the challenge again.";
+  let h = '<div class="land-c1"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button><span class="your">' + fmtDate(rep.t) + '</span></div>'
+    + '<div class="panel report-head"><div class="ring"><svg viewBox="0 0 156 156" aria-hidden="true"><circle cx="78" cy="78" r="64" fill="none" stroke="#E4F2FF" stroke-width="16"/><circle cx="78" cy="78" r="64" fill="none" stroke="' + (rep.pct >= 75 ? "#12A15E" : rep.pct >= 50 ? "#F39200" : "#E23D45") + '" stroke-width="16" stroke-linecap="round" stroke-dasharray="' + f2(C * rep.pct / 100) + ' ' + f2(C) + '"/></svg><div class="num">' + rep.pct + '%<small>' + rep.right + ' / ' + rep.n + '</small></div></div>'
+    + '<div><div class="land-num">Final Challenge result</div><div class="rank">' + rank + '</div><p>' + ready + '</p><div class="row" style="margin-top:12px"><button class="btn btn-go" data-act="startfinal">Try again</button><button class="btn btn-sm" data-act="tohw">Homework check</button></div></div></div>';
+  h += '<div class="sec-title"><h2>Skills</h2><p>Green 80%+ · Orange 50–79% · Red below 50%.</p></div><div class="panel bars">';
+  const order = SKILL_ORDER.filter(k => rep.skills[k]);
+  order.forEach(k => {
+    const [c, t] = rep.skills[k], p = pctOf(c, t), st = p >= 80 ? "good" : p >= 50 ? "mid" : "low";
+    h += '<div class="bar-row land-' + ZONES[SKILLS[k].zone].col + '"><div class="bar-label">' + SKILLS[k].name + '<small>' + ZONES[SKILLS[k].zone].name + ' · ' + c + '/' + t + '</small></div>'
+      + '<div class="bar" role="img" aria-label="' + p + ' percent"><i class="' + (p ? "" : "zero") + '" data-w="' + p + '"></i></div><div class="bar-end"><span class="pct">' + p + '%</span><span class="status ' + st + '">' + (st === "good" ? "Strong" : st === "mid" ? "Almost" : "Practice") + '</span></div></div>';
+  });
+  h += '</div>';
+  const weak = order.map(k => ({k, p:rep.skills[k][0] / rep.skills[k][1]})).filter(x => x.p < .8).sort((a, b) => a.p - b.p);
+  h += '<div class="sec-title"><h2>Study Plan</h2><p>' + (weak.length ? "Do these in order. Each one takes about 5 minutes." : "No weak spots. Keep it fresh before the homework.") + '</p></div>';
+  if (weak.length){
+    h += '<ol class="plan">' + weak.map(x => {
+      const zi = SKILLS[x.k].zone;
+      return '<li><b>' + SKILLS[x.k].name + '</b> <span class="your">(' + Math.round(x.p * 100) + '%)</span><p>' + SKILLS[x.k].tip + '</p><div class="row"><button class="btn btn-sm" data-act="zone" data-z="' + zi + '">Re-read ' + ZONES[zi].name + '</button><button class="btn btn-sm btn-go" data-act="practice" data-z="' + zi + '">Practice ' + ZONES[zi].name + '</button></div></li>';
+    }).join("") + '</ol>';
+  } else h += '<ol class="plan"><li><b>Do the homework</b><p>IXL first (aim above 70%), then the book: p. 102 Q7–9 and p. 103 Q12, 15, 17, 18.</p><div class="row"><button class="btn btn-sm btn-go" data-act="tohw">Homework check</button></div></li></ol>';
+  const fs = finals().slice(-8);
+  if (fs.length > 1) h += '<div class="sec-title"><h2>Progress</h2><p>Your last ' + fs.length + ' Final Challenges.</p></div><div class="panel history">'
+    + fs.map(a => '<div class="hcol"><b>' + a.pct + '%</b><div class="hbar" style="height:' + Math.max(6, a.pct * 1.1) + 'px"></div><span>' + fmtDate(a.t).split(",")[0] + '</span></div>').join("") + '</div>';
+  h += '<div class="sec-title"><h2>Every Answer</h2></div><div class="panel answers"><details><summary>Show all ' + rep.n + ' questions with explanations</summary>'
+    + rep.items.map((r, i) => '<div class="ans"><span class="mark ' + (r.ok ? "ok" : "no") + '" aria-label="' + (r.ok ? "correct" : "wrong") + '">' + (r.ok ? "✓" : "✗") + '</span><div><b>' + (i + 1) + '. ' + esc(r.text) + '</b><br><small>You: ' + esc(r.given) + ' · Answer: ' + esc(r.correct) + '</small><p>' + r.why + '</p></div></div>').join("")
+    + '</details></div></div>';
+  $("#scr-report").innerHTML = h;
+  requestAnimationFrame(() => requestAnimationFrame(() => $$("#scr-report .bar i").forEach(i => { i.style.width = i.dataset.w + "%"; })));
+}
+
+/* ---------- EVENTS ---------- */
+const ACT = {
+  home(){ renderHome(); show("home"); },
+  zone(b){ openZone(+b.dataset.z); },
+  practice(b){ startPractice(+b.dataset.z); },
+  final(){ renderFinalIntro(); },
+  startfinal(){ startFinal(); },
+  mc(b){ chooseMC(+b.dataset.i); },
+  check(){ check(); },
+  hint(){ showHint(); },
+  next(){ next(); },
+  nudge(b){ if (!R || R.locked) return; nudge(R.qs[R.i], +b.dataset.dx, +b.dataset.dy); },
+  key(b){
+    const inp = R && R.lastInput; if (!inp || inp.readOnly) return;
+    const k = b.dataset.k, s = inp.selectionStart == null ? inp.value.length : inp.selectionStart, e = inp.selectionEnd == null ? s : inp.selectionEnd;
+    inp.value = inp.value.slice(0, s) + k + inp.value.slice(e);
+    inp.focus({preventScroll:true}); try { inp.setSelectionRange(s + k.length, s + k.length); } catch (err) {}
+  },
+  sound(){ S.sound = !S.sound; save(); renderSoundBtn(); if (S.sound) Sound.tap(); },
+  tohw(){ renderHome(); show("home"); const t = $("#hw"); if (t) t.scrollIntoView({behavior:reduceMotion ? "auto" : "smooth"}); },
+  lastreport(){ if (S.last){ renderReport(S.last); show("report"); } },
+  reset(){ if (confirm("Reset all Coordinate Quest progress on this device?")){ const snd = S.sound; S = fresh(); S.sound = snd; save(); $("#xpVal").textContent = 0; renderHome(); } }
+};
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b || b.disabled) return;
+  const f = ACT[b.dataset.act]; if (f) f(b, e);
+});
+document.addEventListener("keydown", e => {
+  if (e.key !== "Enter" || current !== "quiz" || !R) return;
+  const t = e.target;
+  if (t.id === "inX" && !R.locked){ e.preventDefault(); $("#inY").focus(); return; }
+  if ((t.id === "inY" || t.id === "inN") && !R.locked){ e.preventDefault(); check(); }
+});
+document.addEventListener("mousedown", e => { if (e.target.closest(".key")) e.preventDefault(); });
+document.addEventListener("change", e => {
+  const c = e.target.closest("[data-hw]"); if (!c) return;
+  setHwDone(c.dataset.hw, c.checked);
+  c.closest(".hw-item").classList.toggle("done", c.checked);
+  if (c.checked){ Sound.win(); FX.burstEl(c, 30); }
+});
+
+/* ---------- START ---------- */
+$("#xpVal").textContent = S.xp;
+renderSoundBtn();
+renderHome();
+</script>
+</body></html>

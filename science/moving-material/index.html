@@ -1,0 +1,1927 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Moving Material Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn:#C77700; --warn-bg:#FFF0D1;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --c5:#E23F66; --c5t:#FFDDE6;
+  --c6:#0E9BB0; --c6t:#D3F3F7;
+  --c7:#C77700; --c7t:#FFF0D1;
+  --c8:#5B4FE0; --c8t:#E3E1FF;
+  --c9:#D9469E; --c9t:#FCE1F1;
+  --col:var(--c1); --tint:var(--c1t);
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.col-c1{--col:var(--c1);--tint:var(--c1t)} .col-c2{--col:var(--c2);--tint:var(--c2t)} .col-c3{--col:var(--c3);--tint:var(--c3t)}
+.col-c4{--col:var(--c4);--tint:var(--c4t)} .col-c5{--col:var(--c5);--tint:var(--c5t)} .col-c6{--col:var(--c6);--tint:var(--c6t)}
+.col-c7{--col:var(--c7);--tint:var(--c7t)} .col-c8{--col:var(--c8);--tint:var(--c8t)} .col-c9{--col:var(--c9);--tint:var(--c9t)}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:900px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;min-width:0}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--c5);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.xp{display:flex;align-items:center;gap:6px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;white-space:nowrap}
+.xp svg{width:20px;height:20px}
+.xp.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{50%{transform:scale(1.18)}}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);padding:0}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:560px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:16px;line-height:1.2;box-shadow:var(--shadow-sm);transition:transform .08s,box-shadow .08s;text-align:center;text-decoration:none}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn-go{background:var(--sun)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.btn-sm{min-height:40px;padding:6px 14px;font-size:14px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:var(--shadow-sm)}
+.btn svg{width:18px;height:18px;flex:none}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.screen{animation:enter .35s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* home */
+.hero{margin-top:20px;padding:20px;display:grid;grid-template-columns:1.35fr 1fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(42px,7vw,66px)}
+.hero h1 span{color:var(--c5);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero p.lead{margin-top:10px;max-width:50ch;color:var(--ink-2)}
+.hero .row{margin-top:14px}
+.kick{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;background:var(--page);text-align:center}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+@media (max-width:680px){.hero{grid-template-columns:1fr}}
+.hw{margin-top:16px;padding:14px 16px;display:grid;gap:10px;background:var(--sun-2)}
+.hw h2{font-size:28px}
+.hw-item{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;padding:10px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--paper)}
+.hw-item p{flex:1 1 230px;font-size:15px}
+.hw-item p b{display:block;font-size:16px}
+.due{display:inline-block;font-size:12px;font-weight:800;padding:2px 9px;border-radius:999px;border:2px solid var(--ink);background:var(--bad-bg);white-space:nowrap;margin-top:4px}
+.sec-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:34px 0 14px}
+.sec-title h2{font-size:36px}
+.sec-title p{color:var(--ink-2);font-size:14px}
+
+/* lesson trail */
+.trail{position:relative;display:grid;gap:20px;padding-block:4px}
+.trail::before{content:"";position:absolute;top:0;bottom:-20px;left:50%;border-left:4px dashed var(--ink-3);transform:translateX(-2px)}
+.land{position:relative;width:calc(50% - 26px);display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px;text-align:left;background:var(--tint);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);transition:transform .15s}
+.land:nth-child(odd){justify-self:start}
+.land:nth-child(even){justify-self:end}
+.land:hover{transform:translateY(-3px) rotate(-.4deg)}
+.land::after{content:"";position:absolute;top:24px;width:22px;height:22px;border-radius:50%;background:var(--col);border:3px solid var(--ink)}
+.land:nth-child(odd)::after{right:-40px}
+.land:nth-child(even)::after{left:-40px}
+@media (max-width:680px){.trail::before{left:18px}.land{width:calc(100% - 44px);justify-self:end!important}.land::after{left:-40px!important;right:auto!important}}
+.badge{width:56px;height:56px;border-radius:50%;background:var(--col);border:3px solid var(--ink);display:grid;place-items:center;box-shadow:2px 2px 0 var(--ink);flex:none}
+.badge svg{width:32px;height:32px}
+.land-num{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.land h3{font-size:28px}
+.land .sub{font-size:14px;color:var(--ink-2);margin-top:2px}
+.land-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:2px}
+.day{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);white-space:nowrap}
+.progress-note{font-size:13px;font-weight:700;color:var(--ink-2)}
+.stars{display:flex;gap:2px}
+.stars svg{width:24px;height:24px}
+.sticker{position:absolute;top:-19px;right:12px;font-family:var(--display);font-size:18px;letter-spacing:.05em;background:var(--bad);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 8px;transform:rotate(4deg);box-shadow:2px 2px 0 var(--ink)}
+.sticker.ok{background:var(--good)}
+.land-num{display:block}
+.lt{display:block;font-family:var(--display);font-size:28px;line-height:1.05;letter-spacing:.03em;margin-top:1px}
+.land .sub,.xcard .sub{display:block}
+.xcard .lt{font-size:32px}
+.xcard .sub{font-size:14px;margin-top:2px}
+.extras{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px}
+@media (max-width:680px){.extras{grid-template-columns:1fr}}
+.xcard{position:relative;padding:18px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:var(--tint);text-align:left}
+.xcard h3{font-size:32px}
+.xcard p{font-size:14px}
+.xcard .row{grid-column:1 / -1}
+.xcard.final{background:var(--sun)}
+.xcard.final .badge{background:var(--ink)}
+.bank{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.bank{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:340px){.bank{grid-template-columns:1fr}}
+.vw{border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:3px 3px 0 var(--col)}
+.vw summary{list-style:none;cursor:pointer;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:700;overflow-wrap:anywhere}
+.vw summary::-webkit-details-marker{display:none}
+.vw summary::after{content:"+";flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;line-height:1;background:var(--tint)}
+.vw[open] summary::after{content:"\2013"}
+.vw p{padding:0 12px 12px;font-size:14px;color:var(--ink-2)}
+.vw p small{display:block;margin-top:4px;font-weight:700;color:var(--col)}
+
+/* lesson */
+.lesson-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.chip-land{font-family:var(--display);font-size:22px;letter-spacing:.04em;padding:3px 12px;border:3px solid var(--ink);border-radius:10px;background:var(--col);color:#fff;-webkit-text-stroke:.5px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+.step{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);display:grid;place-items:center;font-weight:800;font-size:13px;padding:0}
+.step.done{background:var(--good);color:#fff}
+.step.now{box-shadow:0 0 0 3px var(--sun);transform:scale(1.1)}
+@media (max-width:560px){.steps{margin-left:0}}
+.intro{margin-top:14px;padding:20px;display:grid;gap:10px;background:var(--tint)}
+.intro h2{font-size:clamp(36px,7vw,58px);color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink)}
+.intro .bigq{font-size:clamp(19px,2.6vw,23px);font-weight:700;max-width:46ch}
+.intro .from{font-size:14px;color:var(--ink-2)}
+.scene-box{margin:16px 0 0;padding:12px;display:grid;gap:10px;position:relative}
+.scene{position:relative;background:var(--tint);border:3px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;width:100%;max-width:680px;margin-inline:auto}
+.scene svg{width:100%;height:100%;display:block}
+.scene-box figcaption{font-size:15px;color:var(--ink-2)}
+.scene-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.motion-btn{margin-left:auto;display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:4px 10px;font-size:13px;font-weight:800;border:2px solid var(--ink);border-radius:999px;background:var(--paper);box-shadow:2px 2px 0 var(--ink)}
+.motion-btn svg{width:14px;height:14px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:50%;border:2px solid var(--ink);display:inline-block;flex:none}
+.toggles{display:flex;flex-wrap:wrap;gap:8px}
+.tog{min-height:38px;padding:5px 12px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);font-weight:700;font-size:14px;box-shadow:2px 2px 0 var(--ink)}
+.tog[aria-pressed="true"]{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:16px}
+.icard{padding:14px 16px;border:3px solid var(--ink);border-radius:var(--r);background:var(--paper);box-shadow:var(--shadow-sm);min-width:0}
+.icard h3{font-size:25px;color:var(--col);-webkit-text-stroke:.7px var(--ink)}
+.icard p{margin-top:6px;font-size:16px}
+.icard ul{margin:8px 0 0;padding-left:20px;font-size:15px;display:grid;gap:4px}
+.ref-tag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2);background:var(--page);border:2px solid var(--ink);border-radius:6px;padding:1px 6px;margin-bottom:6px}
+.fact{margin-top:16px;padding:14px 16px;background:var(--sun-2);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow-sm);transform:rotate(-.5deg)}
+.fact .tag{font-family:var(--display);font-size:22px;letter-spacing:.04em;margin-right:6px}
+.connect{margin-top:16px;padding:12px 16px;border:3px dashed var(--ink);border-radius:var(--r);background:var(--paper);font-size:15px}
+.connect b.tag{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:.04em;color:var(--col);margin-right:4px}
+.kw{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;align-items:center}
+.kw-chip{font-size:14px;font-weight:700;padding:3px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--tint)}
+.kw .lbl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2);margin-right:4px}
+.widget{margin-top:16px;padding:16px;display:grid;gap:12px}
+.widget h3{font-size:28px}
+.widget .how{font-size:14px;color:var(--ink-2)}
+.qc{margin-top:28px}
+.qc-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:10px}
+.qc-head h2{font-size:36px}
+.qc-head p{color:var(--ink-2);font-size:14px}
+.lesson-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:22px}
+
+/* widgets */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:640px){.split{grid-template-columns:1fr}}
+.figure{position:relative;width:100%;max-width:520px;margin:0 auto;border:3px solid var(--ink);border-radius:var(--r-sm);background:var(--tint);overflow:hidden}
+.figure svg{display:block;width:100%;height:100%}
+.pins{position:absolute;inset:0}
+.pin{position:absolute;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;border:3px solid var(--ink);background:var(--sun);font-weight:800;font-size:13px;line-height:1;padding:0;display:grid;place-items:center;box-shadow:2px 2px 0 var(--ink);color:var(--ink)}
+button.pin:hover:not([disabled]){background:#fff}
+.pin.seen{background:var(--good-bg)}
+.pin.sel{background:var(--col);color:#fff}
+.pin.right{background:var(--good);color:#fff}
+.pin.wrong{background:var(--bad);color:#fff;animation:shake .4s}
+.pin.hi{background:var(--c5);color:#fff;animation:pinPulse 1.3s ease-in-out infinite}
+.pin[disabled]{cursor:default}
+@keyframes pinPulse{50%{box-shadow:0 0 0 7px rgba(226,63,102,.35),2px 2px 0 var(--ink)}}
+.part-info{border:3px solid var(--ink);border-radius:var(--r-sm);padding:12px 14px;background:var(--tint);min-height:96px}
+.part-info h4{margin:0;font-family:var(--display);font-weight:400;font-size:26px;letter-spacing:.03em}
+.part-info p{margin-top:4px;font-size:16px}
+.part-chips{display:flex;flex-wrap:wrap;gap:6px}
+.part-chips button{font-size:13px;font-weight:700;padding:4px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--paper)}
+.part-chips button.seen{background:var(--good-bg)}
+.part-chips button[aria-pressed="true"]{background:var(--col);color:#fff}
+.vessels svg{width:100%;height:auto;display:block}
+.jar{display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px;align-items:center}
+.jar svg{width:110px;height:auto;display:block}
+.jar .btns{display:grid;gap:8px}
+.jar-layer{transition:opacity .25s}
+.jar[data-sel] .jar-layer{opacity:.35}
+.jar[data-sel="plasma"] .jl-plasma,.jar[data-sel="buffy"] .jl-buffy,.jar[data-sel="red"] .jl-red{opacity:1}
+.animal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:560px){.animal-grid{grid-template-columns:1fr}}
+.acard{border:3px solid var(--ink);border-radius:var(--r);background:var(--paper);box-shadow:var(--shadow-sm);overflow:hidden;min-width:0}
+.acard .mini{aspect-ratio:160/90;border-bottom:3px solid var(--ink);background:var(--tint)}
+.acard .mini svg{width:100%;height:100%;display:block}
+.acard .txt{padding:10px 12px 12px}
+.acard h4{margin:0;font-family:var(--display);font-weight:400;font-size:24px;letter-spacing:.03em}
+.acard h4 small{font-family:var(--body);font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--col);margin-left:6px}
+.acard p{font-size:15px;margin-top:4px}
+.hearts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.hearts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.hcard{border:2px solid var(--ink);border-radius:12px;background:var(--paper);padding:10px;display:grid;gap:4px;justify-items:center;text-align:center;box-shadow:2px 2px 0 var(--ink)}
+.hcard svg{width:72px;height:72px}
+.hcard b{font-family:var(--display);font-weight:400;font-size:22px;line-height:1}
+.hcard span{font-size:13px;color:var(--ink-2);line-height:1.35}
+.hcard .n{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--col)}
+.day-line{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.day-line li{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;align-items:start;padding:8px 10px;border:2px solid var(--ink);border-radius:10px;background:var(--paper)}
+.day-line time{font-weight:800;font-variant-numeric:tabular-nums;background:var(--ink);color:#fff;border-radius:6px;text-align:center;padding:2px 0;font-size:14px}
+.day-line b{display:block}
+.day-line span{font-size:14px;color:var(--ink-2)}
+.cells3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.ccard{border:2px solid var(--ink);border-radius:12px;background:var(--paper);padding:12px;box-shadow:2px 2px 0 var(--ink)}
+.ccard svg{width:64px;height:48px;display:block;margin-bottom:4px}
+.ccard h4{margin:0;font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:.03em}
+.ccard p{font-size:14px;margin-top:4px}
+
+/* questions */
+.q-card{padding:18px;display:grid;gap:14px}
+.q-kicker{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.q-text{font-size:20px;line-height:1.5;font-weight:600}
+.q-how{font-size:14px;font-weight:700;color:var(--ink-2)}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;min-height:56px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:600;font-size:17px;line-height:1.35;box-shadow:3px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+.opt:hover:not([disabled]){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.opt:active:not([disabled]){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.opt .k{flex:none;width:30px;height:30px;border-radius:8px;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:14px;background:var(--page)}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--good-bg);animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+.opt.right .k{background:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-bg);animation:shake .4s}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt.dim{opacity:.5}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes pop{50%{transform:scale(1.04)}}
+.seq{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.slot{width:100%;min-height:48px;display:flex;gap:10px;align-items:center;text-align:left;padding:8px 12px;border:2px dashed var(--ink-3);border-radius:10px;background:var(--page);font-weight:600;font-size:16px;line-height:1.3}
+.slot .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
+.slot .ph{color:var(--ink-3)}
+.slot.filled{border-style:solid;border-color:var(--ink);background:var(--tint);animation:fillIn .35s cubic-bezier(.3,1.6,.5,1)}
+.slot.ok{background:var(--good-bg)} .slot.no{background:var(--bad-bg)}
+.slot.ok .n{background:var(--good)} .slot.no .n{background:var(--bad)}
+@keyframes fillIn{0%{transform:scale(.92)}100%{transform:none}}
+.pool{display:flex;flex-wrap:wrap;gap:8px}
+.chipbtn{min-height:44px;padding:8px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);font-weight:600;font-size:15px;line-height:1.3;text-align:left;box-shadow:2px 2px 0 var(--ink)}
+.chipbtn:hover{background:var(--sun-2)}
+.sort-list{display:grid;gap:8px}
+.sort-row{display:grid;gap:8px;padding:10px 12px;border:2px solid var(--ink);border-radius:12px;background:var(--paper)}
+.sort-row p{font-weight:600;font-size:16px}
+.sort-row.ok{background:var(--good-bg)} .sort-row.no{background:var(--bad-bg)}
+.sort-row .corr{font-size:14px;font-weight:800;color:var(--good)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{min-height:40px;padding:6px 12px;border:2px solid var(--ink);border-radius:999px;background:var(--page);font-weight:700;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button[disabled]{cursor:default}
+.fb{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:start;padding:12px 14px;border:3px solid var(--ink);border-radius:12px;animation:slideUp .3s ease-out}
+.fb.ok{background:var(--good-bg)} .fb.no{background:var(--bad-bg)}
+.fb .burst{font-family:var(--display);font-size:30px;line-height:1;transform:rotate(-4deg);-webkit-text-stroke:1px var(--ink)}
+.fb.ok .burst{color:var(--good)} .fb.no .burst{color:var(--bad)}
+.fb .fb-body{font-size:16px;min-width:0}
+.fb .fb-body ol{margin:6px 0 6px;padding-left:22px}
+.fb .row{grid-column:1 / -1;justify-content:flex-end}
+@media (max-width:420px){.fb{grid-template-columns:1fr}}
+@keyframes slideUp{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.qc-done{padding:20px;display:grid;gap:12px;justify-items:center;text-align:center;background:var(--tint)}
+.qc-done .big{font-family:var(--display);font-size:clamp(38px,8vw,56px);line-height:1;color:#fff;-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink)}
+.result-stars{display:flex;gap:10px;justify-content:center}
+.result-stars span{display:inline-block;animation:starIn .6s cubic-bezier(.3,1.6,.5,1) both}
+.result-stars svg{width:56px;height:56px;display:block}
+@keyframes starIn{0%{transform:scale(0) rotate(-40deg)}100%{transform:none}}
+
+/* review + report */
+.test-top{display:grid;gap:10px;margin-top:16px}
+.test-top .row{justify-content:space-between}
+.round-name{font-family:var(--display);font-size:26px;letter-spacing:.04em}
+.counter{font-weight:800;font-variant-numeric:tabular-nums}
+.progress{height:16px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--sun);border-right:2px solid var(--ink);transition:width .4s}
+.test-intro{margin-top:16px;padding:22px;display:grid;gap:14px}
+.test-intro h2{font-size:clamp(40px,8vw,60px)}
+.test-intro ul{margin:0;padding-left:20px;display:grid;gap:4px}
+.report-head{margin-top:16px;padding:20px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+@media (max-width:600px){.report-head{grid-template-columns:1fr;justify-items:center;text-align:center}.report-head .row{justify-content:center}}
+.ring{width:156px;height:156px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:grid;place-items:center;align-content:center;font-family:var(--display);font-size:46px;line-height:1}
+.ring .num small{font-family:var(--body);font-size:12px;font-weight:800;color:var(--ink-2);letter-spacing:.06em}
+.rank{font-family:var(--display);font-size:clamp(34px,6vw,52px);line-height:1}
+.report-head p{margin-top:6px;color:var(--ink-2)}
+.bars{padding:16px;display:grid;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(130px,230px) 1fr auto;gap:10px 12px;align-items:center}
+.bar-label{font-weight:700;line-height:1.25}
+.bar-label small{display:block;font-weight:500;font-size:12px;color:var(--ink-2)}
+.bar{height:22px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--col);border-right:2px solid var(--ink);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar i.zero{border-right:0}
+.bar-end{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct{font-weight:800;font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.status{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:999px;border:2px solid var(--ink);white-space:nowrap}
+.status.good{background:var(--good-bg)} .status.mid{background:var(--warn-bg)} .status.low{background:var(--bad-bg)} .status.na{background:var(--page)}
+@media (max-width:600px){.bar-row{grid-template-columns:1fr auto}.bar-row .bar{grid-column:1 / -1;grid-row:2}}
+.plan{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:p}
+.plan li{counter-increment:p;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+.plan li::before{content:counter(p);grid-row:span 2;width:40px;height:40px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:24px}
+.plan li > *{grid-column:2;min-width:0}
+.plan li span{display:block}
+.plan .row{margin-top:4px}
+.history{padding:16px;display:flex;align-items:flex-end;gap:10px;min-height:170px;overflow-x:auto}
+.hcol{flex:0 0 52px;display:grid;justify-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--ink-2)}
+.hbar{width:34px;background:var(--c5);border:2px solid var(--ink);border-radius:6px 6px 0 0}
+.hbar.p{background:var(--c4)}
+.hcol b{color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}
+.answers{padding:6px 16px 16px}
+.answers summary{cursor:pointer;font-weight:800;padding:10px 0}
+.ans{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 0;border-top:2px dashed var(--ink-3);font-size:14px}
+.ans .mark{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;color:#fff}
+.ans .mark.ok{background:var(--good)} .ans .mark.no{background:var(--bad)}
+.ans small{color:var(--ink-2)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{min-height:42px;padding:6px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:800;box-shadow:2px 2px 0 var(--ink)}
+.tab[aria-selected="true"]{background:var(--ink);color:#fff}
+.target{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px;font-weight:700}
+.target .bar{flex:1 1 160px;position:relative;overflow:visible}
+.target .bar i{border-radius:999px}
+.target .bar .mark70{position:absolute;top:-6px;bottom:-6px;left:70%;border-left:3px dashed var(--ink)}
+
+/* scenes */
+.scene *,.mini *{transform-box:fill-box;transform-origin:center}
+.o{stroke:var(--ink);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.o2{stroke:var(--ink);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.scene svg,.mini svg,.figure svg,.vessels svg,.jar svg{fill:var(--ink)}
+.t{font-family:var(--display);letter-spacing:.04em}
+.lb{font-family:var(--body);font-weight:700}
+.a-bob{animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.a-sway{animation:sway 3s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.a-spin{animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.a-pulse{animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}15%{transform:scale(1.16)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+.a-rise{animation:rise 2.4s ease-in infinite}
+@keyframes rise{0%{transform:translateY(6px);opacity:0}30%{opacity:1}100%{transform:translateY(-26px);opacity:0}}
+.a-blink{animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:.25}}
+.a-ecg{stroke-dasharray:100;stroke-dashoffset:100;animation:ecg 2.6s linear infinite}
+@keyframes ecg{0%{stroke-dashoffset:100}80%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+.a-dye{animation:dye 9s ease-in-out infinite}
+@keyframes dye{0%,8%{fill:#FFFFFF}55%,88%{fill:#C6B2FF}100%{fill:#FFFFFF}}
+.d1{animation-delay:.4s} .d2{animation-delay:.8s} .d3{animation-delay:1.2s} .d4{animation-delay:1.6s} .d5{animation-delay:2s}
+#sv-plant .lay-x,#sv-plant .lay-p{transition:opacity .3s}
+#sv-plant[data-show="x"] .lay-p,#sv-plant[data-show="p"] .lay-x{opacity:.08}
+#sv-loop .pul,#sv-loop .sys{transition:opacity .3s}
+#sv-loop[data-loop="pul"] .sys,#sv-loop[data-loop="sys"] .pul{opacity:.15}
+body.motion-off .scene *,body.motion-off .mini *{animation-play-state:paused!important}
+
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.xp-float{position:fixed;z-index:60;font-family:var(--display);font-size:32px;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);pointer-events:none;animation:floatUp 1s ease-out forwards}
+@keyframes floatUp{0%{transform:translate(-50%,0) scale(.6);opacity:0}20%{opacity:1;transform:translate(-50%,-10px) scale(1.1)}100%{transform:translate(-50%,-72px) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  body:not(.motion-on) .scene *,body:not(.motion-on) .mini *{animation:none!important}
+  .screen,.result-stars span,.fb,.opt,.slot,.pin,.xp.bump{animation:none!important}
+  .btn,.opt,.land,.bar i,.progress i{transition:none!important}
+}
+</style>
+</head><body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="logo" data-act="home" aria-label="Back to the lesson map">
+      <span class="logo-mark">FLOW LAB</span>
+      <span class="unit-chip">Science · L4 Moving Material</span>
+    </button>
+    <span class="spacer"></span>
+    <span class="xp" id="xpBox" title="Your XP points"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="#FFD23F" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/></svg><b id="xpVal">0</b> XP</span>
+    <button class="icon-btn" id="soundBtn" data-act="sound" aria-label="Turn sound off"></button>
+  </div>
+</header>
+<main class="wrap">
+  <section id="scr-home" class="screen"></section>
+  <section id="scr-lesson" class="screen" hidden></section>
+  <section id="scr-cell" class="screen" hidden></section>
+  <section id="scr-review" class="screen" hidden></section>
+  <section id="scr-report" class="screen" hidden></section>
+</main>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<script>
+"use strict";
+/* ---------- HELPERS ---------- */
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const NS = "http://www.w3.org/2000/svg";
+const reduceMotion = (() => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } })();
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const pctOf = (a, b) => b ? Math.round(a / b * 100) : 0;
+const strip = s => String(s || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+const fmtDate = t => { try { return new Date(t).toLocaleString("en-GB", {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit", numberingSystem:"latn"}); } catch (e) { return ""; } };
+const PRAISE = ["NICE!", "BOOM!", "YES!", "SPOT ON!", "GREAT!", "NAILED IT!"];
+
+/* ---------- SAVED PROGRESS (this device only) ---------- */
+const KEY = "flowlab-g6-m2-l4-v1";
+const fresh = () => ({xp:0, ch:{}, cell:{best:null, seen:{}, runs:[]}, attempts:[], sound:true, motion:null});
+let S = (() => {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw){ const o = JSON.parse(raw); if (o && typeof o === "object") return Object.assign(fresh(), o); }
+  } catch (e) {}
+  return fresh();
+})();
+if (!S.cell || typeof S.cell !== "object") S.cell = fresh().cell;
+if (!S.cell.seen) S.cell.seen = {};
+if (!Array.isArray(S.cell.runs)) S.cell.runs = [];
+if (!Array.isArray(S.attempts)) S.attempts = [];
+if (!S.ch || typeof S.ch !== "object") S.ch = {};
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+const motionOn = () => S.motion === null || S.motion === undefined ? !reduceMotion : !!S.motion;
+
+/* ---------- SOUND (tiny synth, no files) ---------- */
+const Sound = {
+  ctx:null,
+  get(){ try { if (!this.ctx){ const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; this.ctx = new AC(); }
+    if (this.ctx.state === "suspended") this.ctx.resume(); return this.ctx; } catch (e) { return null; } },
+  tone(f, at, dur, type, vol){ const c = this.get(); if (!c) return; try {
+    const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + at;
+    o.type = type || "triangle"; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05); } catch (e) {} },
+  good(){ if (!S.sound) return; this.tone(660, 0, .15); this.tone(990, .1, .25); },
+  bad(){ if (!S.sound) return; this.tone(196, 0, .28, "square", .05); this.tone(147, .12, .3, "square", .05); },
+  win(){ if (!S.sound) return; [523, 659, 784, 1047].forEach((f, i) => this.tone(f, i * .11, .3)); },
+  tap(){ if (!S.sound) return; this.tone(520, 0, .06, "sine", .05); },
+  beat(){ if (!S.sound) return; this.tone(70, 0, .12, "sine", .2); this.tone(60, .2, .12, "sine", .16); }
+};
+
+/* ---------- CONFETTI ---------- */
+const FX = (() => {
+  const cv = $("#fx"), ctx = cv && cv.getContext ? cv.getContext("2d") : null;
+  let parts = [], raf = 0;
+  const COLS = ["#FFD23F","#2F7DE1","#F39200","#9A4FE0","#119C77","#E23F66"];
+  function size(){ if (!cv) return; const d = window.devicePixelRatio || 1; cv.width = innerWidth * d; cv.height = innerHeight * d; }
+  size(); addEventListener("resize", size);
+  function tick(){
+    const d = window.devicePixelRatio || 1;
+    ctx.setTransform(d, 0, 0, d, 0, 0); ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => p.life < p.max);
+    parts.forEach(p => {
+      p.life++; p.vy += .25; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      ctx.save(); ctx.globalAlpha = Math.max(0, 1 - p.life / p.max); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.c;
+      if (p.sq) ctx.fillRect(-p.r/2, -p.r/4, p.r, p.r/2); else { ctx.beginPath(); ctx.arc(0, 0, p.r/2.6, 0, Math.PI*2); ctx.fill(); }
+      ctx.restore();
+    });
+    raf = parts.length ? requestAnimationFrame(tick) : 0;
+  }
+  function burstAt(x, y, n){
+    if (reduceMotion || !ctx) return;
+    for (let i = 0; i < (n || 36); i++){ const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
+      parts.push({x, y, vx:Math.cos(a)*v, vy:Math.sin(a)*v - 4, r:5 + Math.random()*6, rot:Math.random()*6, vr:(Math.random()-.5)*.4, c:COLS[i % COLS.length], life:0, max:55 + Math.random()*40, sq:Math.random() < .55}); }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function burstEl(el, n){ if (!el) return; const r = el.getBoundingClientRect(); burstAt(r.left + r.width/2, r.top + r.height/2, n); }
+  function party(){ for (let k = 0; k < 5; k++) setTimeout(() => burstAt(innerWidth * (.15 + Math.random()*.7), innerHeight * (.2 + Math.random()*.25), 40), k * 170); }
+  return {burstEl, party};
+})();
+
+function floatXP(el, text){
+  if (!el || reduceMotion) return;
+  const r = el.getBoundingClientRect(), f = document.createElement("div");
+  f.className = "xp-float"; f.textContent = text; f.style.left = (r.left + r.width/2) + "px"; f.style.top = (r.top - 6) + "px";
+  document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
+}
+function addXP(n, el){
+  S.xp += n; save();
+  const v = $("#xpVal"); if (v) v.textContent = S.xp;
+  const box = $("#xpBox"); if (box){ box.classList.remove("bump"); void box.offsetWidth; box.classList.add("bump"); }
+  if (el) floatXP(el, "+" + n);
+}
+function announce(t){ const l = $("#live"); if (!l) return; l.textContent = ""; setTimeout(() => { l.textContent = t; }, 30); }
+
+/* ---------- FLOW: dots that travel along SVG paths ---------- */
+/* Each flow follows one or more path segments. A segment can fade its colour (c0 -> c1),
+   which is how blood turns red in the lungs and blue in the body. */
+const Flow = (() => {
+  let items = [], raf = 0, t = 0, last = 0;
+  const rgb = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+  const mix = (a, b, k) => "rgb(" + a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(",") + ")";
+  function clear(){ stop(); items = []; }
+  function add(svg, cfg){
+    if (!svg) return;
+    const segs = [];
+    cfg.segs.forEach(s => {
+      const el = svg.querySelector("#" + s[0]);
+      if (!el || typeof el.getTotalLength !== "function") return;
+      let len = 0; try { len = el.getTotalLength(); } catch (e) { len = 0; }
+      if (len > 0) segs.push({el, len, c0:rgb(s[1]), c1:rgb(s[2] || s[1]), jit:s[3] || 0});
+    });
+    if (!segs.length) return;
+    const total = segs.reduce((a, s) => a + s.len, 0);
+    const g = document.createElementNS(NS, "g");
+    g.setAttribute("class", "flow"); g.setAttribute("aria-hidden", "true");
+    segs[0].el.parentNode.appendChild(g);
+    const dots = [];
+    for (let i = 0; i < cfg.n; i++){
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("r", cfg.r || 3.2); c.setAttribute("stroke", "#14163A"); c.setAttribute("stroke-width", cfg.sw === undefined ? 1.2 : cfg.sw);
+      g.appendChild(c); dots.push(c);
+    }
+    items.push({segs, total, dots, dur:cfg.dur || 6, n:cfg.n, seed:Math.random() * 10});
+  }
+  function draw(){
+    items.forEach(it => {
+      if (!it.dots[0].isConnected) return;
+      it.dots.forEach((c, i) => {
+        const f = ((t / it.dur) + i / it.n) % 1;
+        let d = f * it.total, k = 0;
+        while (k < it.segs.length - 1 && d > it.segs[k].len){ d -= it.segs[k].len; k++; }
+        const s = it.segs[k], p = s.el.getPointAtLength(Math.min(d, s.len));
+        let x = p.x, y = p.y;
+        if (s.jit){ x += s.jit * Math.sin(t * 1.3 + i * 2.17 + it.seed); y += s.jit * Math.cos(t * 1.1 + i * 1.37 + it.seed); }
+        c.setAttribute("cx", x.toFixed(1)); c.setAttribute("cy", y.toFixed(1));
+        c.setAttribute("fill", mix(s.c0, s.c1, Math.min(1, d / s.len)));
+      });
+    });
+  }
+  function loop(now){
+    if (!last) last = now;
+    t += Math.min(.05, (now - last) / 1000); last = now;
+    draw();
+    raf = items.length ? requestAnimationFrame(loop) : 0;
+  }
+  function start(){ draw(); if (motionOn() && !raf && items.length){ last = 0; raf = requestAnimationFrame(loop); } }
+  function stop(){ if (raf) cancelAnimationFrame(raf); raf = 0; }
+  return {add, clear, start, stop};
+})();
+function applyMotionClass(){
+  document.body.classList.toggle("motion-off", !motionOn());
+  document.body.classList.toggle("motion-on", S.motion === true);
+}
+function motionBtnHTML(){
+  return motionOn()
+    ? `<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1" fill="#14163A"/><rect x="9.5" y="2" width="3.5" height="12" rx="1" fill="#14163A"/></svg>Pause`
+    : `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z" fill="#14163A"/></svg>Play`;
+}
+function toggleMotion(){
+  S.motion = !motionOn(); save(); applyMotionClass();
+  $$(".motion-btn").forEach(b => { b.innerHTML = motionBtnHTML(); b.setAttribute("aria-label", motionOn() ? "Pause the animations" : "Play the animations"); });
+  if (motionOn()) Flow.start(); else Flow.stop();
+}
+
+/* ---------- ICONS ---------- */
+const IC = {
+  q:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#14163A" stroke-width="2"/><path d="M9.2 9.3a2.9 2.9 0 1 1 4 2.7c-.8.4-1.2 1-1.2 1.8v.6" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="17.3" r="1.3" fill="#14163A"/></svg>`,
+  leaf:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19C5 10 11 4 20 4c0 9-6 15-15 15z" fill="#fff" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M5 19l9-9" stroke="#14163A" stroke-width="2" stroke-linecap="round"/></svg>`,
+  body:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.7" fill="#fff" stroke="#14163A" stroke-width="2"/><path d="M12 8.6v6.6M6.8 11.4h10.4M12 15.2l-3.3 5.6M12 15.2l3.3 5.6" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M12 8.6v6.6M6.8 11.4h10.4M12 15.2l-3.3 5.6M12 15.2l3.3 5.6" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>`,
+  lungs:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.5C6 6.5 3.5 11 3.5 16c0 2.4 1.8 3.4 3.8 2.6l2.6-1V8c0-1-.3-1.5-.9-1.5z" fill="#fff" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M15 6.5c3 0 5.5 4.5 5.5 9.5 0 2.4-1.8 3.4-3.8 2.6l-2.6-1V8c0-1 .3-1.5.9-1.5z" fill="#fff" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M12 2.5v8M12 10.5l-2.2 2M12 10.5l2.2 2" stroke="#14163A" stroke-width="2" stroke-linecap="round" fill="none"/></svg>`,
+  heart:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.4A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 7.5 2.5c0 5.8-7.5 10.4-7.5 10.4z" fill="#fff" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M12 7.8V20" stroke="#14163A" stroke-width="1.6"/></svg>`,
+  fish:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12c3-5 10.5-6 14.5 0-4 6-11.5 5-14.5 0z" fill="#fff" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M17 12l4.5-4v8z" fill="#fff" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><circle cx="7.3" cy="11" r="1.2" fill="#14163A"/><path d="M11 9.4c.8 1.6.8 3.6 0 5.2" stroke="#14163A" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>`,
+  loop:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 13.5A7.5 7.5 0 1 1 17 6.6" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M19.5 13.5A7.5 7.5 0 1 1 17 6.6" fill="none" stroke="#14163A" stroke-width="2" stroke-linecap="round"/><path d="M17.5 2.5v4.6h-4.6" fill="none" stroke="#14163A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  ecg:`<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3" fill="#fff" stroke="#14163A" stroke-width="2"/><path d="M4.5 12.5h3.5l1.6-3.8 2.6 7.5 1.7-3.7h5.6" fill="none" stroke="#14163A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  cell:`<svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="9.5" ry="8.5" fill="#fff" stroke="#14163A" stroke-width="2"/><circle cx="10.5" cy="11.5" r="3.2" fill="#14163A"/><ellipse cx="16.6" cy="14.6" rx="2.1" ry="1.1" fill="none" stroke="#14163A" stroke-width="1.4"/><circle cx="16" cy="8.4" r="1" fill="#14163A"/></svg>`,
+  trophy:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5h10v4.5a5 5 0 0 1-10 0z" fill="#fff" stroke="#fff" stroke-width="1"/><path d="M7 3.5h10v4.5a5 5 0 0 1-10 0zM7 5.5H4.2a3 3 0 0 0 3.1 4M17 5.5h2.8a3 3 0 0 1-3.1 4M12 13v3.5M8.5 20.5h7M9.5 16.5h5v4h-5z" fill="none" stroke="#FFD23F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+};
+const ICON_SOUND = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="#FFD23F" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="#14163A" stroke-width="2" stroke-linecap="round"/></svg>`;
+const ICON_MUTE = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="#E4F2FF" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M16 9.5l5 5M21 9.5l-5 5" stroke="#E23D45" stroke-width="2.4" stroke-linecap="round"/></svg>`;
+const ARROW = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const BACK = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H6M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const starSVG = on => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="${on ? "#FFD23F" : "#FFFFFF"}" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/></svg>`;
+
+/* ---------- LESSON SCENES (inline SVG + moving dots) ---------- */
+function vessel(id, d, color, cls){
+  return `<path d="${d}" fill="none" stroke="#14163A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"${cls ? ` class="${cls}"` : ""}/>`
+    + `<path id="${id}" d="${d}" fill="none" stroke="${color}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"${cls ? ` class="${cls}"` : ""}/>`;
+}
+function alveoli(x, y){
+  return `<g fill="#FF8FA6" stroke="#14163A" stroke-width="1.2"><circle cx="${x}" cy="${y}" r="3.6"/><circle cx="${x - 5}" cy="${y + 4}" r="3.6"/><circle cx="${x + 5}" cy="${y + 4}" r="3.6"/><circle cx="${x}" cy="${y + 8}" r="3.6"/></g>`;
+}
+const SCENES = {
+  phenom(){
+    return {ratio:"320/180", flows:[
+        {segs:[["pO2", "#E23D45"]], n:4, dur:4, r:3.4},
+        {segs:[["pDye", "#6A4BD6"]], n:5, dur:4.5, r:3}],
+      svg:`<svg id="sv-phenom" viewBox="0 0 320 180" role="img" aria-label="Left: a child breathes in oxygen, which travels all the way down to the toes. Right: a white flower stands in purple water, and the dye climbs the stem into the petals.">
+<rect width="320" height="180" fill="#F3EAFF"/>
+<rect y="166" width="320" height="14" fill="#CDE7C4"/>
+<line x1="0" y1="166" x2="320" y2="166" stroke="#14163A" stroke-width="2"/>
+<line x1="160" y1="10" x2="160" y2="158" stroke="#14163A" stroke-width="2" stroke-dasharray="4 6" opacity=".3"/>
+<rect x="38" y="58" width="12" height="44" rx="6" fill="#FFD8B5" class="o"/>
+<rect x="90" y="58" width="12" height="44" rx="6" fill="#FFD8B5" class="o"/>
+<rect x="56" y="114" width="12" height="44" rx="5" fill="#FFD8B5" class="o"/>
+<rect x="72" y="114" width="12" height="44" rx="5" fill="#FFD8B5" class="o"/>
+<ellipse cx="60" cy="160" rx="10" ry="5" fill="#14163A"/><ellipse cx="80" cy="160" rx="10" ry="5" fill="#14163A"/>
+<rect x="50" y="52" width="40" height="64" rx="12" fill="#2F7DE1" class="o"/>
+<rect x="52" y="104" width="36" height="18" rx="5" fill="#14163A"/>
+<ellipse cx="63" cy="74" rx="7" ry="12" fill="#FF9FB2" class="o2"/><ellipse cx="77" cy="74" rx="7" ry="12" fill="#FF9FB2" class="o2"/>
+<circle cx="70" cy="34" r="15" fill="#FFD8B5" class="o"/>
+<path d="M55 32 C 56 16, 84 14, 85 30 C 78 24, 64 24, 55 32 Z" fill="#14163A"/>
+<circle cx="65" cy="35" r="1.8" fill="#14163A"/><circle cx="76" cy="35" r="1.8" fill="#14163A"/>
+<ellipse cx="70.5" cy="42" rx="3" ry="2.2" fill="#14163A"/>
+<path id="pO2" d="M70 44 L70 60 L66 76 L68 102 L77 116 L79 140 L82 158" fill="none" stroke="#E23D45" stroke-width="2" stroke-dasharray="2 5" stroke-linecap="round" opacity=".75"/>
+<g class="a-rise"><circle cx="99" cy="36" r="9" fill="#fff" class="o2"/><text x="99" y="39" text-anchor="middle" class="lb" font-size="8">O₂</text></g>
+<g class="a-bob"><circle cx="118" cy="146" r="12" fill="#FFD23F" class="o2"/><text x="118" y="152" text-anchor="middle" class="t" font-size="18">?</text></g>
+<path d="M216 116 L224 166 L272 166 L280 116" fill="#EAF4FF" class="o"/>
+<path d="M218.6 132 L224.6 163.5 L271.4 163.5 L277.4 132 Z" fill="#8B6BE8" opacity=".75"/>
+<path d="M248 164 C 248 130, 246 100, 247 52" fill="none" stroke="#14163A" stroke-width="8" stroke-linecap="round"/>
+<path d="M248 164 C 248 130, 246 100, 247 52" fill="none" stroke="#5FBF5A" stroke-width="4.5" stroke-linecap="round"/>
+<path d="M247 104 C 232 92, 220 96, 214 104 C 226 112, 238 110, 247 104 Z" fill="#5FBF5A" class="o2"/>
+<path id="pDye" d="M248 162 C 248 130, 246 100, 247 56 L247 40" fill="none"/>
+<g stroke="#14163A" stroke-width="2"><circle class="a-dye" cx="247" cy="28" r="11" fill="#fff"/><circle class="a-dye" cx="233" cy="38" r="11" fill="#fff"/><circle class="a-dye" cx="261" cy="38" r="11" fill="#fff"/><circle class="a-dye" cx="237" cy="53" r="11" fill="#fff"/><circle class="a-dye" cx="257" cy="53" r="11" fill="#fff"/></g>
+<circle cx="247" cy="42" r="6.5" fill="#FFD23F" class="o2"/>
+<g class="a-bob d2"><circle cx="294" cy="26" r="12" fill="#FFD23F" class="o2"/><text x="294" y="32" text-anchor="middle" class="t" font-size="18">?</text></g>
+<text x="248" y="153" text-anchor="middle" class="lb" font-size="9" fill="#fff">dyed water</text>
+</svg>`};
+  },
+  plant(){
+    const xf = id => ({segs:[[id, "#2F7DE1"]], n:3, dur:5, r:3});
+    const pf = id => ({segs:[[id, "#F39200"]], n:3, dur:5.5, r:3});
+    return {ratio:"320/180", flows:[xf("xr1"), xf("xr2"), xf("xr3"), pf("pl1"), pf("pl2")],
+      controls:`<div class="toggles" role="group" aria-label="Show tubes">
+        <button class="tog" data-plant="all" aria-pressed="true">Both tubes</button>
+        <button class="tog" data-plant="x" aria-pressed="false">Xylem only</button>
+        <button class="tog" data-plant="p" aria-pressed="false">Phloem only</button></div>`,
+      svg:`<svg id="sv-plant" viewBox="0 0 320 180" data-show="all" role="img" aria-label="A plant. Xylem carries water and minerals up from the roots to the leaves. Phloem carries sugar from the leaves down to the roots and to the fruit. Water vapor escapes from the leaves.">
+<rect width="320" height="180" fill="#E6F8EF"/>
+<rect y="134" width="320" height="46" fill="#C9A27E"/>
+<line x1="0" y1="134" x2="320" y2="134" stroke="#14163A" stroke-width="3"/>
+<g class="a-spin"><path d="M288 5 L288 10 M288 46 L288 51 M265 28 L270 28 M306 28 L311 28 M271.7 11.7 L275.3 15.3 M300.7 40.7 L304.3 44.3 M271.7 44.3 L275.3 40.7 M300.7 15.3 L304.3 11.7" stroke="#14163A" stroke-width="2.5" stroke-linecap="round"/></g>
+<circle cx="288" cy="28" r="12" fill="#FFD23F" class="o2"/>
+<text x="288" y="64" text-anchor="middle" class="lb" font-size="9">sunlight</text>
+<path d="M160 136 L160 174 M160 150 C 148 156, 138 162, 126 170 M160 156 C 172 162, 184 166, 196 172" stroke="#7A4E2A" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M134 164 l-4 -5 M140 160 l-2 -6 M146 157 l3 -6 M128 168 l-6 -1 M178 165 l1 -6 M186 168 l4 -5 M192 170 l6 -2 M157 166 l-6 2 M163 170 l6 1 M156 174 l-5 3 M164 174 l5 3" stroke="#7A4E2A" stroke-width="1.5" stroke-linecap="round"/>
+<text x="118" y="164" text-anchor="end" class="lb" font-size="9">root hairs</text>
+<path d="M150 70 C 124 46, 96 54, 84 70 C 106 84, 130 82, 150 74 Z" fill="#38B26B" class="o"/>
+<path d="M150 72 L98 69" stroke="#1F7A47" stroke-width="1.5"/>
+<path d="M170 94 C 196 72, 226 80, 238 96 C 214 108, 190 104, 170 98 Z" fill="#38B26B" class="o"/>
+<path d="M170 96 L226 95" stroke="#1F7A47" stroke-width="1.5"/>
+<path d="M160 42 C 148 28, 152 14, 161 6 C 171 16, 171 30, 160 42 Z" fill="#38B26B" class="o"/>
+<path d="M172 108 L206 110" stroke="#14163A" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="214" cy="112" r="10" fill="#E23F66" class="o2"/>
+<rect x="146" y="38" width="28" height="100" rx="9" fill="#8FD18A" class="o"/>
+<g class="lay-x">
+  <rect x="150.5" y="42" width="9" height="94" rx="4.5" fill="#D6E8FF" stroke="#2F7DE1" stroke-width="2"/>
+  <text x="141" y="124" text-anchor="end" class="lb" font-size="10" fill="#1F5FB8">xylem ↑</text>
+  <circle class="a-rise" cx="92" cy="80" r="3.5" fill="#fff" stroke="#2F7DE1" stroke-width="1.5"/>
+  <circle class="a-rise d2" cx="108" cy="84" r="3" fill="#fff" stroke="#2F7DE1" stroke-width="1.5"/>
+  <circle class="a-rise d4" cx="124" cy="82" r="3.5" fill="#fff" stroke="#2F7DE1" stroke-width="1.5"/>
+  <circle class="a-rise d1" cx="194" cy="106" r="3" fill="#fff" stroke="#2F7DE1" stroke-width="1.5"/>
+  <circle class="a-rise d3" cx="232" cy="102" r="3.5" fill="#fff" stroke="#2F7DE1" stroke-width="1.5"/>
+  <text x="68" y="104" class="lb" font-size="9" fill="#1F5FB8">water vapor out</text>
+</g>
+<g class="lay-p">
+  <rect x="160.5" y="42" width="9" height="94" rx="4.5" fill="#FFE8C2" stroke="#F39200" stroke-width="2"/>
+  <text x="180" y="131" class="lb" font-size="10" fill="#B86A00">phloem ↕</text>
+</g>
+<g class="lay-x">
+  <path id="xr1" d="M126 170 L160 150 L155 136 L155 72 L104 69" fill="none"/>
+  <path id="xr2" d="M196 172 L160 156 L155 136 L155 98 L226 95" fill="none"/>
+  <path id="xr3" d="M160 174 L155 136 L155 44 L161 16" fill="none"/>
+</g>
+<g class="lay-p">
+  <path id="pl1" d="M100 71 L165 73 L165 140 L160 150 L130 168" fill="none"/>
+  <path id="pl2" d="M226 97 L165 99 L165 109 L206 111" fill="none"/>
+</g>
+</svg>`};
+  },
+  human(){
+    const L = {
+      hd:["M164 62 L163 46 L162 30", "M162 30 L160 18 L157 30", "M157 30 L157 46 L160 64"],
+      al:["M162 64 L141 57 L115 111", "M115 111 L112 116 L109 110", "M109 110 L135 55 L160 68"],
+      ar:["M170 62 L185 57 L211 111", "M211 111 L208 116 L205 110", "M205 110 L180 56 L168 68"],
+      ll:["M162 72 L153 104 L149 164", "M149 164 L146 170 L143 164", "M143 164 L147 104 L158 76"],
+      lr:["M168 72 L172 104 L177 164", "M177 164 L174 170 L171 164", "M171 164 L168 104 L164 76"]
+    };
+    let lines = "", flows = [];
+    Object.keys(L).forEach(k => {
+      const [o, t, b] = L[k];
+      lines += `<path id="${k}-o" d="${o}" fill="none" stroke="#E23D45" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`
+        + `<path id="${k}-t" d="${t}" fill="none" stroke="#9A4FE0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`
+        + `<path id="${k}-b" d="${b}" fill="none" stroke="#2F7DE1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`;
+      flows.push({segs:[[k + "-o", "#E23D45"], [k + "-t", "#E23D45", "#2F7DE1"], [k + "-b", "#2F7DE1"]], n:3, dur:k === "hd" ? 4 : 5.5, r:3});
+    });
+    return {ratio:"320/180", flows, svg:`<svg id="sv-human" viewBox="0 0 320 180" role="img" aria-label="A body with the heart in the chest. Blood leaves the heart through arteries to the head, arms, and legs, swaps materials with the cells, and returns through veins.">
+<rect width="320" height="180" fill="#FFF0D8"/>
+<g stroke-linecap="round" fill="none"><path d="M138 56 L112 112 M182 56 L208 112 M150 104 L146 164 M170 104 L174 164" stroke="#14163A" stroke-width="17"/><path d="M138 56 L112 112 M182 56 L208 112 M150 104 L146 164 M170 104 L174 164" stroke="#FFD8B5" stroke-width="11"/></g>
+<ellipse cx="143" cy="168" rx="10" ry="5" fill="#14163A"/><ellipse cx="177" cy="168" rx="10" ry="5" fill="#14163A"/>
+<rect x="154" y="34" width="12" height="14" fill="#FFD8B5" class="o2"/>
+<rect x="134" y="44" width="52" height="64" rx="14" fill="#FFF7EC" class="o"/>
+<circle cx="160" cy="24" r="15" fill="#FFD8B5" class="o"/>
+<path d="M145 22 C 146 6, 174 4, 175 20 C 168 14, 152 14, 145 22 Z" fill="#14163A"/>
+<circle cx="155" cy="25" r="1.8" fill="#14163A"/><circle cx="165" cy="25" r="1.8" fill="#14163A"/>
+<path d="M156 31 Q160 34 164 31" stroke="#14163A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+${lines}
+<path class="o2 a-pulse" d="M166 76 C 155 69, 153 60, 159 57 C 162 56, 165 57, 166 60 C 167 57, 170 56, 173 57 C 179 60, 177 69, 166 76 Z" fill="#E23F66"/>
+<line x1="178" y1="62" x2="226" y2="42" stroke="#14163A" stroke-width="1.5"/>
+<text x="229" y="40" class="lb" font-size="10">heart = pump</text>
+<line x1="183" y1="166" x2="226" y2="150" stroke="#14163A" stroke-width="1.5"/>
+<text x="229" y="148" class="lb" font-size="10">capillaries:</text>
+<text x="229" y="160" class="lb" font-size="10">cells swap here</text>
+<text x="22" y="40" class="lb" font-size="10" fill="#C21F2C">arteries → out</text>
+<text x="22" y="54" class="lb" font-size="10" fill="#1F5FB8">veins ← back</text>
+</svg>`};
+  },
+  lungs(){
+    const o = id => ({segs:[[id, "#E23D45"]], n:2, dur:4, r:2.8});
+    const c = id => ({segs:[[id, "#8A8DB0"]], n:2, dur:4.5, r:2.8});
+    const dO = id => ({segs:[[id, "#E23D45"]], n:1, dur:2.2, r:2.3});
+    const dC = id => ({segs:[[id, "#8A8DB0"]], n:1, dur:2.6, r:2.3});
+    return {ratio:"320/180",
+      flows:[o("o1"), o("o2"), o("o3"), o("o4"), c("c1"), c("c2"), {segs:[["cap", "#2F7DE1", "#E23D45"]], n:4, dur:5, r:4.6}, dO("dO1"), dO("dO2"), dO("dO3"), dC("dC1"), dC("dC2")],
+      svg:`<svg id="sv-lungs" viewBox="0 0 320 180" role="img" aria-label="Air flows down the trachea and bronchi into tiny air sacs called alveoli. A zoomed-in view shows oxygen moving from an alveolus into a capillary while carbon dioxide moves out of the blood.">
+<defs>
+  <clipPath id="zc"><circle cx="262" cy="98" r="52"/></clipPath>
+  <linearGradient id="capg" gradientUnits="userSpaceOnUse" x1="206" y1="0" x2="318" y2="0"><stop offset="0" stop-color="#9DBEF5"/><stop offset="1" stop-color="#F5A3AE"/></linearGradient>
+</defs>
+<rect width="320" height="180" fill="#E3F0FF"/>
+<path d="M90 72 C 62 64, 30 92, 30 132 C 30 160, 50 172, 72 168 C 86 164, 92 150, 92 132 Z" fill="#FFC8D3" class="o"/>
+<path d="M110 72 C 138 64, 170 92, 170 132 C 170 160, 150 172, 128 168 C 114 164, 108 150, 108 132 Z" fill="#FFC8D3" class="o"/>
+<rect x="93" y="-4" width="14" height="82" rx="5" fill="#FFE6EB" class="o2"/>
+<path d="M94 8 H106 M94 18 H106 M94 28 H106 M94 38 H106 M94 48 H106 M94 58 H106" stroke="#14163A" stroke-width="1.2" opacity=".45"/>
+<path d="M100 76 L78 94 L60 112 M78 94 L74 128 M78 94 L56 144 M100 76 L122 94 L140 112 M122 94 L126 128 M122 94 L144 144" stroke="#14163A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M100 76 L78 94 L60 112 M78 94 L74 128 M78 94 L56 144 M100 76 L122 94 L140 112 M122 94 L126 128 M122 94 L144 144" stroke="#FFE6EB" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+${alveoli(58, 112)}${alveoli(74, 128)}${alveoli(55, 144)}${alveoli(142, 112)}${alveoli(126, 128)}${alveoli(145, 144)}
+<path d="M24 172 Q100 152 176 172" stroke="#14163A" stroke-width="3" fill="none"/>
+<text x="100" y="179" text-anchor="middle" class="lb" font-size="8.5">diaphragm</text>
+<text x="112" y="14" class="lb" font-size="9">trachea</text>
+<text x="118" y="80" class="lb" font-size="9">bronchi</text>
+<text x="176" y="168" class="lb" font-size="9">alveoli</text>
+<path id="o1" d="M100 -4 L100 76 L78 94 L58 113" fill="none"/>
+<path id="o2" d="M100 -4 L100 76 L122 94 L126 129" fill="none"/>
+<path id="o3" d="M100 -4 L100 76 L78 94 L55 145" fill="none"/>
+<path id="o4" d="M100 -4 L100 76 L122 94 L145 145" fill="none"/>
+<path id="c1" d="M142 113 L122 94 L100 76 L100 -4" fill="none"/>
+<path id="c2" d="M74 129 L78 94 L100 76 L100 -4" fill="none"/>
+<path d="M150 140 L212 78 M152 150 L226 139" stroke="#14163A" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/>
+<circle cx="262" cy="98" r="54" fill="#fff" class="o"/>
+<g clip-path="url(#zc)">
+  <rect x="208" y="44" width="110" height="110" fill="#F4F8FF"/>
+  <circle cx="250" cy="86" r="32" fill="#FFE6EB" stroke="#14163A" stroke-width="2.5"/>
+  <path d="M206 138 C 232 132, 262 124, 282 104 C 296 90, 304 70, 318 56" stroke="#14163A" stroke-width="18" fill="none" stroke-linecap="round"/>
+  <path id="cap" d="M206 138 C 232 132, 262 124, 282 104 C 296 90, 304 70, 318 56" stroke="url(#capg)" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <text x="250" y="76" text-anchor="middle" class="lb" font-size="10">alveolus</text>
+  <text x="226" y="104" text-anchor="middle" class="lb" font-size="9" fill="#C21F2C">O₂</text>
+  <text x="280" y="84" text-anchor="middle" class="lb" font-size="9" fill="#4A4D78">CO₂</text>
+  <path id="dO1" d="M240 92 L246 124" fill="none"/>
+  <path id="dO2" d="M258 90 L269 113" fill="none"/>
+  <path id="dO3" d="M233 100 L231 130" fill="none"/>
+  <path id="dC1" d="M253 127 L251 100" fill="none"/>
+  <path id="dC2" d="M287 98 L268 88" fill="none"/>
+</g>
+<text x="318" y="38" text-anchor="end" class="lb" font-size="10">capillary</text><line x1="306" y1="42" x2="303" y2="60" stroke="#14163A" stroke-width="1.2"/>
+<text x="262" y="170" text-anchor="middle" class="t" font-size="13">ZOOM: ONE ALVEOLUS</text>
+</svg>`};
+  },
+  loop(){
+    return {ratio:"320/200",
+      flows:[{segs:[["h1", "#2F7DE1"], ["h2", "#2F7DE1"], ["h3", "#2F7DE1"], ["h4", "#2F7DE1", "#E23D45"], ["h5", "#E23D45"], ["h6", "#E23D45"], ["h7", "#E23D45"], ["h8", "#E23D45", "#2F7DE1"]], n:12, dur:12, r:4.2}],
+      controls:`<div class="toggles" role="group" aria-label="Highlight a loop">
+        <button class="tog" data-loop="all" aria-pressed="true">Whole trip</button>
+        <button class="tog" data-loop="pul" aria-pressed="false">Lung loop (pulmonary)</button>
+        <button class="tog" data-loop="sys" aria-pressed="false">Body loop (systemic)</button></div>`,
+      svg:`<svg id="sv-loop" viewBox="0 0 320 200" data-loop="all" role="img" aria-label="The two loops of blood. The right side of the heart pumps oxygen-poor blood through the pulmonary artery to the lungs, where it picks up oxygen. Pulmonary veins bring it to the left side, which pumps oxygen-rich blood through the aorta to the body. Veins (the vena cava) bring it back to the right side.">
+<defs>
+  <linearGradient id="gl" gradientUnits="userSpaceOnUse" x1="156" y1="0" x2="280" y2="0"><stop offset="0" stop-color="#7FA9F0"/><stop offset="1" stop-color="#F08A96"/></linearGradient>
+  <linearGradient id="gb" gradientUnits="userSpaceOnUse" x1="164" y1="0" x2="40" y2="0"><stop offset="0" stop-color="#F08A96"/><stop offset="1" stop-color="#7FA9F0"/></linearGradient>
+</defs>
+<rect width="320" height="200" fill="#FFE6EC"/>
+<g class="pul"><rect x="120" y="6" width="180" height="44" rx="10" fill="#fff" class="o"/><text x="218" y="46" text-anchor="middle" class="t" font-size="13">LUNGS</text></g>
+<g class="sys"><rect x="20" y="150" width="180" height="44" rx="10" fill="#fff" class="o"/><text x="28" y="190" class="t" font-size="13">BODY CELLS</text></g>
+<rect x="98" y="72" width="124" height="72" rx="20" fill="#FF9FB2" opacity=".35"/>
+${vessel("h1", "M40 168 L40 92 L112 92", "#7FA9F0", "sys")}
+${vessel("h3", "M127 132 L156 132 L156 24", "#7FA9F0", "pul")}
+${vessel("h4", "M156 24 C 170 14, 180 34, 194 24 S 220 14, 232 24 S 258 34, 280 24", "url(#gl)", "pul")}
+${vessel("h5", "M280 24 L280 92 L208 92", "#F08A96", "pul")}
+${vessel("h7", "M193 132 L164 132 L164 168", "#F08A96", "sys")}
+${vessel("h8", "M164 168 C 150 158, 140 178, 126 168 S 100 158, 86 168 S 60 178, 40 168", "url(#gb)", "sys")}
+<rect x="104" y="78" width="46" height="28" rx="8" fill="#CFE3FF" class="o2"/>
+<rect x="104" y="108" width="46" height="30" rx="8" fill="#B7D3FF" class="o2"/>
+<rect x="170" y="78" width="46" height="28" rx="8" fill="#FFD0D6" class="o2"/>
+<rect x="170" y="108" width="46" height="30" rx="8" fill="#FFB8C2" class="o2"/>
+<path id="h2" d="M112 92 L127 92 L127 132" fill="none" stroke="#7FA9F0" stroke-width="3" stroke-dasharray="3 3"/>
+<path id="h6" d="M208 92 L193 92 L193 132" fill="none" stroke="#F08A96" stroke-width="3" stroke-dasharray="3 3"/>
+<text x="141" y="97" text-anchor="middle" class="t" font-size="12">RA</text>
+<text x="141" y="124" text-anchor="middle" class="t" font-size="12">RV</text>
+<text x="181" y="97" text-anchor="middle" class="t" font-size="12">LA</text>
+<text x="181" y="124" text-anchor="middle" class="t" font-size="12">LV</text>
+<text x="120" y="69" text-anchor="middle" class="lb" font-size="9.5">RIGHT SIDE</text>
+<text x="198" y="69" text-anchor="middle" class="lb" font-size="9.5">LEFT SIDE</text>
+<text x="170" y="147.5" class="lb" font-size="9.5">aorta</text>
+<g class="pul"><text x="56" y="58" text-anchor="middle" class="lb" font-size="9.5">pulmonary artery</text><line x1="108" y1="55" x2="150" y2="55" stroke="#14163A" stroke-width="1.2"/></g>
+<g class="pul"><text x="306" y="141" text-anchor="end" class="lb" font-size="9.5">pulmonary vein</text><line x1="283" y1="131" x2="281" y2="100" stroke="#14163A" stroke-width="1.2"/></g>
+<g class="sys"><text transform="translate(31 121) rotate(-90)" text-anchor="middle" class="lb" font-size="9.5">vena cava</text></g>
+</svg>`};
+  },
+  oc(){
+    return {ratio:"320/180",
+      flows:[{segs:[["hm1", "#9BCB3C"], ["hm2", "#9BCB3C", "#9BCB3C", 6]], n:12, dur:8, r:3},
+             {segs:[["cl", "#E23D45"]], n:10, dur:7, r:3}],
+      svg:`<svg id="sv-oc" viewBox="0 0 320 180" role="img" aria-label="Left: an open circulatory system in a grasshopper. Hemolymph leaves the heart tube and washes over the organs. Right: a closed circulatory system in an earthworm. Blood stays inside vessels, pumped by five pairs of hearts.">
+<rect width="320" height="180" fill="#ECEBFF"/>
+<line x1="160" y1="8" x2="160" y2="172" stroke="#14163A" stroke-width="2" stroke-dasharray="4 6" opacity=".3"/>
+<text x="80" y="24" text-anchor="middle" class="t" font-size="20">OPEN</text>
+<text x="80" y="38" text-anchor="middle" class="lb" font-size="10" fill="#4A4D78">grasshopper</text>
+<text x="240" y="24" text-anchor="middle" class="t" font-size="20">CLOSED</text>
+<text x="240" y="38" text-anchor="middle" class="lb" font-size="10" fill="#4A4D78">earthworm</text>
+<path d="M40 118 L28 144 M52 122 L50 148 M66 124 L70 148" stroke="#14163A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+<path d="M104 124 L128 152 L146 146" stroke="#14163A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<ellipse cx="94" cy="104" rx="56" ry="28" fill="#F5FBE6" class="o"/>
+<ellipse cx="38" cy="102" rx="14" ry="18" fill="#DDEFB8" class="o"/>
+<circle cx="18" cy="96" r="10" fill="#C8E59A" class="o2"/>
+<circle cx="15" cy="93" r="2" fill="#14163A"/>
+<path d="M16 87 C 14 74, 22 62, 36 56" stroke="#14163A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<path d="M30 108 C 60 122, 110 98, 146 110" stroke="#14163A" stroke-width="9" fill="none" stroke-linecap="round"/>
+<path d="M30 108 C 60 122, 110 98, 146 110" stroke="#F6C79E" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+<ellipse cx="74" cy="122" rx="9" ry="5" fill="#FFE08A" class="o2"/>
+<ellipse cx="118" cy="96" rx="9" ry="5" fill="#FFE08A" class="o2"/>
+<path d="M146 86 L50 86" stroke="#14163A" stroke-width="9" stroke-linecap="round"/>
+<path d="M146 86 L50 86" stroke="#9BCB3C" stroke-width="5.5" stroke-linecap="round"/>
+<g fill="#fff" stroke="#14163A" stroke-width="1"><circle cx="128" cy="86" r="1.8"/><circle cx="108" cy="86" r="1.8"/><circle cx="88" cy="86" r="1.8"/></g>
+<text x="98" y="71" text-anchor="middle" class="lb" font-size="9.5">heart tube</text>
+<text x="80" y="168" text-anchor="middle" class="lb" font-size="9.5">hemolymph washes over organs</text>
+<path id="hm1" d="M146 86 L50 86" fill="none"/>
+<path id="hm2" d="M50 86 L36 94 C 30 110, 46 124, 70 124 C 96 126, 122 122, 138 114 C 150 106, 150 94, 146 86" fill="none"/>
+<rect x="168" y="80" width="146" height="50" rx="25" fill="#F2B8C0" class="o"/>
+<path d="M196 82 V128 M206 82 V128 M248 82 V128 M258 82 V128 M268 82 V128 M278 82 V128 M288 82 V128 M298 82 V128" stroke="#14163A" stroke-width="1.2" opacity=".18"/>
+<rect x="226" y="81.5" width="16" height="47" fill="#E58C9A" opacity=".55"/>
+<path d="M300 92 L190 92 C 182 98, 182 112, 190 118 L300 118 C 310 112, 310 98, 300 92" stroke="#14163A" stroke-width="7" fill="none" stroke-linejoin="round"/>
+<path id="cl" d="M300 92 L190 92 C 182 98, 182 112, 190 118 L300 118 C 310 112, 310 98, 300 92" stroke="#E23D45" stroke-width="3.6" fill="none" stroke-linejoin="round"/>
+<g class="a-pulse"><path d="M200 92 C 195 100, 195 110, 200 118 M210 92 C 205 100, 205 110, 210 118" stroke="#14163A" stroke-width="5" fill="none"/><path d="M200 92 C 195 100, 195 110, 200 118 M210 92 C 205 100, 205 110, 210 118" stroke="#E23D45" stroke-width="2.6" fill="none"/></g>
+<text x="214" y="72" text-anchor="middle" class="lb" font-size="9.5">5 pairs of "hearts"</text>
+<text x="240" y="152" text-anchor="middle" class="lb" font-size="9.5">blood stays inside vessels</text>
+</svg>`};
+  },
+  ecg(){
+    return {ratio:"320/180", flows:[], svg:`<svg id="sv-ecg" viewBox="0 0 320 180" role="img" aria-label="A heart monitor showing an ECG trace, next to red blood cells seen from the top and the side, a white blood cell, and platelets.">
+<defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0 L0 0 0 10" fill="none" stroke="#1F4D3A" stroke-width="1"/></pattern></defs>
+<rect width="320" height="180" fill="#FFF3DC"/>
+<rect x="92" y="136" width="30" height="16" fill="#14163A"/>
+<rect x="70" y="150" width="74" height="10" rx="4" fill="#14163A"/>
+<rect x="12" y="16" width="190" height="124" rx="14" fill="#14163A"/>
+<rect x="22" y="26" width="170" height="96" rx="6" fill="#0E1A2B"/>
+<rect x="22" y="26" width="170" height="96" rx="6" fill="url(#grid)" opacity=".7"/>
+<path class="a-ecg" pathLength="100" d="M24 84 L46 84 L52 78 L58 84 L66 84 L70 92 L76 44 L82 100 L86 84 L100 84 L108 74 L118 84 L130 84 L136 78 L142 84 L150 84 L154 92 L160 44 L166 100 L170 84 L190 84" fill="none" stroke="#3CF08A" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path class="a-pulse" d="M140 44 C 135 41, 134 37, 137 35.5 C 138.5 35, 139.5 35.5, 140 36.5 C 140.5 35.5, 141.5 35, 143 35.5 C 146 37, 145 41, 140 44 Z" fill="#E23F66"/>
+<text x="184" y="43" text-anchor="end" class="lb" font-size="11" fill="#3CF08A">HR 72</text>
+<text x="107" y="134" text-anchor="middle" class="lb" font-size="9" fill="#fff">ECG</text>
+<g class="a-bob"><circle cx="248" cy="44" r="20" fill="#E23D45" class="o2"/><circle cx="248" cy="44" r="9" fill="#B4122B" opacity=".55"/></g>
+<text x="248" y="80" text-anchor="middle" class="lb" font-size="9.5">red blood cell</text>
+<g class="a-bob d2"><path d="M224 100 C 224 90, 236 92, 246 96 C 256 92, 268 90, 268 100 C 268 110, 256 108, 246 104 C 236 108, 224 110, 224 100 Z" fill="#E23D45" class="o2"/></g>
+<text x="246" y="122" text-anchor="middle" class="lb" font-size="9">side view</text>
+<g class="a-bob d1"><circle cx="292" cy="146" r="16" fill="#EEE8FF" class="o2"/><path d="M283 146 C 283 138, 291 138, 292 144 C 293 138, 302 139, 300 147 C 303 152, 296 155, 292 151 C 288 156, 281 153, 283 146 Z" fill="#7E5BD8" class="o2"/></g>
+<text x="318" y="174" text-anchor="end" class="lb" font-size="9">white blood cell</text>
+<g class="a-bob d3"><path d="M214 142 l6 -3 l5 3 l-1 6 l-7 1 z" fill="#F2C14E" class="o2"/><path d="M230 152 l5 -2 l4 4 l-4 4 l-5 -2 z" fill="#F2C14E" class="o2"/><path d="M216 160 l4 -3 l5 2 l-2 5 l-5 0 z" fill="#F2C14E" class="o2"/></g>
+<text x="214" y="178" text-anchor="middle" class="lb" font-size="9">platelets</text>
+</svg>`};
+  }
+};
+
+/* ---------- MINI ANIMAL SCENES (Part 6) ---------- */
+const ANIMALS = [
+  {key:"fish", name:"Fish", tool:"gills", flows:[{segs:[["fw1", "#2F7DE1"]], n:3, dur:3.4, r:2.6}, {segs:[["fw2", "#2F7DE1"]], n:3, dur:3.8, r:2.6}],
+   text:"Water enters the mouth and flows over the <b>gills</b> — feathery filaments packed with capillaries. Oxygen dissolved in the water diffuses into the blood; carbon dioxide diffuses out. Then the water leaves through the gill openings.",
+   svg:`<svg id="mini-fish" viewBox="0 0 160 90" role="img" aria-label="A fish with water flowing in through its mouth, over its red gills, and out through its gill opening.">
+<rect width="160" height="90" fill="#D9F3F8"/>
+<path d="M120 45 L148 24 L143 45 L148 66 Z" fill="#7FD1E0" class="o2"/>
+<path d="M26 45 C 48 16, 104 16, 122 45 C 104 74, 48 74, 26 45 Z" fill="#7FD1E0" class="o2"/>
+<path d="M66 30 C 74 40, 74 52, 66 62 M72 28 C 81 40, 81 52, 72 64" stroke="#E23F66" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M79 27 C 89 40, 89 54, 81 66" stroke="#14163A" stroke-width="2" fill="none" stroke-linecap="round"/>
+<circle cx="42" cy="40" r="3.5" fill="#14163A"/>
+<text x="66" y="84" text-anchor="middle" class="lb" font-size="9">gills</text>
+<path id="fw1" d="M2 46 L28 46 L60 46 L76 52 L86 64 L100 84" fill="none"/>
+<path id="fw2" d="M2 42 L28 44 L62 42 L78 46 L88 60 L104 80" fill="none"/>
+</svg>`},
+  {key:"insect", name:"Insect", tool:"spiracles + tracheae", flows:["a1", "a2", "a3"].map(id => ({segs:[[id, "#FFFFFF"]], n:2, dur:3, r:2.4})),
+   text:"Air enters small openings called <b>spiracles</b> along the sides of the body. It travels through branching tubes called <b>tracheae</b> straight to the cells. Insect blood carries very little oxygen.",
+   svg:`<svg id="mini-insect" viewBox="0 0 160 90" role="img" aria-label="A grasshopper. Air enters spiracles on its side and travels through branching tracheae tubes to its cells.">
+<rect width="160" height="90" fill="#EAF6D8"/>
+<path d="M66 60 L90 80 L122 84" stroke="#14163A" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M44 58 L38 76 M54 58 L58 78" stroke="#14163A" stroke-width="2.5" stroke-linecap="round"/>
+<ellipse cx="100" cy="50" rx="46" ry="14" fill="#9BCB3C" class="o2"/>
+<ellipse cx="48" cy="48" rx="15" ry="13" fill="#86B82E" class="o2"/>
+<circle cx="26" cy="44" r="10" fill="#9BCB3C" class="o2"/>
+<circle cx="23" cy="41" r="2.2" fill="#14163A"/>
+<path d="M22 35 C 18 22, 26 12, 40 8" stroke="#14163A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<path d="M76 58 V46 L70 40 M76 46 L84 40 M98 61 V46 L92 40 M98 46 L106 40 M120 58 V46 L114 40 M120 46 L128 42" stroke="#3F6212" stroke-width="1.4" fill="none"/>
+<g fill="#14163A"><circle cx="76" cy="58" r="2.4"/><circle cx="98" cy="61" r="2.4"/><circle cx="120" cy="58" r="2.4"/></g>
+<text x="152" y="20" text-anchor="end" class="lb" font-size="9">spiracles</text><line x1="128" y1="24" x2="121" y2="54" stroke="#14163A" stroke-width="1.2"/>
+<path id="a1" d="M76 86 L76 58 L76 46 L70 40" fill="none"/>
+<path id="a2" d="M98 88 L98 61 L98 46 L106 40" fill="none"/>
+<path id="a3" d="M120 86 L120 58 L120 46 L114 40" fill="none"/>
+</svg>`},
+  {key:"worm", name:"Earthworm", tool:"moist skin", flows:[...["q1", "q2", "q3"].map(id => ({segs:[[id, "#E23D45"]], n:1, dur:2.6, r:2.4})), ...["r1", "r2"].map(id => ({segs:[[id, "#8A8DB0"]], n:1, dur:3, r:2.4}))],
+   text:"Oxygen diffuses through its thin, <b>moist skin</b> into capillaries just underneath, and carbon dioxide diffuses out. Slimy mucus keeps the skin wet — if it dries out, the worm can't breathe.",
+   svg:`<svg id="mini-worm" viewBox="0 0 160 90" role="img" aria-label="An earthworm. Oxygen passes into its moist skin and carbon dioxide passes out.">
+<rect width="160" height="90" fill="#F6E7D8"/>
+<rect y="66" width="160" height="24" fill="#C9A27E"/>
+<path d="M14 52 C 40 36, 70 64, 100 50 S 140 40, 150 50" stroke="#14163A" stroke-width="20" stroke-linecap="round" fill="none"/>
+<path d="M14 52 C 40 36, 70 64, 100 50 S 140 40, 150 50" stroke="#E89AA5" stroke-width="15" stroke-linecap="round" fill="none"/>
+<path d="M40 47 C 45 48, 50 50, 55 52" stroke="#D9707F" stroke-width="15" fill="none"/>
+<text x="10" y="14" class="lb" font-size="9" fill="#C21F2C">O₂ in</text>
+<text x="150" y="86" text-anchor="end" class="lb" font-size="9" fill="#fff">CO₂ out</text>
+<path id="q1" d="M34 12 L36 38" fill="none"/>
+<path id="q2" d="M88 10 L88 42" fill="none"/>
+<path id="q3" d="M130 8 L131 32" fill="none"/>
+<path id="r1" d="M56 58 L56 86" fill="none"/>
+<path id="r2" d="M112 54 L116 86" fill="none"/>
+</svg>`},
+  {key:"frog", name:"Frog", tool:"lungs + skin", flows:[{segs:[["n1", "#FFFFFF"]], n:2, dur:3, r:2.4}, {segs:[["n2", "#FFFFFF"]], n:2, dur:3.2, r:2.4}, {segs:[["s1", "#E23D45"]], n:1, dur:2.6, r:2.4}, {segs:[["s2", "#E23D45"]], n:1, dur:2.8, r:2.4}],
+   text:"Adult frogs breathe with simple <b>lungs</b> and also absorb oxygen through their thin, moist <b>skin</b>. Tadpoles live in water and use gills.",
+   svg:`<svg id="mini-frog" viewBox="0 0 160 90" role="img" aria-label="A frog. Air goes in through its nostrils to its lungs, and oxygen also passes in through its skin.">
+<rect width="160" height="90" fill="#E2F5D6"/>
+<path d="M50 66 C 36 70, 34 80, 48 82 L60 80 M110 66 C 124 70, 126 80, 112 82 L100 80" stroke="#14163A" stroke-width="2.5" fill="#5DB43C" stroke-linejoin="round"/>
+<ellipse cx="80" cy="60" rx="36" ry="22" fill="#6CC24A" class="o2"/>
+<ellipse cx="80" cy="42" rx="28" ry="15" fill="#6CC24A" class="o2"/>
+<circle cx="64" cy="29" r="7" fill="#6CC24A" class="o2"/><circle cx="96" cy="29" r="7" fill="#6CC24A" class="o2"/>
+<circle cx="64" cy="29" r="3" fill="#14163A"/><circle cx="96" cy="29" r="3" fill="#14163A"/>
+<path d="M66 48 Q80 54 94 48" stroke="#14163A" stroke-width="2" fill="none" stroke-linecap="round"/>
+<circle cx="76" cy="36" r="1.2" fill="#14163A"/><circle cx="84" cy="36" r="1.2" fill="#14163A"/>
+<ellipse cx="72" cy="64" rx="6" ry="9" fill="#FF9FB2" stroke="#14163A" stroke-width="1.5"/>
+<ellipse cx="88" cy="64" rx="6" ry="9" fill="#FF9FB2" stroke="#14163A" stroke-width="1.5"/>
+<text x="152" y="76" text-anchor="end" class="lb" font-size="9">lungs</text><line x1="126" y1="72" x2="95" y2="66" stroke="#14163A" stroke-width="1.2"/>
+<path id="n1" d="M80 2 L80 36 L80 50 L72 60" fill="none"/>
+<path id="n2" d="M80 2 L80 36 L80 50 L88 60" fill="none"/>
+<path id="s1" d="M6 52 L44 58" fill="none"/>
+<path id="s2" d="M154 52 L116 58" fill="none"/>
+</svg>`}
+];
+
+/* ---------- MINI HEARTS (Part 7) ---------- */
+const MH = "M30 56 C 14 46, 4 34, 5 22 C 6 12, 14 8, 21 9 C 25 10, 28 12, 30 15 C 32 12, 35 10, 39 9 C 46 8, 54 12, 55 22 C 56 34, 46 46, 30 56 Z";
+function miniHeart(kind){
+  const id = "mh-" + kind;
+  const B1 = "#9DBEF5", B2 = "#7FA9F0", R1 = "#F5A3AE", R2 = "#F08A96", MIX = "#C49BE0";
+  let fills = "", lines = `<path d="M5 28 H55" stroke="#14163A" stroke-width="2"/>`;
+  if (kind === "fish"){ fills = `<rect width="60" height="28" fill="${B1}"/><rect y="28" width="60" height="32" fill="${B2}"/>`; }
+  if (kind === "frog"){ fills = `<rect width="30" height="28" fill="${B1}"/><rect x="30" width="30" height="28" fill="${R1}"/><rect y="28" width="60" height="32" fill="${MIX}"/>`;
+    lines += `<path d="M30 15 V28" stroke="#14163A" stroke-width="2"/>`; }
+  if (kind === "reptile"){ fills = `<rect width="30" height="28" fill="${B1}"/><rect x="30" width="30" height="28" fill="${R1}"/><rect y="28" width="30" height="32" fill="#A9B6F0"/><rect x="30" y="28" width="30" height="32" fill="#E5A3C8"/>`;
+    lines += `<path d="M30 15 V28" stroke="#14163A" stroke-width="2"/><path d="M30 28 V42" stroke="#14163A" stroke-width="2" stroke-dasharray="3 2"/>`; }
+  if (kind === "mammal"){ fills = `<rect width="30" height="28" fill="${B1}"/><rect x="30" width="30" height="28" fill="${R1}"/><rect y="28" width="30" height="32" fill="${B2}"/><rect x="30" y="28" width="30" height="32" fill="${R2}"/>`;
+    lines += `<path d="M30 15 V55" stroke="#14163A" stroke-width="2"/>`; }
+  return `<svg viewBox="0 0 60 60" aria-hidden="true"><defs><clipPath id="${id}"><path d="${MH}"/></clipPath></defs><g clip-path="url(#${id})">${fills}${lines}</g><path d="${MH}" fill="none" stroke="#14163A" stroke-width="2.5" stroke-linejoin="round"/></svg>`;
+}
+
+/* ---------- LABEL FIGURES (heart + animal cell) ---------- */
+const HEART_PATH = "M120 196 C 64 160, 30 124, 32 88 C 34 60, 58 50, 82 54 C 98 56, 112 62, 120 70 C 128 62, 142 56, 158 54 C 182 50, 206 60, 208 88 C 210 124, 176 160, 120 196 Z";
+let figUid = 0;
+const FIGS = {
+  heart:{
+    w:240, h:210,
+    parts:{
+      ra:{name:"Right atrium", px:72, py:80, info:"Receives oxygen-poor blood coming back from the body through the vena cava."},
+      rv:{name:"Right ventricle", px:92, py:150, info:"Pumps oxygen-poor blood to the lungs through the pulmonary artery."},
+      la:{name:"Left atrium", px:168, py:80, info:"Receives oxygen-rich blood coming from the lungs through the pulmonary veins."},
+      lv:{name:"Left ventricle", px:148, py:150, info:"Pumps oxygen-rich blood to the whole body through the aorta. It has the thickest, strongest wall."},
+      septum:{name:"Septum", px:120, py:172, info:"A thick wall down the middle that keeps oxygen-poor and oxygen-rich blood apart."},
+      valve:{name:"Valve", px:78, py:117, info:"A flap that lets blood flow only one way. Valves snapping shut make the lub-dub sound of your heartbeat."}
+    },
+    svg(){
+      const id = "hclip" + (++figUid);
+      return `<svg viewBox="0 0 240 210" role="img" aria-label="Diagram of the heart, drawn as if you are facing the person: the heart's right side is on your left.">
+<path d="M66 70 L66 8" stroke="#14163A" stroke-width="18" stroke-linecap="round"/><path d="M66 70 L66 8" stroke="#7FA9F0" stroke-width="12" stroke-linecap="round"/>
+<path d="M104 70 L104 24 M90 24 L124 24" stroke="#14163A" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M104 70 L104 24 M90 24 L124 24" stroke="#7FA9F0" stroke-width="12" stroke-linecap="round" fill="none"/>
+<path d="M138 70 C 138 26, 178 10, 198 34 L198 60" stroke="#14163A" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M138 70 C 138 26, 178 10, 198 34 L198 60" stroke="#F08A96" stroke-width="12" stroke-linecap="round" fill="none"/>
+<path d="M196 84 L230 76 M196 100 L230 106" stroke="#14163A" stroke-width="14" stroke-linecap="round"/><path d="M196 84 L230 76 M196 100 L230 106" stroke="#F08A96" stroke-width="8" stroke-linecap="round"/>
+<defs><clipPath id="${id}"><path d="${HEART_PATH}"/></clipPath></defs>
+<g clip-path="url(#${id})"><rect width="120" height="112" fill="#CFE3FF"/><rect x="120" width="120" height="112" fill="#FFD0D6"/><rect y="112" width="120" height="98" fill="#B7D3FF"/><rect x="120" y="112" width="120" height="98" fill="#FFB8C2"/></g>
+<path d="${HEART_PATH}" fill="none" stroke="#14163A" stroke-width="4" stroke-linejoin="round"/>
+<path d="M120 68 L120 194" stroke="#14163A" stroke-width="7" stroke-linecap="round"/>
+<path d="M36 112 L114 112 M126 112 L205 112" stroke="#14163A" stroke-width="2.5" stroke-dasharray="6 4"/>
+<path d="M66 110 L78 124 L90 110 M150 110 L162 124 L174 110" fill="#fff" stroke="#14163A" stroke-width="2.2" stroke-linejoin="round"/>
+<text x="44" y="206" text-anchor="middle" class="lb" font-size="9">their RIGHT</text>
+<text x="196" y="206" text-anchor="middle" class="lb" font-size="9">their LEFT</text>
+</svg>`;
+    }
+  },
+  cell:{
+    w:400, h:280,
+    parts:{
+      nucleus:{name:"Nucleus", x:175, y:125, px:160, py:140, leader:false,
+        info:"The control center. It holds the cell's DNA, the instructions for everything the cell does."},
+      membrane:{name:"Cell membrane", x:366, y:190, px:380, py:224, leader:true,
+        info:"The thin, flexible outer layer. It controls what enters and leaves the cell — like oxygen coming in and carbon dioxide going out."},
+      cytoplasm:{name:"Cytoplasm", x:118, y:62, px:118, py:62, leader:false,
+        info:"The jelly-like fluid that fills the cell. The organelles sit in it, and many of the cell's chemical reactions happen here."},
+      mito:{name:"Mitochondria", x:88, y:112, px:56, py:100, leader:true,
+        info:"The powerhouses. They release energy from food (sugar) using oxygen — that's why your cells need the oxygen your blood delivers!"},
+      ribo:{name:"Ribosomes", x:248, y:56, px:212, py:40, leader:true,
+        info:"Tiny dots that make proteins. Some float in the cytoplasm; others stick to the endoplasmic reticulum."},
+      er:{name:"Endoplasmic reticulum", x:120, y:188, px:106, py:166, leader:true,
+        info:"A folded network of membranes that moves proteins and other materials around inside the cell. Rough ER is dotted with ribosomes."},
+      golgi:{name:"Golgi apparatus", x:296, y:92, px:318, py:72, leader:true,
+        info:"A stack of flat sacs that packages proteins and ships them where they're needed — like a post office."},
+      lyso:{name:"Lysosome", x:334, y:146, px:356, py:124, leader:true,
+        info:"A small sac of digestive chemicals that breaks down wastes, worn-out cell parts, and food particles."},
+      vac:{name:"Vacuole", x:205, y:228, px:176, py:238, leader:true,
+        info:"A sac that stores water, food, and wastes. Animal cells have small vacuoles; plant cells have one big one."}
+    },
+    svg(opt){
+      const P = this.parts, keys = (opt && opt.leaders) || [];
+      const lead = keys.filter(k => P[k] && P[k].leader).map(k =>
+        `<line x1="${P[k].px}" y1="${P[k].py}" x2="${P[k].x}" y2="${P[k].y}" stroke="#14163A" stroke-width="2.2"/><circle cx="${P[k].x}" cy="${P[k].y}" r="3" fill="#14163A"/>`).join("");
+      return `<svg viewBox="0 0 400 280" role="img" aria-label="Diagram of an animal cell with numbered parts.">
+<rect width="400" height="280" fill="#FCE1F1"/>
+<path d="M200 18 C 300 14, 384 70, 382 140 C 380 214, 306 264, 200 262 C 98 262, 18 216, 18 142 C 18 70, 96 22, 200 18 Z" fill="#FFF1E3" stroke="#14163A" stroke-width="5"/>
+<path d="M200 25 C 296 21, 376 74, 374 140 C 372 208, 302 255, 200 254 C 102 254, 26 210, 26 142 C 26 74, 100 29, 200 25 Z" fill="none" stroke="#F3B2C7" stroke-width="2"/>
+<g transform="rotate(-62 95 120)"><ellipse cx="95" cy="120" rx="28" ry="13" fill="#FF9C7A" stroke="#14163A" stroke-width="2.5"/><path d="M71 120 C 76 112, 80 128, 85 120 S 94 112, 99 120 S 108 128, 113 120 S 117 115, 119 120" stroke="#C2410C" stroke-width="1.6" fill="none"/></g>
+<g transform="rotate(-15 272 206)"><ellipse cx="272" cy="206" rx="28" ry="13" fill="#FF9C7A" stroke="#14163A" stroke-width="2.5"/><path d="M248 206 C 253 198, 257 214, 262 206 S 271 198, 276 206 S 285 214, 290 206 S 294 201, 296 206" stroke="#C2410C" stroke-width="1.6" fill="none"/></g>
+<circle cx="175" cy="125" r="42" fill="#CDBBFF" stroke="#14163A" stroke-width="3.5"/>
+<path d="M150 108 C 160 100, 166 116, 176 106 M152 140 C 162 132, 170 148, 182 138 M190 146 C 196 140, 200 150, 206 144" stroke="#8E6CE6" stroke-width="1.6" fill="none" opacity=".7"/>
+<circle cx="184" cy="118" r="13" fill="#8E6CE6" stroke="#14163A" stroke-width="2"/>
+<g fill="none" stroke-linecap="round">
+  <path d="M92 186 C 104 176, 116 196, 128 186 S 152 176, 164 188 M90 198 C 102 188, 114 208, 126 198 S 150 188, 162 200 M94 210 C 106 200, 118 220, 130 210 S 154 200, 166 212" stroke="#14163A" stroke-width="7"/>
+  <path d="M92 186 C 104 176, 116 196, 128 186 S 152 176, 164 188 M90 198 C 102 188, 114 208, 126 198 S 150 188, 162 200 M94 210 C 106 200, 118 220, 130 210 S 154 200, 166 212" stroke="#9EDCF5" stroke-width="4"/>
+</g>
+<g fill="#14163A"><circle cx="100" cy="178" r="1.8"/><circle cx="118" cy="190" r="1.8"/><circle cx="140" cy="180" r="1.8"/><circle cx="156" cy="182" r="1.8"/><circle cx="108" cy="204" r="1.8"/><circle cx="134" cy="204" r="1.8"/><circle cx="150" cy="194" r="1.8"/><circle cx="112" cy="218" r="1.8"/><circle cx="146" cy="216" r="1.8"/></g>
+<g fill="none" stroke-linecap="round">
+  <path d="M250 86 C 266 96, 286 96, 302 86 M250 98 C 266 108, 286 108, 302 98 M252 110 C 268 120, 284 120, 300 110 M256 122 C 270 130, 282 130, 296 122" stroke="#14163A" stroke-width="8"/>
+  <path d="M250 86 C 266 96, 286 96, 302 86 M250 98 C 266 108, 286 108, 302 98 M252 110 C 268 120, 284 120, 300 110 M256 122 C 270 130, 282 130, 296 122" stroke="#FFC870" stroke-width="5"/>
+</g>
+<circle cx="309" cy="96" r="3" fill="#FFC870" stroke="#14163A" stroke-width="1.5"/><circle cx="307" cy="114" r="2.5" fill="#FFC870" stroke="#14163A" stroke-width="1.5"/>
+<circle cx="334" cy="146" r="13" fill="#C9F0A8" stroke="#14163A" stroke-width="2.5"/>
+<g fill="#14163A"><circle cx="330" cy="142" r="1.6"/><circle cx="338" cy="148" r="1.6"/><circle cx="331" cy="151" r="1.6"/></g>
+<circle cx="205" cy="228" r="16" fill="#E4F6FF" stroke="#14163A" stroke-width="2.5"/>
+<g fill="#14163A"><circle cx="244" cy="50" r="2.4"/><circle cx="254" cy="58" r="2.4"/><circle cx="262" cy="48" r="2.4"/><circle cx="250" cy="66" r="2.4"/><circle cx="266" cy="62" r="2.4"/><circle cx="238" cy="60" r="2.4"/></g>
+${lead}
+</svg>`;
+    }
+  }
+};
+function figHTML(name, opt){
+  const F = FIGS[name]; opt = opt || {};
+  const pins = opt.pins || [], hi = opt.hi;
+  const svg = F.svg({leaders: hi ? [hi] : pins});
+  let pinsHTML = "";
+  if (opt.mode === "find" || opt.mode === "learn"){
+    pinsHTML = pins.map((k, i) => `<button class="pin${opt.mode === "learn" && S.cell.seen[k] && name === "cell" ? " seen" : ""}" data-pin="${k}" style="left:${(F.parts[k].px / F.w * 100).toFixed(2)}%;top:${(F.parts[k].py / F.h * 100).toFixed(2)}%" aria-label="${opt.mode === "learn" ? F.parts[k].name : "Number " + (i + 1)}">${i + 1}</button>`).join("");
+  } else if (hi){
+    pinsHTML = `<span class="pin hi" style="left:${(F.parts[hi].px / F.w * 100).toFixed(2)}%;top:${(F.parts[hi].py / F.h * 100).toFixed(2)}%" aria-hidden="true">?</span>`;
+  }
+  return `<div class="figure" style="aspect-ratio:${F.w}/${F.h}">${svg}<div class="pins">${pinsHTML}</div></div>`;
+}
+
+/* ---------- SMALL WIDGET ART ---------- */
+const VESSELS_SVG = `<svg viewBox="0 0 300 120" role="img" aria-label="Cross-sections: an artery with a thick wall and narrow space, a vein with a thin wall and wide space, and a capillary whose wall is a single layer of cells with one red blood cell inside.">
+<circle cx="50" cy="52" r="36" fill="#F7B2BC" class="o"/><circle cx="50" cy="52" r="15" fill="#E23D45" class="o2"/>
+<text x="50" y="110" text-anchor="middle" class="t" font-size="17">ARTERY</text>
+<circle cx="150" cy="52" r="36" fill="#BCD3F7" class="o"/><circle cx="150" cy="52" r="28" fill="#7FA9F0" class="o2"/>
+<text x="150" y="110" text-anchor="middle" class="t" font-size="17">VEIN</text>
+<circle cx="250" cy="52" r="19" fill="#F7B2BC" class="o2"/><circle cx="250" cy="52" r="13" fill="#fff" class="o2"/>
+<path d="M250 33 V39 M266.5 42.5 L261.3 45.5 M266.5 61.5 L261.3 58.5 M250 71 V65 M233.5 61.5 L238.7 58.5 M233.5 42.5 L238.7 45.5" stroke="#14163A" stroke-width="1.5"/>
+<circle cx="250" cy="52" r="8.5" fill="#E23D45" class="o2"/>
+<text x="250" y="110" text-anchor="middle" class="t" font-size="17">CAPILLARY</text>
+</svg>`;
+const JAR_SVG = `<svg viewBox="0 0 110 200" role="img" aria-label="A tube of blood that has settled into layers: yellow plasma on top (about 55 percent), a thin pale layer of white blood cells and platelets (less than 1 percent), and red blood cells at the bottom (about 45 percent).">
+<defs><clipPath id="jarc"><path d="M30 14 L80 14 L80 168 C 80 194, 30 194, 30 168 Z"/></clipPath></defs>
+<g clip-path="url(#jarc)">
+<rect class="jar-layer jl-plasma" x="20" y="22" width="80" height="88" fill="#F7D774"/>
+<rect class="jar-layer jl-buffy" x="20" y="110" width="80" height="5" fill="#F4F4F4"/>
+<rect class="jar-layer jl-red" x="20" y="115" width="80" height="80" fill="#C8102E"/>
+</g>
+<path d="M30 14 L80 14 L80 168 C 80 194, 30 194, 30 168 Z" fill="none" class="o"/>
+<rect x="24" y="6" width="62" height="12" rx="4" fill="#9A4FE0" class="o2"/>
+<text x="96" y="70" text-anchor="middle" class="lb" font-size="10">55%</text>
+<text x="96" y="117" text-anchor="middle" class="lb" font-size="10">&lt;1%</text>
+<text x="96" y="156" text-anchor="middle" class="lb" font-size="10">45%</text>
+</svg>`;
+const CELL_ICONS = {
+  red:`<svg viewBox="0 0 64 48" aria-hidden="true"><circle cx="20" cy="24" r="16" fill="#E23D45" stroke="#14163A" stroke-width="2"/><circle cx="20" cy="24" r="7" fill="#B4122B" opacity=".55"/><path d="M40 24 C 40 17, 47 18, 52 21 C 57 18, 63 17, 63 24 C 63 31, 57 30, 52 27 C 47 30, 40 31, 40 24 Z" fill="#E23D45" stroke="#14163A" stroke-width="2"/></svg>`,
+  white:`<svg viewBox="0 0 64 48" aria-hidden="true"><circle cx="24" cy="24" r="18" fill="#EEE8FF" stroke="#14163A" stroke-width="2"/><path d="M14 24 C 14 15, 23 15, 24 22 C 25 15, 35 16, 33 25 C 36 31, 28 34, 24 30 C 20 35, 12 32, 14 24 Z" fill="#7E5BD8" stroke="#14163A" stroke-width="2"/></svg>`,
+  platelet:`<svg viewBox="0 0 64 48" aria-hidden="true"><path d="M10 18 l9 -5 l8 5 l-2 9 l-10 2 z" fill="#F2C14E" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M34 28 l8 -3 l6 6 l-6 6 l-8 -3 z" fill="#F2C14E" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M44 10 l6 -4 l7 3 l-3 7 l-7 0 z" fill="#F2C14E" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/></svg>`
+};
+
+/* ---------- LESSON PARTS ---------- */
+/* Question types: mc {o, a = index of the right option}, order {items in the right order},
+   sort {groups, items: [text, group index]}, find {fig, pins, a = part key} */
+const CH = [
+  {id:"ch1", n:1, col:"c3", icon:"q", day:"Sun 18/10", label:"Explain the Phenomenon", name:"The Big Mystery",
+   q:"How does oxygen reach your toes, and how does dye get into a flower's petals?",
+   from:"Week 7 · Encounter the Phenomenon: How does the dye move from the water to the flower petals?",
+   scene:"phenom",
+   caption:"Left: oxygen you breathe in travels all the way to your toes. Right: dye in the water climbs a flower's stem into its petals, just like the Week 7 phenomenon.",
+   legend:[["#E23D45", "oxygen (O₂)"], ["#6A4BD6", "dye moving with the water"]],
+   cards:[
+     {h:"Remember the flower?", p:"In Week 7 you met a white flower standing in a glass of colored water. After some hours, its petals turned the color of the dye. The dye was only in the water, so the water must have traveled up the stem and into the petals. But how?"},
+     {h:"Take a deep breath", p:"Some of the oxygen you just breathed in will reach your toes. Your blood can carry it around your whole body in about a minute. How does it get from your lungs all the way down there?"},
+     {h:"Every cell needs deliveries", p:"Your body is made of trillions of cells. Each one needs <b>oxygen</b> and <b>nutrients</b> to release energy, and each one makes <b>wastes</b>, like carbon dioxide, that must be carried away. Most of your cells are far from your lungs and stomach!"},
+     {h:"Plants need deliveries too", p:"Leaves need water and minerals from the soil to make food (sugar) by photosynthesis. Roots can't make food, so sugar made in the leaves has to travel down to them."}
+   ],
+   connect:"<b>Module 1 L2:</b> materials enter and leave a cell through its <b>cell membrane</b>, and small cells exchange materials easily. A big body needs a delivery system to bring materials close to every cell. <b>Module 2 L3:</b> digestion turns food into nutrients. This lesson shows how they reach every cell.",
+   fact:{tag:"BIG QUESTION", html:"How do living things move materials to every cell? By the end of this lesson you'll be able to explain the flower <i>and</i> your toes."},
+   words:["oxygen", "nutrients", "wastes", "carbon dioxide"],
+   check:[
+     {t:"mc", q:"Why does your body need a system to move materials around?",
+      o:["Every cell needs oxygen and nutrients delivered, and its wastes carried away", "Only the heart and brain need oxygen", "Each cell makes its own oxygen", "Blood is only needed to keep you warm"], a:0,
+      why:"You have trillions of cells, and most are far from your lungs and stomach. Every one of them needs deliveries of oxygen and nutrients, and pickups of wastes like carbon dioxide."},
+     {t:"sort", q:"Is each one delivered TO your cells or carried AWAY from them?", groups:["Delivered to cells", "Carried away"],
+      items:[["Oxygen", 0], ["Nutrients such as sugar", 0], ["Carbon dioxide", 1], ["Other wastes", 1]],
+      why:"Blood drops off oxygen and nutrients, and picks up carbon dioxide and other wastes."},
+     {t:"mc", q:"In the Week 7 phenomenon, the petals of a white flower turned the color of the dye in its water. What does that show?",
+      o:["Water from the glass traveled up the stem and into the petals", "The petals made the dye themselves", "The dye soaked into the petals from the air", "The flower pushed its water down into the glass"], a:0,
+      why:"The dye was only in the water, so it must have traveled with the water up the stem. In Part 2 you'll meet the tubes that carry it: xylem."}
+   ]},
+  {id:"ch2", n:2, col:"c4", icon:"leaf", day:"Sun 18/10", label:"How do plants transport materials?", name:"Plant Pipelines",
+   q:"How do plants transport materials?",
+   scene:"plant",
+   caption:"Blue drops are water and minerals rising in the xylem. Orange dots are sugar moving through the phloem to the roots and the fruit. Use the buttons to see one tube at a time.",
+   legend:[["#2F7DE1", "water + minerals (xylem)"], ["#F39200", "sugar (phloem)"], ["#FFFFFF", "water vapor leaving the leaves"]],
+   cards:[
+     {h:"Roots soak it up", p:"Roots take in water and dissolved minerals from the soil. Tiny <b>root hairs</b> give the roots a huge surface area, so they can absorb much more."},
+     {h:"Xylem: the way up", p:"<b>Xylem</b> is a tissue made of tube-like cells. It carries water and minerals from the roots, up the stem, to every leaf. In xylem, materials move <b>up</b>."},
+     {h:"Phloem: food delivery", p:"Leaves make sugar by photosynthesis. <b>Phloem</b> carries that sugar from the leaves to the parts that use it or store it: roots, fruits, and growing tips. It can move up <i>or</i> down."},
+     {h:"Transpiration: the big pull", p:"Leaves lose water vapor through tiny openings called <b>stomata</b>. Guard cells open and close each one. As water evaporates from the leaves, it pulls more water up the xylem, like sipping through a straw. This is <b>transpiration</b>."},
+     {h:"No tubes? Stay small", p:"Mosses and liverworts are <b>nonvascular</b> plants: they have no xylem or phloem. Water moves from cell to cell by osmosis and diffusion, which is slow, so they stay small and grow in damp places. Ferns, pine trees, and flowering plants are <b>vascular</b> plants."},
+     {h:"Back to the flower", p:"The dye traveled with the water through the flower's <b>xylem</b>, all the way to the petals. Cut across the stem and you can see colored dots: the xylem tubes!"}
+   ],
+   connect:"<b>Module 1 L2:</b> osmosis and diffusion move water and other materials across cell membranes. Nonvascular plants rely on them alone, which is why they can't grow tall.",
+   fact:{tag:"WOW", html:"A large oak tree can give off around 400 liters of water vapor through its leaves in a single day."},
+   words:["root hairs", "xylem", "phloem", "stomata", "transpiration", "vascular tissue", "nonvascular plant"],
+   check:[
+     {t:"sort", q:"Xylem or phloem? Sort each job.", groups:["Xylem", "Phloem"],
+      items:[["Carries water up from the roots", 0], ["Carries sugar made in the leaves", 1], ["Carries dissolved minerals", 0], ["Takes food to the roots and fruits", 1]],
+      why:"Xylem moves water and minerals up from the roots. Phloem moves sugar (food) to wherever it is used or stored."},
+     {t:"order", q:"Put the path of water through a plant in order.",
+      items:["Root hairs soak up water from the soil", "Water enters the xylem in the root", "Xylem carries water up the stem", "Water reaches the leaves", "Water vapor leaves through the stomata"],
+      why:"Water travels up: root hairs → xylem → stem → leaves → out through the stomata as vapor (transpiration)."},
+     {t:"mc", q:"Why are mosses small and found in damp, shady places?",
+      o:["They have no xylem or phloem, so water moves slowly from cell to cell", "Their roots are too big to let them grow tall", "Their phloem carries only water", "They don't need any water"], a:0,
+      why:"Mosses are nonvascular plants. Without tubes, water spreads from cell to cell by osmosis and diffusion. That is too slow for a tall plant, so mosses stay small and live where it's moist."}
+   ]},
+  {id:"ch3", n:3, col:"c2", icon:"body", day:"", label:"How do humans transport materials?", name:"Body Delivery Service",
+   q:"How do humans transport materials?",
+   scene:"human",
+   caption:"The heart pumps blood out through arteries to the head, arms, and legs. In the capillaries, blood swaps materials with the cells, and veins bring it back. Real blood is always red; blue is only a diagram color.",
+   legend:[["#E23D45", "oxygen-rich blood"], ["#2F7DE1", "oxygen-poor blood"]],
+   cards:[
+     {h:"Meet the circulatory system", p:"It has three parts: the <b>heart</b> (the pump), <b>blood</b> (the carrier), and <b>blood vessels</b> (the roads)."},
+     {h:"Drop-offs and pickups", p:"Blood delivers oxygen and nutrients to every cell, and picks up carbon dioxide and other wastes so they can be removed."},
+     {h:"A team effort", p:"The <b>respiratory system</b> brings oxygen in and sends carbon dioxide out. The <b>digestive system</b> breaks food into nutrients that enter the blood in the small intestine. The <b>kidneys</b> filter other wastes out of the blood."},
+     {h:"The pump", p:"Your heart is a muscle about the size of your fist. It beats about 100,000 times a day, pushing blood through your vessels."}
+   ],
+   connect:"<b>Module 2 L3:</b> in <i>Obtaining Energy and Removing Waste</i> you followed food through the digestive system. The nutrients absorbed in the small intestine are exactly what your blood delivers to your cells.",
+   fact:{tag:"WOW", html:"If all the blood vessels in an adult's body were laid end to end, they would stretch about 100,000 km, enough to go around Earth more than twice!"},
+   words:["circulatory system", "heart", "blood vessels", "nutrients"],
+   check:[
+     {t:"mc", q:"Which three parts make up the circulatory system?",
+      o:["Heart, blood, and blood vessels", "Lungs, trachea, and bronchi", "Stomach, intestines, and liver", "Brain, spinal cord, and nerves"], a:0,
+      why:"The heart pumps, the blood carries, and the blood vessels are the roads. The other choices belong to the respiratory, digestive, and nervous systems."},
+     {t:"mc", q:"Nutrients from your lunch get into your blood through the walls of the…",
+      o:["small intestine", "lungs", "heart", "trachea"], a:0,
+      why:"The digestive system breaks food into nutrients, which pass through the walls of the small intestine into tiny blood vessels. Then the blood carries them to every cell."},
+     {t:"sort", q:"Which body system does each job?", groups:["Circulatory", "Respiratory", "Digestive"],
+      items:[["Pumps blood to every cell", 0], ["Brings oxygen into the body", 1], ["Breaks food into nutrients", 2], ["Sends carbon dioxide out of the body", 1], ["Carries wastes away from cells", 0]],
+      why:"The circulatory system is the delivery service. It works with the respiratory system (gases in and out) and the digestive system (nutrients)."}
+   ]},
+  {id:"ch4", n:4, col:"c1", icon:"lungs", day:"Tue 20/10", label:"What happens to oxygen after it enters the lungs?", name:"Into the Lungs",
+   q:"What happens to oxygen after it enters the lungs?",
+   scene:"lungs",
+   caption:"Red dots are oxygen (O₂) flowing in; gray dots are carbon dioxide (CO₂) flowing out. In the zoom, oxygen crosses from an alveolus into a capillary, and blood cells turn from blue to red as they pick it up.",
+   legend:[["#E23D45", "oxygen (O₂)"], ["#8A8DB0", "carbon dioxide (CO₂)"], ["#2F7DE1", "blood cell before it picks up O₂"]],
+   cards:[
+     {h:"The air path", p:"Air enters through your nose or mouth and goes down the <b>trachea</b> (windpipe). It splits into two <b>bronchi</b>, then into thousands of smaller <b>bronchioles</b>. Your <b>diaphragm</b>, a dome-shaped muscle under your lungs, tightens and moves down to pull air in."},
+     {h:"Alveoli: tiny air sacs", p:"Each bronchiole ends in clusters of <b>alveoli</b>, tiny balloon-like sacs. Their walls are only one cell thick, and they're wrapped in capillaries. Your lungs hold hundreds of millions of them."},
+     {h:"Diffusion does the swap", p:"Oxygen moves from the alveoli, where there is a lot of it, into the blood, where there is less. Carbon dioxide moves the other way, from the blood into the alveoli, and you breathe it out. Moving from more to less is called <b>diffusion</b>."},
+     {h:"Ride on a red blood cell", p:"Red blood cells contain <b>hemoglobin</b>, an iron-containing protein. It grabs oxygen in the lungs and lets it go in the body's tissues, where oxygen is low."}
+   ],
+   connect:"<b>Module 1 L2:</b> gases cross <b>cell membranes</b> by diffusion. Alveoli and capillaries have walls only one cell thick, so the distance is tiny. It's the same reason small cells exchange materials so easily.",
+   fact:{tag:"WOW", html:"Spread out flat, the inside surface of all your alveoli would cover around 50 to 75 square meters. That huge surface is why so much gas can be swapped so quickly."},
+   words:["trachea", "bronchi", "bronchioles", "alveoli", "diffusion", "hemoglobin"],
+   check:[
+     {t:"order", q:"Put the path of oxygen in order, from the air to the blood.",
+      items:["Nose or mouth", "Trachea", "Bronchi", "Bronchioles", "Alveoli", "Capillaries"],
+      why:"Air flows down the trachea, into the two bronchi, through smaller and smaller bronchioles, and into the alveoli. Then oxygen diffuses into the capillaries around them."},
+     {t:"mc", q:"Oxygen moves from the alveoli into the blood because…",
+      o:["there is more oxygen in the alveoli than in the blood, so it diffuses from more to less", "the heart sucks it in", "muscles squeeze it through the bronchi into the heart", "red blood cells make oxygen"], a:0,
+      why:"That's diffusion: particles spread from where there are more of them to where there are fewer. Carbon dioxide diffuses the other way, from the blood into the alveoli."},
+     {t:"mc", q:"What grabs onto oxygen inside a red blood cell?",
+      o:["Hemoglobin", "Plasma", "Platelets", "Mucus"], a:0,
+      why:"Hemoglobin is an iron-containing protein. It picks up oxygen in the lungs and releases it where cells need it."}
+   ]},
+  {id:"ch5", n:5, col:"c5", icon:"heart", day:"Tue 20/10 · Wed 21/10", label:"How is blood transported throughout the body?", name:"The Two Loops",
+   q:"How is blood transported throughout the body?",
+   from:"Remember the Week 7 Science Probe, Moving Blood? Check your ideas against what you learn here.",
+   scene:"loop",
+   caption:"Follow a blood cell: it turns red in the lungs (picks up oxygen) and blue in the body (gives oxygen to the cells). The heart's right side is drawn on the left, as if you're facing someone.",
+   legend:[["#E23D45", "oxygen-rich blood"], ["#2F7DE1", "oxygen-poor blood"]],
+   cards:[
+     {h:"Four chambers", p:"The two <b>atria</b> (top) receive blood. The two <b>ventricles</b> (bottom) pump it out. A wall called the <b>septum</b> keeps oxygen-rich and oxygen-poor blood apart, and <b>valves</b> keep blood flowing one way."},
+     {h:"Two loops", p:"<b>Pulmonary loop:</b> right side → lungs → left side, where blood picks up oxygen. <b>Systemic loop:</b> left side → body → right side, where blood delivers oxygen to the cells."},
+     {h:"Arteries", p:"Carry blood <b>away</b> from the heart. Their thick, stretchy, muscular walls handle high pressure. You feel that pressure as your <b>pulse</b>."},
+     {h:"Veins", p:"Carry blood <b>back</b> to the heart. They have thinner walls and lower pressure. <b>Valves</b> inside stop blood from flowing backward."},
+     {h:"Capillaries", p:"The tiniest vessels, with walls only one cell thick. Here oxygen and nutrients pass into cells, and carbon dioxide and wastes pass into the blood. Capillaries connect arteries to veins."},
+     {h:"What's in blood?", p:"<b>Plasma</b> (about 55%) is a yellowish liquid, mostly water, that carries nutrients, wastes, and the cells. <b>Red blood cells</b> carry oxygen, <b>white blood cells</b> fight infection, and <b>platelets</b> help blood clot."}
+   ],
+   widgets:["heart", "vessels", "jar"],
+   fact:{tag:"MYTH BUSTER", html:"Blood is never blue! It's bright red when it carries lots of oxygen and darker red when it carries less. Veins only <i>look</i> bluish through your skin. Diagrams use blue to show oxygen-poor blood."},
+   words:["atrium", "ventricle", "septum", "valve", "artery", "vein", "capillary", "pulmonary circulation", "systemic circulation", "plasma"],
+   check:[
+     {t:"sort", q:"Artery, vein, or capillary?", groups:["Artery", "Vein", "Capillary"],
+      items:[["Carries blood away from the heart", 0], ["Has valves that stop blood flowing backward", 1], ["Wall is only one cell thick", 2], ["Thick, stretchy, muscular wall", 0], ["Carries blood back to the heart", 1], ["Where oxygen passes into body cells", 2]],
+      why:"Arteries: away from the heart, thick walls, high pressure. Veins: back to the heart, thinner walls, valves. Capillaries: tiny, one cell thick, where materials are swapped."},
+     {t:"order", q:"Trace one trip of blood through the heart, starting in the body.",
+      items:["Veins bring oxygen-poor blood from the body", "Right atrium", "Right ventricle", "Lungs: blood picks up oxygen", "Left atrium", "Left ventricle", "Aorta carries blood to the body"],
+      why:"Body → right atrium → right ventricle → lungs → left atrium → left ventricle → aorta → body. The right side handles oxygen-poor blood; the left side handles oxygen-rich blood."},
+     {t:"find", fig:"heart", pins:["ra", "rv", "la", "lv"], a:"lv",
+      q:"Tap the chamber that pumps oxygen-rich blood out to the whole body.",
+      why:"The left ventricle pumps oxygen-rich blood into the aorta and around the body, so it has the thickest wall. Remember: in a diagram, the heart's left side is on <i>your</i> right."}
+   ]},
+  {id:"ch6", n:6, col:"c6", icon:"fish", day:"Wed 21/10", label:"How do other animals take in oxygen?", name:"Breathing Tools",
+   q:"How do other animals take in oxygen and get rid of carbon dioxide?",
+   animals:true,
+   cards:[
+     {h:"Same job, different tools", p:"Every animal needs oxygen and must get rid of carbon dioxide. Gas exchange always happens across a thin, moist surface, by diffusion."},
+     {h:"Lungs", p:"Reptiles, birds, and mammals breathe with <b>lungs</b>. So do whales and dolphins, which come up to the surface to breathe through their blowholes. Birds also have air sacs that keep fresh air flowing through their lungs."}
+   ],
+   fact:{tag:"WOW", html:"A tadpole breathes with gills, but the adult frog it turns into uses lungs and its skin."},
+   words:["gills", "spiracles", "tracheae", "lungs"],
+   check:[
+     {t:"sort", q:"How does each animal take in oxygen?", groups:["Gills", "Spiracles", "Moist skin", "Lungs"],
+      items:[["Shark", 0], ["Grasshopper", 1], ["Earthworm", 2], ["Eagle", 3], ["Dolphin", 3]],
+      why:"Sharks use gills, insects such as grasshoppers use spiracles and tracheae, earthworms breathe through moist skin, and birds and mammals (even dolphins) use lungs."},
+     {t:"mc", q:"An adult frog takes in oxygen through…",
+      o:["its lungs and its thin, moist skin", "only gills, like a fish", "spiracles on its sides", "its stomach"], a:0,
+      why:"Tadpoles use gills, but adult frogs breathe with lungs and also absorb oxygen through their moist skin."},
+     {t:"mc", q:"Why must an earthworm keep its skin moist?",
+      o:["Oxygen has to dissolve in the moisture to diffuse through its skin", "So it can swim fast underground", "To keep its gills wet", "So its spiracles can close"], a:0,
+      why:"Gas exchange needs a thin, moist surface. If an earthworm's skin dries out, oxygen can't pass through, and it can't breathe."}
+   ]},
+  {id:"ch7", n:7, col:"c8", icon:"loop", day:"Wed 21/10", label:"How do other animals transport blood?", name:"Open or Closed?",
+   q:"How do other animals transport blood throughout their bodies?",
+   scene:"oc",
+   caption:"Left: in an open system, the heart pumps hemolymph into open spaces, where it washes over the organs. Right: in a closed system, blood stays inside vessels the whole time.",
+   legend:[["#9BCB3C", "hemolymph (open system)"], ["#E23D45", "blood in vessels (closed system)"]],
+   cards:[
+     {h:"Open circulatory system", p:"The heart pumps blood, called <b>hemolymph</b>, out of the vessels into open spaces, where it bathes the organs directly. Then it flows back into the heart through small openings. Insects, spiders, crabs, and most mollusks (like snails and clams) have one."},
+     {h:"Closed circulatory system", p:"Blood always stays inside blood vessels. It moves faster and under more pressure, so oxygen is delivered quickly. Earthworms, octopuses, squid, and all vertebrates have one."},
+     {h:"An earthworm's \"hearts\"", p:"An earthworm has five pairs of <b>aortic arches</b>. They squeeze like small hearts, pumping blood around its closed system of vessels."}
+   ],
+   widgets:["chambers"],
+   fact:{tag:"WOW", html:"An octopus has three hearts and blue blood! Its blood carries oxygen with a copper-based molecule called hemocyanin instead of iron-based hemoglobin."},
+   words:["open circulatory system", "closed circulatory system", "hemolymph"],
+   check:[
+     {t:"sort", q:"Open or closed circulatory system?", groups:["Open", "Closed"],
+      items:[["Grasshopper", 0], ["Snail", 0], ["Spider", 0], ["Earthworm", 1], ["Octopus", 1], ["Human", 1]],
+      why:"Insects, spiders, and most mollusks, like snails, have open systems. Earthworms, octopuses, and all vertebrates (like you) have closed systems. The octopus is a mollusk with a closed system, a famous exception!"},
+     {t:"mc", q:"In an open circulatory system, the blood…",
+      o:["leaves the vessels and washes directly over the organs", "always stays inside blood vessels", "is pumped by a four-chambered heart", "only travels to the gills"], a:0,
+      why:"In an open system, the heart pumps hemolymph into open spaces around the organs. It flows back to the heart through small openings."},
+     {t:"mc", q:"How many chambers does a fish's heart have?",
+      o:["2", "3", "4", "1"], a:0,
+      why:"A fish heart has 1 atrium and 1 ventricle. Blood goes heart → gills → body → back to the heart in a single loop."}
+   ]},
+  {id:"ch8", n:8, col:"c7", icon:"ecg", day:"Thu 22/10", label:"STEM Careers + Science and Society", name:"Heart Careers & Super Cells",
+   q:"What does a cardiovascular technologist do, and what makes blood cells so special?",
+   from:"STEM Careers: A Day in the Life of a Cardiovascular Technologist · Science and Society: Very Special Blood Cells · Lesson Review",
+   scene:"ecg",
+   caption:"An ECG trace shows the heart's electrical signals with every beat. Beside it: red blood cells (from the top and from the side), a white blood cell, and platelets.",
+   legend:[],
+   cards:[
+     {h:"Who are they?", p:"A <b>cardiovascular technologist</b> is a health care worker who helps doctors called cardiologists find and treat problems with the heart and blood vessels."},
+     {h:"Tools of the job", list:[
+       "<b>ECG (EKG):</b> sticky sensors called electrodes record the electrical signals that make the heart beat.",
+       "<b>Echocardiogram:</b> sound waves (ultrasound) make a moving picture of the heart's chambers and valves.",
+       "<b>Stress test:</b> they watch the heart while a patient walks faster and faster on a treadmill.",
+       "<b>Holter monitor:</b> a small recorder the patient wears for a day or more.",
+       "<b>Cath lab:</b> they help the team while a thin tube (catheter) is guided through a blood vessel to the heart."]},
+     {h:"Why the science matters", p:"To understand a scan or an ECG, they need to know the four chambers, the path of blood, and how arteries and veins work. That's everything in this lesson!"}
+   ],
+   widgets:["day", "cells"],
+   fact:{tag:"WOW", html:"Your bone marrow makes about 2 million new red blood cells every second, and each one lives about 120 days."},
+   words:["ECG", "echocardiogram", "red blood cell", "white blood cell", "platelet"],
+   check:[
+     {t:"mc", q:"A cardiovascular technologist does an ECG (EKG). What does it record?",
+      o:["The electrical signals that make the heart beat", "Pictures of the bones", "The number of white blood cells", "How well you can see"], a:0,
+      why:"Sticky sensors called electrodes pick up the heart's electrical signals and draw them as a wavy line."},
+     {t:"sort", q:"Red blood cell, white blood cell, or platelet?", groups:["Red blood cell", "White blood cell", "Platelet"],
+      items:[["Carries oxygen using hemoglobin", 0], ["Fights germs", 1], ["Helps stop bleeding", 2], ["Has no nucleus", 0], ["Is a tiny piece of a cell", 2]],
+      why:"Red blood cells carry oxygen and have no nucleus. White blood cells fight infection. Platelets are cell fragments that help blood clot."},
+     {t:"mc", q:"How does a red blood cell's dented disc shape help it?",
+      o:["It has more surface for oxygen and can bend to squeeze through tiny capillaries", "It helps it swim like a fish", "It makes room for a big nucleus", "It lets it make its own food"], a:0,
+      why:"The biconcave shape gives extra surface for picking up oxygen, and it's flexible enough to fold through capillaries narrower than the cell itself."}
+   ]}
+];
+
+/* ---------- LESSON REVIEW (20 questions, shuffled each time) ---------- */
+const REVIEW = [
+  {ch:"ch1", t:"mc", q:"Which sentence best explains this lesson's phenomenon?",
+   o:["Plants and animals have transport systems that carry water, gases, and nutrients to every cell", "Only animals need to move materials around their bodies", "Materials reach every cell by soaking in through the skin", "Plants and animals get all their materials from rain"], a:0,
+   why:"Plants (xylem and phloem) and animals (heart, blood, and vessels) both have systems that deliver materials to cells and carry wastes away."},
+  {ch:"ch2", t:"mc", q:"Water vapor leaves a leaf through tiny openings called…",
+   o:["stomata", "xylem", "root hairs", "alveoli"], a:0,
+   why:"Stomata are tiny openings, mostly on the underside of leaves. Guard cells open and close them."},
+  {ch:"ch2", t:"mc", q:"How does transpiration help move water up a plant?",
+   o:["As water evaporates from the leaves, it pulls more water up through the xylem", "It pushes sugar down through the phloem", "It makes the roots grow longer", "It lets the roots take in carbon dioxide"], a:0,
+   why:"Water evaporating from the leaves tugs on the water behind it, pulling a column of water up the xylem, like sipping through a straw."},
+  {ch:"ch2", t:"mc", q:"Which of these plants has NO vascular tissue?",
+   o:["Moss", "Fern", "Pine tree", "Sunflower"], a:0,
+   why:"Mosses are nonvascular. Ferns, pine trees, and flowering plants such as sunflowers all have xylem and phloem."},
+  {ch:"ch3", t:"mc", q:"Which body system works with the circulatory system to bring in oxygen and get rid of carbon dioxide?",
+   o:["Respiratory system", "Digestive system", "Skeletal system", "Nervous system"], a:0,
+   why:"The respiratory system (lungs and airways) exchanges the gases; the circulatory system carries them to and from the cells."},
+  {ch:"ch3", t:"mc", q:"Your heart is mostly made of…",
+   o:["muscle", "bone", "fat", "cartilage"], a:0,
+   why:"The heart is a strong muscle about the size of your fist. Each squeeze pushes blood through your vessels."},
+  {ch:"ch4", t:"mc", q:"What are alveoli?",
+   o:["Tiny air sacs at the ends of the bronchioles", "Tubes that carry blood back to the heart", "The two branches of the trachea", "Cells that fight germs"], a:0,
+   why:"Alveoli are tiny balloon-like air sacs wrapped in capillaries. Their walls are one cell thick, so gases pass through easily."},
+  {ch:"ch4", t:"order", q:"Put the path of carbon dioxide in order, from a body cell to the air.",
+   items:["Body cell", "Capillary", "Vein back to the heart", "Heart pumps it to the lungs", "Alveoli", "Breathed out"],
+   why:"Carbon dioxide diffuses from a cell into a capillary, rides in the blood through veins to the heart, is pumped to the lungs, diffuses into the alveoli, and is breathed out."},
+  {ch:"ch4", t:"mc", q:"When oxygen-poor blood reaches the lungs, which way does carbon dioxide move?",
+   o:["From the blood into the alveoli", "From the alveoli into the blood", "From the trachea into the heart", "It stays in the blood"], a:0,
+   why:"There is more carbon dioxide in the blood than in the alveoli, so it diffuses into the alveoli and you breathe it out."},
+  {ch:"ch5", t:"find", fig:"heart", pins:["ra", "rv", "la", "lv"], a:"rv", q:"Tap the chamber that pumps blood to the lungs.",
+   why:"The right ventricle pumps oxygen-poor blood to the lungs through the pulmonary artery. The left side pumps oxygen-rich blood to the body."},
+  {ch:"ch5", t:"mc", q:"Why does the left ventricle have the thickest wall?",
+   o:["It pumps blood all the way around the body", "It holds air from the lungs", "It only pumps blood to the lungs", "It stores extra blood"], a:0,
+   why:"Pushing blood through the whole body takes much more force than pushing it to the nearby lungs."},
+  {ch:"ch5", t:"mc", q:"The pulmonary artery carries oxygen-poor blood. Why is it still called an artery?",
+   o:["Arteries are named for carrying blood away from the heart", "All arteries carry oxygen-poor blood", "It has valves like a vein", "Because it is really a capillary"], a:0,
+   why:"Arteries carry blood AWAY from the heart and veins carry it back, no matter how much oxygen the blood has."},
+  {ch:"ch5", t:"mc", q:"What is plasma?",
+   o:["The yellowish liquid part of blood that carries nutrients, wastes, and cells", "A type of white blood cell", "The chemical that makes blood red", "A chamber of the heart"], a:0,
+   why:"Plasma makes up about 55% of blood. It's mostly water and carries nutrients, wastes, and blood cells."},
+  {ch:"ch6", t:"mc", q:"How does a fish get oxygen?",
+   o:["Water flows over its gills, and oxygen diffuses into its blood", "It gulps air into lungs at the surface", "Air enters through spiracles", "It soaks oxygen in through its scales"], a:0,
+   why:"Gill filaments are packed with capillaries. Oxygen dissolved in the water diffuses into the blood as the water flows past."},
+  {ch:"ch6", t:"mc", q:"Insects take in air through small openings on their bodies called…",
+   o:["spiracles", "gills", "alveoli", "stomata"], a:0,
+   why:"Spiracles lead into tracheae, branching tubes that carry air straight to the insect's cells."},
+  {ch:"ch6", t:"mc", q:"A whale lives in the ocean. How does it get oxygen?",
+   o:["It breathes air into its lungs through its blowhole", "It uses gills like a fish", "It absorbs oxygen through its skin only", "It uses spiracles"], a:0,
+   why:"Whales are mammals, so they have lungs. They come to the surface to breathe through the blowhole on top of the head."},
+  {ch:"ch7", t:"mc", q:"In a closed circulatory system…",
+   o:["blood always stays inside blood vessels", "blood washes freely over the organs", "there is no heart at all", "only insects have one"], a:0,
+   why:"Closed systems keep blood inside vessels, so it can move faster and under more pressure. Earthworms and all vertebrates have one."},
+  {ch:"ch7", t:"mc", q:"Which animal has a heart with four chambers?",
+   o:["Pigeon", "Frog", "Tuna", "Grasshopper"], a:0,
+   why:"Birds and mammals have four-chambered hearts. Frogs have three, fish such as tuna have two, and a grasshopper has a tube-shaped heart."},
+  {ch:"ch8", t:"mc", q:"An echocardiogram makes moving pictures of the heart using…",
+   o:["sound waves (ultrasound)", "X-rays", "electric shocks", "a thermometer"], a:0,
+   why:"An echocardiogram is an ultrasound of the heart: sound waves bounce off the heart to make a live picture of its chambers and valves."},
+  {ch:"ch8", t:"mc", q:"Why is donating blood important?",
+   o:["Patients who lose blood in accidents or surgery can receive it", "It makes the donor's heart grow bigger", "Donated blood is turned into vitamins", "It stops the donor from catching colds"], a:0,
+   why:"Donated blood can be separated into red cells, plasma, and platelets, so one donation can help more than one patient."}
+];
+
+/* ---------- WORD BANK ---------- */
+const VOCAB = [
+  ["nutrients", "Useful substances from food, such as sugars, that cells need for energy and growth.", "ch1"],
+  ["root hairs", "Tiny hair-like growths on roots that soak up water and minerals.", "ch2"],
+  ["xylem", "Tube-like plant tissue that carries water and minerals up from the roots.", "ch2"],
+  ["phloem", "Tube-like plant tissue that carries sugar from the leaves to other parts of the plant.", "ch2"],
+  ["vascular tissue", "Tissue made of tubes (xylem and phloem) that moves materials through a plant.", "ch2"],
+  ["nonvascular plant", "A plant with no xylem or phloem, such as a moss.", "ch2"],
+  ["stomata", "Tiny openings on leaves that let gases and water vapor in and out (one is a stoma).", "ch2"],
+  ["transpiration", "The loss of water vapor from a plant's leaves, which pulls water up the xylem.", "ch2"],
+  ["osmosis", "The diffusion of water across a cell membrane.", "ch2"],
+  ["circulatory system", "The heart, blood, and blood vessels, which move materials around the body.", "ch3"],
+  ["trachea", "The windpipe: the tube that carries air from your throat toward your lungs.", "ch4"],
+  ["bronchi", "The two tubes that branch from the trachea into the lungs.", "ch4"],
+  ["bronchioles", "Smaller tubes that branch from the bronchi and end at the alveoli.", "ch4"],
+  ["alveoli", "Tiny air sacs in the lungs where oxygen and carbon dioxide are swapped.", "ch4"],
+  ["diffusion", "The movement of particles from where there are more of them to where there are fewer.", "ch4"],
+  ["hemoglobin", "The iron-containing protein in red blood cells that carries oxygen.", "ch4"],
+  ["atrium", "An upper chamber of the heart that receives blood (plural: atria).", "ch5"],
+  ["ventricle", "A lower chamber of the heart that pumps blood out.", "ch5"],
+  ["septum", "The wall that separates the left and right sides of the heart.", "ch5"],
+  ["valve", "A flap that lets blood flow in only one direction.", "ch5"],
+  ["artery", "A blood vessel that carries blood away from the heart.", "ch5"],
+  ["vein", "A blood vessel that carries blood back to the heart.", "ch5"],
+  ["capillary", "The tiniest blood vessel, where materials pass between the blood and the cells.", "ch5"],
+  ["pulmonary circulation", "The loop of blood between the heart and the lungs.", "ch5"],
+  ["systemic circulation", "The loop of blood between the heart and the rest of the body.", "ch5"],
+  ["plasma", "The yellowish liquid part of blood.", "ch5"],
+  ["gills", "Organs that take oxygen out of water.", "ch6"],
+  ["spiracles", "Openings on an insect's body that let air in.", "ch6"],
+  ["tracheae", "Branching air tubes inside an insect that carry air to its cells.", "ch6"],
+  ["open circulatory system", "A system where blood (hemolymph) leaves the vessels and bathes the organs.", "ch7"],
+  ["closed circulatory system", "A system where blood always stays inside blood vessels.", "ch7"],
+  ["hemolymph", "The blood-like fluid of animals with an open circulatory system.", "ch7"],
+  ["ECG (EKG)", "A test that records the electrical signals of the heart.", "ch8"],
+  ["echocardiogram", "An ultrasound picture of the heart, made with sound waves.", "ch8"],
+  ["red blood cell", "A blood cell that carries oxygen; it has no nucleus.", "ch8"],
+  ["white blood cell", "A blood cell that fights infection.", "ch8"],
+  ["platelet", "A tiny cell fragment that helps blood clot.", "ch8"]
+];
+
+const DAY_PLAN = [
+  ["07:30", "Check the machines", "Test and clean the ECG and ultrasound equipment."],
+  ["08:30", "ECG", "Place electrodes on a patient's chest, arms, and legs, then record the heart's signals."],
+  ["10:00", "Echocardiogram", "Move an ultrasound probe over the chest to film the heart's chambers and valves."],
+  ["12:00", "Stress test", "Watch the ECG while a patient walks faster and faster on a treadmill."],
+  ["14:00", "Cath lab", "Monitor the patient's heart while the cardiologist guides a catheter."],
+  ["15:30", "Report", "Prepare the results for the cardiologist to review."]
+];
+
+/* ---------- SCREENS + ROUTING ---------- */
+const SCREENS = ["home", "lesson", "cell", "review", "report"];
+const chOf = id => CH.find(c => c.id === id);
+const chState = id => S.ch[id] || {};
+function show(name){
+  SCREENS.forEach(s => { const el = $("#scr-" + s); el.hidden = s !== name; if (s !== name) el.innerHTML = ""; });
+  const el = $("#scr-" + name); el.classList.remove("screen"); void el.offsetWidth; el.classList.add("screen");
+  window.scrollTo(0, 0);
+}
+function scrollToEl(el){
+  if (!el) return;
+  const top = el.getBoundingClientRect().top + window.scrollY - 76;
+  window.scrollTo({top:Math.max(0, top), behavior:reduceMotion ? "auto" : "smooth"});
+}
+let R = null;      /* review run in progress */
+function route(){
+  Flow.clear();
+  const [a, b] = location.hash.replace(/^#\/?/, "").split("/");
+  if (a === "part" && chOf(b)){ show("lesson"); renderLesson(b); }
+  else if (a === "cell"){ show("cell"); renderCell(); }
+  else if (a === "review"){ show("review"); renderReviewIntro(); }
+  else if (a === "report" && S.attempts.length){ show("report"); renderReport(S.attempts[S.attempts.length - 1]); }
+  else { show("home"); renderHome(); }
+}
+function nav(h){ if (location.hash === h) route(); else location.hash = h; }
+
+/* ---------- HOME ---------- */
+function starsHTML(n){ return [0, 1, 2].map(i => starSVG(i < n)).join(""); }
+function renderHome(){
+  const done = CH.filter(c => chState(c.id).done).length;
+  const best = S.attempts.length ? Math.max(...S.attempts.map(a => a.pct)) : null;
+  const next = CH.find(c => !chState(c.id).done);
+  const startLabel = next ? (done ? `Continue: Part ${next.n}` : "Start Part 1") : "Take the Lesson Review";
+  $("#scr-home").innerHTML = `
+  <div class="hero panel">
+    <div>
+      <p class="kick">Grade 6 · Class 6.3 · Week 8 Science</p>
+      <h1>Moving <span>Material</span></h1>
+      <p class="lead">Module 2: Body Systems, Lesson 4. How do plants and animals move water, food, and gases to every cell? Explore 8 parts, practice in the Cell Lab, then take on the Lesson Review.</p>
+      <div class="row"><button class="btn btn-go" data-act="${next ? "open" : "review"}"${next ? ` data-ch="${next.id}"` : ""}>${startLabel} ${ARROW}</button></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>${done}/8</b><span>Parts done</span></div>
+      <div class="stat"><b>${S.cell.best === null ? "–" : S.cell.best + "%"}</b><span>Cell Lab best</span></div>
+      <div class="stat"><b>${best === null ? "–" : best + "%"}</b><span>Review best</span></div>
+    </div>
+  </div>
+  <section class="hw panel" aria-labelledby="hw-h">
+    <h2 id="hw-h">This week's science homework</h2>
+    <div class="hw-item"><p><b>Homework 8.1 · IXL: Animal cell diagrams, label parts</b>Score at least 70%. <span class="due">Due Sat 24/10/2026</span></p><button class="btn btn-sm btn-ink" data-act="cell">Practice in the Cell Lab ${ARROW}</button></div>
+    <div class="hw-item"><p><b>Homework 8.2 · Worksheet 5 (Term 1)</b>Solve it and bring the completed worksheet with you on Sunday. <span class="due">Due Sun 25/10/2026</span></p></div>
+  </section>
+  <div class="sec-title"><h2>The Lesson Trail</h2><p>Sun 18/10 – Thu 22/10 · tap a part to start</p></div>
+  <div class="trail">${CH.map(c => {
+    const st = chState(c.id), stars = st.stars || 0;
+    return `<button class="land col-${c.col}" data-act="open" data-ch="${c.id}">
+      ${st.done ? `<span class="sticker ok">DONE</span>` : ""}
+      <span class="badge">${IC[c.icon]}</span>
+      <span><span class="land-num">Part ${c.n}</span><span class="lt">${c.name}</span><span class="sub">${c.q}</span></span>
+      <span class="land-foot"><span class="day">${c.day || "Core idea"}</span><span class="stars" role="img" aria-label="${stars} of 3 stars">${starsHTML(stars)}</span></span>
+    </button>`; }).join("")}</div>
+  <div class="extras">
+    <button class="xcard panel col-c9" data-act="cell"><span class="badge">${IC.cell}</span><span><span class="land-num">IXL practice · Module 1 L2 review</span><span class="lt">Cell Lab</span><span class="sub">Explore the 9 parts of an animal cell, then beat the 70% target in the drill.</span></span>
+      <span class="row"><span class="progress-note">${Object.keys(S.cell.seen).length}/9 parts explored${S.cell.best === null ? "" : ` · best drill ${S.cell.best}%`}</span></span></button>
+    <button class="xcard panel final" data-act="review"><span class="badge">${IC.trophy}</span><span><span class="land-num">Thu 22/10 · 20 questions</span><span class="lt">Lesson Review</span><span class="sub">Mixed questions from all 8 parts, with a weak-spot report at the end.</span></span>
+      <span class="row"><span class="progress-note">${best === null ? "Not taken yet" : `Best: ${best}% · ${S.attempts.length} ${S.attempts.length === 1 ? "try" : "tries"}`}</span></span></button>
+  </div>
+  <div class="sec-title"><h2>Word Bank</h2><p>${VOCAB.length} words · tap one to see what it means</p></div>
+  <div class="bank">${VOCAB.map(([w, d, ch]) => { const c = chOf(ch); return `<details class="vw col-${c.col}"><summary>${w}</summary><p>${d}<small>Part ${c.n}: ${c.name}</small></p></details>`; }).join("")}</div>`;
+}
+
+/* ---------- LESSON ---------- */
+function sceneBox(sc, c){
+  const leg = (c.legend || []).map(([col, t]) => `<span><i style="background:${col}"></i>${t}</span>`).join("");
+  return `<figure class="scene-box panel">
+    <div class="scene" style="aspect-ratio:${sc.ratio}">${sc.svg}</div>
+    <div class="scene-tools">${sc.controls || ""}<button class="motion-btn" data-act="motion" aria-label="${motionOn() ? "Pause the animations" : "Play the animations"}">${motionBtnHTML()}</button></div>
+    <figcaption>${c.caption}</figcaption>
+    ${leg ? `<div class="legend">${leg}</div>` : ""}
+  </figure>`;
+}
+function animalsBox(){
+  return `<figure class="scene-box panel">
+    <div class="animal-grid">${ANIMALS.map(a => `<div class="acard"><div class="mini">${a.svg}</div><div class="txt"><h4>${a.name}<small>${a.tool}</small></h4><p>${a.text}</p></div></div>`).join("")}</div>
+    <div class="scene-tools"><button class="motion-btn" data-act="motion" aria-label="${motionOn() ? "Pause the animations" : "Play the animations"}">${motionBtnHTML()}</button></div>
+    <figcaption>Four animals, four breathing tools. The moving dots show water, air, oxygen, and carbon dioxide.</figcaption>
+  </figure>`;
+}
+const WIDGETS = {
+  heart(){
+    const keys = Object.keys(FIGS.heart.parts);
+    return `<section class="widget panel hx"><h3>Heart Explorer</h3><p class="how">Tap a number to explore the heart. It's drawn as if you're facing someone, so the heart's right side is on your left.</p>
+      <div class="split">${figHTML("heart", {mode:"learn", pins:keys})}
+      <div class="part-info" aria-live="polite"><h4>Tap a number</h4><p>Start with number 1, the right atrium, and follow the blood: 1 → 2 → lungs → 3 → 4 → body.</p></div></div></section>`;
+  },
+  vessels(){
+    return `<section class="widget panel"><h3>Three kinds of blood vessels</h3><div class="vessels">${VESSELS_SVG}</div>
+      <div class="info-grid" style="margin-top:0">
+        <div class="icard"><h3>Artery</h3><p>Thick, muscular, stretchy wall. Carries blood away from the heart under high pressure.</p></div>
+        <div class="icard"><h3>Vein</h3><p>Thinner wall and a wider space inside. Carries blood back to the heart; valves stop it flowing backward.</p></div>
+        <div class="icard"><h3>Capillary</h3><p>Wall only one cell thick, so narrow that red blood cells pass in single file. This is where materials are swapped.</p></div>
+      </div></section>`;
+  },
+  jar(){
+    return `<section class="widget panel"><h3>What's in a tube of blood?</h3><p class="how">If blood is spun in a machine called a centrifuge, it separates into layers. Tap a layer to learn about it.</p>
+      <div class="jar">${JAR_SVG}<div class="btns">
+        <button class="btn btn-sm" data-jar="plasma">Plasma · about 55%</button>
+        <button class="btn btn-sm" data-jar="buffy">White blood cells + platelets · less than 1%</button>
+        <button class="btn btn-sm" data-jar="red">Red blood cells · about 45%</button></div></div>
+      <div class="part-info jar-info" aria-live="polite"><p>Tap a layer button above.</p></div></section>`;
+  },
+  chambers(){
+    const H = [
+      ["fish", "Fish", "2 chambers", "1 atrium + 1 ventricle. One loop: heart → gills → body → heart. The heart only holds oxygen-poor blood."],
+      ["frog", "Frog", "3 chambers", "2 atria + 1 ventricle. Oxygen-rich and oxygen-poor blood mix a little in the ventricle."],
+      ["reptile", "Most reptiles", "3 chambers", "2 atria + 1 ventricle with a partial wall, so there is less mixing. (Crocodiles have 4!)"],
+      ["mammal", "Birds + mammals", "4 chambers", "2 atria + 2 ventricles. Oxygen-rich and oxygen-poor blood never mix, which suits warm, active bodies."]
+    ];
+    return `<section class="widget panel"><h3>Hearts with more chambers</h3><p class="how">Blue = oxygen-poor blood, red = oxygen-rich blood, purple = a mix.</p>
+      <div class="hearts">${H.map(([k, name, n, t]) => `<div class="hcard">${miniHeart(k)}<b>${name}</b><span class="n">${n}</span><span>${t}</span></div>`).join("")}</div></section>`;
+  },
+  day(){
+    return `<section class="widget panel"><h3>A day in the life</h3><p class="how">An example day for a cardiovascular technologist. Every day is different!</p>
+      <ol class="day-line">${DAY_PLAN.map(([t, h, d]) => `<li><time>${t}</time><div><b>${h}</b><span>${d}</span></div></li>`).join("")}</ol></section>`;
+  },
+  cells(){
+    return `<section class="widget panel"><h3>Very Special Blood Cells</h3><p class="how">Science and Society: each kind of blood cell is built for its job.</p>
+      <div class="cells3">
+        <div class="ccard">${CELL_ICONS.red}<h4>Red blood cells</h4><p>No nucleus, so there's more room for hemoglobin. The dented disc shape (biconcave) gives extra surface for oxygen and lets the cell bend to squeeze through capillaries narrower than itself. Each one lives about 120 days.</p></div>
+        <div class="ccard">${CELL_ICONS.white}<h4>White blood cells</h4><p>Your defense team. Some swallow germs; others make antibodies that help destroy them. Unlike red blood cells, they have a nucleus.</p></div>
+        <div class="ccard">${CELL_ICONS.platelet}<h4>Platelets</h4><p>Tiny cell fragments. At a cut, they stick together to plug the hole and help form a clot.</p></div>
+      </div>
+      <div class="icard"><h3>Why donating blood matters</h3><p>Donated blood can be separated into red cells, plasma, and platelets, so one donation can help more than one patient, for example after an accident or surgery. A healthy donor's body replaces the lost fluid within about a day and the red cells within a few weeks.</p></div></section>`;
+  }
+};
+const JAR_INFO = {
+  plasma:["Plasma", "A yellowish liquid that is mostly water. It carries nutrients, wastes, salts, and proteins, and it carries all the blood cells along with it."],
+  buffy:["White blood cells + platelets", "A thin pale layer. White blood cells fight infection; platelets help blood clot. There are far fewer of them than red blood cells."],
+  red:["Red blood cells", "The heaviest part, so it sinks to the bottom. These cells carry oxygen using hemoglobin, which is what makes blood red."]
+};
+function renderLesson(id){
+  const c = chOf(id);
+  S.ch[id] = Object.assign({}, chState(id), {seen:true}); save();
+  const sc = c.scene ? SCENES[c.scene]() : null;
+  const cards = c.cards.map(k => `<div class="icard"><h3>${k.h}</h3>${k.p ? `<p>${k.p}</p>` : ""}${k.list ? `<ul>${k.list.map(li => `<li>${li}</li>`).join("")}</ul>` : ""}</div>`).join("");
+  const isLast = c.n === CH.length, nextC = CH[c.n], prevC = CH[c.n - 2];
+  $("#scr-lesson").innerHTML = `<div class="col-${c.col}">
+    <div class="lesson-top"><span class="chip-land">Part ${c.n} of ${CH.length}</span><span class="day">${c.day || "Core idea"}</span>
+      <nav class="steps" aria-label="Lesson parts">${CH.map(x => `<button class="step${chState(x.id).done ? " done" : ""}${x.id === id ? " now" : ""}" data-act="open" data-ch="${x.id}" aria-label="Part ${x.n}: ${x.name}"${x.id === id ? ' aria-current="step"' : ""}>${x.n}</button>`).join("")}</nav></div>
+    <div class="intro panel"><p class="kick">${c.q.startsWith(c.label.replace("?", "")) ? "Module 2 · Lesson 4 · Moving Material" : c.label}</p><h2>${c.name}</h2><p class="bigq">${c.q}</p>${c.from ? `<p class="from">${c.from}</p>` : ""}</div>
+    ${sc ? sceneBox(sc, c) : ""}${c.animals ? animalsBox() : ""}
+    <div class="info-grid">${cards}</div>
+    ${(c.widgets || []).map(w => WIDGETS[w]()).join("")}
+    ${c.connect ? `<div class="connect"><b class="tag">CONNECTS TO</b> ${c.connect}</div>` : ""}
+    <div class="fact"><span class="tag">${c.fact.tag}</span>${c.fact.html}</div>
+    <div class="kw"><span class="lbl">Key words</span>${c.words.map(w => `<span class="kw-chip">${w}</span>`).join("")}</div>
+    <section class="qc" aria-labelledby="qc-h"><div class="qc-head"><h2 id="qc-h">Quick check</h2><p>${c.check.length} questions · earn up to 3 stars</p></div><div id="qc-host"></div></section>
+    <div class="lesson-nav">
+      ${prevC ? `<button class="btn btn-sm" data-act="open" data-ch="${prevC.id}">${BACK} Part ${prevC.n}</button>` : `<button class="btn btn-sm" data-act="home">${BACK} Map</button>`}
+      ${isLast ? `<button class="btn btn-sm btn-go" data-act="review">Lesson Review ${ARROW}</button>` : `<button class="btn btn-sm btn-go" data-act="open" data-ch="${nextC.id}">Part ${nextC.n} ${ARROW}</button>`}
+    </div></div>`;
+  if (sc){ const svg = $("#scr-lesson .scene svg"); sc.flows.forEach(f => Flow.add(svg, f)); }
+  if (c.animals) ANIMALS.forEach(a => { const svg = $("#mini-" + a.key); a.flows.forEach(f => Flow.add(svg, f)); });
+  Flow.start();
+  startCheck(c);
+}
+function startCheck(c){
+  const host = $("#qc-host"); let i = 0, right = 0;
+  const step = () => {
+    if (i >= c.check.length) return finishCheck(c, right, host);
+    const q = c.check[i];
+    mountQ(host, q, {kicker:`Question ${i + 1} of ${c.check.length}`, xp:10,
+      nextLabel:i === c.check.length - 1 ? "See my stars" : "Next question",
+      onAnswer(ok){ if (ok) right++; },
+      onNext(){ i++; step(); scrollToEl(host); }});
+  };
+  step();
+}
+function finishCheck(c, right, host){
+  const n = c.check.length, stars = right === n ? 3 : right === n - 1 ? 2 : right > 0 ? 1 : 0;
+  const st = chState(c.id);
+  S.ch[c.id] = Object.assign({}, st, {seen:true, done:true, best:Math.max(st.best || 0, right), n, stars:Math.max(st.stars || 0, stars)});
+  save();
+  const nextC = CH[c.n];
+  host.innerHTML = `<div class="qc-done panel" aria-live="polite">
+    <p class="big">${stars === 3 ? "PERFECT!" : stars === 2 ? "GREAT JOB!" : stars === 1 ? "GOOD START!" : "KEEP GOING!"}</p>
+    <div class="result-stars" role="img" aria-label="${stars} of 3 stars">${[0, 1, 2].map(k => `<span style="animation-delay:${k * .18}s">${starSVG(k < stars)}</span>`).join("")}</div>
+    <p>You got <b>${right} of ${n}</b> right.${stars < 3 ? " Read the cards above again, then try for 3 stars." : ""}</p>
+    <div class="row" style="justify-content:center">
+      <button class="btn btn-sm" data-act="retry-check">Try again</button>
+      ${nextC ? `<button class="btn btn-sm btn-go" data-act="open" data-ch="${nextC.id}">Part ${nextC.n}: ${nextC.name} ${ARROW}</button>` : `<button class="btn btn-sm btn-go" data-act="review">Lesson Review ${ARROW}</button>`}
+    </div></div>`;
+  if (stars === 3){ Sound.win(); FX.party(); } else if (stars > 0) Sound.good();
+  $$(".step").forEach(b => { if (b.dataset.ch === c.id) b.classList.add("done"); });
+}
+
+/* ---------- QUESTION ENGINE ---------- */
+function mountQ(host, q, cfg){
+  cfg = cfg || {};
+  let body = "";
+  if (q.t === "mc"){
+    const ord = shuffle(q.o.map((_, i) => i));
+    body = `<div class="opts">${ord.map((oi, k) => `<button class="opt" data-oi="${oi}"><span class="k">${"ABCDEF"[k]}</span><span>${q.o[oi]}</span></button>`).join("")}</div>`;
+  } else if (q.t === "order"){
+    body = `<p class="q-how">Tap the steps in the right order. Tap a placed step to send it back.</p><ol class="seq" aria-label="Your order"></ol><div class="pool" role="group" aria-label="Steps to place"></div><div class="row"><button class="btn btn-ink btn-sm" data-check disabled>Check my order</button></div>`;
+  } else if (q.t === "sort"){
+    const items = shuffle(q.items.map((_, i) => i));
+    body = `<p class="q-how">Pick a group for each one, then check.</p><div class="sort-list">${items.map(i => `<div class="sort-row" data-i="${i}"><p>${q.items[i][0]}</p><div class="seg" role="group" aria-label="${strip(q.items[i][0])}">${q.groups.map((g, gi) => `<button data-g="${gi}" aria-pressed="false">${g}</button>`).join("")}</div></div>`).join("")}</div><div class="row"><button class="btn btn-ink btn-sm" data-check disabled>Check</button></div>`;
+  } else if (q.t === "find"){
+    body = `<p class="q-how">Tap the right number on the diagram.</p>`;
+  }
+  const fig = q.fig ? figHTML(q.fig, q.t === "find" ? {mode:"find", pins:q.pins} : {hi:q.hi}) : "";
+  host.innerHTML = `<div class="q-card panel"><p class="q-kicker">${cfg.kicker || ""}</p><p class="q-text">${q.q}</p>${fig}${body}<div class="fb-slot"></div></div>`;
+  const card = host.firstElementChild, slot = $(".fb-slot", card);
+  let done = false;
+  function finish(ok, extra, detail, el){
+    if (done) return; done = true;
+    if (ok){ Sound.good(); addXP(cfg.xp || 10, el); FX.burstEl(el, 26); } else Sound.bad();
+    if (cfg.onAnswer) cfg.onAnswer(ok, detail || {});
+    slot.innerHTML = `<div class="fb ${ok ? "ok" : "no"}"><span class="burst">${ok ? pick(PRAISE) : "NOT QUITE"}</span><div class="fb-body">${extra || ""}${q.why ? `<p>${q.why}</p>` : ""}</div><div class="row"><button class="btn btn-go" data-next>${cfg.nextLabel || "Next"} ${ARROW}</button></div></div>`;
+    announce((ok ? "Correct! " : "Not quite. ") + strip(extra) + " " + strip(q.why));
+    const nb = $("[data-next]", slot);
+    nb.addEventListener("click", () => { Sound.tap(); if (cfg.onNext) cfg.onNext(ok); });
+    try { nb.focus({preventScroll:true}); } catch (e) {}
+    const r = slot.getBoundingClientRect();
+    if (r.bottom > innerHeight - 8) window.scrollBy({top:r.bottom - innerHeight + 24, behavior:reduceMotion ? "auto" : "smooth"});
+  }
+  if (q.t === "mc"){
+    $$(".opt", card).forEach(b => b.addEventListener("click", () => {
+      if (done) return;
+      const oi = +b.dataset.oi, ok = oi === q.a;
+      $$(".opt", card).forEach(x => { x.disabled = true; const xi = +x.dataset.oi; if (xi === q.a) x.classList.add("right"); else if (x === b) x.classList.add("wrong"); else x.classList.add("dim"); });
+      finish(ok, ok ? "" : `<p>Answer: <b>${q.o[q.a]}</b></p>`, {given:strip(q.o[oi]), correct:strip(q.o[q.a])}, b);
+    }));
+  } else if (q.t === "order"){
+    const n = q.items.length; let pool = shuffle(q.items.map((_, i) => i)); if (pool.every((v, i) => v === i)) pool.reverse();
+    const placed = [], seq = $(".seq", card), poolEl = $(".pool", card), chk = $("[data-check]", card);
+    const draw = () => {
+      seq.innerHTML = q.items.map((_, i) => placed[i] !== undefined
+        ? `<li><button class="slot filled" data-un="${i}" aria-label="Step ${i + 1}: ${strip(q.items[placed[i]])}. Tap to send it back."><span class="n">${i + 1}</span><span>${q.items[placed[i]]}</span></button></li>`
+        : `<li><div class="slot"><span class="n">${i + 1}</span><span class="ph">${i === placed.length ? "tap a step below" : ""}</span></div></li>`).join("");
+      poolEl.innerHTML = pool.filter(v => !placed.includes(v)).map(v => `<button class="chipbtn" data-add="${v}">${q.items[v]}</button>`).join("");
+      chk.disabled = placed.length !== n;
+    };
+    draw();
+    seq.addEventListener("click", e => { const b = e.target.closest("[data-un]"); if (!b || done) return; placed.splice(+b.dataset.un, 1); Sound.tap(); draw(); });
+    poolEl.addEventListener("click", e => {
+      const b = e.target.closest("[data-add]"); if (!b || done) return;
+      placed.push(+b.dataset.add); Sound.tap(); draw();
+      const nx = poolEl.querySelector("[data-add]");
+      try { (nx || chk).focus({preventScroll:true}); } catch (err) {}
+    });
+    chk.addEventListener("click", () => {
+      if (done || placed.length !== n) return;
+      const ok = placed.every((v, i) => v === i), right = placed.filter((v, i) => v === i).length;
+      seq.innerHTML = placed.map((v, i) => `<li><div class="slot ${v === i ? "ok" : "no"}"><span class="n">${i + 1}</span><span>${q.items[v]}</span></div></li>`).join("");
+      poolEl.innerHTML = ""; chk.hidden = true;
+      finish(ok, ok ? "" : `<p>${right} of ${n} steps are in the right place. The correct order is:</p><ol>${q.items.map(t => `<li>${t}</li>`).join("")}</ol>`,
+        {given:placed.map(v => strip(q.items[v])).join(" → "), correct:q.items.map(strip).join(" → ")}, seq);
+    });
+  } else if (q.t === "sort"){
+    const choice = {}, rows = $$(".sort-row", card), chk = $("[data-check]", card);
+    rows.forEach(r => r.addEventListener("click", e => {
+      const b = e.target.closest("[data-g]"); if (!b || done) return;
+      choice[r.dataset.i] = +b.dataset.g;
+      $$("[data-g]", r).forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+      Sound.tap(); chk.disabled = Object.keys(choice).length !== q.items.length;
+    }));
+    chk.addEventListener("click", () => {
+      if (done || Object.keys(choice).length !== q.items.length) return;
+      let right = 0;
+      rows.forEach(r => {
+        const i = +r.dataset.i, good = choice[i] === q.items[i][1];
+        if (good) right++;
+        r.classList.add(good ? "ok" : "no");
+        $$("[data-g]", r).forEach(x => { x.disabled = true; });
+        if (!good) r.insertAdjacentHTML("beforeend", `<span class="corr">✓ Answer: ${q.groups[q.items[i][1]]}</span>`);
+      });
+      chk.hidden = true;
+      const ok = right === q.items.length;
+      finish(ok, ok ? "" : `<p>${right} of ${q.items.length} sorted correctly. The fixes are marked in green above.</p>`,
+        {given:`${right} of ${q.items.length} sorted correctly`, correct:q.items.map(it => `${strip(it[0])}: ${q.groups[it[1]]}`).join("; ")}, chk);
+    });
+  } else if (q.t === "find"){
+    const F = FIGS[q.fig];
+    $$(".pin", card).forEach(p => p.addEventListener("click", () => {
+      if (done) return;
+      const k = p.dataset.pin, ok = k === q.a;
+      $$(".pin", card).forEach(x => { x.disabled = true; if (x.dataset.pin === q.a) x.classList.add("right"); });
+      if (!ok) p.classList.add("wrong");
+      finish(ok, ok ? `<p>Yes, that's the <b>${F.parts[q.a].name}</b>.</p>` : `<p>You tapped the <b>${F.parts[k].name}</b>. The answer is number ${q.pins.indexOf(q.a) + 1}, the <b>${F.parts[q.a].name}</b>.</p>`,
+        {given:F.parts[k].name, correct:F.parts[q.a].name}, p);
+    }));
+  }
+}
+
+/* ---------- CELL LAB ---------- */
+let cellMode = "learn", cellSel = null;
+const CELL_KEYS = Object.keys(FIGS.cell.parts);
+function renderCell(){
+  const seenN = CELL_KEYS.filter(k => S.cell.seen[k]).length;
+  $("#scr-cell").innerHTML = `<div class="col-c9">
+    <div class="lesson-top"><span class="chip-land">Cell Lab</span><span class="day">Homework 8.1 · due Sat 24/10</span></div>
+    <div class="intro panel"><p class="kick">IXL practice · Module 1 L2 review</p><h2>Cell Lab</h2><p class="bigq">Can you label every part of an animal cell?</p>
+      <p class="from">Your IXL homework, <b>Animal cell diagrams: label parts</b>, needs at least 70%. Explore the parts first, then take the drill. The mitochondria are where the oxygen your blood delivers gets used!</p></div>
+    <div class="tabs" role="tablist" aria-label="Cell Lab mode" style="margin-top:16px">
+      <button class="tab" role="tab" data-act="cell-mode" data-mode="learn" aria-selected="${cellMode === "learn"}">1 · Explore (${seenN}/9)</button>
+      <button class="tab" role="tab" data-act="cell-mode" data-mode="drill" aria-selected="${cellMode === "drill"}">2 · Drill${S.cell.best === null ? "" : ` (best ${S.cell.best}%)`}</button>
+    </div>
+    <div id="cell-body" style="margin-top:14px"></div></div>`;
+  if (cellMode === "learn") cellLearn(); else cellDrillStart();
+}
+function cellLearn(){
+  const body = $("#cell-body"), P = FIGS.cell.parts;
+  body.innerHTML = `<section class="widget panel" style="margin-top:0"><p class="how">Tap a number (or a name) to see what that part does. Explore all 9, then try the drill.</p>
+    <div class="split">${figHTML("cell", {mode:"learn", pins:CELL_KEYS})}
+      <div style="display:grid;gap:12px;align-content:start">
+        <div class="part-info cell-info" aria-live="polite"><h4>Tap a number</h4><p>Each number points to one part of the cell.</p></div>
+        <div class="part-chips" role="group" aria-label="Cell parts">${CELL_KEYS.map(k => `<button data-cellpart="${k}" class="${S.cell.seen[k] ? "seen" : ""}" aria-pressed="false">${P[k].name}</button>`).join("")}</div>
+        <div class="row"><button class="btn btn-go btn-sm" data-act="cell-mode" data-mode="drill">Start the drill ${ARROW}</button></div>
+      </div></div></section>`;
+  if (cellSel) selectCellPart(cellSel, true);
+}
+function selectCellPart(k, quiet){
+  const P = FIGS.cell.parts; cellSel = k;
+  $$("#cell-body .pin").forEach(p => p.classList.toggle("sel", p.dataset.pin === k));
+  $$("#cell-body [data-cellpart]").forEach(b => b.setAttribute("aria-pressed", b.dataset.cellpart === k ? "true" : "false"));
+  const box = $("#cell-body .cell-info");
+  if (box) box.innerHTML = `<h4>${CELL_KEYS.indexOf(k) + 1} · ${P[k].name}</h4><p>${P[k].info}</p>`;
+  if (!S.cell.seen[k]){
+    S.cell.seen[k] = true; save(); addXP(2, $(`#cell-body .pin[data-pin="${k}"]`));
+    $$(`#cell-body [data-pin="${k}"], #cell-body [data-cellpart="${k}"]`).forEach(x => x.classList.add("seen"));
+    const n = CELL_KEYS.filter(x => S.cell.seen[x]).length, tab = $('[data-mode="learn"]');
+    if (tab) tab.textContent = `1 · Explore (${n}/9)`;
+    if (n === 9){ Sound.win(); announce("You explored all 9 parts. Try the drill!"); }
+  }
+  if (!quiet) Sound.tap();
+}
+function cellDrillStart(){
+  const P = FIGS.cell.parts, keys = shuffle(CELL_KEYS);
+  keys.push(pick(CELL_KEYS.filter(k => k !== keys[keys.length - 1])));
+  const rounds = keys.map((k, i) => i % 2 === 0
+    ? {t:"find", fig:"cell", pins:CELL_KEYS, a:k, q:`Find it: tap the <b>${P[k].name}</b>.`, why:P[k].info}
+    : (() => { const wrong = shuffle(CELL_KEYS.filter(x => x !== k)).slice(0, 3); return {t:"mc", fig:"cell", hi:k, q:"Name it: which part is marked with the pink <b>?</b>", o:[P[k].name, ...wrong.map(x => P[x].name)], a:0, why:P[k].info, key:k}; })());
+  let i = 0, right = 0; const misses = [];
+  const body = $("#cell-body");
+  const step = () => {
+    if (i >= rounds.length) return cellDrillDone(right, rounds.length, misses);
+    body.innerHTML = `<div class="test-top" style="margin-top:0"><div class="row"><span class="round-name">Cell Drill</span><span class="counter">${i + 1} / ${rounds.length}</span></div>
+      <div class="progress" role="progressbar" aria-label="Drill progress" aria-valuemin="0" aria-valuemax="${rounds.length}" aria-valuenow="${i}"><i style="width:${pctOf(i, rounds.length)}%"></i></div></div><div id="cd-q" style="margin-top:14px"></div>`;
+    const q = rounds[i];
+    mountQ($("#cd-q"), q, {kicker:q.t === "find" ? "Find the part" : "Name the part", xp:5,
+      nextLabel:i === rounds.length - 1 ? "See my score" : "Next",
+      onAnswer(ok){ if (ok) right++; else misses.push(q.t === "find" ? q.a : q.key); },
+      onNext(){ i++; step(); scrollToEl($("#cell-body")); }});
+  };
+  step();
+}
+function cellDrillDone(right, n, misses){
+  const pct = pctOf(right, n), pass = pct >= 70, P = FIGS.cell.parts;
+  S.cell.best = S.cell.best === null ? pct : Math.max(S.cell.best, pct);
+  S.cell.runs.push({t:Date.now(), pct}); if (S.cell.runs.length > 12) S.cell.runs = S.cell.runs.slice(-12);
+  save();
+  const uniq = [...new Set(misses)];
+  $("#cell-body").innerHTML = `<div class="qc-done panel" aria-live="polite">
+    <p class="big">${pct === 100 ? "PERFECT!" : pass ? "TARGET HIT!" : "NOT YET!"}</p>
+    <p style="font-size:20px;font-weight:800">${right} / ${n} correct · ${pct}%</p>
+    <div class="target" style="width:min(420px,100%)"><span>0%</span><div class="bar" role="img" aria-label="Score ${pct}% with the 70% target marked"><i style="width:${pct}%;background:${pass ? "var(--good)" : "var(--bad)"}"></i><span class="mark70"></span></div><span>IXL target 70%</span></div>
+    <p>${pass ? "You're ready for the IXL homework. Aim for 100% to be safe!" : "Below the 70% target. Explore the parts again, then retry the drill."}</p>
+    ${uniq.length ? `<p><b>Review these:</b> ${uniq.map(k => P[k].name).join(", ")}</p>` : ""}
+    <div class="row" style="justify-content:center"><button class="btn btn-sm" data-act="cell-mode" data-mode="learn">Explore the parts</button><button class="btn btn-sm btn-go" data-act="cell-mode" data-mode="drill">Try the drill again</button></div></div>`;
+  if (pct === 100){ Sound.win(); FX.party(); } else if (pass) Sound.win();
+  const tab = $('[data-mode="drill"]'); if (tab) tab.textContent = `2 · Drill (best ${S.cell.best}%)`;
+}
+
+/* ---------- LESSON REVIEW ---------- */
+function renderReviewIntro(){
+  R = null;
+  const counts = CH.map(c => [c, REVIEW.filter(q => q.ch === c.id).length]);
+  $("#scr-review").innerHTML = `<div class="test-intro panel">
+    <p class="kick">Thursday 22/10 · Lesson Review</p><h2>Lesson Review</h2>
+    <p>${REVIEW.length} mixed questions from every part of the lesson, in a new random order each time. At the end you'll get a weak-spot report that shows which parts to replay.</p>
+    <ul>${counts.map(([c, k]) => `<li>Part ${c.n}: ${c.name} · ${k} ${k === 1 ? "question" : "questions"}</li>`).join("")}</ul>
+    <div class="row"><button class="btn btn-go" data-act="start-review">Start the review ${ARROW}</button>${S.attempts.length ? `<button class="btn btn-sm" data-act="last-report">See my last report</button>` : ""}</div></div>`;
+}
+function startReview(){ R = {qs:shuffle(REVIEW), i:0, log:[]}; reviewStep(); }
+function reviewStep(){
+  const host = $("#scr-review");
+  if (R.i >= R.qs.length) return finishReview();
+  const q = R.qs[R.i], c = chOf(q.ch);
+  host.innerHTML = `<div class="test-top"><div class="row"><span class="round-name">Lesson Review</span><span class="counter">${R.i + 1} / ${R.qs.length}</span></div>
+    <div class="progress" role="progressbar" aria-label="Review progress" aria-valuemin="0" aria-valuemax="${R.qs.length}" aria-valuenow="${R.i}"><i style="width:${pctOf(R.i, R.qs.length)}%"></i></div></div>
+    <div id="rv-q" class="col-${c.col}" style="margin-top:14px"></div>`;
+  mountQ($("#rv-q"), q, {kicker:`Part ${c.n} · ${c.name}`, xp:10,
+    nextLabel:R.i === R.qs.length - 1 ? "See my report" : "Next",
+    onAnswer(ok, detail){ R.log.push({ch:q.ch, q:strip(q.q), ok, given:detail.given || "", correct:detail.correct || ""}); },
+    onNext(){ R.i++; reviewStep(); window.scrollTo(0, 0); }});
+}
+function finishReview(){
+  const by = {};
+  R.log.forEach(l => { by[l.ch] = by[l.ch] || [0, 0]; by[l.ch][1]++; if (l.ok) by[l.ch][0]++; });
+  const right = R.log.filter(l => l.ok).length, n = R.log.length;
+  const a = {t:Date.now(), right, n, pct:pctOf(right, n), by, log:R.log};
+  S.attempts.push(a); if (S.attempts.length > 12) S.attempts = S.attempts.slice(-12);
+  save(); R = null;
+  nav("#/report");
+}
+function renderReport(a){
+  const pct = a.pct, rank = pct >= 90 ? "Circulation Champion!" : pct >= 75 ? "Blood Flow Pro!" : pct >= 50 ? "Getting There!" : "Keep Training!";
+  const C = 2 * Math.PI * 64;
+  const rows = CH.filter(c => a.by[c.id]).map(c => {
+    const [r, n] = a.by[c.id], p = pctOf(r, n), cls = p >= 80 ? "good" : p >= 50 ? "mid" : "low", lab = p >= 80 ? "Strong" : p >= 50 ? "Review" : "Replay";
+    return `<div class="bar-row col-${c.col}"><div class="bar-label">Part ${c.n} · ${c.name}<small>${r} of ${n} right</small></div><div class="bar"><i class="${p ? "" : "zero"}" data-w="${p}"></i></div><div class="bar-end"><span class="pct">${p}%</span><span class="status ${cls}">${lab}</span></div></div>`;
+  }).join("");
+  const weak = CH.filter(c => a.by[c.id] && pctOf(a.by[c.id][0], a.by[c.id][1]) < 70)
+    .sort((x, y) => pctOf(a.by[x.id][0], a.by[x.id][1]) - pctOf(a.by[y.id][0], a.by[y.id][1]));
+  const plan = weak.length
+    ? weak.map(c => `<li><b>Replay Part ${c.n}: ${c.name}</b><span>${c.q} Re-read the cards, then redo the quick check for 3 stars.</span><div class="row"><button class="btn btn-sm btn-go" data-act="open" data-ch="${c.id}">Open Part ${c.n} ${ARROW}</button></div></li>`).join("")
+    : `<li><b>No weak spots this time!</b><span>Every part scored 70% or more. Keep it fresh with the Cell Lab drill for your IXL homework.</span><div class="row"><button class="btn btn-sm btn-go" data-act="cell">Open the Cell Lab ${ARROW}</button></div></li>`;
+  const hist = S.attempts.slice(-8);
+  $("#scr-report").innerHTML = `
+  <div class="report-head panel">
+    <div class="ring" role="img" aria-label="Score ${pct} percent"><svg viewBox="0 0 156 156"><circle cx="78" cy="78" r="64" fill="none" stroke="#E4F2FF" stroke-width="18"/><circle cx="78" cy="78" r="64" fill="none" stroke="${pct >= 70 ? "#12A15E" : "#E23D45"}" stroke-width="18" stroke-linecap="round" stroke-dasharray="${(C * pct / 100).toFixed(1)} ${C.toFixed(1)}"/><circle cx="78" cy="78" r="73" fill="none" stroke="#14163A" stroke-width="2"/><circle cx="78" cy="78" r="55" fill="none" stroke="#14163A" stroke-width="2"/></svg><div class="num">${pct}%<small>${a.right} / ${a.n}</small></div></div>
+    <div><p class="rank">${rank}</p><p>Lesson Review · ${fmtDate(a.t)}</p>
+      <div class="row" style="margin-top:12px"><button class="btn btn-go btn-sm" data-act="start-review">Retake the review</button><button class="btn btn-sm" data-act="home">${BACK} Lesson map</button></div></div>
+  </div>
+  <div class="sec-title"><h2>Weak-spot report</h2><p>Score for each part of the lesson</p></div>
+  <div class="bars panel">${rows}</div>
+  <div class="sec-title"><h2>Your study plan</h2><p>${weak.length ? "Start with the lowest score" : "Nice work"}</p></div>
+  <ol class="plan">${plan}</ol>
+  ${hist.length > 1 ? `<div class="sec-title"><h2>Your progress</h2><p>Last ${hist.length} reviews</p></div><div class="history panel" role="img" aria-label="Review scores over time">${hist.map(h => `<div class="hcol"><b>${h.pct}%</b><div class="hbar${h.pct >= 70 ? " p" : ""}" style="height:${Math.max(6, h.pct * 1.1)}px"></div><span>${fmtDate(h.t).split(",")[0]}</span></div>`).join("")}</div>` : ""}
+  <details class="answers panel" style="margin-top:18px"><summary>Check every answer (${a.n})</summary>
+    ${(a.log || []).map(l => `<div class="ans"><span class="mark ${l.ok ? "ok" : "no"}">${l.ok ? "✓" : "✗"}</span><div><b>${l.q}</b><br>${l.ok ? `<small>${l.correct}</small>` : `<small>Your answer: ${l.given}</small><br><small>Correct: ${l.correct}</small>`}</div></div>`).join("")}
+  </details>`;
+  requestAnimationFrame(() => setTimeout(() => $$("#scr-report .bar i").forEach(i => { i.style.width = i.dataset.w + "%"; }), 60));
+  if (pct >= 90){ Sound.win(); FX.party(); }
+}
+
+/* ---------- EVENTS ---------- */
+function renderSoundBtn(){
+  const b = $("#soundBtn"); b.innerHTML = S.sound ? ICON_SOUND : ICON_MUTE;
+  b.setAttribute("aria-label", S.sound ? "Turn sound off" : "Turn sound on");
+}
+document.addEventListener("click", e => {
+  const pin = e.target.closest(".hx .pin");
+  if (pin){
+    const k = pin.dataset.pin, P = FIGS.heart.parts, box = $(".hx .part-info");
+    $$(".hx .pin").forEach(p => p.classList.toggle("sel", p === pin));
+    if (box) box.innerHTML = `<h4>${Object.keys(P).indexOf(k) + 1} · ${P[k].name}</h4><p>${P[k].info}</p>`;
+    if (k === "lv" || k === "rv") Sound.beat(); else Sound.tap();
+    return;
+  }
+  const cpin = e.target.closest("#cell-body .figure button.pin");
+  if (cpin && cellMode === "learn" && !cpin.closest(".q-card")){ selectCellPart(cpin.dataset.pin); return; }
+  const cchip = e.target.closest("[data-cellpart]");
+  if (cchip){ selectCellPart(cchip.dataset.cellpart); return; }
+  const jar = e.target.closest("[data-jar]");
+  if (jar){
+    const k = jar.dataset.jar, w = jar.closest(".widget"), j = $(".jar", w), info = JAR_INFO[k];
+    j.dataset.sel = k;
+    $$("[data-jar]", w).forEach(b => b.classList.toggle("btn-col", b === jar));
+    $(".jar-info", w).innerHTML = `<h4>${info[0]}</h4><p>${info[1]}</p>`;
+    Sound.tap(); return;
+  }
+  const tp = e.target.closest("button[data-plant]");
+  if (tp){
+    const svg = $("#sv-plant"); if (svg) svg.dataset.show = tp.dataset.plant;
+    $$("button[data-plant]").forEach(b => b.setAttribute("aria-pressed", b === tp ? "true" : "false"));
+    Sound.tap(); return;
+  }
+  const tl = e.target.closest("button[data-loop]");
+  if (tl){
+    const svg = $("#sv-loop"); if (svg) svg.dataset.loop = tl.dataset.loop;
+    $$("button[data-loop]").forEach(b => b.setAttribute("aria-pressed", b === tl ? "true" : "false"));
+    Sound.tap(); return;
+  }
+  const t = e.target.closest("[data-act]");
+  if (!t) return;
+  const act = t.dataset.act;
+  if (act === "home") nav("#/");
+  else if (act === "open") nav("#/part/" + t.dataset.ch);
+  else if (act === "cell"){ cellMode = "learn"; nav("#/cell"); }
+  else if (act === "review") nav("#/review");
+  else if (act === "start-review"){ if (location.hash !== "#/review"){ history.pushState(null, "", "#/review"); show("review"); } startReview(); }
+  else if (act === "last-report") nav("#/report");
+  else if (act === "retry-check"){ const id = location.hash.split("/")[2], c = chOf(id); if (c){ startCheck(c); scrollToEl($("#qc-host")); } }
+  else if (act === "cell-mode"){ cellMode = t.dataset.mode; Sound.tap(); renderCell(); }
+  else if (act === "motion") toggleMotion();
+  else if (act === "sound"){ S.sound = !S.sound; save(); renderSoundBtn(); if (S.sound) Sound.tap(); }
+});
+document.addEventListener("visibilitychange", () => { if (document.hidden) Flow.stop(); else Flow.start(); });
+
+/* ---------- START ---------- */
+$("#xpVal").textContent = S.xp;
+renderSoundBtn();
+applyMotionClass();
+addEventListener("hashchange", route);
+route();
+
+
+</script>
+</body></html>

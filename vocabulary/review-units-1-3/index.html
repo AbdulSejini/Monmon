@@ -1,0 +1,1740 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Units 1–3 Review Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn:#C77700; --warn-bg:#FFF0D1;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --col:var(--c1); --tint:var(--c1t);
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.q-card:focus{outline:none}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.u-c1{--col:var(--c1);--tint:var(--c1t)} .u-c2{--col:var(--c2);--tint:var(--c2t)} .u-c3{--col:var(--c3);--tint:var(--c3t)}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:900px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;min-width:0}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.xp{display:flex;align-items:center;gap:6px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;white-space:nowrap}
+.xp svg{width:20px;height:20px}
+.xp.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{50%{transform:scale(1.18)}}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink)}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:560px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:16px;line-height:1.2;text-align:center;box-shadow:var(--shadow-sm);transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn-go{background:var(--sun)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.btn-sm{min-height:38px;padding:6px 12px;font-size:14px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:var(--shadow-sm)}
+.btn svg{width:18px;height:18px;flex:none}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.screen{animation:enter .35s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* home */
+.hero{margin-top:20px;padding:20px;display:grid;grid-template-columns:1.35fr 1fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(42px,7vw,66px)}
+.hero h1 span{color:var(--c2);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero p{margin-top:10px;max-width:52ch;color:var(--ink-2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;background:var(--page);text-align:center}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+@media (max-width:680px){.hero{grid-template-columns:1fr}}
+.banner{margin-top:16px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--sun-2)}
+.banner.alert{background:var(--bad-bg)}
+.banner p{flex:1 1 260px}
+.sec-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:34px 0 14px}
+.sec-title h2{font-size:36px}
+.sec-title p{color:var(--ink-2);font-size:14px}
+
+/* unit cards */
+.units{display:grid;gap:22px 16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));padding-top:8px}
+.unit-card{position:relative;padding:16px;display:grid;gap:12px;align-content:start;background:var(--tint)}
+.unit-head{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center}
+.unit-card h3{font-size:34px}
+.land-num{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.badge{width:56px;height:56px;border-radius:50%;background:var(--col);border:3px solid var(--ink);display:grid;place-items:center;box-shadow:2px 2px 0 var(--ink)}
+.badge svg{width:32px;height:32px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:13px;font-weight:700;padding:2px 9px;border:2px solid var(--ink);border-radius:999px;background:var(--paper)}
+.unit-meta{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between}
+.progress-note{font-size:13px;font-weight:700;color:var(--ink-2)}
+.stars{display:flex;gap:2px}
+.stars svg{width:24px;height:24px}
+.unit-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.unit-btns .btn{padding:6px 8px}
+.unit-btns .btn:last-child{grid-column:1 / -1}
+.sticker{position:absolute;top:-19px;right:12px;font-family:var(--display);font-size:18px;letter-spacing:.05em;background:var(--bad);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 8px;transform:rotate(4deg);box-shadow:2px 2px 0 var(--ink)}
+.sticker.ok{background:var(--good)}
+.final{position:relative;margin:30px auto 0;max-width:620px;padding:18px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:var(--sun)}
+.final h3{font-size:34px}
+.final p{font-size:14px;color:var(--ink)}
+.final .row{grid-column:1 / -1}
+.final .badge{background:var(--ink)}
+.bank-head{display:flex;align-items:center;gap:10px;margin:20px 0 10px}
+.bank-head h3{font-size:26px}
+.bank-head i{width:16px;height:16px;border-radius:50%;background:var(--col);border:2px solid var(--ink)}
+.bank{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:760px){.bank{grid-template-columns:repeat(2,1fr)}}
+.tile{position:relative;text-align:left;padding:10px 30px 10px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:3px 3px 0 var(--col);display:grid;gap:1px;transition:transform .1s;min-width:0}
+.tile:hover{transform:translate(-1px,-1px)}
+.tile b{font-size:16px;font-weight:700;overflow-wrap:anywhere}
+.tile span{font-size:12px;color:var(--ink-2)}
+.tile i{position:absolute;top:12px;right:10px;width:13px;height:13px;border-radius:50%;border:2px solid var(--ink);background:var(--paper)}
+.tile i.ok{background:var(--good)} .tile i.slip{background:var(--sun)} .tile i.bad{background:var(--bad)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:12px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:50%;border:2px solid var(--ink);display:inline-block}
+
+/* word card */
+.lesson-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.chip-land{font-family:var(--display);font-size:22px;letter-spacing:.04em;padding:3px 12px;border:3px solid var(--ink);border-radius:10px;background:var(--col);color:#fff;-webkit-text-stroke:.5px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.lesson-top .counter{margin-left:auto}
+.card{margin-top:14px;padding:16px;display:grid;gap:16px}
+.word-head{display:grid;gap:12px;align-content:center;min-width:0;padding:6px 4px}
+.word-title{font-family:var(--display);font-size:clamp(44px,7vw,78px);line-height:.95;letter-spacing:.03em;color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink);overflow-wrap:anywhere}
+.word-title.long{font-size:clamp(34px,6vw,60px)}
+.word-title .l{display:inline-block;animation:letterPop .5s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes letterPop{0%{transform:translateY(30px) scale(.3) rotate(-20deg);opacity:0}100%{transform:none;opacity:1}}
+.word-count{font-size:13px;font-weight:800;color:var(--ink-2);text-transform:uppercase;letter-spacing:.08em}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pos{font-size:13px;font-weight:800;padding:3px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--sun-2)}
+.say{font-weight:700;font-size:19px;letter-spacing:.02em}
+.say em{font-style:normal;background:var(--ink);color:#fff;padding:0 5px;border-radius:5px}
+.info{display:grid;grid-template-columns:1.25fr 1fr;gap:14px}
+@media (max-width:700px){.info{grid-template-columns:1fr}}
+.box{border:2px solid var(--ink);border-radius:var(--r-sm);padding:12px 14px;background:var(--paper);min-width:0}
+.box h4{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2);margin:0 0 6px}
+.kid-def{font-size:19px;font-weight:500;line-height:1.45}
+.book-def{margin-top:10px;padding-top:8px;border-top:2px dashed var(--ink-3);font-size:14px;color:var(--ink-2)}
+.trick{background:var(--sun-2);transform:rotate(.7deg);box-shadow:3px 3px 0 var(--ink)}
+.trick p{font-size:17px;font-weight:500}
+.sent{font-size:18px;line-height:1.7}
+.blank{display:inline-block;min-width:5.5ch;margin:0 2px;padding:0 6px;border:0;border-bottom:3px solid var(--ink);background:var(--sun-2);border-radius:6px 6px 0 0;font-weight:800;color:var(--ink-2);text-align:center}
+button.blank{font-size:inherit;line-height:1.3}
+.blank.filled{background:var(--tint);color:var(--ink);animation:fillIn .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes fillIn{0%{transform:scale(.4)}100%{transform:none}}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:600px){.two-col{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14px;font-weight:600;padding:3px 10px;border-radius:8px;border:2px solid var(--ink)}
+.chip.syn{background:var(--good-bg)} .chip.ant{background:var(--bad-bg)} .chip.fam{background:var(--tint)}
+.none{color:var(--ink-2);font-size:14px}
+.lesson-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+/* flashcards */
+.flash{display:grid;place-items:center;align-content:center;gap:12px;width:100%;min-height:290px;margin-top:14px;padding:24px 18px;text-align:center;background:var(--paper);color:var(--ink);font:inherit}
+.flash.back{background:var(--tint)}
+.flash.flip{animation:flip .32s ease-out}
+@keyframes flip{0%{transform:perspective(900px) rotateY(80deg);opacity:.3}100%{transform:none;opacity:1}}
+.flash .fw{font-family:var(--display);font-size:clamp(44px,12vw,80px);line-height:1;letter-spacing:.03em;color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink);overflow-wrap:anywhere;max-width:100%}
+.flash .fw.long{font-size:clamp(32px,8.5vw,58px)}
+.flash .fdef{font-size:24px;font-weight:700;line-height:1.3}
+.flash .fex{font-size:17px;color:var(--ink-2);max-width:46ch}
+.flash .fex b{color:var(--ink)}
+.tapnote{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.flash-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.flash-btns .btn{min-height:58px;font-size:18px}
+.dots{display:flex;flex-wrap:wrap;gap:4px;margin-top:12px}
+.dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--ink);background:var(--paper)}
+.dots i.ok{background:var(--good)} .dots i.no{background:var(--bad)} .dots i.now{background:var(--sun)}
+
+/* questions */
+.q-card{padding:18px;display:grid;gap:14px}
+.q-kicker{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.q-text{font-size:20px;line-height:1.55;font-weight:500}
+.q-text b{background:var(--sun-2);padding:0 5px;border-radius:5px;box-shadow:inset 0 -3px 0 var(--sun)}
+.q-text .blank{min-width:7ch}
+.q-how{font-size:14px;font-weight:700;color:var(--ink-2)}
+.q-how b{color:var(--ink)}
+.quote{margin:0;padding:12px 16px;border-left:6px solid var(--col);background:var(--tint);border-radius:0 10px 10px 0;font-size:17px;line-height:1.65}
+.quote b{background:var(--paper);padding:0 4px;border-radius:4px}
+.quote cite{display:block;margin-top:6px;font-style:normal;font-size:12px;font-weight:700;color:var(--ink-2)}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;min-height:56px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:600;font-size:17px;line-height:1.35;box-shadow:3px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s;min-width:0}
+.opt > span:last-child{min-width:0;overflow-wrap:anywhere}
+.opt:hover:not([disabled]){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.opt:active:not([disabled]){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.opt .k{flex:none;width:30px;height:30px;border-radius:8px;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:14px;background:var(--page)}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--good-bg);animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+.opt.right .k{background:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-bg);animation:shake .4s}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt.dim{opacity:.5}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes pop{50%{transform:scale(1.04)}}
+.fb{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:start;padding:12px 14px;border:3px solid var(--ink);border-radius:12px;animation:slideUp .3s ease-out}
+.fb.ok{background:var(--good-bg)} .fb.no{background:var(--bad-bg)} .fb.slip{background:var(--warn-bg)}
+.fb .burst{font-family:var(--display);font-size:30px;line-height:1;transform:rotate(-4deg);-webkit-text-stroke:1px var(--ink)}
+.fb.ok .burst{color:var(--good)} .fb.no .burst{color:var(--bad)} .fb.slip .burst{color:var(--sun)}
+.fb .fb-body{font-size:16px;min-width:0;overflow-wrap:anywhere}
+.fb .row{grid-column:1 / -1;justify-content:flex-end}
+@media (max-width:420px){.fb{grid-template-columns:1fr}}
+.spell{letter-spacing:.08em;white-space:nowrap}
+@keyframes slideUp{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.type-row{display:flex;gap:10px;flex-wrap:wrap}
+.type-in{flex:1 1 220px;min-width:0;font:inherit;font-size:22px;font-weight:700;letter-spacing:.04em;padding:10px 14px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink)}
+.type-in:focus{outline:none;box-shadow:0 0 0 4px var(--sun)}
+.type-in.ok{background:var(--good-bg)} .type-in.no{background:var(--bad-bg);animation:shake .4s} .type-in.slip{background:var(--warn-bg)}
+.hint{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px 10px;font-size:13px;font-weight:700;color:var(--ink-2)}
+.hint-boxes{display:flex;flex-wrap:wrap;gap:4px}
+.hb{width:20px;height:26px;border-bottom:3px solid var(--ink-3);display:grid;place-items:end center;font-weight:800;font-size:16px;color:var(--ink);text-transform:lowercase}
+.test-top{display:grid;gap:10px;margin-top:16px}
+.test-top .row{justify-content:space-between}
+.round-name{font-family:var(--display);font-size:26px;letter-spacing:.04em}
+.counter{font-weight:800;font-variant-numeric:tabular-nums}
+.progress{height:16px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--sun);border-right:2px solid var(--ink);transition:width .4s}
+.splash{margin-top:16px;padding:34px 20px;text-align:center;display:grid;gap:14px;justify-items:center;background:var(--sun)}
+.splash .big{font-family:var(--display);font-size:clamp(46px,10vw,78px);line-height:1;color:#fff;-webkit-text-stroke:2px var(--ink);text-shadow:5px 5px 0 var(--ink);animation:zoomIn .6s cubic-bezier(.3,1.6,.5,1)}
+.splash .round-no{font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.splash p{max-width:46ch;font-size:17px}
+@keyframes zoomIn{0%{transform:scale(.2) rotate(-12deg);opacity:0}100%{transform:none;opacity:1}}
+.result-stars{display:flex;gap:10px;justify-content:center}
+.result-stars span{display:inline-block;animation:starIn .6s cubic-bezier(.3,1.6,.5,1) both}
+.result-stars svg{width:56px;height:56px;display:block}
+@keyframes starIn{0%{transform:scale(0) rotate(-40deg)}100%{transform:none}}
+
+/* report */
+.report-head{margin-top:16px;padding:20px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+.report-head .result-stars{justify-content:flex-start;margin-top:8px}
+@media (max-width:600px){.report-head{grid-template-columns:1fr;justify-items:center;text-align:center}.report-head .row,.report-head .result-stars{justify-content:center}}
+.ring{width:156px;height:156px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:grid;place-items:center;align-content:center;font-family:var(--display);font-size:46px;line-height:1}
+.ring .num small{font-family:var(--body);font-size:12px;font-weight:800;color:var(--ink-2);letter-spacing:.06em}
+.rank{font-family:var(--display);font-size:clamp(36px,6vw,54px);line-height:1}
+.report-head p{margin-top:6px;color:var(--ink-2)}
+.bars{padding:16px;display:grid;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(130px,230px) 1fr auto;gap:10px 12px;align-items:center}
+.bar-label{font-weight:700;line-height:1.25}
+.bar-label small{display:block;font-weight:500;font-size:12px;color:var(--ink-2)}
+.bar{height:22px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--col);border-right:2px solid var(--ink);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar i.zero{border-right:0}
+.bar-end{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct{font-weight:800;font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.status{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:999px;border:2px solid var(--ink);white-space:nowrap}
+.status.good{background:var(--good-bg)} .status.mid{background:var(--warn-bg)} .status.low{background:var(--bad-bg)} .status.na{background:var(--page)}
+@media (max-width:600px){.bar-row{grid-template-columns:1fr auto}.bar-row .bar{grid-column:1 / -1;grid-row:2}}
+.word-chips{display:flex;flex-wrap:wrap;gap:8px}
+.wchip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);font-weight:700;box-shadow:2px 2px 0 var(--col)}
+.wchip i{width:10px;height:10px;border-radius:50%;background:var(--col);border:2px solid var(--ink)}
+.spell-list{display:grid;gap:8px;margin-top:12px}
+.spell-list div{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding:8px 12px;border:2px dashed var(--ink-3);border-radius:10px;background:var(--warn-bg)}
+.spell-list s{color:var(--bad);text-decoration-thickness:2px}
+.plan{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:p}
+.plan li{counter-increment:p;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+.plan li::before{content:counter(p);grid-row:span 2;width:40px;height:40px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:24px}
+.plan li > *{min-width:0}
+.plan .row{margin-top:4px}
+.history{padding:16px;display:flex;align-items:flex-end;gap:10px;min-height:170px;overflow-x:auto}
+.hcol{flex:0 0 52px;display:grid;justify-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--ink-2)}
+.hbar{width:34px;background:var(--c1);border:2px solid var(--ink);border-radius:6px 6px 0 0}
+.hbar.w{background:var(--c2)} .hbar.p{background:var(--c4)}
+.hcol b{color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}
+.answers{padding:6px 16px 16px}
+.answers summary{cursor:pointer;font-weight:800;padding:10px 0}
+.ans{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 0;border-top:2px dashed var(--ink-3);font-size:14px}
+.ans > div{min-width:0;overflow-wrap:anywhere}
+.ans .mark{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;color:#fff}
+.ans .mark.ok{background:var(--good)} .ans .mark.no{background:var(--bad)} .ans .mark.slip{background:var(--sun);color:var(--ink)}
+.ans small{color:var(--ink-2)}
+.copy-note{font-size:13px;color:var(--ink-2)}
+.copy-area{width:100%;min-height:170px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;border:2px solid var(--ink);border-radius:10px;padding:10px;background:var(--page);color:var(--ink)}
+
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.xp-float{position:fixed;z-index:60;font-family:var(--display);font-size:32px;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);pointer-events:none;animation:floatUp 1s ease-out forwards}
+@keyframes floatUp{0%{transform:translate(-50%,0) scale(.6);opacity:0}20%{opacity:1;transform:translate(-50%,-10px) scale(1.1)}100%{transform:translate(-50%,-72px) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  .word-title .l,.splash .big,.screen,.result-stars span,.fb,.opt,.flash,.blank.filled,.xp.bump{animation:none!important}
+  .btn,.opt,.tile,.bar i,.progress i{transition:none!important}
+}
+</style>
+</head><body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="logo" data-act="home" aria-label="Back to the home page">
+      <span class="logo-mark">REVIEW QUEST</span>
+      <span class="unit-chip">Sadlier A · Units 1–3</span>
+    </button>
+    <span class="spacer"></span>
+    <span class="xp" id="xpBox" title="Your XP points"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="#FFD23F" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/></svg><b id="xpVal">0</b> XP</span>
+    <button class="icon-btn" id="soundBtn" data-act="sound" aria-label="Turn sound off"></button>
+  </div>
+</header>
+<main class="wrap">
+  <section id="scr-home" class="screen"></section>
+  <section id="scr-word" class="screen" hidden></section>
+  <section id="scr-cards" class="screen" hidden></section>
+  <section id="scr-test" class="screen" hidden></section>
+  <section id="scr-report" class="screen" hidden></section>
+</main>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<script>
+"use strict";
+/* Sadlier Vocabulary Workshop, Enriched Edition, Level A: Review Units 1–3 (book pages 42–49).
+   Word lists: Unit 1 confirmed by the school's own Week 3 test sheet; Unit 2 from the Unit 2 page in this repo;
+   Unit 3 confirmed by two sources whose Unit 1 and Unit 2 lists match exactly.
+   Stories, sentences and questions are original practice items, not copied from the book;
+   the Unit 2 meanings, tricks and "use" sentences are reused from the Unit 2 page. */
+
+/* ---------- UNITS ---------- */
+const UNITS = [
+  {key:"c1", name:"Unit 1", story:"The Desert Kitchen", icon:"tent",
+   words:["apparel","besiege","compress","denounce","dispatch","douse","expressly","famished","forsake","gainful","immense","inept","ingenious","instantaneous","irk","libel","misgiving","oaf","recede","repast"]},
+  {key:"c2", name:"Unit 2", story:"The Dune Race", icon:"dune",
+   words:["adverse","arid","assailant","billow","confront","constrain","contemporary","depict","disinterested","encompass","groundless","hypocrite","incomprehensible","manipulate","maximum","mimic","ruffle","serene","sheepish","stamina"]},
+  {key:"c3", name:"Unit 3", story:"The Old Map", icon:"map",
+   words:["barrage","bigot","designate","diversity","enigma","gloat","global","illusion","infuriate","motivate","pacifist","queue","restrict","sage","slake","terrain","vocation","vow","waylay","wither"]}
+];
+
+/* ---------- THE 60 WORDS ----------
+   p: part-of-speech codes for fair wrong answers (a adjective, n noun, v verb, d adverb)
+   ex: example sentence; {braces} mark the word form to fill in or type
+   ctx + m + cp: a sentence with the **word**, its meaning there, and the part of speech used there
+   sp / an: synonym and antonym practice phrases [phrase with **bold** words, part of speech]
+   use: [correct sentence, wrong use, wrong use]; sh: feeling of the word (pos, neg, neu) */
+const UNIT1_WORDS = {
+  apparel:{pos:"noun · verb", p:"nv", say:"uh-PAIR-ul",
+    kid:"Apparel means clothing: the shirts, coats, shoes, and hats people wear.",
+    def:"(n.) clothing, especially clothing of a certain kind; (v., rare) to dress or clothe",
+    trick:"Apparel sounds like \"a pair\": a PAIR of shoes, a PAIR of socks, a PAIR of gloves. All apparel!",
+    short:"clothing", syn:["clothing","clothes","garments","attire"], ant:[],
+    ex:"The sports shop sells team {apparel}, from jerseys to caps.",
+    ctx:"Hiking **apparel** should keep you warm and dry on the trail.", m:"clothing", cp:"n",
+    sp:["bought new **clothing** for the school trip","n"], an:null,
+    use:["The store sells sports apparel, such as jerseys, shorts, and sneakers.","We ate a delicious apparel of rice and fish for lunch.","The apparel of the storm knocked down three trees."], sh:"neu"},
+  besiege:{pos:"verb", p:"v", say:"bih-SEEJ",
+    kid:"To besiege is to surround a place and attack it, like an army around a castle. It also means to crowd around someone or flood them with questions or requests.",
+    def:"(v.) to surround with an army in order to capture; to crowd around; to swamp with questions or requests",
+    trick:"A SIEGE is when an army surrounds a castle. Be-SIEGE = put it under siege!",
+    short:"to surround and attack; to swamp with requests", syn:["surround","blockade","beset","swamp"], ant:[],
+    ex:"Fans {besieged} the singer, begging for photos and autographs.",
+    ctx:"Reporters **besieged** the coach with questions after the match.", m:"to crowd around and swamp", cp:"v",
+    sp:["enemy troops **surrounded and attacked** the fort for months","v"], an:null,
+    use:["Hungry seagulls besieged the boy holding the bag of chips.","She besieged her little sister to sleep by singing softly.","The tired hikers besieged quietly on a bench to rest."]},
+  compress:{pos:"verb · noun", p:"vn", say:"kum-PRES",
+    kid:"To compress is to squeeze or press something so it takes up less space. A compress (noun) is a soft pad you hold on a bump or a sore spot.",
+    def:"(v.) to press or squeeze together; to make smaller or shorter; (n.) a soft pad pressed on part of the body",
+    trick:"com-PRESS: PRESS it together until it's smaller, like squashing a sleeping bag into its sack.",
+    short:"to squeeze into less space", syn:["squeeze","condense","compact","shorten"], ant:["expand","enlarge","stretch","lengthen"],
+    ex:"Can you {compress} all these clothes into one small suitcase?",
+    ctx:"Please **compress** your notes into one short page.", m:"to shorten or make smaller", cp:"v",
+    sp:["**squeezed** the clay into a tiny ball","v"], an:["decided to **enlarge** the photo file","v"],
+    use:["You can compress the sleeping bag into a tiny sack.","He compressed the balloon by blowing air into it until it was huge.","To compress a story, you add many more pages to it."], sh:"neu"},
+  denounce:{pos:"verb", p:"v", say:"dih-NOWNS",
+    kid:"To denounce is to say openly and strongly that someone or something is wrong or bad, often in public.",
+    def:"(v.) to criticize openly and strongly; to accuse in public",
+    trick:"de-NOUNCE sounds like an-NOUNCE: you loudly announce that something is wrong.",
+    short:"to openly say something is wrong", syn:["condemn","criticize","accuse","blame"], ant:["praise","applaud","defend","support"],
+    ex:"Leaders around the world {denounced} the attack on the peaceful village.",
+    ctx:"The mayor stood up at the meeting to **denounce** the plan to close the park.", m:"to speak out strongly against", cp:"v",
+    sp:["loudly **condemned** the cheating","v"], an:["decided to **praise** the referee's decision","v"],
+    use:["The principal denounced bullying in a speech to the whole school.","Fans denounced their favorite player by cheering his amazing goal.","She denounced her best friend by giving her a birthday present."]},
+  dispatch:{pos:"verb · noun", p:"vn", say:"dih-SPACH",
+    kid:"To dispatch is to send someone or something off quickly to do a job. As a noun, a dispatch is an official message, and doing something \"with dispatch\" means doing it quickly.",
+    def:"(v.) to send off quickly for a purpose; to finish quickly; (n.) an official message or news report; speed",
+    trick:"A DISPATCHER at the fire station sends the trucks out fast. Dispatch = send off quickly.",
+    short:"to send off quickly", syn:["send","transmit","rush","message"], ant:["delay","hold back","slowness"],
+    ex:"The fire station {dispatched} two trucks within a minute of the call.",
+    ctx:"The general read the urgent **dispatch** from the front line.", m:"an official message", cp:"n",
+    sp:["**sent** a rescue team to the mountain","v"], an:["the manager **held back** the delivery trucks","v"],
+    use:["The pizza shop dispatched a driver with our order.","The teacher dispatched the lesson by sleeping through class.","He dispatched the letter by hiding it in his drawer forever."], sh:"neu"},
+  douse:{pos:"verb", p:"v", say:"DOWS",
+    kid:"To douse is to soak something with water, or to put out a fire or a light quickly.",
+    def:"(v.) to soak or pour liquid over; to put out (a fire or a light)",
+    trick:"DOUSE rhymes with HOUSE: firefighters douse a burning house with water.",
+    short:"to soak; to put out (a fire)", syn:["drench","soak","extinguish","put out"], ant:["light","ignite","kindle"],
+    ex:"Campers must {douse} the campfire with water before they go to sleep.",
+    ctx:"A sudden wave **doused** us with cold salt water.", m:"to soak", cp:"v",
+    sp:["**put out** the candles after dinner","v"], an:["tried to **light** the campfire","v"],
+    use:["Firefighters doused the burning car with foam.","We doused the campfire to make it burn brighter.","She doused her shoes so they would stay perfectly dry."]},
+  expressly:{pos:"adverb", p:"d", say:"ik-SPRES-lee",
+    kid:"Expressly means very clearly and directly, in so many words. It can also mean specially, for one particular purpose.",
+    def:"(adv.) clearly and directly, in so many words; specially, for a particular purpose",
+    trick:"An EXPRESS train goes straight to one place with no stops. EXPRESSly = straight and clear, or for one special purpose.",
+    short:"clearly; for one special purpose", syn:["explicitly","plainly","specifically","especially"], ant:["vaguely","indirectly"],
+    ex:"The sign {expressly} says that running is not allowed near the pool.",
+    ctx:"This ramp was built **expressly** for wheelchairs and strollers.", m:"specially; for that purpose", cp:"d", md:["slowly","by accident","secretly"],
+    sp:null, an:null,
+    use:["The rules expressly say that phones must be switched off during exams.","This cake was baked expressly by accident.","She whispered the answer so expressly that nobody could hear a word."], sh:"neu"},
+  famished:{pos:"adjective", p:"a", say:"FAM-isht",
+    kid:"Famished means extremely hungry, so hungry you could eat a whole tray of food!",
+    def:"(adj.) extremely hungry, starving",
+    trick:"FAMISHED sounds like FAMINE, a time when there is no food. In a famine, people are famished.",
+    short:"extremely hungry", syn:["starving","ravenous","starved"], ant:["full","stuffed","satisfied"],
+    ex:"After the long hike, we were {famished} and ate everything in our lunch boxes.",
+    ctx:"The **famished** puppy gobbled up its food in seconds.", m:"very hungry", cp:"a",
+    sp:["fed the **starving** travelers","a"], an:["felt completely **stuffed** after the feast","a"],
+    use:["After swimming all morning, the kids were famished and ate every sandwich.","I was so famished after the huge feast that I couldn't eat another bite.","The famished plant got too much water and drowned."]},
+  forsake:{pos:"verb", p:"v", say:"for-SAYK",
+    kid:"To forsake is to leave or give up someone or something completely, often someone or something you used to care about.",
+    def:"(v.) to abandon, leave behind, or give up",
+    trick:"For-SAKE: \"For goodness' sake, don't leave me!\" To forsake is to leave someone behind.",
+    short:"to abandon; to give up", syn:["abandon","desert","quit","leave"], ant:["keep","stand by","support","cherish"],
+    ex:"A true friend will never {forsake} you when times get hard.",
+    ctx:"He refused to **forsake** his dream of becoming a pilot.", m:"to give up", cp:"v",
+    sp:["would never **abandon** her loyal dog","v"], an:["promised to **stand by** his teammates","v"],
+    use:["The captain refused to forsake his crew during the storm.","I will forsake my little brother by holding his hand all the way to school.","She forsook her favorite book by reading it every night."], sh:"neg"},
+  gainful:{pos:"adjective", p:"a", say:"GAYN-ful",
+    kid:"Gainful describes work that pays you money or brings you something good. \"Gainful employment\" means a paying job.",
+    def:"(adj.) bringing in money or some other benefit; paid, profitable",
+    trick:"GAIN-FUL = full of gain. A gainful job fills your pockets.",
+    short:"paying; bringing in money", syn:["paid","profitable","rewarding","worthwhile"], ant:["unpaid","unprofitable","useless"],
+    ex:"After college, my cousin found {gainful} work as an engineer.",
+    ctx:"Baking bread to sell turned out to be a **gainful** hobby for my aunt.", m:"bringing in money", cp:"a",
+    sp:["a **profitable** small business","a"], an:["an **unpaid** summer job","a"],
+    use:["After months of searching, Uncle Sami found gainful employment at a bank.","He lost all his money, so his business was very gainful.","Volunteering for no pay at all is gainful work."], sh:"pos"},
+  immense:{pos:"adjective", p:"a", say:"ih-MENS",
+    kid:"Immense means extremely large: huge, enormous, gigantic.",
+    def:"(adj.) extremely large, huge",
+    trick:"IMMENSE comes from an old word meaning \"can't be measured\": too big to measure!",
+    short:"huge, extremely large", syn:["huge","enormous","vast","gigantic"], ant:["tiny","small","minute"],
+    ex:"Blue whales are {immense} animals that can grow longer than two buses.",
+    ctx:"The desert stretched out like an **immense** sea of sand.", m:"extremely large", cp:"a",
+    sp:["an **enormous** shopping mall","a"], an:["a **tiny** ant","a"],
+    use:["The immense ship was taller than a ten-story building.","The immense ant could hide under a grain of rice.","My room is so immense that only one chair fits inside."], sh:"neu"},
+  inept:{pos:"adjective", p:"a", say:"in-EPT",
+    kid:"Inept means not skilled at something: clumsy, awkward, the opposite of good at it.",
+    def:"(adj.) clumsy and awkward; lacking skill; foolish",
+    trick:"IN-EPT = NOT apt. \"Apt\" means skillful, so inept means NOT skillful.",
+    short:"clumsy; not skilled", syn:["clumsy","awkward","bungling","incompetent"], ant:["skilled","expert","capable","competent"],
+    ex:"The {inept} waiter dropped three plates in one evening.",
+    ctx:"I am so **inept** at drawing that my horse looked like a potato.", m:"unskilled", cp:"a",
+    sp:["a **clumsy** attempt to fix the sink","a"], an:["an **expert** chess player","a"],
+    use:["The inept painter got more paint on the floor than on the wall.","The inept surgeon has done thousands of perfect operations.","She is so inept at math that she won the national math prize."], sh:"neg"},
+  ingenious:{pos:"adjective", p:"a", say:"in-JEEN-yus",
+    kid:"Ingenious means very clever and inventive, especially at thinking up new ideas or new ways to solve a problem.",
+    def:"(adj.) clever and original; showing great skill at inventing",
+    trick:"INGENIOUS sounds like it has GENIUS inside: a genius idea!",
+    short:"very clever and inventive", syn:["clever","inventive","creative","brilliant"], ant:["unimaginative","dull","clumsy"],
+    ex:"Sara thought of an {ingenious} way to water her plants while she was away.",
+    ctx:"The **ingenious** machine sorts coins by size in seconds.", m:"cleverly invented", cp:"a",
+    sp:["an **inventive** solution to the problem","a"], an:["an **unimaginative** design","a"],
+    use:["Using an ingenious trick, the team carried water uphill with only ropes and buckets.","The ingenious plan was so foolish that it failed in seconds.","My ingenious cousin never has any new ideas."], sh:"pos"},
+  instantaneous:{pos:"adjective", p:"a", say:"in-stun-TAY-nee-us",
+    kid:"Instantaneous means happening in an instant: right away, with no waiting at all.",
+    def:"(adj.) happening or done in an instant; immediate",
+    trick:"INSTANT-aneous: as fast as an INSTANT, like instant noodles!",
+    short:"happening instantly", syn:["immediate","instant","sudden","prompt"], ant:["slow","gradual","delayed"],
+    ex:"When I pressed the switch, the result was {instantaneous}: the lights came on at once.",
+    ctx:"Messages sent by e-mail are almost **instantaneous**.", m:"happening at once", cp:"a",
+    sp:["an **immediate** reply","a"], an:["a **gradual** change in the weather","a"],
+    use:["The effect of the medicine was instantaneous; she felt better at once.","The instantaneous journey took three long weeks.","Growing a tree from a seed is an instantaneous process."], sh:"neu"},
+  irk:{pos:"verb", p:"v", say:"URK",
+    kid:"To irk is to annoy or bother someone, like a dripping tap that keeps you awake.",
+    def:"(v.) to annoy or irritate",
+    trick:"IRK rhymes with WORK: too much homework can irk you!",
+    short:"to annoy", syn:["annoy","bother","irritate","bug"], ant:["please","delight","soothe"],
+    ex:"It {irks} me when people talk loudly during a movie.",
+    ctx:"The buzzing fly began to **irk** everyone in the classroom.", m:"to annoy", cp:"v",
+    sp:["the dripping tap began to **annoy** my grandfather","v"], an:["tried hard to **please** the customers","v"],
+    use:["Loud chewing really irks my older sister.","The lovely music irked us so much that we smiled and danced.","Getting a gift always irks me because I love presents."], sh:"neg"},
+  libel:{pos:"noun · verb", p:"nv", say:"LY-bul",
+    kid:"Libel is a false written statement that unfairly damages someone's good name. To libel someone is to print lies about them.",
+    def:"(n.) a false written or printed statement that damages someone's reputation; (v.) to publish such a statement",
+    trick:"LIBEL sounds like LABEL: libel sticks a false, nasty label on someone in print.",
+    short:"a written lie that harms someone's name", syn:["slander","smear","defame"], ant:["praise","compliment"],
+    ex:"The magazine had to apologize for printing {libel} about the shop owner.",
+    ctx:"The actor sued the magazine for **libel** after it printed false stories about him.", m:"harmful lies in print", cp:"n",
+    sp:["sued the website for printing **damaging lies**","n"], an:["an article full of **praise** for the mayor","n"],
+    use:["Printing lies about someone in a newspaper can be libel.","The magazine printed true, kind words about the singer, which was libel.","Libel is a warm, tasty soup served at weddings."], sh:"neg"},
+  misgiving:{pos:"noun", p:"n", say:"mis-GIV-ing",
+    kid:"A misgiving is a worried feeling or a doubt that something might be wrong or might not work out.",
+    def:"(n.) a feeling of doubt, worry, or distrust",
+    trick:"MIS- means bad or wrong, as in MIStake. A MISgiving is a bad feeling that something might go wrong.",
+    short:"a doubt or worried feeling", syn:["doubt","worry","concern","hesitation"], ant:["confidence","certainty","trust"],
+    ex:"I had {misgivings} about swimming in the deep end, but the coach stayed beside me.",
+    ctx:"Lena had one **misgiving** about the trip: she had never flown before.", m:"a doubt or worry", cp:"n",
+    sp:["had serious **doubts** about the plan","n"], an:["spoke with complete **confidence**","n"],
+    use:["I had a misgiving about the old bridge, so we walked around the river instead.","She had no doubts at all; she was full of misgivings.","My misgiving is my favorite toy."], sh:"neg"},
+  oaf:{pos:"noun", p:"n", say:"OHF",
+    kid:"An oaf is a clumsy, awkward person who bumps into things and isn't careful. (Calling someone an oaf is rude!)",
+    def:"(n.) a clumsy, slow, or foolish person",
+    trick:"OAF rhymes with LOAF: picture a clumsy giant dropping a whole loaf of bread.",
+    short:"a clumsy, awkward person", syn:["klutz","lout","bumbler"], ant:[],
+    ex:"In the play, the giant was a friendly {oaf} who kept tripping over his own feet.",
+    ctx:"The cartoon **oaf** knocked over every vase in the museum.", m:"a clumsy person", cp:"n",
+    sp:["the **clumsy fellow** spilled juice on everyone","n"], an:null,
+    use:["The oaf tripped over the rug and spilled tea on the guests.","The graceful dancer moved like an oaf, light and careful on her feet.","He is such an oaf that he never drops or breaks anything."], sh:"neg"},
+  recede:{pos:"verb", p:"v", say:"rih-SEED",
+    kid:"To recede is to move back or get farther away, like waves sliding back from the beach after they crash.",
+    def:"(v.) to move back or away; to become fainter or less",
+    trick:"RE- means back, as in RETURN. When the tide REcedes, the water goes back out to sea.",
+    short:"to move back or fade", syn:["retreat","withdraw","ebb","fade"], ant:["advance","approach","rise"],
+    ex:"After the storm, the floodwaters slowly began to {recede}.",
+    ctx:"The sound of the train **receded** into the distance.", m:"to fade away", cp:"v",
+    sp:["watched the tide **withdraw** from the shore","v"], an:["the army began to **advance**","v"],
+    use:["As the tide receded, we found shells on the wet sand.","The water receded higher and higher until it covered the road.","The crowd receded toward the stage to get closer to the singer."]},
+  repast:{pos:"noun", p:"n", say:"rih-PAST",
+    kid:"A repast is a meal, often a big or special one.",
+    def:"(n.) a meal",
+    trick:"REPAST sounds like \"eat PASTA\": a big plate of pasta makes a fine repast.",
+    short:"a meal", syn:["meal","feast","dinner","banquet"], ant:[],
+    ex:"After the wedding, the guests enjoyed a delicious {repast} of rice and lamb.",
+    ctx:"The travelers stopped at an inn for a simple **repast** of bread and soup.", m:"a meal", cp:"n",
+    sp:["prepared a **feast** for the guests","n"], an:null,
+    use:["The family shared a simple repast of bread, cheese, and olives.","She wore a beautiful repast to the wedding.","We drove our repast to the airport."], sh:"neu"}
+};
+
+/* Unit 2: meanings, tricks and "use" sentences come from the Unit 2 Word Quest page */
+const UNIT2_WORDS = {
+  adverse:{pos:"adjective", p:"a", say:"ad-VURS",
+    kid:"Adverse means bad for you, or working against you, like a strong wind that pushes your boat backward.",
+    def:"(adj.) unfavorable, negative; working against, hostile",
+    trick:"ADVERSE is related to ADVERSARY, which means opponent. Adverse things work against you like an opponent.",
+    short:"working against you; unfavorable", syn:["difficult","trying"], ant:["favorable","positive","helpful","beneficial"],
+    ex:"The football match was canceled because of {adverse} weather.",
+    ctx:"The new medicine had no **adverse** effects on the patients.", m:"harmful", cp:"a",
+    sp:["played well despite **unfavorable** conditions","a"], an:["a **favorable** review of the movie","a"],
+    use:["The adverse weather forced the pilot to land early.","We had an adverse time at the party and laughed all night.","Mom gave me an adverse hug because she loves me."], sh:"neg"},
+  arid:{pos:"adjective", p:"a", say:"AR-id",
+    kid:"Arid means extremely dry, with almost no rain, like a desert. It can also describe something dull and boring, like an arid speech.",
+    def:"(adj.) extremely dry; uninteresting, dull",
+    trick:"ARID = A Really Incredibly Dry place.",
+    short:"extremely dry (or dull)", syn:["waterless","parched","boring","unimaginative"], ant:["waterlogged","soggy","fertile","lush"],
+    ex:"Camels are well suited to life in {arid} deserts.",
+    ctx:"The speech was so **arid** that half the audience fell asleep.", m:"dull and boring", cp:"a",
+    sp:["a **parched** valley with no river","a"], an:["a **lush**, rainy forest","a"],
+    use:["Cactus plants can survive in arid deserts.","The towel was so arid that water dripped from it.","The rain forest is arid and full of frogs."]},
+  assailant:{pos:"noun", p:"n", say:"uh-SAY-lunt",
+    kid:"An assailant is a person who attacks someone, with blows or even with mean words.",
+    def:"(n.) a person who attacks violently (with blows or words)",
+    trick:"To ASSAIL means to attack. Picture a pirate who SAILS in to attack: an as-SAIL-ant!",
+    short:"a person who attacks", syn:["assaulter","mugger"], ant:["victim","prey"],
+    ex:"Police quickly caught the {assailant} who had attacked the shopkeeper.",
+    ctx:"The brave cat chased away its **assailant**, a much larger dog.", m:"an attacker", cp:"n",
+    sp:["the **attacker** ran down the alley","n"], an:["helped the **victim** of the attack","n"],
+    use:["Police are searching for the assailant who attacked the store owner.","The assailant kindly helped the old man cross the street.","My assailant baked me a birthday cake."], sh:"neg"},
+  billow:{pos:"noun · verb", p:"nv", say:"BIL-oh",
+    kid:"A billow is a big, rolling wave. To billow means to swell and puff out like a wave, the way sails, flags, or smoke do in the wind.",
+    def:"(n.) a large wave; (v.) to rise or swell like a wave",
+    trick:"BILLOW rhymes with PILLOW. Picture a big, puffy wave shaped like a pillow.",
+    short:"a big wave; to swell up like one", syn:["breaker","surge","bulge","balloon"], ant:["trough","deflate","collapse"],
+    ex:"On windy days, the walls of our tent {billow} like sails.",
+    ctx:"A huge **billow** lifted the little boat and carried it toward the shore.", m:"a large wave", cp:"n",
+    sp:["watched the curtains **swell** in the breeze","v"], an:["watched the balloon **deflate**","v"],
+    use:["Smoke began to billow from the chimney.","The heavy stone began to billow on the ground.","She billowed her homework neatly into her notebook."]},
+  confront:{pos:"verb", p:"v", say:"kun-FRUNT",
+    kid:"To confront is to face someone or something head-on, especially a challenge or a problem, instead of running away.",
+    def:"(v.) to meet face-to-face, especially as a challenge; come to grips with",
+    trick:"CON-FRONT: step to the FRONT and face it!",
+    short:"to face a challenge head-on", syn:["face","encounter"], ant:["avoid","evade","sidestep"],
+    ex:"It takes courage to {confront} a bully.",
+    ctx:"Scientists must **confront** the problem of plastic in the oceans.", m:"to face and deal with", cp:"v",
+    sp:["decided to **face** her fear of heights","v"], an:["tried to **avoid** the argument","v"],
+    use:["Hana decided to confront the problem instead of hiding from it.","He confronted his fear by running away and hiding.","To confront a test, you should forget all about it."]},
+  constrain:{pos:"verb", p:"v", say:"kun-STRAYN",
+    kid:"To constrain means to hold someone back or limit them. It can also mean to force someone to do something.",
+    def:"(v.) to force, compel; to restrain, hold back",
+    trick:"Hear the CHAIN in con-STRAIN? A chain holds you back, or pulls you where you don't want to go.",
+    short:"to hold back or force", syn:["pressure","confine","limit"], ant:["loosen","liberate","unfetter","relax"],
+    ex:"Our small budget {constrained} our plans for the party.",
+    ctx:"The heavy rain **constrained** us to stay indoors all day.", m:"to force", cp:"v",
+    sp:["felt **held back** in the tiny apartment","v"], an:["hopes to **release** the bird soon","v"],
+    use:["The small cage constrained the bird, so it couldn't fly.","The wide open field constrained the horses to run freely.","We constrained the balloon by letting it float away."]},
+  contemporary:{pos:"adjective · noun", p:"an", say:"kun-TEM-puh-rair-ee",
+    kid:"Contemporary means from the same time, or modern (from today). A contemporary is a person who lives at the same time as someone else.",
+    def:"(adj.) belonging to the same period of time as oneself; (n.) a person of the same time",
+    trick:"CON (with) + TEMPOR (time): WITH the same TIME. Your classmates are your contemporaries!",
+    short:"modern; from the same time", syn:["present-day","modern","current","peer"], ant:["ancient","prehistoric","antique","antiquated"],
+    ex:"The museum opened a new hall for {contemporary} art made in the last ten years.",
+    ctx:"My grandfather was a **contemporary** of the famous poet; they went to school together.", m:"a person of the same time", cp:"n",
+    sp:["loves **modern** furniture","a"], an:["an **ancient** temple","a"],
+    use:["The museum's new room shows contemporary art made this year.","Dinosaurs are contemporary animals that live in my garden.","The contemporary pyramids were built thousands of years ago."], sh:"neu"},
+  depict:{pos:"verb", p:"v", say:"dih-PIKT",
+    kid:"To depict is to show something in a picture, or to describe it in words so people can \"see\" it.",
+    def:"(v.) to portray; to represent or show in the form of a picture",
+    trick:"de-PICT: make a PICTure of it.",
+    short:"to show in a picture or in words", syn:["sketch","draw","picture","illustrate"], ant:[],
+    ex:"The mural on the school wall {depicts} the history of Jeddah.",
+    ctx:"This book **depicts** life in a small fishing village.", m:"to describe or show", cp:"v",
+    sp:["**illustrated** the story with bright drawings","v"], an:null,
+    use:["The mural depicts the history of our town.","She depicted her lunch because she was hungry.","The runner depicted the race by crossing the finish line first."], sh:"neu"},
+  disinterested:{pos:"adjective", p:"a", say:"dis-IN-truh-stid",
+    kid:"Disinterested means fair: you don't take sides because you won't gain anything either way. A good referee is disinterested. (It can also mean \"not caring,\" but in this unit it mostly means fair.)",
+    def:"(adj.) fair-minded, free from selfish motives; indifferent",
+    trick:"DIS-INTEREST-ed: you have no interest (no prize) in who wins, so you can be fair, like a referee.",
+    short:"fair; not taking sides", syn:["impartial","unbiased","apathetic"], ant:["partial","biased","prejudiced"],
+    ex:"A {disinterested} referee doesn't care which team wins; he only wants a fair game.",
+    ctx:"We asked a **disinterested** person to settle the argument.", m:"fair; not taking sides", cp:"a",
+    sp:["a **neutral** referee","a"], an:["a **biased** judge","a"],
+    use:["We asked a disinterested teacher to judge the contest fairly.","The disinterested coach always helped his own son win.","She was so disinterested that she cheated to get the prize for her team."]},
+  encompass:{pos:"verb", p:"v", say:"en-KUM-puhs",
+    kid:"To encompass means to go all the way around something, or to include many things inside one group.",
+    def:"(v.) to encircle, go or reach around; to enclose; to include with a certain group or class",
+    trick:"A COMPASS (the math tool) draws a circle. To en-COMPASS is to draw a circle around things and include them all.",
+    short:"to surround or include", syn:["surround","envelop","comprise"], ant:["leave out","omit","exclude"],
+    ex:"The national park {encompasses} mountains, lakes, and forests.",
+    ctx:"Thick stone walls **encompass** the old city.", m:"to surround", cp:"v",
+    sp:["a tall fence **surrounds** the farm","v"], an:["decided to **exclude** the new students","v"],
+    use:["The fence encompasses the whole farm.","He encompassed the ball by kicking it far away.","The party encompassed nobody, so everyone was invited."], sh:"neu"},
+  groundless:{pos:"adjective", p:"a", say:"GROUND-lis",
+    kid:"Groundless means having no good reason behind it. A groundless fear or rumor has nothing real to stand on.",
+    def:"(adj.) without any good reason or cause, unjustified",
+    trick:"GROUND-LESS: no ground to stand on. A groundless idea falls down because nothing holds it up.",
+    short:"with no good reason", syn:["baseless","unsupported"], ant:["well-founded","reasonable","justified"],
+    ex:"The rumor that school would close for a month turned out to be {groundless}.",
+    ctx:"Her fear of the dark was **groundless**: nothing was hiding under the bed.", m:"without good reason", cp:"a",
+    sp:["a **baseless** accusation","a"], an:["a **well-founded** worry","a"],
+    use:["The rumor that school was canceled turned out to be groundless.","Her fear of the storm was groundless, because the storm really did flood her street.","The groundless tree grew deep roots into the soil."]},
+  hypocrite:{pos:"noun", p:"n", say:"HIP-uh-krit",
+    kid:"A hypocrite pretends to be better than they really are. They say one thing but do the opposite: a two-faced person.",
+    def:"(n.) a person who pretends to be what he or she is not or better than he or she really is; a two-faced person",
+    trick:"A hypo-CRIT-e is a CRITic of others who does the very same thing. \"Never eat candy!\" …then eats candy.",
+    short:"a two-faced person who pretends", syn:["phony","charlatan","fraud"], ant:[],
+    ex:"He tells everyone to recycle but throws bottles in the trash. What a {hypocrite}!",
+    ctx:"The candidate was called a **hypocrite** for breaking the very promises he made.", m:"a person who pretends to be better than he is", cp:"n",
+    sp:["exposed the **fraud** who pretended to be honest","n"], an:null,
+    use:["He's a hypocrite: he tells us to recycle but throws bottles in the trash.","She's a hypocrite because she always keeps her promises.","The hypocrite always did exactly what he told others to do."], sh:"neg"},
+  incomprehensible:{pos:"adjective", p:"a", say:"in-kom-prih-HEN-suh-bul",
+    kid:"Incomprehensible means impossible to understand, like a message full of static or a riddle with no answer.",
+    def:"(adj.) impossible to understand",
+    trick:"IN (not) + COMPREHEND (understand) + IBLE (able) = NOT able to be understood.",
+    short:"impossible to understand", syn:["baffling","confusing","bewildering"], ant:["understandable","plain","intelligible"],
+    ex:"The instructions were printed so small that they were {incomprehensible}.",
+    ctx:"The doctor's handwriting was completely **incomprehensible**.", m:"impossible to understand", cp:"a",
+    sp:["a **baffling** message","a"], an:["rules that are perfectly **clear**","a"],
+    use:["The note was so messy that it was incomprehensible.","The teacher's clear, simple answer was incomprehensible, so we all understood it.","I read the incomprehensible sign easily and followed it."]},
+  manipulate:{pos:"verb", p:"v", say:"muh-NIP-yuh-layt",
+    kid:"To manipulate is to handle or control something skillfully with your hands. It can also mean to control people or facts in a sneaky way to get what you want.",
+    def:"(v.) to handle or use skillfully; to manage or control for personal gain or advantage",
+    trick:"MANI means hand (as in MANIcure). Manipulate = work it with your hands, like a puppet master pulling strings.",
+    short:"to handle skillfully or control", syn:["work","maneuver","exploit","influence"], ant:[],
+    ex:"Surgeons use robot arms to {manipulate} tiny instruments.",
+    ctx:"The bully tried to **manipulate** the younger kids into doing his chores.", m:"to control in a sneaky way", cp:"v",
+    sp:["skillfully **handled** the puppet's strings","v"], an:null,
+    use:["The surgeon can manipulate tiny tools with great skill.","To manipulate a book, you just look at its cover from far away.","The statue manipulated the wind by standing still."]},
+  maximum:{pos:"noun · adjective", p:"na", say:"MAK-suh-mum",
+    kid:"The maximum is the most: the highest amount that is possible or allowed.",
+    def:"(n.) the greatest possible amount or degree; (adj.) reaching the greatest possible amount or degree",
+    trick:"MAXimum = MAX! Think of the volume turned all the way up.",
+    short:"the greatest amount possible", syn:["highest","utmost"], ant:["least","minimum","lowest","smallest"],
+    ex:"A soccer team may have a {maximum} of eleven players on the field.",
+    ctx:"Set the oven to its **maximum** temperature.", m:"highest possible", cp:"a",
+    sp:["drove at the **greatest possible** speed","a"], an:["drove at the **minimum** speed","a"],
+    use:["The maximum score on this test is 100.","I ate the maximum amount of vegetables: just one tiny pea.","The maximum speed is the slowest you are allowed to drive."]},
+  mimic:{pos:"noun · verb", p:"nv", say:"MIM-ik",
+    kid:"To mimic is to copy how someone talks or acts, sometimes to make fun of them. A mimic is a person (or animal) who does imitations.",
+    def:"(n.) a person who does imitations; (v.) to imitate; to make fun of",
+    trick:"Parrots are champion MIMICS. They copy every sound they hear.",
+    short:"to copy someone; a copycat", syn:["copycat","impersonator","parrot","impersonate"], ant:[],
+    ex:"Parrots can {mimic} the sound of a ringing phone.",
+    ctx:"The comedian is a talented **mimic** who copies famous voices.", m:"a person who imitates others", cp:"n",
+    sp:["can **imitate** her teacher's voice perfectly","v"], an:null,
+    use:["My little brother likes to mimic the way our dad sneezes.","She mimicked the song by writing a brand-new one nobody had heard.","A good mimic never copies anyone."]},
+  ruffle:{pos:"verb · noun", p:"vn", say:"RUF-ul",
+    kid:"To ruffle is to mess up something smooth (like hair, feathers, or water), or to annoy someone. A ruffle is also a frilly edge on clothes or a pillow.",
+    def:"(v.) to wrinkle, make uneven; to annoy, upset; to flip through; (n.) material used for trimming edges; a ripple; a low drumbeat",
+    trick:"RUFFLE a bird's smooth feathers and it gets upset. Ruffle = mess up something smooth AND annoy someone.",
+    short:"to mess up something smooth; to annoy", syn:["disturb","frill"], ant:["smooth out","soothe"],
+    ex:"Grandma likes to {ruffle} my hair when she says hello.",
+    ctx:"Nothing seems to **ruffle** our calm, patient principal.", m:"to upset", cp:"v",
+    sp:["a light wind began to **disturb** the calm pond","v"], an:["tried to **smooth out** the wrinkled sheet","v"],
+    use:["Grandma likes to ruffle my hair when she says hello.","He ruffled the sheet until it was perfectly smooth and flat.","The ruffled lake was completely still, like glass."]},
+  serene:{pos:"adjective", p:"a", say:"suh-REEN",
+    kid:"Serene means very calm and peaceful: no storm outside and no worry inside.",
+    def:"(adj.) peaceful, calm; free of emotional upset; clear and free of storm; majestic, grand",
+    trick:"SERENE sounds a bit like \"sea scene.\" Picture a calm, quiet sea at sunset.",
+    short:"calm and peaceful", syn:["composed","fair","august"], ant:["agitated","troubled","inclement"],
+    ex:"The lake was {serene} at sunrise, without a single ripple.",
+    ctx:"Even during the storm, the captain's face stayed **serene**.", m:"calm and peaceful", cp:"a",
+    sp:["a **tranquil** garden","a"], an:["a **stormy** sea","a"],
+    use:["The serene lake was perfectly still at sunrise.","The serene crowd screamed and pushed at the gates.","The storm made the sea serene with huge crashing waves."], sh:"pos"},
+  sheepish:{pos:"adjective", p:"a", say:"SHEEP-ish",
+    kid:"Sheepish means embarrassed and a little shy, usually because you did something silly, like a shy sheep.",
+    def:"(adj.) embarrassed; resembling a sheep in meekness, timid",
+    trick:"SHEEP-ish: picture a shy sheep with red cheeks after a silly mistake.",
+    short:"embarrassed and shy", syn:["shamefaced","meek"], ant:["bold","saucy","brazen"],
+    ex:"Caught eating the last cookie, Ali gave a {sheepish} smile.",
+    ctx:"Yusuf looked **sheepish** when he noticed he had worn odd socks to school.", m:"embarrassed", cp:"a",
+    sp:["a **shamefaced** apology","a"], an:["a **bold**, confident speaker","a"],
+    use:["Caught eating the last cookie, Ali gave a sheepish smile.","The sheepish lion roared bravely at the whole crowd.","Feeling sheepish, she proudly shouted her name to everyone."]},
+  stamina:{pos:"noun", p:"n", say:"STAM-uh-nuh",
+    kid:"Stamina is the strength to keep going for a long time without giving up, in your body or in your mind.",
+    def:"(n.) the strength needed to keep going or overcome physical or mental strain; staying power",
+    trick:"STAMINA sounds like STAY-mina. It is your STAYING power.",
+    short:"staying power; strength to keep going", syn:["endurance"], ant:[],
+    ex:"Swimming every day helps you build {stamina}.",
+    ctx:"Long-distance runners need great **stamina**.", m:"the strength to keep going", cp:"n",
+    sp:["had the **endurance** to finish the marathon","n"], an:null,
+    use:["Swimming every day built up her stamina for the long race.","He had so much stamina that he got tired after one minute.","The stamina of the rock made it crumble easily."], sh:"pos"}
+};
+
+const UNIT3_WORDS = {
+  barrage:{pos:"noun · verb", p:"nv", say:"buh-RAHZH",
+    kid:"A barrage is a huge burst of things coming at you all at once, like a barrage of questions, phone calls, or snowballs.",
+    def:"(n.) a heavy, rapid outpouring of something (gunfire, questions, complaints); (v.) to hit with such an outpouring",
+    trick:"BARRAGE sounds like GARAGE: picture a garage door opening and a barrage of soccer balls pouring out.",
+    short:"a heavy flood of things all at once", syn:["bombardment","flood","shower","stream"], ant:["trickle"],
+    ex:"The new student faced a {barrage} of questions on his first day.",
+    ctx:"The goalkeeper stopped a **barrage** of shots in the final minutes.", m:"a heavy, rapid stream", cp:"n",
+    sp:["a **flood** of angry phone calls","n"], an:["only a **trickle** of visitors came","n"],
+    use:["The singer faced a barrage of questions from reporters.","A barrage of one single raindrop fell on the window.","She took a calm, slow barrage through the quiet park."]},
+  bigot:{pos:"noun", p:"n", say:"BIG-ut",
+    kid:"A bigot is a person who unfairly dislikes people who are different, for example because of where they come from, their religion, or their opinions, and won't listen to other views.",
+    def:"(n.) a person who is unfairly intolerant of people of other races, religions, or opinions",
+    trick:"A BIG-ot has a BIG closed mind: no new ideas can get in.",
+    short:"a narrow-minded, prejudiced person", syn:["fanatic","zealot"], ant:[],
+    ex:"Only a {bigot} would refuse to sit next to someone because of where he comes from.",
+    ctx:"The villain of the story is a **bigot** who mocks anyone from another country.", m:"an intolerant, prejudiced person", cp:"n",
+    sp:["refused to listen to the **prejudiced person**","n"], an:null,
+    use:["The bigot refused to listen to anyone whose opinion was different from his.","My grandmother is a bigot: she welcomes and respects everyone.","A bigot is a large bag for carrying groceries."], sh:"neg"},
+  designate:{pos:"verb · adjective", p:"va", say:"DEZ-ig-nayt",
+    kid:"To designate is to choose or name someone or something for a special job or purpose, or to mark or point something out.",
+    def:"(v.) to point out or mark; to name or appoint for a job or purpose; (adj.) chosen for a post but not yet in it",
+    trick:"Hidden inside de-SIGN-ate is SIGN. A sign designates (marks) a spot: \"Parking for teachers only.\"",
+    short:"to name or choose for a purpose", syn:["name","appoint","choose","indicate"], ant:[],
+    ex:"The teacher {designated} Ali as team captain for the science fair.",
+    ctx:"The yellow lines **designate** where buses may stop.", m:"to mark or point out", cp:"v",
+    sp:["**appointed** a new class leader","v"], an:null,
+    use:["The coach designated Salem as goalkeeper for the match.","The flowers designated in the hot sun and turned brown.","We designated the whole pizza in five minutes."], sh:"neu"},
+  diversity:{pos:"noun", p:"n", say:"dih-VUR-suh-tee",
+    kid:"Diversity means variety: lots of different kinds of people, ideas, or things together.",
+    def:"(n.) variety; the state of being different or made up of different kinds",
+    trick:"DIVERSITY rhymes with UNIVERSITY: a university is full of students from many different places.",
+    short:"variety; many different kinds", syn:["variety","range","mixture","assortment"], ant:["sameness","uniformity","similarity"],
+    ex:"Jeddah's markets show the {diversity} of foods from around the world.",
+    ctx:"The coral reef is home to a great **diversity** of fish.", m:"variety", cp:"n",
+    sp:["a wide **variety** of colorful birds","n"], an:["the boring **sameness** of every house on the street","n"],
+    use:["The class has great diversity: students come from many different countries.","Every flower in the field was exactly the same, so the field had great diversity.","He took a diversity to the beach to swim."]},
+  enigma:{pos:"noun", p:"n", say:"ih-NIG-muh",
+    kid:"An enigma is a mystery or a puzzle: something or someone very hard to understand or explain.",
+    def:"(n.) a mystery, riddle, or puzzle; a person or thing that is hard to understand",
+    trick:"In World War II, a secret code machine was called ENIGMA because its messages were a mystery to enemies.",
+    short:"a mystery or puzzle", syn:["mystery","puzzle","riddle"], ant:[],
+    ex:"How the ancient builders moved such heavy stones is still an {enigma}.",
+    ctx:"The quiet new neighbor was an **enigma** to everyone on our street.", m:"a mystery", cp:"n",
+    sp:["solved the **mystery** of the missing cookies","n"], an:null,
+    use:["Why the dinosaurs died out was an enigma for a long time.","The answer was so obvious that it was a real enigma to everyone.","She ate an enigma for breakfast."]},
+  gloat:{pos:"verb", p:"v", say:"GLOHT",
+    kid:"To gloat is to show off and feel too pleased about your own success, or about someone else's bad luck.",
+    def:"(v.) to show selfish or mean pleasure in one's own success or in another's bad luck",
+    trick:"GLOAT rhymes with GOAT: picture a goat dancing around the losers, shouting \"I won, you lost!\"",
+    short:"to show off meanly about winning", syn:["brag","crow","boast"], ant:[],
+    ex:"A good sport doesn't {gloat} after winning a game.",
+    ctx:"The champion **gloated** over his rival's mistake.", m:"to take mean pleasure in", cp:"v",
+    sp:["**bragged** meanly about beating his little brother","v"], an:null,
+    use:["The rude winner gloated over the losing team.","A kind winner gloats by shaking hands and saying, \"Good game.\"","The boat gloated gently on the lake."], sh:"neg"},
+  global:{pos:"adjective", p:"a", say:"GLOH-bul",
+    kid:"Global means having to do with the whole world. It can also mean complete, covering everything.",
+    def:"(adj.) having to do with the whole world, worldwide; complete, total",
+    trick:"GLOBAL comes from GLOBE, the round model of the Earth. Global = the whole globe.",
+    short:"worldwide", syn:["worldwide","international","universal"], ant:["local","national","regional"],
+    ex:"Climate change is a {global} problem that affects every country.",
+    ctx:"The internet has made **global** friendships possible.", m:"worldwide", cp:"a",
+    sp:["a **worldwide** shortage of computer chips","a"], an:["a **local** soccer club","a"],
+    use:["The internet connects people in a global network.","The global park is only the size of our backyard.","My global pencil is very short."], sh:"neu"},
+  illusion:{pos:"noun", p:"n", say:"ih-LOO-zhun",
+    kid:"An illusion is something that tricks your eyes or your mind: it seems real, but it is not. It can also be a false idea.",
+    def:"(n.) something that seems real but is not; a false idea or belief",
+    trick:"Magicians perform ILLUSIONS: tricks that fool your eyes.",
+    short:"a false idea or trick of the eye", syn:["mirage","delusion","fantasy"], ant:["reality","fact","truth"],
+    ex:"Mirrors in the small room gave the {illusion} of a much bigger space.",
+    ctx:"He had the **illusion** that he could finish the whole project in one night.", m:"a false belief", cp:"n",
+    sp:["saw the **mirage** of water on the hot road","n"], an:["faced the hard **reality** of the situation","n"],
+    use:["The magician's floating card was only an illusion.","The illusion was a real, solid wall that everyone could touch.","We built an illusion out of bricks and cement."]},
+  infuriate:{pos:"verb", p:"v", say:"in-FYOOR-ee-ayt",
+    kid:"To infuriate is to make someone extremely angry: much stronger than just annoying them.",
+    def:"(v.) to make extremely angry, to enrage",
+    trick:"in-FURI-ate has FURY hiding inside. Fury = wild anger.",
+    short:"to make very angry", syn:["enrage","anger","madden","outrage"], ant:["calm","soothe","please"],
+    ex:"Cheating in a game always {infuriates} my little brother.",
+    ctx:"The unfair penalty **infuriated** the fans.", m:"to make very angry", cp:"v",
+    sp:["the unfair rule **enraged** the players","v"], an:["tried to **calm** the angry customer","v"],
+    use:["The unfair referee infuriated the fans.","The lovely surprise party infuriated her with joy.","A cool breeze infuriated us and helped us relax."], sh:"neg"},
+  motivate:{pos:"verb", p:"v", say:"MOH-tuh-vayt",
+    kid:"To motivate is to give someone a reason or the energy to do something: to make them want to try.",
+    def:"(v.) to give someone a reason to act; to stir to action",
+    trick:"MOTIV-ate: give someone a MOTIVE (a reason) to MOVE. Coaches motivate players.",
+    short:"to give a reason to act", syn:["inspire","encourage","drive","spur"], ant:["discourage","deter"],
+    ex:"Our coach knows how to {motivate} the team when we are losing.",
+    ctx:"The chance to win a trip **motivated** Omar to read thirty books.", m:"to give a reason to act", cp:"v",
+    sp:["the speech **inspired** us to help others","v"], an:["the bad weather **discouraged** the runners","v"],
+    use:["The promise of a trip to the beach motivated the kids to finish their chores.","The lazy cat motivated all day on the sofa.","We motivated the cake into six pieces."], sh:"pos"},
+  pacifist:{pos:"noun", p:"n", say:"PAS-uh-fist",
+    kid:"A pacifist is a person who believes problems should be solved peacefully and refuses to fight or support war.",
+    def:"(n.) a person who is against war and violence and refuses to fight",
+    trick:"PACIFIST starts like PACIFIC, the ocean whose name means \"peaceful.\" A pacifist wants peace.",
+    short:"a person who is against fighting and war", syn:["peacemaker","peace lover"], ant:["warmonger","fighter"],
+    ex:"As a {pacifist}, she believed every argument could be settled by talking.",
+    ctx:"The **pacifist** spoke out against the war at every meeting.", m:"a person who opposes war", cp:"n",
+    sp:["a **peace lover** who never fought","n"], an:["the **warmonger** wanted to start a battle","n"],
+    use:["As a pacifist, he refused to join the army.","The pacifist started a fight in the playground.","A pacifist is a tool for opening cans."]},
+  queue:{pos:"noun · verb", p:"nv", say:"KYOO",
+    kid:"A queue is a line of people or cars waiting their turn. To queue (up) means to get in line.",
+    def:"(n.) a line of people or vehicles waiting their turn; (v.) to wait in such a line",
+    trick:"QUEUE is spelled Q-U-E-U-E: the letters U-E wait in line twice!",
+    short:"a waiting line", syn:["line","row","file"], ant:[],
+    ex:"We stood in a long {queue} to buy tickets for the match.",
+    ctx:"Cars formed a **queue** at the gas station.", m:"a waiting line", cp:"n",
+    sp:["joined the long **line** at the bakery","n"], an:null,
+    use:["We waited in a long queue to buy tickets.","The queue jumped into the pool and swam away.","I queued the soup with a big spoon."], sh:"neu"},
+  restrict:{pos:"verb", p:"v", say:"rih-STRIKT",
+    kid:"To restrict is to put a limit on something or keep it inside certain bounds.",
+    def:"(v.) to keep within limits; to confine",
+    trick:"re-STRICT: a STRICT rule keeps you within limits.",
+    short:"to keep within limits", syn:["limit","confine","control"], ant:["free","release","open up"],
+    ex:"The doctor told Dad to {restrict} the amount of sugar he eats.",
+    ctx:"Parking is **restricted** to teachers during school hours.", m:"to limit", cp:"v",
+    sp:["decided to **limit** screen time to one hour","v"], an:["decided to **free** the caged birds","v"],
+    use:["The doctor restricted my sugar to one treat a week.","The open gate restricted the horses, so they ran free across the fields.","She restricted the plants with water every morning."]},
+  sage:{pos:"adjective · noun", p:"an", say:"SAYJ",
+    kid:"Sage means wise. A sage is a very wise person whom others go to for advice.",
+    def:"(adj.) wise; showing good judgment; (n.) a very wise person",
+    trick:"SAGE rhymes with AGE: with age comes wisdom.",
+    short:"wise; a wise person", syn:["wise","sensible","scholar","philosopher"], ant:["foolish","silly","fool"],
+    ex:"My grandfather gave me {sage} advice: \"Listen more than you speak.\"",
+    ctx:"People traveled for days to ask the old **sage** for advice.", m:"a very wise person", cp:"n",
+    sp:["followed her mother's **wise** advice","a"], an:["made a **foolish** decision","a"],
+    use:["My grandfather's sage advice helped me make the right choice.","The sage old man gave foolish advice that caused trouble.","It was sage of him to touch the hot stove."], sh:"pos"},
+  slake:{pos:"verb", p:"v", say:"SLAYK",
+    kid:"To slake your thirst is to drink until you're not thirsty anymore. It means to satisfy a need.",
+    def:"(v.) to satisfy (thirst or a desire); to make less strong",
+    trick:"SLAKE sounds like LAKE: drink a whole lake to slake your thirst!",
+    short:"to satisfy (thirst)", syn:["quench","satisfy","relieve"], ant:[],
+    ex:"After the race, the runners {slaked} their thirst with cold water.",
+    ctx:"Nothing could **slake** her curiosity about the stars.", m:"to satisfy", cp:"v",
+    sp:["a cold drink to **quench** your thirst","v"], an:null,
+    use:["A glass of cold water slaked my thirst.","Eating a bag of salty chips slaked my thirst.","She slaked her hair with a comb."]},
+  terrain:{pos:"noun", p:"n", say:"tuh-RAYN",
+    kid:"Terrain means the land and what it is like: rocky, flat, sandy, hilly, or muddy.",
+    def:"(n.) an area of land and its physical features",
+    trick:"TERRAIN starts with TERRA, an old word for earth. Terrain = the shape of the earth's surface.",
+    short:"the land and its features", syn:["ground","landscape","land"], ant:[],
+    ex:"Off-road cars are built for rough {terrain} like rocks and sand dunes.",
+    ctx:"The **terrain** around Abha is green and mountainous.", m:"land and its features", cp:"n",
+    sp:["hiked across rocky **ground**","n"], an:null,
+    use:["The bikers rode across rocky terrain.","We ate terrain with rice for dinner.","The terrain sang a beautiful song."], sh:"neu"},
+  vocation:{pos:"noun", p:"n", say:"voh-KAY-shun",
+    kid:"A vocation is a job or career, especially one you feel you were born to do. (Don't mix it up with vacation!)",
+    def:"(n.) a job or profession; a strong feeling that one is called to a certain career",
+    trick:"VOC means voice or call, as in VOCal. A vocation is the job that \"calls\" to you.",
+    short:"a job or calling", syn:["career","profession","occupation","calling"], ant:[],
+    ex:"Helping sick children is my aunt's true {vocation}.",
+    ctx:"After years in banking, he found his true **vocation** as a teacher.", m:"a calling; a career", cp:"n",
+    sp:["chose medicine as her **career**","n"], an:null,
+    use:["Teaching was her true vocation; she loved every day in class.","We went on a two-week vocation to the beach.","He has a vocation stuck in his shoe."]},
+  vow:{pos:"noun · verb", p:"nv", say:"VOW",
+    kid:"A vow is a serious promise. To vow is to promise something very seriously.",
+    def:"(n.) a serious promise; (v.) to promise seriously",
+    trick:"VOW rhymes with NOW: \"I'll keep my promise from NOW on. That's my vow!\"",
+    short:"a serious promise; to promise", syn:["promise","pledge","oath","swear"], ant:[],
+    ex:"The new scouts made a {vow} to help others.",
+    ctx:"Khalid **vowed** to study harder after his poor grade.", m:"to promise seriously", cp:"v",
+    sp:["made a **solemn promise** to tell the truth","n"], an:null,
+    use:["The knight made a vow to protect the village.","She vowed her soup with a spoon.","A vow is a kind of bird that lives in the desert."]},
+  waylay:{pos:"verb", p:"v", say:"WAY-lay",
+    kid:"To waylay is to wait for someone and then attack or stop them on their way. Today people also use it for being stopped and delayed on your way somewhere.",
+    def:"(v.) to wait for and attack (an ambush); to stop someone unexpectedly on the way",
+    trick:"WAY + LAY: robbers LAY in wait along the WAY.",
+    short:"to ambush; to stop someone on the way", syn:["ambush","attack","intercept","delay"], ant:[],
+    ex:"Long ago, robbers {waylaid} travelers on the lonely mountain road.",
+    ctx:"My neighbor **waylaid** me on my way home to show me her new kitten.", m:"to stop someone on the way", cp:"v",
+    sp:["bandits **ambushed** the caravan","v"], an:null,
+    use:["Bandits waylaid the travelers on the mountain road.","We waylaid on the beach and took a nap.","The teacher waylaid the homework to the class by e-mail."], sh:"neg"},
+  wither:{pos:"verb", p:"v", say:"WITH-ur",
+    kid:"To wither is to dry up and shrink, the way a flower droops and shrivels without water.",
+    def:"(v.) to dry up and shrivel; to lose freshness or strength; to make someone feel ashamed",
+    trick:"WITHER sounds like WEATHER: hot, dry weather makes plants wither.",
+    short:"to dry up and shrivel", syn:["shrivel","wilt","droop","fade"], ant:["bloom","flourish","thrive","revive"],
+    ex:"Without rain, the crops began to {wither} in the fields.",
+    ctx:"The roses **withered** after a week in the vase.", m:"to dry up and droop", cp:"v",
+    sp:["the flowers began to **wilt** in the heat","v"], an:["the garden began to **bloom** in spring","v"],
+    use:["Without water, the flowers withered.","The rain made the flowers wither into big, fresh blooms.","He withered the ball into the basket."], sh:"neg"}
+};
+const WORDS = Object.assign({}, UNIT1_WORDS, UNIT2_WORDS, UNIT3_WORDS);
+
+/* Word pairs that are too close in meaning to be each other's wrong answers */
+const CLASH = [["constrain","restrict"],["constrain","compress"],["compress","restrict"],["constrain","motivate"],["constrain","manipulate"],
+  ["irk","infuriate"],["irk","ruffle"],["infuriate","ruffle"],["encompass","besiege"],["besiege","waylay"],["besiege","barrage"],
+  ["immense","maximum"],["ingenious","sage"],["disinterested","sage"],["denounce","libel"],["recede","wither"],["designate","restrict"],
+  ["arid","incomprehensible"],["global","contemporary"],["billow","barrage"],["oaf","assailant"],["oaf","inept"],["douse","slake"],
+  ["confront","besiege"],["confront","waylay"],["encompass","restrict"],["encompass","constrain"],["designate","depict"],
+  ["barrage","diversity"],["bigot","hypocrite"],["illusion","misgiving"]];
+
+/* ---------- STORIES (Story Time, like the review's Vocabulary for Comprehension) ---------- */
+const PASSAGES = [
+  {title:"The Desert Kitchen", paras:[
+    "Our family drove two hours from Jeddah to camp in the desert. By the time we unloaded the car, my little brother announced that he was **famished**, even though he had eaten three sandwiches on the road.",
+    "Dad had **expressly** told us to pack warm **apparel**, because desert nights can be surprisingly cold. Of course, my brother had packed only T-shirts.",
+    "My cousin Faisal built an **ingenious** stove from a few flat stones and an old metal tray. Within minutes, it was hot enough to cook on.",
+    "Mom cooked rice, chicken, and vegetables, and we sat on a rug on the sand to enjoy our **repast** under the stars.",
+    "Before bed, Dad **doused** the fire with water. As the last orange glow **receded**, the sky filled with more stars than I had ever seen."]},
+  {title:"The Dune Race", paras:[
+    "Every winter, runners from many countries gather for a race across the **arid** dunes of the Empty Quarter, where rain may not fall for years.",
+    "The race tests every runner's **stamina**. Some must stop after a few hours, while others keep going until sunset.",
+    "This year, **adverse** winds made the race even harder. Sand **billowed** across the course and hid the trail markers.",
+    "One runner, Noura, decided to **confront** the sandstorm instead of waiting it out. She tied a scarf over her face and kept walking.",
+    "When she finally crossed the finish line, she gave a **sheepish** smile, because she had taken a wrong turn and finished last. Still, the crowd cheered louder for her than for anyone else.",
+    "That night, the desert was **serene**. The wind had stopped, and the runners rested under a quiet, clear sky."]},
+  {title:"The Old Map", paras:[
+    "For years, the old map in my grandfather's cupboard was an **enigma**. Nobody knew who had drawn it or what its strange symbols meant.",
+    "The map showed rough **terrain**: steep mountains, dry riverbeds, and one narrow path through the rocks.",
+    "Grandfather told us that, long ago, robbers used to **waylay** travelers on that path, so merchants crossed the mountains together in large caravans.",
+    "My sister and I made a **vow** to find out where the map came from. We visited the library and asked a **sage** old librarian for help.",
+    "In the end, we learned that the \"secret symbols\" were only an **illusion**. They were simple marks for wells that time had smudged into strange shapes.",
+    "Today the map hangs in a museum about trade. It shows the **diversity** of goods that passed through Arabia, from Indian spices to African gold, on routes that joined three continents into one great **global** network."]}
+];
+/* [unit index, paragraph, word, question, options (first one is right)] */
+const COMP = [
+  [0,0,"famished","As it is used in the story, **famished** most nearly means",["very hungry","very tired","very bored","very cold"]],
+  [0,1,"expressly","Dad **expressly** told them to pack warm clothes. Expressly most nearly means",["clearly and directly","quietly and secretly","by mistake","in a joking way"]],
+  [0,1,"apparel","In the story, **apparel** means",["clothing","food","tools","books"]],
+  [0,2,"ingenious","Faisal's **ingenious** stove was",["cleverly made","old and broken","very heavy","dangerous to use"]],
+  [0,3,"repast","The family's **repast** under the stars was a",["meal","song","nap","game"]],
+  [0,4,"douse","When Dad **doused** the fire, he",["put it out","made it bigger","moved it","took a photo of it"]],
+  [0,4,"recede","As the glow **receded**, it",["faded away","grew brighter","spread quickly","turned blue"]],
+  [1,0,"arid","The **arid** dunes are",["very dry","very cold","very green","very crowded"]],
+  [1,1,"stamina","In the story, **stamina** means",["the strength to keep going","a fast start","a good map","a loud cheer"]],
+  [1,2,"adverse","**Adverse** winds are winds that",["work against you","help you along","feel warm","make music"]],
+  [1,2,"billow","When the sand **billowed**, it",["rose and rolled like waves","sank into the ground","sparkled in the sun","turned into mud"]],
+  [1,3,"confront","Noura decided to **confront** the sandstorm. She chose to",["face it head-on","run away from it","complain about it","film it"]],
+  [1,4,"sheepish","Noura's **sheepish** smile showed that she felt",["embarrassed","proud","angry","sleepy"]],
+  [1,5,"serene","A **serene** desert night is",["calm and peaceful","loud and windy","cold and scary","busy and crowded"]],
+  [2,0,"enigma","The map was an **enigma**, which means it was a",["mystery","treasure","painting","mistake"]],
+  [2,1,"terrain","The **terrain** on the map was the",["land and its features","weather","city streets","kinds of animals"]],
+  [2,2,"waylay","Robbers used to **waylay** travelers. They would",["ambush them","guide them","welcome them","feed them"]],
+  [2,3,"vow","In the story, a **vow** is a",["serious promise","quick guess","funny joke","loud complaint"]],
+  [2,3,"sage","A **sage** librarian is",["wise","grumpy","forgetful","shy"]],
+  [2,4,"illusion","The \"secret symbols\" were an **illusion**. They",["only seemed to be something they were not","were written in a lost language","were drawn by a famous artist","showed where gold was buried"]],
+  [2,5,"diversity","The **diversity** of goods means their",["variety","weight","price","danger"]],
+  [2,5,"global","A **global** network of routes is",["worldwide","secret","dangerous","short"]]
+];
+
+/* ---------- TWO-WORD COMPLETIONS: [unit index, sentence, options (first one is right), words] ---------- */
+const TWO = [
+  [0,"The hikers were ___ after the long climb, so they sat down to a hearty ___ at the lodge.",["famished / repast","inept / libel","immense / oaf","gainful / misgiving"],["famished","repast"]],
+  [0,"The fire station ___ two trucks to the warehouse, and the firefighters quickly ___ the flames.",["dispatched / doused","compressed / irked","denounced / forsook","besieged / receded"],["dispatch","douse"]],
+  [0,"Engineers found a(n) ___ way to ___ the air so that more of it fits inside a small tank.",["ingenious / compress","inept / douse","famished / dispatch","instantaneous / forsake"],["ingenious","compress"]],
+  [0,"The newspaper's story was pure ___, so the mayor ___ it in a speech the next day.",["libel / denounced","apparel / dispatched","repast / doused","misgiving / compressed"],["libel","denounce"]],
+  [0,"I had ___ about moving to a new school, but my best friend promised he would never ___ me.",["misgivings / forsake","libels / compress","apparel / douse","oafs / dispatch"],["misgiving","forsake"]],
+  [0,"When the floodwaters began to ___, the town finally saw the ___ damage the storm had caused.",["recede / immense","irk / gainful","douse / famished","compress / ingenious"],["recede","immense"]],
+  [0,"It ___ my sister that the ___ waiter kept bringing her the wrong order.",["irked / inept","dispatched / immense","besieged / gainful","receded / famished"],["irk","inept"]],
+  [0,"Fans ___ the shop when it started selling team ___ at half price.",["besieged / apparel","receded / repast","compressed / libel","doused / misgiving"],["besiege","apparel"]],
+  [0,"A(n) ___ tripped over the cables, and the whole stage went dark in a(n) ___ flash.",["oaf / instantaneous","misgiving / gainful","repast / famished","libel / inept"],["oaf","instantaneous"]],
+  [1,"The explorers needed great ___ to cross the ___ desert, where it had not rained for years.",["stamina / arid","maximum / serene","billows / sheepish","assailant / contemporary"],["stamina","arid"]],
+  [1,"The police officer ___ the ___ and arrested him before he could run away.",["confronted / assailant","ruffled / stamina","encompassed / maximum","mimicked / billow"],["confront","assailant"]],
+  [1,"The rumor about the new teacher was ___, so the principal asked a(n) ___ person to look into the facts fairly.",["groundless / disinterested","serene / adverse","arid / sheepish","contemporary / incomprehensible"],["groundless","disinterested"]],
+  [1,"The painting ___ a(n) ___ lake at dawn, with no wind and no waves at all.",["depicts / serene","constrains / adverse","ruffles / arid","manipulates / sheepish"],["depict","serene"]],
+  [1,"Strong winds ___ the smooth surface of the water and made the sails ___.",["ruffled / billow","depicted / mimic","confronted / constrain","encompassed / manipulate"],["ruffle","billow"]],
+  [1,"Parrots can ___ human speech, but their words are often ___ to listeners.",["mimic / incomprehensible","confront / serene","constrain / maximum","billow / arid"],["mimic","incomprehensible"]],
+  [1,"The museum's collection ___ every period of art, from ancient pottery to ___ paintings made this year.",["encompasses / contemporary","depicts / groundless","constrains / sheepish","mimics / adverse"],["encompass","contemporary"]],
+  [1,"The ___ weather ___ us to stay inside for the whole weekend.",["adverse / constrained","serene / manipulated","groundless / encompassed","contemporary / ruffled"],["adverse","constrain"]],
+  [1,"Everyone laughed when the ___ claimed he never ate sweets, because his ___ smile and chocolate-covered fingers told the truth.",["hypocrite / sheepish","assailant / serene","mimic / arid","stamina / adverse"],["hypocrite","sheepish"]],
+  [1,"The pilot ___ the controls carefully to keep the plane below its ___ speed.",["manipulated / maximum","mimicked / stamina","depicted / assailant","confronted / billow"],["manipulate","maximum"]],
+  [2,"The ___ wanted the two countries to settle their argument by talking, not with a(n) ___ of missiles.",["pacifist / barrage","bigot / queue","sage / terrain","enigma / vocation"],["pacifist","barrage"]],
+  [2,"The new rule ___ who can use the gym after school, and it ___ many students.",["restricts / infuriates","designates / slakes","motivates / withers","gloats / vows"],["restrict","infuriate"]],
+  [2,"Thirsty hikers crossing the rocky ___ stopped at a spring to ___ their thirst.",["terrain / slake","queue / wither","vocation / restrict","diversity / gloat"],["terrain","slake"]],
+  [2,"The magician's trick was only a(n) ___, but how he did it remained a(n) ___ to the audience.",["illusion / enigma","vocation / queue","barrage / terrain","vow / diversity"],["illusion","enigma"]],
+  [2,"The coach ___ Salem as team captain, and Salem ___ never to let the team down.",["designated / vowed","waylaid / withered","slaked / gloated","restricted / infuriated"],["designate","vow"]],
+  [2,"Only a(n) ___ would mock people from other countries, and only a poor sport would ___ after winning.",["bigot / gloat","sage / wither","pacifist / slake","enigma / designate"],["bigot","gloat"]],
+  [2,"During the ___ heat wave, which hit dozens of countries at once, crops ___ in the fields.",["global / withered","sage / vowed","pacifist / slaked","queue / designated"],["global","wither"]],
+  [2,"Fans formed a long ___ outside the stadium, but a traffic jam ___ the team bus on its way.",["queue / waylaid","terrain / motivated","vocation / designated","barrage / slaked"],["queue","waylay"]],
+  [2,"Her love of animals ___ her to choose veterinary medicine as her ___.",["motivated / vocation","restricted / terrain","waylaid / queue","infuriated / illusion"],["motivate","vocation"]],
+  [2,"The ___ old teacher said that the ___ of her students, who came from twenty countries, made the class stronger.",["sage / diversity","global / barrage","pacifist / queue","bigot / vow"],["sage","diversity"]]
+];
+
+/* ---------- WORD FAMILIES: word → [sentence, options (first one is right)] ---------- */
+const FAMILY = {
+  compress:["Divers' air tanks hold air under high ___.",["compression","compresses","compressed"]],
+  denounce:["The newspaper printed a strong ___ of the unfair rule.",["denunciation","denounced","denounces"]],
+  dispatch:["The ___ answered the emergency call and sent an ambulance.",["dispatcher","dispatched","dispatches"]],
+  expressly:["The poet chose her words carefully to ___ her feelings.",["express","expressly","expressive"]],
+  forsake:["The ___ house had broken windows and a garden full of weeds.",["forsaken","forsakes","forsake"]],
+  gainful:["My uncle has been ___ employed at the factory for ten years.",["gainfully","gainful","gains"]],
+  immense:["We enjoyed the trip ___ and want to go again.",["immensely","immense","immensity"]],
+  inept:["The team's ___ in the second half cost them the match.",["ineptitude","inept","ineptly"]],
+  ingenious:["The judges praised the ___ of the students' robot.",["ingenuity","ingenious","ingeniously"]],
+  instantaneous:["The video loaded almost ___, without any waiting.",["instantaneously","instantaneous"]],
+  irk:["This ___ buzzing sound is driving me crazy!",["irksome","irks","irked"]],
+  libel:["The judge ordered the website to remove the ___ article.",["libelous","libels","libeling"]],
+  oaf:["His ___ behavior at the dinner table embarrassed the whole family.",["oafish","oafs","oaf"]],
+  recede:["The slow ___ of the floodwater left mud everywhere.",["recession","recedes","receded"]],
+  adverse:["She stayed hopeful even in times of great ___.",["adversity","adverse","adversely"]],
+  arid:["The ___ of the region makes farming very difficult.",["aridity","arid"]],
+  assailant:["Critics began to ___ the new law as soon as it was announced.",["assail","assailant","assailants"]],
+  billow:["She wore a long, ___ dress that floated in the wind.",["billowy","billows","billow"]],
+  confront:["The ___ between the two teams in the final was exciting to watch.",["confrontation","confronted","confronts"]],
+  constrain:["Time is a big ___ when you take a test.",["constraint","constrained","constrains"]],
+  depict:["The artist's ___ of the old port was very realistic.",["depiction","depicted","depicts"]],
+  hypocrite:["Her ___ was clear when she broke the rule she had made herself.",["hypocrisy","hypocritical","hypocrites"]],
+  incomprehensible:["Read the story carefully, then answer the reading ___ questions.",["comprehension","comprehend","incomprehensible"]],
+  manipulate:["The video was fake: a clever ___ of real footage.",["manipulation","manipulated","manipulates"]],
+  maximum:["To ___ your score, answer the easy questions first.",["maximize","maximum","maximal"]],
+  mimic:["Some insects use ___ to look like leaves and hide from birds.",["mimicry","mimicked","mimic"]],
+  serene:["The ___ of the mountain village helped us relax.",["serenity","serene","serenely"]],
+  sheepish:["Fahad smiled ___ when he dropped his tray in the cafeteria.",["sheepishly","sheepish"]],
+  bigot:["He made a ___ remark about people from other countries.",["bigoted","bigotry","bigots"]],
+  designate:["The forest received its official ___ as a protected area last year.",["designation","designated","designates"]],
+  diversity:["Our class is very ___: students come from twelve different countries.",["diverse","diversity","diversify"]],
+  enigma:["The Mona Lisa is famous for her ___ smile.",["enigmatic","enigma","enigmas"]],
+  global:["The company sells its products ___, in more than ninety countries.",["globally","global","globe"]],
+  illusion:["The ___ bowed after making a coin vanish from his hand.",["illusionist","illusion","illusory"]],
+  infuriate:["It was ___ to lose the game in the very last second.",["infuriating","infuriated","infuriates"]],
+  motivate:["Praise from her teacher gave Huda the ___ to keep practicing.",["motivation","motivated","motivates"]],
+  pacifist:["Gandhi was famous for his ___ and his belief in peaceful protest.",["pacifism","pacifists","pacify"]],
+  restrict:["There is a ___ on how many books you can borrow at one time.",["restriction","restricted","restricts"]],
+  sage:["The teacher nodded ___ and said, \"Patience solves many problems.\"",["sagely","sage","sages"]],
+  vocation:["My brother is training to be an electrician at a ___ school.",["vocational","vocation","vocations"]],
+  wither:["The coach gave the lazy player a ___ look.",["withering","withers","wither"]]
+};
+
+const ROUNDS = [
+  {key:"comp", name:"Story Time", how:"Read part of a story, then pick what the bold word means.", from:"Like the review's Vocabulary for Comprehension (pp. 42–43)"},
+  {key:"two", name:"Double Trouble", how:"Pick the pair of words that completes the sentence.", from:"Like the review's Two-Word Completions (p. 44)"},
+  {key:"meaning", name:"Right Meaning", how:"Pick the meaning of the bold word in the sentence.", from:"Word meanings, as on the unit tests"},
+  {key:"syn", name:"Twin Words", how:"Tap the unit word that means the SAME as the bold words.", from:"Synonyms, as on the unit tests"},
+  {key:"ant", name:"Opposite Day", how:"Tap the unit word that means the OPPOSITE of the bold words.", from:"Antonyms, as on the unit tests"},
+  {key:"use", name:"Use It Right", how:"Only one sentence uses the word correctly. Find it!", from:"Using words in sentences, as on the unit tests"},
+  {key:"shade", name:"Shades of Meaning", how:"Does the word give a positive, a negative, or a neutral feeling?", from:"Like the review's Denotation and Connotation (pp. 47–48)"},
+  {key:"build", name:"Word Builder", how:"Pick the right form of the word, then type missing words. Spelling counts!", from:"Word families and a spelling check"}
+];
+const ROUND_OF = {comp:0, two:1, meaning:2, syn:3, ant:4, use:5, shade:6, family:7, type:7};
+const HOW = {comp:"Read this part of the story, then answer.", two:"Pick the pair of words that best completes the sentence.",
+  meaning:"What does the bold word mean in this sentence?", syn:"Which unit word means the SAME as the bold words?",
+  ant:"Which unit word means the OPPOSITE of the bold words?", use:"Only one sentence uses the word the right way. Find it!",
+  shade:"Words carry feelings: positive (good), negative (bad), or neutral (neither). Think about the word itself.",
+  family:"Pick the form of the word that fits the sentence.", type:"Type the missing word. Spelling counts!"};
+const SHADE_OPTS = ["Positive (a good feeling)","Negative (a bad feeling)","Neutral (neither good nor bad)"];
+const SHADE_KEYS = ["pos","neg","neu"];
+const SK = [["comp","Reading in context (stories)"],["two","Two-word completions"],["meaning","Choosing the right meaning"],["syn","Synonyms"],["ant","Antonyms"],
+  ["use","Using words correctly"],["shade","Shades of meaning"],["family","Word families"],["type","Writing the word"],["spell","Spelling"]];
+const SKILL_TIPS = {
+  comp:"In Story Time, read the whole paragraph, not just the bold word. Then try each answer in place of the word and pick the one that keeps the sentence's meaning.",
+  two:"For Double Trouble, test the first blank and cross out every pair that doesn't fit it. Then check the second blank with the pairs that are left.",
+  meaning:"For Right Meaning, cover the answers, say what you think the word means in that sentence, then find the answer closest to your guess.",
+  syn:"For Twin Words, say the bold words in your own words first, then find the unit word that means the same thing.",
+  ant:"For Opposite Day, first think of a word that means the SAME as the bold words, then flip it. Example: stormy → calm → serene is the opposite of stormy.",
+  use:"For Use It Right, ask: does the sentence still make sense if I swap in the word's meaning? \"Vocation\" = job, so \"a two-week job to the beach\" is wrong.",
+  shade:"For Shades of Meaning, ask: would I like someone to use this word about me? Yes = positive, no = negative, it's just a fact = neutral.",
+  family:"For Word Families, look at the word before the blank: after \"a\" or \"the\" you usually need a noun; before a noun you need an adjective; after \"to\" you need a verb.",
+  type:"For typed answers, read the sentence twice and ask: is the missing word a person or thing, an action, or a describing word?",
+  spell:"Break long words into chunks and spell one chunk at a time: in-stan-ta-ne-ous. Say it, cover it, write it, check it."
+};
+
+/* ---------- ICONS ---------- */
+const INK = "#14163A";
+const UNIT_ICONS = {
+  tent:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 27 L16 5 L29 27 Z" fill="#fff" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/><path d="M12 27 L16 16 L20 27 Z" fill="'+INK+'"/></svg>',
+  dune:'<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="23" cy="9" r="4" fill="#FFD23F" stroke="'+INK+'" stroke-width="2"/><path d="M2 26 Q9 13 17 20 Q23 14 30 24 V28 H2 Z" fill="#fff" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/></svg>',
+  map:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 7 L11 4 L21 7 L29 4 V25 L21 28 L11 25 L3 28 Z" fill="#fff" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/><path d="M11 4 V25 M21 7 V28" stroke="'+INK+'" stroke-width="2"/><path d="M14 13 l4 4 M18 13 l-4 4" stroke="#E23D45" stroke-width="2.6" stroke-linecap="round"/></svg>',
+  castle:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 28 V11 h4 v4 h4 v-4 h6 v4 h4 v-4 h4 v17 z" fill="#FFD23F" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M13 28 v-6 a3 3 0 0 1 6 0 v6" fill="'+INK+'"/></svg>'
+};
+const STAR = on => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="' + (on ? "#FFD23F" : "#fff") + '" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/></svg>';
+const ICON_SOUND = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9q2 3 0 6M18.5 6.5q4 5.5 0 11" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+const ICON_MUTE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#fff" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+
+/* ---------- CORE HELPERS ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const reduceMotion = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+const U_OF = {}; UNITS.forEach((u, i) => u.words.forEach(w => { U_OF[w] = i; }));
+const ALL = UNITS.flatMap(u => u.words);
+const pctOf = (a, b) => b ? Math.round(a / b * 100) : 0;
+const fmtDate = t => { try { return new Date(t).toLocaleString("en-GB", {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"}); } catch (e) { return ""; } };
+const bold = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+const strip = s => String(s).replace(/\*\*/g, "");
+const withBlank = (s, inner) => esc(s).replace("___", inner || '<span class="blank">?</span>');
+const twoBlanks = s => esc(s).split("___").join('<span class="blank">?</span>');
+const exForm = w => WORDS[w].ex.match(/\{([^}]+)\}/)[1];
+const exFilled = w => esc(WORDS[w].ex).replace(/\{([^}]+)\}/, "<b>$1</b>");
+const norm = s => String(s || "").toLowerCase().replace(/[^a-z]/g, "");
+const clash = (a, b) => CLASH.some(([x, y]) => (x === a && y === b) || (x === b && y === a));
+function lev(a, b){
+  const m = a.length, n = b.length; if (!m) return n; if (!n) return m;
+  let prev = Array.from({length: n + 1}, (_, j) => j);
+  for (let i = 1; i <= m; i++){
+    const cur = [i];
+    for (let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+    prev = cur;
+  }
+  return prev[n];
+}
+
+/* ---------- SAVED PROGRESS (this device only) ---------- */
+const KEY = "reviewquest-sadlier-a-units1-3-v1";
+const fresh = () => ({xp:0, seen:{}, known:{}, units:{}, mastery:{}, attempts:[], run:null, sound:true});
+let S = (() => { try { const raw = localStorage.getItem(KEY); if (raw) return Object.assign(fresh(), JSON.parse(raw)); } catch (e) {} return fresh(); })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+/* ---------- SOUND (tiny synth, no files) ---------- */
+const Sound = {
+  ctx:null,
+  get(){ try { if (!this.ctx){ const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; this.ctx = new AC(); }
+    if (this.ctx.state === "suspended") this.ctx.resume(); return this.ctx; } catch (e) { return null; } },
+  tone(f, at, dur, type, vol){ const c = this.get(); if (!c) return; try {
+    const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + at;
+    o.type = type || "triangle"; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05); } catch (e) {} },
+  good(){ if (!S.sound) return; this.tone(660, 0, .15); this.tone(990, .1, .25); },
+  bad(){ if (!S.sound) return; this.tone(196, 0, .28, "square", .05); this.tone(147, .12, .3, "square", .05); },
+  win(){ if (!S.sound) return; [523, 659, 784, 1047].forEach((f, i) => this.tone(f, i * .11, .3)); },
+  tap(){ if (!S.sound) return; this.tone(520, 0, .06, "sine", .05); }
+};
+
+/* ---------- SPEECH ---------- */
+const canSpeak = "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
+function speak(text){
+  if (!canSpeak) return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = .88;
+    const vs = speechSynthesis.getVoices().filter(v => /^en[-_]/i.test(v.lang));
+    const v = vs.find(v => /en[-_]US/i.test(v.lang)) || vs[0]; if (v) u.voice = v;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+/* ---------- CONFETTI ---------- */
+const FX = (() => {
+  const cv = $("#fx"), ctx = cv && cv.getContext ? cv.getContext("2d") : null;
+  let parts = [], raf = 0;
+  const COLS = ["#FFD23F","#2F7DE1","#F39200","#9A4FE0","#119C77","#E23F66"];
+  function size(){ if (!cv) return; const d = window.devicePixelRatio || 1; cv.width = innerWidth * d; cv.height = innerHeight * d; }
+  size(); addEventListener("resize", size);
+  function tick(){
+    const d = window.devicePixelRatio || 1;
+    ctx.setTransform(d, 0, 0, d, 0, 0); ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => p.life < p.max);
+    parts.forEach(p => {
+      p.life++; p.vy += .25; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      ctx.save(); ctx.globalAlpha = Math.max(0, 1 - p.life / p.max); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.c;
+      if (p.sq) ctx.fillRect(-p.r/2, -p.r/4, p.r, p.r/2); else { ctx.beginPath(); ctx.arc(0, 0, p.r/2.6, 0, Math.PI*2); ctx.fill(); }
+      ctx.restore();
+    });
+    raf = parts.length ? requestAnimationFrame(tick) : 0;
+  }
+  function burstAt(x, y, n){
+    if (reduceMotion || !ctx) return;
+    for (let i = 0; i < (n || 36); i++){ const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
+      parts.push({x, y, vx:Math.cos(a)*v, vy:Math.sin(a)*v - 4, r:5 + Math.random()*6, rot:Math.random()*6, vr:(Math.random()-.5)*.4, c:COLS[i % COLS.length], life:0, max:55 + Math.random()*40, sq:Math.random() < .55}); }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function burstEl(el, n){ if (!el) return; const r = el.getBoundingClientRect(); burstAt(r.left + r.width/2, r.top + r.height/2, n); }
+  function party(){ for (let k = 0; k < 5; k++) setTimeout(() => burstAt(innerWidth * (.15 + Math.random()*.7), innerHeight * (.2 + Math.random()*.25), 40), k * 170); }
+  return {burstEl, party};
+})();
+
+function floatXP(el, text){
+  if (!el || reduceMotion) return;
+  const r = el.getBoundingClientRect(), f = document.createElement("div");
+  f.className = "xp-float"; f.textContent = text; f.style.left = (r.left + r.width/2) + "px"; f.style.top = (r.top - 6) + "px";
+  document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
+}
+function addXP(n, el){
+  S.xp += n; save();
+  const v = $("#xpVal"); if (v) v.textContent = S.xp;
+  const box = $("#xpBox"); if (box){ box.classList.remove("bump"); void box.offsetWidth; box.classList.add("bump"); }
+  if (el) floatXP(el, "+" + n);
+}
+function announce(t){ const l = $("#live"); if (l) l.textContent = t; }
+
+/* ---------- SCREENS ---------- */
+const SCREENS = ["home", "word", "cards", "test", "report"];
+let current = "home";
+function show(name){
+  SCREENS.forEach(s => { const el = $("#scr-" + s); el.hidden = s !== name; });
+  const el = $("#scr-" + name); el.classList.remove("screen"); void el.offsetWidth; el.classList.add("screen");
+  current = name; window.scrollTo(0, 0);
+  if (canSpeak) try { speechSynthesis.cancel(); } catch (e) {}
+}
+function renderSoundBtn(){
+  const b = $("#soundBtn"); b.innerHTML = S.sound ? ICON_SOUND : ICON_MUTE;
+  b.setAttribute("aria-label", S.sound ? "Turn sound off" : "Turn sound on");
+}
+
+/* ---------- QUESTION BANK → objects ---------- */
+const POOL = {comp:[], two:[], meaning:[], syn:[], ant:[], use:[], shade:[], family:[], type:[]};
+COMP.forEach((r, i) => POOL.comp.push({id:"p" + i, type:"comp", u:r[0], ws:[r[2]], para:r[1], prompt:r[3], opts:r[4], ans:0}));
+TWO.forEach((r, i) => POOL.two.push({id:"d" + i, type:"two", u:r[0], ws:r[3], prompt:r[1], opts:r[2], ans:0}));
+ALL.forEach(w => {
+  const W = WORDS[w], u = U_OF[w];
+  POOL.meaning.push({id:"m-" + w, type:"meaning", u, ws:[w], prompt:W.ctx, m:W.m, cp:W.cp, md:W.md || null});
+  if (W.sp) POOL.syn.push({id:"s-" + w, type:"syn", u, ws:[w], prompt:W.sp[0], pos:W.sp[1]});
+  if (W.an) POOL.ant.push({id:"a-" + w, type:"ant", u, ws:[w], prompt:W.an[0], pos:W.an[1]});
+  POOL.use.push({id:"u-" + w, type:"use", u, ws:[w], sents:W.use});
+  if (W.sh) POOL.shade.push({id:"h-" + w, type:"shade", u, ws:[w], prompt:W.ctx, cat:W.sh});
+  if (FAMILY[w]) POOL.family.push({id:"f-" + w, type:"family", u, ws:[w], prompt:FAMILY[w][0], opts:FAMILY[w][1], ans:0});
+  const form = exForm(w);
+  POOL.type.push({id:"t-" + w, type:"type", u, ws:[w], prompt:W.ex.replace(/\{[^}]+\}/, "___"), answer:form, accept:form === w ? [w] : [form, w]});
+});
+
+/* wrong answers: same part of speech first, never a word too close in meaning */
+function fairWrong(word, posCode, scope, n){
+  const pool = scope.filter(w => w !== word && !clash(w, word));
+  const same = shuffle(pool.filter(w => WORDS[w].p.includes(posCode)));
+  const rest = shuffle(pool.filter(w => !same.includes(w)));
+  return same.concat(rest).slice(0, n);
+}
+/* make a playable copy: shuffles options; synonym/antonym wrong answers come from the words in scope
+   (one unit for a warm-up), meaning wrong answers from all 60 words */
+function inst(q, scope){
+  const o = Object.assign({}, q), w = q.ws[0];
+  if (q.type === "syn" || q.type === "ant"){
+    o.opts = shuffle([w].concat(fairWrong(w, q.pos, scope, 3))); o.ans = o.opts.indexOf(w);
+  } else if (q.type === "meaning"){
+    const wrong = q.md ? q.md.slice() : fairWrong(w, q.cp, ALL, 3).map(x => WORDS[x].short);
+    o.opts = shuffle([q.m].concat(wrong.filter(x => x !== q.m))); o.ans = o.opts.indexOf(q.m);
+  } else if (q.type === "use"){
+    const mixed = shuffle(q.sents.map((s, i) => ({s, ok:i === 0})));
+    o.opts = mixed.map(x => x.s); o.ans = mixed.findIndex(x => x.ok); delete o.sents;
+  } else if (q.type === "shade"){
+    o.opts = SHADE_OPTS.slice(); o.ans = SHADE_KEYS.indexOf(q.cat);
+  } else if (q.opts){
+    const right = q.opts[q.ans]; o.opts = shuffle(q.opts.slice()); o.ans = o.opts.indexOf(right);
+  }
+  delete o.md; delete o.cp; delete o.m;
+  o.round = ROUND_OF[q.type];
+  return o;
+}
+function correctText(q){ return q.type === "type" ? q.answer : q.opts[q.ans]; }
+function plainPrompt(q){
+  const w = q.ws[0];
+  if (q.type === "use") return "Which sentence uses \"" + w + "\" correctly?";
+  if (q.type === "shade") return "Does \"" + w + "\" give a positive, negative, or neutral feeling?";
+  if (q.type === "meaning") return "Meaning of the bold word: " + strip(q.prompt);
+  if (q.type === "syn") return "Same as: " + strip(q.prompt);
+  if (q.type === "ant") return "Opposite of: " + strip(q.prompt);
+  if (q.type === "comp") return PASSAGES[q.u].title + ": " + strip(q.prompt);
+  return strip(q.prompt);
+}
+
+/* pick n questions, preferring words (and units) that have been asked the least */
+function pickBalanced(pool, n, cov, ucov){
+  const items = shuffle(pool.slice()), out = [];
+  for (let k = 0; k < n && items.length; k++){
+    let best = 0, score = Infinity;
+    items.forEach((it, i) => { const s = it.ws.reduce((a, w) => a + (cov[w] || 0), 0) * 10 + (ucov ? ucov[it.u] * 4 : 0); if (s < score){ score = s; best = i; } });
+    const it = items.splice(best, 1)[0]; out.push(it); it.ws.forEach(w => { cov[w] = (cov[w] || 0) + 1; }); if (ucov) ucov[it.u]++;
+  }
+  return out;
+}
+function pickShades(pool, n, cov, ucov){
+  const cats = shuffle(SHADE_KEYS.slice()), out = [];
+  for (let k = 0; k < n; k++){
+    const left = pool.filter(q => !out.includes(q)), inCat = left.filter(q => q.cat === cats[k % 3]);
+    out.push(...pickBalanced(inCat.length ? inCat : left, 1, cov, ucov));
+  }
+  return out;
+}
+const FINAL_PLAN = [["comp",6],["two",5],["meaning",4],["syn",6],["ant",6],["use",5],["shade",3],["family",2],["type",3]];
+const WARM_PLAN = [["comp",2],["two",1],["meaning",1],["syn",2],["ant",2],["use",2],["shade",1],["family",1],["type",1]];
+const FINAL_N = FINAL_PLAN.reduce((s, x) => s + x[1], 0), WARM_N = WARM_PLAN.reduce((s, x) => s + x[1], 0);
+function buildFinal(){
+  const cov = {}, ucov = [0, 0, 0];
+  const qs = FINAL_PLAN.flatMap(([p, n]) => { const got = p === "shade" ? pickShades(POOL.shade, n, cov, ucov) : pickBalanced(POOL[p], n, cov, ucov); return p === "family" || p === "type" ? got : shuffle(got); });
+  return qs.map(q => inst(q, ALL));
+}
+function buildWarm(u){
+  const scope = UNITS[u].words, cov = {};
+  const qs = WARM_PLAN.flatMap(([p, n]) => { const inU = POOL[p].filter(q => q.u === u); return p === "shade" ? pickShades(inU, n, cov, null) : pickBalanced(inU, n, cov, null); });
+  return qs.map(q => inst(q, scope));
+}
+function buildPractice(words, spellWords){
+  const qs = [];
+  words.forEach(w => {
+    const picked = [], types = new Set();
+    if ((spellWords || []).includes(w)){ const t = POOL.type.find(q => q.ws[0] === w); if (t){ picked.push(t); types.add("type"); } }
+    const avail = shuffle(["syn", "ant", "use", "meaning", "type", "family", "comp", "two"].flatMap(p => POOL[p].filter(q => q.ws.includes(w))));
+    for (const q of avail){ if (picked.length >= 2) break; if (!types.has(q.type) && !qs.includes(q)){ picked.push(q); types.add(q.type); } }
+    picked.forEach(q => qs.push(q));
+  });
+  return shuffle(qs).slice(0, 16).sort((a, b) => ROUND_OF[a.type] - ROUND_OF[b.type]).map(q => inst(q, ALL));
+}
+
+/* ---------- HOME ---------- */
+function lastFinal(){ for (let i = S.attempts.length - 1; i >= 0; i--) if (S.attempts[i].kind === "final") return S.attempts[i]; return null; }
+function weakWords(att){ return att ? ALL.filter(w => att.words[w] && (att.words[w].bad || att.words[w].slip)) : []; }
+function spellSlips(att){ return att ? att.res.filter(r => r.slip).map(r => ({w:r.ws[0], g:r.g, c:r.c})) : []; }
+const levelOf = (a, t) => { const p = pctOf(a, t); return p >= 85 ? "good" : p >= 60 ? "mid" : "low"; };
+function unitStatus(i){ const f = lastFinal(); if (!f) return null; const [a, t] = f.byU[i]; return t ? levelOf(a, t) : null; }
+const knownIn = u => UNITS[u].words.filter(w => S.known[w]).length;
+
+function renderHome(){
+  const won = UNITS.filter((u, i) => (S.units[i] || {}).stars).length;
+  const known = ALL.filter(w => S.known[w]).length;
+  const finals = S.attempts.filter(a => a.kind === "final");
+  const best = finals.reduce((m, a) => Math.max(m, a.pct), 0);
+  const f = lastFinal();
+  let h = `<div class="panel hero">
+    <div><h1>Hey <span>champ!</span></h1>
+      <p>Units 1, 2 and 3 are back for review: 60 words in all, ready for the class review on book pages 42–49. Flip the flashcards, win a warm-up for each unit, then take the Final Review. At the end you'll see exactly which words to practice.</p></div>
+    <div class="stats">
+      <div class="stat"><b>${won}/3</b><span>Warm-ups won</span></div>
+      <div class="stat"><b>${known}/60</b><span>Cards known</span></div>
+      <div class="stat"><b>${finals.length ? best + "%" : "–"}</b><span>Best final</span></div>
+    </div></div>`;
+  if (S.run){
+    const R = S.run, what = R.kind === "final" ? "Final Review" : R.kind === "warm" ? UNITS[R.u].name + " warm-up" : "practice round";
+    h += `<div class="panel banner"><p><b>Your ${what} is waiting.</b> You stopped at question ${Math.min(R.res.length + 1, R.qs.length)} of ${R.qs.length}.</p>
+      <div class="row"><button class="btn btn-go" data-act="resume">Continue</button><button class="btn btn-sm" data-act="discard">Start over</button></div></div>`;
+  } else if (f){
+    const weak = f.byU.map(([a, t], i) => ({i, t, a})).filter(x => x.t && levelOf(x.a, x.t) !== "good");
+    h += `<div class="panel banner ${weak.length ? "alert" : ""}"><p><b>Last Final Review: ${f.pct}%.</b> ${weak.length ? "Units to look at again: " + weak.map(x => UNITS[x.i].name).join(", ") + "." : "No weak units. Great work!"}</p>
+      <div class="row"><button class="btn btn-sm" data-act="report" data-id="${f.id}">See my report</button>${weakWords(f).length ? `<button class="btn btn-sm btn-go" data-act="practice" data-id="${f.id}">Practice weak words</button>` : ""}</div></div>`;
+  }
+  h += `<div class="sec-title"><h2>Three Units</h2><p>Flip the 20 flashcards, then win the warm-up (${WARM_N} questions).</p></div><div class="units">`;
+  UNITS.forEach((U, i) => {
+    const Us = S.units[i] || {}, st = unitStatus(i), k = knownIn(i);
+    const sticker = st === "low" ? '<span class="sticker">Review me!</span>' : st === "mid" ? '<span class="sticker">Almost!</span>' : st === "good" ? '<span class="sticker ok">Mastered</span>' : "";
+    h += `<div class="panel unit-card u-${U.key}">${sticker}
+      <div class="unit-head"><div class="badge">${UNIT_ICONS[U.icon]}</div><div><div class="land-num">20 words · Story: ${esc(U.story)}</div><h3>${U.name}</h3></div></div>
+      <div class="pills">${U.words.map(w => `<span class="pill">${w}</span>`).join("")}</div>
+      <div class="unit-meta"><div class="stars" role="img" aria-label="${Us.stars || 0} of 3 stars">${[1, 2, 3].map(n => STAR((Us.stars || 0) >= n)).join("")}</div>
+        <span class="progress-note">${k}/20 cards known${Us.best ? " · best warm-up " + Us.best + "%" : ""}</span></div>
+      <div class="unit-btns"><button class="btn btn-sm" data-act="cards" data-u="${i}">Flashcards</button>
+        <button class="btn btn-sm ${Us.stars ? "" : "btn-go"}" data-act="warm" data-u="${i}">${Us.stars ? "Warm-up again" : "Warm-up"}</button>
+        <button class="btn btn-sm" data-act="word" data-w="${U.words[0]}">Word cards</button></div></div>`;
+  });
+  h += `</div>
+    <div class="panel final"><div class="badge">${UNIT_ICONS.castle}</div>
+      <div><div class="land-num">The boss level</div><h3>Final Review</h3>
+      <p>${FINAL_N} questions in 8 rounds from all three units: stories and two-word completions like pages 42–44, plus the unit-test favorites (meanings, synonyms, antonyms, and using words in sentences), shades of meaning, word families, and spelling. It shows your weak spots at the end.</p></div>
+      <div class="row">${S.run && S.run.kind === "final" ? `<button class="btn btn-ink" data-act="resume">Continue the Final Review</button>` : `<button class="btn btn-ink" data-act="final">Start the Final Review</button>`}${f ? `<button class="btn btn-sm" data-act="report" data-id="${f.id}">Last report</button>` : ""}</div></div>
+    <div class="sec-title"><h2>Word Bank</h2><p>Tap any word to open its card.</p></div>`;
+  UNITS.forEach(U => {
+    h += `<div class="bank-head u-${U.key}"><i aria-hidden="true"></i><h3>${U.name}</h3></div><div class="bank">`;
+    U.words.forEach(w => { const m = S.mastery[w]; h += `<button class="tile u-${U.key}" data-act="word" data-w="${w}"><b>${w}</b><span>${WORDS[w].pos}</span><i class="${m ? m.last : ""}" aria-hidden="true"></i></button>`; });
+    h += `</div>`;
+  });
+  h += `<div class="legend"><span><i style="background:var(--good)"></i>Right last time</span><span><i style="background:var(--sun)"></i>Spelling slip</span><span><i style="background:var(--bad)"></i>Needs practice</span><span><i style="background:var(--paper)"></i>Not tested yet</span></div>`;
+  $("#scr-home").innerHTML = h;
+}
+
+/* ---------- WORD CARDS ---------- */
+let WV = {w:null, from:"home"};
+function openWord(w, from){ WV = {w, from:from || "home"}; renderWord(); show("word"); }
+function renderWord(){
+  const w = WV.w, W = WORDS[w], ui = U_OF[w], U = UNITS[ui], list = U.words, i = list.indexOf(w), sec = $("#scr-word");
+  S.seen[w] = true; save();
+  sec.className = "screen u-" + U.key;
+  const back = WV.from === "report" ? '<button class="btn btn-sm" data-act="backreport">← My report</button>'
+    : WV.from === "cards" ? '<button class="btn btn-sm" data-act="cardsback">← Flashcards</button>' : '<button class="btn btn-sm" data-act="home">← Home</button>';
+  const letters = w.split("").map((ch, k) => `<span class="l" style="animation-delay:${k * 40}ms">${ch}</span>`).join("");
+  const say = W.say.split("-").map(p => /[A-Z]/.test(p) ? `<em>${p}</em>` : p).join("-");
+  const fam = FAMILY[w] ? FAMILY[w][1].filter(x => x !== w) : [];
+  const prev = list[(i + list.length - 1) % list.length], next = list[(i + 1) % list.length];
+  sec.innerHTML = `<div class="lesson-top">${back}<span class="chip-land">${U.name}</span><span class="counter">Word ${i + 1} of 20</span></div>
+  <article class="panel card">
+    <div class="word-head"><h2 class="word-title${w.length > 11 ? " long" : ""}" aria-label="${w}">${letters}</h2>
+      <div class="meta"><span class="pos">${W.pos}</span><span class="say">say it: ${say}</span>${canSpeak ? `<button class="btn btn-sm" data-act="say" data-t="${w}">${ICON_SOUND} Hear it</button>` : ""}</div></div>
+    <div class="info">
+      <div class="box"><h4>What it means</h4><p class="kid-def">${esc(W.kid)}</p><p class="book-def"><b>Full definition:</b> ${esc(W.def)}</p></div>
+      <div class="box trick"><h4>Memory trick</h4><p>${esc(W.trick)}</p></div>
+    </div>
+    <div class="box"><div class="row" style="justify-content:space-between;margin-bottom:4px"><h4 style="margin:0">Use it in a sentence (tap the blank)</h4>${canSpeak ? `<button class="btn btn-sm" data-act="saysent">${ICON_SOUND} Read to me</button>` : ""}</div>
+      <p class="sent">${esc(W.ex).replace(/\{([^}]+)\}/, '<button class="blank" data-act="fill" aria-label="Fill in the blank">tap me</button>')}</p></div>
+    <div class="two-col">
+      <div class="box"><h4>Twin words (synonyms)</h4>${W.syn.length ? `<div class="chips">${W.syn.map(s => `<span class="chip syn">${esc(s)}</span>`).join("")}</div>` : '<p class="none">No common synonyms.</p>'}</div>
+      <div class="box"><h4>Opposite words (antonyms)</h4>${W.ant.length ? `<div class="chips">${W.ant.map(s => `<span class="chip ant">${esc(s)}</span>`).join("")}</div>` : '<p class="none">No common antonyms.</p>'}</div>
+    </div>
+    ${fam.length ? `<div class="box"><h4>Word family</h4><div class="chips">${fam.map(s => `<span class="chip fam">${esc(s)}</span>`).join("")}</div></div>` : ""}
+    <div class="lesson-nav"><button class="btn" data-act="word" data-w="${prev}" data-from="${WV.from}">← ${prev}</button>
+      <button class="btn btn-go" data-act="word" data-w="${next}" data-from="${WV.from}">${next} →</button></div>
+  </article>`;
+}
+function fillBlank(btn){
+  const w = WV.w, span = document.createElement("span"); span.className = "blank filled"; span.textContent = exForm(w);
+  btn.replaceWith(span); Sound.tap(); speak(WORDS[w].ex.replace(/\{([^}]+)\}/, "$1"));
+}
+
+/* ---------- FLASHCARDS ---------- */
+let FC = null;
+function startCards(u, list){ FC = {u, list:list || UNITS[u].words.slice(), i:0, flip:false, got:[], miss:[]}; renderCards(false); show("cards"); }
+function renderCards(anim){
+  const sec = $("#scr-cards"), U = UNITS[FC.u], n = FC.list.length;
+  sec.className = "screen u-" + U.key;
+  const dots = `<div class="dots" aria-hidden="true">${FC.list.map((w, k) => `<i class="${FC.got.includes(w) && k < FC.i ? "ok" : FC.miss.includes(w) && k < FC.i ? "no" : k === FC.i ? "now" : ""}"></i>`).join("")}</div>`;
+  const top = `<div class="lesson-top"><button class="btn btn-sm" data-act="home">← Home</button><span class="chip-land">${U.name} Flashcards</span>${FC.i < n ? `<span class="counter">Card ${FC.i + 1} of ${n}</span>` : ""}</div>`;
+  if (FC.i >= n){
+    const got = FC.got.length;
+    sec.innerHTML = top + `<div class="panel q-card" style="text-align:center;margin-top:14px">
+      <div class="q-kicker">Deck finished</div><h2 style="font-size:clamp(40px,8vw,60px)">${got === n ? "ALL KNOWN!" : got + " OF " + n + " KNOWN"}</h2>
+      <p>${FC.miss.length ? "Flip the \"not yet\" cards again until they stick, then try the warm-up." : "Great memory! Now prove it in the warm-up."}</p>
+      ${FC.miss.length ? `<div class="word-chips" style="justify-content:center">${FC.miss.map(w => `<button class="wchip u-${U.key}" data-act="word" data-w="${w}" data-from="cards"><i></i>${w}</button>`).join("")}</div>` : ""}
+      <div class="row" style="justify-content:center">${FC.miss.length ? `<button class="btn btn-go" data-act="cardsmiss">Flip the ${FC.miss.length} "not yet" cards again</button>` : ""}
+        <button class="btn ${FC.miss.length ? "" : "btn-go"}" data-act="warm" data-u="${FC.u}">${U.name} warm-up →</button><button class="btn" data-act="home">Home</button></div></div>`;
+    return;
+  }
+  const w = FC.list[FC.i], W = WORDS[w];
+  const face = FC.flip
+    ? `<span class="tapnote">${w} · meaning</span><span class="fdef">${esc(W.short)}</span><span class="fex">${exFilled(w)}</span><span class="tapnote">Tap to flip back</span>`
+    : `<span class="tapnote">${esc(W.pos)}</span><span class="fw${w.length > 11 ? " long" : ""}">${w}</span><span class="tapnote">Tap to see the meaning</span>`;
+  sec.innerHTML = top + `<button class="panel flash ${FC.flip ? "back" : ""} ${anim ? "flip" : ""}" id="flashCard" data-act="flip" aria-label="${FC.flip ? "Meaning of " + w + ": " + esc(W.short) + ". Tap to flip back." : w + ". Tap to see the meaning."}">${face}</button>
+    <div class="flash-btns"><button class="btn" data-act="know" data-k="0">Not yet</button><button class="btn btn-go" data-act="know" data-k="1">Got it!</button></div>
+    <div class="row" style="margin-top:12px;justify-content:space-between">${canSpeak ? `<button class="btn btn-sm" data-act="say" data-t="${w}">${ICON_SOUND} Hear it</button>` : "<span></span>"}<button class="btn btn-sm" data-act="word" data-w="${w}" data-from="cards">Full word card</button></div>${dots}`;
+}
+function knowCard(k, btn){
+  if (!FC || FC.i >= FC.list.length) return;
+  const w = FC.list[FC.i];
+  S.known[w] = !!k; (k ? FC.got : FC.miss).push(w);
+  if (k){ Sound.good(); addXP(2, btn); } else Sound.tap();
+  save(); FC.i++; FC.flip = false; renderCards(false);
+  announce(k ? "Marked as known." : "Marked as not yet.");
+  const fc = $("#flashCard"); if (fc) try { fc.focus({preventScroll:true}); } catch (e) {}
+}
+
+/* ---------- WARM-UPS, FINAL REVIEW & PRACTICE ---------- */
+function startRun(kind, qs, u){
+  if (!qs.length) return;
+  S.run = {kind, u:u == null ? null : u, qs, i:0, res:[], at:Date.now(), splash:-1, locked:false};
+  save(); renderTest(); show("test"); focusQ();
+}
+function resumeRun(){
+  const R = S.run; if (!R) return;
+  R.locked = false; if (R.res.length > R.i) R.i = R.res.length; save();
+  if (R.i >= R.qs.length) finishRun(); else { renderTest(); show("test"); focusQ(); }
+}
+function focusQ(){ setTimeout(() => { const c = $("#scr-test .q-card"); if (c && !$("#typeIn")) try { c.focus({preventScroll:true}); } catch (e) {} }, 40); }
+function qBody(q){
+  const w = q.ws[0];
+  let h = `<p class="q-how">${HOW[q.type]}</p>`;
+  if (q.type === "comp"){ const P = PASSAGES[q.u]; h += `<blockquote class="quote u-${UNITS[q.u].key}">${bold(P.paras[q.para])}<cite>From the story "${esc(P.title)}"</cite></blockquote><p class="q-text">${bold(q.prompt)}…</p>`; }
+  else if (q.type === "two") h += `<p class="q-text">${twoBlanks(q.prompt)}</p>`;
+  else if (q.type === "meaning" || q.type === "syn" || q.type === "ant") h += `<p class="q-text">${bold(q.prompt)}</p>`;
+  else if (q.type === "shade") h += `<p class="q-text">${bold(q.prompt)}</p><p class="q-how">How does the word <b>${w}</b> feel?</p>`;
+  else if (q.type === "use") h += `<p class="q-text">Which sentence uses <b>${w}</b> correctly?</p>`;
+  else if (q.type === "family") h += `<p class="q-text">${withBlank(q.prompt)}</p><p class="q-how">Word family of <b>${w}</b></p>`;
+  else if (q.type === "type") h += `<p class="q-text">${withBlank(q.prompt, '<span class="blank">&nbsp;</span>')}</p>`;
+  if (q.type === "type"){
+    h += `<div class="type-row"><input id="typeIn" class="type-in" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="type the word" aria-label="Your answer"><button class="btn btn-go" data-act="tsubmit">Check</button></div>
+      <div class="hint"><span>Hint:</span><span class="hint-boxes" aria-hidden="true">${q.answer.split("").map((ch, k) => `<span class="hb">${k === 0 ? ch : ""}</span>`).join("")}</span><span>${q.answer.length} letters, starts with "${q.answer[0]}"</span></div>`;
+  } else {
+    h += `<div class="opts">${q.opts.map((o, k) => `<button class="opt" data-act="opt" data-i="${k}"><span class="k">${"ABCD"[k]}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
+  }
+  return h + '<div class="fb-slot"></div>';
+}
+function markOptions(scope, q, picked){
+  scope.querySelectorAll(".opt").forEach((b, i) => { b.disabled = true; b.classList.add(i === q.ans ? "right" : i === picked ? "wrong" : "dim"); });
+}
+function meaningsOf(q){
+  if (q.type === "shade"){ const w = q.ws[0]; return `<b>${w}</b> (${esc(WORDS[w].short)}) has a ${{pos:"positive", neg:"negative", neu:"neutral"}[q.cat]} feeling.`; }
+  return q.ws.map(w => `<b>${w}</b>: ${esc(WORDS[w].short)}.`).join("<br>");
+}
+function fbHTML(kind, q, extra, nextLabel){
+  const head = kind === "ok" ? pick(["YES!", "BOOM!", "NAILED IT!", "SUPER!"]) : "OOPS!";
+  const body = kind === "ok" ? meaningsOf(q) : `The answer is <b>${esc(correctText(q))}</b>.<br>${meaningsOf(q)}`;
+  return `<div class="fb ${kind}"><span class="burst">${head}</span><div class="fb-body">${body}${extra || ""}</div><div class="row"><button class="btn btn-go" data-act="tnext" id="nextQ">${nextLabel}</button></div></div>`;
+}
+function runTitle(R, q){
+  if (R.kind === "final") return "Round " + (q.round + 1) + ": " + ROUNDS[q.round].name;
+  if (R.kind === "warm") return UNITS[R.u].name + " Warm-up";
+  return "Weak Words Practice";
+}
+function renderTest(){
+  const R = S.run, sec = $("#scr-test");
+  if (!R){ renderHome(); show("home"); return; }
+  const q = R.qs[R.i], round = ROUNDS[q.round], n = R.qs.length;
+  sec.className = "screen" + (R.kind === "warm" ? " u-" + UNITS[R.u].key : "");
+  if (R.kind === "final" && R.splash !== q.round){
+    sec.innerHTML = `<div class="panel splash"><div class="round-no">Round ${q.round + 1} of ${ROUNDS.length}</div><div class="big">${round.name}</div>
+      <p>${esc(round.how)}</p><p class="none" style="color:var(--ink)">${esc(round.from)}</p><button class="btn btn-ink" data-act="go" id="goBtn">Go!</button></div>`;
+    setTimeout(() => { const g = $("#goBtn"); if (g) try { g.focus({preventScroll:true}); } catch (e) {} }, 40);
+    return;
+  }
+  sec.innerHTML = `<div class="test-top"><div class="row"><span class="round-name">${esc(runTitle(R, q))}</span><span class="counter">Question ${R.i + 1} of ${n}</span></div>
+      <div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${R.i}"><i style="width:${pctOf(R.i, n)}%"></i></div></div>
+    <div class="panel q-card" tabindex="-1" style="margin-top:14px">${R.kind === "final" ? "" : `<div class="q-kicker">${esc(round.name)}</div>`}${qBody(q)}</div>
+    <div class="row" style="margin-top:14px;justify-content:space-between"><button class="btn btn-sm" data-act="quit">Save &amp; exit</button><span class="none">Progress is saved on this device after every answer.</span></div>`;
+  if (q.type === "type"){
+    const inp = $("#typeIn");
+    inp.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); submitTyped(); } });
+    setTimeout(() => { try { inp.focus({preventScroll:true}); } catch (e) {} }, 60);
+  }
+}
+function record(q, ok, slip, given){
+  S.run.res.push({id:q.id, t:q.type, r:q.round, u:q.u, ws:q.ws, ok, slip, g:String(given || "").slice(0, 80), c:String(correctText(q)).slice(0, 160), p:plainPrompt(q).slice(0, 170)});
+  save();
+}
+const nextLabel = () => S.run.i < S.run.qs.length - 1 ? "Next →" : "See my results →";
+function answerOpt(i, btn){
+  const R = S.run; if (!R || R.locked) return; R.locked = true;
+  const q = R.qs[R.i], ok = i === q.ans, sec = $("#scr-test");
+  markOptions(sec, q, i); record(q, ok, false, q.opts[i]);
+  if (ok){ Sound.good(); FX.burstEl(btn, 24); addXP(10, btn); } else Sound.bad();
+  sec.querySelector(".fb-slot").innerHTML = fbHTML(ok ? "ok" : "no", q, "", nextLabel());
+  announce(ok ? "Correct!" : "Not correct. The answer is " + correctText(q));
+  const nb = $("#nextQ"); if (nb) try { nb.focus({preventScroll:true}); } catch (e) {}
+}
+function submitTyped(){
+  const R = S.run; if (!R || R.locked) return;
+  const q = R.qs[R.i], inp = $("#typeIn"), given = (inp.value || "").trim(), t = norm(given);
+  if (!t){ inp.placeholder = "type a word first"; inp.focus(); return; }
+  R.locked = true;
+  const forms = q.accept.map(norm);
+  let kind = "no";
+  if (forms.includes(t)) kind = "ok";
+  else {
+    const d = Math.min.apply(null, forms.map(f => lev(t, f)));
+    const lim = q.answer.length <= 5 ? 1 : q.answer.length <= 9 ? 2 : 3;
+    if (d <= lim && t.length >= 3 && !ALL.includes(t)) kind = "slip";
+  }
+  inp.disabled = true; inp.classList.add(kind);
+  const sb = $('#scr-test [data-act="tsubmit"]'); if (sb) sb.disabled = true;
+  record(q, kind === "ok", kind === "slip", given);
+  const slot = $("#scr-test .fb-slot");
+  if (kind === "ok"){
+    Sound.good(); FX.burstEl(inp, 24); addXP(10, inp);
+    slot.innerHTML = fbHTML("ok", q, t !== norm(q.answer) ? `<br>This sentence needs the form <b>${q.answer}</b>.` : "", nextLabel());
+  } else if (kind === "slip"){
+    Sound.tap(); addXP(5, inp);
+    slot.innerHTML = `<div class="fb slip"><span class="burst">SO CLOSE!</span><div class="fb-body">Right word, but check the spelling. You wrote <s>${esc(given)}</s>. It's spelled <b class="spell">${q.answer.toUpperCase().split("").join(" ")}</b>.</div>
+      <div class="row"><button class="btn btn-go" data-act="tnext" id="nextQ">${nextLabel()}</button></div></div>`;
+  } else {
+    Sound.bad();
+    slot.innerHTML = fbHTML("no", q, `<br>You wrote "${esc(given)}".`, nextLabel());
+  }
+  announce(kind === "ok" ? "Correct!" : kind === "slip" ? "Right word, spelling slip. It is spelled " + q.answer : "Not correct. The answer is " + q.answer);
+  const nb = $("#nextQ"); if (nb) try { nb.focus({preventScroll:true}); } catch (e) {}
+}
+function nextQ(){
+  const R = S.run; if (!R || !R.locked) return;
+  R.locked = false; R.i++; save();
+  if (R.i >= R.qs.length) finishRun(); else { renderTest(); window.scrollTo(0, 0); focusQ(); }
+}
+function analyze(R){
+  const res = R.res, n = res.length;
+  const pts = res.reduce((s, r) => s + (r.ok ? 1 : r.slip ? .5 : 0), 0);
+  const byU = UNITS.map(() => [0, 0]);
+  res.forEach(r => { byU[r.u][1]++; if (r.ok || r.slip) byU[r.u][0]++; });
+  const skills = {}; SK.forEach(([k]) => { skills[k] = [0, 0]; });
+  res.forEach(r => {
+    skills[r.t][1]++; if (r.ok || r.slip) skills[r.t][0]++;
+    if (r.t === "type" && (r.ok || r.slip)){ skills.spell[1]++; if (r.ok) skills.spell[0]++; }
+  });
+  const words = {};
+  res.forEach(r => r.ws.forEach(w => { const x = words[w] || (words[w] = {t:0, ok:0, slip:0, bad:0}); x.t++; if (r.ok) x.ok++; else if (r.slip) x.slip++; else x.bad++; }));
+  return {id:"a" + Date.now().toString(36), kind:R.kind, u:R.u, at:Date.now(), n, pts, pct:pctOf(pts, n), byU, skills, words, res};
+}
+function finishRun(){
+  const R = S.run, att = analyze(R);
+  if (R.kind === "warm"){
+    const stars = att.pct >= 90 ? 3 : att.pct >= 70 ? 2 : 1, prev = S.units[R.u] || {};
+    S.units[R.u] = {stars:Math.max(prev.stars || 0, stars), best:Math.max(prev.best || 0, att.pct), last:att.pct, at:Date.now()};
+    att.stars = stars; S.xp += stars * 10;
+  }
+  S.attempts.push(att); if (S.attempts.length > 40) S.attempts.splice(0, S.attempts.length - 40);
+  Object.keys(att.words).forEach(w => {
+    const x = att.words[w], m = S.mastery[w] || (S.mastery[w] = {ok:0, bad:0, slip:0, last:""});
+    m.ok += x.ok; m.bad += x.bad; m.slip += x.slip; m.last = x.bad ? "bad" : x.slip ? "slip" : "ok";
+  });
+  S.run = null; save();
+  const v = $("#xpVal"); if (v) v.textContent = S.xp;
+  showReport(att.id); Sound.win(); if (att.pct >= 60) FX.party();
+}
+
+/* ---------- REPORT & WEAK SPOTS ---------- */
+let lastReportId = null;
+const statusOf = (a, t) => !t ? ["na", "Not tested"] : {good:["good", "Mastered"], mid:["mid", "Almost there"], low:["low", "Go back here"]}[levelOf(a, t)];
+const rankOf = p => p >= 90 ? "WORD MASTER" : p >= 75 ? "WORD HERO" : p >= 50 ? "WORD EXPLORER" : "WORD ROOKIE";
+const ptsTxt = a => Number.isInteger(a.pts) ? String(a.pts) : a.pts.toFixed(1);
+const kindName = a => a.kind === "final" ? "Final Review" : a.kind === "warm" ? UNITS[a.u].name + " Warm-up" : "Weak Words Practice";
+function showReport(id){
+  const att = S.attempts.find(a => a.id === id) || S.attempts[S.attempts.length - 1];
+  if (!att){ renderHome(); show("home"); return; }
+  lastReportId = att.id; renderReport(att); show("report"); animateReport(att);
+}
+function summaryLine(att){
+  const weak = att.byU.map(([a, t], i) => ({i, a, t})).filter(x => x.t && levelOf(x.a, x.t) !== "good").map(x => UNITS[x.i].name);
+  if (!weak.length) return "Every unit tested is at 85% or more. Brilliant!";
+  return `${att.kind === "warm" ? "This unit needs" : "Units that need"} another look: <b>${weak.join(", ")}</b>. Your study plan below shows exactly what to do next.`;
+}
+function planFor(att){
+  const steps = [], ww = weakWords(att), sw = spellSlips(att);
+  const us = att.byU.map(([a, t], i) => ({i, a, t, p:pctOf(a, t), lv:levelOf(a, t)})).filter(x => x.t).sort((x, y) => x.p - y.p);
+  const missedIn = i => UNITS[i].words.filter(w => att.words[w] && att.words[w].bad);
+  us.filter(x => x.lv === "low").forEach(x => {
+    const U = UNITS[x.i], m = missedIn(x.i);
+    steps.push({text:`Go back to <b>${U.name}</b>: flip all 20 flashcards, then play the ${U.name} warm-up. You got ${x.a} of ${x.t} there${m.length ? "; the tricky words were <b>" + m.join(", ") + "</b>" : ""}.`,
+      btn:`<button class="btn btn-sm btn-col u-${U.key}" data-act="cards" data-u="${x.i}">${U.name} flashcards</button><button class="btn btn-sm" data-act="warm" data-u="${x.i}">${U.name} warm-up</button>`});
+  });
+  us.filter(x => x.lv === "mid").forEach(x => {
+    const U = UNITS[x.i], m = missedIn(x.i).slice(0, 6);
+    steps.push({text:`Quick review in <b>${U.name}</b>${m.length ? ": open the cards for <b>" + m.join(", ") + "</b>" : ""}.`,
+      btn:m.length ? m.map(w => `<button class="btn btn-sm" data-act="word" data-w="${w}" data-from="report">Open "${w}"</button>`).join("") : `<button class="btn btn-sm" data-act="cards" data-u="${x.i}">${U.name} flashcards</button>`});
+  });
+  if (sw.length) steps.push({text:`Spelling practice: <b>${[...new Set(sw.map(s => s.w))].join(", ")}</b>. Say the word slowly, cover it, write it, then check it. Do it three times.`,
+    btn:`<button class="btn btn-sm" data-act="spellprac" data-id="${att.id}">Spelling round</button>`});
+  const sk = SK.map(([k]) => ({k, a:att.skills[k][0], t:att.skills[k][1]})).filter(x => x.t >= 2 && x.a / x.t < .7).sort((x, y) => x.a / x.t - y.a / y.t)[0];
+  if (sk) steps.push({text:`Tricky question type: <b>${SK.find(x => x[0] === sk.k)[1]}</b>. ${esc(SKILL_TIPS[sk.k])}`});
+  if (ww.length) steps.push({text:`Lock it in with <b>Weak Words Practice</b>: up to ${Math.min(16, ww.length * 2)} new questions only on the words you missed.`,
+    btn:`<button class="btn btn-sm btn-go" data-act="practice" data-id="${att.id}">Start practice</button>`});
+  if (!steps.length) steps.push({text:"No weak spots at all. Amazing! Take the Final Review again (it picks different questions each time) or teach five of the words to someone at home.",
+    btn:`<button class="btn btn-sm btn-go" data-act="final">Final Review</button>`});
+  return steps;
+}
+function reportText(att){
+  const out = ["Review Quest · Sadlier Vocabulary Workshop Level A, Units 1–3",
+    kindName(att) + " · " + fmtDate(att.at),
+    "Score: " + ptsTxt(att) + " / " + att.n + " (" + att.pct + "%) · " + rankOf(att.pct), "", "Units:"];
+  UNITS.forEach((U, i) => { const [a, t] = att.byU[i]; if (t) out.push("  " + U.name + ": " + a + "/" + t + " (" + pctOf(a, t) + "%) " + statusOf(a, t)[1]); });
+  out.push("", "Skills:");
+  SK.forEach(([k, label]) => { const [a, t] = att.skills[k]; if (t) out.push("  " + label + ": " + a + "/" + t + " (" + pctOf(a, t) + "%)"); });
+  const ww = weakWords(att), sw = spellSlips(att);
+  out.push("", "Words to practice: " + (ww.length ? ww.join(", ") : "none"));
+  if (sw.length) out.push("Spelling slips: " + sw.map(s => s.g + " → " + s.c).join("; "));
+  return out.join("\n");
+}
+function barRow(label, sub, a, t, extraClass, style){
+  const [cls, st] = statusOf(a, t);
+  return `<div class="bar-row ${extraClass || ""}" ${style ? `style="${style}"` : ""}><div class="bar-label">${label}<small>${sub}</small></div>
+    <div class="bar"><i data-w="${pctOf(a, t)}"></i></div><div class="bar-end"><span class="pct">${t ? pctOf(a, t) + "%" : "–"}</span><span class="status ${cls}">${st}</span></div></div>`;
+}
+function renderReport(att){
+  const sec = $("#scr-report"), C = 2 * Math.PI * 62;
+  const ringCol = att.pct >= 85 ? "var(--good)" : att.pct >= 60 ? "var(--sun)" : "var(--bad)";
+  const ww = weakWords(att), sw = spellSlips(att), hist = S.attempts.slice(-8);
+  let h = `<div class="panel report-head">
+    <div class="ring"><svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="62" fill="none" style="stroke:var(--page);stroke-width:16"/>
+      <circle id="ringArc" cx="75" cy="75" r="62" fill="none" style="stroke:${ringCol};stroke-width:16;stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${C.toFixed(1)};transition:stroke-dashoffset 1.2s cubic-bezier(.2,.8,.2,1)"/>
+      <circle cx="75" cy="75" r="70" fill="none" style="stroke:var(--ink);stroke-width:3"/><circle cx="75" cy="75" r="54" fill="none" style="stroke:var(--ink);stroke-width:3"/></svg>
+      <div class="num"><span id="ringNum">${reduceMotion ? att.pct : 0}%</span><small>${ptsTxt(att)} / ${att.n}</small></div></div>
+    <div><div class="q-kicker">${kindName(att)} · ${fmtDate(att.at)}</div><div class="rank">${rankOf(att.pct)}</div>
+      ${att.stars ? `<div class="result-stars" role="img" aria-label="${att.stars} of 3 stars">${[1, 2, 3].map((k, i) => `<span style="animation-delay:${i * .18}s">${STAR(att.stars >= k)}</span>`).join("")}</div>` : ""}
+      <p>${summaryLine(att)}</p>
+      <div class="row" style="margin-top:12px">${ww.length ? `<button class="btn btn-go" data-act="practice" data-id="${att.id}">Practice my weak words (${ww.length})</button>` : ""}
+        ${att.kind === "warm" ? `<button class="btn" data-act="warm" data-u="${att.u}">Warm-up again</button>` : ""}<button class="btn" data-act="final">${att.kind === "final" ? "Try the Final again" : "Final Review"}</button><button class="btn btn-sm" data-act="home">Home</button></div></div></div>`;
+  h += `<div class="sec-title"><h2>${att.kind === "warm" ? "Your Unit" : "Your Units"}</h2><p>How well you understood ${att.kind === "warm" ? "this unit's" : "each unit's"} words. A spelling slip still counts as understood here.</p></div><div class="panel bars">`;
+  UNITS.forEach((U, i) => { if (att.kind === "warm" && i !== att.u) return; const [a, t] = att.byU[i]; h += barRow(U.name, t ? a + " of " + t + " right" : "no questions this time", a, t, "u-" + U.key); });
+  h += `</div><div class="sec-title"><h2>Your Skills</h2><p>Which kind of question was easy, and which was tricky.</p></div><div class="panel bars">`;
+  SK.forEach(([k, label]) => { const [a, t] = att.skills[k]; h += barRow(label, t ? a + " of " + t : (k === "spell" ? "no typed answers to check" : "not in this round"), a, t, "", "--col:#4A4D78"); });
+  h += `</div><div class="sec-title"><h2>Words to Practice</h2><p>Tap a word to open its card again.</p></div><div class="panel" style="padding:16px">`;
+  h += ww.length ? `<div class="word-chips">${ww.map(w => `<button class="wchip u-${UNITS[U_OF[w]].key}" data-act="word" data-w="${w}" data-from="report"><i></i>${w}</button>`).join("")}</div>` : "<p>No weak words this time. Every word was right!</p>";
+  if (sw.length) h += `<div class="spell-list"><b>Spelling watch</b>${sw.map(s => `<div>You wrote <s>${esc(s.g)}</s> → it's <b class="spell">${esc(s.c)}</b></div>`).join("")}</div>`;
+  h += `</div><div class="sec-title"><h2>Your Study Plan</h2><p>Do these in order.</p></div><ol class="plan">${planFor(att).map(s => `<li><div>${s.text}</div>${s.btn ? `<div class="row">${s.btn}</div>` : ""}</li>`).join("")}</ol>`;
+  if (hist.length > 1) h += `<div class="sec-title"><h2>Progress</h2><p>Your last ${hist.length} rounds. Blue = Final Review, orange = warm-up, green = practice.</p></div>
+    <div class="panel history">${hist.map(a => `<div class="hcol"><b>${a.pct}%</b><div class="hbar ${a.kind === "final" ? "" : a.kind === "warm" ? "w" : "p"}" style="height:${Math.max(6, a.pct)}px"></div><span>${fmtDate(a.at).split(",")[0]}</span></div>`).join("")}</div>`;
+  h += `<div class="sec-title"><h2>Every Answer</h2><p>Check what you picked and what was right.</p></div>
+    <details class="panel answers"><summary>Show all ${att.n} answers</summary>${att.res.map((r, i) => `<div class="ans"><span class="mark ${r.ok ? "ok" : r.slip ? "slip" : "no"}" aria-label="${r.ok ? "right" : r.slip ? "spelling slip" : "wrong"}">${r.ok ? "✓" : r.slip ? "~" : "✗"}</span>
+      <div><small>${i + 1}. ${esc(ROUNDS[r.r].name)} · ${esc(r.ws.join(" + "))}</small><div>${esc(r.p)}</div><div>${r.ok ? "" : "Your answer: <b>" + esc(r.g || "—") + "</b> · "}Correct: <b>${esc(r.c)}</b></div></div></div>`).join("")}</details>`;
+  h += `<div class="sec-title"><h2>For a Parent</h2><p>Copy this summary to send or keep.</p></div>
+    <div class="panel" style="padding:16px;display:grid;gap:10px"><textarea class="copy-area" id="copyText" readonly aria-label="Report summary">${esc(reportText(att))}</textarea>
+    <div class="row"><button class="btn btn-sm btn-go" data-act="copy">Copy summary</button><span class="copy-note" id="copyNote"></span></div></div>`;
+  sec.innerHTML = h;
+}
+function animateReport(att){
+  const sec = $("#scr-report"), C = 2 * Math.PI * 62;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    sec.querySelectorAll(".bar i").forEach(i => { const w = +i.dataset.w; i.style.width = w + "%"; if (!w) i.classList.add("zero"); });
+    const arc = $("#ringArc"); if (arc) arc.style.strokeDashoffset = (C * (1 - att.pct / 100)).toFixed(1);
+    const num = $("#ringNum"); if (!num || reduceMotion) return;
+    const t0 = performance.now();
+    const step = t => { const k = Math.min(1, (t - t0) / 1100); num.textContent = Math.round(att.pct * (1 - Math.pow(1 - k, 3))) + "%"; if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }));
+}
+function copyReport(){
+  const ta = $("#copyText"), note = $("#copyNote"); if (!ta) return;
+  const fallback = () => { ta.focus(); ta.select(); note.textContent = "Selected. Press copy on your keyboard or menu."; };
+  try { navigator.clipboard.writeText(ta.value).then(() => { note.textContent = "Copied!"; }, fallback); } catch (e) { fallback(); }
+}
+
+/* ---------- EVENTS ---------- */
+let discardArm = false;
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b || b.disabled) return;
+  const d = b.dataset;
+  switch (d.act){
+    case "home": renderHome(); show("home"); break;
+    case "sound": S.sound = !S.sound; save(); renderSoundBtn(); Sound.tap(); break;
+    case "word": openWord(d.w, d.from || null); break;
+    case "say": speak(d.t); break;
+    case "saysent": speak(WORDS[WV.w].ex.replace(/\{([^}]+)\}/, "$1")); break;
+    case "fill": fillBlank(b); break;
+    case "cards": startCards(+d.u); break;
+    case "cardsback": if (FC){ renderCards(false); show("cards"); } else { renderHome(); show("home"); } break;
+    case "cardsmiss": if (FC) startCards(FC.u, shuffle(FC.miss.slice())); break;
+    case "flip": if (FC){ FC.flip = !FC.flip; Sound.tap(); renderCards(!reduceMotion); const fc = $("#flashCard"); if (fc) try { fc.focus({preventScroll:true}); } catch (err) {} } break;
+    case "know": knowCard(+d.k, b); break;
+    case "warm": startRun("warm", buildWarm(+d.u), +d.u); break;
+    case "final": startRun("final", buildFinal()); break;
+    case "resume": resumeRun(); break;
+    case "discard":
+      if (!discardArm){ discardArm = true; b.textContent = "Tap again to start over"; setTimeout(() => { discardArm = false; }, 4000); }
+      else { discardArm = false; S.run = null; save(); renderHome(); }
+      break;
+    case "go": if (S.run){ S.run.splash = S.run.qs[S.run.i].round; save(); renderTest(); focusQ(); } break;
+    case "opt": answerOpt(+d.i, b); break;
+    case "tsubmit": submitTyped(); break;
+    case "tnext": nextQ(); break;
+    case "quit": renderHome(); show("home"); break;
+    case "report": showReport(d.id); break;
+    case "backreport": showReport(lastReportId); break;
+    case "practice": {
+      const att = S.attempts.find(x => x.id === d.id) || lastFinal(), ww = weakWords(att);
+      if (ww.length) startRun("practice", buildPractice(ww, spellSlips(att).filter(s => !att.words[s.w].bad).map(s => s.w)));
+      break;
+    }
+    case "spellprac": {
+      const att = S.attempts.find(x => x.id === d.id), ws = [...new Set(spellSlips(att).map(s => s.w))];
+      if (ws.length) startRun("practice", shuffle(ws.map(w => inst(POOL.type.find(q => q.ws[0] === w), ALL))));
+      break;
+    }
+    case "copy": copyReport(); break;
+  }
+});
+document.addEventListener("keydown", e => {
+  if (current !== "test" || !S.run || e.altKey || e.ctrlKey || e.metaKey) return;
+  const tag = (document.activeElement || {}).tagName;
+  if (e.target && e.target.tagName === "INPUT") return;
+  if (e.key === "Enter"){
+    if (tag === "BUTTON") return;
+    const go = $("#goBtn") || (S.run.locked ? $("#nextQ") : null);
+    if (go){ e.preventDefault(); go.click(); }
+    return;
+  }
+  if (S.run.locked) return;
+  const k = e.key.toLowerCase(), idx = "1234".indexOf(k) >= 0 ? "1234".indexOf(k) : "abcd".indexOf(k);
+  if (k.length === 1 && idx >= 0){ const opt = document.querySelectorAll("#scr-test .opt")[idx]; if (opt) opt.click(); }
+});
+
+/* ---------- START ---------- */
+if (canSpeak) try { speechSynthesis.getVoices(); } catch (e) {}
+$("#xpVal").textContent = S.xp;
+renderSoundBtn();
+renderHome();
+</script>
+</body></html>
