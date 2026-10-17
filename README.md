@@ -23,6 +23,7 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 | Unit | Page | What's inside |
 | --- | --- | --- |
 | Sadlier Vocabulary Workshop, Unit 2 | [`vocabulary/unit-02/index.html`](vocabulary/unit-02/index.html) | 20 words in 5 themed "lands", an animated scene and memory trick for each word, quick checks, a land challenge per land, a 30-question Final Challenge built from the book's exercises, and a weak-spot report with a study plan. |
+| Sadlier Vocabulary Workshop Level A (Enriched Edition), Review Units 1–3 (pp. 42–49) | [`vocabulary/review-units-1-3/index.html`](vocabulary/review-units-1-3/index.html) | All 60 words with meaning, pronunciation, memory trick, synonyms, antonyms and word family; flashcards and a 13-question warm-up per unit; a randomized 40-question Final Review in the style of the book's review pages (stories, two-word completions, right meaning, synonyms, antonyms, using the word, shades of meaning, word families and spelling); a report by unit and skill with a spelling watch list and study plan. Unit 1's list is from the school's Week 3 test sheet. |
 
 Each page is a single self-contained HTML file: open it in a browser, no build step or server needed.
 Progress is saved in the browser of the device being used (`localStorage`). Homework ticks are shared between the dashboard and the weekly plans, keyed by EduPage item id.
