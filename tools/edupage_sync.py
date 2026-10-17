@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh Mohammed's dashboard (index.html) from EduPage.
+"""Refresh the homework dashboard (index.html) from EduPage.
 
 Reads the school's public "Exams / Homeworks" list for class 6.3
 (https://aisedusa.edupage.org/exam/), one school week per request, and writes

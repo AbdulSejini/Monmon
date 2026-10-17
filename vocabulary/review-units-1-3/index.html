@@ -1300,7 +1300,7 @@ function renderHome(){
   const best = finals.reduce((m, a) => Math.max(m, a.pct), 0);
   const f = lastFinal();
   let h = `<div class="panel hero">
-    <div><h1>Hey <span>Mohammed!</span></h1>
+    <div><h1>Hey <span>champ!</span></h1>
       <p>Units 1, 2 and 3 are back for review: 60 words in all, ready for the class review on book pages 42–49. Flip the flashcards, win a warm-up for each unit, then take the Final Review. At the end you'll see exactly which words to practice.</p></div>
     <div class="stats">
       <div class="stat"><b>${won}/3</b><span>Warm-ups won</span></div>
@@ -1579,7 +1579,7 @@ function showReport(id){
 }
 function summaryLine(att){
   const weak = att.byU.map(([a, t], i) => ({i, a, t})).filter(x => x.t && levelOf(x.a, x.t) !== "good").map(x => UNITS[x.i].name);
-  if (!weak.length) return "Every unit tested is at 85% or more. Brilliant, Mohammed!";
+  if (!weak.length) return "Every unit tested is at 85% or more. Brilliant!";
   return `${att.kind === "warm" ? "This unit needs" : "Units that need"} another look: <b>${weak.join(", ")}</b>. Your study plan below shows exactly what to do next.`;
 }
 function planFor(att){
@@ -1607,7 +1607,7 @@ function planFor(att){
   return steps;
 }
 function reportText(att){
-  const out = ["Review Quest · Sadlier Vocabulary Workshop Level A, Units 1–3 · Mohammed",
+  const out = ["Review Quest · Sadlier Vocabulary Workshop Level A, Units 1–3",
     kindName(att) + " · " + fmtDate(att.at),
     "Score: " + ptsTxt(att) + " / " + att.n + " (" + att.pct + "%) · " + rankOf(att.pct), "", "Units:"];
   UNITS.forEach((U, i) => { const [a, t] = att.byU[i]; if (t) out.push("  " + U.name + ": " + a + "/" + t + " (" + pctOf(a, t) + "%) " + statusOf(a, t)[1]); });

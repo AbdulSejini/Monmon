@@ -1,10 +1,10 @@
 # Monmon
 
-Learning materials for Mohammed.
+Learning materials for a Grade 6 student (Class 6.3).
 
 ## Dashboard
 
-[`index.html`](index.html) is the home page, in Arabic: what Mohammed has to do (homework not yet due, grouped by due date, with ticks), his upcoming tests with what to study, links to the practice pages, and every earlier week's homework and tests.
+[`index.html`](index.html) is the home page, in Arabic: what he has to do (homework not yet due, grouped by due date, with ticks), his upcoming tests with what to study, links to the practice pages, and every earlier week's homework and tests.
 
 The homework and tests come from the school's public EduPage list for class 6.3 (`https://aisedusa.edupage.org/exam/`), which needs no login. Grades, attendance and messages need a login and are not included.
 

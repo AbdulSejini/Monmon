@@ -726,7 +726,7 @@ const G = {
     const d1 = Math.abs(h2 - a2), d2 = Math.abs(h1 - b1), tot = d1 + d2;
     const places = [{x:h1, y:h2, name:"Home"}, {x:h1, y:a2, name:names[0]}, {x:b1, y:a2, name:names[1]}];
     return {skill:"word", kind:"num", unit:"blocks", num:tot,
-      text:"Mohammed walks from <b>Home</b> " + P(h1, h2) + " to the <b>" + names[0] + "</b> " + P(h1, a2) + ", then on to the <b>" + names[1] + "</b> " + P(b1, a2) + ". Each unit is 1 block. How many blocks does he walk in all?",
+      text:"You walk from <b>Home</b> " + P(h1, h2) + " to the <b>" + names[0] + "</b> " + P(h1, a2) + ", then on to the <b>" + names[1] + "</b> " + P(b1, a2) + ". Each unit is 1 block. How many blocks do you walk in all?",
       plane:{min:-8, max:8, places}, revealPlane:{min:-8, max:8, places, path:[[h1, h2], [h1, a2], [b1, a2]]},
       hint:"The walk has two straight legs. Find the length of each leg, then add them.",
       why:"Leg 1 (Home → " + names[0] + "): same x (" + fmtN(h1) + "), so use y: " + distSteps(h2, a2) + " blocks. Leg 2 (" + names[0] + " → " + names[1] + "): same y (" + fmtN(a2) + "), so use x: " + distSteps(h1, b1) + " blocks. Total: " + d1 + " + " + d2 + " = <b>" + tot + " blocks</b>.",

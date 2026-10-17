@@ -1241,7 +1241,7 @@ function renderHome(){
   const best = finals.reduce((m, a) => Math.max(m, a.pct), 0);
   const f = lastFinal();
   let h = `<div class="panel hero">
-    <div><h1>Hey <span>Mohammed!</span></h1>
+    <div><h1>Hey <span>champ!</span></h1>
       <p>Twenty new words are hiding in five lands. Explore each land, win its challenge, then face the Final Challenge. At the end you'll see exactly which lands to visit again.</p></div>
     <div class="stats">
       <div class="stat"><b>${cleared}/5</b><span>Lands won</span></div>
@@ -1577,7 +1577,7 @@ function showReport(id){
 }
 function summaryLine(att){
   const weak = att.byCh.map(([u, t], i) => ({i, p:t ? u / t : 1})).filter(x => x.p < .85).map(x => CHAPTERS[x.i].name);
-  if (!weak.length) return "Every land tested is at 85% or more. Brilliant, Mohammed!";
+  if (!weak.length) return "Every land tested is at 85% or more. Brilliant!";
   return `Lands to visit again: <b>${weak.join(", ")}</b>. Your study plan below shows exactly what to do next.`;
 }
 function planFor(att){
@@ -1605,7 +1605,7 @@ function planFor(att){
   return steps;
 }
 function reportText(att){
-  const out = ["Word Quest · Sadlier Vocabulary Unit 2 · Mohammed",
+  const out = ["Word Quest · Sadlier Vocabulary Unit 2",
     (att.kind === "final" ? "Final Challenge" : "Weak Words Practice") + " · " + fmtDate(att.at),
     "Score: " + ptsTxt(att) + " / " + att.n + " (" + att.pct + "%) · " + rankOf(att.pct), "", "Lands:"];
   CHAPTERS.forEach((c, i) => { const [u, t] = att.byCh[i]; if (t) out.push("  " + (i + 1) + ". " + c.name + ": " + u + "/" + t + " (" + pctOf(u, t) + "%) " + statusOf(u, t)[1]); });
