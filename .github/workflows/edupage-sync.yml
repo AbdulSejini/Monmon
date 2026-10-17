@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Fetch homework and tests for class 6.3
         run: python3 tools/edupage_sync.py
       - name: Commit if changed

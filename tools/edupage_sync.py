@@ -44,12 +44,21 @@ AR_MONTHS = {"يناير": 1, "فبراير": 2, "مارس": 3, "أبريل": 4,
 DECORATION = re.compile("[​﻿⌛⏳\U0001F3AF\U0001F4DA]")
 
 
-def fetch_week(sunday):
+def fetch_week(sunday, attempts=3):
     url = (f"{SCHOOL}/exam/?wid=exam_ExamList_1&classid={CLASS_ID}"
            f"&date={sunday.isoformat()}&type=")
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        page = resp.read().decode("utf-8", "replace")
+    for attempt in range(1, attempts + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                page = resp.read().decode("utf-8", "replace")
+            break
+        except OSError as err:  # URLError, timeouts and dropped connections
+            if attempt == attempts:
+                raise
+            # the school's server occasionally drops a connection; wait and retry
+            print(f"{url}: {err}; retrying", file=sys.stderr)
+            time.sleep(10 * attempt)
     if 'id="exam_ExamList_1"' not in page or f'value="{CLASS_ID}" selected' not in page:
         raise RuntimeError(f"{url} did not return the class {CLASS_NAME} list (login page?)")
     return page
