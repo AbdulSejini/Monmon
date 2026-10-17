@@ -221,6 +221,9 @@ details.helper[open] summary::before{content:"−"}
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12A15E" stroke="#14163A" stroke-width="2"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span id="meterText">0/8 done</span>
     </span>
+    <a class="icon-btn" href="../../index.html" aria-label="Home: Mohammed's dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+    </a>
     <button class="icon-btn" id="printBtn" type="button" aria-label="Print the week">
       <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
     </button>
@@ -273,14 +276,15 @@ details.helper[open] summary::before{content:"−"}
   <footer class="foot">
     <p>Source: the school's Week 8 Weekly Study Plan and Weekly Events for Class 6.3 (published 15/10/2026). If the school changes the plan, the school's version wins.</p>
     <div class="row no-print">
-      <button class="btn btn-sm" id="resetBtn" type="button">Clear all ticks</button>
+      <button class="btn btn-sm" id="resetBtn" type="button">Clear this week's ticks</button>
     </div>
   </footer>
 </main>
 
 <script>
 "use strict";
-const KEY = "monmon-week08-v1";
+/* Shared with the dashboard (index.html): ticks are keyed by EduPage item id (ep). */
+const KEY = "monmon-done-v1";
 const TZ = "Asia/Riyadh";
 const DAYS = [
   {key:"sun", name:"Sunday", short:"Sun", date:"2026-10-18"},
@@ -369,21 +373,21 @@ const TESTS = [
 ];
 
 const HW = [
-  {id:"isl", s:"isl", code:"Week 8", day:"sun", due:"2026-10-24", title:"Answer the questions on EduPage",
+  {id:"isl", ep:"2026-10-18-719D38A3AAAF93CDC8BF", s:"isl", code:"Week 8", day:"sun", due:"2026-10-24", title:"Answer the questions on EduPage",
    ar:"واجب الأسبوع الثامن: أجب عن الأسئلة الموجودة على منصة الإيديوبيدج"},
-  {id:"ar83", s:"ar", code:"Week 8", day:"sun", due:"2026-10-24", title:"Homework on page 83",
+  {id:"ar83", ep:"2026-10-18-3D3877C702E48F8F804E", s:"ar", code:"Week 8", day:"sun", due:"2026-10-24", title:"Homework on page 83",
    ar:"واجب الأسبوع الثامن: حل الواجب المنزلي ص 83"},
-  {id:"sci81", s:"sci", code:"HW 8.1", day:"sun", due:"2026-10-24", title:"IXL: Animal cell diagrams: label parts",
+  {id:"sci81", ep:"2026-10-18-F44C6F47E9501A1B97E7", s:"sci", code:"HW 8.1", day:"sun", due:"2026-10-24", title:"IXL: Animal cell diagrams: label parts",
    detail:"Skill 1 on IXL. Target: at least 70%.", page:"sci", pageLabel:"Practice the cell labels first"},
-  {id:"math81", s:"math", code:"HW 8.1", day:"mon", due:"2026-10-24", title:"IXL: Objects on a coordinate plane (Lesson 2-4)",
+  {id:"math81", ep:"2026-10-19-5935EF89C537CDB41A40", s:"math", code:"HW 8.1", day:"mon", due:"2026-10-24", title:"IXL: Objects on a coordinate plane (Lesson 2-4)",
    detail:"Minimum score: 70%.", link:"https://www.ixl.com/math/grade-6/objects-on-a-coordinate-plane", linkLabel:"Open on IXL", page:"math"},
-  {id:"eng81", s:"eng", code:"HWK 8.1", day:"tue", due:"2026-10-24", title:"IXL Grammar: Identify common and proper nouns",
+  {id:"eng81", ep:"2026-10-20-A54AF0D4DFA1C6EF4717", s:"eng", code:"HWK 8.1", day:"tue", due:"2026-10-24", title:"IXL Grammar: Identify common and proper nouns",
    detail:"Minimum score: 70%.", link:"https://www.ixl.com/ela/grade-6/identify-common-and-proper-nouns", linkLabel:"Open on IXL"},
-  {id:"math82", s:"math", code:"HW 8.2", day:"thu", due:"2026-10-24", title:"Book: Lesson 2-5, Find Distance on the Coordinate Plane",
+  {id:"math82", ep:"2026-10-22-D07FE1AF26AC823D24B5", s:"math", code:"HW 8.2", day:"thu", due:"2026-10-24", title:"Book: Lesson 2-5, Find Distance on the Coordinate Plane",
    detail:"enVision Mathematics, Volume 1: page 102 (Q 7, 8, 9) and page 103 (Q 12, 15, 17, 18).", page:"math", pageLabel:"Warm up with distance practice"},
-  {id:"eng82", s:"eng", code:"HWK 8.2", day:"thu", due:"2026-10-24", title:"Writing: a friendly letter",
+  {id:"eng82", ep:"2026-10-22-6F431794C3FD3CA27618", s:"eng", code:"HWK 8.2", day:"thu", due:"2026-10-24", title:"Writing: a friendly letter",
    detail:"Write to a friend who lives in another country, inviting him to visit Saudi Arabia. Describe the places he can visit and the activities he can enjoy. Bring the English notebook for correction.", letter:true},
-  {id:"sci82", s:"sci", code:"HW 8.2", day:"wed", due:"2026-10-25", title:"Solve Worksheet 5 – Term 1",
+  {id:"sci82", ep:"2026-10-21-7AC940BD462598F6F251", s:"sci", code:"HW 8.2", day:"wed", due:"2026-10-25", title:"Solve Worksheet 5 – Term 1",
    detail:"Bring the completed worksheet to school on Sunday."}
 ];
 
@@ -497,13 +501,13 @@ function dueLabel(due, done){
   return {text:"Due in " + n + " days", cls:""};
 }
 function hwHTML(h){
-  const done = !!S.done[h.id];
+  const done = !!S.done[h.ep];
   const dayName = DAYS.find(d => d.key === h.day).name;
   const actions = [];
   if (h.link) actions.push('<a class="btn btn-sm" href="' + h.link + '" target="_blank" rel="noopener">' + esc(h.linkLabel) + ' ↗</a>');
   if (h.page) actions.push('<a class="btn btn-sm btn-col" href="' + PAGES[h.page].href + '">' + esc(h.pageLabel || PAGES[h.page].label) + ' →</a>');
   return '<li class="hw panel ' + SUBJ[h.s].cls + (done ? " is-done" : "") + '" id="hw-' + h.id + '">' +
-    '<button class="check" type="button" role="checkbox" aria-checked="' + done + '" data-id="' + h.id + '" aria-label="Mark done: ' + esc(SUBJ[h.s].label + " " + h.title) + '">' + ICON_CHECK + '</button>' +
+    '<button class="check" type="button" role="checkbox" aria-checked="' + done + '" data-id="' + h.ep + '" aria-label="Mark done: ' + esc(SUBJ[h.s].label + " " + h.title) + '">' + ICON_CHECK + '</button>' +
     '<div class="hw-body"><div class="hw-top"><span class="subj">' + esc(SUBJ[h.s].label) + '</span><span class="hw-code">' + esc(h.code) + ' · set ' + esc(dayName) + '</span></div>' +
     '<p class="hw-title">' + esc(h.title) + '</p>' +
     (h.ar ? '<p class="hw-detail ar" lang="ar">' + esc(h.ar) + '</p>' : "") +
@@ -516,7 +520,7 @@ function renderHomework(){
   const groups = [...new Set(HW.map(h => h.due))].sort();
   document.getElementById("homework").innerHTML = groups.map(due => {
     const items = HW.filter(h => h.due === due);
-    const allDone = items.every(h => S.done[h.id]);
+    const allDone = items.every(h => S.done[h.ep]);
     const lab = dueLabel(due, allDone);
     const [y,m,d] = due.split("-").map(Number);
     const wd = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][new Date(Date.UTC(y, m-1, d)).getUTCDay()];
@@ -525,7 +529,7 @@ function renderHomework(){
   }).join("");
 }
 function updateMeter(bump){
-  const total = HW.length, n = HW.filter(h => S.done[h.id]).length;
+  const total = HW.length, n = HW.filter(h => S.done[h.ep]).length;
   document.getElementById("meterText").textContent = n + "/" + total + " done";
   document.getElementById("statHw").textContent = total;
   document.getElementById("statLeft").textContent = total - n;
@@ -614,8 +618,8 @@ function renderStudy(){
 
 document.getElementById("printBtn").addEventListener("click", () => window.print());
 document.getElementById("resetBtn").addEventListener("click", () => {
-  if (!confirm("Clear all homework ticks on this device?")) return;
-  S = {done:{}}; save(); renderHomework(); updateMeter(false);
+  if (!confirm("Clear this week's homework ticks on this device?")) return;
+  HW.forEach(h => delete S.done[h.ep]); save(); renderHomework(); updateMeter(false);
 });
 
 renderTonight();

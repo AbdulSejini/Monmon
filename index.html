@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>لوحة محمد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn-bg:#FFF0D1;
+  --col:#5B6270; --tint:#E7E9EE;
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --font:"Tajawal","Segoe UI","Geeza Pro",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+h1,h2,h3{margin:0;line-height:1.25;font-weight:800;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid #2F7DE1;outline-offset:3px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.s-math{--col:#2F7DE1;--tint:#DCEBFF} .s-ar{--col:#F39200;--tint:#FFE8C2} .s-isl{--col:#9A4FE0;--tint:#EEE0FF}
+.s-sci{--col:#119C77;--tint:#D2F4E8} .s-eng{--col:#E23F66;--tint:#FFDDE6} .s-soc{--col:#8C5A2B;--tint:#F5E6D6}
+.s-quran{--col:#1E7A46;--tint:#D9F0E2} .s-pe{--col:#0E8C9E;--tint:#D3F2F6}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:860px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{font-size:28px;font-weight:800;color:var(--sun);-webkit-text-stroke:1.2px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg);white-space:nowrap;line-height:1.2}
+.chip-class{font-size:13px;font-weight:800;background:var(--ink);color:#fff;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.top-link{font-size:14px;font-weight:800;text-decoration:none;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:var(--sun-2);box-shadow:2px 2px 0 var(--ink);white-space:nowrap}
+
+/* hello */
+.hello{margin-top:20px;padding:18px;display:grid;gap:14px}
+.hello h1{font-size:clamp(30px,6vw,42px)}
+.hello .today{color:var(--ink-2);font-weight:700}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{border:2px solid var(--ink);border-radius:var(--r-sm);padding:10px 8px;background:var(--page);text-align:center;display:grid;gap:2px;align-content:center}
+.tile b{font-size:30px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile b.small{font-size:19px}
+.tile span{font-size:13px;font-weight:700;color:var(--ink-2)}
+.tile.hot{background:var(--sun-2)}
+.week-btn{justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--sun);font-weight:800;text-decoration:none;box-shadow:var(--shadow-sm)}
+.week-btn:active{transform:translate(3px,3px);box-shadow:none}
+
+/* sections */
+.sec{margin-top:34px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:12px}
+.sec-head h2{font-size:30px}
+.sec-head p{flex-basis:100%;color:var(--ink-2);font-size:15px}
+.empty{padding:16px;text-align:center;color:var(--ink-2);font-weight:700}
+.group + .group{margin-top:20px}
+.group-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-bottom:10px}
+.group-head h3{font-size:21px}
+.badge{font-size:13px;font-weight:800;padding:2px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--warn-bg)}
+.badge.hot{background:var(--bad);color:#fff}
+.badge.ok{background:var(--good);color:#fff}
+.list{display:grid;gap:12px}
+
+/* item card */
+.item{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:12px 14px;border-inline-start:10px solid var(--col)}
+.item.no-check{grid-template-columns:1fr}
+.item.is-done{background:var(--good-bg)}
+.item.is-done .item-text{text-decoration:line-through;text-decoration-color:var(--good);text-decoration-thickness:2px}
+.check{width:46px;height:46px;border:3px solid var(--ink);border-radius:10px;background:var(--paper);display:grid;place-items:center;padding:0;box-shadow:2px 2px 0 var(--ink)}
+.check svg{width:28px;height:28px;opacity:0;transform:scale(.4);transition:transform .2s cubic-bezier(.3,1.6,.5,1),opacity .15s}
+.check[aria-checked="true"]{background:var(--good)}
+.check[aria-checked="true"] svg{opacity:1;transform:none}
+.item-body{min-width:0;display:grid;gap:6px}
+.item-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.subj{font-size:14px;font-weight:800;padding:1px 9px;border:2px solid var(--ink);border-radius:6px;background:var(--tint)}
+.meta-note{font-size:13px;font-weight:700;color:var(--ink-2)}
+.item-text{font-size:17px;font-weight:500;white-space:pre-line;overflow-wrap:anywhere}
+.item-text a{font-weight:700;color:#1F5FB8}
+.note{font-size:15px;font-weight:700;padding:8px 10px;border-radius:8px;background:var(--sun-2);border:2px dashed var(--ink-3)}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.act{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:5px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--col);color:#fff;font-weight:800;font-size:14px;text-decoration:none;box-shadow:2px 2px 0 var(--ink)}
+
+/* tests */
+.test{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:12px 14px;background:var(--tint)}
+.cal{width:64px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);text-align:center;overflow:hidden;box-shadow:2px 2px 0 var(--ink);align-self:start}
+.cal small{display:block;background:var(--col);color:#fff;font-size:12px;font-weight:800;padding:2px 0}
+.cal b{display:block;font-size:26px;font-weight:800;line-height:1.3}
+.cal span{display:block;font-size:12px;font-weight:700;color:var(--ink-2);padding-bottom:3px}
+
+/* practice */
+.practice{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.practice a{display:grid;gap:4px;padding:12px 14px;text-decoration:none;background:var(--tint)}
+.practice b{font-size:18px}
+.practice span{font-size:14px;color:var(--ink-2)}
+
+/* history */
+.history{display:grid;gap:10px}
+details.week{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+details.week summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 14px}
+details.week summary::-webkit-details-marker{display:none}
+details.week summary::before{content:"+";width:26px;height:26px;border:2px solid var(--ink);border-radius:7px;display:grid;place-items:center;font-weight:800;flex:none}
+details.week[open] summary::before{content:"−"}
+details.week summary b{font-size:18px}
+details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
+.rows{padding:0 14px 14px;display:grid;gap:8px}
+.row{display:grid;gap:4px;padding:8px 10px;border-inline-start:6px solid var(--col);background:var(--tint);border-radius:0 8px 8px 0}
+.row .item-text{font-size:15px}
+.done-mark{font-size:12px;font-weight:800;color:#fff;background:var(--good);border-radius:999px;padding:0 8px}
+
+.foot{margin-top:40px;font-size:14px;color:var(--ink-2);display:grid;gap:6px}
+.foot a{font-weight:700}
+.btn-sm{justify-self:start;margin-top:6px;min-height:36px;padding:5px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);font-weight:800;font-size:14px;box-shadow:2px 2px 0 var(--ink)}
+@media (max-width:520px){.tiles{gap:6px}.tile b{font-size:26px}.tile b.small{font-size:16px}.top-link{font-size:13px;padding:5px 8px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="logo">محمد</span>
+    <span class="chip-class">الصف 6.3</span>
+    <span class="spacer"></span>
+    <a class="top-link" href="#practice">صفحات المذاكرة</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hello panel" aria-labelledby="helloTitle">
+    <div>
+      <h1 id="helloTitle">ايش عند محمد؟</h1>
+      <p class="today" id="today"></p>
+    </div>
+    <div class="tiles">
+      <div class="tile hot"><b id="tTodo">0</b><span>واجبات باقية</span></div>
+      <div class="tile"><b id="tTests">0</b><span>اختبارات قادمة</span></div>
+      <div class="tile"><b class="small" id="tNext">—</b><span>أقرب موعد</span></div>
+    </div>
+    <a class="week-btn" id="weekBtn" hidden></a>
+  </section>
+
+  <section class="sec" aria-labelledby="todoTitle">
+    <div class="sec-head"><h2 id="todoTitle">لازم يسويه</h2>
+      <p>الواجبات اللي موعد تسليمها ما فات. علّم على الواجب إذا خلص، ويبقى محفوظ على هذا الجهاز.</p></div>
+    <div id="todo"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="testsTitle">
+    <div class="sec-head"><h2 id="testsTitle">عنده اختبارات</h2>
+      <p>الاختبارات القادمة وايش يذاكر لها.</p></div>
+    <ul class="list" id="tests"></ul>
+  </section>
+
+  <section class="sec" id="practice" aria-labelledby="practiceTitle">
+    <div class="sec-head"><h2 id="practiceTitle">صفحات المذاكرة</h2>
+      <p>تدريب تفاعلي على دروس هذا الأسبوع.</p></div>
+    <div class="practice" id="practiceList"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="historyTitle">
+    <div class="sec-head"><h2 id="historyTitle">اللي فات</h2>
+      <p>كل الواجبات والاختبارات السابقة من بداية السنة، أسبوع بأسبوع.</p></div>
+    <div class="history" id="history"></div>
+  </section>
+
+  <footer class="foot">
+    <p>المصدر: صفحة الواجبات والاختبارات العامة للصف 6.3 في <a href="https://aisedusa.edupage.org/exam/" target="_blank" rel="noopener">EduPage</a>، مع ملاحظات من الخطة الأسبوعية للمدرسة. إذا اختلف شيء، المعتمد هو كلام المدرسة.</p>
+    <p id="synced"></p>
+    <p>الدرجات والحضور والرسائل ما تظهر هنا لأنها تحتاج تسجيل دخول في EduPage.</p>
+    <button class="btn-sm" id="resetBtn" type="button">مسح كل العلامات</button>
+  </footer>
+</main>
+
+<!-- EDUPAGE-DATA:BEGIN -->
+<script id="edupage-data" type="application/json">
+{
+ "source": "https://aisedusa.edupage.org/exam/",
+ "class": "6.3",
+ "synced": "2026-10-17T12:04:17+03:00",
+ "items": [
+  {
+   "id": "2026-09-06-0C6939D6B229A094DE96",
+   "date": "2026-09-06",
+   "type": "homework",
+   "subject": "Arabic",
+   "text": "واجب الأسبوع الثاني ( نأمل حل الأسئلة على الإيديوبيدج ) على أن يكون آخر موعد للتسليم السبت 12 / 9 / 2025",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-12"
+  },
+  {
+   "id": "2026-09-06-E6C56606501F10A32797",
+   "date": "2026-09-06",
+   "type": "homework",
+   "subject": "Islamic Studies",
+   "text": "واجب الأسبوع الثاني : أجب عن الأسئلة الموجودة على منصة الإيديوبيج - علمًا بأن آخر موعد لحل وتسليم الواجب هو يوم السبت الموافق 12 من سبتمبر",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-12"
+  },
+  {
+   "id": "2026-09-07-17FE78023F2E4CBB833D",
+   "date": "2026-09-07",
+   "type": "homework",
+   "subject": "Math",
+   "text": "H.W. 1.1: Lesson 1-1: Fluently Add, Subtract, and Multiply Decimals (on the Edupage website).\nDue date: 12/09/2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-12"
+  },
+  {
+   "id": "2026-09-07-1A289E6C101BD3BD2587",
+   "date": "2026-09-07",
+   "type": "homework",
+   "subject": "Science",
+   "text": "HW 2.1: Solve the cards on edupage. Due date: 12/9/2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-12"
+  },
+  {
+   "id": "2026-09-08-927A4B8EED3337BCE400",
+   "date": "2026-09-08",
+   "type": "homework",
+   "subject": "English",
+   "text": "HWK (2.1): (Vocabulary) Edupage Cards Due date: 12/09/26",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-12"
+  },
+  {
+   "id": "2026-09-09-1500A3106A59D1CF15EF",
+   "date": "2026-09-09",
+   "type": "homework",
+   "subject": "Science",
+   "text": "Homework (2.2): Solve Worksheet 1 - Term 1.\nPlease bring the completed worksheet with you on Sunday.\nDue date: 13/9/2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-13"
+  },
+  {
+   "id": "2026-09-10-F98F3BE523E4BFA07530",
+   "date": "2026-09-10",
+   "type": "homework",
+   "subject": "English",
+   "text": "HWK (2.2): Grammar for Writing Book page 122, exercise (1) Due date: 12/09/26",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-12"
+  },
+  {
+   "id": "2026-09-10-0D704C90BB18B09CF2FC",
+   "date": "2026-09-10",
+   "type": "homework",
+   "subject": "Math",
+   "text": "H.W. 2.2: Lesson 1-1: Fluently add, subtract, and multiply decimals.\nIn the STUDY & PRACTICE BOOKLET —Page 8 (Questions 1 to 15).\nLesson 1-2: Fluently Divide Whole Numbers and Decimals.\nIn the STUDY & PRACTICE BOOKLET —Page 16 (Questions 1 to 21).\nDue date: 12/09/2026.",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-12"
+  },
+  {
+   "id": "2026-09-13-E16C8CF2B7E3943D6E41",
+   "date": "2026-09-13",
+   "type": "homework",
+   "subject": "Arabic",
+   "text": "واجب الأسبوع الثالث : حل الأسئلة على الإيديوبيدج ـ على أن يكون آخر موعد للتسليم يوم السبت الموافق 19 / 9 / 2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-19"
+  },
+  {
+   "id": "2026-09-13-785D5325F8B6CC8FEAF2",
+   "date": "2026-09-13",
+   "type": "homework",
+   "subject": "Islamic Studies",
+   "text": "واجب الأسبوع الثالث : أجب عن الأسئلة الموجودة على منصة الإيديوبيدج علمًا بأن آخر موعد لحل وتسليم الواجب هو يوم السبت الموافق 19 من سبتمبر",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-19"
+  },
+  {
+   "id": "2026-09-14-45F6F9D4C6EBB1288F72",
+   "date": "2026-09-14",
+   "type": "homework",
+   "subject": "Math",
+   "text": "H.W. 3.1: Lessons 1-3: Multiply Fraction (on the Edupage website).\nDue date: 19/09/2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-19"
+  },
+  {
+   "id": "2026-09-14-6C9425DDCA93232423E4",
+   "date": "2026-09-14",
+   "type": "homework",
+   "subject": "Science",
+   "text": "HW 3.1: Solve the cards on edupage. Due date: 19/9/2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-19"
+  },
+  {
+   "id": "2026-09-15-FC977A2E5CA5C8EA41F7",
+   "date": "2026-09-15",
+   "type": "homework",
+   "subject": "English",
+   "text": "HWK (03.1): (Grammar) Edupage Cards Due date: 19/09/26",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-19"
+  },
+  {
+   "id": "2026-09-16-6CD1F6FDD2289ADC0F23",
+   "date": "2026-09-16",
+   "type": "homework",
+   "subject": "Science",
+   "text": "Homework (3.2): Solve Worksheet 2 - Term 1. Please bring the completed worksheet with you on Sunday. Due date: 20/9/2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-20"
+  },
+  {
+   "id": "2026-09-17-0B63B9BD5B369E4CFCF0",
+   "date": "2026-09-17",
+   "type": "homework",
+   "subject": "English",
+   "text": "HWK (03.2): Writing - \"Write a paragraph (8–10 sentences) about your favourite video game (like Roblox, Minecraft, or FC 26). Explain what the game is and give three clear reasons why you love playing it. Finish with a strong closing sentence. Bring your notebook for correction. Due date: 19/09/26",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-19"
+  },
+  {
+   "id": "2026-09-17-3CAE509A0B07AE87",
+   "date": "2026-09-17",
+   "type": "Small exam",
+   "subject": "English",
+   "text": "(Dictation on the words from 1: 10 ) Vocabulary Test on the words (11-20) Vocabulary Workshop level A pages14,15,16",
+   "kind": "test",
+   "due": "2026-09-17"
+  },
+  {
+   "id": "2026-09-17-7D5FDBF140C8F3FDE381",
+   "date": "2026-09-17",
+   "type": "homework",
+   "subject": "Math",
+   "text": "H.W. 3.2: Lessons 1-3: Multiply Fraction.\nIn the STUDY & PRACTICE BOOKLET —Page 25 (Questions 1 to 13).\nLessons 1-4: Understand division with fractions.\nIn the STUDY & PRACTICE BOOKLET —Page 33 (Questions 1 to 18).\nDue date: 19/09/2026.",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-19"
+  },
+  {
+   "id": "2026-09-20-36A07B7CFFB15D0BDACA",
+   "date": "2026-09-20",
+   "type": "homework",
+   "subject": "Arabic",
+   "text": "واجب الأسبوع الرابع ( أفهم وأجيب) ص 46 على أن يكون آخر يوم للتسليم يوم السبت الموافق 26/9/2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-26"
+  },
+  {
+   "id": "2026-09-20-414AAACFCE5A39E0A1D9",
+   "date": "2026-09-20",
+   "type": "homework",
+   "subject": "Islamic Studies",
+   "text": "واجب الأسبوع الرابع : أجب عن الأسئلة الموجودة على منصة الإيديوبيدج علمًا بأن آخر موعد لحل وتسليم الواجب هو يوم السبت الموافق 26 من سبتمبر",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-26"
+  },
+  {
+   "id": "2026-09-21-3780259AA7A0EFD075DE",
+   "date": "2026-09-21",
+   "type": "homework",
+   "subject": "Math",
+   "text": "H.W. 4.1: Lessons 1-5: Divide Fractions by Fractions. In the Math Book \"Envision Mathematics\" —Page 43 (Questions 17, 20, 23, 26 and 29) and Page 44 (Questions 32 and 34). Due date: 26/09/2026.",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-26"
+  },
+  {
+   "id": "2026-09-21-36A877C1925AC381E2F2",
+   "date": "2026-09-21",
+   "type": "homework",
+   "subject": "Science",
+   "text": "Homework (4.1): Solve Worksheet 3 - Term 1. Please bring the completed worksheet with you on Sunday. Due date: 27/9/2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-27"
+  },
+  {
+   "id": "2026-09-22-A8255CA7438BEE2DE37C",
+   "date": "2026-09-22",
+   "type": "homework",
+   "subject": "English",
+   "text": "HWK (4.1): (Vocabulary - Unit 2 ) Edupage Cards Due date: 26/09/26",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-09-26"
+  },
+  {
+   "id": "2026-09-27-5EE7CEFE7AE7DCEA57A8",
+   "date": "2026-09-27",
+   "type": "homework",
+   "subject": "Arabic",
+   "text": "واجب الأسبوع الخامس : عمل المطلوب صـ 50 \" أ ُغنِي مِلَف َّ تَعلُّمي \" على أن يكون آخر موعد للتسليم يوم السبت 3 / 10 / 2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-03"
+  },
+  {
+   "id": "2026-09-28-9AD339C867BD24B13F4A",
+   "date": "2026-09-28",
+   "type": "homework",
+   "subject": "Islamic Studies",
+   "text": "واجب الأسبوع الخامس : أجب عن الأسئلة الموجودة على منصة الإيديوبيدج علمًا بأن آخر موعد لحل وتسليم الواجب هو يوم السبت الموافق 3 من أكتوبر",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-03"
+  },
+  {
+   "id": "2026-09-28-C745FAD100F3D0839CE6",
+   "date": "2026-09-28",
+   "type": "homework",
+   "subject": "Math",
+   "text": "H.W. 5.1: Lessons 1-5: Divide Fraction by Fraction.\nIn the \"Edupage Cards\" Due date: 03/10/2026.",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-03"
+  },
+  {
+   "id": "2026-09-28-F3A6740AEE88A01F1BA7",
+   "date": "2026-09-28",
+   "type": "homework",
+   "subject": "Science",
+   "text": "HW 5.1: Solve the cards on edupage. Due date: 3/10/2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-03"
+  },
+  {
+   "id": "2026-09-29-D5EE89F21E30774B6357",
+   "date": "2026-09-29",
+   "type": "homework",
+   "subject": "English",
+   "text": "HWK (5.1): (Grammar- Compound Subject and Predicate ) Edupage Cards Due date: 03/10/26",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-03"
+  },
+  {
+   "id": "2026-09-30-15C33AD5C9061DC78B08",
+   "date": "2026-09-30",
+   "type": "homework",
+   "subject": "Science",
+   "text": "Homework (5.2): Solve Worksheet 4 - Term 1. Please bring the completed worksheet with you on Sunday. Due date: 4/10/2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-04"
+  },
+  {
+   "id": "2026-10-01-E1775AAA099B2C0F",
+   "date": "2026-10-01",
+   "type": "Small exam",
+   "subject": "Arabic",
+   "text": "إملاء اختباري ـ صــ 42 الفقرة الأخيرة بداية من\" أسهم أبو بكر في بناء مسجد قباء \" حتى \" وعن كلمة الحق \" مع إحضار دفتر الإملاء مع الطالب",
+   "kind": "test",
+   "due": "2026-10-01"
+  },
+  {
+   "id": "2026-10-01-220A811E681789C1",
+   "date": "2026-10-01",
+   "type": "Small exam",
+   "subject": "English",
+   "text": "Vocabulary Workshop level A: Unit 2 (Dictation on the words from 1:10) Vocabulary Test on the words (11-20) pages 24-26.",
+   "kind": "test",
+   "due": "2026-10-01"
+  },
+  {
+   "id": "2026-10-01-720508E5F0C1A26049B7",
+   "date": "2026-10-01",
+   "type": "homework",
+   "subject": "English",
+   "text": "HWK (5.2): Write a paragraph (10 lines) describing your favorite football team or your favorite player. Explain your idea and give three reasons why you support it. Finish with a strong closing sentence. Bring your English Notebook for correction. Due date: 03/10/26",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-03"
+  },
+  {
+   "id": "2026-10-01-1044A9461377A9EC1DB1",
+   "date": "2026-10-01",
+   "type": "homework",
+   "subject": "Math",
+   "text": "H.W. 5.2: Lessons 1-6: Divide Mixed Numbers.\nIn the Math Book \"Envision Mathematics\"\nPage 49 (Questions 14, 16, 20, 22, and 24)\nPage 50 (Questions 34 and 36).\nDue date: 03/10/2026.",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-03"
+  },
+  {
+   "id": "2026-10-04-C7F4EC13DE1BD4B7",
+   "date": "2026-10-04",
+   "type": "Big exam",
+   "subject": "Math",
+   "text": "Math Term 1 Quiz 1 will be on Sunday: 04/10/2026. (Lesson 1-1, pages 9 to 14; Lesson 1-2, pages 15 to 20; Lesson 1-3, pages 21 to 26; Lesson 1-4, pages 33 to 38; Lesson 1-5, pages 39 to 44)",
+   "kind": "test",
+   "due": "2026-10-04"
+  },
+  {
+   "id": "2026-10-06-BE63805FFE3E9419",
+   "date": "2026-10-06",
+   "type": "Big exam",
+   "subject": "Islamic Studies",
+   "text": "الاختبار الدوري الأول في مادة الدراسات الإسلامية",
+   "kind": "test",
+   "due": "2026-10-06"
+  },
+  {
+   "id": "2026-10-08-DE77025E3857A982",
+   "date": "2026-10-08",
+   "type": "Small exam",
+   "subject": "English",
+   "text": "English Term 1 Quiz 1",
+   "kind": "test",
+   "due": "2026-10-08"
+  },
+  {
+   "id": "2026-10-11-2D7B820750299B3E",
+   "date": "2026-10-11",
+   "type": "Small exam",
+   "subject": "Science",
+   "text": "Science – Term 1- Quiz 1",
+   "kind": "test",
+   "due": "2026-10-11"
+  },
+  {
+   "id": "2026-10-13-DDAB584930C8C1BE",
+   "date": "2026-10-13",
+   "type": "Small exam",
+   "subject": "Social Studies",
+   "text": "اختبار الاجتماعيات الأول",
+   "kind": "test",
+   "due": "2026-10-13"
+  },
+  {
+   "id": "2026-10-15-7301580A3AC88A6C",
+   "date": "2026-10-15",
+   "type": "Small exam",
+   "subject": "Arabic",
+   "text": "اختبار لغتي الأول",
+   "kind": "test",
+   "due": "2026-10-15"
+  },
+  {
+   "id": "2026-10-18-3D3877C702E48F8F804E",
+   "date": "2026-10-18",
+   "type": "homework",
+   "subject": "Arabic",
+   "text": "واجب الأسبوع الثامن : حل الواجب المنزلي ص 83 على أن يكون آخر موعد للتسليم : يوم السبت الموافق 24 / 10 / 2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-24"
+  },
+  {
+   "id": "2026-10-18-719D38A3AAAF93CDC8BF",
+   "date": "2026-10-18",
+   "type": "homework",
+   "subject": "Islamic Studies",
+   "text": "واجب الأسبوع الثامن : أجب عن الأسئلة الموجودة على منصة الإيديوبيدج علمًا بأن آخر موعد لحل وتسليم الواجب هو يوم السبت الموافق 24 من أكتوبر",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-24"
+  },
+  {
+   "id": "2026-10-18-F44C6F47E9501A1B97E7",
+   "date": "2026-10-18",
+   "type": "homework",
+   "subject": "Science",
+   "text": "Homework (8.1) on IXL: Skill 1: Animal cell diagrams: label parts. Due Date 24 /10 / 2026 Target: At Least 70%",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-24"
+  },
+  {
+   "id": "2026-10-19-5935EF89C537CDB41A40",
+   "date": "2026-10-19",
+   "type": "homework",
+   "subject": "Math",
+   "text": "H.W. 8.1: Lesson 2-4: Represent Rational Numbers on the Coordinate Plane. In the IXL website\" https://www.ixl.com/math/grade-6/objects-on-a-coordinate-plane\nMinimum score: 70%\nDue date: 24/10/2026.",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-24"
+  },
+  {
+   "id": "2026-10-19-57A7A5E7CEEDD3AB",
+   "date": "2026-10-19",
+   "type": "Oral exam",
+   "subject": "Qur'an",
+   "text": "الاختبار الدوري الأول للقرآن الكريم",
+   "kind": "test",
+   "due": "2026-10-19"
+  },
+  {
+   "id": "2026-10-20-A54AF0D4DFA1C6EF4717",
+   "date": "2026-10-20",
+   "type": "homework",
+   "subject": "English",
+   "text": "HWK (8.1) (Grammar- IXL: https://www.ixl.com/ela/grade-6/identify-common-and-proper-nouns ) Minimum score 70% Due date: 24/10/26",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-24"
+  },
+  {
+   "id": "2026-10-21-7AC940BD462598F6F251",
+   "date": "2026-10-21",
+   "type": "homework",
+   "subject": "Science",
+   "text": "Homework (8.2): Solve Worksheet 5 - Term 1. Please bring the completed worksheet with you on Sunday. Due date: 25/10/2026",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-25"
+  },
+  {
+   "id": "2026-10-22-FCDC333DBF0EE2FA",
+   "date": "2026-10-22",
+   "type": "Small exam",
+   "subject": "Arabic",
+   "text": "إملاء اختباري",
+   "kind": "test",
+   "due": "2026-10-22"
+  },
+  {
+   "id": "2026-10-22-6F431794C3FD3CA27618",
+   "date": "2026-10-22",
+   "type": "homework",
+   "subject": "English",
+   "text": "HWK (8.2) Writing: Write a friendly letter to a friend who lives in another country, inviting him to visit Saudi Arabia. Describe the places he can visit and the activities he can enjoy during his stay. Bring your English Notebook for correction. Due date: 24/10/26",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-24"
+  },
+  {
+   "id": "2026-10-22-D07FE1AF26AC823D24B5",
+   "date": "2026-10-22",
+   "type": "homework",
+   "subject": "Math",
+   "text": "H.W. 8.2: Lessons 2-5: Find Distance on the Coordinate Plane.\nIn the Math Book \"Envision Mathematics, Volume 1\"\nPage 102 (Questions 7, 8, 9)\nPage 103 (Questions 12,15, 17,and18).\nDue date: 24/10/2026.",
+   "kind": "hw",
+   "dueGuessed": false,
+   "due": "2026-10-24"
+  }
+ ]
+}
+</script>
+<!-- EDUPAGE-DATA:END -->
+
+<script>
+"use strict";
+/* Shared with weekly/week-08: ticks are keyed by EduPage item id. */
+const KEY = "monmon-done-v1";
+const TZ = "Asia/Riyadh";
+const TERM_START = "2026-08-30"; /* Sunday of school week 1 */
+
+/* School weeks that have a detailed plan page. */
+const WEEK_PAGES = {8: "weekly/week-08/index.html"};
+
+/* Practice pages for particular homework items (by EduPage id). */
+const PRACTICE_BY_ID = {
+  "2026-10-18-F44C6F47E9501A1B97E7": ["science/moving-material/index.html", "تدرّب على أجزاء الخلية"],
+  "2026-10-21-7AC940BD462598F6F251": ["science/moving-material/index.html", "راجع درس نقل المواد"],
+  "2026-10-19-5935EF89C537CDB41A40": ["math/coordinate-plane/index.html", "تدرّب على المستوى الإحداثي"],
+  "2026-10-22-D07FE1AF26AC823D24B5": ["math/coordinate-plane/index.html", "تدرّب على حساب المسافة"]
+};
+
+/* What to study, from the school's Weekly Study Plan and Weekly Events (EduPage only gives the title). */
+const NOTES = {
+  "2026-10-19-57A7A5E7CEEDD3AB": "التلاوة: سورة الكهف 1-18 · الحفظ: سورة القلم 1-30",
+  "2026-10-22-FCDC333DBF0EE2FA": "إملاء ص 65: من (تحرص حكومة خادم الحرمين الشريفين) حتى (واحترام التنوع الثقافي). يحضر دفتر الإملاء."
+};
+
+/* In the Weekly Study Plan but not on EduPage. */
+const EXTRA = [
+  {id:"wsp-2026-10-22-kahf", date:"2026-10-22", kind:"test", type:"Oral exam", subject:"Qur'an", due:"2026-10-22",
+   text:"تقييم تلاوة سورة الكهف 19-20", fromPlan:true}
+];
+
+const PRACTICE_PAGES = [
+  {href:"weekly/week-08/index.html", title:"خطة الأسبوع 8", text:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", cls:""},
+  {href:"math/coordinate-plane/index.html", title:"الرياضيات: المستوى الإحداثي", text:"الدرسان 2-4 و2-5: تمثيل النقاط وإيجاد المسافة.", cls:"s-math"},
+  {href:"science/moving-material/index.html", title:"العلوم: نقل المواد", text:"كيف تنقل النباتات والإنسان الماء والأكسجين والدم.", cls:"s-sci"},
+  {href:"vocabulary/review-units-1-3/index.html", title:"المفردات: مراجعة الوحدات 1-3", text:"Vocabulary Workshop، صفحات 42-49.", cls:"s-eng"},
+  {href:"vocabulary/unit-02/index.html", title:"المفردات: الوحدة 2", text:"رحلة الكلمات العشرين للوحدة الثانية.", cls:"s-eng"}
+];
+
+const SUBJ = {
+  "Math":["رياضيات","s-math"], "English":["إنجليزي","s-eng"], "Science":["علوم","s-sci"], "Arabic":["لغتي","s-ar"],
+  "Islamic Studies":["دراسات إسلامية","s-isl"], "Qur'an":["قرآن كريم","s-quran"], "Social Studies":["اجتماعيات","s-soc"],
+  "PE":["تربية بدنية","s-pe"]
+};
+const TYPE_AR = {"homework":"واجب", "Small exam":"اختبار قصير", "Big exam":"اختبار", "Oral exam":"اختبار شفهي",
+  "Unit Test (W2)":"اختبار وحدة", "Test":"اختبار", "Project":"مشروع", "Report":"تقرير"};
+const WD = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const ICON_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+let DATA = {items:[]};
+try { DATA = JSON.parse(document.getElementById("edupage-data").textContent); } catch (e) {}
+const ITEMS = (DATA.items || []).concat(EXTRA);
+
+let S = (() => { try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v.done === "object") return v; } catch (e) {} return {done:{}}; })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+function todayISO(){
+  try { return new Intl.DateTimeFormat("en-CA", {timeZone:TZ, year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date()); }
+  catch (e) { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
+}
+function parts(iso){ const [y,m,d] = iso.split("-").map(Number); return {y, m, d, wd:new Date(Date.UTC(y, m-1, d)).getUTCDay()}; }
+function dayDiff(a, b){ const t = s => { const p = parts(s); return Date.UTC(p.y, p.m-1, p.d); }; return Math.round((t(b) - t(a)) / 864e5); }
+function addDays(iso, n){ const p = parts(iso); const d = new Date(Date.UTC(p.y, p.m-1, p.d + n)); return d.toISOString().slice(0,10); }
+function shortDate(iso){ const p = parts(iso); return WD[p.wd] + " " + p.d + "/" + p.m; }
+function longDate(iso){ const p = parts(iso); return WD[p.wd] + " " + p.d + " " + MONTHS[p.m-1] + " " + p.y; }
+function weekNo(iso){ return Math.floor(dayDiff(TERM_START, iso) / 7) + 1; }
+/* Arabic counted nouns: 1, 2, 3-10, 11+ */
+function count(n, one, two, few, many){ return n === 1 ? one : n === 2 ? two : n <= 10 ? n + " " + few : n + " " + many; }
+function days(n){ return count(n, "يوم واحد", "يومين", "أيام", "يومًا"); }
+function dueLabel(n){ return n < 0 ? "فات الموعد" : n === 0 ? "اليوم" : n === 1 ? "غدًا" : "باقي " + days(n); }
+function whenLabel(n){ return n === 0 ? "اليوم" : n === 1 ? "غدًا" : "بعد " + days(n); }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function textHTML(s){ return esc(s).replace(/https?:\/\/[^\s<]+/g, u => '<a href="' + u + '" target="_blank" rel="noopener" dir="ltr">' + u + '</a>'); }
+function subj(name){ return SUBJ[name] || [name || "أخرى", ""]; }
+function typeAr(t){ return TYPE_AR[t] || t || ""; }
+
+const TODAY = todayISO();
+const todo = ITEMS.filter(i => i.kind !== "test" && i.due >= TODAY);
+const tests = ITEMS.filter(i => i.kind === "test" && i.date >= TODAY);
+const past = ITEMS.filter(i => !todo.includes(i) && !tests.includes(i));
+
+function renderHello(){
+  const p = parts(TODAY);
+  const n = weekNo(TODAY);
+  const weekend = p.wd === 5 || p.wd === 6;
+  const schoolWeek = weekend ? n + 1 : n;
+  document.getElementById("today").textContent = "اليوم " + longDate(TODAY) + " · " +
+    (weekend ? "إجازة نهاية الأسبوع، والأسبوع " + schoolWeek + " يبدأ " + (p.wd === 6 ? "غدًا" : "بعد غد") : "الأسبوع " + schoolWeek);
+  const left = todo.filter(i => !S.done[i.id]);
+  document.getElementById("tTodo").textContent = left.length;
+  document.getElementById("tTests").textContent = tests.length;
+  const next = left.map(i => i.due).concat(tests.map(i => i.date)).sort()[0];
+  document.getElementById("tNext").textContent = next ? shortDate(next) : "—";
+  const btn = document.getElementById("weekBtn");
+  if (WEEK_PAGES[schoolWeek]) { btn.href = WEEK_PAGES[schoolWeek]; btn.textContent = "خطة الأسبوع " + schoolWeek + " بالتفصيل ←"; btn.hidden = false; }
+}
+
+function itemCard(i){
+  const done = !!S.done[i.id];
+  const [sName, sCls] = subj(i.subject);
+  const prac = PRACTICE_BY_ID[i.id];
+  const meta = typeAr(i.type) + " · انطلب " + shortDate(i.date) + (i.dueGuessed ? " · الموعد المعتاد للتسليم" : "");
+  return '<li class="item panel ' + sCls + (done ? " is-done" : "") + '">' +
+    '<button class="check" type="button" role="checkbox" aria-checked="' + done + '" data-id="' + esc(i.id) + '" aria-label="خلص: ' + esc(sName) + '">' + ICON_CHECK + '</button>' +
+    '<div class="item-body"><div class="item-meta"><span class="subj">' + esc(sName) + '</span><span class="meta-note">' + esc(meta) + '</span></div>' +
+    '<p class="item-text" dir="auto">' + textHTML(i.text) + '</p>' +
+    (prac ? '<div class="actions"><a class="act" href="' + prac[0] + '">' + esc(prac[1]) + ' ←</a></div>' : "") +
+    '</div></li>';
+}
+function renderTodo(){
+  const el = document.getElementById("todo");
+  if (!todo.length) { el.innerHTML = '<p class="empty panel">ما عنده واجبات مطلوبة الحين.</p>'; return; }
+  const dues = [...new Set(todo.map(i => i.due))].sort();
+  el.innerHTML = dues.map(due => {
+    const items = todo.filter(i => i.due === due).sort((a, b) => (!!S.done[a.id]) - (!!S.done[b.id]) || a.date.localeCompare(b.date));
+    const allDone = items.every(i => S.done[i.id]);
+    const n = dayDiff(TODAY, due);
+    const badge = allDone ? '<span class="badge ok">خلصت كلها</span>' : '<span class="badge' + (n <= 1 ? " hot" : "") + '">' + dueLabel(n) + '</span>';
+    return '<div class="group"><div class="group-head"><h3>التسليم ' + shortDate(due) + '</h3>' + badge + '</div><ul class="list">' + items.map(itemCard).join("") + '</ul></div>';
+  }).join("");
+}
+
+function renderTests(){
+  const el = document.getElementById("tests");
+  if (!tests.length) { el.innerHTML = '<li class="empty panel">ما فيه اختبارات معلنة في EduPage الحين.</li>'; return; }
+  el.innerHTML = tests.slice().sort((a, b) => a.date.localeCompare(b.date)).map(i => {
+    const [sName, sCls] = subj(i.subject);
+    const p = parts(i.date);
+    const note = NOTES[i.id];
+    return '<li class="test panel ' + sCls + '"><div class="cal"><small>' + WD[p.wd] + '</small><b>' + p.d + '</b><span>' + MONTHS[p.m-1] + '</span></div>' +
+      '<div class="item-body"><div class="item-meta"><span class="subj">' + esc(sName) + '</span><span class="meta-note">' + esc(typeAr(i.type)) + '</span>' +
+      '<span class="badge' + (dayDiff(TODAY, i.date) <= 1 ? " hot" : "") + '">' + whenLabel(dayDiff(TODAY, i.date)) + '</span></div>' +
+      '<p class="item-text" dir="auto">' + textHTML(i.text) + '</p>' +
+      (note ? '<p class="note" dir="auto">' + esc(note) + '</p>' : "") +
+      (i.fromPlan ? '<p class="meta-note">من الخطة الأسبوعية (مو موجود في EduPage)</p>' : "") +
+      '</div></li>';
+  }).join("");
+}
+
+function renderPractice(){
+  document.getElementById("practiceList").innerHTML = PRACTICE_PAGES.map(p =>
+    '<a class="panel ' + p.cls + '" href="' + p.href + '"><b>' + esc(p.title) + '</b><span>' + esc(p.text) + '</span></a>').join("");
+}
+
+function renderHistory(){
+  const el = document.getElementById("history");
+  const weeks = [...new Set(past.map(i => weekNo(i.date)))].sort((a, b) => b - a);
+  if (!weeks.length) { el.innerHTML = '<p class="empty panel">ما فيه شيء سابق.</p>'; return; }
+  el.innerHTML = weeks.map(w => {
+    const start = addDays(TERM_START, (w - 1) * 7), end = addDays(start, 6);
+    const ps = parts(start), pe = parts(end);
+    const range = ps.m === pe.m ? ps.d + "–" + pe.d + " " + MONTHS[pe.m-1] : ps.d + " " + MONTHS[ps.m-1] + " – " + pe.d + " " + MONTHS[pe.m-1];
+    const items = past.filter(i => weekNo(i.date) === w).sort((a, b) => a.date.localeCompare(b.date));
+    const hw = items.filter(i => i.kind !== "test").length, ts = items.length - hw;
+    const counts = [hw ? count(hw, "واجب واحد", "واجبين", "واجبات", "واجبًا") : "", ts ? count(ts, "اختبار واحد", "اختبارين", "اختبارات", "اختبارًا") : ""].filter(Boolean).join(" · ");
+    return '<details class="week"><summary><b>الأسبوع ' + w + '</b><span>' + range + '</span><span>' + counts + '</span></summary><div class="rows">' +
+      items.map(i => {
+        const [sName, sCls] = subj(i.subject);
+        const when = i.kind === "test" ? shortDate(i.date) : "انطلب " + shortDate(i.date) + " · التسليم " + shortDate(i.due);
+        return '<div class="row ' + sCls + '"><div class="item-meta"><span class="subj">' + esc(sName) + '</span><span class="meta-note">' + esc(typeAr(i.type) + " · " + when) + '</span>' +
+          (S.done[i.id] ? '<span class="done-mark">خلص</span>' : "") + '</div><p class="item-text" dir="auto">' + textHTML(i.text) + '</p></div>';
+      }).join("") + '</div></details>';
+  }).join("");
+}
+
+function renderSynced(){
+  const el = document.getElementById("synced");
+  if (!DATA.synced) { el.textContent = ""; return; }
+  const [date, time] = DATA.synced.split("T");
+  el.textContent = "آخر تحديث من EduPage: " + longDate(date) + " الساعة " + time.slice(0, 5) + " (بتوقيت السعودية).";
+}
+
+function renderAll(){ renderHello(); renderTodo(); renderTests(); renderHistory(); }
+
+document.getElementById("todo").addEventListener("click", e => {
+  const btn = e.target.closest(".check");
+  if (!btn) return;
+  const id = btn.dataset.id;
+  if (S.done[id]) delete S.done[id]; else S.done[id] = true;
+  save();
+  renderAll();
+  const again = document.querySelector('.check[data-id="' + id + '"]');
+  if (again) again.focus();
+});
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (!confirm("تمسح كل العلامات على هذا الجهاز؟")) return;
+  S = {done:{}}; save(); renderAll();
+});
+
+renderAll();
+renderPractice();
+renderSynced();
+</script>
+</body>
+</html>
