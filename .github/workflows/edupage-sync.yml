@@ -1,18 +1,16 @@
 name: Sync EduPage
 
 # Refreshes index.html from the school's public EduPage homework/tests list
-# twice a day (06:23 and 16:23 Jeddah time), commits only when it changed,
-# then publishes the main branch to gh-pages, which GitHub Pages serves.
-# A push to the main branch runs it too, so manual changes go live as well.
+# twice a day (06:23 and 16:23 Jeddah time) and commits only when it changed.
+# GitHub Pages builds the site from this branch, so a sync commit goes live.
 on:
   schedule:
     - cron: "23 3,13 * * *"
-  push:
-    branches: [claude/epic-ptolemy-7hl9cc]
   workflow_dispatch:
 
 permissions:
   contents: write
+  pages: write
 
 concurrency:
   group: edupage-sync
@@ -27,6 +25,7 @@ jobs:
       - name: Fetch homework and tests for class 6.3
         run: python3 tools/edupage_sync.py
       - name: Commit if changed
+        id: commit
         run: |
           if git diff --quiet -- index.html; then
             echo "No changes"
@@ -37,7 +36,11 @@ jobs:
           git add index.html
           git commit -m "Sync homework and tests from EduPage"
           git push
-      # publish even if EduPage was unreachable, so a pushed change still goes live
-      - name: Publish to GitHub Pages (gh-pages branch)
-        if: ${{ !cancelled() && github.ref == 'refs/heads/claude/epic-ptolemy-7hl9cc' }}
-        run: git push --force origin HEAD:refs/heads/gh-pages
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+      # the bot's push should start a Pages build by itself; ask for one in case it doesn't
+      - name: Rebuild GitHub Pages
+        if: steps.commit.outputs.pushed == 'true'
+        continue-on-error: true
+        run: gh api --method POST "repos/${{ github.repository }}/pages/builds"
+        env:
+          GH_TOKEN: ${{ github.token }}
