@@ -10,14 +10,20 @@ whole class.
 
     python3 tools/edupage_sync.py             # update index.html
     python3 tools/edupage_sync.py --dry-run   # print the items, change nothing
+    python3 tools/edupage_sync.py --grace 24  # as the hourly workflow runs it
+
+The data block also records when EduPage was last read ("checked"), at most
+once a day, so the page can warn when its list may be out of date.
 
 Standard library only. Exits non-zero, without touching index.html, if any
-week cannot be fetched or does not look like the class 6.3 list.
+week cannot be fetched or does not look like the class 6.3 list; with
+--grace HOURS it only warns instead, while the last check is newer than that.
 """
 import argparse
 import datetime as dt
 import html
 import json
+import os
 import re
 import sys
 import time
@@ -44,7 +50,7 @@ AR_MONTHS = {"يناير": 1, "فبراير": 2, "مارس": 3, "أبريل": 4,
 DECORATION = re.compile("[​﻿⌛⏳\U0001F3AF\U0001F4DA]")
 
 
-def fetch_week(sunday, attempts=3):
+def fetch_week(sunday, attempts=4):
     url = (f"{SCHOOL}/exam/?wid=exam_ExamList_1&classid={CLASS_ID}"
            f"&date={sunday.isoformat()}&type=")
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
@@ -56,9 +62,9 @@ def fetch_week(sunday, attempts=3):
         except OSError as err:  # URLError, timeouts and dropped connections
             if attempt == attempts:
                 raise
-            # the school's server occasionally drops a connection; wait and retry
+            # the school's server occasionally drops connections for a minute or two
             print(f"{url}: {err}; retrying", file=sys.stderr)
-            time.sleep(10 * attempt)
+            time.sleep(15 * 2 ** (attempt - 1))
     if 'id="exam_ExamList_1"' not in page or f'value="{CLASS_ID}" selected' not in page:
         raise RuntimeError(f"{url} did not return the class {CLASS_NAME} list (login page?)")
     return page
@@ -142,35 +148,61 @@ def collect():
     return sorted(items.values(), key=lambda x: (x["date"], x["subject"], x["id"]))
 
 
-def render(items, synced):
-    data = {"source": f"{SCHOOL}/exam/", "class": CLASS_NAME, "synced": synced, "items": items}
+def render(items, synced, checked):
+    data = {"source": f"{SCHOOL}/exam/", "class": CLASS_NAME, "synced": synced,
+            "checked": checked, "items": items}
     payload = json.dumps(data, ensure_ascii=False, indent=1).replace("</", "<\\/")
     return f'{BEGIN}\n<script id="edupage-data" type="application/json">\n{payload}\n</script>\n{END}'
+
+
+def set_output(name, value):
+    """Pass a value to later steps when running in GitHub Actions."""
+    if os.environ.get("GITHUB_OUTPUT"):
+        with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:
+            out.write(f"{name}={value}\n")
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--dry-run", action="store_true", help="print the items and leave index.html alone")
+    ap.add_argument("--grace", type=float, default=0, metavar="HOURS",
+                    help="if EduPage can't be read but was checked within HOURS, warn and exit 0")
     args = ap.parse_args()
-
-    items = collect()
-    if args.dry_run:
-        for it in items:
-            print(it["date"], it["kind"], it["subject"], "due", it["due"], "|", it["text"][:90].replace("\n", " "))
-        print(len(items), "items")
-        return 0
 
     page = PAGE.read_text(encoding="utf-8")
     pattern = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
     if not pattern.search(page):
         sys.exit(f"{PAGE} has no {BEGIN} ... {END} block")
     current = re.search(r'<script id="edupage-data" type="application/json">\n(.*?)\n</script>', page, re.S)
-    if current and json.loads(current.group(1).replace("<\\/", "</")).get("items") == items:
+    data = json.loads(current.group(1).replace("<\\/", "</")) if current else {}
+    now = dt.datetime.now(TZ).replace(microsecond=0)
+
+    try:
+        items = collect()
+    except (OSError, RuntimeError) as err:
+        last = data.get("checked") or data.get("synced")
+        if args.grace and last and now - dt.datetime.fromisoformat(last) < dt.timedelta(hours=args.grace):
+            # one failed run is not worth an alarm; the next run will try again
+            print(f"EduPage could not be read ({err}); last check {last}, trying again next run")
+            return 0
+        raise
+
+    if args.dry_run:
+        for it in items:
+            print(it["date"], it["kind"], it["subject"], "due", it["due"], "|", it["text"][:90].replace("\n", " "))
+        print(len(items), "items")
+        return 0
+
+    changed = data.get("items") != items
+    # without a change, record the check once a day so the page knows the list is current
+    if not changed and data.get("checked", "")[:10] == now.date().isoformat():
         print(f"No changes ({len(items)} items)")
         return 0
-    synced = dt.datetime.now(TZ).replace(microsecond=0).isoformat()
-    PAGE.write_text(pattern.sub(lambda _: render(items, synced), page, count=1), encoding="utf-8")
-    print(f"Updated {PAGE.name}: {len(items)} items, synced {synced}")
+    stamp = now.isoformat()
+    synced = stamp if changed or not data.get("synced") else data["synced"]
+    PAGE.write_text(pattern.sub(lambda _: render(items, synced, stamp), page, count=1), encoding="utf-8")
+    set_output("changed", "true" if changed else "false")
+    print(f"Updated {PAGE.name}: {len(items)} items, " + (f"synced {synced}" if changed else f"checked {stamp}"))
     return 0
 
 

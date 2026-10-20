@@ -168,6 +168,7 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
     <div>
       <h1 id="helloTitle">ايش المطلوب؟</h1>
       <p class="today" id="today"></p>
+      <p class="note" id="stale" hidden></p>
     </div>
     <div class="tiles">
       <div class="tile hot"><b id="tTodo">0</b><span>واجبات باقية</span></div>
@@ -965,7 +966,16 @@ function syncedText(){
   const [date, time] = DATA.synced.split("T");
   return "آخر تحديث من EduPage: " + longDate(date) + " الساعة " + time.slice(0, 5) + " (بتوقيت السعودية).";
 }
-function renderSynced(){ document.getElementById("synced").textContent = syncedText(); }
+/* The sync reads EduPage every hour and stamps "checked" at least once a day. */
+function renderSynced(){
+  document.getElementById("synced").textContent = syncedText() + (DATA.synced ? " الصفحة تتحدّث تلقائيًا من EduPage كل ساعة." : "");
+  const last = (DATA.checked || DATA.synced || "").slice(0, 10);
+  const el = document.getElementById("stale");
+  if (last && dayDiff(last, TODAY) >= 2) {
+    el.textContent = "تنبيه: آخر مرة انقرأت فيها قائمة EduPage كانت " + longDate(last) + "، فممكن فيه واجبات جديدة ما ظهرت هنا. راجعوا EduPage مباشرة.";
+    el.hidden = false;
+  }
+}
 
 /* Print: one A4 page with what is still due (boxes to tick by hand) and the coming tests. */
 /* the due date has its own column on paper, so drop "Due date: 24/10/2026" from the text */
