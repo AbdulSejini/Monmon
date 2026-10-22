@@ -18,6 +18,7 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 | Week | Page | What's inside |
 | --- | --- | --- |
 | Week 8 (18–22 Oct 2026), Class 6.3 | [`weekly/week-08/index.html`](weekly/week-08/index.html) | The school's Weekly Study Plan as one page: tests (Qur'an periodic test, Arabic dictation), a homework checklist grouped by due date, the day-by-day timetable, a suggested evening plan with "tonight's jobs" picked from today's date (Jeddah time), a friendly-letter planner, and links to this week's practice pages. Prints as a one-week sheet. |
+| Week 9 (25–29 Oct 2026), Class 6.3 | [`weekly/week-09/index.html`](weekly/week-09/index.html) | The same layout for Week 9: Sunday 25/10 shown as the long weekend, tests (ICT practical quiz, Qur'an recitation check), eight homework items with a pronoun helper for the writing task and an exponent reminder, a note that the Science IXL link opens the plant cell skill while the task names the animal cell one, the Mon–Thu timetable, the evening plan, and links to the coordinate-plane practice and the Cell Lab. Prints as a one-week sheet. |
 
 ## Math
 
@@ -46,6 +47,7 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 | --- | --- |
 | Dashboard | 1 page: homework still due, with boxes to tick by hand, and the coming tests with what to study |
 | Week 8 plan | 2 pages: tests, homework and evening plan; then the Sun–Thu timetable as a grid |
+| Week 9 plan | 2 pages: tests, homework and evening plan; then the Mon–Thu timetable as a grid |
 | Math | 2 pages: study sheet, then 10 practice questions with an answer key |
 | Science | 3 pages: key ideas and word bank, then a label-the-cell sheet with an answer key |
 | Vocabulary Unit 2 | 2 pages: word list, then "Test yourself" with an answer key |
