@@ -8,8 +8,8 @@ Learning materials for a Grade 6 student (Class 6.3).
 
 The homework and tests come from the school's public EduPage list for class 6.3 (`https://aisedusa.edupage.org/exam/`), which needs no login. Grades, attendance and messages need a login and are not included.
 
-- `tools/edupage_sync.py` re-reads that list and rewrites the data block in `index.html` (standard library only; `--dry-run` prints the items without changing anything).
-- `.github/workflows/edupage-sync.yml` runs it at 06:23 and 16:23 Jeddah time and commits only when something changed. It can also be started by hand from the Actions tab ("Sync EduPage", then "Run workflow").
+- `tools/edupage_sync.py` re-reads that list and rewrites the data block in `index.html` (standard library only; `--dry-run` prints the items without changing anything). The block keeps two times: `synced`, when the list last changed, and `checked`, when it was last read (stamped at least once a day). If the list hasn't been read for two days, the dashboard shows a warning at the top.
+- `.github/workflows/edupage-sync.yml` runs it every hour from 05:41 to 23:41 Jeddah time and commits only when something changed, plus one "EduPage checked: no changes" commit a day. GitHub often starts scheduled runs late or skips some, so the hourly schedule keeps the site close to EduPage. If the school's server can't be reached, the run tries again next hour and only fails (with GitHub's failure email) once the list hasn't been read for 24 hours. The workflow can also be started by hand from the Actions tab ("Sync EduPage", then "Run workflow").
 - The site is published with GitHub Pages at <https://abdulsejini.github.io/Monmon/>, built from the root of the main branch (`.nojekyll` serves the files as they are). Any commit to the main branch, including the sync's, goes live within a couple of minutes.
 - Notes on what to study or bring, items from the Weekly Study Plan or the class's EduPage messages that the public list doesn't have (`EXTRA`), school calendar dates (`SCHOOL_DATES`) and class notices (`NOTICES`) are kept by hand near the top of the script in `index.html`. Nothing personal (messages to or about the student, reports, behaviour notes) goes on this public site.
 
@@ -18,18 +18,21 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 | Week | Page | What's inside |
 | --- | --- | --- |
 | Week 8 (18–22 Oct 2026), Class 6.3 | [`weekly/week-08/index.html`](weekly/week-08/index.html) | The school's Weekly Study Plan as one page: tests (Qur'an periodic test, Arabic dictation), a homework checklist grouped by due date, the day-by-day timetable, a suggested evening plan with "tonight's jobs" picked from today's date (Jeddah time), a friendly-letter planner, and links to this week's practice pages. Prints as a one-week sheet. |
+| Week 9 (25–29 Oct 2026), Class 6.3 | [`weekly/week-09/index.html`](weekly/week-09/index.html) | The same layout for Week 9: Sunday 25/10 shown as the long weekend, tests (ICT practical quiz, Qur'an recitation check), eight homework items with a pronoun helper for the writing task and an exponent reminder, a note that the Science IXL link opens the plant cell skill while the task names the animal cell one, the Mon–Thu timetable, the evening plan, and links to the coordinate-plane practice and the Cell Lab. Prints as a one-week sheet. |
 
 ## Math
 
 | Lessons | Page | What's inside |
 | --- | --- | --- |
 | enVision Mathematics Grade 6, Lessons 2-4 and 2-5 (coordinate plane) | [`math/coordinate-plane/index.html`](math/coordinate-plane/index.html) | Five zones (axes and quadrants, fractions and decimals, reflections, distance with absolute value, map problems), each with lesson cards and a 6-question practice; a tap-to-plot grid that works on iPad; typed answers that accept fractions, mixed numbers and decimals; explanations for every answer with tips for common slips; a 20-question Final Challenge with a skill report and study plan; and a homework check for H.W. 8.1 (IXL) and 8.2 (book pp. 102–103). |
+| enVision Mathematics Grade 6, Lesson 3-1 (exponents, pp. 123–128) | [`math/exponents/index.html`](math/exponents/index.html) | Power Lab: five zones (repeated multiplication and powers, evaluating whole-number powers, fractions and decimals, powers of 10 and expanded form with 10⁰, comparing powers and word problems with error analysis), each with four lesson cards with pictures and a 6-question practice from random generators; a two-box base/exponent input and typed answers that accept fractions, decimals and thousands separators; a targeted tip for each common slip (base × exponent, squaring only the numerator, a misplaced decimal point, miscounted zeros); a 20-question Final Challenge with a nine-skill report and study plan; and a homework check for H.W. 9.2 (book pp. 127–128). |
 
 ## Science
 
 | Lesson | Page | What's inside |
 | --- | --- | --- |
 | Module 2: Body Systems, L4 Moving Material | [`science/moving-material/index.html`](science/moving-material/index.html) | Eight parts following the week's lesson questions (the phenomenon, transport in plants, the human circulatory system, the lungs and gas exchange, the heart's two loops, how other animals breathe, open and closed circulatory systems, the cardiovascular technologist and blood cells), each with an animated diagram and a quick check; a Cell Lab for the IXL animal-cell labeling homework; a 20-question Lesson Review with a weak-spot report; and a 37-word word bank. |
+| Module 2: Body Systems, L5 Control and Information Processing | [`science/control-information/index.html`](science/control-information/index.html) | Signal Lab: eight parts following the week's lesson questions (the surfer phenomenon and "when do we use our brains?", the nervous system and the brain, neurons, synapses and reflexes, taste, smell, touch, hearing and balance, sight), each with an animated diagram and a quick check; a reaction-time test and a blind-spot test; a Label Lab for the eye, ear, brain and neuron; a 20-question Lesson Review drawn from 53 with a weak-spot report; a 38-word word bank; and the week's science homework (Worksheet 6, and the IXL cell skill with its link mismatch). |
 
 ## Vocabulary
 
@@ -46,8 +49,11 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 | --- | --- |
 | Dashboard | 1 page: homework still due, with boxes to tick by hand, and the coming tests with what to study |
 | Week 8 plan | 2 pages: tests, homework and evening plan; then the Sun–Thu timetable as a grid |
+| Week 9 plan | 2 pages: tests, homework and evening plan; then the Mon–Thu timetable as a grid |
 | Math | 2 pages: study sheet, then 10 practice questions with an answer key |
+| Math, exponents | 2 pages: study sheet, then 10 practice questions with an answer key |
 | Science | 3 pages: key ideas and word bank, then a label-the-cell sheet with an answer key |
+| Science, control and information | 3 pages: homework and key ideas, the rest of the key ideas and the word bank, then a label-the-eye-and-ear sheet with an answer key |
 | Vocabulary Unit 2 | 2 pages: word list, then "Test yourself" with an answer key |
 | Vocabulary Review Units 1–3 | 3 pages: one per unit, with a word table and a short test |
 
