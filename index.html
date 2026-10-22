@@ -124,31 +124,37 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* print: one A4 page, built by renderPrint() */
-.print-sheet{display:none}
 @page{size:A4;margin:12mm}
+/* The sheet sets its own type size and its styles sit outside @media print,
+   so renderPrint() can measure it on screen at the printed width (A4 less margins). */
+.print-sheet{display:none;color:#000;font-size:9pt;line-height:1.35}
+.print-sheet.ps-measure{display:block;position:fixed;top:0;left:0;width:186mm;visibility:hidden}
+.ps-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2pt 12pt;border-bottom:1.5pt solid #000;padding-bottom:3pt}
+.ps-head h1{font-size:15pt}
+.ps-head p{font-size:9pt;font-weight:700;color:#333}
+.ps-sec{font-size:12pt;margin:8pt 0 2pt}
+.ps-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.ps-table td{vertical-align:top;border-bottom:.75pt solid #999;padding:2.5pt 4pt}
+.ps-table tr{break-inside:avoid}
+.ps-group th{text-align:start;font-size:9.5pt;font-weight:800;border-bottom:1pt solid #000;padding:4pt 4pt 1pt}
+.ps-group small{font-size:8pt;font-weight:500;color:#444;margin-inline-start:6pt}
+.ps-box{display:inline-block;vertical-align:top;width:12pt;height:12pt;border:1.2pt solid #000;border-radius:2pt;text-align:center;line-height:10pt;font-weight:800}
+.ps-subj{font-weight:800}
+.ps-subj small,.ps-when small{display:block;font-size:7.5pt;font-weight:500;color:#444}
+.ps-when{font-weight:800;white-space:nowrap}
+.ps-text{white-space:pre-line;overflow-wrap:anywhere}
+.ps-url{font-size:7.5pt;color:#333}
+.ps-note{margin-top:2pt;font-weight:700;border-inline-start:2pt solid #000;padding-inline-start:5pt}
+.ps-brief .ps-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ps-done .ps-text{text-decoration:line-through;color:#555}
+.ps-list{padding-inline-start:14pt}
+.ps-list li{list-style:disc;margin-bottom:1pt}
+.ps-foot{margin-top:6pt;padding-top:3pt;border-top:.75pt solid #999;font-size:7.5pt;color:#444}
 @media print{
   html,body{background:#fff!important}
-  body{background-image:none!important;color:#000;font-size:10pt;line-height:1.4}
+  body{background-image:none!important}
   .topbar,main{display:none!important}
   .print-sheet{display:block}
-  .ps-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4pt 12pt;border-bottom:1.5pt solid #000;padding-bottom:4pt}
-  .ps-head h1{font-size:16pt}
-  .ps-head p{font-size:9pt;font-weight:700;color:#333}
-  .ps-sec{font-size:13pt;margin:9pt 0 3pt}
-  .ps-table{width:100%;border-collapse:collapse;font-size:9pt}
-  .ps-table th{text-align:start;font-size:8.5pt;border-bottom:1pt solid #000;padding:2pt 4pt}
-  .ps-table td{vertical-align:top;border-bottom:.75pt solid #999;padding:3pt 4pt}
-  .ps-table tr{break-inside:avoid}
-  .ps-box{display:inline-block;width:12pt;height:12pt;border:1.2pt solid #000;border-radius:2pt;text-align:center;line-height:11pt;font-weight:800}
-  .ps-subj{font-weight:800}
-  .ps-subj small,.ps-when small{display:block;font-size:8pt;font-weight:500;color:#444}
-  .ps-when{font-weight:800;white-space:nowrap}
-  .ps-text{white-space:pre-line;overflow-wrap:anywhere}
-  .ps-note{margin-top:3pt;font-weight:700;border-inline-start:2pt solid #000;padding-inline-start:5pt}
-  .ps-done .ps-text{text-decoration:line-through;color:#555}
-  .ps-list{padding-inline-start:14pt;font-size:9pt}
-  .ps-list li{list-style:disc;margin-bottom:2pt}
-  .ps-foot{margin-top:8pt;padding-top:3pt;border-top:.75pt solid #999;font-size:8pt;color:#444}
 }
 </style>
 </head>
@@ -997,35 +1003,72 @@ function syncedText(){
 }
 function renderSynced(){ document.getElementById("synced").textContent = syncedText(); }
 
-/* Print: one A4 page with what is still due (boxes to tick by hand) and the coming tests. */
-/* the due date has its own column on paper, so drop "Due date: 24/10/2026" from the text */
-function printText(t){ return t.replace(/\s*Due\s*date:?\s*\d{1,2}\s*\/\s*\d{1,2}\s*\/\s*\d{2,4}\.?/gi, "").trim(); }
-function renderPrint(){
-  const hw = todo.slice().sort((a, b) => a.due.localeCompare(b.due) || a.date.localeCompare(b.date)).map(i => {
-    const done = !!S.done[i.id];
-    return '<tr' + (done ? ' class="ps-done"' : "") + '><td><span class="ps-box">' + (done ? "✓" : "") + '</span></td>' +
-      '<td class="ps-subj">' + esc(subj(i.subject)[0]) + '<small>' + esc(typeAr(i.type)) + '</small></td>' +
-      '<td class="ps-text" dir="auto">' + esc(printText(i.text)) + (NOTES[i.id] ? '<div class="ps-note" dir="auto">' + esc(NOTES[i.id]) + '</div>' : "") + '</td>' +
-      '<td class="ps-when">' + shortDate(i.due) + '<small>' + (done ? "خلص" : dueLabel(dayDiff(TODAY, i.due))) + '</small></td></tr>';
-  }).join("");
+/* Print: one A4 page with what is still due (boxes to tick by hand) and the coming tests.
+   Homework is grouped by due date as on screen; done items take one line. If a busy week would run
+   onto a second page, the teacher's line breaks are joined, then homework due after the nearest
+   dates is cut to one line per item. Tests always print in full. */
+const PAGE_H = 265 * 96 / 25.4; /* px: A4 is 273mm high inside the 12mm margins; keep a little spare */
+function monthNo(name){ const a = s => s.replace(/[أإآ]/g, "ا"); return MONTHS.findIndex(m => a(m) === a(name)) + 1; }
+/* the due date heads each group on paper, so a deadline written into the text is dropped when it names that day:
+   "Due date: 24/10/2026", "على أن يكون آخر موعد للتسليم يوم السبت الموافق 24 / 10 / 2026", "... الموافق 24 من أكتوبر" */
+function printText(i){
+  const p = parts(i.due);
+  const same = (d, m) => +d === p.d && (/^\d+$/.test(m) ? +m : monthNo(m)) === p.m;
+  return i.text
+    .replace(/\s*[-–ـ،,]?\s*Due\s*date:?\s*(\d{1,2})\s*\/\s*(\d{1,2})\s*\/\s*\d{2,4}\.?/gi, (s, d, m) => same(d, m) ? "" : s)
+    .replace(/\s*[-–ـ،,]?\s*(?:على أن|علم\S* بأن)\s[^\n]*?آخر (?:موعد|يوم)[^\n]*?(\d{1,2})\s*(?:\/\s*(\d{1,2})\s*\/\s*\d{2,4}|من ([^\s.،,]+))\.?/g,
+      (s, d, m, month) => same(d, m || month) ? "" : s)
+    .trim();
+}
+/* a link can't be tapped on paper: print it smaller and without "https://www." (ixl.com/... still types in) */
+function printHTML(s){ return esc(s).replace(/https?:\/\/(?:www\.)?([^\s<]+)/g, '<span class="ps-url" dir="ltr">$1</span>'); }
+function printNote(i){ return NOTES[i.id] ? '<div class="ps-note" dir="auto">' + esc(NOTES[i.id]) + '</div>' : ""; }
+/* one homework row; a brief row is cut to one line, and `when` adds its due date at the end */
+function printRow(i, brief, join, when){
+  const done = !!S.done[i.id];
+  let text = printText(i);
+  if (join || brief) text = text.replace(/(:)?\s*\n\s*/g, (s, colon) => colon ? ": " : " · ");
+  return '<tr class="' + (done ? "ps-done" : "") + (brief ? " ps-brief" : "") + '"><td><span class="ps-box">' + (done ? "✓" : "") + '</span></td>' +
+    '<td class="ps-subj">' + esc(subj(i.subject)[0]) + (i.kind === "hw" ? "" : '<small>' + esc(typeAr(i.type)) + '</small>') + '</td>' +
+    '<td class="ps-text" dir="auto"' + (when ? "" : ' colspan="2"') + '>' + printHTML(text) + (brief ? "" : printNote(i)) + '</td>' +
+    (when ? '<td class="ps-when">' + when + '</td>' : "") + '</tr>';
+}
+/* homework due by lastFull (an ISO date) is printed in full under its due date, anything later one line each */
+function printSheet(lastFull, join){
+  const byDone = (a, b) => (!!S.done[a.id]) - (!!S.done[b.id]) || a.date.localeCompare(b.date);
+  const later = todo.filter(i => i.due > lastFull).sort((a, b) => a.due.localeCompare(b.due) || byDone(a, b));
+  const hw = [...new Set(todo.map(i => i.due))].sort().filter(due => due <= lastFull).map(due => {
+    const items = todo.filter(i => i.due === due).sort(byDone);
+    return '<tr class="ps-group"><th colspan="4">التسليم ' + shortDate(due) + '<small>' +
+      (items.every(i => S.done[i.id]) ? "خلصت كلها" : dueLabel(dayDiff(TODAY, due))) + '</small></th></tr>' +
+      items.map(i => printRow(i, !!S.done[i.id], join, "")).join("");
+  }).join("") + (later.length ? '<tr class="ps-group"><th colspan="4">وبعدها<small>سطر لكل واجب، والتفاصيل كاملة في لوحة الواجبات</small></th></tr>' +
+    later.map(i => printRow(i, true, join, shortDate(i.due))).join("") : "");
   const ts = tests.slice().sort((a, b) => a.date.localeCompare(b.date)).map(i =>
     '<tr><td class="ps-when">' + shortDate(i.date) + '<small>' + whenLabel(dayDiff(TODAY, i.date)) + '</small></td>' +
     '<td class="ps-subj">' + esc(subj(i.subject)[0]) + '<small>' + esc(typeAr(i.type)) + '</small></td>' +
-    '<td class="ps-text" dir="auto">' + esc(i.text) + (NOTES[i.id] ? '<div class="ps-note" dir="auto">' + esc(NOTES[i.id]) + '</div>' : "") + '</td></tr>').join("");
-  document.getElementById("printSheet").innerHTML =
-    '<div class="ps-head"><h1>ايش المطلوب؟ · الصف 6.3</h1><p>طُبعت ' + longDate(TODAY) + ' · ' + weekInfo().text + '</p></div>' +
+    '<td class="ps-text" dir="auto">' + printHTML(i.text) + printNote(i) + '</td></tr>').join("");
+  return '<div class="ps-head"><h1>ايش المطلوب؟ · الصف 6.3</h1><p>طُبعت ' + longDate(TODAY) + ' · ' + weekInfo().text + '</p></div>' +
     '<h2 class="ps-sec">لازم يسويه</h2>' +
-    (hw ? '<table class="ps-table"><colgroup><col style="width:7%"><col style="width:16%"><col><col style="width:15%"></colgroup>' +
-      '<thead><tr><th>تم</th><th>المادة</th><th>المطلوب</th><th>التسليم</th></tr></thead><tbody>' + hw + '</tbody></table>'
+    (hw ? '<table class="ps-table"><colgroup><col style="width:6%"><col style="width:16%"><col><col style="width:13%"></colgroup><tbody>' + hw + '</tbody></table>'
       : '<p>ما عنده واجبات مطلوبة الحين.</p>') +
-    '<h2 class="ps-sec">عنده اختبارات</h2>' +
-    (ts ? '<table class="ps-table"><colgroup><col style="width:15%"><col style="width:16%"><col></colgroup>' +
-      '<thead><tr><th>اليوم</th><th>المادة</th><th>الاختبار وايش يذاكر له</th></tr></thead><tbody>' + ts + '</tbody></table>'
+    '<h2 class="ps-sec">عنده اختبارات وايش يذاكر لها</h2>' +
+    (ts ? '<table class="ps-table"><colgroup><col style="width:15%"><col style="width:16%"><col></colgroup><tbody>' + ts + '</tbody></table>'
       : '<p>ما فيه اختبارات معلنة في EduPage الحين.</p>') +
     '<h2 class="ps-sec">مواعيد وتنبيهات</h2><ul class="ps-list"><li>' +
       SCHOOL_DATES.filter(d => d.date >= TODAY).map(d => '<b>' + shortDate(d.date) + ':</b> ' + esc(d.title)).join(" · ") + '</li>' +
       NOTICES.map(t => '<li><b>' + esc(subj(t.subject)[0]) + ':</b> ' + esc(t.text) + '</li>').join("") + '</ul>' +
     '<p class="ps-foot">' + esc(syncedText()) + ' المصدر: EduPage ورسائله والخطة الأسبوعية للمدرسة.</p>';
+}
+/* measure at the printed width: all in full if it fits, then with joined lines, then move the cut one due date nearer at a time */
+function renderPrint(){
+  const el = document.getElementById("printSheet");
+  const dues = [...new Set(todo.map(i => i.due))].sort();
+  const fits = () => el.getBoundingClientRect().height <= PAGE_H;
+  el.classList.add("ps-measure");
+  el.innerHTML = printSheet(dues[dues.length - 1], false);
+  for (let k = dues.length; k >= 1 && !fits(); k--) el.innerHTML = printSheet(dues[k - 1], true);
+  el.classList.remove("ps-measure");
 }
 
 function renderAll(){ renderHello(); renderTodo(); renderTests(); renderDates(); renderHistory(); renderPrint(); }
@@ -1041,6 +1084,9 @@ document.getElementById("todo").addEventListener("click", e => {
   if (again) again.focus();
 });
 document.getElementById("printBtn").addEventListener("click", () => window.print());
+/* line breaks change once the web font arrives, so measure again then and just before printing */
+window.addEventListener("beforeprint", renderPrint);
+if (document.fonts) document.fonts.addEventListener("loadingdone", renderPrint);
 document.getElementById("resetBtn").addEventListener("click", () => {
   if (!confirm("تمسح كل العلامات على هذا الجهاز؟")) return;
   S = {done:{}}; save(); renderAll();
