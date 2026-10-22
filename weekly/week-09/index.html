@@ -349,7 +349,10 @@ const T = {math:"Mahmoud Baba", eng:"Sami Omer", sci:"Mohamad Jamal", ar:"Mohame
 
 const PAGES = {
   math:{href:"../../math/coordinate-plane/index.html", label:"Distance and perimeter practice"},
-  cell:{href:"../../science/moving-material/index.html#/cell", label:"Cell Lab"}
+  exp:{href:"../../math/exponents/index.html", label:"Exponent practice"},
+  cell:{href:"../../science/moving-material/index.html#/cell", label:"Cell Lab"},
+  sense:{href:"../../science/control-information/index.html", label:"Control and senses lesson"},
+  lab:{href:"../../science/control-information/index.html#/lab", label:"Label the eye and ear"}
 };
 const ICT_BOOK = "https://drive.google.com/drive/folders/1ZDRJ1_x6zH2FbP4514GqHMuflvLRTWDB";
 const SCI_L5 = "Module 2: Body Systems · L5: Control and Information Processing — ";
@@ -366,7 +369,7 @@ const TIMETABLE = {
     {s:"eng", topic:"Reading Comprehension: StudySync, Personal Statement: Individual Twin, pp. 42–43"},
     {s:"ar", topic:{ar:KANA + "ص 85"}},
     {s:"eng", topic:"Reading Comprehension: StudySync, Personal Statement: Individual Twin, pp. 42–43"},
-    {s:"sci", topic:SCI_L5 + "Science Probe: When do we use our brains? Encounter the Phenomenon: How does a surfer balance, move, and react to waves? Explain the Phenomenon", hw:["sci91"], page:"cell"}
+    {s:"sci", topic:SCI_L5 + "Science Probe: When do we use our brains? Encounter the Phenomenon: How does a surfer balance, move, and react to waves? Explain the Phenomenon", hw:["sci91"], page:"sense"}
   ],
   tue:[
     {s:"isl", topic:{ar:"الحديث / هدي النبي صلى الله عليه وسلم في تعامله مع جيرانه"}, hw:["isl"]},
@@ -374,7 +377,7 @@ const TIMETABLE = {
     {s:"math", topic:"Lesson 2-6: Represent Polygons on the Coordinate Plane, pp. 105–110 (Part 2)", page:"math"},
     {s:"quran", topic:{ar:"تلاوة سورة الكهف 21-22"}},
     {s:"art", topic:{ar:"التعرف على الدائرة اللونية المكونة من اثني عشر لونًا"}},
-    {s:"sci", topic:SCI_L5 + "What controls the body's functions? How does your body receive information?"},
+    {s:"sci", topic:SCI_L5 + "What controls the body's functions? How does your body receive information?", page:"sense"},
     {s:"eng", topic:"Reading Comprehension: StudySync, A Role to Play, pp. 49–50", hw:["eng91"]},
     {s:"ar", topic:{ar:KANA + "ص 86 - 87"}, hw:["ar90"]}
   ],
@@ -382,16 +385,16 @@ const TIMETABLE = {
     {s:"ar", topic:{ar:KANA + "ص 88"}},
     {s:"ar", topic:{ar:KANA + "ص 89"}},
     {s:"eng", topic:"Grammar: Chapter 7, Lesson 7.2: Pronouns, pp. 143–144"},
-    {s:"sci", topic:SCI_L5 + "How does your body receive information through taste and smell? Through touch?", hw:["sci92"]},
+    {s:"sci", topic:SCI_L5 + "How does your body receive information through taste and smell? Through touch?", hw:["sci92"], page:"sense"},
     {s:"eng", topic:"Grammar: Chapter 7, Lesson 7.2: Pronouns, pp. 143–144"},
     {s:"math", topic:"Lesson 2-6: Represent Polygons on the Coordinate Plane, pp. 105–110 (Part 3)", page:"math"},
-    {s:"math", topic:"Lesson 3-1: Understand and Represent Exponents, pp. 123–128 (Part 1)"},
+    {s:"math", topic:"Lesson 3-1: Understand and Represent Exponents, pp. 123–128 (Part 1)", page:"exp"},
     {s:"quran", topic:{ar:"تقييم تلاوة سورة الكهف 21-22"}, test:"kahf"}
   ],
   thu:[
-    {s:"math", topic:"Lesson 3-1: Understand and Represent Exponents, pp. 123–128 (Part 2)", hw:["math92"]},
+    {s:"math", topic:"Lesson 3-1: Understand and Represent Exponents, pp. 123–128 (Part 2)", hw:["math92"], page:"exp"},
     {s:"eng", topic:"Building Stronger Reading Skills: IXL", hw:["eng92"]},
-    {s:"sci", topic:SCI_L5 + "How does your body receive information through sound? Through sight?"},
+    {s:"sci", topic:SCI_L5 + "How does your body receive information through sound? Through sight?", page:"lab"},
     {s:"ict", topic:"ICT practical Quiz 1, Term 1 · Book: TechnoFuture · Software: MS PowerPoint", test:"ict"},
     {s:"ict", topic:"ICT practical Quiz 1, Term 1 (continued)", test:"ict"},
     {s:"ar", topic:{ar:"صفحة 6 من كتاب الخط العربي (الرجاء إحضار الطالب لكتاب الخط)"}},
@@ -433,11 +436,11 @@ const HW = [
   {id:"isl", ep:"2026-10-27-A2168C004ED09B535C40", s:"isl", code:"Week 9", day:"tue", due:"2026-11-02", title:"Answer the questions on EduPage",
    ar:"واجب الأسبوع التاسع: أجب عن الأسئلة الموجودة على منصة الإيديوبيدج"},
   {id:"sci92", ep:"2026-10-28-058D4164C010604689B9", s:"sci", code:"HW 9.2", day:"wed", due:"2026-11-01", title:"Solve Worksheet 6 – Term 1",
-   detail:"Bring the completed worksheet to school on Sunday 1/11."},
+   detail:"Bring the completed worksheet to school on Sunday 1/11.", page:"sense", pageLabel:"Review the lesson first"},
   {id:"math92", ep:"2026-10-29-C55D232D8569DE5E9B2C", s:"math", code:"HW 9.2", day:"thu", due:"2026-10-31",
    title:"Notebook: Lesson 3-1, Understand and Represent Exponents",
    detail:"enVision Mathematics, Volume 1: page 127 (Q 23, 25, 29) and page 128 (Q 32, 33, 38, 39). Solve in the math notebook and show the steps.",
-   helper:"exponents"},
+   helper:"exponents", page:"exp", pageLabel:"Practise exponents first"},
   {id:"eng92", ep:"2026-10-29-FFACAB0F9C47C20D25D0", s:"eng", code:"HWK 9.2", day:"thu", due:"2026-10-31",
    title:"Writing: the person you admire most",
    detail:"At least five lines. Underline personal pronouns once and possessive pronouns twice; circle any indefinite pronouns. Bring the English notebook for correction.",
@@ -459,8 +462,8 @@ const PLAN = {
        ["Start the Islamic Studies questions on EduPage (due Monday 2/11).", null]],
   wed:[["ICT quiz tomorrow (P4–P5U): practise PowerPoint from TechnoFuture pp. 1–8, 11–22, 25–30.", null, true],
        ["Pack the Arabic calligraphy book (P6 tomorrow, page 6).", null],
-       ["Start Science Worksheet 6.", null]],
-  thu:[["Math HW 9.2: exponents, pp. 127–128, in the notebook with the steps.", null, true],
+       ["Start Science Worksheet 6.", "sense"]],
+  thu:[["Math HW 9.2: exponents, pp. 127–128, in the notebook with the steps.", "exp", true],
        ["English HWK 9.2: five lines about the person you admire (pronoun helper above).", null],
        ["Weekend: most homework is due Saturday 31/10; Worksheet 6 on Sunday; Islamic Studies by Monday 2/11.", null]]
 };
@@ -675,6 +678,8 @@ function renderPlan(){
 function renderStudy(){
   const cards = [
     {cls:"s-math", page:"math", title:"Coordinate Plane", text:"Lesson 2-6 builds on 2-4 and 2-5. The distance and perimeter zones are the warm-up for HW 9.1 (area and perimeter on the coordinate plane)."},
+    {cls:"s-math", page:"exp", title:"Power Lab", text:"Lesson 3-1: write and evaluate powers, fractions and decimals, powers of 10 and expanded form. Gets him ready for HW 9.2."},
+    {cls:"s-sci", page:"sense", title:"Signal Lab", text:"Lesson 5: the nervous system, neurons and reflexes, and how taste, smell, touch, hearing and sight reach the brain. Includes the Label Lab for the eye and ear."},
     {cls:"s-sci", page:"cell", title:"Cell Lab", text:"Explore what each of the 9 animal cell parts does, then take the drill. Ready for HW 9.1 on IXL."}
   ];
   document.getElementById("study").innerHTML = cards.filter(c => PAGES[c.page]).map(c =>
