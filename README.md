@@ -44,7 +44,7 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 
 | Page | Prints as |
 | --- | --- |
-| Dashboard | 1 page: homework still due, with boxes to tick by hand, and the coming tests with what to study |
+| Dashboard | 1 page: homework still due, grouped by due date with boxes to tick by hand, and the coming tests with what to study. The sheet is measured before printing: on a busy week the teacher's line breaks are joined, then homework due after the nearest dates is cut to one line each (tests always print in full) |
 | Week 8 plan | 2 pages: tests, homework and evening plan; then the Sun–Thu timetable as a grid |
 | Math | 2 pages: study sheet, then 10 practice questions with an answer key |
 | Science | 3 pages: key ideas and word bank, then a label-the-cell sheet with an answer key |
