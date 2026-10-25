@@ -4,7 +4,7 @@ Learning materials for a Grade 6 student (Class 6.3).
 
 ## Dashboard
 
-[`index.html`](index.html) is the home page, in Arabic: what he has to do (homework not yet due, grouped by due date, with ticks), his upcoming tests with what to study, links to the practice pages, and every earlier week's homework and tests.
+[`index.html`](index.html) is the home page, in Arabic: what he has to do (homework not yet due, grouped by due date, with ticks), his upcoming tests with what to study (and a link to the study page when there is one), links to the practice pages, and every earlier week's homework and tests.
 
 The homework and tests come from the school's public EduPage list for class 6.3 (`https://aisedusa.edupage.org/exam/`), which needs no login. Grades, attendance and messages need a login and are not included.
 
@@ -18,7 +18,7 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 | Week | Page | What's inside |
 | --- | --- | --- |
 | Week 8 (18–22 Oct 2026), Class 6.3 | [`weekly/week-08/index.html`](weekly/week-08/index.html) | The school's Weekly Study Plan as one page: tests (Qur'an periodic test, Arabic dictation), a homework checklist grouped by due date, the day-by-day timetable, a suggested evening plan with "tonight's jobs" picked from today's date (Jeddah time), a friendly-letter planner, and links to this week's practice pages. Prints as a one-week sheet. |
-| Week 9 (25–29 Oct 2026), Class 6.3 | [`weekly/week-09/index.html`](weekly/week-09/index.html) | The same layout for Week 9: Sunday 25/10 shown as the long weekend, tests (ICT practical quiz, Qur'an recitation check), eight homework items with a pronoun helper for the writing task and an exponent reminder, a note that the Science IXL link opens the plant cell skill while the task names the animal cell one, the Mon–Thu timetable, the evening plan, and links to the coordinate-plane practice and the Cell Lab. Prints as a one-week sheet. |
+| Week 9 (25–29 Oct 2026), Class 6.3 | [`weekly/week-09/index.html`](weekly/week-09/index.html) | The same layout for Week 9: Sunday 25/10 shown as the long weekend, tests (ICT practical quiz, Qur'an recitation check), eight homework items with a pronoun helper for the writing task and an exponent reminder, a note that the Science IXL link opens the plant cell skill while the task names the animal cell one, the Mon–Thu timetable, the evening plan (with the ICT quiz practice spread over the four evenings before it), and links to the practice pages: Future Lab for the ICT quiz, the coordinate plane, Power Lab, Signal Lab and the Cell Lab. Prints as a one-week sheet. |
 
 ## Math
 
@@ -33,6 +33,12 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 | --- | --- | --- |
 | Module 2: Body Systems, L4 Moving Material | [`science/moving-material/index.html`](science/moving-material/index.html) | Eight parts following the week's lesson questions (the phenomenon, transport in plants, the human circulatory system, the lungs and gas exchange, the heart's two loops, how other animals breathe, open and closed circulatory systems, the cardiovascular technologist and blood cells), each with an animated diagram and a quick check; a Cell Lab for the IXL animal-cell labeling homework; a 20-question Lesson Review with a weak-spot report; and a 37-word word bank. |
 | Module 2: Body Systems, L5 Control and Information Processing | [`science/control-information/index.html`](science/control-information/index.html) | Signal Lab: eight parts following the week's lesson questions (the surfer phenomenon and "when do we use our brains?", the nervous system and the brain, neurons, synapses and reflexes, taste, smell, touch, hearing and balance, sight), each with an animated diagram and a quick check; a reaction-time test and a blind-spot test; a Label Lab for the eye, ear, brain and neuron; a 20-question Lesson Review drawn from 53 with a weak-spot report; a 38-word word bank; and the week's science homework (Worksheet 6, and the IXL cell skill with its link mismatch). |
+
+## ICT
+
+| Book | Page | What's inside |
+| --- | --- | --- |
+| TechnoFuture (TechnoKids), Sessions 1–3, pp. 1–8, 11–22 and 25–30, for ICT practical Quiz 1 (MS PowerPoint, Thursday 29 Oct 2026) | [`ict/technofuture/index.html`](ict/technofuture/index.html) | Future Lab: seven parts following the book's assignments (what a futurist is, the Imagine Tomorrow story and emerging technologies, the story organizer, the PowerPoint 2013 window and ribbon, the Home of the Future slide, the START action button, and the slide master with Home and Return buttons), with 47 lesson cards, drawn PowerPoint screens, try-it widgets and a 6-question quick check per part; a Ribbon Lab with three games (name the 9 window parts, a Ribbon Hunt of 43 "where would you click?" tasks on a drawn ribbon with the Picture Tools and Drawing Tools tabs, and a Link Lab in the Action Settings box); six step-by-step missions to do in PowerPoint on a computer, ending with a timed Speed Run; a 30-question Final Test drawn from 85, weighted to the practical parts, with a weak-spot report; tonight's job from a four-evening plan; a table of names that differ in newer PowerPoint; and a 50-word word bank with Arabic. |
 
 ## Vocabulary
 
@@ -54,6 +60,7 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 | Math, exponents | 2 pages: study sheet, then 10 practice questions with an answer key |
 | Science | 3 pages: key ideas and word bank, then a label-the-cell sheet with an answer key |
 | Science, control and information | 3 pages: homework and key ideas, the rest of the key ideas and the word bank, then a label-the-eye-and-ear sheet with an answer key |
+| ICT, TechnoFuture | 2 pages: the PowerPoint window with its 9 parts labelled and a "How do I…?" table; then the three big procedures (link an action button, a picture on every slide, stop click-to-advance with Home and Return), futurist facts and a 10-question self-test with an answer key |
 | Vocabulary Unit 2 | 2 pages: word list, then "Test yourself" with an answer key |
 | Vocabulary Review Units 1–3 | 3 pages: one per unit, with a word table and a short test |
 

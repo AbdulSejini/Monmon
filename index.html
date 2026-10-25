@@ -801,7 +801,7 @@ const TERM_START = "2026-08-30"; /* Sunday of school week 1 */
 /* School weeks that have a detailed plan page. */
 const WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html"};
 
-/* Practice pages for particular homework items (by EduPage id). */
+/* Practice pages for particular homework items and tests (by EduPage id). */
 const PRACTICE_BY_ID = {
   "2026-10-18-F44C6F47E9501A1B97E7": ["science/moving-material/index.html", "تدرّب على أجزاء الخلية"],
   "2026-10-21-7AC940BD462598F6F251": ["science/moving-material/index.html", "راجع درس نقل المواد"],
@@ -810,7 +810,8 @@ const PRACTICE_BY_ID = {
   "2026-10-26-B23EC28E9E60812EA0D7": ["math/coordinate-plane/index.html", "تدرّب على المسافة والمحيط"],
   "2026-10-26-8A58A178CA57DAB97159": ["science/moving-material/index.html#/cell", "راجع وظائف أجزاء الخلية"],
   "2026-10-29-C55D232D8569DE5E9B2C": ["math/exponents/index.html", "تدرّب على الأسس"],
-  "2026-10-28-058D4164C010604689B9": ["science/control-information/index.html", "راجع درس التحكم والحواس"]
+  "2026-10-28-058D4164C010604689B9": ["science/control-information/index.html", "راجع درس التحكم والحواس"],
+  "2026-10-29-1D91EF9EED5D8D8B": ["ict/technofuture/index.html", "ذاكر للاختبار العملي وتدرّب عليه"]
 };
 
 /* What to study or bring, from the Weekly Study Plan, Weekly Events and EduPage messages (EduPage's list only gives the title). */
@@ -851,6 +852,7 @@ const NOTICES = [
 
 const PRACTICE_PAGES = [
   {href:"weekly/week-09/index.html", title:"خطة الأسبوع 9", text:"إجازة الأحد، ثم جدول الاثنين للخميس والواجبات وخطة المذاكرة لكل يوم.", cls:""},
+  {href:"ict/technofuture/index.html", title:"الحاسب: اختبار PowerPoint العملي", text:"كتاب TechnoFuture كامل: المستقبليون وخطة القصة، واجهة PowerPoint، أزرار الإجراءات، والشريحة الرئيسية، مع مهام عملية واختبار شامل.", cls:"s-ict"},
   {href:"weekly/week-08/index.html", title:"خطة الأسبوع 8", text:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", cls:""},
   {href:"math/exponents/index.html", title:"الرياضيات: الأسس", text:"الدرس 3-1: كتابة القوى وحسابها، والكسور والأعداد العشرية، وقوى العدد 10.", cls:"s-math"},
   {href:"science/control-information/index.html", title:"العلوم: التحكم والحواس", text:"الجهاز العصبي والدماغ، وكيف توصل الحواس الخمس المعلومات للدماغ.", cls:"s-sci"},
@@ -956,12 +958,14 @@ function renderTests(){
     const [sName, sCls] = subj(i.subject);
     const p = parts(i.date);
     const note = NOTES[i.id];
+    const prac = PRACTICE_BY_ID[i.id];
     return '<li class="test panel ' + sCls + '"><div class="cal"><small>' + WD[p.wd] + '</small><b>' + p.d + '</b><span>' + MONTHS[p.m-1] + '</span></div>' +
       '<div class="item-body"><div class="item-meta"><span class="subj">' + esc(sName) + '</span><span class="meta-note">' + esc(typeAr(i.type)) + '</span>' +
       '<span class="badge' + (dayDiff(TODAY, i.date) <= 1 ? " hot" : "") + '">' + whenLabel(dayDiff(TODAY, i.date)) + '</span></div>' +
       '<p class="item-text" dir="auto">' + textHTML(i.text) + '</p>' +
       (note ? '<p class="note" dir="auto">' + esc(note) + '</p>' : "") +
       (i.fromPlan ? '<p class="meta-note">من الخطة الأسبوعية (مو موجود في EduPage)</p>' : "") +
+      (prac ? '<div class="actions"><a class="act" href="' + prac[0] + '">' + esc(prac[1]) + ' ←</a></div>' : "") +
       '</div></li>';
   }).join("");
 }
