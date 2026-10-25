@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Week 9 Planner</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23FFD23F%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M18 33l9 9 19-20%22 fill=%22none%22 stroke=%22%2314163A%22 stroke-width=%227%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn:#C77700; --warn-bg:#FFF0D1;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --c5:#E23F66; --c5t:#FFDDE6;
+  --c6:#8C5A2B; --c6t:#F5E6D6;
+  --c7:#0E8C9E; --c7t:#D3F2F6;
+  --c8:#5B6270; --c8t:#E7E9EE;
+  --col:var(--c1); --tint:var(--c1t);
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  --arabic:"Tajawal","Segoe UI","Geeza Pro",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.ar{font-family:var(--arabic);direction:rtl;text-align:right;font-size:1.08em;line-height:1.7}
+.wrap{max-width:960px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.s-math{--col:var(--c1);--tint:var(--c1t)} .s-ar{--col:var(--c2);--tint:var(--c2t)} .s-isl{--col:var(--c3);--tint:var(--c3t)}
+.s-sci{--col:var(--c4);--tint:var(--c4t)} .s-eng{--col:var(--c5);--tint:var(--c5t)} .s-soc{--col:var(--c6);--tint:var(--c6t)}
+.s-quran{--col:#1E7A46;--tint:#D9F0E2} .s-pe{--col:var(--c7);--tint:var(--c7t)} .s-ict,.s-art,.s-well{--col:var(--c8);--tint:var(--c8t)}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:960px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.meter{display:flex;align-items:center;gap:8px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--good-bg);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;white-space:nowrap}
+.meter svg{width:20px;height:20px}
+.meter.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{50%{transform:scale(1.15)}}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);padding:0}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:520px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-sm{min-height:36px;padding:5px 11px;font-size:13px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+
+/* hero */
+.hero{margin-top:20px;padding:20px;display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(44px,7vw,68px)}
+.hero h1 span{color:var(--c2);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero .sub{margin-top:8px;color:var(--ink-2);font-size:15px}
+.value{margin-top:14px;padding:12px 14px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--sun-2);display:grid;gap:6px}
+.value-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.value-head small{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.value-head b{font-family:var(--display);font-weight:400;font-size:26px;letter-spacing:.04em}
+.value-head .ar{font-weight:800;font-size:20px;line-height:1.2}
+.value p{font-size:14px}
+.value p.ar{font-size:15px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;background:var(--page);text-align:center}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+.stats-note{grid-column:1 / -1;font-size:13px;color:var(--ink-2);text-align:center}
+@media (max-width:700px){.hero{grid-template-columns:1fr}}
+
+/* tonight banner */
+.tonight{margin-top:16px;padding:16px;background:var(--sun);display:grid;gap:10px}
+.tonight-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px}
+.tonight h2{font-size:30px}
+.tonight .when{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.tonight ol{display:grid;gap:8px;counter-reset:t}
+.tonight li{counter-increment:t;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-sm);padding:10px 12px}
+.tonight li::before{content:counter(t);width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+.tonight li b{display:block}
+.tonight li span{font-size:14px;color:var(--ink-2)}
+.tonight li a{font-weight:700}
+
+.sec-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:34px 0 14px}
+.sec-title h2{font-size:36px}
+.sec-title .ar{font-weight:800;font-size:22px;line-height:1.2}
+.sec-title p{flex-basis:100%;color:var(--ink-2);font-size:14px}
+
+/* tests */
+.tests{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.test{position:relative;padding:14px;background:var(--tint);display:grid;gap:8px;align-content:start}
+.test .date{display:flex;align-items:center;gap:10px}
+.cal{flex:none;width:54px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);text-align:center;overflow:hidden;box-shadow:2px 2px 0 var(--ink)}
+.cal small{display:block;background:var(--col);color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 0}
+.cal b{display:block;font-family:var(--display);font-weight:400;font-size:28px;line-height:1.1}
+.test h3{font-size:24px}
+.test .per{font-size:13px;font-weight:700;color:var(--ink-2)}
+.test .ar{font-size:16px}
+.test-lines{font-size:15px}
+.sticker{position:absolute;top:-14px;right:12px;font-family:var(--display);font-size:17px;letter-spacing:.05em;background:var(--bad);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:1px 8px;transform:rotate(3deg)}
+.sticker.soft{background:var(--warn)}
+.sticker.past{background:var(--ink-3)}
+
+/* homework */
+.due-group + .due-group{margin-top:22px}
+.due-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:10px}
+.due-head h3{font-size:24px}
+.due-tag{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 9px;border:2px solid var(--ink);border-radius:999px;background:var(--warn-bg)}
+.due-tag.urgent{background:var(--bad);color:#fff}
+.due-tag.done{background:var(--good);color:#fff}
+.hw-list{display:grid;gap:12px}
+.hw{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:12px 14px;border-left:10px solid var(--col)}
+.hw.is-done{background:var(--good-bg)}
+.hw.is-done .hw-title{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--good)}
+.check{width:44px;height:44px;border:3px solid var(--ink);border-radius:10px;background:var(--paper);display:grid;place-items:center;padding:0;box-shadow:2px 2px 0 var(--ink)}
+.check svg{width:26px;height:26px;opacity:0;transform:scale(.4);transition:transform .2s cubic-bezier(.3,1.6,.5,1),opacity .15s}
+.check[aria-checked="true"]{background:var(--good)}
+.check[aria-checked="true"] svg{opacity:1;transform:none}
+.hw-body{min-width:0;display:grid;gap:6px}
+.hw-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.subj{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border:2px solid var(--ink);border-radius:6px;background:var(--tint)}
+.hw-code{font-size:12px;font-weight:700;color:var(--ink-2)}
+.hw-title{font-weight:700;font-size:17px;line-height:1.4}
+.hw-detail{font-size:14px;color:var(--ink-2)}
+.hw-detail.ar{color:var(--ink);font-size:15px}
+.hw-warn{font-size:14px;font-weight:700;padding:7px 10px;border:2px dashed var(--ink);border-radius:8px;background:var(--warn-bg)}
+.hw-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+details.helper{margin-top:4px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+details.helper summary{cursor:pointer;padding:8px 12px;font-weight:800;font-size:14px;list-style:none;display:flex;align-items:center;gap:8px}
+details.helper summary::-webkit-details-marker{display:none}
+details.helper summary::before{content:"+";width:22px;height:22px;border:2px solid var(--ink);border-radius:6px;display:grid;place-items:center;font-size:15px;line-height:1}
+details.helper[open] summary::before{content:"−"}
+.helper-in{padding:0 12px 12px;display:grid;gap:10px;font-size:14px}
+.helper-in ul{display:grid;gap:6px}
+.helper-in li{padding-left:16px;position:relative}
+.helper-in li::before{content:"";position:absolute;left:2px;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--col)}
+.kinds{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.kind{border:2px solid var(--ink);border-radius:8px;padding:8px 10px;background:var(--tint)}
+.kind b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.kind p{margin-top:4px}
+.sample{padding:10px 12px;border:2px solid var(--ink);border-radius:8px;background:var(--page);line-height:2.1}
+.m1{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.m2{text-decoration:underline double;text-decoration-thickness:1.5px;text-underline-offset:3px}
+.m3{border:2px solid var(--ink);border-radius:999px;padding:0 5px}
+.math{font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* timetable */
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.tab{position:relative;padding:8px 4px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);text-align:center;box-shadow:var(--shadow-sm);display:grid;gap:0;line-height:1.15}
+.tab b{font-family:var(--display);font-weight:400;font-size:24px;letter-spacing:.04em}
+.tab span{font-size:12px;font-weight:700;color:var(--ink-2)}
+.tab.off{background:repeating-linear-gradient(-45deg,var(--paper) 0 8px,var(--page) 8px 16px)}
+.tab[aria-selected="true"]{background:var(--ink);color:#fff;transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.tab[aria-selected="true"] span{color:#fff}
+.tab .today-dot{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--sun);color:var(--ink);border:2px solid var(--ink);border-radius:999px;padding:0 6px;white-space:nowrap}
+.tab .flag{position:absolute;top:-8px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--bad);border:2px solid var(--ink);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}
+@media (max-width:520px){.tab b{font-size:20px}.tab span{font-size:11px}}
+.day-panel{margin-top:16px}
+.day-title{display:none;font-size:28px;margin:18px 0 10px}
+.off-note{padding:16px;display:grid;gap:6px;background:var(--sun-2)}
+.off-note h3{font-size:28px}
+.periods{display:grid;gap:10px}
+.period{display:grid;grid-template-columns:56px 1fr;gap:12px;padding:12px;align-items:start;border-left:10px solid var(--col)}
+.pno{width:52px;height:44px;border:2px solid var(--ink);border-radius:10px;background:var(--col);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;text-shadow:1px 1px 0 var(--ink)}
+.p-body{min-width:0;display:grid;gap:4px}
+.p-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px}
+.p-subj{font-weight:800;font-size:15px}
+.p-teacher{font-size:13px;color:var(--ink-2)}
+.p-topic{font-size:15px}
+.p-flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.flag-pill{font-size:12px;font-weight:800;padding:1px 8px;border:2px solid var(--ink);border-radius:999px;background:var(--warn-bg)}
+.flag-pill.test{background:var(--bad);color:#fff}
+.flag-pill.link{background:var(--tint);text-decoration:none}
+
+/* evening plan */
+.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.plan-day{padding:14px;display:grid;gap:8px;align-content:start}
+.plan-day.is-today{background:var(--sun-2);box-shadow:0 0 0 4px var(--sun),var(--shadow)}
+.plan-day h3{font-size:24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.plan-day h3 small{font-family:var(--body);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:#fff;padding:2px 7px;border-radius:6px}
+.plan-day li{font-size:14px;padding-left:18px;position:relative}
+.plan-day li::before{content:"";position:absolute;left:2px;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--ink)}
+.plan-day li.key::before{background:var(--bad);box-shadow:0 0 0 2px var(--ink)}
+.plan-day li a{font-weight:700}
+
+/* study pages */
+.study{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.study a{display:grid;gap:6px;padding:14px;text-decoration:none;background:var(--tint);transition:transform .12s}
+.study a:hover{transform:translateY(-3px) rotate(-.4deg)}
+.study h3{font-size:24px;color:var(--col);-webkit-text-stroke:1px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.study p{font-size:14px;color:var(--ink-2)}
+.study .go{font-weight:800;font-size:14px}
+
+.foot{margin-top:40px;font-size:13px;color:var(--ink-2);display:grid;gap:6px}
+.foot .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* print: two A4 pages built by renderPrint(): the week at a glance, then the timetable grid */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important}
+  body{background-image:none!important;color:#000;font-size:9pt;line-height:1.35}
+  .topbar,main{display:none!important}
+  .print-sheet{display:block}
+  .print-sheet .ar{font-size:1em;line-height:1.4}
+  .ps-break{break-before:page}
+  .ps-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2pt 12pt;border-bottom:1.5pt solid #000;padding-bottom:3pt}
+  .ps-head h1,.ps-sec{font-family:var(--body);font-weight:800;letter-spacing:0}
+  .ps-head h1{font-size:17pt}
+  .ps-head p{font-size:9pt;font-weight:700;color:#333}
+  .ps-value{margin-top:3pt;font-size:8.5pt;color:#333}
+  .ps-sec{font-size:12pt;margin:10pt 0 3pt}
+  .ps-table{width:100%;border-collapse:collapse}
+  .ps-table th{text-align:start;font-size:8pt;border-bottom:1pt solid #000;padding:2pt 4pt}
+  .ps-table td{vertical-align:top;border-bottom:.75pt solid #999;padding:2.5pt 4pt}
+  .ps-table tr{break-inside:avoid}
+  .ps-box{display:inline-block;width:12pt;height:12pt;border:1.2pt solid #000;border-radius:2pt;text-align:center;line-height:11pt;font-weight:800}
+  .ps-subj{font-weight:800}
+  .ps-subj small,.ps-when small{display:block;font-size:7.5pt;font-weight:500;color:#444}
+  .ps-when{font-weight:800;white-space:nowrap}
+  .ps-url{font-size:7pt;color:#333;overflow-wrap:anywhere}
+  .ps-warn{font-size:8pt;font-weight:700}
+  .ps-done .ps-text{text-decoration:line-through;color:#555}
+  .ps-job{margin-inline-end:6pt}
+  .ps-job.key{font-weight:800}
+  .ps-grid{width:100%;border-collapse:collapse;table-layout:fixed;font-size:7.8pt;line-height:1.3;margin-top:8pt}
+  .ps-grid th,.ps-grid td{border:.75pt solid #777;padding:3pt;vertical-align:top}
+  .ps-grid thead th{font-size:8.5pt;text-align:center}
+  .ps-grid tbody th{text-align:center;font-size:8pt}
+  .ps-grid td b{display:block;font-size:8.2pt}
+  .ps-grid .ar{font-size:8.4pt}
+  .ps-tag{display:inline-block;border:.75pt solid #000;border-radius:3pt;padding:0 2pt;margin-inline-start:3pt;font-size:6.8pt;font-weight:800}
+  .ps-foot{margin-top:8pt;padding-top:3pt;border-top:.75pt solid #999;font-size:7.5pt;color:#444}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="logo-mark">WEEK 9</span>
+    <span class="unit-chip">Class 6.3 · Oct 25–29</span>
+    <span class="spacer"></span>
+    <span class="meter" id="meter" role="status" aria-live="polite">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12A15E" stroke="#14163A" stroke-width="2"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="meterText">0/8 done</span>
+    </span>
+    <a class="icon-btn" href="../../index.html" aria-label="Home: homework dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+    </a>
+    <button class="icon-btn" id="printBtn" type="button" aria-label="Print the week">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero panel">
+    <div>
+      <h1>Week 9 <span>Plan</span></h1>
+      <p class="sub">Sunday 25 – Thursday 29 October 2026 · Class 6.3 · Al-Andalus International School, Jeddah</p>
+      <div class="value">
+        <div class="value-head">
+          <small>Value of the week</small><b>Integrity</b><span class="ar" lang="ar">الاستقامة</span>
+        </div>
+        <p>We believe integrity means adhering to our principles and practicing noble ethics; it is the way we live and interact.</p>
+        <p class="ar" lang="ar">نؤمن بأن الاستقامة امتثال للثوابت وعمل بالأخلاق السامية، وهي منهجنا الذي نعيشه ونتعايش به.</p>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="statHw">8</b><span>Homework</span></div>
+      <div class="stat"><b>2</b><span>Tests</span></div>
+      <div class="stat"><b id="statLeft">8</b><span>To do</span></div>
+      <p class="stats-note"><b>Sunday 25/10 is a long weekend</b>, so school starts Monday. Most homework is due <b>Saturday 31/10</b>; Science Worksheet 6 on Sunday 1/11 and the Islamic Studies questions by Monday 2/11.</p>
+    </div>
+  </section>
+
+  <section class="tonight panel" id="tonight" aria-labelledby="tonightTitle"></section>
+
+  <div class="sec-title"><h2>Tests this week</h2><span class="ar" lang="ar">الاختبارات</span></div>
+  <div class="tests" id="tests"></div>
+
+  <div class="sec-title"><h2>Homework</h2><span class="ar" lang="ar">الواجبات</span>
+    <p>Tick each one when it's finished. Ticks are saved on this device.</p></div>
+  <div id="homework"></div>
+
+  <div class="sec-title"><h2>Timetable</h2><span class="ar" lang="ar">الجدول اليومي</span>
+    <p>Class 6.3's periods for each day, from the school's Weekly Study Plan.</p></div>
+  <div class="tabs" role="tablist" aria-label="School days" id="tabs"></div>
+  <div id="days"></div>
+
+  <div class="sec-title"><h2>Evening plan</h2><span class="ar" lang="ar">خطة المذاكرة المسائية</span>
+    <p>A suggested order for each evening, so tests are ready on time and nothing piles up for the weekend. The red dot marks the most important job.</p></div>
+  <div class="plan" id="plan"></div>
+
+  <div class="sec-title"><h2>Practice pages</h2><span class="ar" lang="ar">صفحات التدريب</span>
+    <p>Interactive practice that fits this week's homework.</p></div>
+  <div class="study" id="study"></div>
+
+  <footer class="foot">
+    <p>Source: the school's Week 9 Weekly Study Plan and Weekly Events for Class 6.3. If the school changes the plan, the school's version wins.</p>
+    <div class="row no-print">
+      <a class="btn btn-sm" href="../week-08/index.html">← Week 8 plan</a>
+      <button class="btn btn-sm" id="resetBtn" type="button">Clear this week's ticks</button>
+    </div>
+  </footer>
+</main>
+
+<section class="print-sheet" id="printSheet" aria-hidden="true"></section>
+
+<script>
+"use strict";
+/* Shared with the dashboard (index.html): ticks are keyed by EduPage item id (ep). */
+const KEY = "monmon-done-v1";
+const TZ = "Asia/Riyadh";
+/* Sunday 25/10 is a long weekend: it has evening jobs but no periods. */
+const DAYS = [
+  {key:"sun", name:"Sunday", short:"Sun", date:"2026-10-25", off:true},
+  {key:"mon", name:"Monday", short:"Mon", date:"2026-10-26"},
+  {key:"tue", name:"Tuesday", short:"Tue", date:"2026-10-27"},
+  {key:"wed", name:"Wednesday", short:"Wed", date:"2026-10-28"},
+  {key:"thu", name:"Thursday", short:"Thu", date:"2026-10-29"}
+];
+const SCHOOL_DAYS = DAYS.filter(d => !d.off);
+const WEEKEND_DUE = "2026-10-31";
+const SUBJ = {
+  math:{label:"Math", cls:"s-math"}, eng:{label:"English", cls:"s-eng"}, sci:{label:"Science", cls:"s-sci"},
+  ar:{label:"Arabic", cls:"s-ar"}, isl:{label:"Islamic Studies", cls:"s-isl"}, quran:{label:"Qur'an", cls:"s-quran"},
+  pe:{label:"PE", cls:"s-pe"}, art:{label:"Art", cls:"s-art"}, ict:{label:"ICT / MECHA", cls:"s-ict"}
+};
+const T = {math:"Mahmoud Baba", eng:"Sami Omer", sci:"Mohamad Jamal", ar:"Mohamed Almonayeri", isl:"Moamar Abdullah",
+  quran:"Moustafa Masoud", pe:"Hassan Alrizqi", art:"Khalid Al-Ghamdi", ict:"Ali Ahmed"};
+
+const PAGES = {
+  math:{href:"../../math/coordinate-plane/index.html", label:"Distance and perimeter practice"},
+  exp:{href:"../../math/exponents/index.html", label:"Exponent practice"},
+  cell:{href:"../../science/moving-material/index.html#/cell", label:"Cell Lab"},
+  sense:{href:"../../science/control-information/index.html", label:"Control and senses lesson"},
+  lab:{href:"../../science/control-information/index.html#/lab", label:"Label the eye and ear"}
+};
+const ICT_BOOK = "https://drive.google.com/drive/folders/1ZDRJ1_x6zH2FbP4514GqHMuflvLRTWDB";
+const SCI_L5 = "Module 2: Body Systems · L5: Control and Information Processing — ";
+const KANA = "الوظيفة النحوية - الأفعال الناسخة (كان وأخواتها) ";
+
+/* topic: English text, or {ar:"..."} for Arabic text. hw: homework ids set in that period. test: test id. */
+const TIMETABLE = {
+  sun:[],
+  mon:[
+    {s:"math", topic:"Lesson 2-6: Represent Polygons on the Coordinate Plane, pp. 105–110 (Part 1)", hw:["math91"], page:"math"},
+    {s:"isl", topic:{ar:"التوحيد / أنواع الشرك"}},
+    {s:"pe", topic:{ar:"أن يتعلم الطالب مهارة التمرير"}},
+    {s:"quran", topic:{ar:"مراجعة حفظ سورة القلم 1-33"}},
+    {s:"eng", topic:"Reading Comprehension: StudySync, Personal Statement: Individual Twin, pp. 42–43"},
+    {s:"ar", topic:{ar:KANA + "ص 85"}},
+    {s:"eng", topic:"Reading Comprehension: StudySync, Personal Statement: Individual Twin, pp. 42–43"},
+    {s:"sci", topic:SCI_L5 + "Science Probe: When do we use our brains? Encounter the Phenomenon: How does a surfer balance, move, and react to waves? Explain the Phenomenon", hw:["sci91"], page:"sense"}
+  ],
+  tue:[
+    {s:"isl", topic:{ar:"الحديث / هدي النبي صلى الله عليه وسلم في تعامله مع جيرانه"}, hw:["isl"]},
+    {s:"eng", topic:"Reading Comprehension: StudySync, A Role to Play, pp. 49–50", hw:["eng91"]},
+    {s:"math", topic:"Lesson 2-6: Represent Polygons on the Coordinate Plane, pp. 105–110 (Part 2)", page:"math"},
+    {s:"quran", topic:{ar:"تلاوة سورة الكهف 21-22"}},
+    {s:"art", topic:{ar:"التعرف على الدائرة اللونية المكونة من اثني عشر لونًا"}},
+    {s:"sci", topic:SCI_L5 + "What controls the body's functions? How does your body receive information?", page:"sense"},
+    {s:"eng", topic:"Reading Comprehension: StudySync, A Role to Play, pp. 49–50", hw:["eng91"]},
+    {s:"ar", topic:{ar:KANA + "ص 86 - 87"}, hw:["ar90"]}
+  ],
+  wed:[
+    {s:"ar", topic:{ar:KANA + "ص 88"}},
+    {s:"ar", topic:{ar:KANA + "ص 89"}},
+    {s:"eng", topic:"Grammar: Chapter 7, Lesson 7.2: Pronouns, pp. 143–144"},
+    {s:"sci", topic:SCI_L5 + "How does your body receive information through taste and smell? Through touch?", hw:["sci92"], page:"sense"},
+    {s:"eng", topic:"Grammar: Chapter 7, Lesson 7.2: Pronouns, pp. 143–144"},
+    {s:"math", topic:"Lesson 2-6: Represent Polygons on the Coordinate Plane, pp. 105–110 (Part 3)", page:"math"},
+    {s:"math", topic:"Lesson 3-1: Understand and Represent Exponents, pp. 123–128 (Part 1)", page:"exp"},
+    {s:"quran", topic:{ar:"تقييم تلاوة سورة الكهف 21-22"}, test:"kahf"}
+  ],
+  thu:[
+    {s:"math", topic:"Lesson 3-1: Understand and Represent Exponents, pp. 123–128 (Part 2)", hw:["math92"], page:"exp"},
+    {s:"eng", topic:"Building Stronger Reading Skills: IXL", hw:["eng92"]},
+    {s:"sci", topic:SCI_L5 + "How does your body receive information through sound? Through sight?", page:"lab"},
+    {s:"ict", topic:"ICT practical Quiz 1, Term 1 · Book: TechnoFuture · Software: MS PowerPoint", test:"ict"},
+    {s:"ict", topic:"ICT practical Quiz 1, Term 1 (continued)", test:"ict"},
+    {s:"ar", topic:{ar:"صفحة 6 من كتاب الخط العربي (الرجاء إحضار الطالب لكتاب الخط)"}},
+    {s:"pe", topic:{ar:"أن يتعلم الطالب مهارة التمرير"}},
+    {s:"quran", topic:{ar:"مراجعة حفظ سورة القلم 1-33"}}
+  ]
+};
+const PERIOD_NAMES = ["P1","P2","P3","P4","P5U","P6","P7","P8"];
+
+/* ar + lines: Arabic card text. en: English card lines. */
+const TESTS = [
+  {id:"kahf", s:"quran", day:"wed", per:"P8", title:"Qur'an recitation check",
+   ar:"تقييم تلاوة", lines:["سورة الكهف 21-22"], tag:"Check", soft:true},
+  {id:"ict", s:"ict", day:"thu", per:"P4–P5U", title:"ICT practical Quiz 1",
+   en:["Practical quiz in MS PowerPoint.", "TechnoFuture pages 1–8, 11–22 and 25–30."],
+   link:ICT_BOOK, linkLabel:"Open the TechnoFuture book", tag:"Quiz"}
+];
+
+/* ep: EduPage item id (shared ticks). links: [href, label] pairs. helper: extra panel under the item. */
+const HW = [
+  {id:"math91", ep:"2026-10-26-B23EC28E9E60812EA0D7", s:"math", code:"HW 9.1", day:"mon", due:"2026-10-31",
+   title:"IXL: Area and perimeter of squares and rectangles on the coordinate plane",
+   detail:"Lesson 2-6. Minimum score: 70%. Find each side with the distance rule (Lesson 2-5); perimeter = add the sides, area = length × width.",
+   links:[["https://www.ixl.com/math/grade-6/area-and-perimeter-of-squares-and-rectangles-on-the-coordinate-plane", "Open on IXL"]],
+   page:"math", pageLabel:"Warm up with distance and perimeter"},
+  {id:"sci91", ep:"2026-10-26-8A58A178CA57DAB97159", s:"sci", code:"HW 9.1", day:"mon", due:"2026-10-31",
+   title:"IXL: Identify functions of animal cell parts",
+   detail:"Skill 1 on IXL. Target: at least 70%.",
+   warn:"Check with the science teacher: the task names animal cell parts, but the link in the plan and on EduPage opens the plant cell skill. Doing both is the safe choice.",
+   links:[["https://www.ixl.com/science/grade-6/identify-functions-of-animal-cell-parts", "IXL: animal cell parts"],
+          ["https://www.ixl.com/science/grade-6/identify-functions-of-plant-cell-parts", "The plan's link: plant cell parts"]],
+   page:"cell", pageLabel:"Review what each part does first"},
+  {id:"eng91", ep:"2026-10-27-A14E8A95282FAC7B599E", s:"eng", code:"HWK 9.1", day:"tue", due:"2026-10-31",
+   title:"IXL Grammar: Compound subjects and objects with pronouns",
+   detail:"Minimum score: 70%.",
+   links:[["https://www.ixl.com/ela/grade-6/compound-subjects-and-objects-with-pronouns", "Open on IXL"]]},
+  {id:"ar90", ep:"2026-10-27-691D5D403552E64894B7", s:"ar", code:"Week 9", day:"tue", due:"2026-10-31", title:"Homework on page 90",
+   ar:"واجب الأسبوع التاسع: حل ص 90 (الواجب المنزلي)"},
+  {id:"isl", ep:"2026-10-27-A2168C004ED09B535C40", s:"isl", code:"Week 9", day:"tue", due:"2026-11-02", title:"Answer the questions on EduPage",
+   ar:"واجب الأسبوع التاسع: أجب عن الأسئلة الموجودة على منصة الإيديوبيدج"},
+  {id:"sci92", ep:"2026-10-28-058D4164C010604689B9", s:"sci", code:"HW 9.2", day:"wed", due:"2026-11-01", title:"Solve Worksheet 6 – Term 1",
+   detail:"Bring the completed worksheet to school on Sunday 1/11.", page:"sense", pageLabel:"Review the lesson first"},
+  {id:"math92", ep:"2026-10-29-C55D232D8569DE5E9B2C", s:"math", code:"HW 9.2", day:"thu", due:"2026-10-31",
+   title:"Notebook: Lesson 3-1, Understand and Represent Exponents",
+   detail:"enVision Mathematics, Volume 1: page 127 (Q 23, 25, 29) and page 128 (Q 32, 33, 38, 39). Solve in the math notebook and show the steps.",
+   helper:"exponents", page:"exp", pageLabel:"Practise exponents first"},
+  {id:"eng92", ep:"2026-10-29-FFACAB0F9C47C20D25D0", s:"eng", code:"HWK 9.2", day:"thu", due:"2026-10-31",
+   title:"Writing: the person you admire most",
+   detail:"At least five lines. Underline personal pronouns once and possessive pronouns twice; circle any indefinite pronouns. Bring the English notebook for correction.",
+   helper:"pronouns"}
+];
+
+/* evening plan: items are [text, link key or null, isKey] */
+const PLAN = {
+  sun:[["No school today: put Week 8's Science Worksheet 5 in the bag for Monday.", null, true],
+       ["Qur'an tomorrow (P4): review Al-Qalam 1–33 from memory.", null],
+       ["Warm up for Lesson 2-6 with the distance and perimeter practice.", "math"]],
+  mon:[["Math HW 9.1 on IXL: area and perimeter on the coordinate plane.", "math", true],
+       ["Science HW 9.1 on IXL: cell part functions (read the link note first).", "cell"],
+       ["Art tomorrow (P5U), the 12-colour wheel: pack sketchbook, compass, ruler, colored pencils.", null],
+       ["Read Al-Kahf 21–22 aloud for tomorrow (P4).", null]],
+  tue:[["Recite Al-Kahf 21–22 until it's smooth: recitation check tomorrow (P8).", null, true],
+       ["English HWK 9.1 on IXL: compound subjects and objects with pronouns.", null],
+       ["Arabic homework, page 90.", null],
+       ["Start the Islamic Studies questions on EduPage (due Monday 2/11).", null]],
+  wed:[["ICT quiz tomorrow (P4–P5U): practise PowerPoint from TechnoFuture pp. 1–8, 11–22, 25–30.", null, true],
+       ["Pack the Arabic calligraphy book (P6 tomorrow, page 6).", null],
+       ["Start Science Worksheet 6.", "sense"]],
+  thu:[["Math HW 9.2: exponents, pp. 127–128, in the notebook with the steps.", "exp", true],
+       ["English HWK 9.2: five lines about the person you admire (pronoun helper above).", null],
+       ["Weekend: most homework is due Saturday 31/10; Worksheet 6 on Sunday; Islamic Studies by Monday 2/11.", null]]
+};
+
+const ICON_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+let S = (() => { try { const raw = localStorage.getItem(KEY); if (raw) { const v = JSON.parse(raw); if (v && typeof v.done === "object") return v; } } catch (e) {} return {done:{}}; })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+function todayISO(){
+  try { return new Intl.DateTimeFormat("en-CA", {timeZone:TZ, year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date()); }
+  catch (e) { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
+}
+function dayDiff(a, b){ const p = s => { const [y,m,d] = s.split("-").map(Number); return Date.UTC(y, m-1, d); }; return Math.round((p(b) - p(a)) / 864e5); }
+function fmtDate(iso){
+  const [y,m,d] = iso.split("-").map(Number);
+  const wd = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(Date.UTC(y, m-1, d)).getUTCDay()];
+  return wd + " " + d + "/" + m;
+}
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function topicHTML(t){ return typeof t === "string" ? '<p class="p-topic">' + esc(t) + '</p>' : '<p class="p-topic ar" lang="ar">' + esc(t.ar) + '</p>'; }
+
+const TODAY = todayISO();
+const dayIndex = DAYS.findIndex(d => d.date === TODAY);
+const beforeWeek = dayDiff(TODAY, DAYS[0].date) > 0;
+const afterWeek = dayDiff(DAYS[DAYS.length-1].date, TODAY) > 0;
+
+/* ---------- tonight ---------- */
+function planItemHTML(it){
+  const [text, page, key] = it;
+  const link = page && PAGES[page] ? ' <a href="' + PAGES[page].href + '">' + esc(PAGES[page].label) + ' →</a>' : "";
+  return { text, link, key: !!key };
+}
+function renderTonight(){
+  const el = document.getElementById("tonight");
+  let dayKey, head, when;
+  if (dayIndex >= 0) {
+    dayKey = DAYS[dayIndex].key; head = "Tonight's jobs";
+    when = DAYS[dayIndex].name + " evening" + (DAYS[dayIndex].off ? " · long weekend" : "");
+  } else if (beforeWeek) { dayKey = "sun"; head = "Week 9 starts Monday 26/10"; when = "Sunday 25/10 is a long weekend"; }
+  else if (afterWeek && dayDiff(TODAY, WEEKEND_DUE) >= 0) { dayKey = "thu"; head = "Weekend finish line"; when = "Due Saturday 31/10"; }
+  else { el.hidden = true; return; }
+  const items = PLAN[dayKey].map(planItemHTML);
+  el.innerHTML = '<div class="tonight-head"><h2 id="tonightTitle">' + esc(head) + '</h2><span class="when">' + esc(when) + '</span></div>' +
+    '<ol>' + items.map(i => '<li><div><b>' + esc(i.text) + '</b>' + (i.link ? '<span>' + i.link + '</span>' : "") + '</div></li>').join("") + '</ol>';
+}
+
+/* ---------- tests ---------- */
+function renderTests(){
+  document.getElementById("tests").innerHTML = TESTS.map(t => {
+    const d = DAYS.find(x => x.key === t.day);
+    const [, m, dd] = d.date.split("-").map(Number);
+    const diff = dayDiff(TODAY, d.date);
+    let sticker = t.tag, cls = t.soft ? "soft" : "";
+    if (diff < 0) { sticker = "Done"; cls = "past"; }
+    else if (diff === 0) sticker = "Today";
+    else if (diff === 1) sticker = "Tomorrow";
+    return '<article class="test panel ' + SUBJ[t.s].cls + '">' +
+      '<span class="sticker ' + cls + '">' + esc(sticker) + '</span>' +
+      '<div class="date"><div class="cal"><small>' + esc(d.short) + '</small><b>' + dd + '</b></div>' +
+      '<div><h3>' + esc(t.title) + '</h3><p class="per">' + esc(d.name) + ' ' + dd + '/' + m + ' · ' + esc(t.per) + ' · ' + esc(SUBJ[t.s].label) + '</p></div></div>' +
+      (t.ar ? '<p class="ar" lang="ar"><b>' + esc(t.ar) + '</b><br>' + t.lines.map(esc).join("<br>") + '</p>'
+            : '<p class="test-lines">' + t.en.map(esc).join("<br>") + '</p>') +
+      (t.link ? '<div class="hw-actions"><a class="btn btn-sm" href="' + t.link + '" target="_blank" rel="noopener">' + esc(t.linkLabel) + ' ↗</a></div>' : "") +
+      '</article>';
+  }).join("");
+}
+
+/* ---------- homework ---------- */
+function pronounHelper(){
+  return '<details class="helper"><summary>Pronoun helper (Lesson 7.2)</summary><div class="helper-in">' +
+    '<div class="kinds">' +
+    '<div class="kind"><b>Personal · underline once</b><p>I, me, you, he, him, she, her, it, we, us, they, them</p></div>' +
+    '<div class="kind"><b>Possessive · underline twice</b><p>my, mine, your, yours, his, her, hers, its, our, ours, their, theirs</p></div>' +
+    '<div class="kind"><b>Indefinite · circle</b><p>everyone, everybody, everything, someone, something, anyone, anything, nobody, nothing, all, both, each, few, many, several, some, none</p></div>' +
+    '</div>' +
+    '<ul><li><b>Her</b> can be either: "I thanked <span class="m1">her</span>" is personal, "<span class="m2">her</span> book" is possessive.</li>' +
+    '<li><b>Its</b> (no apostrophe) is possessive. <b>It\'s</b> means "it is".</li>' +
+    '<li>Plan five lines: who the person is, two reasons you admire them, something they did, and how they inspire you.</li></ul>' +
+    '<p><b>Example of the marking:</b></p>' +
+    '<p class="sample">The person <span class="m1">I</span> admire most is <span class="m2">my</span> grandfather. <span class="m1">He</span> helps <span class="m3">everyone</span> in <span class="m2">our</span> family, and <span class="m2">his</span> stories always teach <span class="m1">me</span> <span class="m3">something</span> new. <span class="m3">Many</span> of <span class="m2">his</span> friends ask <span class="m1">him</span> for advice, because <span class="m3">nobody</span> listens better than <span class="m1">he</span> does.</p>' +
+    '</div></details>';
+}
+function exponentHelper(){
+  return '<details class="helper"><summary>Exponent reminder (Lesson 3-1)</summary><div class="helper-in"><ul>' +
+    '<li>The <b>exponent</b> says how many times the <b>base</b> is used as a factor: <span class="math">2<sup>5</sup> = 2 × 2 × 2 × 2 × 2 = 32</span>.</li>' +
+    '<li>Read <span class="math">4<sup>3</sup></span> as "4 to the third power" or "4 cubed"; <span class="math">7<sup>2</sup></span> is "7 squared".</li>' +
+    '<li>Repeated multiplication becomes a power: <span class="math">6 × 6 × 6 × 6 = 6<sup>4</sup></span>.</li>' +
+    '<li>A power of 1 is the number itself (<span class="math">9<sup>1</sup> = 9</span>). Powers of 10: <span class="math">10<sup>3</sup> = 1,000</span>, the exponent counts the zeros.</li>' +
+    '<li>Fractions and decimals work the same way: <span class="math">(½)<sup>3</sup> = ½ × ½ × ½ = ⅛</span>, <span class="math">0.2<sup>2</sup> = 0.04</span>.</li>' +
+    '<li>Watch out: <span class="math">3<sup>4</sup></span> is not 3 × 4. It is <span class="math">3 × 3 × 3 × 3 = 81</span>.</li>' +
+    '</ul></div></details>';
+}
+const HELPERS = {pronouns:pronounHelper, exponents:exponentHelper};
+function dueLabel(due, done){
+  if (done) return {text:"Done", cls:"done"};
+  const n = dayDiff(TODAY, due);
+  if (n < 0) return {text:"Overdue", cls:"urgent"};
+  if (n === 0) return {text:"Due today", cls:"urgent"};
+  if (n === 1) return {text:"Due tomorrow", cls:"urgent"};
+  return {text:"Due in " + n + " days", cls:""};
+}
+function hwHTML(h){
+  const done = !!S.done[h.ep];
+  const dayName = DAYS.find(d => d.key === h.day).name;
+  const actions = (h.links || []).map(([href, label]) => '<a class="btn btn-sm" href="' + href + '" target="_blank" rel="noopener">' + esc(label) + ' ↗</a>');
+  if (h.page) actions.push('<a class="btn btn-sm btn-col" href="' + PAGES[h.page].href + '">' + esc(h.pageLabel || PAGES[h.page].label) + ' →</a>');
+  return '<li class="hw panel ' + SUBJ[h.s].cls + (done ? " is-done" : "") + '" id="hw-' + h.id + '">' +
+    '<button class="check" type="button" role="checkbox" aria-checked="' + done + '" data-id="' + h.ep + '" aria-label="Mark done: ' + esc(SUBJ[h.s].label + " " + h.title) + '">' + ICON_CHECK + '</button>' +
+    '<div class="hw-body"><div class="hw-top"><span class="subj">' + esc(SUBJ[h.s].label) + '</span><span class="hw-code">' + esc(h.code) + ' · set ' + esc(dayName) + '</span></div>' +
+    '<p class="hw-title">' + esc(h.title) + '</p>' +
+    (h.ar ? '<p class="hw-detail ar" lang="ar">' + esc(h.ar) + '</p>' : "") +
+    (h.detail ? '<p class="hw-detail">' + esc(h.detail) + '</p>' : "") +
+    (h.warn ? '<p class="hw-warn">' + esc(h.warn) + '</p>' : "") +
+    (actions.length ? '<div class="hw-actions">' + actions.join("") + '</div>' : "") +
+    (h.helper ? HELPERS[h.helper]() : "") +
+    '</div></li>';
+}
+function renderHomework(){
+  const groups = [...new Set(HW.map(h => h.due))].sort();
+  document.getElementById("homework").innerHTML = groups.map(due => {
+    const items = HW.filter(h => h.due === due);
+    const allDone = items.every(h => S.done[h.ep]);
+    const lab = dueLabel(due, allDone);
+    const [y,m,d] = due.split("-").map(Number);
+    const wd = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][new Date(Date.UTC(y, m-1, d)).getUTCDay()];
+    return '<div class="due-group"><div class="due-head"><h3>Due ' + wd + ' ' + d + '/' + m + '</h3><span class="due-tag ' + lab.cls + '">' + esc(lab.text) + '</span></div>' +
+      '<ul class="hw-list">' + items.map(hwHTML).join("") + '</ul></div>';
+  }).join("");
+}
+function updateMeter(bump){
+  const total = HW.length, n = HW.filter(h => S.done[h.ep]).length;
+  document.getElementById("meterText").textContent = n + "/" + total + " done";
+  document.getElementById("statHw").textContent = total;
+  document.getElementById("statLeft").textContent = total - n;
+  const m = document.getElementById("meter");
+  if (bump) { m.classList.remove("bump"); void m.offsetWidth; m.classList.add("bump"); }
+}
+document.getElementById("homework").addEventListener("click", e => {
+  const btn = e.target.closest(".check");
+  if (!btn) return;
+  const id = btn.dataset.id;
+  if (S.done[id]) delete S.done[id]; else S.done[id] = true;
+  save();
+  renderHomework();
+  updateMeter(true);
+  renderPrint();
+  const again = document.querySelector('.check[data-id="' + id + '"]');
+  if (again) again.focus();
+});
+
+/* ---------- timetable ---------- */
+function renderTimetable(initial){
+  const tabs = document.getElementById("tabs"), days = document.getElementById("days");
+  tabs.innerHTML = DAYS.map((d, i) => {
+    const [, m, dd] = d.date.split("-").map(Number);
+    const hasTest = TIMETABLE[d.key].some(p => p.test);
+    return '<button class="tab' + (d.off ? " off" : "") + '" type="button" role="tab" id="tab-' + d.key + '" aria-controls="day-' + d.key + '" aria-selected="' + (i === initial) + '" tabindex="' + (i === initial ? 0 : -1) + '">' +
+      (i === dayIndex ? '<span class="today-dot">Today</span>' : "") +
+      (hasTest ? '<span class="flag" title="Test day" aria-label="Test day">!</span>' : "") +
+      '<b>' + d.short + '</b><span>' + (d.off ? "Day off" : dd + '/' + m) + '</span></button>';
+  }).join("");
+  days.innerHTML = DAYS.map((d, i) => {
+    const [, m, dd] = d.date.split("-").map(Number);
+    const body = d.off
+      ? '<div class="off-note panel"><h3>Long weekend</h3><p>No school on Sunday ' + dd + '/' + m + '. Classes start on Monday 26/10.</p></div>'
+      : '<ol class="periods">' + TIMETABLE[d.key].map((p, j) => {
+        const sj = SUBJ[p.s];
+        const flags = [];
+        if (p.test) flags.push('<span class="flag-pill test">' + esc(TESTS.find(t => t.id === p.test).soft ? "Recitation check" : "Quiz") + '</span>');
+        (p.hw || []).forEach(id => { const h = HW.find(x => x.id === id); flags.push('<a class="flag-pill" href="#hw-' + id + '">Homework: ' + esc(h.code) + '</a>'); });
+        if (p.page && PAGES[p.page]) flags.push('<a class="flag-pill link" href="' + PAGES[p.page].href + '">Practice →</a>');
+        return '<li class="period panel ' + sj.cls + '"><span class="pno">' + PERIOD_NAMES[j] + '</span><div class="p-body">' +
+          '<div class="p-top"><span class="p-subj">' + esc(sj.label) + '</span><span class="p-teacher">' + esc(T[p.s]) + '</span></div>' +
+          topicHTML(p.topic) + (flags.length ? '<div class="p-flags">' + flags.join("") + '</div>' : "") + '</div></li>';
+      }).join("") + '</ol>';
+    return '<section class="day-panel" role="tabpanel" id="day-' + d.key + '" aria-labelledby="tab-' + d.key + '"' + (i === initial ? "" : " hidden") + '>' +
+      '<h3 class="day-title">' + d.name + ' ' + dd + '/' + m + '</h3>' + body + '</section>';
+  }).join("");
+}
+function selectTab(i, focus){
+  DAYS.forEach((d, j) => {
+    const t = document.getElementById("tab-" + d.key), p = document.getElementById("day-" + d.key);
+    t.setAttribute("aria-selected", j === i); t.tabIndex = j === i ? 0 : -1; p.hidden = j !== i;
+  });
+  if (focus) document.getElementById("tab-" + DAYS[i].key).focus();
+}
+document.getElementById("tabs").addEventListener("click", e => {
+  const t = e.target.closest(".tab"); if (!t) return;
+  selectTab(DAYS.findIndex(d => "tab-" + d.key === t.id), false);
+});
+document.getElementById("tabs").addEventListener("keydown", e => {
+  const cur = DAYS.findIndex(d => document.getElementById("tab-" + d.key).getAttribute("aria-selected") === "true");
+  let n = null;
+  if (e.key === "ArrowRight") n = (cur + 1) % DAYS.length;
+  else if (e.key === "ArrowLeft") n = (cur - 1 + DAYS.length) % DAYS.length;
+  else if (e.key === "Home") n = 0;
+  else if (e.key === "End") n = DAYS.length - 1;
+  if (n !== null) { e.preventDefault(); selectTab(n, true); }
+});
+
+/* ---------- evening plan ---------- */
+function renderPlan(){
+  document.getElementById("plan").innerHTML = DAYS.map((d, i) => {
+    const isToday = i === dayIndex || (beforeWeek && i === 0);
+    return '<article class="plan-day panel' + (isToday ? " is-today" : "") + '"><h3>' + d.name + ' night' + (d.off ? ' <small>Long weekend</small>' : "") + (i === dayIndex ? ' <small>Tonight</small>' : "") + '</h3><ul>' +
+      PLAN[d.key].map(planItemHTML).map(it => '<li' + (it.key ? ' class="key"' : "") + '>' + esc(it.text) + it.link + '</li>').join("") + '</ul></article>';
+  }).join("");
+}
+
+/* ---------- study pages ---------- */
+function renderStudy(){
+  const cards = [
+    {cls:"s-math", page:"math", title:"Coordinate Plane", text:"Lesson 2-6 builds on 2-4 and 2-5. The distance and perimeter zones are the warm-up for HW 9.1 (area and perimeter on the coordinate plane)."},
+    {cls:"s-math", page:"exp", title:"Power Lab", text:"Lesson 3-1: write and evaluate powers, fractions and decimals, powers of 10 and expanded form. Gets him ready for HW 9.2."},
+    {cls:"s-sci", page:"sense", title:"Signal Lab", text:"Lesson 5: the nervous system, neurons and reflexes, and how taste, smell, touch, hearing and sight reach the brain. Includes the Label Lab for the eye and ear."},
+    {cls:"s-sci", page:"cell", title:"Cell Lab", text:"Explore what each of the 9 animal cell parts does, then take the drill. Ready for HW 9.1 on IXL."}
+  ];
+  document.getElementById("study").innerHTML = cards.filter(c => PAGES[c.page]).map(c =>
+    '<a class="panel ' + c.cls + '" href="' + PAGES[c.page].href + '"><h3>' + esc(c.title) + '</h3><p>' + esc(c.text) + '</p><span class="go">Open →</span></a>').join("");
+}
+
+/* ---------- print ---------- */
+function dm(iso){ const [, m, d] = iso.split("-").map(Number); return d + "/" + m; }
+/* keep ranges such as 1-33 or 86 - 87 on one line */
+function arPrint(s){ return esc(s).replace(/\d+\s*-\s*\d+/g, m => '<span style="white-space:nowrap">' + m + '</span>'); }
+function gridTopic(t){
+  if (typeof t !== "string") return '<div class="ar" lang="ar">' + arPrint(t.ar) + '</div>';
+  return '<div>' + esc(t.replace(SCI_L5, "L5 Control & Information: ")) + '</div>';
+}
+function renderPrint(){
+  const head = sub => '<div class="ps-head"><h1>Week 9 Plan · Class 6.3</h1><p>Sun 25 – Thu 29 October 2026' + (sub ? " · " + sub : "") + '</p></div>';
+  const dayOf = key => DAYS.find(d => d.key === key);
+  const tests = TESTS.map(t => {
+    const d = dayOf(t.day);
+    return '<tr><td class="ps-when">' + d.short + ' ' + dm(d.date) + '<small>' + t.per + '</small></td>' +
+      '<td class="ps-subj">' + esc(SUBJ[t.s].label) + '<small>' + (t.soft ? "Recitation check" : "Quiz") + '</small></td>' +
+      '<td><b>' + esc(t.title) + '</b>' + (t.ar ? '<div class="ar" lang="ar">' + esc(t.ar) + ': ' + t.lines.map(arPrint).join(" · ") + '</div>' : '<div>' + t.en.map(esc).join(" ") + '</div>') +
+      (t.link ? '<div class="ps-url">' + esc(t.link) + '</div>' : "") + '</td></tr>';
+  }).join("");
+  const order = key => DAYS.findIndex(d => d.key === key);
+  const hw = HW.slice().sort((a, b) => a.due.localeCompare(b.due) || order(a.day) - order(b.day)).map(h => {
+    const done = !!S.done[h.ep];
+    return '<tr' + (done ? ' class="ps-done"' : "") + '><td><span class="ps-box">' + (done ? "✓" : "") + '</span></td>' +
+      '<td class="ps-subj">' + esc(SUBJ[h.s].label) + '<small>' + esc(h.code) + '</small></td>' +
+      '<td class="ps-text"><b>' + esc(h.title) + '.</b>' + (h.detail ? " " + esc(h.detail) : "") +
+      (h.ar ? '<div class="ar" lang="ar">' + esc(h.ar) + '</div>' : "") +
+      (h.warn ? '<div class="ps-warn">' + esc(h.warn) + '</div>' : "") +
+      /* on paper only the first link; the warning names the other one */
+      (h.links && h.links.length ? '<div class="ps-url">' + esc(h.links[0][0]) + '</div>' : "") + '</td>' +
+      '<td class="ps-when">' + fmtDate(h.due) + '<small>set ' + dayOf(h.day).short + '</small></td></tr>';
+  }).join("");
+  const plan = DAYS.map(d => '<tr><td class="ps-when">' + d.short + ' ' + dm(d.date) + (d.off ? '<small>Long weekend</small>' : "") + '</td><td>' +
+    PLAN[d.key].map(([text, , key], k) => '<span class="ps-job' + (key ? " key" : "") + '">' + (k + 1) + '. ' + esc(text) + '</span>').join(" ") + '</td></tr>').join("");
+  const grid = '<table class="ps-grid"><colgroup><col style="width:9mm">' + SCHOOL_DAYS.map(() => '<col>').join("") + '</colgroup><thead><tr><th></th>' + SCHOOL_DAYS.map(d => '<th>' + d.name + ' ' + dm(d.date) + '</th>').join("") + '</tr></thead><tbody>' +
+    PERIOD_NAMES.map((pn, j) => '<tr><th>' + pn + '</th>' + SCHOOL_DAYS.map(d => {
+      const p = TIMETABLE[d.key][j];
+      if (!p) return '<td></td>';
+      const tags = (p.test ? '<span class="ps-tag">' + (TESTS.find(t => t.id === p.test).soft ? "CHECK" : "QUIZ") + '</span>' : "") +
+        (p.hw ? '<span class="ps-tag">HW</span>' : "");
+      return '<td><b>' + esc(SUBJ[p.s].label) + tags + '</b>' + gridTopic(p.topic) + '</td>';
+    }).join("") + '</tr>').join("") + '</tbody></table>';
+  document.getElementById("printSheet").innerHTML =
+    head("no school Sunday") +
+    '<p class="ps-value"><b>Value of the week:</b> Integrity · <span lang="ar">الاستقامة</span></p>' +
+    '<h2 class="ps-sec">Tests</h2><table class="ps-table"><colgroup><col style="width:15%"><col style="width:17%"><col></colgroup>' +
+    '<thead><tr><th>Day</th><th>Subject</th><th>What and what to study</th></tr></thead><tbody>' + tests + '</tbody></table>' +
+    '<h2 class="ps-sec">Homework</h2><table class="ps-table"><colgroup><col style="width:6%"><col style="width:17%"><col><col style="width:13%"></colgroup>' +
+    '<thead><tr><th>Done</th><th>Subject</th><th>Task</th><th>Due</th></tr></thead><tbody>' + hw + '</tbody></table>' +
+    '<h2 class="ps-sec">Evening plan</h2><table class="ps-table"><colgroup><col style="width:15%"><col></colgroup><tbody>' + plan + '</tbody></table>' +
+    '<p class="ps-foot">Source: the school\'s Week 9 Weekly Study Plan and Weekly Events for Class 6.3. Bold job = the most important one that evening.</p>' +
+    '<div class="ps-break">' + head("Timetable, Monday to Thursday") + grid +
+    '<p class="ps-foot">HW = homework set in that period · QUIZ / CHECK = quiz or recitation check in that period. Sunday 25/10 is a long weekend.</p></div>';
+}
+
+document.getElementById("printBtn").addEventListener("click", () => { renderPrint(); window.print(); });
+window.addEventListener("beforeprint", renderPrint);
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (!confirm("Clear this week's homework ticks on this device?")) return;
+  HW.forEach(h => delete S.done[h.ep]); save(); renderHomework(); updateMeter(false); renderPrint();
+});
+
+/* on the day off, or before the week starts, open Monday's timetable */
+const firstTab = dayIndex >= 0 ? (DAYS[dayIndex].off ? dayIndex + 1 : dayIndex) : (afterWeek ? DAYS.length - 1 : DAYS.findIndex(d => !d.off));
+renderTonight();
+renderTests();
+renderHomework();
+renderTimetable(firstTab);
+renderPlan();
+renderStudy();
+updateMeter(false);
+renderPrint();
+</script>
+</body>
+</html>

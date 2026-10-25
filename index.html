@@ -32,6 +32,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .s-math{--col:#2F7DE1;--tint:#DCEBFF} .s-ar{--col:#F39200;--tint:#FFE8C2} .s-isl{--col:#9A4FE0;--tint:#EEE0FF}
 .s-sci{--col:#119C77;--tint:#D2F4E8} .s-eng{--col:#E23F66;--tint:#FFDDE6} .s-soc{--col:#8C5A2B;--tint:#F5E6D6}
 .s-quran{--col:#1E7A46;--tint:#D9F0E2} .s-pe{--col:#0E8C9E;--tint:#D3F2F6} .s-art{--col:#B8559A;--tint:#F6E0F0}
+.s-ict{--col:#5B6270;--tint:#E7E9EE}
 .panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
 
 /* top bar */
@@ -168,6 +169,7 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
     <div>
       <h1 id="helloTitle">ايش المطلوب؟</h1>
       <p class="today" id="today"></p>
+      <p class="note" id="stale" hidden></p>
     </div>
     <div class="tiles">
       <div class="tile hot"><b id="tTodo">0</b><span>واجبات باقية</span></div>
@@ -224,6 +226,7 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
  "source": "https://aisedusa.edupage.org/exam/",
  "class": "6.3",
  "synced": "2026-10-21T11:43:13+03:00",
+ "checked": "2026-10-25T10:43:00+03:00",
  "items": [
   {
    "id": "2026-09-06-0C6939D6B229A094DE96",
@@ -796,14 +799,18 @@ const TZ = "Asia/Riyadh";
 const TERM_START = "2026-08-30"; /* Sunday of school week 1 */
 
 /* School weeks that have a detailed plan page. */
-const WEEK_PAGES = {8: "weekly/week-08/index.html"};
+const WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html"};
 
 /* Practice pages for particular homework items (by EduPage id). */
 const PRACTICE_BY_ID = {
   "2026-10-18-F44C6F47E9501A1B97E7": ["science/moving-material/index.html", "تدرّب على أجزاء الخلية"],
   "2026-10-21-7AC940BD462598F6F251": ["science/moving-material/index.html", "راجع درس نقل المواد"],
   "2026-10-19-5935EF89C537CDB41A40": ["math/coordinate-plane/index.html", "تدرّب على المستوى الإحداثي"],
-  "2026-10-22-D07FE1AF26AC823D24B5": ["math/coordinate-plane/index.html", "تدرّب على حساب المسافة"]
+  "2026-10-22-D07FE1AF26AC823D24B5": ["math/coordinate-plane/index.html", "تدرّب على حساب المسافة"],
+  "2026-10-26-B23EC28E9E60812EA0D7": ["math/coordinate-plane/index.html", "تدرّب على المسافة والمحيط"],
+  "2026-10-26-8A58A178CA57DAB97159": ["science/moving-material/index.html#/cell", "راجع وظائف أجزاء الخلية"],
+  "2026-10-29-C55D232D8569DE5E9B2C": ["math/exponents/index.html", "تدرّب على الأسس"],
+  "2026-10-28-058D4164C010604689B9": ["science/control-information/index.html", "راجع درس التحكم والحواس"]
 };
 
 /* What to study or bring, from the Weekly Study Plan, Weekly Events and EduPage messages (EduPage's list only gives the title). */
@@ -811,13 +818,17 @@ const NOTES = {
   "2026-10-19-57A7A5E7CEEDD3AB": "التلاوة: سورة الكهف 1-18 · الحفظ: سورة القلم 1-30",
   "2026-10-22-FCDC333DBF0EE2FA": "إملاء ص 65: من (تحرص حكومة خادم الحرمين الشريفين) حتى (واحترام التنوع الثقافي). يحضر دفتر الإملاء.",
   "2026-10-21-7AC940BD462598F6F251": "تقويم المدرسة يذكر إجازة نهاية أسبوع طويلة يوم الأحد 25/10، فتأكدوا من يوم التسليم مع المعلم.",
-  "msg-2026-10-20-art": "يحضر للحصة: كراسة الرسم، الأدوات الهندسية (خصوصًا الفرجار)، المسطرة، الألوان الخشبية."
+  "msg-2026-10-20-art": "يحضر للحصة: كراسة الرسم، الأدوات الهندسية (خصوصًا الفرجار)، المسطرة، الألوان الخشبية.",
+  "2026-10-26-8A58A178CA57DAB97159": "انتبهوا: الواجب اسمه «وظائف أجزاء الخلية الحيوانية»، لكن الرابط يفتح مهارة الخلية النباتية. اسألوا المعلم أيهما المطلوب، والأضمن حل الاثنتين.",
+  "2026-10-29-1D91EF9EED5D8D8B": "اختبار عملي على PowerPoint في الحصتين الرابعة والخامسة. يذاكر من كتاب TechnoFuture الصفحات 1-8 و11-22 و25-30."
 };
 
 /* In the Weekly Study Plan or the class's EduPage messages, but not on the public homework list. */
 const EXTRA = [
   {id:"wsp-2026-10-22-kahf", date:"2026-10-22", kind:"test", type:"Oral exam", subject:"Qur'an", due:"2026-10-22",
    text:"تقييم تلاوة سورة الكهف 19-20", fromPlan:true},
+  {id:"wsp-2026-10-28-kahf", date:"2026-10-28", kind:"test", type:"Oral exam", subject:"Qur'an", due:"2026-10-28",
+   text:"تقييم تلاوة سورة الكهف 21-22", fromPlan:true},
   {id:"msg-2026-10-20-art", date:"2026-10-13", kind:"hw", type:"homework", subject:"Art", due:"2026-10-20",
    text:"إنهاء تصميم الزخرفة الإسلامية (تصميم واحد من التصميمين المرسلين) وتلوينه بزوج ألوان متقابل: الأصفر مع البنفسجي، أو الأحمر مع الأخضر، أو الأزرق مع البرتقالي، ثم تسليمه في حصة الفنية القادمة.",
    fromMsg:true}
@@ -836,7 +847,10 @@ const NOTICES = [
 ];
 
 const PRACTICE_PAGES = [
+  {href:"weekly/week-09/index.html", title:"خطة الأسبوع 9", text:"إجازة الأحد، ثم جدول الاثنين للخميس والواجبات وخطة المذاكرة لكل يوم.", cls:""},
   {href:"weekly/week-08/index.html", title:"خطة الأسبوع 8", text:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", cls:""},
+  {href:"math/exponents/index.html", title:"الرياضيات: الأسس", text:"الدرس 3-1: كتابة القوى وحسابها، والكسور والأعداد العشرية، وقوى العدد 10.", cls:"s-math"},
+  {href:"science/control-information/index.html", title:"العلوم: التحكم والحواس", text:"الجهاز العصبي والدماغ، وكيف توصل الحواس الخمس المعلومات للدماغ.", cls:"s-sci"},
   {href:"math/coordinate-plane/index.html", title:"الرياضيات: المستوى الإحداثي", text:"الدرسان 2-4 و2-5: تمثيل النقاط وإيجاد المسافة.", cls:"s-math"},
   {href:"science/moving-material/index.html", title:"العلوم: نقل المواد", text:"كيف تنقل النباتات والإنسان الماء والأكسجين والدم.", cls:"s-sci"},
   {href:"vocabulary/review-units-1-3/index.html", title:"المفردات: مراجعة الوحدات 1-3", text:"Vocabulary Workshop، صفحات 42-49.", cls:"s-eng"},
@@ -846,7 +860,7 @@ const PRACTICE_PAGES = [
 const SUBJ = {
   "Math":["رياضيات","s-math"], "English":["إنجليزي","s-eng"], "Science":["علوم","s-sci"], "Arabic":["لغتي","s-ar"],
   "Islamic Studies":["دراسات إسلامية","s-isl"], "Qur'an":["قرآن كريم","s-quran"], "Social Studies":["اجتماعيات","s-soc"],
-  "PE":["تربية بدنية","s-pe"], "Art":["فنية","s-art"], "Be Well":["Be Well","s-well"]
+  "PE":["تربية بدنية","s-pe"], "Art":["فنية","s-art"], "Be Well":["Be Well","s-well"], "ICT/MECHA":["حاسب آلي","s-ict"]
 };
 const TYPE_AR = {"homework":"واجب", "Small exam":"اختبار قصير", "Big exam":"اختبار", "Oral exam":"اختبار شفهي",
   "Unit Test (W2)":"اختبار وحدة", "Test":"اختبار", "Project":"مشروع", "Report":"تقرير"};
@@ -995,7 +1009,16 @@ function syncedText(){
   const [date, time] = DATA.synced.split("T");
   return "آخر تحديث من EduPage: " + longDate(date) + " الساعة " + time.slice(0, 5) + " (بتوقيت السعودية).";
 }
-function renderSynced(){ document.getElementById("synced").textContent = syncedText(); }
+/* The sync reads EduPage every hour and stamps "checked" at least once a day. */
+function renderSynced(){
+  document.getElementById("synced").textContent = syncedText() + (DATA.synced ? " الصفحة تتحدّث تلقائيًا من EduPage كل ساعة." : "");
+  const last = (DATA.checked || DATA.synced || "").slice(0, 10);
+  const el = document.getElementById("stale");
+  if (last && dayDiff(last, TODAY) >= 2) {
+    el.textContent = "تنبيه: آخر مرة انقرأت فيها قائمة EduPage كانت " + longDate(last) + "، فممكن فيه واجبات جديدة ما ظهرت هنا. راجعوا EduPage مباشرة.";
+    el.hidden = false;
+  }
+}
 
 /* Print: one A4 page with what is still due (boxes to tick by hand) and the coming tests. */
 /* the due date has its own column on paper, so drop "Due date: 24/10/2026" from the text */

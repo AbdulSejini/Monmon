@@ -1,0 +1,1731 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Exponent Power Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23FFD23F%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M36 10L16 36h13l-3 18 20-27H33z%22 fill=%22%23fff%22 stroke=%22%2314163A%22 stroke-width=%224.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn:#C77700; --warn-bg:#FFF0D1;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --c5:#E23F66; --c5t:#FFDDE6;
+  --col:var(--c1); --tint:var(--c1t);
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--c1);font-weight:700;overflow-wrap:anywhere}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.land-c1{--col:var(--c1);--tint:var(--c1t)} .land-c2{--col:var(--c2);--tint:var(--c2t)} .land-c3{--col:var(--c3);--tint:var(--c3t)}
+.land-c4{--col:var(--c4);--tint:var(--c4t)} .land-c5{--col:var(--c5);--tint:var(--c5t)}
+
+/* math type: powers and stacked fractions */
+sup{font-size:.62em;line-height:0;position:relative;vertical-align:baseline;top:-.62em;font-weight:inherit}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.8em;line-height:1.08;margin:0 .1em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fr .nu{border-bottom:.1em solid currentColor;padding:0 .14em}
+.fr .de{padding:0 .14em}
+.fr .sl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.fp{font-size:1.3em;line-height:1;font-weight:400;vertical-align:-.1em}
+sup.qm{display:inline-block;font-size:.8em;min-width:1.2em;padding:0 .12em;border:2px dashed var(--ink-2);border-radius:5px;text-align:center;line-height:1.2;top:-.45em;color:var(--ink-2);margin-left:.14em}
+.t,.nw{white-space:nowrap}
+.slot{display:inline-grid;place-items:center;width:1.5em;height:1.5em;margin:0 .15em;border:2px dashed var(--ink-2);border-radius:50%;vertical-align:middle;font-size:.9em;font-weight:800;color:var(--ink-2);line-height:1}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:900px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.xp{display:flex;align-items:center;gap:6px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;white-space:nowrap}
+.xp svg{width:20px;height:20px}
+.xp.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{50%{transform:scale(1.18)}}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);padding:0}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:520px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+@media (max-width:400px){.topbar-in{gap:8px}.logo-mark{font-size:22px}.xp{padding:3px 9px 3px 5px}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:16px;line-height:1.2;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn-go{background:var(--sun)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.btn-sm{min-height:38px;padding:6px 12px;font-size:14px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:var(--shadow-sm)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.screen{animation:enter .35s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* home */
+.hero{margin-top:20px;padding:20px;display:grid;grid-template-columns:1.35fr 1fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(42px,7vw,66px)}
+.hero h1 span{color:var(--c1);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero p{margin-top:10px;max-width:50ch;color:var(--ink-2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;background:var(--page);text-align:center}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+@media (max-width:680px){.hero{grid-template-columns:1fr}}
+.banner{margin-top:16px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--sun-2)}
+.banner.alert{background:var(--bad-bg)}
+.banner p{flex:1 1 260px}
+.sec-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:34px 0 14px}
+.sec-title h2{font-size:36px}
+.sec-title p{color:var(--ink-2);font-size:14px}
+
+/* quest trail */
+.trail{position:relative;display:grid;gap:20px;padding-block:4px}
+.trail::before{content:"";position:absolute;top:0;bottom:-20px;left:50%;border-left:4px dashed var(--ink-3);transform:translateX(-2px)}
+.land{position:relative;width:calc(50% - 26px);display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px;text-align:left;background:var(--tint);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);transition:transform .12s}
+.land:nth-child(odd){justify-self:start}
+.land:nth-child(even){justify-self:end}
+.land:hover{transform:translateY(-3px) rotate(-.4deg)}
+.land::after{content:"";position:absolute;top:24px;width:22px;height:22px;border-radius:50%;background:var(--col);border:3px solid var(--ink)}
+.land:nth-child(odd)::after{right:-40px}
+.land:nth-child(even)::after{left:-40px}
+@media (max-width:680px){.trail::before{left:18px}.land{width:calc(100% - 44px);justify-self:end!important}.land::after{left:-40px!important;right:auto!important}}
+.badge{width:56px;height:56px;border-radius:50%;background:var(--col);border:3px solid var(--ink);display:grid;place-items:center;box-shadow:2px 2px 0 var(--ink)}
+.badge svg{width:32px;height:32px}
+.land-num{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.land h3{font-size:30px}
+.land .sub{font-size:14px;color:var(--ink-2)}
+.land-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.progress-note{font-size:13px;font-weight:700;color:var(--ink-2)}
+.stars{display:flex;gap:2px}
+.stars svg{width:24px;height:24px}
+.sticker{position:absolute;top:-19px;right:12px;font-family:var(--display);font-size:18px;letter-spacing:.05em;background:var(--bad);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 8px;transform:rotate(4deg);box-shadow:2px 2px 0 var(--ink)}
+.sticker.ok{background:var(--good)}
+.final{position:relative;margin:36px auto 0;max-width:560px;padding:18px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:var(--sun)}
+.final h3{font-size:34px}
+.final p{font-size:14px;color:var(--ink)}
+.final .row{grid-column:1 / -1}
+.final .badge{background:var(--ink)}
+
+/* homework */
+.hw{padding:16px;display:grid;gap:14px}
+.hw-item{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+.hw-item.done{background:var(--good-bg)}
+.hw-check{width:30px;height:30px;margin:2px 0 0;accent-color:var(--good);cursor:pointer}
+.hw-item h3{font-size:24px}
+.hw-item .due{font-size:13px;font-weight:800;color:var(--bad);text-transform:uppercase;letter-spacing:.06em}
+.hw-item ul{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}
+.hw-body{grid-column:2;display:grid;gap:8px;min-width:0}
+.hw-note{font-size:13px;color:var(--ink-2)}
+.foot-note{margin-top:28px;text-align:center;font-size:13px;color:var(--ink-2)}
+.foot-links{justify-content:center;margin-top:28px}
+.link-btn{background:none;border:0;padding:0;color:var(--ink-2);text-decoration:underline;font-size:13px}
+
+/* lesson */
+.lesson-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.chip-land{font-family:var(--display);font-size:22px;letter-spacing:.04em;padding:3px 12px;border:3px solid var(--ink);border-radius:10px;background:var(--col);color:#fff;-webkit-text-stroke:.5px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.intro{margin-top:14px;padding:22px;display:grid;gap:14px;background:var(--tint)}
+.intro h2{font-size:clamp(40px,8vw,64px);color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink)}
+.intro p{font-size:18px;max-width:60ch}
+.lcards{display:grid;gap:18px;margin-top:18px}
+.lcard{padding:16px;display:grid;gap:14px}
+.lcard-num{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.lcard h3{font-size:32px;color:var(--col);-webkit-text-stroke:1px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.lgrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px 20px;align-items:center}
+.lgrid.solo{grid-template-columns:1fr}
+@media (max-width:720px){.lgrid{grid-template-columns:1fr}}
+.ltext{display:grid;gap:12px;min-width:0;font-size:17px;line-height:1.6}
+.ltext b{background:var(--sun-2);padding:0 4px;border-radius:4px}
+.trick-inline{display:block;padding:10px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--sun-2);transform:rotate(-.6deg);box-shadow:2px 2px 0 var(--ink);font-weight:500}
+.ex{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--page);padding:12px 14px}
+.ex h4{margin:0;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.ex .ex-q{margin-top:2px;font-weight:800;font-size:18px}
+.ex ol{margin:8px 0 0;padding-left:22px;display:grid;gap:4px}
+.note{font-size:15px;padding:10px 12px;border-left:6px solid var(--col);background:var(--tint);border-radius:0 10px 10px 0}
+.tscroll{overflow-x:auto;max-width:100%}
+.rtable{width:100%;border-collapse:separate;border-spacing:0;border:2px solid var(--ink);border-radius:10px;overflow:hidden;font-size:15px;background:var(--paper)}
+.rtable th,.rtable td{padding:7px 10px;text-align:left;border-bottom:2px solid var(--page)}
+.rtable th{background:var(--ink);color:#fff;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.rtable tr:last-child td{border-bottom:0}
+.rtable td:first-child{font-weight:800;white-space:nowrap}
+@media (max-width:420px){.rtable{font-size:14px}.rtable th,.rtable td{padding:6px 7px}}
+.lesson-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+/* lesson pictures */
+.viz{width:100%;max-width:440px;margin:0 auto;border:3px solid var(--ink);border-radius:var(--r-sm);background:#fff;overflow:hidden;box-shadow:var(--shadow-sm)}
+.viz svg{display:block;width:100%;height:auto}
+.viz .vt{font-family:var(--body);font-size:15px;font-weight:700;fill:var(--ink)}
+.viz .vs{font-family:var(--body);font-size:13px;font-weight:600;fill:var(--ink-2)}
+.viz .vb{font-family:var(--body);font-size:21px;font-weight:800;fill:var(--ink)}
+.viz .vd{font-family:var(--display);fill:var(--ink);letter-spacing:.02em}
+.viz .vcap{font-family:var(--body);font-size:12px;font-weight:800;letter-spacing:.08em;fill:var(--ink-2)}
+.viz .ln{stroke:var(--ink);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.viz .lt{stroke:var(--ink-3);stroke-width:1.2;fill:none}
+.viz .tile{fill:var(--tint);stroke:var(--ink);stroke-width:2.5}
+.viz .hot{fill:var(--col);stroke:var(--ink);stroke-width:2.5}
+.viz .sun{fill:var(--sun-2);stroke:var(--ink);stroke-width:2.5}
+.viz .wht{fill:#fff;stroke:var(--ink);stroke-width:2.5}
+
+/* questions */
+.test-top{display:grid;gap:10px;margin-top:16px}
+.test-top .row{justify-content:space-between}
+.round-name{font-family:var(--display);font-size:26px;letter-spacing:.04em}
+.counter{font-weight:800;font-variant-numeric:tabular-nums}
+.progress{height:16px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--sun);border-right:2px solid var(--ink);transition:width .4s}
+.q-card{margin-top:14px;padding:18px;display:grid;gap:14px;min-width:0}
+.q-kicker{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.q-text{font-size:20px;line-height:1.55;font-weight:500;overflow-wrap:anywhere}
+.q-text:focus,.q-text:focus-visible{outline:none}
+.q-text b{background:var(--sun-2);padding:0 5px;border-radius:5px;box-shadow:inset 0 -3px 0 var(--sun);white-space:nowrap}
+.qx{display:block;margin-top:8px;padding:8px 12px;border:2px dashed var(--ink-3);border-radius:10px;background:var(--page);font-size:22px;font-weight:700;line-height:1.7;font-variant-numeric:tabular-nums}
+@media (max-width:420px){.q-text{font-size:19px}.qx{font-size:20px;padding:6px 10px}}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opts.three{grid-template-columns:repeat(3,1fr)}
+.opts.four{grid-template-columns:repeat(4,1fr)}
+@media (max-width:420px){.opts.two{grid-template-columns:1fr}.opts.four{grid-template-columns:1fr 1fr}}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;min-height:56px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:600;font-size:18px;line-height:1.35;box-shadow:3px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s;font-variant-numeric:tabular-nums;min-width:0}
+.opt:hover:not([disabled]){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.opt:active:not([disabled]){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.opt .k{flex:none;width:30px;height:30px;border-radius:8px;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:14px;background:var(--page)}
+.opt.big{justify-content:center;font-family:var(--display);font-size:34px;font-weight:400;letter-spacing:.04em;min-height:64px;text-align:center}
+.opt.big .fr{font-size:.72em}
+.opt.big.sym{font-family:var(--body);font-weight:800;font-size:36px}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--good-bg);animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+.opt.right .k{background:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-bg);animation:shake .4s}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt.dim{opacity:.5}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes pop{50%{transform:scale(1.04)}}
+.ans-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.type-in{min-width:0;font:inherit;font-size:22px;font-weight:700;letter-spacing:.02em;padding:10px 12px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums}
+.type-in:focus{outline:none;box-shadow:0 0 0 4px var(--sun)}
+.type-in.ok{background:var(--good-bg)} .type-in.no{background:var(--bad-bg);animation:shake .4s}
+.type-in.num{width:10em;max-width:100%}
+.lbl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);display:block;text-align:center}
+.unit{font-weight:800;font-size:18px;color:var(--ink-2)}
+/* the power input: a big base box with a small raised exponent box */
+.pow-in{display:flex;align-items:flex-start;gap:4px}
+.pow-b{display:grid;justify-items:center;gap:2px;margin-top:30px}
+.pow-e{display:grid;justify-items:center;gap:2px}
+.type-in.base{width:5.4em;font-size:28px;text-align:center;padding:10px 8px}
+.type-in.exp{width:2.8em;font-size:18px;text-align:center;padding:6px 4px}
+.keys{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.keys span{font-size:12px;font-weight:700;color:var(--ink-2);margin-right:4px}
+.key{min-width:44px;height:40px;padding:0 10px;border:2px solid var(--ink);border-radius:9px;background:var(--page);font-weight:800;font-size:18px;box-shadow:2px 2px 0 var(--ink)}
+.key:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+.input-msg{font-size:14px;font-weight:700;color:var(--bad);min-height:0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.hint-box{padding:10px 14px;border:2px dashed var(--ink);border-radius:10px;background:var(--sun-2);font-size:16px;animation:slideUp .3s ease-out}
+.hint-box b.tag,.tip b.tag{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:#fff;padding:2px 7px;border-radius:5px;margin-right:6px}
+.fb{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:start;padding:12px 14px;border:3px solid var(--ink);border-radius:12px;animation:slideUp .3s ease-out}
+.fb.ok{background:var(--good-bg)} .fb.no{background:var(--bad-bg)}
+.fb .burst{font-family:var(--display);font-size:30px;line-height:1;transform:rotate(-4deg);-webkit-text-stroke:1px var(--ink);white-space:nowrap}
+.fb.ok .burst{color:var(--good)} .fb.no .burst{color:var(--bad)}
+.fb .fb-body{font-size:16px;display:grid;gap:8px;min-width:0;overflow-wrap:anywhere}
+.fb .row{grid-column:1 / -1;justify-content:flex-end}
+@media (max-width:480px){.fb{grid-template-columns:1fr}}
+.tip{padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.7);border:2px solid var(--ink);font-weight:600}
+.your{font-size:14px;color:var(--ink-2)}
+@keyframes slideUp{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+
+/* results */
+.splash{margin-top:16px;padding:28px 20px;text-align:center;display:grid;gap:14px;justify-items:center;background:var(--tint)}
+.splash .big{font-family:var(--display);font-size:clamp(46px,10vw,78px);line-height:1;color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:5px 5px 0 var(--ink);animation:zoomIn .6s cubic-bezier(.3,1.6,.5,1)}
+.splash p{max-width:46ch;font-size:17px}
+@keyframes zoomIn{0%{transform:scale(.2) rotate(-12deg);opacity:0}100%{transform:none;opacity:1}}
+.result-stars{display:flex;gap:10px;justify-content:center}
+.result-stars span{display:inline-block;animation:starIn .6s cubic-bezier(.3,1.6,.5,1) both}
+.result-stars svg{width:64px;height:64px;display:block}
+@keyframes starIn{0%{transform:scale(0) rotate(-40deg)}100%{transform:none}}
+.miss-list{display:grid;gap:12px;margin-top:16px}
+.miss{padding:14px;display:grid;gap:6px;background:var(--paper);overflow-wrap:anywhere}
+.miss .q{font-weight:600}
+.miss .a{font-size:14px;color:var(--ink-2)}
+.miss .w{font-size:15px}
+.test-intro{margin-top:16px;padding:22px;display:grid;gap:16px}
+.test-intro h2{font-size:clamp(40px,8vw,60px)}
+.rounds{display:grid;gap:8px;margin:0;padding:0;list-style:none;counter-reset:r}
+.rounds li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:8px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--page);counter-increment:r}
+.rounds li::before{content:counter(r);width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800}
+.rounds small{color:var(--ink-2);font-size:13px}
+
+/* report */
+.report-head{margin-top:16px;padding:20px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+@media (max-width:600px){.report-head{grid-template-columns:1fr;justify-items:center;text-align:center}.report-head .row{justify-content:center}}
+.ring{width:156px;height:156px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:grid;place-items:center;align-content:center;font-family:var(--display);font-size:46px;line-height:1}
+.ring .num small{font-family:var(--body);font-size:12px;font-weight:800;color:var(--ink-2);letter-spacing:.06em}
+.rank{font-family:var(--display);font-size:clamp(36px,6vw,54px);line-height:1}
+.report-head p{margin-top:6px;color:var(--ink-2)}
+.bars{padding:16px;display:grid;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(130px,230px) 1fr auto;gap:10px 12px;align-items:center}
+.bar-label{font-weight:700;line-height:1.25}
+.bar-label small{display:block;font-weight:500;font-size:12px;color:var(--ink-2)}
+.bar{height:22px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--col);border-right:2px solid var(--ink);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar i.zero{border-right:0}
+.bar-end{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct{font-weight:800;font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.status{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:999px;border:2px solid var(--ink);white-space:nowrap}
+.status.good{background:var(--good-bg)} .status.mid{background:var(--warn-bg)} .status.low{background:var(--bad-bg)}
+@media (max-width:600px){.bar-row{grid-template-columns:1fr auto}.bar-row .bar{grid-column:1 / -1;grid-row:2}}
+.plan{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:p}
+.plan li{counter-increment:p;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+.plan li::before{content:counter(p);grid-row:span 3;width:40px;height:40px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:24px}
+.plan li > *{grid-column:2;min-width:0}
+.plan .row{margin-top:4px}
+.history{padding:16px;display:flex;align-items:flex-end;gap:10px;min-height:170px;overflow-x:auto}
+.hcol{flex:0 0 52px;display:grid;justify-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--ink-2)}
+.hbar{width:34px;background:var(--c1);border:2px solid var(--ink);border-radius:6px 6px 0 0}
+.hcol b{color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}
+.answers{padding:6px 16px 16px}
+.answers summary{cursor:pointer;font-weight:800;padding:10px 0}
+.ans{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 0;border-top:2px dashed var(--ink-3);font-size:14px}
+.ans > div{min-width:0;overflow-wrap:anywhere}
+.ans .mark{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;color:#fff}
+.ans .mark.ok{background:var(--good)} .ans .mark.no{background:var(--bad)}
+.ans small{color:var(--ink-2)}
+
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.xp-float{position:fixed;z-index:60;font-family:var(--display);font-size:32px;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);pointer-events:none;animation:floatUp 1s ease-out forwards}
+@keyframes floatUp{0%{transform:translate(-50%,0) scale(.6);opacity:0}20%{opacity:1;transform:translate(-50%,-10px) scale(1.1)}100%{transform:translate(-50%,-72px) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  .screen,.splash .big,.result-stars span,.fb,.opt,.hint-box,.type-in,.xp.bump{animation:none!important}
+  .btn,.opt,.land,.bar i,.progress i{transition:none!important}
+  .land:hover{transform:none}
+}
+/* ---------- PRINT: an A4 study sheet replaces the interactive page ---------- */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important;background-image:none!important}
+  body > :not(.print-sheet){display:none!important}
+  .print-sheet{display:block;color:#111;font-family:var(--body);font-size:10pt;line-height:1.38}
+  .print-sheet *{animation:none!important;transition:none!important;box-shadow:none!important}
+  .print-sheet h1,.print-sheet h2,.print-sheet h3{font-family:var(--body);font-weight:800;letter-spacing:0;line-height:1.2;color:#111}
+  .print-sheet h1{font-size:16pt}
+  .print-sheet h2{font-size:13pt;margin:7pt 0 3pt;break-after:avoid}
+  .print-sheet h3{font-size:10.5pt;margin:0 0 2pt;break-after:avoid}
+  .print-sheet p{margin:0 0 3pt}
+  .print-sheet ul,.print-sheet ol{margin:0;padding-left:13pt}
+  .print-sheet li{margin:0 0 2pt}
+  .print-sheet b{font-weight:800}
+  .ps-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10pt;border-bottom:0.75pt solid #999;padding-bottom:4pt;margin-bottom:5pt}
+  .ps-sub{font-size:9.5pt;color:#333;margin:1pt 0 0}
+  .ps-meta{font-size:9.5pt;font-weight:700;white-space:nowrap;text-align:right;margin:0}
+  .ps-page2{break-before:page}
+  .ps-row{display:grid;grid-template-columns:72mm 1fr;gap:6mm;align-items:start}
+  .ps-fig{margin:0}
+  .ps-fig figcaption{font-size:8.5pt;color:#333;margin-top:2pt}
+  .ps-box{border:0.75pt solid #999;border-radius:3pt;padding:4pt 7pt;break-inside:avoid}
+  .ps-box p:last-child{margin-bottom:0}
+  .ps-table{width:100%;border-collapse:collapse;font-size:9.5pt;break-inside:avoid}
+  .ps-table th,.ps-table td{border:0.75pt solid #999;padding:2.5pt 5pt;text-align:left;vertical-align:middle}
+  .ps-two{display:grid;grid-template-columns:1fr 1fr;gap:3mm 5mm;margin:3pt 0}
+  .ps-check{display:grid;grid-template-columns:auto 1fr;gap:6pt;align-items:start;margin:0 0 4pt;break-inside:avoid}
+  .ps-check .box{width:10pt;height:10pt;border:1pt solid #333;margin-top:2pt}
+  .ps-traps{columns:2;column-gap:8mm}
+  .print-sheet .viz{max-width:none;border:0.75pt solid #999;border-radius:3pt}
+  .print-sheet .fr{font-size:.85em}
+  .print-sheet .slot{border:1pt solid #666;width:1.3em;height:1.3em;color:#666}
+  .ps-qs{columns:2;column-gap:8mm;padding-left:15pt}
+  .ps-qs li{break-inside:avoid;margin-bottom:6pt}
+  .ps-line{display:block;height:8.5mm;border-bottom:0.75pt solid #999}
+  .ps-fills{display:block;margin-top:3pt;line-height:2.6}
+  .ps-fill{display:inline-block;white-space:nowrap;margin-right:4mm}
+  .print-sheet sup.qm{display:inline;border:0;min-width:0;padding:0;margin:0;color:inherit;font-size:.62em;line-height:0;top:-.62em}
+  .ps-blank{display:inline-block;width:20mm;border-bottom:0.75pt solid #999;margin:0 3mm 0 1mm;vertical-align:baseline}
+  .ps-blank.w{width:30mm}
+  .ps-key{margin-top:6pt;border-top:0.75pt dashed #999;padding-top:3pt;font-size:8.5pt;line-height:1.4;color:#333;break-inside:avoid}
+  .ps-key h3{font-size:9.5pt}
+  .ps-key ol{columns:2;column-gap:8mm}
+}
+</style>
+</head><body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="logo" data-act="home" aria-label="Back to the lab map">
+      <span class="logo-mark">POWER LAB</span>
+      <span class="unit-chip">enVision · 3-1</span>
+    </button>
+    <span class="spacer"></span>
+    <span class="xp" id="xpBox" title="Your XP points"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="#FFD23F" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/></svg><b id="xpVal">0</b> XP</span>
+    <a class="icon-btn" href="../../index.html" aria-label="Home: homework dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+    </a>
+    <button class="icon-btn" id="soundBtn" data-act="sound" aria-label="Turn sound off"></button>
+  </div>
+</header>
+<main class="wrap">
+  <section id="scr-home" class="screen"></section>
+  <section id="scr-zone" class="screen" hidden></section>
+  <section id="scr-quiz" class="screen" hidden></section>
+  <section id="scr-result" class="screen" hidden></section>
+  <section id="scr-final" class="screen" hidden></section>
+  <section id="scr-report" class="screen" hidden></section>
+</main>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<div class="print-sheet" id="printSheet" aria-hidden="true"></div>
+<script>
+"use strict";
+
+/* ---------- CORE HELPERS ---------- */
+const INK = "#14163A";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const reduceMotion = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+const finePointer = !!(window.matchMedia && matchMedia("(pointer: fine)").matches);
+const pctOf = (a, b) => b ? Math.round(a / b * 100) : 0;
+const fmtDate = t => { try { return new Date(t).toLocaleString("en-GB", {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"}); } catch (e) { return ""; } };
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* ---------- NUMBERS ---------- */
+const near = (a, b) => Math.abs(a - b) < 1e-9;
+const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const isWhole = v => near(v, Math.round(v));
+const gcd = (a, b) => b ? gcd(b, a % b) : a;
+/* exact whole-number power (all values here stay far below 2^53) */
+const ipow = (b, e) => { let v = 1; for (let i = 0; i < e; i++) v *= b; return v; };
+/* 1234567 → "1,234,567" */
+const fmtInt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+/* N with dp decimal places, as an exact string: decStr(9, 2) → "0.09" */
+function decStr(N, dp){
+  let t = String(N); if (!dp) return t;
+  t = t.padStart(dp + 1, "0"); t = t.slice(0, -dp) + "." + t.slice(-dp);
+  return t.replace(/\.?0+$/, "");
+}
+/* "0.25" → {N:25, dp:2} */
+function decInfo(s){ const dp = (String(s).split(".")[1] || "").length; return {N:Math.round(+s * ipow(10, dp)), dp}; }
+/* exact decimal power as a string: decPowStr("0.3", 2) → "0.09" */
+function decPowStr(s, e){ const {N, dp} = decInfo(s); return decStr(ipow(N, e), dp * e); }
+const isPow10 = g => g >= 10 && /^10*$/.test(String(g));
+
+/* Reads 81, 0.09, 4/9, 2 1/2, 1,000,000, "36 cm²" … and returns NaN if it can't.
+   A comma between groups of three digits is a thousands separator (1,000,000);
+   any other comma between digits is a decimal comma (0,09). */
+function parseNum(raw){
+  let s = String(raw == null ? "" : raw).trim().toLowerCase();
+  s = s.replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 0x660)).replace(/[۰-۹]/g, d => String(d.charCodeAt(0) - 0x6F0));
+  s = s.replace(/٬/g, ",").replace(/٫/g, ".");
+  s = s.replace(/[−‒–—﹣－]/g, "-").replace(/[⁄∕÷]/g, "/").replace(/[()]/g, " ");
+  s = s.replace(/½/g, " 1/2").replace(/¼/g, " 1/4").replace(/¾/g, " 3/4");
+  s = s.replace(/([a-z])[²³]/g, "$1");
+  s = s.replace(/[a-z]+\.?/g, " ").replace(/\s+/g, " ").trim().replace(/^\+\s*/, "").replace(/^-\s+/, "-");
+  s = s.replace(/(^|[^\d.,])([1-9]\d{0,2}(?:,\d{3})+)(?![\d,])/g, (m, a, n) => a + n.replace(/,/g, ""));
+  if (/^-?[1-9]\d{0,2}( \d{3})+$/.test(s)) s = s.replace(/ /g, "");
+  s = s.replace(/(\d),(\d)/g, "$1.$2");
+  let m;
+  if ((m = s.match(/^(-?)(\d+\.?\d*|\.\d+)$/))) return (m[1] ? -1 : 1) * parseFloat(m[2]);
+  if ((m = s.match(/^(-?)(\d+) (\d+) ?\/ ?(\d+)$/)) && +m[4]) return (m[1] ? -1 : 1) * (+m[2] + +m[3] / +m[4]);
+  if ((m = s.match(/^(-?)(\d+) ?\/ ?(\d+)$/)) && +m[3]) return (m[1] ? -1 : 1) * (+m[2] / +m[3]);
+  return NaN;
+}
+
+/* ---------- MATH TEXT ----------
+   A tiny markup for maths: "6^4", "(2/3)^2", "1/16".
+   M() turns it into HTML (raised exponents, stacked fractions); T() into plain text ("6⁴", "(2/3)²"). */
+const SUPC = {"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","n":"ⁿ"};
+const supT = e => { const s = String(e); return s.split("").every(c => SUPC[c]) ? s.split("").map(c => SUPC[c]).join("") : "^" + s; };
+const sup = e => e === "?" ? '<sup class="qm">?</sup>' : "<sup>" + e + "</sup>";
+/* a stacked fraction; the hidden slash (and hidden brackets around a product) keep the plain text right: "(2 × 2)/(3 × 3)" */
+const hp = x => /\s/.test(String(x)) ? '<span class="sl">(</span>' + x + '<span class="sl">)</span>' : x;
+const fr = (n, d) => '<span class="fr"><span class="nu">' + hp(n) + '</span><span class="sl">/</span><span class="de">' + hp(d) + '</span></span>';
+const FPO = '<span class="fp">(</span>', FPC = '<span class="fp">)</span>';
+function M(s){
+  return String(s).replace(/\(([\d ×]+)\)\/\(([\d ×]+)\)/g, (m, a, b) => fr(a.trim(), b.trim()))
+    .replace(/\((\d+)\/(\d+)\)/g, (m, a, b) => FPO + fr(a, b) + FPC)
+    .replace(/(\d+)\/(\d+)/g, (m, a, b) => fr(a, b))
+    .replace(/\^(\d+|\?|n)/g, (m, e) => sup(e));
+}
+const T = s => String(s).replace(/\^(\d+|\?|n)/g, (m, e) => supT(e));
+/* HTML → plain text for the answer lists and the screen-reader announcements */
+const strip = h => String(h).replace(/<sup[^>]*>(.*?)<\/sup>/g, (m, e) => supT(e.replace(/<[^>]*>/g, "")))
+  .replace(/<br\s*\/?>/g, " ").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+  .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+/* Line breaks: keep "(5 × 10³)" terms and "fraction + full stop" together. Applied to each screen's HTML. */
+const NW_FR = /<b><span class="fr">(?:(?!<\/span><\/span>).)*<\/span><\/span><\/b>[.,;:?!]|<span class="fr">(?:(?!<\/span><\/span>).)*<\/span><\/span>[.,;:?!]/g;
+const TERM10 = /\(?\d[\d,]* × 10<sup[^>]*>[^<]*<\/sup>\)?/g;
+const keep = h => String(h).replace(NW_FR, m => '<span class="nw">' + m + '</span>').replace(TERM10, m => '<span class="t">' + m + '</span>');
+/* b written e times with × between: rep(3, 4) → "3 × 3 × 3 × 3" (b may be markup like "2/3") */
+const rep = (b, e) => Array(e).fill(b).join(" × ");
+/* b, b², b³ … bᵉ */
+const chain = (b, e) => { const v = [b]; for (let i = 1; i < e; i++) v.push(v[i - 1] * b); return v; };
+function steps(b, e){
+  const v = chain(b, e);
+  if (e <= 5) return "Multiply step by step: " + v.slice(1).map((x, i) => fmtInt(v[i]) + " × " + b + " = " + fmtInt(x)).join(", then ") + ".";
+  return "Keep multiplying by " + b + ": " + v.map(fmtInt).join(", ") + ".";
+}
+const ORD = ["zeroth", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelfth"];
+const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"];
+const reading = (b, e) => e === 2 ? b + " squared" : e === 3 ? b + " cubed" : b + " to the " + ORD[e] + " power";
+const PLACE = ["ones", "tens", "hundreds", "thousands", "ten thousands", "hundred thousands", "millions"];
+const NAMES = ["Sami", "Lina", "Omar", "Huda", "Yousef", "Reem", "Faisal", "Noura", "Ziad", "Dana"];
+
+/* multiple choice: items[0] is the right answer; each wrong item can carry a tip for that slip */
+function mcQ(o, items, layout){
+  const order = shuffle(items.map((it, i) => i));
+  return Object.assign({kind:"mc", layout:layout || "list", opts:order.map(i => items[i].h), optTips:order.map(i => items[i].tip || ""), ans:order.indexOf(0)}, o);
+}
+/* tips for a two-box power answer g = {b, e} */
+function powDiag(g, bv, e, bh){
+  if (near(g.b, e) && near(g.e, bv) && !near(bv, e)) return "You swapped them. The base is the factor that repeats (" + bh + "). The exponent counts how many times it is used (" + e + ").";
+  if (near(g.b, bv)) return "The base is right. Count the factors again: there are " + e + ", so the exponent is " + e + ".";
+  if (g.e === e) return "The exponent is right. The base is the factor that repeats: " + bh + ".";
+  if (near(Math.pow(g.b, g.e), Math.pow(bv, e))) return "That has the same value, but write it with the repeated factor " + bh + " as the base.";
+  if (near(g.b, bv * e)) return "Don't multiply the base by the exponent. Write the repeated factor once as the base, then count the factors for the exponent.";
+  return "";
+}
+function wholeDiag(g, b, e){
+  const v = ipow(b, e);
+  if (near(g, b * e)) return "You multiplied the base by the exponent (" + b + " × " + e + " = " + b * e + "). The exponent counts the factors: " + rep(b, e) + " = " + fmtInt(v) + ".";
+  if (near(g, b + e)) return "Don't add the base and the exponent. Multiply " + b + " by itself: " + rep(b, e) + ".";
+  if (b !== e && near(g, ipow(e, b))) return "You swapped the base and the exponent: that's " + M(e + "^" + b) + ". Here the base is " + b + " and the exponent is " + e + ".";
+  if (near(g, ipow(b, e - 1))) return "One factor short: " + M(b + "^" + e) + " needs " + e + " factors of " + b + ", not " + (e - 1) + ".";
+  if (near(g, ipow(b, e + 1))) return "One factor too many: " + M(b + "^" + e) + " has exactly " + e + " factors of " + b + ".";
+  return "";
+}
+function decDiag(g, s, e){
+  const ans = +decPowStr(s, e), b = +s, {N, dp} = decInfo(s);
+  if ([-4, -3, -2, -1, 1, 2, 3, 4].some(k => near(g, ans * Math.pow(10, k))))
+    return "Check the decimal point. " + s + " has " + dp + " decimal place" + (dp > 1 ? "s" : "") + " and there are " + e + " factors, so the answer needs " + dp + " × " + e + " = " + dp * e + " decimal places: " + decPowStr(s, e) + ".";
+  if (near(g, b * e)) return "You multiplied by the exponent (" + s + " × " + e + " = " + decStr(N * e, dp) + "). " + M(s + "^" + e) + " means " + rep(s, e) + ".";
+  if (near(g, b)) return "That's the base itself. Multiply " + s + " by itself: " + rep(s, e) + ".";
+  return "";
+}
+/* proper fraction n/d in lowest terms whose power stays small */
+function pickFrac(e){
+  let n, d; do { d = rnd(2, 10); n = rnd(1, d - 1); } while (gcd(n, d) !== 1 || ipow(d, e) > 1000 || ipow(n, e) > 400);
+  return [n, d];
+}
+function fracDiag(g, n, d, e){
+  const N = ipow(n, e), D = ipow(d, e);
+  if (n > 1 && near(g, N / d)) return "You raised only the numerator to the power. The exponent applies to the whole fraction, so the denominator is " + rep(d, e) + " = " + D + " too.";
+  if (d > 1 && near(g, n / D)) return "You raised only the denominator. Multiply the numerators too: " + rep(n, e) + " = " + N + ".";
+  if (near(g, n / d)) return "That's the same value as " + M(n + "/" + d) + " itself. The exponent means multiply " + M(n + "/" + d) + " by itself " + e + " times.";
+  if (near(g, n * e / d)) return "You multiplied the numerator by the exponent. The exponent counts factors: " + M(rep(n + "/" + d, e)) + ".";
+  return "";
+}
+
+/* ---------- QUESTION GENERATORS ---------- */
+const G = {
+  /* ===== Zone 1 · Factor Factory ===== */
+  toPower(){
+    const r = Math.random(); let bm, bv, e;
+    if (r < .12){ const f = pick([[1, 2], [2, 3], [3, 4], [1, 3], [2, 5], [3, 5], [1, 4], [5, 6]]); bm = f[0] + "/" + f[1]; bv = f[0] / f[1]; e = rnd(2, 5); }
+    else if (r < .22){ bm = pick(["0.3", "0.5", "0.7", "1.2", "2.5"]); bv = +bm; e = rnd(2, 4); }
+    else { bv = rnd(2, 12); bm = String(bv); e = bv >= 10 ? rnd(2, 5) : rnd(2, 6); }
+    const frac = bm.includes("/"), par = frac ? "(" + bm + ")" : bm;
+    const words = !frac && Math.random() < .3;
+    return {skill:"write", kind:"power", target:{b:bv, e},
+      text:words ? "The number <b>" + bm + "</b> is used as a factor <b>" + e + " times</b>. Write this as a power."
+        : "Write this product as a power. <span class=\"qx\">" + M(rep(bm, e)) + "</span>",
+      hint:"Which factor repeats? That's the base. How many times is it used? That's the exponent." + (frac ? " Type a fraction base like 2/3." : ""),
+      why:"The repeated factor is " + M(par) + ", so the base is " + M(par) + ". It is used " + e + " times, so the exponent is " + e + ": <b>" + M(rep(bm, e)) + " = " + M(par + "^" + e) + "</b>." + (frac ? " Write the fraction in parentheses so the whole fraction is the base." : ""),
+      diag:g => powDiag(g, bv, e, M(par)),
+      ansText:T(par + "^" + e)};
+  },
+  wordsToPower(){
+    const b = rnd(2, 12), e = b >= 10 ? rnd(2, 5) : rnd(2, 9);
+    const phrase = e === 2 && Math.random() < .5 ? WORDS[b] + " squared" : e === 3 && Math.random() < .5 ? WORDS[b] + " cubed" : WORDS[b] + " to the " + ORD[e] + " power";
+    const expTip = phrase.includes("squared") ? "“Squared” means the exponent is 2." : phrase.includes("cubed") ? "“Cubed” means the exponent is 3." : "“To the " + ORD[e] + " power” means the exponent is " + e + ".";
+    return {skill:"parts", kind:"power", target:{b, e},
+      text:"Write <b>“" + phrase + "”</b> as a power.",
+      hint:"The number you say first is the base. The power words give the exponent: squared is 2, cubed is 3.",
+      why:"“" + cap(phrase) + "” has base " + b + " and exponent " + e + ": <b>" + M(b + "^" + e) + "</b>, which means " + rep(b, e) + ".",
+      diag:g => (near(g.b, e) && near(g.e, b) && b !== e) ? "You swapped them. The number you say first, " + WORDS[b] + ", is the base." : (near(g.b, b) && g.e !== e) ? expTip : (g.e === e && !near(g.b, b)) ? "The exponent is right. The base is the number you say first: " + WORDS[b] + " = " + b + "." : "",
+      ansText:T(b + "^" + e)};
+  },
+  expandMC(){
+    let b, e; do { b = rnd(2, 9); e = rnd(3, 6); } while (b === e);
+    if (Math.random() < .5) return mcQ({skill:"write", text:"Which shows <b>" + M(b + "^" + e) + "</b> as repeated multiplication?",
+        hint:"The exponent " + e + " tells you how many times to write the base " + b + " as a factor.",
+        why:M(b + "^" + e) + " means " + b + " is used as a factor " + e + " times: <b>" + rep(b, e) + "</b>.", ansText:rep(b, e)},
+      [{h:rep(b, e)},
+       {h:b + " × " + e, tip:"That multiplies the base by the exponent. The exponent says how many " + b + "s to multiply."},
+       {h:rep(e, b), tip:"That swaps the base and the exponent: it shows " + M(e + "^" + b) + ", not " + M(b + "^" + e) + "."},
+       {h:Array(e).fill(b).join(" + "), tip:"An exponent means repeated multiplication, not repeated addition."}]);
+    return mcQ({skill:"write", text:"Which power is equal to this product? <span class=\"qx\">" + rep(b, e) + "</span>",
+        hint:"Find the factor that repeats, then count how many times it appears.",
+        why:b + " is used as a factor " + e + " times, so the base is " + b + " and the exponent is " + e + ": <b>" + M(b + "^" + e) + "</b>.", ansText:T(b + "^" + e)},
+      [{h:M(b + "^" + e)},
+       {h:M(e + "^" + b), tip:"That swaps the base and the exponent. The base is the factor that repeats: " + b + "."},
+       {h:b + " × " + e, tip:"That's a product of two numbers, not a power. Count the factors to get the exponent."},
+       {h:M(b + "^" + (e - 1)), tip:"Count the factors again: there are " + e + "."}], "two");
+  },
+  partsMC(){
+    let b, e; do { b = rnd(2, 9); e = rnd(2, 7); } while (b === e);
+    const pw = "<b>" + M(b + "^" + e) + "</b>", v = pick(["base", "exp", "power", "means", "which"]);
+    const why = "In " + M(b + "^" + e) + ", " + b + " is the <b>base</b> (the factor that repeats) and " + e + " is the <b>exponent</b> (how many times it is used). The whole expression is a <b>power</b>.";
+    if (v === "base" || v === "exp"){
+      const isB = v === "base";
+      return mcQ({skill:"parts", text:"In " + pw + ", what is the " + (isB ? b : e) + " called?",
+        hint:"The base is the big number that repeats. The exponent is the small raised number.", why, ansText:isB ? "the base" : "the exponent"},
+        [{h:isB ? "the base" : "the exponent"},
+         {h:isB ? "the exponent" : "the base", tip:isB ? "The exponent is the small raised number, " + e + "." : "The base is the big number that repeats, " + b + "."},
+         {h:"the power", tip:"The power is the whole expression, " + M(b + "^" + e) + "."},
+         {h:"the sum", tip:"A sum comes from adding. Powers are about multiplying."}], "two");
+    }
+    if (v === "power") return mcQ({skill:"parts", text:"What do we call the whole expression " + pw + "?",
+        hint:"It has a base and an exponent. Together they make a…", why, ansText:"a power"},
+      [{h:"a power"}, {h:"a base", tip:"The base is only the " + b + "."}, {h:"an exponent", tip:"The exponent is only the small " + e + "."}, {h:"a sum", tip:"A sum comes from adding. Powers are about multiplying."}], "two");
+    if (v === "means") return mcQ({skill:"parts", text:"In " + pw + ", what does the exponent " + e + " tell you?",
+        hint:"The exponent counts something. What does it count?",
+        why:"The exponent " + e + " says how many times the base " + b + " is used as a factor: " + M(b + "^" + e) + " = " + rep(b, e) + ".", ansText:"Use " + b + " as a factor " + e + " times"},
+      [{h:"Use " + b + " as a factor " + e + " times"},
+       {h:"Multiply " + b + " by " + e, tip:"That gives " + b + " × " + e + " = " + b * e + ", which is not " + M(b + "^" + e) + "."},
+       {h:"Add " + b + " to itself " + e + " times", tip:"Exponents mean repeated multiplication, not repeated addition."},
+       {h:"Use " + e + " as a factor " + b + " times", tip:"That's " + M(e + "^" + b) + ": the base and the exponent swapped."}]);
+    return mcQ({skill:"parts", text:"Which power has base <b>" + b + "</b> and exponent <b>" + e + "</b>?",
+        hint:"The base is the big number. The exponent is the small raised number.",
+        why:"The base is the big number and the exponent is the small raised number, so the power is <b>" + M(b + "^" + e) + "</b> = " + rep(b, e) + ".", ansText:T(b + "^" + e)},
+      [{h:M(b + "^" + e)}, {h:M(e + "^" + b), tip:"That has base " + e + " and exponent " + b + ": swapped."},
+       {h:M(b + "^" + b), tip:"Here the exponent should be " + e + ", not " + b + "."}, {h:M(e + "^" + e), tip:"Here the base should be " + b + ", not " + e + "."}], "four");
+  },
+  readMC(){
+    let b, e; do { b = rnd(2, 12); e = rnd(2, 6); } while (b === e);
+    const we = e === 2 ? 3 : e === 3 ? 2 : e + 1;
+    const say = x => x === 2 ? "squared" : x === 3 ? "cubed" : "to the " + ORD[x] + " power";
+    const alt = e <= 3 ? " (or “" + b + " to the " + ORD[e] + " power”)" : "";
+    if (Math.random() < .5) return mcQ({skill:"parts", text:"How do you read <b>" + M(b + "^" + e) + "</b>?",
+        hint:"Say the base first. Exponent 2 is “squared” and exponent 3 is “cubed”.",
+        why:M(b + "^" + e) + " has base " + b + " and exponent " + e + ", so it is read <b>“" + reading(b, e) + "”</b>" + alt + ". It means " + rep(b, e) + ".", ansText:reading(b, e)},
+      [{h:reading(b, e)},
+       {h:reading(b, we), tip:"Look at the exponent: it is " + e + ", so say “" + say(e) + "”."},
+       {h:reading(e, b), tip:"That swaps the base and the exponent. Say the base first: " + b + "."},
+       {h:b + " times " + e, tip:M(b + "^" + e) + " is not " + b + " × " + e + ". It means " + rep(b, e) + "."}], "two");
+    const phrase = WORDS[b] + " " + say(e);
+    return mcQ({skill:"parts", text:"Which power is <b>“" + phrase + "”</b>?",
+        hint:"The number you say first is the base. The power words give the exponent.",
+        why:"“" + cap(phrase) + "” means base " + b + " and exponent " + e + ": <b>" + M(b + "^" + e) + "</b> = " + rep(b, e) + ".", ansText:T(b + "^" + e)},
+      [{h:M(b + "^" + e)}, {h:M(e + "^" + b), tip:"That swaps the base and the exponent. The base is the number you say first: " + b + "."},
+       {h:b + " × " + e, tip:"That's a product, not a power. “" + cap(say(e)) + "” means an exponent of " + e + "."},
+       {h:M(b + "^" + we), tip:"Check the exponent: “" + say(e) + "” means " + e + "."}], "two");
+  },
+
+  /* ===== Zone 2 · Power Plant ===== */
+  evalWhole(){
+    const b = pick([2, 3, 4, 5, 6, 7, 8, 9, 11, 12]);
+    let maxE = 2; while (ipow(b, maxE + 1) <= 1331) maxE++;
+    const e = rnd(2, Math.min(maxE, 10)), v = ipow(b, e);
+    const wordy = e <= 3 && Math.random() < .35, word = e === 2 ? "squared" : "cubed";
+    return {skill:"whole", kind:"num", num:v,
+      text:wordy ? "What is <b>" + b + " " + word + "</b>?" : pick(["Evaluate <b>" + M(b + "^" + e) + "</b>.", "What is the value of <b>" + M(b + "^" + e) + "</b>?"]),
+      hint:"Write " + b + " as a factor " + e + " times: " + rep(b, e) + ". Then multiply step by step.",
+      why:(wordy ? b + " " + word + " means " + M(b + "^" + e) + ". " : "") + M(b + "^" + e) + " = " + rep(b, e) + ". " + steps(b, e) + " So " + M(b + "^" + e) + " = <b>" + fmtInt(v) + "</b>.",
+      diag:g => wholeDiag(g, b, e), ansText:fmtInt(v)};
+  },
+  valueMC(){
+    let b, e, vals;
+    do { b = rnd(2, 9); e = rnd(2, 5); vals = [ipow(b, e), b * e, ipow(e, b), ipow(b, e - 1)]; } while (b === e || vals[0] > 1331 || new Set(vals).size < 4);
+    return mcQ({skill:"whole", text:"What is the value of <b>" + M(b + "^" + e) + "</b>?",
+        hint:"Write it as repeated multiplication first: " + rep(b, e) + ".",
+        why:M(b + "^" + e) + " = " + rep(b, e) + ". " + steps(b, e) + " The value is <b>" + fmtInt(vals[0]) + "</b>.", ansText:fmtInt(vals[0])},
+      [{h:fmtInt(vals[0])},
+       {h:fmtInt(vals[1]), tip:"That's " + b + " × " + e + ", the base times the exponent. The exponent counts the factors instead: " + rep(b, e) + "."},
+       {h:fmtInt(vals[2]), tip:"That's " + M(e + "^" + b) + ": the base and the exponent swapped."},
+       {h:fmtInt(vals[3]), tip:"That's " + M(b + "^" + (e - 1)) + ": one factor of " + b + " is missing."}], "two");
+  },
+  evalSpecial(){
+    const t = pick(["one", "base1", "zero"]);
+    if (t === "one"){
+      const b = rnd(6, 99);
+      return {skill:"whole", kind:"num", num:b, text:"Evaluate <b>" + M(b + "^1") + "</b>.",
+        hint:"An exponent of 1 means the base is used as a factor just once.",
+        why:"With an exponent of 1 there is only one factor, so " + M(b + "^1") + " = <b>" + b + "</b>. Any number to the first power is the number itself.",
+        diag:g => near(g, 1) || near(g, 0) ? "The exponent 1 means one factor of " + b + ", so the value is " + b + " itself." : "", ansText:String(b)};
+    }
+    if (t === "base1"){
+      const e = rnd(4, 20);
+      return {skill:"whole", kind:"num", num:1, text:"Evaluate <b>" + M("1^" + e) + "</b>.",
+        hint:"Multiply 1 by itself " + e + " times. What happens?",
+        why:M("1^" + e) + " = 1 × 1 × 1 × … (" + e + " factors of 1). 1 times 1 is always 1, so the value is <b>1</b>.",
+        diag:g => near(g, e) ? "That's 1 × " + e + ". The exponent says how many 1s to multiply, and 1 × 1 × … × 1 = 1." : near(g, 0) ? "1 × 1 is 1, not 0." : "", ansText:"1"};
+    }
+    const e = rnd(2, 9);
+    return {skill:"whole", kind:"num", num:0, text:"Evaluate <b>" + M("0^" + e) + "</b>.",
+      hint:"What do you get when you multiply 0 by 0?",
+      why:M("0^" + e) + " = " + rep(0, e) + ". Any product with a factor of 0 is 0, so the value is <b>0</b>.",
+      diag:g => near(g, 1) ? "0 to a power of 1 or more is 0: " + rep(0, e) + " = 0." : near(g, e) ? "The exponent isn't the answer. " + rep(0, e) + " = 0." : "", ansText:"0"};
+  },
+
+  /* ===== Zone 3 · Fraction Falls ===== */
+  fracPow(){
+    const e = pick([2, 2, 2, 3, 3, 4, 5]), [n, d] = pickFrac(e), N = ipow(n, e), D = ipow(d, e), base = "(" + n + "/" + d + ")";
+    return {skill:"frac", kind:"num", num:N / D, frac:true,
+      text:pick(["Evaluate", "Find the value of"]) + " <b>" + M(base + "^" + e) + "</b>.",
+      hint:"Write " + M(n + "/" + d) + " as a factor " + e + " times. Multiply the numerators, then multiply the denominators.",
+      why:M(base + "^" + e) + " = " + M(rep(n + "/" + d, e)) + ". Numerators: " + rep(n, e) + " = " + N + ". Denominators: " + rep(d, e) + " = " + D + ". So " + M(base + "^" + e) + " = <b>" + fr(N, D) + "</b>.",
+      diag:g => fracDiag(g, n, d, e), ansText:N + "/" + D};
+  },
+  fracMC(){
+    const e = pick([2, 2, 3]); let n, d; do { [n, d] = pickFrac(e); } while (n < 2);
+    const N = ipow(n, e), D = ipow(d, e), base = "(" + n + "/" + d + ")";
+    return mcQ({skill:"frac", text:"Which is equal to <b>" + M(base + "^" + e) + "</b>?",
+        hint:"The exponent applies to the numerator and to the denominator.",
+        why:M(base + "^" + e) + " = " + M(rep(n + "/" + d, e)) + " = " + fr(rep(n, e), rep(d, e)) + " = <b>" + fr(N, D) + "</b>. Both the numerator and the denominator are raised to the power.", ansText:N + "/" + D},
+      [{h:fr(N, D)},
+       {h:fr(N, d), tip:"That raises only the numerator. The denominator gets the exponent too: " + rep(d, e) + " = " + D + "."},
+       {h:fr(n * e, d * e), tip:"That multiplies the top and the bottom by " + e + ", which still equals " + M(n + "/" + d) + ". The exponent means multiply the fraction by itself."},
+       {h:fr(n, D), tip:"That raises only the denominator. The numerator gets the exponent too: " + rep(n, e) + " = " + N + "."}], "four");
+  },
+  decPow(){
+    const B = pick([["0.1", [2, 3, 4]], ["0.2", [2, 3, 4]], ["0.3", [2, 3, 4]], ["0.4", [2, 3]], ["0.5", [2, 3, 4]], ["0.6", [2, 3]], ["0.7", [2, 3]], ["0.8", [2, 3]], ["0.9", [2, 3]],
+      ["1.1", [2, 3]], ["1.2", [2, 3]], ["1.3", [2]], ["1.4", [2]], ["1.5", [2, 3]], ["2.5", [2]], ["0.05", [2]], ["0.12", [2]], ["0.15", [2]], ["0.25", [2]]]);
+    const s = B[0], e = pick(B[1]), ans = decPowStr(s, e), {N, dp} = decInfo(s);
+    return {skill:"dec", kind:"num", num:+ans, dec:true,
+      text:pick(["Evaluate", "Find the value of"]) + " <b>" + M(s + "^" + e) + "</b>.",
+      hint:"Multiply the digits as whole numbers first. Then count the decimal places in all " + e + " factors.",
+      why:M(s + "^" + e) + " = " + rep(s, e) + ". As whole numbers: " + rep(N, e) + " = " + fmtInt(ipow(N, e)) + ". Each factor has " + dp + " decimal place" + (dp > 1 ? "s" : "") + ", so the answer has " + dp + " × " + e + " = " + dp * e + " decimal places: <b>" + ans + "</b>.",
+      diag:g => decDiag(g, s, e), ansText:ans};
+  },
+  decMC(){
+    if (Math.random() < .35){
+      const s = pick(["0.2", "0.4", "0.5", "0.6", "0.8", "0.9", "1.2", "1.5", "2.5"]), sq = decPowStr(s, 2), small = +s < 1;
+      return mcQ({skill:"dec", text:"Which is greater: <b>" + s + "</b> or <b>" + M(s + "^2") + "</b>?",
+          hint:"Work out " + M(s + "^2") + " first, then compare.",
+          why:M(s + "^2") + " = " + s + " × " + s + " = " + sq + ". " + (small ? sq + " &lt; " + s + ", so <b>" + s + "</b> is greater. Squaring a number between 0 and 1 makes it smaller."
+            : sq + " &gt; " + s + ", so <b>" + M(s + "^2") + "</b> is greater. Squaring a number greater than 1 makes it bigger."),
+          ansText:small ? s : T(s + "^2")},
+        [{h:small ? s : M(s + "^2")},
+         {h:small ? M(s + "^2") : s, tip:M(s + "^2") + " = " + sq + ". " + (small ? "Multiplying by a number less than 1 makes a number smaller." : "Multiplying by a number greater than 1 makes a number bigger.")},
+         {h:"They are equal", tip:M(s + "^2") + " = " + s + " × " + s + " = " + sq + ", which is not " + s + "."}]);
+    }
+    const s = pick(["0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9"]), e = pick([2, 2, 3]), ans = decPowStr(s, e), {N} = decInfo(s), P = ipow(N, e);
+    const cands = [{h:ans},
+      {h:decStr(P, e - 1), tip:"Count the decimal places again: " + e + " factors with 1 decimal place each need " + e + " decimal places."},
+      {h:decStr(N * e, 1), tip:"That's " + s + " × " + e + ". The exponent means " + rep(s, e) + "."},
+      {h:decStr(P, e + 1), tip:"One decimal place too many: the answer needs exactly " + e + "."},
+      {h:String(P), tip:"Right digits, but the decimal point is missing: the answer needs " + e + " decimal places."}];
+    const seen = new Set(), items = cands.filter(c => !seen.has(+c.h) && seen.add(+c.h)).slice(0, 4);
+    return mcQ({skill:"dec", text:"What is the value of <b>" + M(s + "^" + e) + "</b>?",
+        hint:"Multiply " + rep(N, e) + " first. Then count the decimal places.",
+        why:rep(s, e) + ": as whole numbers " + rep(N, e) + " = " + P + ". Each factor has 1 decimal place, so the answer has " + e + ": <b>" + ans + "</b>.", ansText:ans},
+      items, "two");
+  },
+
+  /* ===== Zone 4 · Ten Tower ===== */
+  tenPow(){
+    const n = rnd(2, 7), v = ipow(10, n);
+    if (Math.random() < .3) return {skill:"ten", kind:"power", target:{b:10, e:n},
+      text:"Write <b>" + fmtInt(v) + "</b> as a power of 10.",
+      hint:"Count the zeros after the 1. That number is the exponent.",
+      why:fmtInt(v) + " is 1 followed by " + n + " zeros, so it is 10 used as a factor " + n + " times: <b>" + M("10^" + n) + "</b>.",
+      diag:g => !near(g.b, 10) ? "Use 10 as the base, then count the zeros for the exponent." : g.e === n + 1 ? "Count only the zeros, not the 1: " + fmtInt(v) + " has " + n + " zeros." : "Count the zeros again: " + fmtInt(v) + " has " + n + " zeros.",
+      ansText:T("10^" + n)};
+    return {skill:"ten", kind:"num", num:v,
+      text:pick(["Evaluate", "Write in standard form:"]) + " <b>" + M("10^" + n) + "</b>" + (Math.random() < .5 ? "." : ""),
+      hint:"10 to a power is 1 followed by that many zeros.",
+      why:M("10^" + n) + " = " + rep(10, n) + ". Each factor of 10 adds a zero, so it is 1 followed by " + n + " zeros: <b>" + fmtInt(v) + "</b>.",
+      diag:g => near(g, 10 * n) ? "You multiplied 10 by the exponent (10 × " + n + "). " + M("10^" + n) + " means 10 used as a factor " + n + " times."
+        : near(g, v / 10) ? "One zero short. The exponent counts the zeros: " + M("10^" + n) + " has " + n + " zeros (and " + (n + 1) + " digits)."
+        : near(g, v * 10) ? "One zero too many. " + M("10^" + n) + " is 1 followed by exactly " + n + " zeros."
+        : isPow10(g) ? "Count the zeros: " + M("10^" + n) + " has " + n + " of them." : "",
+      ansText:fmtInt(v)};
+  },
+  timesTen(){
+    const two = Math.random() < .3, a = two ? pick([12, 15, 25, 36, 45, 72]) : rnd(2, 9), n = rnd(2, two ? 5 : 6), v = a * ipow(10, n);
+    if (Math.random() < .3){
+      const t = (x, k) => x + " × " + M("10^" + k);
+      return mcQ({skill:"ten", text:"Which is equal to <b>" + fmtInt(v) + "</b>?",
+          hint:"Count the zeros after the " + a + ". That's the exponent of 10.",
+          why:fmtInt(v) + " is " + a + " followed by " + n + " zeros, and " + M("10^" + n) + " = " + fmtInt(ipow(10, n)) + ". So " + fmtInt(v) + " = <b>" + t(a, n) + "</b>.", ansText:T(a + " × 10^" + n)},
+        [{h:t(a, n)},
+         {h:t(a, n + 1), tip:"That's " + fmtInt(a * ipow(10, n + 1)) + ", one zero too many. Count only the zeros after the " + a + "."},
+         {h:t(a, n - 1), tip:"That's " + fmtInt(a * ipow(10, n - 1)) + ", one zero short."},
+         {h:t(a * 10, n), tip:"That's " + fmtInt(a * ipow(10, n + 1)) + ". Multiplying " + a * 10 + " by " + M("10^" + n) + " gives one zero too many."}], "two");
+    }
+    return {skill:"ten", kind:"num", num:v,
+      text:"Write <b>" + a + " × " + M("10^" + n) + "</b> in standard form.",
+      hint:"Find " + M("10^" + n) + " first (1 followed by " + n + " zeros), then multiply by " + a + ".",
+      why:M("10^" + n) + " = " + fmtInt(ipow(10, n)) + ", so " + a + " × " + M("10^" + n) + " = " + a + " × " + fmtInt(ipow(10, n)) + " = <b>" + fmtInt(v) + "</b>. Write " + a + ", then " + n + " zeros.",
+      diag:g => near(g, a * 10 * n) ? M("10^" + n) + " is not 10 × " + n + ". It is " + fmtInt(ipow(10, n)) + "."
+        : (near(g, v * 10) || near(g, v / 10)) ? "Count the zeros: write " + a + ", then exactly " + n + " zeros."
+        : (near(g, ipow(a, n)) || near(g, ipow(a * 10, n))) ? "The exponent belongs to the 10 only: " + a + " × " + M("10^" + n) + " = " + a + " × " + fmtInt(ipow(10, n)) + "."
+        : near(g, a + ipow(10, n)) ? "Multiply, don't add: " + a + " × " + fmtInt(ipow(10, n)) + "." : "",
+      ansText:fmtInt(v)};
+  },
+  expandedMC(){
+    let d; do { d = [rnd(1, 9), rnd(1, 9), rnd(1, 9), rnd(1, 9)]; } while (d[0] === d[3] && d[1] === d[2]);
+    const num = d.reduce((m, x) => m * 10 + x, 0), term = (x, p) => "(" + x + " × " + M("10^" + p) + ")";
+    const right = d.map((x, i) => term(x, 3 - i)).join(" + ");
+    return mcQ({skill:"expanded", text:"Which shows <b>" + fmtInt(num) + "</b> in expanded form with powers of 10?",
+        hint:"The thousands place is 10³, the hundreds place 10², the tens place 10¹ and the ones place 10⁰.",
+        why:fmtInt(num) + " = " + d.map((x, i) => fmtInt(x * ipow(10, 3 - i))).join(" + ") + ". The places are thousands (" + M("10^3") + "), hundreds (" + M("10^2") + "), tens (" + M("10^1") + ") and ones (" + M("10^0") + " = 1), so " + fmtInt(num) + " = <b>" + right + "</b>.",
+        ansText:T(d.map((x, i) => "(" + x + " × 10^" + (3 - i) + ")").join(" + "))},
+      [{h:right},
+       {h:d.map((x, i) => term(x, 4 - i)).join(" + "), tip:"The thousands place is " + M("10^3") + ", not " + M("10^4") + ": 1,000 has 3 zeros."},
+       {h:d.map((x, i) => term(x, i)).join(" + "), tip:"The biggest place comes first: the " + d[0] + " is in the thousands place, " + M("10^3") + "."},
+       {h:d.map((x, i) => M(x + "^" + (3 - i))).join(" + "), tip:"Expanded form uses powers of 10. " + M(d[0] + "^3") + " means " + rep(d[0], 3) + "."}]);
+  },
+  expandedNum(){
+    let places; do { places = shuffle([0, 1, 2, 3, 4, 5]).slice(0, rnd(3, 4)).sort((a, b) => b - a); } while (places[0] < 3 || places.length >= places[0] + 1);
+    const digits = places.map(() => rnd(1, 9)), v = places.reduce((m, p, i) => m + digits[i] * ipow(10, p), 0);
+    const terms = places.map((p, i) => '<span class="t">(' + digits[i] + " × " + M("10^" + p) + ")</span>").join(" + ");
+    const parts = places.map((p, i) => digits[i] + " × " + M("10^" + p) + " = " + fmtInt(digits[i] * ipow(10, p)));
+    const all = []; for (let p = places[0]; p >= 0; p--){ const k = places.indexOf(p); all.push((k < 0 ? 0 : digits[k]) + " " + PLACE[p]); }
+    const i0 = places.indexOf(0), d0 = i0 < 0 ? 0 : digits[i0];
+    return {skill:"expanded", kind:"num", num:v,
+      text:"Write in standard form. <span class=\"qx\">" + terms + "</span>",
+      hint:"Turn each part into a number (" + M("10^" + places[0]) + " = " + fmtInt(ipow(10, places[0])) + ", and " + M("10^0") + " = 1), then add.",
+      why:parts.join("; ") + ". Add: " + places.map((p, i) => fmtInt(digits[i] * ipow(10, p))).join(" + ") + " = <b>" + fmtInt(v) + "</b>. Places with no part get a 0: " + all.join(", ") + ".",
+      diag:g => near(g, +digits.join("")) ? "Write a 0 for each missing place: " + all.join(", ") + " is " + fmtInt(v) + "."
+        : (d0 && near(g, v - d0)) ? M("10^0") + " = 1, so " + d0 + " × " + M("10^0") + " = " + d0 + ", not 0."
+        : (d0 && near(g, v + 9 * d0)) ? M("10^0") + " is 1, not 10. So " + d0 + " × " + M("10^0") + " = " + d0 + "."
+        : (near(g, v * 10) || near(g, v / 10)) ? "Count the zeros: " + M("10^" + places[0]) + " = " + fmtInt(ipow(10, places[0])) + " has " + places[0] + " zeros."
+        : near(g, places.reduce((m, p, i) => m + digits[i] * 10 * p, 0)) ? M("10^" + places[0]) + " means 10 used as a factor " + places[0] + " times, not 10 × " + places[0] + "." : "",
+      ansText:fmtInt(v)};
+  },
+  expandedFill(){
+    const len = rnd(4, 6); let digits;
+    do { digits = Array.from({length:len}, (_, i) => i ? rnd(0, 9) : rnd(1, 9)); } while (digits.filter(x => x).length < 3);
+    const num = digits.reduce((m, x) => m * 10 + x, 0), terms = digits.map((x, i) => ({x, p:len - 1 - i})).filter(t => t.x);
+    let k = rnd(0, terms.length - 1); if (terms[terms.length - 1].p === 0 && Math.random() < .3) k = terms.length - 1;
+    const t = terms[k], p = t.p;
+    const html = terms.map((u, i) => '<span class="t">(' + u.x + " × 10" + sup(i === k ? "?" : u.p) + ")</span>").join(" + ");
+    return {skill:"expanded", kind:"num", num:p,
+      text:"Find the missing exponent. <span class=\"qx\">" + fmtInt(num) + " = " + html + "</span>",
+      hint:"Which place is the " + t.x + " in? Write that place value as a power of 10.",
+      why:"The " + t.x + " is in the " + PLACE[p] + " place. " + (p ? "The " + PLACE[p] + " place is " + fmtInt(ipow(10, p)) + " = " + M("10^" + p) + " (" + p + " zero" + (p > 1 ? "s" : "") + ")" : "The ones place is 1, and 1 = " + M("10^0") + " (any nonzero number to the power 0 is 1)") + ", so the missing exponent is <b>" + p + "</b>.",
+      diag:g => (p === 0 && near(g, 1)) ? "The ones place is 1 = " + M("10^0") + ", so the exponent is 0. (" + M("10^1") + " = 10 is the tens place.)"
+        : near(g, p + 1) ? "Count the zeros in the place value, not its digits: " + PLACE[p] + " = " + fmtInt(ipow(10, p)) + " has " + p + " zero" + (p === 1 ? "" : "s") + "."
+        : (near(g, t.x) && t.x !== p) ? "The exponent shows the place, not the digit." : "",
+      ansText:String(p)};
+  },
+
+  /* ===== Zone 5 · Puzzle Peak ===== */
+  comparePow(){
+    if (Math.random() < .35){
+      const pool = [[2, 3], [2, 4], [2, 5], [2, 6], [2, 7], [2, 8], [2, 9], [2, 10], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [4, 2], [4, 3], [4, 4], [4, 5], [5, 2], [5, 3], [5, 4],
+        [6, 2], [6, 3], [7, 2], [7, 3], [8, 2], [8, 3], [9, 2], [9, 3], [10, 2], [10, 3], [11, 2], [12, 2], [15, 2]];
+      const want = pick(["greatest", "least"]); let set, vals;
+      do { set = shuffle(pool.slice()).slice(0, 4); vals = set.map(p => ipow(p[0], p[1])); } while (new Set(vals).size < 4);
+      const target = want === "greatest" ? Math.max(...vals) : Math.min(...vals), idx = vals.indexOf(target), w = set[idx];
+      const items = [idx].concat([0, 1, 2, 3].filter(i => i !== idx)).map(i => ({h:M(set[i][0] + "^" + set[i][1]),
+        tip:i === idx ? "" : M(set[i][0] + "^" + set[i][1]) + " = " + fmtInt(vals[i]) + ", but " + M(w[0] + "^" + w[1]) + " = " + fmtInt(target) + ". Evaluate every power before you compare."}));
+      return mcQ({skill:"compare", text:"Which power has the <b>" + want + "</b> value?",
+          hint:"Evaluate each power, then compare the values. A bigger base or a bigger exponent alone doesn't decide it.",
+          why:"Evaluate each one: " + set.map((p, i) => M(p[0] + "^" + p[1]) + " = " + fmtInt(vals[i])).join(", ") + ". The " + want + " is <b>" + M(w[0] + "^" + w[1]) + " = " + fmtInt(target) + "</b>.",
+          ansText:T(w[0] + "^" + w[1])}, items, "four");
+    }
+    const PAIRS = [[[2, 3], [3, 2]], [[2, 5], [5, 2]], [[3, 4], [4, 3]], [[2, 4], [4, 2]], [[2, 6], [6, 2]], [[3, 5], [5, 3]], [[2, 7], [7, 2]], [[4, 5], [5, 4]],
+      [[2, 6], [4, 3]], [[3, 4], [9, 2]], [[2, 8], [4, 4]], [[3, 3], [5, 2]], [[2, 7], [5, 3]], [[10, 2], [2, 7]], [[6, 2], [2, 5]], [[7, 2], [2, 6]],
+      [[10, 3], [2, 10]], [[3, 5], [15, 2]], [[5, 3], [11, 2]], [[2, 9], [8, 3]], [[3, 6], [9, 3]]];
+    let [L, R] = pick(PAIRS); if (Math.random() < .5) [L, R] = [R, L];
+    const vl = ipow(L[0], L[1]), vr = ipow(R[0], R[1]), sym = vl > vr ? ">" : vl < vr ? "<" : "=";
+    const Lh = M(L[0] + "^" + L[1]), Rh = M(R[0] + "^" + R[1]), symH = {"<":"&lt;", ">":"&gt;", "=":"="};
+    const both = Lh + " = " + fmtInt(vl) + " and " + Rh + " = " + fmtInt(vr);
+    const tipFor = s => s === sym ? "" : sym === "=" ? "Evaluate both: " + both + ". They are equal!"
+      : s === "=" ? "They use similar numbers, but the values are different: " + both + "." : "Evaluate both first: " + both + ".";
+    return {skill:"compare", kind:"mc", layout:"three", opts:["&lt;", "&gt;", "="], optTips:["<", ">", "="].map(tipFor), ans:["<", ">", "="].indexOf(sym),
+      text:"Compare. Choose &lt;, &gt; or =. <span class=\"qx\">" + Lh + ' <span class="slot">?</span> ' + Rh + "</span>",
+      hint:"Evaluate both powers, then compare the two values.",
+      why:"Evaluate both: " + Lh + " = " + rep(L[0], L[1]) + " = " + fmtInt(vl) + " and " + Rh + " = " + rep(R[0], R[1]) + " = " + fmtInt(vr) + ". "
+        + (sym === "=" ? "They are equal, so <b>" + Lh + " = " + Rh + "</b>." : fmtInt(vl) + " " + symH[sym] + " " + fmtInt(vr) + ", so <b>" + Lh + " " + symH[sym] + " " + Rh + "</b>."),
+      ansText:T(L[0] + "^" + L[1]) + " " + sym + " " + T(R[0] + "^" + R[1])};
+  },
+  missingExp(){
+    const b = pick([2, 2, 3, 4, 5, 10]), rg = {2:[3, 10], 3:[2, 6], 4:[2, 5], 5:[2, 4], 10:[2, 6]}[b], e = rnd(rg[0], rg[1]), v = ipow(b, e);
+    return {skill:"compare", kind:"num", num:e,
+      text:"Find the missing exponent. <span class=\"qx\">" + b + sup("?") + " = " + fmtInt(v) + "</span>",
+      hint:b === 10 ? "Count the zeros." : "Multiply by " + b + " again and again until you reach " + fmtInt(v) + ". Count the factors.",
+      why:b === 10 ? fmtInt(v) + " is 1 followed by " + e + " zeros, so " + fmtInt(v) + " = " + M("10^" + e) + ". The missing exponent is <b>" + e + "</b>."
+        : "Keep multiplying by " + b + ": " + chain(b, e).map(fmtInt).join(", ") + ". That's " + e + " factors of " + b + ", so " + M(b + "^" + e) + " = " + fmtInt(v) + " and the missing exponent is <b>" + e + "</b>.",
+      diag:g => near(g, v / b) ? "The exponent isn't " + fmtInt(v) + " ÷ " + b + ". It counts how many " + b + "s you multiply to get " + fmtInt(v) + "."
+        : (b === 10 && near(g, e + 1)) ? "Count only the zeros, not the 1."
+        : (isWhole(g) && g > 0 && Math.abs(g - e) === 1) ? "Close! Check: " + M(b + "^" + g) + " = " + fmtInt(ipow(b, g)) + "." : "",
+      ansText:String(e)};
+  },
+  missingBase(){
+    const e = pick([2, 2, 3, 3, 4, 5]), b = rnd(2, {2:15, 3:10, 4:5, 5:3}[e]), v = ipow(b, e);
+    const tries = (b > 2 ? [b - 1, b] : [b]).map(x => M(x + "^" + e) + " = " + fmtInt(ipow(x, e)));
+    return {skill:"compare", kind:"num", num:b,
+      text:"Find the missing base. <span class=\"qx\"><span class=\"slot\">?</span>" + sup(e) + " = " + fmtInt(v) + "</span>",
+      hint:e === 2 ? "Which number times itself makes " + fmtInt(v) + "?" : "Try small bases: " + M("2^" + e) + ", " + M("3^" + e) + ", " + M("4^" + e) + " …",
+      why:"Try bases: " + tries.join(", ") + ". So the missing base is <b>" + b + "</b>, because " + rep(b, e) + " = " + fmtInt(v) + ".",
+      diag:g => near(g, v / e) ? "Don't divide by the exponent. Find the number that, used as a factor " + e + " times, makes " + fmtInt(v) + "."
+        : near(g, v) ? "That's the value. The base is the number that repeats."
+        : (isWhole(g) && g > 0 && Math.abs(g - b) === 1) ? "Close! Check: " + M(g + "^" + e) + " = " + fmtInt(ipow(g, e)) + "." : "",
+      ansText:String(b)};
+  },
+  areaVol(){
+    const t = pick(["sq", "sq", "cube", "cube", "rev"]), u = pick(["cm", "m", "ft"]);
+    if (t === "rev"){
+      const cube = Math.random() < .4, s = cube ? rnd(2, 6) : rnd(3, 12), v = ipow(s, cube ? 3 : 2);
+      return {skill:"word", kind:"num", num:s, unit:u,
+        text:cube ? "A cube has a volume of <b>" + v + " " + u + sup(3) + "</b>. How long is each edge?" : "A square garden has an area of <b>" + v + " " + u + sup(2) + "</b>. How long is each side?",
+        hint:cube ? "Which number, used as a factor 3 times, makes " + v + "?" : "Which number times itself makes " + v + "?",
+        why:cube ? "Volume = edge × edge × edge = " + M("s^3") + ". " + rep(s, 3) + " = " + v + ", so each edge is <b>" + s + " " + u + "</b>."
+          : "Area = side × side = " + M("s^2") + ". " + s + " × " + s + " = " + v + ", so each side is <b>" + s + " " + u + "</b>.",
+        diag:g => cube ? (near(g, v / 3) ? "Don't divide by 3. Find the number used as a factor 3 times to make " + v + "." : near(g, v / 6) ? "Dividing by 6 is for surface area. Find the number used as a factor 3 times to make " + v + "." : "")
+          : (near(g, v / 2) ? "Halving doesn't work. Which number times itself makes " + v + "?" : near(g, v / 4) ? "Dividing by 4 works for the perimeter, not the area. Find the number that times itself makes " + v + "." : ""),
+        ansText:s + " " + u};
+    }
+    const cube = t === "cube", e = cube ? 3 : 2, dec = Math.random() < .25;
+    const s = dec ? pick(cube ? ["0.5", "1.5", "0.3"] : ["0.5", "1.5", "2.5", "1.2"]) : String(cube ? rnd(2, 10) : rnd(3, 15));
+    const ans = decPowStr(s, e), sv = +s, U = u + sup(e);
+    return {skill:"word", kind:"num", num:+ans, unit:U, dec,
+      text:cube ? "A cube-shaped box has edges of <b>" + s + " " + u + "</b>. What is its volume?" : "A square tile has sides of <b>" + s + " " + u + "</b>. What is its area?",
+      hint:cube ? "Volume of a cube = s × s × s = " + M("s^3") + "." : "Area of a square = s × s = " + M("s^2") + ".",
+      why:cube ? "Volume of a cube = s × s × s = " + M("s^3") + ". " + M(s + "^3") + " = " + rep(s, 3) + " = <b>" + ans + " " + U + "</b> (cubic units)."
+        : "Area of a square = s × s = " + M("s^2") + ". " + M(s + "^2") + " = " + s + " × " + s + " = <b>" + ans + " " + U + "</b> (square units).",
+      diag:g => {
+        if (near(g, sv * e)) return M("s^" + e) + " means " + rep(s, e) + ", not " + s + " × " + e + ".";
+        if (!cube && near(g, 4 * sv)) return "That's the perimeter (4 × " + s + "). Area = " + s + " × " + s + ".";
+        if (cube && near(g, +decPowStr(s, 2))) return "That's the area of one face. Volume has three factors: " + rep(s, 3) + ".";
+        if (cube && near(g, 6 * +decPowStr(s, 2))) return "That's the surface area (6 faces). Volume = " + M("s^3") + ".";
+        if (cube && near(g, 12 * sv)) return "That's the total length of the 12 edges. Volume = " + M("s^3") + ".";
+        return dec ? decDiag(g, s, e) : "";
+      },
+      ansText:ans + " " + u + supT(e)};
+  },
+  growth(){
+    const t = pick(["fold", "message", "cells"]); let b, n, text, why, unit, first;
+    const name = pick(NAMES);
+    if (t === "fold"){
+      b = 2; n = rnd(3, 8); unit = "layers"; first = "1 fold makes 2 layers (" + M("2^1") + ")";
+      text = "You fold a sheet of paper in half <b>" + n + " times</b>. Each fold doubles the number of layers. How many layers thick is it now?";
+      why = "Each fold doubles the layers: 1 fold → 2, 2 folds → 4, 3 folds → 8, and so on. After " + n + " folds: " + M("2^" + n) + " = " + rep(2, n) + " = <b>" + fmtInt(ipow(2, n)) + " layers</b>.";
+    } else if (t === "message"){
+      b = pick([2, 3, 3, 4]); n = rnd(2, b === 2 ? 8 : b === 3 ? 6 : 5); unit = "people"; first = "round 1 has " + b + " people (" + M(b + "^1") + ")";
+      text = name + " sends a message to <b>" + b + " friends</b>. In the next round, each of them sends it to " + b + " new friends, and so on. How many new people get the message in <b>round " + n + "</b>?";
+      why = "Round 1: " + b + " = " + M(b + "^1") + ". Round 2: " + b + " × " + b + " = " + b * b + " = " + M(b + "^2") + ". Each round multiplies by " + b + ", so round " + n + " has " + M(b + "^" + n) + " = " + rep(b, n) + " = <b>" + fmtInt(ipow(b, n)) + " people</b>.";
+    } else {
+      b = pick([2, 2, 3]); n = rnd(3, b === 2 ? 10 : 6); unit = "cells"; first = "after 1 hour there are " + b + " cells (" + M(b + "^1") + ")";
+      text = "A science lab starts with <b>1 cell</b>. The number of cells " + (b === 2 ? "doubles" : "triples") + " every hour. How many cells are there after <b>" + n + " hours</b>?";
+      why = "After 1 hour: " + b + ". After 2 hours: " + b * b + ". Each hour multiplies by " + b + ", so after " + n + " hours there are " + M(b + "^" + n) + " = " + rep(b, n) + " = <b>" + fmtInt(ipow(b, n)) + " cells</b>.";
+    }
+    const v = ipow(b, n), total = chain(b, n).reduce((m, x) => m + x, 0);
+    if (Math.random() < .3) return {skill:"word", kind:"power", target:{b, e:n},
+      text:text + " Write the answer as a power.",
+      hint:"What does each step multiply by? That's the base. How many steps are there? That's the exponent.",
+      why:why.replace(/ = <b>.*<\/b>\.$/, ". As a power: <b>" + M(b + "^" + n) + "</b>."),
+      diag:g => powDiag(g, b, n, String(b)), ansText:T(b + "^" + n)};
+    return {skill:"word", kind:"num", num:v, unit, text,
+      hint:"Each step multiplies by " + b + ". Write it as a power of " + b + ", then evaluate.",
+      why,
+      diag:g => near(g, b * n) ? "Each step multiplies by " + b + ". It isn't " + b + " × " + n + ": the answer is " + M(b + "^" + n) + "."
+        : (near(g, ipow(b, n - 1)) || near(g, ipow(b, n + 1))) ? "Check the count: " + first + ", so after " + n + " it's " + M(b + "^" + n) + "."
+        : (t !== "fold" && near(g, total)) ? "That's the total for all the " + (t === "message" ? "rounds" : "hours") + " added up. The question asks only about " + (t === "message" ? "round " : "hour ") + n + "."
+        : near(g, b + n) ? "Don't add. Each step multiplies by " + b + "." : "",
+      ansText:fmtInt(v) + " " + unit};
+  },
+  errorSpot(){
+    const who = pick(NAMES), t = pick(["whole", "whole", "frac", "dec", "ten", "swap", "expanded"]);
+    const o = {skill:"word", kick:"Error analysis", hint:"Check the work yourself: write the power as repeated multiplication."};
+    const q = (claim, rest) => Object.assign(o, {text:who + " says <b>" + claim + "</b>. What mistake did " + who + " make?"}, rest);
+    if (t === "whole"){
+      let b, e; do { b = rnd(3, 9); e = rnd(2, 4); } while (b === e);
+      const v = ipow(b, e);
+      return mcQ(q(M(b + "^" + e) + " = " + b * e, {why:who + " multiplied the base by the exponent (" + b + " × " + e + " = " + b * e + "). But " + M(b + "^" + e) + " means " + rep(b, e) + " = <b>" + fmtInt(v) + "</b>.", ansText:"Multiplied the base by the exponent; " + T(b + "^" + e) + " = " + fmtInt(v)}),
+        [{h:"Multiplied the base by the exponent. " + M(b + "^" + e) + " = " + rep(b, e) + " = " + fmtInt(v) + "."},
+         {h:"Nothing. " + M(b + "^" + e) + " = " + b * e + " is correct.", tip:"Check it: " + rep(b, e) + " = " + fmtInt(v) + ", not " + b * e + "."},
+         {h:"Swapped the base and the exponent. It should be " + M(e + "^" + b) + " = " + fmtInt(ipow(e, b)) + ".", tip:"The base " + b + " is right. The mistake is " + b + " × " + e + "."},
+         {h:"Should have added: " + b + " + " + e + " = " + (b + e) + ".", tip:"Exponents mean repeated multiplication, not adding."}]);
+    }
+    if (t === "frac"){
+      const e = pick([2, 2, 3]); let n, d; do { [n, d] = pickFrac(e); } while (n < 2);
+      const N = ipow(n, e), D = ipow(d, e), base = "(" + n + "/" + d + ")";
+      return mcQ(q(M(base + "^" + e) + " = " + fr(N, d), {why:who + " raised only the numerator to the power. The exponent applies to the whole fraction: " + M(base + "^" + e) + " = " + fr(rep(n, e), rep(d, e)) + " = <b>" + fr(N, D) + "</b>.", ansText:"Raised only the numerator; " + T(base + "^" + e) + " = " + N + "/" + D}),
+        [{h:"Raised only the numerator. It should be " + fr(N, D) + "."},
+         {h:"Nothing. It is correct.", tip:"Check it: the denominator also gets the exponent: " + rep(d, e) + " = " + D + "."},
+         {h:"Should have multiplied by " + e + ": " + fr(n * e, d * e) + ".", tip:M(base + "^" + e) + " means " + M(rep(n + "/" + d, e)) + ", not multiplying the top and bottom by " + e + "."},
+         {h:"Should have raised only the denominator: " + fr(n, D) + ".", tip:"Both the numerator and the denominator are raised to the power: " + fr(N, D) + "."}]);
+    }
+    if (t === "dec"){
+      const N = rnd(3, 9), s = "0." + N, ans = decPowStr(s, 2), claim = decStr(N * N, 1);
+      return mcQ(q(M(s + "^2") + " = " + claim, {why:who + " put the decimal point in the wrong place. " + s + " × " + s + ": " + N + " × " + N + " = " + N * N + ", and two factors with 1 decimal place each need 2 decimal places: <b>" + ans + "</b>.", ansText:"Wrong decimal place; " + T(s + "^2") + " = " + ans}),
+        [{h:"Put the decimal point in the wrong place. " + s + " × " + s + " = " + ans + "."},
+         {h:"Nothing. It is correct.", tip:"Count the decimal places: 1 + 1 = 2, so the answer is " + ans + "."},
+         {h:"It should be " + decStr(N * 2, 1) + ", because " + s + " × 2 = " + decStr(N * 2, 1) + ".", tip:M(s + "^2") + " is " + s + " × " + s + ", not " + s + " × 2."},
+         {h:"It should be " + N * N + ", because " + N + " × " + N + " = " + N * N + ".", tip:N + " × " + N + " = " + N * N + " is right, but the answer needs 2 decimal places: " + ans + "."}]);
+    }
+    if (t === "ten"){
+      const n = rnd(3, 7);
+      return mcQ(q(M("10^" + n) + " = " + fmtInt(ipow(10, n + 1)), {why:who + " wrote one zero too many. " + M("10^" + n) + " is 1 followed by " + n + " zeros: <b>" + fmtInt(ipow(10, n)) + "</b>.", ansText:"One zero too many; " + T("10^" + n) + " = " + fmtInt(ipow(10, n))}),
+        [{h:"Wrote one zero too many. " + M("10^" + n) + " = " + fmtInt(ipow(10, n)) + "."},
+         {h:"Nothing. It is correct.", tip:"Count the zeros: " + fmtInt(ipow(10, n + 1)) + " has " + (n + 1) + " zeros, so it is " + M("10^" + (n + 1)) + "."},
+         {h:"It should be " + 10 * n + ", because 10 × " + n + " = " + 10 * n + ".", tip:M("10^" + n) + " means 10 used as a factor " + n + " times, not 10 × " + n + "."},
+         {h:"It should be " + fmtInt(ipow(10, n - 1)) + ", because " + M("10^" + n) + " has " + n + " digits.", tip:M("10^" + n) + " has " + n + " zeros and " + (n + 1) + " digits: " + fmtInt(ipow(10, n)) + "."}]);
+    }
+    if (t === "swap"){
+      const [a, c] = pick([[2, 5], [3, 4], [3, 5], [2, 6], [2, 7], [4, 5]]), v1 = ipow(a, c), v2 = ipow(c, a), A = M(a + "^" + c), B = M(c + "^" + a);
+      return mcQ(Object.assign(o, {text:who + " says <b>" + A + "</b> and <b>" + B + "</b> are equal because they use the same numbers. What mistake did " + who + " make?",
+          why:"Swapping the base and the exponent changes the value: " + A + " = " + rep(a, c) + " = " + fmtInt(v1) + ", but " + B + " = " + rep(c, a) + " = " + fmtInt(v2) + ". So <b>" + A + " &gt; " + B + "</b>.", ansText:"Swapping changes the value: " + T(a + "^" + c) + " = " + v1 + ", " + T(c + "^" + a) + " = " + v2}),
+        [{h:"Swapping the base and the exponent changes the value: " + A + " = " + fmtInt(v1) + " but " + B + " = " + fmtInt(v2) + "."},
+         {h:"Nothing. They are equal.", tip:"Evaluate both: " + fmtInt(v1) + " and " + fmtInt(v2) + " are different."},
+         {h:A + " is less than " + B + ", because " + c + " is bigger than " + a + ".", tip:"Evaluate both: " + fmtInt(v1) + " &gt; " + fmtInt(v2) + ". A bigger base doesn't always win."},
+         {h:"They are both " + a * c + ", because " + a + " × " + c + " = " + a * c + ".", tip:"Powers aren't products: " + A + " = " + fmtInt(v1) + " and " + B + " = " + fmtInt(v2) + "."}]);
+    }
+    const a = rnd(1, 9), c = rnd(1, 9), d = rnd(1, 9), num = a * 1000 + c * 10 + d, tm = (x, p) => "(" + x + " × " + M("10^" + p) + ")";
+    const claimV = a * 1000 + c * 100 + d * 10;
+    return mcQ(Object.assign(o, {text:who + " writes <span class=\"qx\">" + fmtInt(num) + " = " + tm(a, 3) + " + " + tm(c, 2) + " + " + tm(d, 1) + "</span> What mistake did " + who + " make?",
+        why:fmtInt(num) + " has 0 hundreds, so the " + c + " is in the tens place and the " + d + " is in the ones place: <b>" + tm(a, 3) + " + " + tm(c, 1) + " + " + tm(d, 0) + "</b>. " + who + "'s version equals " + fmtInt(claimV) + ".",
+        ansText:T("(" + a + " × 10^3) + (" + c + " × 10^1) + (" + d + " × 10^0)")}),
+      [{h:"Skipped the 0 in the hundreds place. It should be " + tm(a, 3) + " + " + tm(c, 1) + " + " + tm(d, 0) + "."},
+       {h:"Nothing. It is correct.", tip:"Check it: " + tm(a, 3) + " + " + tm(c, 2) + " + " + tm(d, 1) + " = " + fmtInt(claimV) + ", not " + fmtInt(num) + "."},
+       {h:"The first part should be " + tm(a, 4) + ".", tip:"The " + a + " is in the thousands place, and 1,000 = " + M("10^3") + ". That part is right."},
+       {h:"It should be " + M(a + "^3") + " + " + M(c + "^1") + " + " + M(d + "^0") + ".", tip:"Expanded form uses powers of 10, not powers of the digits."}]);
+  }
+};
+const gen = name => G[name.includes("|") ? pick(name.split("|")) : name]();
+
+/* ---------- SKILLS & ZONES ---------- */
+const SKILLS = {
+  write:{name:"Write as a power & expand", zone:0, tip:"The base is the factor that repeats; the exponent counts how many times it is used: 6 × 6 × 6 × 6 = 6^4, and 9^3 = 9 × 9 × 9."},
+  parts:{name:"Read & name the parts", zone:0, tip:"Say the base first: 7^2 is “7 squared”, 2^3 is “2 cubed”, 6^4 is “6 to the fourth power”. The big number is the base; the small raised one is the exponent."},
+  whole:{name:"Evaluate whole numbers", zone:1, tip:"Write the repeated multiplication, then multiply step by step: 3^4 = 3 × 3 × 3 × 3 = 81, not 3 × 4. Also n^1 = n, 1^n = 1 and 0^n = 0."},
+  frac:{name:"Fractions", zone:2, tip:"The exponent goes to the numerator and to the denominator: (2/3)^2 = (2 × 2)/(3 × 3) = 4/9."},
+  dec:{name:"Decimals", zone:2, tip:"Multiply the digits as whole numbers, then count the decimal places in all the factors: 0.3^2 = 0.09 (2 places), 0.2^3 = 0.008 (3 places)."},
+  ten:{name:"Powers of 10", zone:3, tip:"10^n is 1 followed by n zeros: 10^6 = 1,000,000. For 4 × 10^3, write 4 and then 3 zeros: 4,000."},
+  expanded:{name:"Expanded form", zone:3, tip:"Each place is a power of 10: thousands 10^3, hundreds 10^2, tens 10^1, ones 10^0 = 1. A missing place gets a 0."},
+  compare:{name:"Compare & missing exponent", zone:4, tip:"Evaluate both powers before you compare: 2^5 = 32 is greater than 5^2 = 25. For 2^? = 64, multiply by 2 and count: 2, 4, 8, 16, 32, 64, so ? = 6."},
+  word:{name:"Word problems", zone:4, tip:"Square area = s^2, cube volume = s^3. Doubling n times gives 2^n; tripling gives 3^n. To check someone's work, write out the repeated multiplication."}
+};
+const SKILL_ORDER = Object.keys(SKILLS);
+
+const ZONES = [
+  {key:"z1", col:"c1", name:"Factor Factory", tag:"Repeated multiplication ↔ powers", icon:"factory", lesson:"Lesson 3-1 · pp. 123–128",
+   intro:"Some products repeat the same factor again and again. Exponents pack them into one short power, like 3⁴. Learn the parts, how to say them, and how to unpack them.",
+   set:["toPower", "toPower", "expandMC", "partsMC", "readMC", "wordsToPower"]},
+  {key:"z2", col:"c2", name:"Power Plant", tag:"Evaluate powers of whole numbers", icon:"bolt", lesson:"Lesson 3-1 · pp. 123–128",
+   intro:"To evaluate a power is to find its value. Unpack it into repeated multiplication, then multiply step by step. And watch out for the biggest trap of all!",
+   set:["evalWhole", "evalWhole", "evalWhole", "valueMC", "evalSpecial", "evalSpecial"]},
+  {key:"z3", col:"c4", name:"Fraction Falls", tag:"Fractions & decimals as bases", icon:"drop", lesson:"Lesson 3-1 · pp. 123–128",
+   intro:"Fractions and decimals can be bases too. The exponent still counts factors, but keep an eye on the denominator and the decimal point.",
+   set:["fracPow", "fracPow", "fracMC", "decPow", "decPow", "decMC"]},
+  {key:"z4", col:"c3", name:"Ten Tower", tag:"Powers of 10 · expanded form", icon:"tower", lesson:"Lesson 3-1 · pp. 123–128",
+   intro:"Our number system is built on tens, so powers of 10 are everywhere. Count the zeros, then use powers of 10 to write numbers in expanded form.",
+   set:["tenPow", "tenPow", "timesTen", "expandedMC", "expandedNum", "expandedFill"]},
+  {key:"z5", col:"c5", name:"Puzzle Peak", tag:"Patterns · compare · word problems", icon:"peak", lesson:"Lesson 3-1 · pp. 123–128",
+   intro:"Use powers to solve problems: squares and cubes, things that double or triple, comparing powers, finding a missing exponent, and spotting mistakes.",
+   set:["comparePow", "missingExp", "missingBase", "areaVol", "growth", "errorSpot"]}
+];
+const FINAL_SET = [["toPower", "expandMC", "partsMC|readMC", "wordsToPower"], ["evalWhole", "evalWhole", "valueMC", "evalSpecial"],
+  ["fracPow", "fracMC", "decPow", "decMC"], ["tenPow", "timesTen", "expandedMC|expandedFill", "expandedNum"], ["comparePow", "missingExp|missingBase", "areaVol", "growth|errorSpot"]];
+
+/* ---------- PICTURES (SVG) ---------- */
+const svgBox = (w, h, body, label) => '<div class="viz"><svg viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + esc(label) + '">' + body + '</svg></div>';
+const tx = (x, y, s, cls, anchor, extra) => '<text class="' + cls + '" x="' + x + '" y="' + y + '"' + (anchor ? ' text-anchor="' + anchor + '"' : "") + (extra || "") + '>' + s + '</text>';
+/* a power inside SVG text: base, then a raised exponent */
+const tsup = (e, rest) => '<tspan dy="-7" font-size="62%">' + e + '</tspan>' + (rest ? '<tspan dy="7">' + rest + '</tspan>' : "");
+const poly = (pts, cls) => '<polygon class="' + cls + '" points="' + pts.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ") + '"/>';
+
+/* 3⁴: the base, the exponent and the four factors */
+function vizAnatomy(){
+  let s = tx(94, 136, "3", "vd", "middle", ' font-size="132"') + tx(152, 72, "4", "vd", "middle", ' font-size="62"');
+  s += '<rect class="sun" x="200" y="20" width="210" height="54" rx="10"/>' + tx(212, 42, "EXPONENT", "vcap", "", ' font-size="13"') + tx(212, 63, "how many factors", "vt");
+  s += '<rect class="sun" x="200" y="90" width="210" height="54" rx="10"/>' + tx(212, 112, "BASE", "vcap", "", ' font-size="13"') + tx(212, 133, "the factor that repeats", "vt");
+  s += '<path class="ln" d="M198 47 H181"/><path d="M174 47 l9 -5 v10z" fill="' + INK + '"/>';
+  s += '<path class="ln" d="M198 117 H140"/><path d="M133 117 l9 -5 v10z" fill="' + INK + '"/>';
+  for (let i = 0; i < 4; i++){
+    const x = 20 + i * 70;
+    s += '<rect class="tile" x="' + x + '" y="166" width="48" height="48" rx="9"/>' + tx(x + 24, 198, "3", "vb", "middle");
+    if (i < 3) s += tx(x + 59, 198, "×", "vb", "middle");
+  }
+  s += tx(296, 198, "= 81", "vb") + '<path class="ln" d="M20 226 V234 H278 V226"/>' + tx(149, 256, "4 factors of 3", "vt", "middle");
+  return svgBox(420, 268, s, "3 to the fourth power: 3 is the base, 4 is the exponent. 3 × 3 × 3 × 3 = 81.");
+}
+/* n² as an n-by-n square of tiles */
+function vizTiles(n){
+  const u = 58, x0 = (420 - n * u) / 2 + 10, y0 = 44; let s = "";
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++){
+    s += '<rect class="tile" x="' + (x0 + c * u + 3) + '" y="' + (y0 + r * u + 3) + '" width="' + (u - 6) + '" height="' + (u - 6) + '" rx="7"/>' + tx(x0 + c * u + u / 2, y0 + r * u + u / 2 + 6, r * n + c + 1, "vs", "middle");
+  }
+  s += '<path class="ln" d="M' + x0 + ' 30 H' + (x0 + n * u) + 'M' + x0 + ' 24 v12 M' + (x0 + n * u) + ' 24 v12"/>' + tx(x0 + n * u / 2, 20, n, "vb", "middle");
+  s += '<path class="ln" d="M' + (x0 - 16) + ' ' + y0 + ' V' + (y0 + n * u) + 'M' + (x0 - 22) + ' ' + y0 + ' h12 M' + (x0 - 22) + ' ' + (y0 + n * u) + ' h12"/>' + tx(x0 - 30, y0 + n * u / 2 + 7, n, "vb", "end");
+  s += tx(210, y0 + n * u + 38, n + tsup(2, " = " + n + " × " + n + " = " + n * n + " tiles"), "vb", "middle");
+  return svgBox(420, y0 + n * u + 56, s, n + " squared: " + n + " rows of " + n + " tiles make a square of " + n * n + " tiles.");
+}
+/* n³ as an n-by-n-by-n stack of small cubes (isometric) */
+function vizCube(n){
+  const a = 46, cx = 122, cy = 150, ix = a * .866, iy = a * .5;
+  const P = (x, y, z) => [cx + (x - y) * ix, cy + (x + y) * iy - z * a];
+  const cubes = []; for (let x = 0; x < n; x++) for (let y = 0; y < n; y++) for (let z = 0; z < n; z++) cubes.push([x, y, z]);
+  cubes.sort((p, q) => (p[0] + p[1] + p[2]) - (q[0] + q[1] + q[2]));
+  let s = "";
+  cubes.forEach(([x, y, z]) => {
+    s += poly([P(x, y, z + 1), P(x + 1, y, z + 1), P(x + 1, y + 1, z + 1), P(x, y + 1, z + 1)], "sun");
+    s += poly([P(x + 1, y, z), P(x + 1, y + 1, z), P(x + 1, y + 1, z + 1), P(x + 1, y, z + 1)], "hot");
+    s += poly([P(x, y + 1, z), P(x + 1, y + 1, z), P(x + 1, y + 1, z + 1), P(x, y + 1, z + 1)], "tile");
+  });
+  const L = (p, dx, dy) => tx((p[0] + dx).toFixed(1), (p[1] + dy).toFixed(1), n, "vb", "middle");
+  s += L(P(n / 2, n, 0), -12, 26) + L(P(n, n / 2, 0), 14, 26) + L(P(0, n, n / 2), -16, 6);
+  s += tx(316, 112, "2" + tsup(3, " = 2 × 2 × 2"), "vb", "middle") + tx(316, 146, "= 8 small cubes", "vb", "middle") + tx(316, 178, "“2 cubed”", "vt", "middle");
+  return svgBox(420, 262, s, "2 cubed: a stack 2 cubes long, 2 wide and 2 high has 8 small cubes.");
+}
+/* the running product b, b², … bᵉ */
+function vizChain(b, e){
+  const v = chain(b, e), w = 58, gap = (400 - e * w) / (e - 1); let s = "";
+  v.forEach((x, i) => {
+    const X = 10 + i * (w + gap);
+    s += tx(X + w / 2, 30, b + tsup(i + 1), "vt", "middle") + '<rect class="' + (i === e - 1 ? "hot" : "tile") + '" x="' + X + '" y="42" width="' + w + '" height="52" rx="10"/>' + tx(X + w / 2, 76, fmtInt(x), "vb", "middle");
+    if (i < e - 1){ const a1 = X + w + 3, a2 = X + w + gap - 3; s += '<path class="ln" d="M' + a1 + ' 68 H' + (a2 - 6) + '"/><path d="M' + a2 + ' 68 l-8 -5 v10z" fill="' + INK + '"/>' + tx((a1 + a2) / 2, 90, "×" + b, "vs", "middle"); }
+  });
+  return svgBox(420, 110, s, "Multiply by " + b + " each time: " + v.join(", ") + ".");
+}
+/* (n/d)² as an area model: the overlap of n/d by n/d */
+function vizFracArea(n, d){
+  const S = 186, x0 = 46, y0 = 40, u = S / d; let s = "";
+  for (let r = 0; r < d; r++) for (let c = 0; c < d; c++){
+    const cls = r < n && c < n ? "hot" : (r < n || c < n) ? "tile" : "wht";
+    s += '<rect class="' + cls + '" x="' + (x0 + c * u).toFixed(1) + '" y="' + (y0 + r * u).toFixed(1) + '" width="' + u.toFixed(1) + '" height="' + u.toFixed(1) + '"/>';
+  }
+  s += '<rect x="' + x0 + '" y="' + y0 + '" width="' + S + '" height="' + S + '" fill="none" stroke="' + INK + '" stroke-width="3.5"/>';
+  s += tx(x0 + n * u / 2, 30, n + "/" + d, "vt", "middle") + tx(x0 - 8, y0 + n * u / 2 + 5, n + "/" + d, "vt", "end");
+  s += tx(330, 92, "(" + n + "/" + d + ")" + tsup(2), "vb", "middle") + tx(330, 126, "= " + n + "/" + d + " × " + n + "/" + d, "vt", "middle") + tx(330, 160, "= " + n * n + "/" + d * d, "vb", "middle") + tx(330, 192, n * n + " of the " + d * d + " parts", "vs", "middle");
+  return svgBox(420, 246, s, "Area model: " + n + "/" + d + " of " + n + "/" + d + " of a square is " + n * n + " of " + d * d + " equal parts, so (" + n + "/" + d + ") squared is " + n * n + "/" + d * d + ".");
+}
+/* 0.N² on a hundredths grid */
+function vizDecGrid(N){
+  const S = 200, x0 = 40, y0 = 34, u = S / 10; let s = "";
+  for (let r = 0; r < 10; r++) for (let c = 0; c < 10; c++){
+    const cls = r < N && c < N ? "hot" : (r < N || c < N) ? "tile" : "wht";
+    s += '<rect class="' + cls + '" x="' + (x0 + c * u) + '" y="' + (y0 + r * u) + '" width="' + u + '" height="' + u + '" style="stroke-width:1.2"/>';
+  }
+  s += '<rect x="' + x0 + '" y="' + y0 + '" width="' + S + '" height="' + S + '" fill="none" stroke="' + INK + '" stroke-width="3"/>';
+  s += tx(x0 + N * u / 2, 26, "0." + N, "vt", "middle") + tx(x0 - 6, y0 + N * u / 2 + 5, "0." + N, "vt", "end");
+  s += tx(332, 92, "0." + N + " × 0." + N, "vb", "middle") + tx(332, 126, "= 0.0" + N * N, "vb", "middle") + tx(332, 160, N * N + " of 100 squares", "vs", "middle") + tx(332, 180, "= " + N * N + " hundredths", "vs", "middle");
+  return svgBox(420, 250, s, "Hundredths grid: 0." + N + " of 0." + N + " is " + N * N + " of 100 squares, so 0." + N + " squared is 0.0" + N * N + ".");
+}
+/* the tower of tens: 10⁰ at the bottom to 10⁶ at the top */
+function vizTower(){
+  const h = 34, x0 = 70, w = 280, top = 22; let s = "";
+  for (let k = 6; k >= 0; k--){
+    const y = top + (6 - k) * h;
+    s += '<rect class="' + (k % 2 ? "tile" : "wht") + '" x="' + x0 + '" y="' + y + '" width="' + w + '" height="' + h + '"/>';
+    s += tx(x0 + 14, y + 24, "10" + tsup(k), "vb") + tx(x0 + w - 14, y + 24, fmtInt(ipow(10, k)), "vb", "end");
+    if (k < 6) s += tx(x0 + w + 8, y + 4, "×10", "vs");
+  }
+  s += tx(210, top + 7 * h + 26, "Each floor up: × 10, one more zero", "vt", "middle");
+  return svgBox(420, top + 7 * h + 40, s, "Powers of 10 from 10 to the 0 equals 1 up to 10 to the 6th equals 1,000,000. Each floor multiplies by 10.");
+}
+/* place-value chart for a 4-digit number */
+function vizPlace(num){
+  const d = String(num).split(""), cw = 96, x0 = 18; let s = "";
+  ["thousands", "hundreds", "tens", "ones"].forEach((name, i) => {
+    const X = x0 + i * cw, p = 3 - i;
+    s += '<rect class="' + (i % 2 ? "wht" : "tile") + '" x="' + X + '" y="14" width="' + cw + '" height="176"/>';
+    s += tx(X + cw / 2, 38, name.toUpperCase(), "vcap", "middle") + tx(X + cw / 2, 68, "10" + tsup(p), "vb", "middle") + tx(X + cw / 2, 82 + 34, d[i], "vd", "middle", ' font-size="44"');
+    s += tx(X + cw / 2, 150, d[i] + " × " + fmtInt(ipow(10, p)), "vs", "middle") + tx(X + cw / 2, 172, "= " + fmtInt(+d[i] * ipow(10, p)), "vt", "middle");
+  });
+  s += '<rect x="' + x0 + '" y="14" width="' + cw * 4 + '" height="176" fill="none" stroke="' + INK + '" stroke-width="3"/>';
+  return svgBox(420, 204, s, "Place-value chart for " + fmtInt(num) + ": " + d.map((x, i) => x + " " + ["thousands", "hundreds", "tens", "ones"][i]).join(", ") + ".");
+}
+/* a square (area s²) and a cube (volume s³) */
+function vizSquareCube(){
+  let s = '<rect class="tile" x="40" y="44" width="118" height="118"/>' + tx(99, 186, "s", "vb", "middle") + tx(28, 110, "s", "vb", "end") + tx(99, 212, "Area = s × s = s" + tsup(2), "vt", "middle");
+  const a = 72, cx = 300, cy = 104, ix = a * .866, iy = a * .5, P = (x, y, z) => [cx + (x - y) * ix, cy + (x + y) * iy - z * a];
+  s += poly([P(0, 0, 1), P(1, 0, 1), P(1, 1, 1), P(0, 1, 1)], "sun") + poly([P(1, 0, 0), P(1, 1, 0), P(1, 1, 1), P(1, 0, 1)], "hot") + poly([P(0, 1, 0), P(1, 1, 0), P(1, 1, 1), P(0, 1, 1)], "tile");
+  const m1 = P(.5, 1, 0), m2 = P(1, .5, 0), m3 = P(0, 1, .5);
+  s += tx(m1[0] - 12, m1[1] + 22, "s", "vb", "middle") + tx(m2[0] + 14, m2[1] + 22, "s", "vb", "middle") + tx(m3[0] - 14, m3[1] + 6, "s", "vb", "middle");
+  s += tx(300, 240, "Volume = s × s × s = s" + tsup(3), "vt", "middle");
+  return svgBox(420, 256, s, "A square with side s has area s squared. A cube with edge s has volume s cubed.");
+}
+/* a message tree: 3 people in round 1, 9 in round 2 */
+function vizTree(){
+  const r1 = [130, 245, 360], leaves = []; r1.forEach(x => [-36, 0, 36].forEach(dx => leaves.push(x + dx)));
+  let s = "";
+  r1.forEach(x => { s += '<path class="ln" d="M245 44 L' + x + ' 104"/>'; [-36, 0, 36].forEach(dx => { s += '<path class="ln" d="M' + x + ' 104 L' + (x + dx) + ' 168"/>'; }); });
+  s += '<circle class="sun" cx="245" cy="40" r="15"/>' + tx(245, 45, "1", "vs", "middle");
+  r1.forEach(x => { s += '<circle class="hot" cx="' + x + '" cy="104" r="13"/>'; });
+  leaves.forEach(x => { s += '<circle class="tile" cx="' + x + '" cy="170" r="11"/>'; });
+  s += tx(12, 109, "Round 1", "vcap") + tx(12, 175, "Round 2", "vcap");
+  s += tx(245, 212, "Round 1: 3" + tsup(1, " = 3 people"), "vt", "middle") + tx(245, 236, "Round 2: 3" + tsup(2, " = 9 people"), "vt", "middle");
+  return svgBox(420, 252, s, "A message tree: 1 person sends to 3, each of them sends to 3 more, so round 2 reaches 9 people.");
+}
+
+/* ---------- LESSON CARDS ---------- */
+const LESSONS = [
+  [
+    {t:"Base, exponent, power", b:"An <b>exponent</b> is a short way to write repeated multiplication. In " + M("3^4") + ", the <b>base</b> 3 is the factor that repeats, and the <b>exponent</b> 4 says how many times it is used as a factor. The whole expression " + M("3^4") + " is called a <b>power</b>.",
+     ex:{h:"Example", q:"Write 5 × 5 × 5 × 5 × 5 × 5 as a power", steps:["The factor that repeats is 5, so the base is 5.", "Count the factors: there are 6, so the exponent is 6.", "5 × 5 × 5 × 5 × 5 × 5 = " + M("5^6") + "."]},
+     viz:vizAnatomy},
+    {t:"Squared: a square of tiles", b:"A power with exponent 2 is read <b>squared</b>. " + M("3^2") + " = 3 × 3 = 9, and 9 tiles make a 3-by-3 square. That's where the word comes from.",
+     note:"You can also say “3 to the second power”. Any number times itself is a square number: " + M("4^2") + " = 16, " + M("5^2") + " = 25.",
+     viz:() => vizTiles(3)},
+    {t:"Cubed, and the rest", b:"A power with exponent 3 is read <b>cubed</b>. " + M("2^3") + " = 2 × 2 × 2 = 8, and 8 small cubes stack into a 2-by-2-by-2 cube. From exponent 4 on, say “to the … power”.",
+     table:[["Power", "Say it", "Means"], [M("7^2"), "7 squared, or 7 to the second power", "7 × 7"], [M("2^3"), "2 cubed, or 2 to the third power", "2 × 2 × 2"], [M("6^4"), "6 to the fourth power", "6 × 6 × 6 × 6"], [M("10^5"), "10 to the fifth power", "10 × 10 × 10 × 10 × 10"]],
+     viz:() => vizCube(2)},
+    {t:"Unpack a power", b:"To <b>expand</b> a power, write the base as a factor as many times as the exponent says.",
+     ex:{h:"Example", q:"Expand " + M("9^4"), steps:["The base is 9 and the exponent is 4.", "Write 9 four times with × between them: 9 × 9 × 9 × 9.", "Careful: " + M("9^4") + " is not 9 × 4."]},
+     note:"An exponent of 1 means just one factor: " + M("8^1") + " = 8. A fraction can be a base too: " + M("(2/3)^3") + " = " + M("2/3 × 2/3 × 2/3") + "."}
+  ],
+  [
+    {t:"Multiply step by step", b:"Write the power as repeated multiplication. Then multiply from left to right, one factor at a time, and keep a running total.",
+     ex:{h:"Example", q:"Evaluate " + M("2^5"), steps:[M("2^5") + " = 2 × 2 × 2 × 2 × 2", "2 × 2 = 4, then 4 × 2 = 8", "8 × 2 = 16, then 16 × 2 = 32", "So " + M("2^5") + " = 32."]},
+     viz:() => vizChain(2, 5)},
+    {t:"More examples", table:[["Power", "Repeated multiplication", "Value"], [M("3^4"), "3 × 3 × 3 × 3", "81"], [M("4^3"), "4 × 4 × 4", "64"], [M("5^3"), "5 × 5 × 5", "125"], [M("2^5"), "2 × 2 × 2 × 2 × 2", "32"]],
+     note:"In your notebook, write the running total after each step: for " + M("3^4") + " that's 3, 9, 27, 81."},
+    {t:"The big trap", b:"<b>" + M("3^4") + " is not 3 × 4.</b> The exponent is not a factor. It counts how many times the base is used as a factor.",
+     ex:{h:"Spot the difference", q:M("3^4") + " or 3 × 4?", steps:["✗ 3 × 4 = 12: that multiplies the base by the exponent.", "✓ " + M("3^4") + " = 3 × 3 × 3 × 3 = 81.", "Same for " + M("2^3") + ": 2 × 2 × 2 = 8, not 2 × 3 = 6."]}},
+    {t:"Special powers", table:[["Rule", "Why", "Example"], [M("n^1") + " = n", "There is only one factor.", M("9^1") + " = 9"], [M("1^n") + " = 1", "1 × 1 × 1 × … is always 1.", M("1^7") + " = 1"], [M("0^n") + " = 0", "For n = 1 or more: any product with a factor of 0 is 0.", M("0^5") + " = 0"]],
+     note:"Here n stands for any whole number you choose."}
+  ],
+  [
+    {t:"The exponent takes the whole fraction", b:"In " + M("(2/3)^2") + " the parentheses show that the whole fraction is the base. So " + M("(2/3)^2") + " = " + M("2/3 × 2/3") + ". Multiply the numerators, then multiply the denominators.",
+     ex:{h:"Example", q:"Evaluate " + M("(2/3)^2"), steps:[M("(2/3)^2") + " = " + M("2/3 × 2/3"), "Numerators: 2 × 2 = 4", "Denominators: 3 × 3 = 9", "So " + M("(2/3)^2") + " = " + M("4/9") + ", not " + M("4/3") + "."]},
+     viz:() => vizFracArea(2, 3)},
+    {t:"More fraction powers", ex:{h:"Examples", q:"Evaluate " + M("(1/2)^4") + " and " + M("(3/4)^3"), steps:[M("(1/2)^4") + " = " + M("1/2 × 1/2 × 1/2 × 1/2") + " = " + fr("1 × 1 × 1 × 1", "2 × 2 × 2 × 2") + " = " + M("1/16"), M("(3/4)^3") + " = " + fr("3 × 3 × 3", "4 × 4 × 4") + " = " + M("27/64")]},
+     note:"A fraction between 0 and 1 gets smaller every time you multiply by it: " + M("1/16") + " is much less than " + M("1/2") + "."},
+    {t:"Decimals: count the places", b:"Multiply the digits as whole numbers. Then count the decimal places in all the factors, and give the answer that many decimal places.",
+     ex:{h:"Example", q:"Evaluate " + M("0.3^2"), steps:[M("0.3^2") + " = 0.3 × 0.3", "As whole numbers: 3 × 3 = 9", "Decimal places: 1 + 1 = 2", M("0.3^2") + " = 0.09, not 0.9"]},
+     viz:() => vizDecGrid(3)},
+    {t:"Decimal places multiply", b:"A number with 1 decimal place, squared, has 1 × 2 = <b>2 decimal places</b>. Cubed, it has 1 × 3 = <b>3 decimal places</b>.",
+     table:[["Power", "Whole numbers", "Places", "Value"], [M("0.3^2"), "3 × 3 = 9", "1 × 2 = 2", "0.09"], [M("1.2^2"), "12 × 12 = 144", "1 × 2 = 2", "1.44"], [M("0.2^3"), "2 × 2 × 2 = 8", "1 × 3 = 3", "0.008"], [M("0.5^2"), "5 × 5 = 25", "1 × 2 = 2", "0.25"]],
+     note:"Put zeros in front when you need more places: 8 with 3 decimal places is 0.008."}
+  ],
+  [
+    {t:"Count the zeros", b:"<b>" + M("10^n") + "</b> is 1 followed by n zeros. Each extra factor of 10 adds one more zero.",
+     table:[["Power", "Repeated multiplication", "Value"], [M("10^1"), "10", "10"], [M("10^2"), "10 × 10", "100"], [M("10^3"), "10 × 10 × 10", "1,000"], [M("10^4"), "10 × 10 × 10 × 10", "10,000"], [M("10^6"), "10 × 10 × 10 × 10 × 10 × 10", "1,000,000"]],
+     note:"The exponent counts the zeros, not the digits: " + M("10^4") + " = 10,000 has 4 zeros and 5 digits.",
+     viz:vizTower},
+    {t:"A number times a power of 10", b:"To multiply a number by " + M("10^n") + ", write the number and then n zeros.",
+     ex:{h:"Examples", q:"4 × " + M("10^3") + " and 7 × " + M("10^5"), steps:[M("10^3") + " = 1,000, so 4 × " + M("10^3") + " = 4 × 1,000 = 4,000.", M("10^5") + " = 100,000, so 7 × " + M("10^5") + " = 700,000.", "Check: 700,000 has 5 zeros after the 7."]}},
+    {t:"Expanded form with powers of 10", b:"Each place value is a power of 10: thousands = " + M("10^3") + ", hundreds = " + M("10^2") + ", tens = " + M("10^1") + ". The ones place is 1, which is 1 × 1. We can write it as <b>" + M("10^0") + "</b>, because any nonzero number to the power 0 is 1.",
+     ex:{h:"Example", q:"Write 5,341 in expanded form", steps:["5,341 = 5,000 + 300 + 40 + 1", "= (5 × " + M("10^3") + ") + (3 × " + M("10^2") + ") + (4 × " + M("10^1") + ") + (1 × " + M("10^0") + ")"]},
+     note:"Why is " + M("10^0") + " = 1? Look at the pattern: " + M("10^3") + " = 1,000, " + M("10^2") + " = 100, " + M("10^1") + " = 10. Each step down divides by 10, so the next one is " + M("10^0") + " = 1.",
+     viz:() => vizPlace(5341)},
+    {t:"Back to standard form", b:"To go from expanded form back to standard form, find the value of each part and add. Write a 0 in every place that has no part.",
+     ex:{h:"Example", q:"(8 × " + M("10^4") + ") + (2 × " + M("10^2") + ") + (9 × " + M("10^0") + ")", steps:["8 × " + M("10^4") + " = 80,000", "2 × " + M("10^2") + " = 200", "9 × " + M("10^0") + " = 9 × 1 = 9", "80,000 + 200 + 9 = 80,209 (0 thousands and 0 tens)"]}}
+  ],
+  [
+    {t:"Squares and cubes", b:"The area of a square with side s is <b>" + M("s^2") + "</b> square units. The volume of a cube with edge s is <b>" + M("s^3") + "</b> cubic units.",
+     ex:{h:"Example", q:"A square tile has 6 cm sides. A cube box has 4 cm edges.", steps:["Area = " + M("6^2") + " = 6 × 6 = 36 cm" + sup(2), "Volume = " + M("4^3") + " = 4 × 4 × 4 = 64 cm" + sup(3), "Write the units: cm" + sup(2) + " for area, cm" + sup(3) + " for volume."]},
+     viz:vizSquareCube},
+    {t:"Doubling and tripling", b:"When something doubles again and again, powers of 2 count it. Fold a paper in half: 1 fold makes 2 layers, 2 folds make 4, and n folds make <b>" + M("2^n") + "</b> layers. When each person forwards a message to 3 new people, round n reaches <b>" + M("3^n") + "</b> people.",
+     ex:{h:"Example", q:"A message goes to 3 people. Each of them forwards it to 3 new people, and so on. How many people get it in round 4?", steps:["Round 1: 3 = " + M("3^1"), "Round 2: 3 × 3 = 9 = " + M("3^2"), "Round 4: " + M("3^4") + " = 3 × 3 × 3 × 3 = 81 people"]},
+     viz:vizTree},
+    {t:"Compare, or find what's missing", b:"To compare powers, evaluate both. Swapping the base and the exponent usually changes the value!",
+     ex:{h:"Examples", q:"Compare " + M("2^5") + " and " + M("5^2") + "; then " + M("3^4") + " and " + M("4^3"), steps:[M("2^5") + " = 32 and " + M("5^2") + " = 25, so " + M("2^5") + " &gt; " + M("5^2") + ".", M("3^4") + " = 81 and " + M("4^3") + " = 64, so " + M("3^4") + " &gt; " + M("4^3") + "."]},
+     note:"<b>Missing exponent:</b> " + M("2^?") + " = 64. Multiply by 2 and count: 2, 4, 8, 16, 32, 64. That's six 2s, so the exponent is 6. <b>Missing base:</b> ?" + sup(3) + " = 125. Try bases: " + M("4^3") + " = 64, " + M("5^3") + " = 125, so the base is 5."},
+    {t:"Spot the mistake", b:"Error-analysis questions show someone else's work. Check it by writing out the repeated multiplication.",
+     ex:{h:"Example", q:"Sami says " + M("4^3") + " = 12. What mistake did he make?", steps:["He multiplied the base by the exponent: 4 × 3 = 12.", M("4^3") + " means 4 × 4 × 4.", "4 × 4 = 16, and 16 × 4 = 64, so " + M("4^3") + " = 64."]},
+     note:"Other traps: " + M("(2/3)^2") + " is " + M("4/9") + ", not " + M("4/3") + ". " + M("0.3^2") + " is 0.09, not 0.9. " + M("10^5") + " has 5 zeros: 100,000."}
+  ]
+];
+
+/* ---------- ICONS ---------- */
+const ICONS = {
+  factory:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 28V15l7 4.5V15l7 4.5V15l6 4V5h4v23z" fill="#fff" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/><rect x="8" y="22" width="4" height="3.5" fill="#FFD23F" stroke="' + INK + '" stroke-width="1.6"/><rect x="15.5" y="22" width="4" height="3.5" fill="#FFD23F" stroke="' + INK + '" stroke-width="1.6"/></svg>',
+  bolt:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19 3L6 18h8.5l-2.5 11 13.5-15.5H17z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/></svg>',
+  drop:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3c5.5 7.5 9.5 12.5 9.5 17.5a9.5 9.5 0 0 1-19 0C6.5 15.5 10.5 10.5 16 3z" fill="#fff" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/><path d="M10.5 20.5h11" stroke="' + INK + '" stroke-width="2.5" stroke-linecap="round"/><circle cx="16" cy="15.5" r="2" fill="' + INK + '"/><circle cx="16" cy="25.5" r="2" fill="' + INK + '"/></svg>',
+  tower:'<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="7.5" y="20" width="17" height="8.5" rx="1" fill="#fff" stroke="' + INK + '" stroke-width="2.5"/><rect x="9.5" y="11.5" width="13" height="8.5" rx="1" fill="#FFD23F" stroke="' + INK + '" stroke-width="2.5"/><rect x="11.5" y="3.5" width="9" height="8" rx="1" fill="#fff" stroke="' + INK + '" stroke-width="2.5"/></svg>',
+  peak:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 28L13 11l5 8 3-4.5L29 28z" fill="#fff" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/><path d="M13 11V3l7 2.8-7 2.8" fill="#FFD23F" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z" fill="#FFD23F" stroke="#fff" stroke-width="1.8"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M12 14v4M8 20h8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>'
+};
+const STAR = on => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="' + (on ? "#FFD23F" : "#fff") + '" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/></svg>';
+const ICON_SOUND = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9q2 3 0 6M18.5 6.5q4 5.5 0 11" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+const ICON_MUTE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#fff" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+
+/* ---------- SAVED PROGRESS (this device only) ---------- */
+const KEY = "powerlab-envision-3-1-v1";
+const fresh = () => ({xp:0, zones:{}, skills:{}, attempts:[], last:null, hw:{}, sound:true});
+let S = (() => { try { const raw = localStorage.getItem(KEY); if (raw) return Object.assign(fresh(), JSON.parse(raw)); } catch (e) {} return fresh(); })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+/* Homework ticks are shared with the dashboard and the Week 9 plan, keyed by EduPage item id. */
+const DONE_KEY = "monmon-done-v1";
+const HW_EP = {book:"2026-10-29-C55D232D8569DE5E9B2C"};
+function hwDone(k){ try { const v = JSON.parse(localStorage.getItem(DONE_KEY) || "null"); return !!(v && v.done && v.done[HW_EP[k]]); } catch (e) { return !!S.hw[k]; } }
+function setHwDone(k, on){
+  S.hw[k] = on; save();
+  try { const v = JSON.parse(localStorage.getItem(DONE_KEY) || "null") || {done:{}}; v.done = v.done || {};
+    if (on) v.done[HW_EP[k]] = true; else delete v.done[HW_EP[k]];
+    localStorage.setItem(DONE_KEY, JSON.stringify(v)); } catch (e) {}
+}
+const WEEK_PLAN = "../../weekly/week-09/index.html";
+
+/* ---------- SOUND (tiny synth, no files) ---------- */
+const Sound = {
+  ctx:null,
+  get(){ try { if (!this.ctx){ const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; this.ctx = new AC(); }
+    if (this.ctx.state === "suspended") this.ctx.resume(); return this.ctx; } catch (e) { return null; } },
+  tone(f, at, dur, type, vol){ const c = this.get(); if (!c) return; try {
+    const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + at;
+    o.type = type || "triangle"; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05); } catch (e) {} },
+  good(){ if (!S.sound) return; this.tone(660, 0, .15); this.tone(990, .1, .25); },
+  bad(){ if (!S.sound) return; this.tone(196, 0, .28, "square", .05); this.tone(147, .12, .3, "square", .05); },
+  win(){ if (!S.sound) return; [523, 659, 784, 1047].forEach((f, i) => this.tone(f, i * .11, .3)); },
+  tap(){ if (!S.sound) return; this.tone(520, 0, .06, "sine", .05); }
+};
+
+/* ---------- CONFETTI ---------- */
+const FX = (() => {
+  const cv = $("#fx"), ctx = cv && cv.getContext ? cv.getContext("2d") : null;
+  let parts = [], raf = 0;
+  const COLS = ["#FFD23F", "#2F7DE1", "#F39200", "#9A4FE0", "#119C77", "#E23F66"];
+  function size(){ if (!cv) return; const d = window.devicePixelRatio || 1; cv.width = innerWidth * d; cv.height = innerHeight * d; }
+  size(); addEventListener("resize", size);
+  function tick(){
+    const d = window.devicePixelRatio || 1;
+    ctx.setTransform(d, 0, 0, d, 0, 0); ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => p.life < p.max);
+    parts.forEach(p => {
+      p.life++; p.vy += .25; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      ctx.save(); ctx.globalAlpha = Math.max(0, 1 - p.life / p.max); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.c;
+      if (p.sq) ctx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); else { ctx.beginPath(); ctx.arc(0, 0, p.r / 2.6, 0, Math.PI * 2); ctx.fill(); }
+      ctx.restore();
+    });
+    raf = parts.length ? requestAnimationFrame(tick) : 0;
+  }
+  function burstAt(x, y, n){
+    if (reduceMotion || !ctx) return;
+    for (let i = 0; i < (n || 36); i++){ const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
+      parts.push({x, y, vx:Math.cos(a) * v, vy:Math.sin(a) * v - 4, r:5 + Math.random() * 6, rot:Math.random() * 6, vr:(Math.random() - .5) * .4, c:COLS[i % COLS.length], life:0, max:55 + Math.random() * 40, sq:Math.random() < .55}); }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function burstEl(el, n){ if (!el) return; const r = el.getBoundingClientRect(); burstAt(r.left + r.width / 2, r.top + r.height / 2, n); }
+  function party(){ for (let k = 0; k < 5; k++) setTimeout(() => burstAt(innerWidth * (.15 + Math.random() * .7), innerHeight * (.2 + Math.random() * .25), 40), k * 170); }
+  return {burstEl, party};
+})();
+
+function floatXP(el, text){
+  if (!el || reduceMotion) return;
+  const r = el.getBoundingClientRect(), f = document.createElement("div");
+  f.className = "xp-float"; f.textContent = text; f.style.left = (r.left + r.width / 2) + "px"; f.style.top = (r.top - 6) + "px";
+  document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
+}
+function addXP(n, el){
+  S.xp += n; save();
+  const v = $("#xpVal"); if (v) v.textContent = S.xp;
+  const box = $("#xpBox"); if (box){ box.classList.remove("bump"); void box.offsetWidth; box.classList.add("bump"); }
+  if (el) floatXP(el, "+" + n);
+}
+function announce(t){ const l = $("#live"); if (l) l.textContent = t; }
+
+/* ---------- SCREENS & LINKS ----------
+   Hash routes (all optional): #/zone/1–5 opens a lesson, #/practice/1–5 starts a practice round,
+   #/final the Final Challenge, #/report the last report, #/hw the Homework Check. */
+const SCREENS = ["home", "zone", "quiz", "result", "final", "report"];
+let current = "home";
+function show(name){
+  SCREENS.forEach(s => { $("#scr-" + s).hidden = s !== name; });
+  const el = $("#scr-" + name); el.classList.remove("screen"); void el.offsetWidth; el.classList.add("screen");
+  current = name; window.scrollTo(0, 0);
+}
+function setHash(h){ try { if ((location.hash || "") !== h) history.replaceState(null, "", h || location.pathname + location.search); } catch (e) {} }
+function renderSoundBtn(){
+  const b = $("#soundBtn"); b.innerHTML = S.sound ? ICON_SOUND : ICON_MUTE;
+  b.setAttribute("aria-label", S.sound ? "Turn sound off" : "Turn sound on");
+}
+const starRow = (n, label) => '<div class="stars" role="img" aria-label="' + (label || n + " of 3 stars") + '">' + [1, 2, 3].map(k => STAR(n >= k)).join("") + '</div>';
+const finals = () => S.attempts.filter(a => a.kind === "final");
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const stars = ZONES.reduce((m, z) => m + ((S.zones[z.key] || {}).stars || 0), 0);
+  const fs = finals(), best = fs.reduce((m, a) => Math.max(m, a.pct), 0);
+  let h = '<div class="panel hero"><div><h1>Power <span>Lab</span></h1>'
+    + '<p>This week\'s math, Lesson 3-1 of enVision Mathematics (Volume 1): Understand and Represent Exponents. Turn repeated multiplication into powers, evaluate powers of whole numbers, fractions and decimals, use powers of 10, and solve power puzzles. Learn each zone, win its 6-question practice, then take the Final Challenge.</p></div>'
+    + '<div class="stats"><div class="stat"><b>' + stars + '/15</b><span>Stars</span></div><div class="stat"><b>' + S.xp + '</b><span>XP</span></div><div class="stat"><b>' + (fs.length ? best + "%" : "–") + '</b><span>Best final</span></div></div></div>';
+  const done = hwDone("book");
+  h += '<div class="panel banner' + (S.last && S.last.pct < 70 ? " alert" : "") + '"><p><b>Homework due Saturday 31/10:</b> H.W. 9.2, book pp. 127–128, in the math notebook with the steps. ' + (done ? "Marked done. Well done!" : "Not marked done yet.") + '</p><div class="row"><button class="btn btn-sm btn-go" data-act="tohw">Homework check</button>'
+    + (S.last ? '<button class="btn btn-sm" data-act="lastreport">Last report (' + S.last.pct + '%)</button>' : "") + '<a class="btn btn-sm" href="' + WEEK_PLAN + '">Week 9 plan</a></div></div>';
+  h += '<div class="sec-title"><h2>The Lab Map</h2><p>Five zones. Read the lesson, then win the practice.</p></div><div class="trail">';
+  ZONES.forEach((z, i) => {
+    const Z = S.zones[z.key] || {}, st = zoneStatus(i);
+    const sticker = st === "low" ? '<span class="sticker">Review me!</span>' : st === "good" ? '<span class="sticker ok">Mastered</span>' : "";
+    h += '<div class="land land-' + z.col + '">' + sticker + '<div class="badge">' + ICONS[z.icon] + '</div>'
+      + '<div><div class="land-num">Zone ' + (i + 1) + ' · ' + z.lesson.split(" · ")[0] + '</div><h3>' + z.name + '</h3><p class="sub">' + z.tag + '</p></div>'
+      + '<div class="land-foot">' + starRow(Z.stars || 0) + '<span class="progress-note">' + (Z.plays ? "Best: " + Z.best + "/6" : "Not started") + '</span>'
+      + '<div class="row"><button class="btn btn-sm" data-act="zone" data-z="' + i + '">Lesson</button><button class="btn btn-sm ' + (Z.stars ? "" : "btn-go") + '" data-act="practice" data-z="' + i + '">' + (Z.plays ? "Practice again" : "Practice") + '</button></div></div></div>';
+  });
+  h += '</div><div class="panel final"><div class="badge">' + ICONS.trophy + '</div><div><div class="land-num">The boss level</div><h3>Final Challenge</h3>'
+    + '<p>20 mixed questions from all five zones, no hints. At the end you get a skill-by-skill report and a study plan.</p></div>'
+    + '<div class="row"><button class="btn btn-ink" data-act="final">Start the Final Challenge</button>' + (S.last ? '<button class="btn btn-sm" data-act="lastreport">See my last report</button>' : "") + '</div></div>';
+  h += renderHW();
+  h += '<div class="row foot-links"><a class="btn btn-sm" href="../../index.html">← Dashboard</a><a class="btn btn-sm" href="' + WEEK_PLAN + '">Week 9 plan</a></div>';
+  h += '<p class="foot-note">Progress is saved on this device only. <button class="link-btn" data-act="reset">Reset progress</button></p>';
+  $("#scr-home").innerHTML = keep(h);
+}
+function zoneStatus(i){
+  const ks = Object.keys(SKILLS).filter(k => SKILLS[k].zone === i).map(k => S.skills[k]).filter(Boolean);
+  const n = ks.reduce((m, s) => m + s.n, 0), c = ks.reduce((m, s) => m + s.c, 0);
+  if (n < 4) return "";
+  const p = c / n; return p >= .85 ? "good" : p < .6 ? "low" : "";
+}
+function renderHW(){
+  const item = (key, title, due, body) => '<div class="hw-item ' + (hwDone(key) ? "done" : "") + '"><input type="checkbox" class="hw-check" id="hw-' + key + '" data-hw="' + key + '" ' + (hwDone(key) ? "checked" : "") + '>'
+    + '<div class="hw-body"><label for="hw-' + key + '"><h3>' + title + '</h3></label><span class="due">' + due + '</span>' + body + '</div></div>';
+  return '<div class="sec-title" id="hw"><h2>Homework Check</h2><p>Class 6.3 · Week 9 · tick it when it\'s done.</p></div><div class="panel hw">'
+    + item("book", "H.W. 9.2 · Book", "Due Sat 31/10/2026",
+      '<p>Lesson 3-1: Understand and Represent Exponents. <i>enVision Mathematics, Volume 1</i>: <b>p. 127</b> Questions 23, 25, 29 and <b>p. 128</b> Questions 32, 33, 38, 39. Solve them in the math notebook and show the steps.</p>'
+      + '<ul><li><b>Write as a power:</b> the factor that repeats is the base; count the factors for the exponent. 6 × 6 × 6 × 6 = ' + M("6^4") + '.</li>'
+      + '<li><b>Evaluate:</b> write the repeated multiplication first, then multiply step by step. ' + M("3^4") + ' = 3 × 3 × 3 × 3 = 81, not 3 × 4.</li>'
+      + '<li><b>Fractions and decimals:</b> the exponent goes to the numerator and the denominator, ' + M("(2/3)^2") + ' = ' + M("4/9") + '. Count decimal places: ' + M("0.3^2") + ' = 0.09.</li>'
+      + '<li><b>Powers of 10 and expanded form:</b> ' + M("10^n") + ' is 1 followed by n zeros. Thousands = ' + M("10^3") + ', hundreds = ' + M("10^2") + ', tens = ' + M("10^1") + ', ones = ' + M("10^0") + ' = 1.</li>'
+      + '<li><b>Word problems:</b> square area = ' + M("s^2") + ', cube volume = ' + M("s^3") + ', doubling n times = ' + M("2^n") + '. Write the units in your answer.</li>'
+      + '<li><b>Compare or find what\'s missing:</b> evaluate both powers before you compare; for ' + M("2^?") + ' = 64, multiply by 2 and count the factors.</li></ul>'
+      + '<p class="hw-note">We don\'t have the book here, so these tips cover the question types this lesson uses. Show your steps: write the repeated multiplication before every answer.</p>'
+      + '<div class="row">' + ZONES.map((z, i) => '<button class="btn btn-sm" data-act="practice" data-z="' + i + '">Warm up: ' + z.name + '</button>').join("") + '</div>'
+      + '<div class="row"><a class="btn btn-sm" href="' + WEEK_PLAN + '">Week 9 plan →</a></div>')
+    + '</div>';
+}
+
+/* ---------- ZONE LESSON ---------- */
+let ZI = 0;
+function openZone(i){ ZI = i; renderZone(); show("zone"); setHash("#/zone/" + (i + 1)); }
+function renderZone(){
+  const z = ZONES[ZI], sec = $("#scr-zone");
+  let h = '<div class="land-' + z.col + '"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button><span class="chip-land">Zone ' + (ZI + 1) + '</span><span class="spacer"></span><button class="btn btn-sm btn-go" data-act="practice" data-z="' + ZI + '">Skip to practice →</button></div>'
+    + '<div class="panel intro"><div class="land-num">' + z.lesson + '</div><h2>' + z.name + '</h2><p>' + z.intro + '</p></div><div class="lcards">';
+  LESSONS[ZI].forEach((c, k) => {
+    let text = "";
+    if (c.b) text += '<p>' + c.b + '</p>';
+    if (c.table) text += '<div class="tscroll"><table class="rtable"><thead><tr>' + c.table[0].map(t => '<th scope="col">' + t + '</th>').join("") + '</tr></thead><tbody>' + c.table.slice(1).map(r => '<tr>' + r.map(t => '<td' + (strip(t).length <= 14 ? ' class="nw"' : "") + '>' + t + '</td>').join("") + '</tr>').join("") + '</tbody></table></div>';
+    if (c.ex) text += '<div class="ex"><h4>' + c.ex.h + '</h4><p class="ex-q">' + c.ex.q + '</p><ol>' + c.ex.steps.map(s => '<li>' + s + '</li>').join("") + '</ol></div>';
+    if (c.note) text += '<p class="note">' + c.note + '</p>';
+    h += '<article class="panel lcard"><div class="lcard-num">Card ' + (k + 1) + ' of ' + LESSONS[ZI].length + '</div><h3>' + c.t + '</h3>'
+      + '<div class="lgrid ' + (c.viz ? "" : "solo") + '"><div class="ltext">' + text + '</div>' + (c.viz ? c.viz() : "") + '</div></article>';
+  });
+  h += '</div><div class="lesson-nav">' + (ZI ? '<button class="btn" data-act="zone" data-z="' + (ZI - 1) + '">← ' + ZONES[ZI - 1].name + '</button>' : '<button class="btn" data-act="home">← Map</button>')
+    + '<button class="btn btn-go" data-act="practice" data-z="' + ZI + '">Start practice: 6 questions →</button></div></div>';
+  sec.innerHTML = keep(h);
+}
+
+/* ---------- RUNNING A ROUND ---------- */
+let R = null;
+function startPractice(i){
+  R = {mode:"practice", zi:i, qs:shuffle(ZONES[i].set.slice()).map(gen), i:0, res:[]};
+  show("quiz"); renderQ(); setHash("#/practice/" + (i + 1));
+}
+function startFinal(){
+  const early = shuffle(FINAL_SET.slice(0, 4).flat()), late = shuffle(FINAL_SET[4].slice());
+  R = {mode:"final", qs:early.concat(late).map(gen), i:0, res:[]};
+  show("quiz"); renderQ(); setHash("#/final");
+}
+function qCol(q){ return R.mode === "practice" ? ZONES[R.zi].col : ZONES[SKILLS[q.skill].zone].col; }
+const KICK = {mc:"Choose one", num:"Type the answer", power:"Type the base and the exponent"};
+const INPUT_ATTRS = ' autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="decimal"';
+
+function renderQ(){
+  const q = R.qs[R.i], n = R.qs.length, sec = $("#scr-quiz");
+  R.locked = false; R.hinted = false; R.lastInput = null;
+  const title = R.mode === "practice" ? "Zone " + (R.zi + 1) + " · " + ZONES[R.zi].name : "Final Challenge";
+  let h = '<div class="land-' + qCol(q) + '"><div class="test-top"><div class="row"><span class="round-name">' + title + '</span><span class="counter">' + (R.i + 1) + ' / ' + n + '</span></div>'
+    + '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + R.i + '" aria-label="Questions answered"><i style="width:' + pctOf(R.i, n) + '%"></i></div></div>'
+    + '<article class="panel q-card"><p class="q-kicker">' + (q.kick || SKILLS[q.skill].name) + ' · ' + KICK[q.kind] + '</p><p class="q-text" id="qtext" tabindex="-1">' + q.text + '</p>';
+  if (q.kind === "mc"){
+    const big = q.layout === "four" || q.layout === "three";
+    h += '<div class="opts ' + (q.layout === "list" ? "" : q.layout) + '" role="group" aria-labelledby="qtext">' + q.opts.map((o, i) => big
+      ? '<button class="opt big' + (q.layout === "three" ? " sym" : "") + '" data-act="mc" data-i="' + i + '" aria-label="' + esc(optLabel(o)) + '">' + o + '</button>'
+      : '<button class="opt" data-act="mc" data-i="' + i + '"><span class="k" aria-hidden="true">' + "ABCDE"[i] + '</span><span>' + o + '</span></button>').join("") + '</div>';
+  } else if (q.kind === "power"){
+    h += '<div class="ans-row"><div class="pow-in"><label class="pow-b"><input class="type-in base" id="inB" aria-label="Base"' + INPUT_ATTRS + ' enterkeyhint="next"><span class="lbl">base</span></label>'
+      + '<label class="pow-e"><span class="lbl">exponent</span><input class="type-in exp" id="inE" aria-label="Exponent"' + INPUT_ATTRS + ' enterkeyhint="done"></label></div></div>' + keysRow();
+  } else {
+    h += '<div class="ans-row"><input class="type-in num" id="inN" aria-label="Your answer' + (q.unit ? " in " + esc(strip(q.unit)) : "") + '"' + INPUT_ATTRS + ' enterkeyhint="done">' + (q.unit ? '<span class="unit">' + q.unit + '</span>' : "") + '</div>' + keysRow();
+  }
+  h += '<p class="input-msg" id="imsg" aria-live="polite"></p>';
+  if (q.kind !== "mc") h += '<div class="actions">' + (R.mode === "practice" ? '<button class="btn btn-sm" data-act="hint" id="hintBtn">Hint</button>' : '<span class="your">No hints in the Final Challenge.</span>')
+    + '<button class="btn btn-go" data-act="check" id="checkBtn">Check</button></div>';
+  else if (R.mode === "practice") h += '<div class="actions"><button class="btn btn-sm" data-act="hint" id="hintBtn">Hint</button></div>';
+  h += '<div id="hintBox"></div><div id="fbBox"></div></article></div>';
+  sec.innerHTML = keep(h);
+  const first = $("#inB") || $("#inN");
+  $$(".type-in", sec).forEach(inp => inp.addEventListener("focus", () => { R.lastInput = inp; }));
+  if (first) R.lastInput = first;
+  /* desktop: straight into the answer box; otherwise put focus on the question so the keyboard and screen readers start there */
+  if (first && finePointer) first.focus({preventScroll:true});
+  else $("#qtext").focus({preventScroll:true});
+}
+/* spoken names for the big comparison buttons */
+const optLabel = o => ({"&lt;":"less than", "&gt;":"greater than", "=":"equal to"}[o] || strip(o));
+function keysRow(){
+  return '<div class="keys" role="group" aria-label="Extra keys"><span>Keys:</span>' + [["/", "/", "fraction slash"], [".", ".", "decimal point"], [",", ",", "comma"]]
+    .map(k => '<button class="key" data-act="key" data-k="' + k[1] + '" aria-label="Type ' + k[2] + '">' + k[0] + '</button>').join("") + '</div>';
+}
+
+function showHint(){
+  const q = R.qs[R.i]; if (R.locked || R.hinted) return;
+  R.hinted = true;
+  $("#hintBox").innerHTML = keep('<div class="hint-box"><b class="tag">Hint</b>' + q.hint + '</div>');
+  const b = $("#hintBtn"); if (b) b.disabled = true;
+  announce("Hint: " + strip(q.hint));
+}
+
+function check(){
+  const q = R.qs[R.i]; if (R.locked) return;
+  const msg = $("#imsg");
+  if (q.kind === "power"){
+    const ib = $("#inB"), ie = $("#inE"), gb = parseNum(ib.value), ge = parseNum(ie.value);
+    if (isNaN(gb) || isNaN(ge)){ msg.textContent = "Type a number in both boxes: the base and the exponent."; (isNaN(gb) ? ib : ie).focus(); return; }
+    if (!isWhole(ge) || ge < 0){ msg.textContent = "The exponent is a whole number, like 4."; ie.focus(); return; }
+    const g = {b:gb, e:Math.round(ge)}, okb = near(g.b, q.target.b), oke = g.e === q.target.e, ok = okb && oke;
+    ib.classList.add(okb ? "ok" : "no"); ie.classList.add(oke ? "ok" : "no");
+    const bt = ib.value.trim().replace(/\s+/g, " ");
+    finish(ok, (bt.includes("/") ? "(" + bt + ")" : bt) + supT(g.e), ok ? "" : (q.diag ? q.diag(g) : ""));
+  } else if (q.kind === "num"){
+    const inp = $("#inN"), raw = inp.value, g = parseNum(raw);
+    if (isNaN(g)){ msg.textContent = "Type a number, like 81, 4/9, 0.09 or 1,000,000."; inp.focus(); return; }
+    if (q.dec && raw.includes(",") && !near(g, q.num) && near(parseNum(raw.replace(/,/g, ".")), q.num)){ msg.textContent = "Use a decimal point for decimals: type " + raw.trim().replace(/,/g, ".") + "."; inp.focus(); return; }
+    if (q.frac && /[.,]/.test(raw) && !near(g, q.num) && Math.abs(g - q.num) < .01){ msg.textContent = "So close! Type it as an exact fraction (top/bottom), not a rounded decimal."; inp.focus(); return; }
+    const ok = near(g, q.num);
+    inp.classList.add(ok ? "ok" : "no");
+    finish(ok, raw.trim().replace(/\s+/g, " ") + (q.unit ? " " + strip(q.unit) : ""), ok ? "" : (q.diag ? q.diag(g) : ""));
+  }
+}
+function chooseMC(i){
+  const q = R.qs[R.i]; if (R.locked) return;
+  const ok = i === q.ans;
+  $$("#scr-quiz .opt").forEach((b, k) => { b.disabled = true; if (k === q.ans) b.classList.add("right"); else if (k === i) b.classList.add("wrong"); else b.classList.add("dim"); });
+  finish(ok, strip(q.opts[i]), ok ? "" : ((q.optTips && q.optTips[i]) || ""));
+}
+const YES = ["NAILED IT!", "BOOM!", "SPOT ON!", "YES!", "POWERFUL!"];
+function finish(ok, given, extra){
+  const q = R.qs[R.i];
+  R.locked = true;
+  /* no tip for this exact slip? fall back to the skill's own tip, so every wrong answer gets one */
+  if (!ok && !extra) extra = M(SKILLS[q.skill].tip);
+  R.res.push({ok, hinted:R.hinted, given, skill:q.skill, text:strip(q.text), correct:q.ansText, why:q.why});
+  const sk = S.skills[q.skill] || (S.skills[q.skill] = {c:0, n:0});
+  sk.n++; if (ok) sk.c++;
+  save();
+  $$("#scr-quiz .type-in").forEach(i => { i.readOnly = true; });
+  $$("#scr-quiz .key").forEach(b => { b.disabled = true; });
+  const cb = $("#checkBtn"); if (cb) cb.disabled = true;
+  const hb = $("#hintBtn"); if (hb) hb.disabled = true;
+  $("#imsg").textContent = "";
+  const burst = ok ? (R.hinted ? "GOT IT!" : pick(YES)) : "NOT QUITE";
+  const body = (ok ? "" : '<p class="your">Your answer: <b>' + esc(given) + '</b> · Correct: <b>' + esc(q.ansText) + '</b></p>')
+    + '<p>' + q.why + '</p>' + (extra ? '<p class="tip"><b class="tag">Tip</b>' + extra + '</p>' : "");
+  const last = R.i === R.qs.length - 1;
+  $("#fbBox").innerHTML = keep('<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + burst + '</span><div class="fb-body">' + body + '</div>'
+    + '<div class="row"><button class="btn btn-ink" data-act="next" id="nextBtn">' + (last ? "See results →" : "Next →") + '</button></div></div>');
+  if (ok){ Sound.good(); addXP(R.hinted ? 5 : 10, $("#nextBtn")); }
+  else Sound.bad();
+  announce((ok ? "Correct. " : "Not quite. The answer is " + q.ansText + ". ") + strip(q.why) + (extra ? " Tip: " + strip(extra) : ""));
+  $("#nextBtn").focus({preventScroll:true});
+  try { $("#fbBox").scrollIntoView({behavior:reduceMotion ? "auto" : "smooth", block:"nearest"}); } catch (e) {}
+}
+function next(){
+  if (!R) return;
+  if (R.i < R.qs.length - 1){ R.i++; renderQ(); window.scrollTo(0, 0); return; }
+  if (R.mode === "practice") zoneResult(); else finalReport();
+}
+
+/* ---------- PRACTICE RESULT ---------- */
+function zoneResult(){
+  const z = ZONES[R.zi], res = R.res, n = res.length;
+  const right = res.filter(r => r.ok).length, hinted = res.filter(r => r.ok && r.hinted).length;
+  const pts = right - hinted / 2, stars = pts >= 6 ? 3 : pts >= 4 ? 2 : pts >= 2 ? 1 : 0;
+  const Z = S.zones[z.key] || {};
+  S.zones[z.key] = {stars:Math.max(Z.stars || 0, stars), best:Math.max(Z.best || 0, right), plays:(Z.plays || 0) + 1};
+  S.attempts.push({kind:"practice", zone:R.zi, t:Date.now(), pct:pctOf(right, n)}); S.attempts = S.attempts.slice(-60);
+  save();
+  const big = stars === 3 ? "ZONE CLEAR!" : stars === 2 ? "GREAT WORK!" : stars === 1 ? "GOOD START!" : "KEEP GOING!";
+  const nextZ = R.zi < ZONES.length - 1 ? '<button class="btn btn-go" data-act="zone" data-z="' + (R.zi + 1) + '">Next: ' + ZONES[R.zi + 1].name + ' →</button>' : '<button class="btn btn-go" data-act="final">Final Challenge →</button>';
+  let h = '<div class="land-' + z.col + '"><div class="panel splash"><div class="land-num">Zone ' + (R.zi + 1) + ' · ' + z.name + '</div><div class="big">' + big + '</div>'
+    + '<div class="result-stars" role="img" aria-label="' + stars + ' of 3 stars">' + [1, 2, 3].map(k => '<span style="animation-delay:' + (k * .18) + 's">' + STAR(stars >= k) + '</span>').join("") + '</div>'
+    + '<p><b>' + right + ' of ' + n + '</b> correct' + (hinted ? " (" + hinted + " with a hint)" : "") + '. ' + (stars === 3 ? "Perfect round, no hints!" : "3 stars = all 6 right without hints.") + '</p>'
+    + '<div class="row" style="justify-content:center"><button class="btn" data-act="practice" data-z="' + R.zi + '">Practice again</button>' + nextZ + '<button class="btn btn-sm" data-act="home">Map</button></div></div>';
+  const miss = res.filter(r => !r.ok);
+  if (miss.length) h += '<div class="sec-title"><h2>Fix these</h2><p>Read why, then try a new round. The numbers change every time.</p></div><div class="miss-list">'
+    + miss.map(r => '<div class="panel miss"><p class="q">' + esc(r.text) + '</p><p class="a">You: <b>' + esc(r.given) + '</b> · Answer: <b>' + esc(r.correct) + '</b></p><p class="w">' + r.why + '</p></div>').join("") + '</div>';
+  else h += '<p class="foot-note">No mistakes this round. Want a different set of numbers? Practice again.</p>';
+  $("#scr-result").innerHTML = keep(h + '</div>');
+  show("result");
+  if (stars >= 2){ Sound.win(); FX.party(); }
+}
+
+/* ---------- FINAL CHALLENGE ---------- */
+function renderFinalIntro(){
+  $("#scr-final").innerHTML = '<div class="land-c1"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button></div><div class="panel test-intro"><h2>Final Challenge</h2>'
+    + '<p>20 questions from every zone, with new numbers each time. There are no hints, but every answer comes with an explanation. At the end you\'ll see which skills are strong and what to practice before the homework.</p><ol class="rounds">'
+    + ZONES.map((z, i) => '<li><span><b>' + z.name + '</b><br><small>' + z.tag + '</small></span><small>' + FINAL_SET[i].length + ' Qs</small></li>').join("")
+    + '</ol><div class="row"><button class="btn btn-go" data-act="startfinal">Start →</button></div></div></div>';
+  show("final"); setHash("#/final");
+}
+function finalReport(){
+  const res = R.res, n = res.length, right = res.filter(r => r.ok).length, pct = pctOf(right, n);
+  const skills = {};
+  res.forEach(r => { const s = skills[r.skill] || (skills[r.skill] = [0, 0]); s[1]++; if (r.ok) s[0]++; });
+  const rep = {t:Date.now(), pct, right, n, skills, items:res.map(r => ({ok:r.ok, skill:r.skill, text:r.text, given:r.given, correct:r.correct, why:r.why}))};
+  S.last = rep;
+  S.attempts.push({kind:"final", t:rep.t, pct}); S.attempts = S.attempts.slice(-60);
+  addXP(20);
+  save();
+  renderReport(rep);
+  show("report"); setHash("#/report");
+  if (pct >= 75){ Sound.win(); FX.party(); }
+}
+function renderReport(rep){
+  const C = 2 * Math.PI * 64, rank = rep.pct >= 90 ? "Power Master" : rep.pct >= 75 ? "Exponent Expert" : rep.pct >= 50 ? "Lab Assistant" : "Scientist in Training";
+  const low = Object.keys(rep.skills).some(k => rep.skills[k][0] / rep.skills[k][1] < .5);
+  const ready = rep.pct >= 80 && !low ? "You're ready for H.W. 9.2. Open the notebook and show your steps."
+    : rep.pct >= 60 ? "Almost ready. Practice the skills marked below first, then do the homework." : "Practice the zones in the study plan below before the homework, then take the challenge again.";
+  let h = '<div class="land-c1"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button><span class="your">' + fmtDate(rep.t) + '</span></div>'
+    + '<div class="panel report-head"><div class="ring"><svg viewBox="0 0 156 156" aria-hidden="true"><circle cx="78" cy="78" r="64" fill="none" stroke="#E4F2FF" stroke-width="16"/><circle cx="78" cy="78" r="64" fill="none" stroke="' + (rep.pct >= 75 ? "#12A15E" : rep.pct >= 50 ? "#F39200" : "#E23D45") + '" stroke-width="16" stroke-linecap="round" stroke-dasharray="' + (C * rep.pct / 100).toFixed(2) + ' ' + C.toFixed(2) + '"/></svg><div class="num">' + rep.pct + '%<small>' + rep.right + ' / ' + rep.n + '</small></div></div>'
+    + '<div><div class="land-num">Final Challenge result</div><div class="rank">' + rank + '</div><p>' + ready + '</p><div class="row" style="margin-top:12px"><button class="btn btn-go" data-act="startfinal">Try again</button><button class="btn btn-sm" data-act="tohw">Homework check</button></div></div></div>';
+  h += '<div class="sec-title"><h2>Skills</h2><p>Green 80%+ · Orange 50–79% · Red below 50%.</p></div><div class="panel bars">';
+  const order = SKILL_ORDER.filter(k => rep.skills[k]);
+  order.forEach(k => {
+    const [c, t] = rep.skills[k], p = pctOf(c, t), st = p >= 80 ? "good" : p >= 50 ? "mid" : "low";
+    h += '<div class="bar-row land-' + ZONES[SKILLS[k].zone].col + '"><div class="bar-label">' + SKILLS[k].name + '<small>' + ZONES[SKILLS[k].zone].name + ' · ' + c + '/' + t + '</small></div>'
+      + '<div class="bar" role="img" aria-label="' + p + ' percent"><i class="' + (p ? "" : "zero") + '" data-w="' + p + '"></i></div><div class="bar-end"><span class="pct">' + p + '%</span><span class="status ' + st + '">' + (st === "good" ? "Strong" : st === "mid" ? "Almost" : "Practice") + '</span></div></div>';
+  });
+  h += '</div>';
+  const weak = order.map(k => ({k, p:rep.skills[k][0] / rep.skills[k][1]})).filter(x => x.p < .8).sort((a, b) => a.p - b.p);
+  h += '<div class="sec-title"><h2>Study Plan</h2><p>' + (weak.length ? "Do these in order, weakest first. Each one takes about 5 minutes." : "No weak spots. Keep it fresh before the homework.") + '</p></div>';
+  if (weak.length){
+    h += '<ol class="plan">' + weak.map(x => {
+      const zi = SKILLS[x.k].zone;
+      return '<li><b>' + SKILLS[x.k].name + '</b> <span class="your">(' + Math.round(x.p * 100) + '%) · Zone ' + (zi + 1) + ': ' + ZONES[zi].name + '</span><p>' + M(SKILLS[x.k].tip) + '</p><div class="row"><button class="btn btn-sm" data-act="zone" data-z="' + zi + '">Re-read ' + ZONES[zi].name + '</button><button class="btn btn-sm btn-go" data-act="practice" data-z="' + zi + '">Practice ' + ZONES[zi].name + '</button></div></li>';
+    }).join("") + '</ol>';
+  } else h += '<ol class="plan"><li><b>Do the homework</b><p>H.W. 9.2 in the math notebook: p. 127 Questions 23, 25, 29 and p. 128 Questions 32, 33, 38, 39. Show the steps.</p><div class="row"><button class="btn btn-sm btn-go" data-act="tohw">Homework check</button></div></li></ol>';
+  const fs = finals().slice(-8);
+  if (fs.length > 1) h += '<div class="sec-title"><h2>Progress</h2><p>Your last ' + fs.length + ' Final Challenges.</p></div><div class="panel history">'
+    + fs.map(a => '<div class="hcol"><b>' + a.pct + '%</b><div class="hbar" style="height:' + Math.max(6, a.pct * 1.1) + 'px"></div><span>' + fmtDate(a.t).split(",")[0] + '</span></div>').join("") + '</div>';
+  h += '<div class="sec-title"><h2>Every Answer</h2></div><div class="panel answers"><details><summary>Show all ' + rep.n + ' questions with explanations</summary>'
+    + rep.items.map((r, i) => '<div class="ans"><span class="mark ' + (r.ok ? "ok" : "no") + '" aria-label="' + (r.ok ? "correct" : "wrong") + '">' + (r.ok ? "✓" : "✗") + '</span><div><b>' + (i + 1) + '. ' + esc(r.text) + '</b><br><small>You: ' + esc(r.given) + ' · Answer: ' + esc(r.correct) + '</small><p>' + r.why + '</p></div></div>').join("")
+    + '</details></div></div>';
+  $("#scr-report").innerHTML = keep(h);
+  requestAnimationFrame(() => requestAnimationFrame(() => $$("#scr-report .bar i").forEach(i => { i.style.width = i.dataset.w + "%"; })));
+}
+
+/* ---------- EVENTS ---------- */
+function goHome(toHw){
+  renderHome(); show("home"); setHash(toHw ? "#/hw" : "");
+  if (toHw){ const t = $("#hw"); if (t) t.scrollIntoView({behavior:reduceMotion ? "auto" : "smooth"}); }
+}
+const ACT = {
+  home(){ goHome(false); },
+  zone(b){ openZone(+b.dataset.z); },
+  practice(b){ startPractice(+b.dataset.z); },
+  final(){ renderFinalIntro(); },
+  startfinal(){ startFinal(); },
+  mc(b){ chooseMC(+b.dataset.i); },
+  check(){ check(); },
+  hint(){ showHint(); },
+  next(){ next(); },
+  key(b){
+    const inp = R && R.lastInput; if (!inp || inp.readOnly) return;
+    const k = b.dataset.k, s = inp.selectionStart == null ? inp.value.length : inp.selectionStart, e = inp.selectionEnd == null ? s : inp.selectionEnd;
+    inp.value = inp.value.slice(0, s) + k + inp.value.slice(e);
+    inp.focus({preventScroll:true}); try { inp.setSelectionRange(s + k.length, s + k.length); } catch (err) {}
+  },
+  sound(){ S.sound = !S.sound; save(); renderSoundBtn(); if (S.sound) Sound.tap(); },
+  tohw(){ goHome(true); },
+  lastreport(){ if (S.last){ renderReport(S.last); show("report"); setHash("#/report"); } },
+  reset(){ if (confirm("Reset all Power Lab progress on this device?")){ const snd = S.sound; S = fresh(); S.sound = snd; save(); $("#xpVal").textContent = 0; renderHome(); } }
+};
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b || b.disabled) return;
+  const f = ACT[b.dataset.act]; if (f) f(b, e);
+});
+document.addEventListener("keydown", e => {
+  if (e.key !== "Enter" || current !== "quiz" || !R) return;
+  const t = e.target;
+  if (t.id === "inB" && !R.locked){ e.preventDefault(); $("#inE").focus(); return; }
+  if ((t.id === "inE" || t.id === "inN") && !R.locked){ e.preventDefault(); check(); }
+});
+document.addEventListener("mousedown", e => { if (e.target.closest(".key")) e.preventDefault(); });
+document.addEventListener("change", e => {
+  const c = e.target.closest("[data-hw]"); if (!c) return;
+  setHwDone(c.dataset.hw, c.checked);
+  c.closest(".hw-item").classList.toggle("done", c.checked);
+  if (c.checked){ Sound.win(); FX.burstEl(c, 30); }
+});
+function route(){
+  const [a, b] = location.hash.replace(/^#\/?/, "").split("/"), z = parseInt(b, 10) - 1;
+  if (a === "zone" && ZONES[z]) openZone(z);
+  else if (a === "practice" && ZONES[z]) startPractice(z);
+  else if (a === "final") renderFinalIntro();
+  else if (a === "report" && S.last){ renderReport(S.last); show("report"); }
+  else goHome(a === "hw");
+}
+addEventListener("hashchange", route);
+
+/* ---------- PRINT SHEET (A4; only visible when printing) ---------- */
+/* fixed questions, so the printed answer key always matches */
+const PS_QS = [
+  {q:"Write 8 × 8 × 8 × 8 × 8 as a power. How do you read it?", line:true, line2:true, key:M("8^5") + ", “8 to the fifth power”"},
+  {q:"Expand " + M("6^4") + ". Name its base and its exponent.", line:true, line2:true, key:"6 × 6 × 6 × 6; base 6, exponent 4"},
+  {q:"Evaluate.", blanks:["a) " + M("2^6"), "b) " + M("3^4"), "c) " + M("5^3"), "d) " + M("1^9"), "e) " + M("7^1")], key:"a) 64 b) 81 c) 125 d) 1 e) 7"},
+  {q:"Sami says " + M("4^3") + " = 12. What mistake did he make? What is " + M("4^3") + "?", line:true, line2:true, key:"He multiplied 4 × 3. " + M("4^3") + " = 4 × 4 × 4 = 64"},
+  {q:"Evaluate.", blanks:["a) " + M("(2/5)^3"), "b) " + M("(1/2)^4")], key:"a) " + M("8/125") + " b) " + M("1/16")},
+  {q:"Evaluate.", blanks:["a) " + M("0.4^2"), "b) " + M("1.1^2"), "c) " + M("0.2^3")], key:"a) 0.16 b) 1.21 c) 0.008"},
+  {q:"Fill in.", blanks:["a) " + M("10^5") + " =", "b) 3 × " + M("10^4") + " =", "c) 1,000,000 = 10" + sup("?") + ", ? ="], wide:true, key:"a) 100,000 b) 30,000 c) 6, so 1,000,000 = " + M("10^6")},
+  {q:"a) Write 7,208 in expanded form using powers of 10. b) Write (6 × " + M("10^4") + ") + (5 × " + M("10^2") + ") + (3 × " + M("10^0") + ") in standard form.", line:true, line2:true,
+   key:"a) (7 × " + M("10^3") + ") + (2 × " + M("10^2") + ") + (8 × " + M("10^0") + "); writing (0 × " + M("10^1") + ") too is also fine b) 60,503"},
+  {q:"Compare with &lt;, &gt; or =, then find the missing numbers.", blanks:["a) " + M("3^4") + ' <span class="slot"></span> ' + M("4^3"), "b) " + M("2^4") + ' <span class="slot"></span> ' + M("4^2"), "c) " + M("2^?") + " = 128, ? =", "d) ?" + sup(3) + " = 125, ? ="], wide:true,
+   key:"a) &gt; (81 &gt; 64) b) = (16 = 16) c) 7 d) 5"},
+  {q:"A cube-shaped box has 6 cm edges. a) Write its volume as a power. b) Find the volume. c) A sheet of paper is folded in half 5 times. How many layers is that?", line:true, line2:true,
+   key:"a) " + M("6^3") + " cm" + sup(3) + " b) 216 cm" + sup(3) + " c) " + M("2^5") + " = 32 layers"}
+];
+function renderPrintSheet(){
+  const el = $("#printSheet"); if (!el) return;
+  const head = (title, sub) => '<header class="ps-head"><div><h1>' + title + '</h1><p class="ps-sub">' + sub + '</p></div><p class="ps-meta">Class 6.3 · Week 9 (25–29 Oct 2026)</p></header>';
+  const check = body => '<div class="ps-check"><span class="box"></span><div>' + body + '</div></div>';
+  const box = (title, body) => '<div class="ps-box"><h3>' + title + '</h3>' + body + '</div>';
+  const rules = [
+    ["The exponent counts the factors", M("5^3") + " = 5 × 5 × 5 = 125 (not 5 × 3 = 15)"],
+    [M("n^1") + " = n &nbsp;·&nbsp; " + M("1^n") + " = 1 &nbsp;·&nbsp; " + M("0^n") + " = 0 (n ≥ 1)", M("9^1") + " = 9 &nbsp;·&nbsp; " + M("1^6") + " = 1 &nbsp;·&nbsp; " + M("0^4") + " = 0"],
+    ["Fractions: raise the numerator and the denominator", M("(2/3)^2") + " = " + fr("2 × 2", "3 × 3") + " = " + M("4/9")],
+    ["Decimals: decimal places × exponent", M("0.3^2") + " = 0.09 &nbsp;·&nbsp; " + M("1.2^2") + " = 1.44 &nbsp;·&nbsp; " + M("0.2^3") + " = 0.008"],
+    [M("10^n") + " is 1 followed by n zeros", M("10^6") + " = 1,000,000 &nbsp;·&nbsp; 7 × " + M("10^5") + " = 700,000"],
+    [M("10^0") + " = 1 (any nonzero number to the power 0 is 1)", "the ones place: 1 = 1 × 1 = " + M("10^0")],
+    ["Square area = " + M("s^2") + " · cube volume = " + M("s^3"), "side 6 cm: 36 cm" + sup(2) + " &nbsp;·&nbsp; edge 4 cm: 64 cm" + sup(3)]
+  ];
+  el.innerHTML = keep(head("Exponents: Study Sheet", "enVision Mathematics, Volume 1 · Lesson 3-1: Understand and Represent Exponents (pp. 123–128)")
+    + '<div class="ps-row"><figure class="ps-fig">' + vizAnatomy() + '<figcaption>' + M("3^4") + " = 3 × 3 × 3 × 3 = 81. Read it “3 to the fourth power”.</figcaption></figure>"
+    + box("Words to know", '<ul><li><b>Power:</b> a number written with a base and an exponent, like ' + M("3^4") + '.</li>'
+      + '<li><b>Base:</b> the factor that repeats (3). <b>Exponent:</b> how many times the base is used as a factor (4).</li>'
+      + '<li><b>Squared</b> means exponent 2 (' + M("7^2") + ' “7 squared”). <b>Cubed</b> means exponent 3 (' + M("2^3") + ' “2 cubed”). ' + M("6^4") + ' is “6 to the fourth power”.</li>'
+      + '<li><b>Evaluate:</b> find the value: ' + M("2^5") + ' = 32.</li>'
+      + '<li><b>Expanded form:</b> a number as a sum of its place values: 5,341 = (5 × ' + M("10^3") + ') + (3 × ' + M("10^2") + ') + (4 × ' + M("10^1") + ') + (1 × ' + M("10^0") + ').</li></ul>') + '</div>'
+    + '<h2>Key rules</h2><table class="ps-table"><tr><th>Rule</th><th>Example</th></tr>' + rules.map(r => '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td></tr>').join("") + '</table>'
+    + '<h2>One worked example per zone</h2><div class="ps-two">'
+    + box("1 · Factor Factory: write as a power", '<p>7 × 7 × 7 × 7 × 7: the factor 7 repeats 5 times, so it is <b>' + M("7^5") + '</b>, “7 to the fifth power”. Backwards: ' + M("9^3") + ' = 9 × 9 × 9.</p>')
+    + box("2 · Power Plant: evaluate", '<p>' + M("3^4") + ' = 3 × 3 × 3 × 3. Step by step: 3 × 3 = 9, 9 × 3 = 27, 27 × 3 = <b>81</b>.</p>')
+    + box("3 · Fraction Falls: fractions and decimals", '<p>' + M("(3/4)^3") + ' = ' + fr("3 × 3 × 3", "4 × 4 × 4") + ' = <b>' + M("27/64") + '</b>. ' + M("1.2^2") + ': 12 × 12 = 144, with 1 + 1 = 2 decimal places: <b>1.44</b>.</p>')
+    + box("4 · Ten Tower: powers of 10", '<p>4 × ' + M("10^3") + ' = <b>4,000</b>. Standard form of (8 × ' + M("10^4") + ') + (2 × ' + M("10^2") + ') + (9 × ' + M("10^0") + ') = 80,000 + 200 + 9 = <b>80,209</b>.</p>')
+    + box("5 · Puzzle Peak: compare and solve", '<p>' + M("2^5") + ' = 32 and ' + M("5^2") + ' = 25, so <b>' + M("2^5") + ' &gt; ' + M("5^2") + '</b>. ' + M("2^?") + ' = 64: 2, 4, 8, 16, 32, 64 is six 2s, so <b>? = 6</b>. A cube with 4 cm edges: ' + M("4^3") + ' = <b>64 cm' + sup(3) + '</b>.</p>')
+    + box("Common traps", '<ul><li>' + M("3^4") + ' is not 3 × 4: it is 81, not 12.</li><li>' + M("(2/3)^2") + ' is ' + M("4/9") + ', not ' + M("4/3") + '.</li><li>' + M("0.3^2") + ' is 0.09, not 0.9.</li><li>' + M("10^5") + ' has 5 zeros: 100,000.</li><li>' + M("2^5") + ' ≠ ' + M("5^2") + ': 32 vs 25.</li></ul>')
+    + '</div>'
+    + '<h2>Homework · due Saturday 31/10/2026</h2>'
+    + check('<b>H.W. 9.2 · enVision Mathematics, Volume 1</b>: page 127, questions 23, 25, 29 and page 128, questions 32, 33, 38, 39. Solve them in the math notebook and show the steps.')
+    + '<section class="ps-page2">' + head("Exponents: Practice", "Show your work. The answer key is at the bottom: cover it while you practice.")
+    + '<ol class="ps-qs">' + PS_QS.map(q => '<li>' + q.q
+      + (q.blanks ? '<span class="ps-fills">' + q.blanks.map(b => '<span class="ps-fill">' + b + '<span class="ps-blank' + (q.wide ? " w" : "") + '"></span></span>').join(" ") + '</span>' : "")
+      + (q.line ? '<span class="ps-line"></span>' : "") + (q.line2 ? '<span class="ps-line"></span>' : "") + '</li>').join("") + '</ol>'
+    + '<div class="ps-key"><h3>Answer key</h3><ol>' + PS_QS.map(q => '<li>' + q.key + '</li>').join("") + '</ol></div></section>');
+}
+
+/* ---------- START ---------- */
+$("#xpVal").textContent = S.xp;
+renderSoundBtn();
+route();
+renderPrintSheet();
+</script>
+</body></html>

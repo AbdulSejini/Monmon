@@ -1,11 +1,13 @@
 name: Sync EduPage
 
 # Refreshes index.html from the school's public EduPage homework/tests list
-# twice a day (06:23 and 16:23 Jeddah time) and commits only when it changed.
+# every hour from 05:41 to 23:41 Jeddah time and commits only when something
+# changed (plus one "checked" stamp a day). GitHub often starts scheduled runs
+# late or skips some, so the hourly schedule keeps the site close to EduPage.
 # GitHub Pages builds the site from this branch, so a sync commit goes live.
 on:
   schedule:
-    - cron: "23 3,13 * * *"
+    - cron: "41 2-20 * * *"
   workflow_dispatch:
 
 permissions:
@@ -19,11 +21,14 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
+      # a short outage of the school's server only fails the run once the
+      # list has not been read for a day; the next hourly run tries again
       - name: Fetch homework and tests for class 6.3
-        run: python3 tools/edupage_sync.py
+        id: fetch
+        run: python3 tools/edupage_sync.py --grace 24
       - name: Commit if changed
         id: commit
         run: |
@@ -31,10 +36,17 @@ jobs:
             echo "No changes"
             exit 0
           fi
+          if [ "${{ steps.fetch.outputs.changed }}" = "true" ]; then
+            msg="Sync homework and tests from EduPage"
+          else
+            msg="EduPage checked: no changes"
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Sync homework and tests from EduPage"
+          git commit -m "$msg"
+          # a merge to this branch during the run would make a plain push fail
+          git pull --rebase --quiet
           git push
           echo "pushed=true" >> "$GITHUB_OUTPUT"
       # the bot's push should start a Pages build by itself; ask for one in case it doesn't
