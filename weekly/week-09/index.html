@@ -226,10 +226,10 @@ details.helper[open] summary::before{content:"−"}
   .ps-head h1{font-size:17pt}
   .ps-head p{font-size:9pt;font-weight:700;color:#333}
   .ps-value{margin-top:3pt;font-size:8.5pt;color:#333}
-  .ps-sec{font-size:12pt;margin:10pt 0 3pt}
+  .ps-sec{font-size:12pt;margin:8pt 0 3pt}
   .ps-table{width:100%;border-collapse:collapse}
   .ps-table th{text-align:start;font-size:8pt;border-bottom:1pt solid #000;padding:2pt 4pt}
-  .ps-table td{vertical-align:top;border-bottom:.75pt solid #999;padding:2.5pt 4pt}
+  .ps-table td{vertical-align:top;border-bottom:.75pt solid #999;padding:2pt 4pt}
   .ps-table tr{break-inside:avoid}
   .ps-box{display:inline-block;width:12pt;height:12pt;border:1.2pt solid #000;border-radius:2pt;text-align:center;line-height:11pt;font-weight:800}
   .ps-subj{font-weight:800}
@@ -352,7 +352,8 @@ const PAGES = {
   exp:{href:"../../math/exponents/index.html", label:"Exponent practice"},
   cell:{href:"../../science/moving-material/index.html#/cell", label:"Cell Lab"},
   sense:{href:"../../science/control-information/index.html", label:"Control and senses lesson"},
-  lab:{href:"../../science/control-information/index.html#/lab", label:"Label the eye and ear"}
+  lab:{href:"../../science/control-information/index.html#/lab", label:"Label the eye and ear"},
+  ict:{href:"../../ict/technofuture/index.html", label:"Future Lab"}
 };
 const ICT_BOOK = "https://drive.google.com/drive/folders/1ZDRJ1_x6zH2FbP4514GqHMuflvLRTWDB";
 const SCI_L5 = "Module 2: Body Systems · L5: Control and Information Processing — ";
@@ -396,7 +397,7 @@ const TIMETABLE = {
     {s:"math", topic:"Lesson 3-1: Understand and Represent Exponents, pp. 123–128 (Part 2)", hw:["math92"], page:"exp"},
     {s:"eng", topic:"Building Stronger Reading Skills: IXL", hw:["eng92"]},
     {s:"sci", topic:SCI_L5 + "How does your body receive information through sound? Through sight?", page:"lab"},
-    {s:"ict", topic:"ICT practical Quiz 1, Term 1 · Book: TechnoFuture · Software: MS PowerPoint", test:"ict"},
+    {s:"ict", topic:"ICT practical Quiz 1, Term 1 · Book: TechnoFuture · Software: MS PowerPoint", test:"ict", page:"ict"},
     {s:"ict", topic:"ICT practical Quiz 1, Term 1 (continued)", test:"ict"},
     {s:"ar", topic:{ar:"صفحة 6 من كتاب الخط العربي (الرجاء إحضار الطالب لكتاب الخط)"}},
     {s:"pe", topic:{ar:"أن يتعلم الطالب مهارة التمرير"}},
@@ -411,7 +412,7 @@ const TESTS = [
    ar:"تقييم تلاوة", lines:["سورة الكهف 21-22"], tag:"Check", soft:true},
   {id:"ict", s:"ict", day:"thu", per:"P4–P5U", title:"ICT practical Quiz 1",
    en:["Practical quiz in MS PowerPoint.", "TechnoFuture pages 1–8, 11–22 and 25–30."],
-   link:ICT_BOOK, linkLabel:"Open the TechnoFuture book", tag:"Quiz"}
+   page:"ict", pageLabel:"Study for the quiz", link:ICT_BOOK, linkLabel:"Open the TechnoFuture book", tag:"Quiz"}
 ];
 
 /* ep: EduPage item id (shared ticks). links: [href, label] pairs. helper: extra panel under the item. */
@@ -452,16 +453,19 @@ const HW = [
 const PLAN = {
   sun:[["Science lab tomorrow (P8): get a white flower ready to bring.", null, true],
        ["No school today: put Week 8's Science Worksheet 5 in the bag for Monday.", null],
-       ["Qur'an tomorrow (P4): review Al-Qalam 1–33 from memory.", null]],
+       ["Qur'an tomorrow (P4): review Al-Qalam 1–33 from memory.", null],
+       ["ICT quiz on Thursday: study parts 1–4 (20 min).", "ict"]],
   mon:[["Math HW 9.1 on IXL: area and perimeter on the coordinate plane.", "math", true],
        ["Science HW 9.1 on IXL: cell part functions (read the link note first).", "cell"],
        ["Art tomorrow (P5U), the 12-colour wheel: pack sketchbook, compass, ruler, colored pencils.", null],
-       ["Read Al-Kahf 21–22 aloud for tomorrow (P4).", null]],
+       ["Read Al-Kahf 21–22 aloud for tomorrow (P4).", null],
+       ["ICT: parts 5–6, then try them in PowerPoint.", "ict"]],
   tue:[["Recite Al-Kahf 21–22 until it's smooth: recitation check tomorrow (P8).", null, true],
        ["English HWK 9.1 on IXL: compound subjects and objects with pronouns.", null],
        ["Arabic homework, page 90.", null],
-       ["Start the Islamic Studies questions on EduPage (due Monday 2/11).", null]],
-  wed:[["ICT quiz tomorrow (P4–P5U): practise PowerPoint from TechnoFuture pp. 1–8, 11–22, 25–30.", null, true],
+       ["Start the Islamic Studies questions on EduPage (due Monday 2/11).", null],
+       ["ICT: part 7 and the Ribbon Lab.", "ict"]],
+  wed:[["ICT quiz tomorrow (P4–P5U): the Final Test (85%+), then a PowerPoint speed run.", "ict", true],
        ["Pack the Arabic calligraphy book (P6 tomorrow, page 6).", null],
        ["Start Science Worksheet 6.", "sense"]],
   thu:[["Math HW 9.2: exponents, pp. 127–128, in the notebook with the steps.", "exp", true],
@@ -528,7 +532,9 @@ function renderTests(){
       '<div><h3>' + esc(t.title) + '</h3><p class="per">' + esc(d.name) + ' ' + dd + '/' + m + ' · ' + esc(t.per) + ' · ' + esc(SUBJ[t.s].label) + '</p></div></div>' +
       (t.ar ? '<p class="ar" lang="ar"><b>' + esc(t.ar) + '</b><br>' + t.lines.map(esc).join("<br>") + '</p>'
             : '<p class="test-lines">' + t.en.map(esc).join("<br>") + '</p>') +
-      (t.link ? '<div class="hw-actions"><a class="btn btn-sm" href="' + t.link + '" target="_blank" rel="noopener">' + esc(t.linkLabel) + ' ↗</a></div>' : "") +
+      (t.page || t.link ? '<div class="hw-actions">' +
+        (t.page ? '<a class="btn btn-sm btn-col" href="' + PAGES[t.page].href + '">' + esc(t.pageLabel || PAGES[t.page].label) + ' →</a>' : "") +
+        (t.link ? '<a class="btn btn-sm" href="' + t.link + '" target="_blank" rel="noopener">' + esc(t.linkLabel) + ' ↗</a>' : "") + '</div>' : "") +
       '</article>';
   }).join("");
 }
@@ -679,6 +685,7 @@ function renderPlan(){
 /* ---------- study pages ---------- */
 function renderStudy(){
   const cards = [
+    {cls:"s-ict", page:"ict", title:"Future Lab", text:"For Thursday's ICT practical quiz: the whole TechnoFuture syllabus (pp. 1–8, 11–22, 25–30), a Ribbon Lab, PowerPoint missions to do on a computer, and a 30-question Final Test."},
     {cls:"s-math", page:"math", title:"Coordinate Plane", text:"Lesson 2-6 builds on 2-4 and 2-5. The distance and perimeter zones are the warm-up for HW 9.1 (area and perimeter on the coordinate plane)."},
     {cls:"s-math", page:"exp", title:"Power Lab", text:"Lesson 3-1: write and evaluate powers, fractions and decimals, powers of 10 and expanded form. Gets him ready for HW 9.2."},
     {cls:"s-sci", page:"sense", title:"Signal Lab", text:"Lesson 5: the nervous system, neurons and reflexes, and how taste, smell, touch, hearing and sight reach the brain. Includes the Label Lab for the eye and ear."},
@@ -735,7 +742,7 @@ function renderPrint(){
     '<thead><tr><th>Day</th><th>Subject</th><th>What and what to study</th></tr></thead><tbody>' + tests + '</tbody></table>' +
     '<h2 class="ps-sec">Homework</h2><table class="ps-table"><colgroup><col style="width:6%"><col style="width:17%"><col><col style="width:13%"></colgroup>' +
     '<thead><tr><th>Done</th><th>Subject</th><th>Task</th><th>Due</th></tr></thead><tbody>' + hw + '</tbody></table>' +
-    '<h2 class="ps-sec">Evening plan</h2><table class="ps-table"><colgroup><col style="width:15%"><col></colgroup><tbody>' + plan + '</tbody></table>' +
+    '<h2 class="ps-sec">Evening plan</h2><table class="ps-table"><colgroup><col style="width:12%"><col></colgroup><tbody>' + plan + '</tbody></table>' +
     '<p class="ps-foot">Source: the school\'s Week 9 Weekly Study Plan and Weekly Events for Class 6.3. Bold job = the most important one that evening.</p>' +
     '<div class="ps-break">' + head("Timetable, Monday to Thursday") + grid +
     '<p class="ps-foot">HW = homework set in that period · QUIZ / CHECK = quiz or recitation check in that period · BRING = bring a white flower to the science lab. Sunday 25/10 is a long weekend.</p></div>';
