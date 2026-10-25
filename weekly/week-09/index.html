@@ -358,7 +358,8 @@ const ICT_BOOK = "https://drive.google.com/drive/folders/1ZDRJ1_x6zH2FbP4514GqHM
 const SCI_L5 = "Module 2: Body Systems · L5: Control and Information Processing — ";
 const KANA = "الوظيفة النحوية - الأفعال الناسخة (كان وأخواتها) ";
 
-/* topic: English text, or {ar:"..."} for Arabic text. hw: homework ids set in that period. test: test id. */
+/* topic: English text, or {ar:"..."} for Arabic text. hw: homework ids set in that period. test: test id.
+   bring: something to bring to that period (from the class's EduPage messages). */
 const TIMETABLE = {
   sun:[],
   mon:[
@@ -369,7 +370,7 @@ const TIMETABLE = {
     {s:"eng", topic:"Reading Comprehension: StudySync, Personal Statement: Individual Twin, pp. 42–43"},
     {s:"ar", topic:{ar:KANA + "ص 85"}},
     {s:"eng", topic:"Reading Comprehension: StudySync, Personal Statement: Individual Twin, pp. 42–43"},
-    {s:"sci", topic:SCI_L5 + "Science Probe: When do we use our brains? Encounter the Phenomenon: How does a surfer balance, move, and react to waves? Explain the Phenomenon", hw:["sci91"], page:"sense"}
+    {s:"sci", topic:SCI_L5 + "Science Probe: When do we use our brains? Encounter the Phenomenon: How does a surfer balance, move, and react to waves? Explain the Phenomenon", hw:["sci91"], page:"sense", bring:"a white flower for the lab"}
   ],
   tue:[
     {s:"isl", topic:{ar:"الحديث / هدي النبي صلى الله عليه وسلم في تعامله مع جيرانه"}, hw:["isl"]},
@@ -449,9 +450,9 @@ const HW = [
 
 /* evening plan: items are [text, link key or null, isKey] */
 const PLAN = {
-  sun:[["No school today: put Week 8's Science Worksheet 5 in the bag for Monday.", null, true],
-       ["Qur'an tomorrow (P4): review Al-Qalam 1–33 from memory.", null],
-       ["Warm up for Lesson 2-6 with the distance and perimeter practice.", "math"]],
+  sun:[["Science lab tomorrow (P8): get a white flower ready to bring.", null, true],
+       ["No school today: put Week 8's Science Worksheet 5 in the bag for Monday.", null],
+       ["Qur'an tomorrow (P4): review Al-Qalam 1–33 from memory.", null]],
   mon:[["Math HW 9.1 on IXL: area and perimeter on the coordinate plane.", "math", true],
        ["Science HW 9.1 on IXL: cell part functions (read the link note first).", "cell"],
        ["Art tomorrow (P5U), the 12-colour wheel: pack sketchbook, compass, ruler, colored pencils.", null],
@@ -634,6 +635,7 @@ function renderTimetable(initial){
         const sj = SUBJ[p.s];
         const flags = [];
         if (p.test) flags.push('<span class="flag-pill test">' + esc(TESTS.find(t => t.id === p.test).soft ? "Recitation check" : "Quiz") + '</span>');
+        if (p.bring) flags.push('<span class="flag-pill">Bring ' + esc(p.bring) + '</span>');
         (p.hw || []).forEach(id => { const h = HW.find(x => x.id === id); flags.push('<a class="flag-pill" href="#hw-' + id + '">Homework: ' + esc(h.code) + '</a>'); });
         if (p.page && PAGES[p.page]) flags.push('<a class="flag-pill link" href="' + PAGES[p.page].href + '">Practice →</a>');
         return '<li class="period panel ' + sj.cls + '"><span class="pno">' + PERIOD_NAMES[j] + '</span><div class="p-body">' +
@@ -723,7 +725,7 @@ function renderPrint(){
       const p = TIMETABLE[d.key][j];
       if (!p) return '<td></td>';
       const tags = (p.test ? '<span class="ps-tag">' + (TESTS.find(t => t.id === p.test).soft ? "CHECK" : "QUIZ") + '</span>' : "") +
-        (p.hw ? '<span class="ps-tag">HW</span>' : "");
+        (p.hw ? '<span class="ps-tag">HW</span>' : "") + (p.bring ? '<span class="ps-tag">BRING</span>' : "");
       return '<td><b>' + esc(SUBJ[p.s].label) + tags + '</b>' + gridTopic(p.topic) + '</td>';
     }).join("") + '</tr>').join("") + '</tbody></table>';
   document.getElementById("printSheet").innerHTML =
@@ -736,7 +738,7 @@ function renderPrint(){
     '<h2 class="ps-sec">Evening plan</h2><table class="ps-table"><colgroup><col style="width:15%"><col></colgroup><tbody>' + plan + '</tbody></table>' +
     '<p class="ps-foot">Source: the school\'s Week 9 Weekly Study Plan and Weekly Events for Class 6.3. Bold job = the most important one that evening.</p>' +
     '<div class="ps-break">' + head("Timetable, Monday to Thursday") + grid +
-    '<p class="ps-foot">HW = homework set in that period · QUIZ / CHECK = quiz or recitation check in that period. Sunday 25/10 is a long weekend.</p></div>';
+    '<p class="ps-foot">HW = homework set in that period · QUIZ / CHECK = quiz or recitation check in that period · BRING = bring a white flower to the science lab. Sunday 25/10 is a long weekend.</p></div>';
 }
 
 document.getElementById("printBtn").addEventListener("click", () => { renderPrint(); window.print(); });
