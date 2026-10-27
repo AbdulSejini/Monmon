@@ -853,6 +853,7 @@ const NOTICES = [
 const PRACTICE_PAGES = [
   {href:"weekly/week-09/index.html", title:"خطة الأسبوع 9", text:"إجازة الأحد، ثم جدول الاثنين للخميس والواجبات وخطة المذاكرة لكل يوم.", cls:""},
   {href:"ict/technofuture/index.html", title:"الحاسب: اختبار PowerPoint العملي", text:"كتاب TechnoFuture كامل: المستقبليون وخطة القصة، واجهة PowerPoint، أزرار الإجراءات، والشريحة الرئيسية، مع مهام عملية واختبار شامل.", cls:"s-ict"},
+  {href:"ixl/map-math/index.html", title:"IXL: خطة MAP للرياضيات", text:"66 مهارة من خطته في IXL، موزعة على الأسابيع لين 7 يناير، مع روابط مباشرة وعلامة لكل مهارة.", cls:"s-math"},
   {href:"weekly/week-08/index.html", title:"خطة الأسبوع 8", text:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", cls:""},
   {href:"math/exponents/index.html", title:"الرياضيات: الأسس", text:"الدرس 3-1: كتابة القوى وحسابها، والكسور والأعداد العشرية، وقوى العدد 10.", cls:"s-math"},
   {href:"science/control-information/index.html", title:"العلوم: التحكم والحواس", text:"الجهاز العصبي والدماغ، وكيف توصل الحواس الخمس المعلومات للدماغ.", cls:"s-sci"},
@@ -868,14 +869,39 @@ const SUBJ = {
   "PE":["تربية بدنية","s-pe"], "Art":["فنية","s-art"], "Be Well":["Be Well","s-well"], "ICT/MECHA":["حاسب آلي","s-ict"]
 };
 const TYPE_AR = {"homework":"واجب", "Small exam":"اختبار قصير", "Big exam":"اختبار", "Oral exam":"اختبار شفهي",
-  "Unit Test (W2)":"اختبار وحدة", "Test":"اختبار", "Project":"مشروع", "Report":"تقرير", "Bring":"إحضار"};
+  "Unit Test (W2)":"اختبار وحدة", "Test":"اختبار", "Project":"مشروع", "Report":"تقرير", "Bring":"إحضار", "IXL":"تمارين IXL"};
 const WD = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 const ICON_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
+/* IXL plan (ixl/map-math/index.html): one homework item per plan week, shown from the week's first day.
+   The IXL page keeps the closed skills in monmon-ixl-v1 and ticks a week here when all its skills are closed.
+   Keep these weeks in step with WEEKS on that page. */
+const IXL_PAGE = "ixl/map-math/index.html";
+const IXL_WEEKS = [
+  {id:"ixl-p1", from:"2026-10-28", due:"2026-10-31", codes:["TY5","XDA","HC5"], topic:"الأسس، مثل درس 3-1 وواجب 9.2"},
+  {id:"ixl-p2", from:"2026-11-01", due:"2026-11-07", codes:["D5D","GEQ","VG6","MLU","Q65","D69","7PE","MD8"], topic:"قوى الأعداد العشرية والكسور، وترتيب العمليات، ومراجعة سريعة للأعداد"},
+  {id:"ixl-p3", from:"2026-11-08", due:"2026-11-14", codes:["YEE","WNE","V46","XCQ","8VK","MS6","NY2","CGS"], topic:"ترتيب العمليات، ومراجعة سريعة للأعداد"},
+  {id:"ixl-p4", from:"2026-11-15", due:"2026-11-21", codes:["F5B","6LQ","Q8Z","49T","KYA","LXP","6DY","ZJ2"], topic:"كتابة العبارات الجبرية وحسابها، والكسور المتكافئة بالنماذج"},
+  {id:"ixl-p5", from:"2026-11-22", due:"2026-11-28", codes:["7XA","HYM","JL8","WPQ","7DA","WMX","RB2","YM2"], topic:"إجازة الخريف: مهارات كسور سريعة، حوالي 10 دقائق للمهارة"},
+  {id:"ixl-p6", from:"2026-11-29", due:"2026-12-05", codes:["9KE","QXS","TXX","2HH","GKZ","7BL","42U","KCE"], topic:"الحدود والمعاملات والعوامل، والكسور المساوية لأعداد صحيحة"},
+  {id:"ixl-p7", from:"2026-12-06", due:"2026-12-12", codes:["PGZ","R8H","7XM","KFG","MJ2","2PH","38T","MEZ"], topic:"خاصية التوزيع والعبارات المتكافئة، ومقارنة الكسور، وأول مهارة هندسة"},
+  {id:"ixl-p8", from:"2026-12-13", due:"2026-12-19", codes:["HTG","W5U","63U","ZPD","6H5","5RX","HKG","CST"], topic:"آخر مهارات العبارات، والكسور على خط الأعداد، والمثلثات والزوايا"},
+  {id:"ixl-p9", from:"2026-12-20", due:"2026-12-26", codes:["78D","9BK","DN9","2VL","62H","ENE","8AW"], topic:"الزوايا والدائرة والمساحة، والتمثيل بالنقاط، وآخر مهارتين في الكسور"},
+  {id:"ixl-review", from:"2026-12-27", due:"2027-01-07", codes:null, topic:"المراجعة"}
+];
+const IXL_ALL = IXL_WEEKS.flatMap(w => w.codes || []);
+function ixlClosed(){ try { const v = JSON.parse(localStorage.getItem("monmon-ixl-v1") || "null"); return (v && v.done) || {}; } catch (e) { return {}; } }
+function ixlItems(today){
+  return IXL_WEEKS.filter(w => w.from <= today).map((w, k) => ({id:w.id, date:w.from, due:w.due, kind:"hw", type:"IXL", subject:"Math", ixl:w,
+    text: w.codes ? "تمارين IXL من خطة MAP للرياضيات، الأسبوع " + (k + 1) + " من الخطة: " + w.codes.length + " مهارات (" + w.topic + "). المهارة تقفل لما يوصل SmartScore إلى 100."
+                  : "تمارين IXL من خطة MAP للرياضيات: أسبوعا المراجعة. أي مهارة من الـ66 ما وصلت 100 يقفلها قبل الخميس 7/1."}));
+}
+function ixlProgress(w){ const d = ixlClosed(), codes = w.codes || IXL_ALL; return "مقفل منها " + codes.filter(c => d[c]).length + " من " + codes.length; }
+
 let DATA = {items:[]};
 try { DATA = JSON.parse(document.getElementById("edupage-data").textContent); } catch (e) {}
-const ITEMS = (DATA.items || []).concat(EXTRA);
+const ITEMS = (DATA.items || []).concat(EXTRA, ixlItems(todayISO()));
 
 let S = (() => { try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v.done === "object") return v; } catch (e) {} return {done:{}}; })();
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
@@ -927,7 +953,7 @@ function renderHello(){
 function itemCard(i){
   const done = !!S.done[i.id];
   const [sName, sCls] = subj(i.subject);
-  const prac = PRACTICE_BY_ID[i.id];
+  const prac = PRACTICE_BY_ID[i.id] || (i.ixl ? [IXL_PAGE, "افتح مهارات الأسبوع"] : null);
   const meta = typeAr(i.type) + " · انطلب " + shortDate(i.date) + (i.dueGuessed ? " · الموعد المعتاد للتسليم" : "");
   return '<li class="item panel ' + sCls + (done ? " is-done" : "") + '">' +
     '<button class="check" type="button" role="checkbox" aria-checked="' + done + '" data-id="' + esc(i.id) + '" aria-label="خلص: ' + esc(sName) + '">' + ICON_CHECK + '</button>' +
@@ -935,6 +961,7 @@ function itemCard(i){
     '<p class="item-text" dir="auto">' + textHTML(i.text) + '</p>' +
     (NOTES[i.id] ? '<p class="note" dir="auto">' + esc(NOTES[i.id]) + '</p>' : "") +
     (i.fromMsg ? '<p class="meta-note">من رسائل EduPage (مو في قائمة الواجبات)</p>' : "") +
+    (i.ixl ? '<p class="meta-note">' + ixlProgress(i.ixl) + ' · من خطة IXL، مو من واجبات المدرسة</p>' : "") +
     (prac ? '<div class="actions"><a class="act" href="' + prac[0] + '">' + esc(prac[1]) + ' ←</a></div>' : "") +
     '</div></li>';
 }
