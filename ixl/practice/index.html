@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>IXL Practice Sheet</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23D6409F%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M18 46l3-11 19-19 8 8-19 19z%22 fill=%22%23FFD23F%22 stroke=%22%2314163A%22 stroke-width=%224%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&family=Tajawal:wght@500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --c5:#D6409F; --c5t:#FBDDF0;
+  --c6:#5E9A0E; --c6t:#E6F5CF;
+  --c7:#0B8FB0; --c7t:#D3F1F8;
+  --col:var(--c1); --tint:var(--c1t);
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  --arabic:"Tajawal","Geeza Pro","Segoe UI",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overflow-wrap:break-word}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+sup{font-size:.68em;line-height:0;position:relative;top:-.5em;vertical-align:baseline}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.wrap{max-width:960px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.ar{font-family:var(--arabic);font-weight:700;letter-spacing:0;direction:rtl;unicode-bidi:isolate}
+.s-a{--col:var(--c1);--tint:var(--c1t)} .s-b{--col:var(--c3);--tint:var(--c3t)}
+.s-c{--col:var(--c4);--tint:var(--c4t)} .s-d{--col:var(--c2);--tint:var(--c2t)}
+.s-e{--col:var(--c5);--tint:var(--c5t)} .s-f{--col:var(--c6);--tint:var(--c6t)}
+.s-g{--col:var(--c7);--tint:var(--c7t)} .s-w{--col:var(--ink);--tint:var(--sun-2)}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:960px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--c5);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.meter{display:flex;align-items:center;gap:6px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--good-bg);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;white-space:nowrap}
+.meter svg{width:20px;height:20px;flex:none}
+.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{50%{transform:scale(1.12)}}
+.tlink{flex:none;display:inline-flex;align-items:center;min-height:42px;padding:0 12px;border:2px solid var(--ink);border-radius:10px;background:var(--sun);box-shadow:2px 2px 0 var(--ink);font-weight:800;font-size:14px;text-decoration:none;white-space:nowrap}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);padding:0}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:560px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+@media (max-width:430px){.logo-mark{display:none}.topbar-in{gap:8px}.tlink{padding:0 10px}}
+@media (max-width:340px){.meter svg{display:none}.meter{padding:3px 9px}}
+
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn-sm{min-height:40px;padding:5px 12px;font-size:13px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+
+/* hero */
+.hero{margin-top:20px;padding:20px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px 22px;align-items:center}
+.hero h1{font-size:clamp(42px,7vw,64px)}
+.hero h1 span{color:var(--c5);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero .sub{margin-top:10px;color:var(--ink-2);font-size:16px;max-width:46ch}
+.total{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--page);padding:12px 14px;display:grid;gap:6px;text-align:center}
+.total small{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+.total b{font-family:var(--display);font-weight:400;font-size:52px;line-height:1;letter-spacing:.03em;font-variant-numeric:tabular-nums}
+.total .note{font-size:13px;font-weight:700;color:var(--ink-2)}
+.bar{height:14px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--good);transition:width .4s}
+.chips{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:4px 8px 4px 4px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);text-decoration:none;font-weight:700;font-size:14px;white-space:nowrap}
+.chip b{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--col);color:#fff;font-family:var(--display);font-weight:400;font-size:20px;border:2px solid var(--ink);text-shadow:1px 1px 0 var(--ink)}
+.chip i{font-style:normal;font-size:12px;font-weight:800;background:var(--tint);border:2px solid var(--ink);border-radius:999px;padding:0 7px;font-variant-numeric:tabular-nums}
+.chip.full i{background:var(--good);color:#fff}
+.chip.s-w b{background:var(--sun);color:var(--ink);text-shadow:none;font-size:17px}
+@media (max-width:700px){.hero{grid-template-columns:1fr}}
+
+/* before you answer */
+.habits{margin-top:16px;padding:16px;background:var(--sun);display:grid;gap:10px}
+.habits h2{font-size:30px}
+.habits ol{display:grid;gap:8px;counter-reset:h}
+.habits li{counter-increment:h;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;font-size:15px;font-weight:600;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-sm);padding:8px 10px}
+.habits li::before{content:counter(h);width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+
+/* sections */
+.sec{margin-top:26px;scroll-margin-top:76px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:14px 16px;background:var(--tint);border-bottom:3px solid var(--ink);border-radius:calc(var(--r) - 3px) calc(var(--r) - 3px) 0 0}
+.sec-letter{flex:none;width:52px;height:52px;border-radius:14px;border:3px solid var(--ink);background:var(--col);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:34px;line-height:1;text-shadow:2px 2px 0 var(--ink);box-shadow:2px 2px 0 var(--ink);transform:rotate(-4deg)}
+.s-w .sec-letter{background:var(--sun);color:var(--ink);text-shadow:none;font-size:28px}
+.sec-titles{flex:1 1 220px;min-width:0}
+.sec-titles h2{font-size:32px}
+.sec-titles h2 .ar{display:inline-block;font-size:21px;line-height:1.2;color:var(--ink-2);margin-inline-start:4px}
+.sec-sub{margin-top:4px;font-size:15px;font-weight:600;color:var(--ink-2)}
+.best{flex:none;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:4px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);white-space:nowrap}
+.best b{font-size:15px;letter-spacing:0;font-variant-numeric:tabular-nums}
+.best.full{background:var(--good);color:#fff}
+.sec-body{padding:14px 16px 16px;display:grid;gap:14px}
+@media (max-width:520px){.sec-titles h2{font-size:28px}.sec-head,.sec-body{padding-inline:12px}}
+
+.qs{display:grid;gap:10px}
+@media (min-width:700px){.qs.c2{grid-template-columns:repeat(2,minmax(0,1fr))}.qs.c3{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}}
+.nw{white-space:nowrap}
+.q{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;padding:10px 12px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);transition:background .2s}
+.q.ok{background:var(--good-bg)}
+.q.bad{background:var(--bad-bg)}
+.qn{min-width:32px;height:32px;padding:0 7px;border-radius:999px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;margin-top:5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.q.ok .qn{background:var(--good)} .q.bad .qn{background:var(--bad)}
+.q.ok .qn::after{content:" ✓"}
+.qb{min-width:0}
+.qt{font-size:17px;line-height:1.9}
+.qt b{font-weight:800}
+@media (max-width:520px){.q{gap:8px;padding:9px 10px}.qt{font-size:16.5px}}
+
+.in{font:inherit;font-size:17px;font-weight:700;color:var(--ink);width:7.5em;max-width:100%;min-height:42px;padding:4px 10px;border:2px solid var(--ink);border-radius:10px;background:#fff;box-shadow:inset 2px 2px 0 rgba(20,22,58,.08);vertical-align:middle;-webkit-appearance:none;appearance:none}
+.in:focus{outline:3px solid var(--col);outline-offset:1px}
+.in.w-xs{width:3.2em;text-align:center} .in.w-s{width:4.6em;text-align:center} .in.w-m{width:6.6em}
+.in.w-v{width:7.6em} .in.w-l{width:9.5em}
+.in.ok{border-color:var(--good);background:var(--good-bg)}
+.in.bad{border-color:var(--bad);background:#fff7f7}
+
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.opts.inline{display:inline-flex;gap:6px;margin:3px 2px;vertical-align:middle}
+.opt{min-height:44px;min-width:46px;padding:5px 14px;border:2px solid var(--ink);border-radius:10px;background:#fff;box-shadow:2px 2px 0 var(--ink);font-weight:700;font-size:16px;line-height:1.25;transition:transform .1s,box-shadow .1s}
+.opt:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+.opt[aria-pressed="true"]{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.opt.ok{background:var(--good);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.opt.bad{background:var(--bad);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.opt.key,.showing .opt[data-key]{outline:3px dashed var(--good);outline-offset:3px}
+.opt .frac{margin:0}
+
+.tense{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;line-height:1.6;padding:0 7px;border:2px solid var(--ink);border-radius:6px;vertical-align:2px;margin-right:2px}
+.tense.present{background:var(--c1t)} .tense.past{background:var(--c2t)} .tense.future{background:var(--c3t)}
+.base{font-weight:800;color:var(--col)}
+.frac{display:inline-flex;flex-direction:column;align-items:stretch;vertical-align:middle;text-align:center;line-height:1.2;margin:0 .12em;font-weight:700}
+.frac>span{padding:0 .2em}
+.frac>span:first-child{border-bottom:2px solid currentColor}
+.frac .in{width:3.2em;min-height:38px;padding:2px 4px;margin:2px 0;text-align:center}
+.slot{display:inline-grid;place-items:center;min-width:2em;min-height:1.7em;padding:0 .35em;border:2px dashed var(--ink-3);border-radius:7px;font-weight:800;line-height:1.3;vertical-align:middle}
+.slot.filled{border-style:solid;border-color:var(--ink);background:var(--tint)}
+
+.fb{margin-top:8px;padding:8px 10px;border:2px solid var(--bad);border-radius:8px;background:var(--paper);font-size:14.5px;line-height:1.45;display:grid;gap:4px}
+.fb-ans .x{color:var(--bad);font-weight:800}
+.fb-ans b{font-weight:800}
+.fb-rule{color:var(--ink-2)}
+.cat{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;line-height:1.6;background:var(--ink);color:#fff;border-radius:6px;padding:0 7px;margin-left:4px;vertical-align:1px;white-space:nowrap}
+.reveal{margin-top:8px;padding:6px 10px;border:2px dashed var(--ink-3);border-radius:8px;background:var(--sun-2);font-size:14.5px;font-weight:600}
+.reveal b{font-weight:800}
+
+.acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.score{margin-left:auto;font-weight:800;font-size:17px;padding:6px 14px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);font-variant-numeric:tabular-nums;white-space:nowrap}
+.score.full{background:var(--good);color:#fff}
+.score-note{flex-basis:100%;font-size:13px;font-weight:700;color:var(--ink-2);text-align:right}
+.score-note:empty{display:none}
+@media (max-width:600px){.acts .btn{flex:1 1 auto}.score{margin-left:0}.score-note{text-align:left}}
+
+.rule-box{padding:10px 12px;border:2px dashed var(--ink);border-radius:var(--r-sm);background:var(--sun-2);font-size:15px;display:grid;gap:6px}
+.rule-box b{font-weight:800}
+.rule-box ul{display:grid;gap:5px}
+.rule-box li{position:relative;padding-left:18px}
+.rule-box li::before{content:"";position:absolute;left:4px;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--ink)}
+details.hint{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+details.hint summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;min-height:44px;padding:6px 12px;font-weight:800;font-size:15px}
+details.hint summary::-webkit-details-marker{display:none}
+details.hint summary::before{content:"+";flex:none;width:24px;height:24px;border:2px solid var(--ink);border-radius:6px;display:grid;place-items:center;font-weight:800;background:var(--tint)}
+details.hint[open] summary::before{content:"−"}
+details.hint ul{padding:0 12px 12px;display:grid;gap:6px;font-size:14.5px}
+details.hint li b{font-weight:800}
+
+.c-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:14px;align-items:start}
+.cgrid{position:sticky;top:76px;margin:0;padding:10px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);display:grid;gap:6px;justify-items:center}
+.cgrid svg{display:block;width:100%;max-width:240px;height:auto}
+.cgrid figcaption{font-size:13px;font-weight:600;color:var(--ink-2);text-align:center}
+@media (max-width:760px){.c-layout{grid-template-columns:1fr}.cgrid{position:static}}
+
+/* word lists */
+.w-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px}
+.w-head h3{font-size:26px}
+.w-note{font-size:14px;color:var(--ink-2);margin-top:-6px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(140px,100%),1fr));gap:10px}
+.card{position:relative;display:block;width:100%;min-height:78px;padding:0;border:2px solid var(--ink);border-radius:12px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);perspective:700px}
+.face{position:absolute;inset:0;display:grid;place-content:center;gap:2px;padding:6px;border-radius:10px;-webkit-backface-visibility:hidden;backface-visibility:hidden;transition:transform .4s;font-weight:700;font-size:16px;text-align:center}
+.front{background:var(--paper)}
+.back{background:var(--c3t);transform:rotateY(180deg)}
+.back .ar{font-size:22px;line-height:1.25}
+.back small{font-size:11px;font-weight:700;color:var(--ink-2)}
+.card[aria-pressed="true"] .front{transform:rotateY(-180deg)}
+.card[aria-pressed="true"] .back{transform:rotateY(0deg)}
+.irr{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:10px}
+.irr-g{border:2px solid var(--ink);border-radius:12px;background:var(--paper);padding:10px 12px}
+.irr-g h4{font-family:var(--body);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-2);margin-bottom:4px}
+.irr-g li{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;padding:4px 0;border-top:1px dashed var(--ink-3);font-size:16px}
+.irr-g li:first-child{border-top:0}
+.irr-g li b{font-weight:800;color:var(--c1)}
+.irr-g li span:nth-child(2){color:var(--ink-3);font-weight:800}
+.quiz{padding:14px;border:3px solid var(--ink);border-radius:var(--r);background:var(--c1t);box-shadow:var(--shadow-sm);display:grid;gap:10px;--col:var(--c1)}
+.quiz h3{font-size:26px}
+.quiz-sub{font-size:14px;color:var(--ink-2)}
+.qz-round{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+.qz-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.qz-verb{font-family:var(--display);font-size:42px;line-height:1;letter-spacing:.04em}
+.qz-arrow{font-size:26px;font-weight:800;color:var(--ink-2)}
+.qz-line .in{width:8.5em}
+.qz-fb{min-height:1.5em;font-weight:700}
+.qz-fb.ok{color:var(--good)} .qz-fb.bad{color:var(--bad)}
+.qz-score{font-family:var(--display);font-size:40px;line-height:1}
+.qz-review{font-size:15px}
+
+.foot{margin-top:40px;font-size:13px;color:var(--ink-2);display:grid;gap:8px}
+.foot .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+/* print: the sheet with blank lines, then a compact answer key, built by renderPrint() */
+.print-sheet{display:none}
+@page{size:A4;margin:10mm 11mm}
+@media print{
+  html,body{background:#fff!important}
+  body{background-image:none!important;color:#000;font-size:9.2pt;line-height:1.3}
+  .topbar,main{display:none!important}
+  .print-sheet{display:block}
+  .print-sheet *{box-shadow:none!important;text-shadow:none!important;animation:none!important;transition:none!important}
+  .ps-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2pt 12pt;border-bottom:1.5pt solid #000;padding-bottom:2pt}
+  .ps-head h1{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:15pt}
+  .ps-head p{font-size:8.6pt;color:#333}
+  .ps-habits{margin-top:3pt;padding:2pt 6pt;border:.75pt solid #999;border-radius:3pt;font-size:8pt;line-height:1.35}
+  .ps-habits b{font-weight:800}
+  .ps-sec{margin-top:5pt}
+  .ps-sec h2{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:10.2pt;line-height:1.25;border-bottom:1pt solid #000;padding-bottom:1pt;margin-bottom:2pt;break-after:avoid}
+  .ps-sec h2 small{font-weight:500;font-size:8.5pt;color:#333}
+  .ps-sec h2 .ar{font-size:9.5pt;color:#333}
+  .ps-qs{display:grid;gap:1pt 6mm}
+  .ps-qs.c2{grid-template-columns:1fr 1fr}
+  .ps-qs.c3{grid-template-columns:1fr 1fr 1fr}
+  .ps-q{display:grid;grid-template-columns:15pt minmax(0,1fr);break-inside:avoid;line-height:1.75}
+  .ps-n{font-weight:800}
+  .ps-blank{display:inline-block;width:24mm;height:1em;border-bottom:.75pt solid #000;vertical-align:baseline;margin:0 1pt}
+  .ps-blank.w-xs{width:10mm} .ps-blank.w-s{width:16mm} .ps-blank.w-m{width:24mm} .ps-blank.w-v{width:27mm} .ps-blank.w-l{width:32mm}
+  .print-sheet .frac{font-weight:600;line-height:1.15}
+  .print-sheet .frac>span:first-child{border-bottom-width:.75pt}
+  .print-sheet .frac .ps-blank{width:7mm;height:4.2mm;border:.75pt solid #000;margin:.5pt 0}
+  .ps-after{line-height:1.45}
+  .ps-opt{display:inline-block;white-space:nowrap;margin-right:8pt}
+  .ps-opt::before{content:"";display:inline-block;width:7pt;height:7pt;border:.75pt solid #000;border-radius:50%;margin-right:2.5pt;vertical-align:-.5pt}
+  .ps-opts.inline .ps-opt{margin-right:3pt}
+  .print-sheet .tense{border:0;padding:0;margin:0 1pt 0 0;background:none!important;font-size:inherit;font-weight:700;text-transform:none;letter-spacing:0;vertical-align:baseline;line-height:inherit;font-style:italic}
+  .print-sheet .tense::before{content:"("} .print-sheet .tense::after{content:")"}
+  .print-sheet .base{color:#000}
+  .print-sheet .slot{min-width:5mm;min-height:0;padding:0 2pt;border:.75pt solid #000;border-radius:2pt;background:none;line-height:1.2}
+  .print-sheet .slot.w{min-width:14mm;border-width:0 0 .75pt;border-radius:0;color:transparent}
+  .ps-c{display:grid;grid-template-columns:minmax(0,1fr) 34mm;gap:5mm;align-items:start}
+  .ps-c svg{display:block;width:34mm;height:auto}
+  .ps-c figcaption{font-size:7.5pt;color:#333;text-align:center}
+  .ps-c figure{margin:0}
+  .ps-key{break-before:page}
+  .ps-key h2{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:13pt;border-bottom:1.5pt solid #000;padding-bottom:2pt;margin-bottom:4pt}
+  .ps-key-grid{columns:3;column-gap:6mm;font-size:8.4pt;line-height:1.35}
+  .ps-ks{break-inside:avoid;margin-bottom:5pt}
+  .ps-ks h3,.ps-rules h3,.ps-words h3{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:9pt;border-bottom:.75pt solid #999;padding-bottom:1pt;margin-bottom:2pt}
+  .ps-ks li{padding:.4pt 0}
+  .ps-ks li b{font-weight:800}
+  .ps-rules{margin-top:6pt;font-size:8.3pt;line-height:1.35}
+  .ps-rules ul{columns:2;column-gap:6mm}
+  .ps-rules li{break-inside:avoid;margin-bottom:2pt}
+  .ps-rules li b{font-weight:800}
+  .ps-words{margin-top:6pt;display:grid;grid-template-columns:1.25fr 1fr;gap:6mm;font-size:8.4pt;line-height:1.35}
+  .ps-traits{display:grid;grid-template-columns:repeat(2,1fr);gap:0 4mm}
+  .ps-traits div{display:flex;justify-content:space-between;gap:4pt;border-bottom:.5pt solid #ccc;padding:1pt 0}
+  .ps-traits .ar{font-size:9.2pt}
+  .ps-irr{display:grid;grid-template-columns:repeat(2,1fr);gap:0 4mm}
+  .ps-irr div{border-bottom:.5pt solid #ccc;padding:1pt 0}
+  .ps-irr b{font-weight:800}
+  .ps-foot{margin-top:6pt;padding-top:3pt;border-top:.75pt solid #999;font-size:7.6pt;color:#444}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="logo-mark">PRACTICE</span>
+    <span class="unit-chip">IXL · 7 sections</span>
+    <span class="spacer"></span>
+    <span class="meter" id="meter" role="status" aria-live="polite">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="#FFD23F" stroke="#14163A" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <span class="vh">Overall best score: </span><span id="meterText">0/59</span>
+    </span>
+    <a class="tlink" href="../index.html">IXL plan</a>
+    <a class="icon-btn" href="../../index.html" aria-label="Home: homework dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+    </a>
+    <button class="icon-btn" id="printBtn" type="button" aria-label="Print the practice sheet">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero panel">
+    <div>
+      <h1>IXL Practice <span>Sheet</span></h1>
+      <p class="sub">Practise the patterns behind common IXL mistakes. Do one section a day, or the whole sheet on Saturday.</p>
+    </div>
+    <div class="total">
+      <small>Overall best</small>
+      <b id="totalScore">0/59</b>
+      <div class="bar" role="img" id="totalBarBox" aria-label="Overall best score"><i id="totalBar"></i></div>
+      <span class="note" id="totalNote">0 of 7 sections at full marks</span>
+    </div>
+    <nav class="chips" id="chips" aria-label="Jump to a section"></nav>
+  </section>
+
+  <section class="habits panel" aria-labelledby="habitsTitle">
+    <h2 id="habitsTitle">Before you answer</h2>
+    <ol>
+      <li>Put your finger on the key word first (present / past / future, x / y, Select all).</li>
+      <li>When you get one wrong, read the explanation and say the reason out loud.</li>
+      <li>Stop rule: 3 wrong in a row or 25 minutes on one IXL skill → switch to another and come back tomorrow.</li>
+    </ol>
+  </section>
+
+  <div id="sections"></div>
+
+  <section class="sec panel s-w" id="words" aria-labelledby="h-W">
+    <header class="sec-head">
+      <span class="sec-letter" aria-hidden="true">★</span>
+      <div class="sec-titles"><h2 id="h-W">Word lists <span class="ar" lang="ar" dir="rtl">قوائم الكلمات</span></h2><p class="sec-sub">Study these. They are not scored.</p></div>
+    </header>
+    <div class="sec-body">
+      <div class="w-head"><h3>Character traits &amp; feelings</h3><button class="btn btn-sm" id="flipAll" type="button" aria-pressed="false">Show all in Arabic</button></div>
+      <p class="w-note">Tap a card to see the Arabic. Tap again to go back.</p>
+      <div class="cards" id="cards"></div>
+      <div class="w-head"><h3>Irregular past tense</h3></div>
+      <p class="w-note">Grouped by the sound that changes. None of these verbs takes -ed.</p>
+      <div class="irr" id="irr"></div>
+      <div class="quiz" id="quiz">
+        <div><h3>Irregular past quiz</h3><p class="quiz-sub">A verb from the list appears. Type its past tense. 10 rounds.</p></div>
+        <div id="qzStartBox"><button class="btn btn-col" id="qzStart" type="button">Start the quiz</button></div>
+        <div id="qzPlay" hidden>
+          <p class="qz-round" id="qzRound"></p>
+          <div class="qz-line">
+            <span class="qz-verb" id="qzVerb"></span><span class="qz-arrow" aria-hidden="true">→</span>
+            <input class="in" id="qzIn" type="text" aria-label="Past tense" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="go">
+            <button class="btn btn-col" id="qzGo" type="button">Check</button>
+          </div>
+          <p class="qz-fb" id="qzFb" role="status" aria-live="polite"></p>
+        </div>
+        <div id="qzDone" hidden>
+          <p class="qz-score" id="qzScore"></p>
+          <p class="qz-review" id="qzReview"></p>
+          <p style="margin-top:10px"><button class="btn btn-col" id="qzAgain" type="button">Play again</button></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>The questions come from a printed practice sheet for skills practised on IXL. Best scores are saved on this device only. A section's score is saved from the first check after a fresh start, so press Try again before another go.</p>
+    <div class="row"><button class="btn btn-sm" id="resetAll" type="button">Clear the saved scores on this device</button></div>
+  </footer>
+</main>
+
+<section class="print-sheet" id="printSheet" aria-hidden="true"></section>
+
+<script>
+"use strict";
+const KEY = "monmon-ixl-practice-v1";   /* {best:{A:14, B:5, ...}}: each section's best score */
+
+/* ---------- helpers ---------- */
+const $ = (sel, el) => (el || document).querySelector(sel);
+const $$ = (sel, el) => Array.from((el || document).querySelectorAll(sel));
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+const F = (n, d) => '<span class="frac"><span>' + n + '</span><span>' + d + '</span></span>';
+const AR = s => '<span class="ar" lang="ar" dir="rtl">' + s + '</span>';
+const T = (kind, acc, o) => Object.assign({f:"text", kind, acc}, o);   /* a typed blank */
+const C = (opts, ans, o) => Object.assign({f:"choice", opts, ans}, o);   /* a row of buttons; an option is "text" or [value, html] */
+const REDUCE = (() => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } })();
+
+/* ---------- tolerant answer reading ---------- */
+const SUPS = {"⁰":"0","¹":"1","²":"2","³":"3","⁴":"4","⁵":"5","⁶":"6","⁷":"7","⁸":"8","⁹":"9"};
+const VULGAR = {"½":"1/2","¼":"1/4","¾":"3/4","⅛":"1/8"};
+/* trim, lower case, one space between words, no spaces around punctuation, Western digits */
+function norm(raw){
+  return String(raw == null ? "" : raw)
+    .replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 0x660))
+    .replace(/[۰-۹]/g, d => String(d.charCodeAt(0) - 0x6F0))
+    .replace(/[½¼¾⅛]/g, c => VULGAR[c])
+    .toLowerCase()
+    .replace(/[‘’ʼ`]/g, "'")
+    .replace(/[‐-―−]/g, "-")
+    .replace(/[⁄∕]/g, "/")
+    .replace(/،/g, ",")
+    .replace(/\s+/g, " ").trim()
+    .replace(/\s*([,.;:!?()\[\]\/+=×*^'-])\s*/g, "$1")
+    .replace(/[.!?]+$/, "");
+}
+const normWord = raw => norm(raw).replace(/^(the|a|an) /, "");
+const normExpr = raw => norm(raw).replace(/[\s×*·]/g, "");
+function parseNum(raw){
+  let s = norm(raw).replace(/\s/g, "");
+  if (/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)) s = s.replace(/,/g, "");
+  return /^[+-]?(\d+\.?\d*|\.\d+)$/.test(s) ? parseFloat(s) : null;
+}
+function parseFrac(raw){
+  const m = norm(raw).replace(/\s/g, "").match(/^(\d+)\/(\d+)$/);
+  return m && +m[2] ? +m[1] / +m[2] : null;
+}
+/* "5^3", "5³", "5 3" and "5**3" all become "5^3" */
+function normExp(raw){
+  const s = norm(String(raw).replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, m => "^" + m.split("").map(c => SUPS[c]).join("")));
+  return s.replace(/\*\*/g, "^").replace(/^(\d+) (\d+)$/, "$1^$2").replace(/\s/g, "");
+}
+/* "(3,4)", "3, 4", "(3, 4)" and "3 4" all become [3, 4] */
+function parsePair(raw){
+  const m = norm(raw).replace(/[()\[\]]/g, " ").replace(/[,;]/g, " ").trim().match(/^(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)$/);
+  return m ? [parseFloat(m[1]), parseFloat(m[2])] : null;
+}
+const near = (a, b) => a !== null && Math.abs(a - b) < 1e-9;
+function partOK(p, v){
+  if (p.f === "choice") return v === p.ans;
+  const s = String(v || "");
+  if (!s.trim()) return false;
+  switch (p.kind){
+    case "verb": return p.acc.includes(norm(s));
+    case "word": return p.acc.includes(normWord(s));
+    case "num": return near(parseNum(s), p.acc) || (!!p.fracOk && near(parseFrac(s), p.acc));
+    case "pair": { const q = parsePair(s); return !!q && q[0] === p.acc[0] && q[1] === p.acc[1]; }
+    case "exp": return normExp(s) === p.acc;
+    case "expr": return p.acc.includes(normExpr(s));
+    case "frac": return norm(s).replace(/\s/g, "") === p.acc;          /* one exact form, e.g. lowest terms */
+    case "fracdec": return p.acc.includes(norm(s).replace(/\s/g, "")) || near(parseNum(s), p.dec);
+  }
+  return false;
+}
+
+/* ---------- verb tenses: what kind of slip is it? ---------- */
+const TIP = {
+  tense:["Wrong tense", "Read the tense word first. Add will only for the future."],
+  agree:["Agreement", "He, she, it or one person/thing → add -s, or use has / is. I, you, we, they or more than one → no -s (I am)."],
+  irr:["Irregular past", "Irregular verbs don't take -ed: sting → stung, teach → taught, sweep → swept, bring → brought."],
+  double:["Doubling", "Short verb, one vowel, then one consonant → double it: grab → grabbed, plan → planned. But open → opened (no doubling)."],
+  yi:["y → i", "Consonant + y → ies / ied: carries, cried, fries."],
+  spell:["Spelling", "Check the spelling letter by letter."]
+};
+const PAST_WORDS = ["was","were","been","had","taught","stung","swept","brought"];
+function presentForms(v){
+  if (v === "be") return ["am","is","are","be"];
+  if (v === "have") return ["have","has","haves"];
+  const f = [v, v + "s", v + "es"];
+  if (/[^aeiou]y$/.test(v)) f.push(v.slice(0, -1) + "ies");
+  return f;
+}
+function verbCat(it, a){
+  const will = /\b(will|shall)\b|'ll\b/.test(a);
+  if (it.tense === "future") return will ? "spell" : "tense";
+  if (will) return "tense";
+  const ing = /ing$/.test(a);
+  if (it.tense === "present" && (ing || /ed$/.test(a) || PAST_WORDS.includes(a))) return "tense";
+  if (it.tense === "past" && (ing || presentForms(it.verb).includes(a))) return "tense";
+  if (it.agree.includes(a)) return "agree";
+  if (it.cat === "irr" && /ed$/.test(a)) return "irr";
+  if (it.cat === "double" && /ed$/.test(a)) return "double";
+  if (it.cat === "yi" && /y(e?s|e?d)$/.test(a)) return "yi";
+  return "spell";
+}
+function V(tense, verb, q, ans, cat, agree, show){
+  return {tense, verb, cat, agree: agree || [], show: show || ans, rule: TIP[cat][1],
+    q: '<span class="tense ' + tense + '">' + tense + '</span> ' + q.replace("___", "{0}").replace("(" + verb + ")", '<span class="base">(' + verb + ')</span>'),
+    parts:[T("verb", [ans], {w:"w-v"})]};
+}
+
+/* ---------- the sheet ---------- */
+const B_TIP = 'Use the clues (what the person does or says), then pick the word whose meaning fits. Learn the <a href="#words">word list below</a>.';
+const P = (q, opts, ans, ar) => ({q, parts:[C(opts, ans)], show: ans + " · " + AR(ar), rule: B_TIP});
+const TISSUES = ["nervous","connective","epithelial","muscle"];
+const HUGE = ["enormous","gigantic","giant","massive","immense","vast","colossal","gargantuan","mammoth","tremendous"];
+const ANCIENT = ["modern","new","recent","contemporary","present-day","present day"];
+const isNum = n => v => parseNum(v[0]) === n;
+const inWords = list => v => list.includes(normWord(v[0]));
+
+const SECTIONS = [
+{id:"A", short:"Verb tenses", title:"Verb tenses", ar:"أزمنة الأفعال", sub:"Write the correct form of the verb.", items:[
+  V("present","carry","My sister ___ (carry) her books in a blue bag every day.","carries","yi",["carry"]),
+  V("present","have","The twins ___ (have) piano lessons on Mondays.","have","agree",["has","haves"]),
+  V("present","have","Our teacher ___ (have) a big map on the classroom wall.","has","agree",["have","haves"]),
+  V("present","be","I ___ (be) ready for the science test.","am","agree",["is","are","be"]),
+  V("past","grab","The cat ___ (grab) the toy and ran away.","grabbed","double"),
+  V("past","teach","Last summer, Omar ___ (teach) his little brother how to swim.","taught","irr"),
+  V("past","sting","A bee ___ (sting) my hand in the garden.","stung","irr"),
+  V("past","sweep","The strong wind ___ (sweep) the leaves across the road.","swept","irr"),
+  V("past","cry","The baby ___ (cry) all night.","cried","yi"),
+  V("past","plan","The team ___ (plan) the school trip carefully.","planned","double"),
+  V("past","open","She ___ (open) the window to let in fresh air.","opened","double",null,"opened (no doubling)"),
+  V("past","bring","Dad ___ (bring) dates and coffee for the guests.","brought","irr"),
+  V("future","visit","Next week, our class ___ (visit) the science museum.","will visit","tense"),
+  V("present","fry","Every morning, the bakery ___ (fry) fresh doughnuts.","fries","yi",["fry"])
+]},
+{id:"B", short:"Traits & feelings", title:"Character traits &amp; feelings", ar:"صفات الشخصيات ومشاعرها", sub:"Choose the best word.", items:[
+  P("Ali shared his lunch with a new student who forgot his own. Ali is probably:", ["lazy","generous","nervous"], "generous", "كريم"),
+  P("Sara kept checking the clock and tapping her foot while waiting for her results. Sara is probably feeling:", ["bored","proud","anxious"], "anxious", "متوتر"),
+  P("When his block tower fell for the third time, Yusuf threw the last block on the floor. Yusuf is probably feeling:", ["frustrated","calm","grateful"], "frustrated", "محبَط"),
+  P("Noor forgot her homework, her lunch, and her jacket, all on the same day. Noor is probably:", ["honest","scatterbrained","brave"], "scatterbrained", "كثير النسيان"),
+  P("Everyone went to the party, but Huda stayed home alone, staring out the window. Huda is probably feeling:", ["excited","angry","lonely"], "lonely", "وحيد")
+]},
+{id:"C", short:"Coordinate plane", title:"Coordinate plane", ar:"المستوى الإحداثي", sub:"Fill in the blanks, or tap your choice.", items:[
+  {q:"The horizontal number line is called the {0}.", parts:[T("word", ["x-axis","x axis","xaxis","x"], {w:"w-m"})], show:"x-axis",
+   rule:"Horizontal means across: that is the x-axis. The vertical line (up and down) is the y-axis.",
+   slips:[[inWords(["y-axis","y axis","yaxis","y"]), "x is the horizontal line (across); y is the vertical line (up and down)."]]},
+  {q:"The vertical number line is called the {0}.", parts:[T("word", ["y-axis","y axis","yaxis","y"], {w:"w-m"})], show:"y-axis",
+   rule:"Vertical means up and down: that is the y-axis. The horizontal line (across) is the x-axis.",
+   slips:[[inWords(["x-axis","x axis","xaxis","x"]), "x is the horizontal line (across); y is the vertical line (up and down)."]]},
+  {q:'In the ordered pair (5, 2), the <span class="nw">x-coordinate</span> is {0} and the <span class="nw">y-coordinate</span> is {1}.', parts:[T("num", 5, {w:"w-xs", label:"x-coordinate"}), T("num", 2, {w:"w-xs", label:"y-coordinate"})],
+   show:"5 and 2", rule:"In (x, y) the first number is x and the second number is y.",
+   slips:[[v => parseNum(v[0]) === 2 && parseNum(v[1]) === 5, "x comes first: in (5, 2), x = 5 and y = 2."]]},
+  {q:"The point (0, 0) is called the {0}.", parts:[T("word", ["origin"], {w:"w-m"})], show:"origin", rule:"(0, 0) is where the two axes cross: the origin."},
+  {q:"Start at the origin. Move 3 units right and 4 units up. Write the ordered pair. {0}", parts:[T("pair", [3, 4], {w:"w-m"})], show:"(3, 4)",
+   rule:"Across first (right 3, so x = 3), then up (up 4, so y = 4): (3, 4).",
+   slips:[[v => { const q = parsePair(v[0]); return !!q && q[0] === 4 && q[1] === 3; }, "Across comes first: right 3 is x = 3, then up 4 is y = 4, so (3, 4), not (4, 3)."]]},
+  {q:"Point A is at (2, 6) and point B is at (6, 2). Are they the same point?", parts:[C(["Yes","No"], "No")], show:"No (order matters)",
+   rule:"Order matters: (2, 6) is 2 across and 6 up; (6, 2) is 6 across and 2 up."}
+]},
+{id:"D", short:"Fractions", title:"Fractions and balancing equations", ar:"الكسور والجمع", sub:"Type the missing number, or tap your choice.", cols:"c3", items:[
+  {q:F(1, 2) + " = " + F("{0}", 8), parts:[T("num", 4, {label:"missing numerator"})], show:"4",
+   rule:"2 × 4 = 8, so multiply the top by 4 too: 1 × 4 = 4.", slips:[[isNum(7), "Equivalent fractions multiply, not add: 2 × 4 = 8, so 1 × 4 = 4."]]},
+  {q:F(3, 4) + " = " + F(9, "{0}"), parts:[T("num", 12, {label:"missing denominator"})], show:"12",
+   rule:"3 × 3 = 9, so multiply the bottom by 3 too: 4 × 3 = 12.", slips:[[isNum(10), "Equivalent fractions multiply, not add: 3 × 3 = 9, so 4 × 3 = 12."]]},
+  {q:"Write " + F(6, 8) + " in lowest terms: {0}", parts:[T("frac", "3/4", {w:"w-s"})], show:F(3, 4),
+   rule:"Divide the top and bottom by 2, their greatest common factor: 6 ÷ 2 = 3 and 8 ÷ 2 = 4.",
+   slips:[[v => near(parseFrac(v[0]), .75), "Equal, but not in lowest terms: divide the top and bottom by the same number until only 1 divides both: 3/4."],
+          [v => near(parseNum(v[0]), .75), "Lowest terms means a fraction: 6/8 = 3/4."]]},
+  {q:"Which is greater: " + F(2, 5) + " or " + F(2, 7) + "?", parts:[C([["2/5", F(2, 5)], ["2/7", F(2, 7)]], "2/5")],
+   show:F(2, 5) + " (same numerator: the smaller denominator gives bigger pieces)", rule:"Same numerator → the smaller denominator gives bigger pieces, so 2/5 > 2/7."},
+  {q:"Compare: " + F(3, 8) + ' <span class="slot">?</span> ' + F(5, 8), parts:[C(["<", ">", "="], "<", {aria:"Comparison sign"})], fill: v => [v],
+   show:F(3, 8) + " &lt; " + F(5, 8), rule:"Same denominator → compare the numerators: 3 &lt; 5, so 3/8 &lt; 5/8."},
+  {q:"Which fraction equals 1 whole: " + F(4, 4) + ", " + F(4, 1) + ", or " + F(1, 4) + "?", parts:[C([["4/4", F(4, 4)], ["4/1", F(4, 1)], ["1/4", F(1, 4)]], "4/4")],
+   show:F(4, 4), rule:"A fraction is 1 whole when the top and bottom are the same: 4/4 = 1. (4/1 = 4, and 1/4 is one quarter.)"},
+  {q:"3 = " + F("{0}", 4), parts:[T("num", 12, {label:"missing numerator"})], show:"12",
+   rule:"Each whole is 4 quarters, so 3 wholes = 3 × 4 = 12 quarters: 3 = 12/4.", slips:[[isNum(3), "3/4 is less than 1 whole. Three wholes are 3 × 4 = 12 quarters: 12/4."]]},
+  {q:F(60, 100) + " = " + F("{0}", 10), parts:[T("num", 6, {label:"missing numerator"})], show:"6",
+   rule:"100 ÷ 10 = 10, so divide the top by 10 too: 60 ÷ 10 = 6."},
+  {q:"245 + {0} = 600", parts:[T("num", 355, {w:"w-s"})], show:"355",
+   rule:"Find the missing part: 600 − 245 = 355. Check: 245 + 355 = 600.", slips:[[isNum(845), "600 is already the total, so subtract to find the missing part: 600 − 245 = 355."]]},
+  {q:"300 + 150 = 200 + {0}", parts:[T("num", 250, {w:"w-s"})], show:"250",
+   rule:"Both sides must be equal: 300 + 150 = 450, and 450 − 200 = 250.", slips:[[isNum(450), "The = sign means both sides are equal, not \"write the total\": 450 = 200 + 250."]]},
+  {q:"7 × 40 = {0}", parts:[T("num", 280, {w:"w-s"})], show:"280",
+   rule:"7 × 4 = 28, and 40 is ten times 4, so 7 × 40 = 280.",
+   slips:[[isNum(28), "7 × 40 is ten times 7 × 4: 28 × 10 = 280."], [isNum(2800), "40 has only one zero, so add one zero to 28: 280."]]}
+]},
+{id:"E", short:"Exponents", title:"Exponents and order of operations", ar:"الأسس وترتيب العمليات", sub:"Type the answer.", cols:"c2", items:[
+  {q:"Write 5 × 5 × 5 using an exponent: {0}", parts:[T("exp", "5^3", {w:"w-s"})], show:"5<sup>3</sup>",
+   rule:"The base is the number being multiplied (5); the exponent counts how many times (3): 5³.",
+   slips:[[isNum(125), "125 is the value. The question wants the power: 5 used 3 times is 5³."],
+          [v => normExp(v[0]) === "3^5", "The base is the number being multiplied (5); the small raised number counts how many 5s (3): 5³."]]},
+  {q:"2<sup>4</sup> = {0}", parts:[T("num", 16, {w:"w-s"})], show:"16", rule:"2⁴ = 2 × 2 × 2 × 2 = 16.",
+   slips:[[isNum(8), "2⁴ means 2 × 2 × 2 × 2 = 16, not 2 × 4."], [isNum(6), "2⁴ means 2 × 2 × 2 × 2 = 16, not 2 + 4."]]},
+  {q:"(0.3)<sup>2</sup> = {0}", parts:[T("num", .09, {w:"w-s", fracOk:true})], show:"0.09",
+   rule:"0.3 × 0.3 = 0.09: 3 × 3 = 9, and the answer needs two decimal places (one from each 0.3).",
+   slips:[[isNum(.9), "0.3 × 0.3 = 0.09, not 0.9: count the decimal places in both numbers (1 + 1 = 2)."], [isNum(.6), "Squaring means multiplying by itself, not by 2: 0.3 × 0.3 = 0.09."]]},
+  {q:"(" + F(1, 2) + ")<sup>3</sup> = {0}", parts:[T("fracdec", ["1/8"], {w:"w-s", dec:.125})], show:F(1, 8) + " (or 0.125)",
+   rule:"Multiply the top and bottom three times: 1 × 1 × 1 = 1 and 2 × 2 × 2 = 8, so 1/8.",
+   slips:[[v => ["1/6","3/6","3/2","1/2"].includes(norm(v[0]).replace(/\s/g, "")), "(1/2)³ means 1/2 × 1/2 × 1/2: multiply, don't add, so 1/8."]]},
+  {q:"18 − 3 × 4 + 2 = {0}", parts:[T("num", 8, {w:"w-s"})], show:"8 (18 − 12 + 2)",
+   rule:"Multiply first: 18 − 12 + 2. Then add and subtract from left to right: 6 + 2 = 8.",
+   slips:[[isNum(62), "Multiply before adding and subtracting: 3 × 4 = 12 first, so 18 − 12 + 2 = 8."], [isNum(4), "After multiplying, add and subtract from left to right: 18 − 12 = 6, then 6 + 2 = 8."]]},
+  {q:"2 × (6 + 4)<sup>2</sup> ÷ 5 = {0}", parts:[T("num", 40, {w:"w-s"})], show:"40 (2 × 100 ÷ 5)",
+   rule:"Brackets first: 6 + 4 = 10. Then the exponent: 10² = 100. Then 2 × 100 ÷ 5 = 40.",
+   slips:[[isNum(8), "10² means 10 × 10 = 100, not 10 × 2: 2 × 100 ÷ 5 = 40."]]},
+  {q:"Evaluate 3<i>x</i> + 2 when <i>x</i> = 4: {0}", parts:[T("num", 14, {w:"w-s"})], show:"14",
+   rule:"3x means 3 × x: 3 × 4 + 2 = 12 + 2 = 14.",
+   slips:[[isNum(36), "3x means 3 × x, not the number 34: 3 × 4 + 2 = 14."], [isNum(18), "Multiply before adding: 3 × 4 + 2 = 12 + 2 = 14, not 3 × 6."]]},
+  {q:"Use the distributive property: 4(<i>x</i> + 5) = {0}", parts:[T("expr", ["4x+20","20+4x"], {w:"w-l"})], show:"4<i>x</i> + 20",
+   rule:"Multiply 4 by each term inside the brackets: 4 × x + 4 × 5 = 4x + 20.",
+   slips:[[v => ["4x+5","x+20","4x+9"].includes(normExpr(v[0])), "Multiply the 4 by both terms inside the brackets: 4 × x and 4 × 5, so 4x + 20."]]}
+]},
+{id:"F", short:"Vocabulary", title:"Vocabulary", ar:"المفردات", sub:"Prefixes, suffixes and roots.", cols:"c2", items:[
+  {q:"<b>preheat</b> means:", parts:[C(["heat again","heat before","heat too much"], "heat before")], show:"heat before", rule:"pre- means before: preheat = heat before (like preview, pre-test)."},
+  {q:"<b>misread</b> means:", parts:[C(["read wrongly","read again","read before"], "read wrongly")], show:"read wrongly", rule:"mis- means wrongly or badly: misread = read wrongly (like misspell, misbehave)."},
+  {q:"<b>careless</b> means:", parts:[C(["full of care","caring again","without care"], "without care")], show:"without care", rule:"-less means without: careless = without care. (-ful means full of: careful.)"},
+  {q:"<b>kindness</b> is a:", parts:[C(["noun","verb","adjective"], "noun")], show:"noun", rule:"-ness turns an adjective into a noun: kind (adjective) → kindness (noun)."},
+  {q:"The Greek root <b>tele</b> (telephone, television) means:", parts:[C(["sound","far","see"], "far")], show:"far", rule:"tele = far: a telephone carries sound far away; a television shows pictures from far away."},
+  {q:"The Greek root <b>graph</b> (autograph, paragraph) means:", parts:[C(["self","sound","write / draw"], "write / draw")], show:"write / draw", rule:"graph = write or draw: an autograph is a person's own name, written by hand (auto = self)."},
+  {n:"7a", q:"A synonym for <b>huge</b>: {0}", parts:[T("word", HUGE, {w:"w-l"})], show:"enormous (or gigantic, giant, massive, immense, vast)",
+   rule:"A synonym means the same. Huge means very big, like enormous.",
+   slips:[[inWords(["big","large"]), "Huge means very big, so its synonym must also mean very big: enormous, gigantic, massive."],
+          [inWords(["small","tiny","little","minute"]), "That is an antonym (the opposite). A synonym means the same: enormous."]]},
+  {n:"7b", q:"An antonym for <b>ancient</b>: {0}", parts:[T("word", ANCIENT, {w:"w-l"})], show:"modern (or new, recent)",
+   rule:"An antonym means the opposite. Ancient means very old, so modern.",
+   slips:[[inWords(["old","antique","aged","prehistoric"]), "That means nearly the same (a synonym). An antonym is the opposite of very old: modern."]]}
+]},
+{id:"G", short:"Science", title:"Science", ar:"العلوم", sub:"Tissues and states of matter. Tap your choice.", items:[
+  {q:"Which tissue sends signals that tell muscles to contract?", parts:[C(TISSUES, "nervous")], show:"nervous", rule:"Nervous tissue sends signals; muscle tissue contracts when a signal arrives."},
+  {q:"Which tissue binds and supports other tissues and attaches muscles to bones?", parts:[C(TISSUES, "connective")], show:"connective", rule:"Connective tissue binds, supports and connects: tendons are connective tissue that attach muscles to bones."},
+  {q:"Which tissue lines the inside of the stomach?", parts:[C(TISSUES, "epithelial")], show:"epithelial", rule:"Epithelial tissue covers and lines surfaces: the skin outside, and the lining inside the stomach."},
+  {q:"True or false: Each organ in the body is made of only one type of tissue.", parts:[C(["True","False"], "False")], show:"False (organs have several tissue types working together)",
+   rule:"An organ is made of several tissue types working together; the stomach has all four."},
+  {q:"In which state do particles move the fastest: solid, liquid, or gas?", parts:[C(["solid","liquid","gas"], "gas")], show:"gas", rule:"Gas particles have the most energy, so they move fastest and spread far apart."},
+  {q:"When ice melts, its particles {0} energy and move {1}.", parts:[C(["gain","lose"], "gain", {aria:"gain or lose"}), C(["faster","slower"], "faster", {aria:"faster or slower"})],
+   show:"gain energy, move faster", rule:"Melting needs heat: the particles gain energy and move faster."},
+  {q:'Thermal energy moves from <span class="slot w">___</span> objects to <span class="slot w">___</span> objects.', parts:[C(["warmer → cooler","cooler → warmer"], "warmer → cooler")],
+   fill: v => v.split(" → "), show:"warmer → cooler", rule:"Heat always flows from the warmer object to the cooler one, until both are the same temperature."}
+]}
+];
+const SEC = {}; SECTIONS.forEach(s => { SEC[s.id] = s; });
+const TOTAL = SECTIONS.reduce((t, s) => t + s.items.length, 0);
+
+/* extra boxes inside some sections */
+const VERB_RULES = '<details class="hint"><summary>The five verb rules</summary><ul>' +
+  ["tense","agree","irr","double","yi"].map(k => '<li><b>' + TIP[k][0] + ':</b> ' + TIP[k][1] + '</li>').join("") + '</ul></details>';
+const XY_RULE = "x comes before y in the alphabet: x is the first number, along the ground (across) first, then climb up (y).";
+const SCI_TIPS = ["Nervous tissue sends signals; connective tissue binds, supports and connects; muscle tissue contracts; epithelial tissue covers and lines. An organ is made of several tissue types working together.",
+  "In \"Select all that apply\" questions, judge every option on its own. Don't stop after two."];
+SEC.A.before = VERB_RULES;
+SEC.C.before = '<p class="rule-box"><span><b>Memory rule:</b> ' + XY_RULE + '</span></p>';
+SEC.E.before = '<details class="hint"><summary>Order of operations</summary><ul><li>Brackets → exponents → × and ÷ from left to right → + and − from left to right.</li></ul></details>';
+SEC.G.after = '<div class="rule-box"><b>Tips</b><ul>' + SCI_TIPS.map(t => '<li>' + t + '</li>').join("") + '</ul></div>';
+
+const TRAITS = [["helpful","متعاون"],["generous","كريم"],["selfish","أناني"],["scatterbrained","كثير النسيان"],["cheerful","مبتهج"],["surprised","متفاجئ"],["lonely","وحيد"],["worried","قلق"],
+  ["anxious","متوتر"],["hopeless","يائس"],["frustrated","محبَط"],["embarrassed","محرَج"],["curious","فضولي"],["fearful","خائف"],["proud","فخور"],["grateful","ممتن"]];
+const IRR_GROUPS = [
+  {name:"-ought / -aught", pairs:[["teach","taught"],["bring","brought"],["think","thought"],["catch","caught"],["buy","bought"]]},
+  {name:"i → u", pairs:[["sting","stung"],["fling","flung"],["swing","swung"]]},
+  {name:"ee → e, -t", pairs:[["sweep","swept"],["keep","kept"],["feel","felt"]]},
+  {name:"i → ou", pairs:[["grind","ground"]]}
+];
+const IRREG = IRR_GROUPS.flatMap(g => g.pairs);
+
+/* ---------- saved best scores ---------- */
+function loadBest(){
+  try {
+    const v = JSON.parse(localStorage.getItem(KEY) || "null"), out = {};
+    if (v && v.best && typeof v.best === "object")
+      SECTIONS.forEach(s => { const b = v.best[s.id]; if (Number.isInteger(b) && b >= 0 && b <= s.items.length) out[s.id] = b; });
+    return out;
+  } catch (e) { return {}; }
+}
+let S = {best: loadBest()};
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+/* per-section screen state: chosen buttons, answers shown, fresh start */
+const STATE = {};
+SECTIONS.forEach(s => { STATE[s.id] = {sel:{}, shown:false, fresh:true, checked:false}; });
+
+/* ---------- screen ---------- */
+function inputHTML(s, i, j, p, n){
+  const im = p.kind === "num" ? "decimal" : "text";
+  const label = "Question " + n + (p.label ? ", " + p.label : "");
+  return '<input class="in ' + (p.w || "") + '" type="text" inputmode="' + im + '" data-s="' + s.id + '" data-i="' + i + '" data-p="' + j + '" aria-label="' + esc(label) +
+    '" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next">';
+}
+function choiceHTML(s, i, j, p, n, inline){
+  return '<span class="opts' + (inline ? " inline" : "") + '" role="group" aria-label="' + esc("Question " + n + (p.aria ? ", " + p.aria : ", choices")) + '">' +
+    p.opts.map(o => { const [v, h] = Array.isArray(o) ? o : [o, esc(o)];
+      return '<button type="button" class="opt" data-s="' + s.id + '" data-i="' + i + '" data-p="' + j + '" data-v="' + esc(v) + '"' + (v === p.ans ? " data-key" : "") + ' aria-pressed="false">' + h + '</button>'; }).join("") + '</span>';
+}
+function itemHTML(s, it, i){
+  const n = it.n || String(i + 1);
+  let q = it.q, after = "";
+  it.parts.forEach((p, j) => {
+    const ph = "{" + j + "}", inline = q.includes(ph);
+    const h = p.f === "text" ? inputHTML(s, i, j, p, n) : choiceHTML(s, i, j, p, n, inline);
+    if (inline) q = q.replace(ph, h); else after += h;
+  });
+  return '<li class="q" id="q-' + s.id + i + '"><span class="qn">' + n + '</span><div class="qb"><div class="qt">' + q + '</div>' + after +
+    '<div class="fb" hidden></div><p class="reveal" hidden>Answer: <b>' + it.show + '</b></p></div></li>';
+}
+function sectionHTML(s){
+  const n = s.items.length, list = '<ol class="qs ' + (s.cols || "") + '">' + s.items.map((it, i) => itemHTML(s, it, i)).join("") + '</ol>';
+  return '<section class="sec panel s-' + s.id.toLowerCase() + '" id="sec-' + s.id + '" aria-labelledby="h-' + s.id + '">' +
+    '<header class="sec-head"><span class="sec-letter" aria-hidden="true">' + s.id + '</span>' +
+    '<div class="sec-titles"><h2 id="h-' + s.id + '"><span class="vh">Section ' + s.id + ': </span>' + s.title + ' ' + AR(s.ar) + '</h2><p class="sec-sub">' + s.sub + '</p></div>' +
+    '<span class="best" data-best="' + s.id + '">Best <b>–/' + n + '</b></span></header>' +
+    '<div class="sec-body">' + (s.before || "") +
+    (s.id === "C" ? '<div class="c-layout">' + list + '<figure class="cgrid" id="cgrid"></figure></div>' : list) +
+    '<div class="acts"><button class="btn btn-col" type="button" data-act="check" data-s="' + s.id + '">Check answers</button>' +
+    '<button class="btn" type="button" data-act="reset" data-s="' + s.id + '">Try again</button>' +
+    '<button class="btn" type="button" data-act="show" data-s="' + s.id + '" aria-pressed="false">Show answers</button>' +
+    '<span class="score" data-score="' + s.id + '" role="status" aria-live="polite">Score: –/' + n + '</span>' +
+    '<p class="score-note" data-note="' + s.id + '"></p></div>' + (s.after || "") + '</div></section>';
+}
+
+/* the coordinate grid for questions C5 and C6 */
+function gridSVG(pts){
+  const N = 8, c = 24, ox = 30, oy = 222, X = x => ox + x * c, Y = y => oy - y * c;
+  let g = "";
+  for (let k = 0; k <= N; k++){
+    const line = k ? 'stroke="#C9D3E6" stroke-width="1"' : 'stroke="#14163A" stroke-width="2.5"';
+    g += '<line x1="' + X(k) + '" y1="' + Y(0) + '" x2="' + X(k) + '" y2="' + Y(N) + '" ' + line + '/>' +
+         '<line x1="' + X(0) + '" y1="' + Y(k) + '" x2="' + X(N) + '" y2="' + Y(k) + '" ' + line + '/>' +
+         '<text x="' + X(k) + '" y="' + (Y(0) + 15) + '" text-anchor="middle">' + k + '</text>' +
+         (k ? '<text x="' + (X(0) - 7) + '" y="' + (Y(k) + 4) + '" text-anchor="end">' + k + '</text>' : "");
+  }
+  g += '<text x="' + (X(N) + 9) + '" y="' + (Y(0) + 4) + '" font-weight="800" font-size="13" fill="#14163A">x</text>' +
+       '<text x="' + X(0) + '" y="' + (Y(N) - 9) + '" text-anchor="middle" font-weight="800" font-size="13" fill="#14163A">y</text>';
+  pts.filter(p => p.path).forEach(p => {
+    g += '<path d="M' + X(0) + " " + Y(0) + "H" + X(p.x) + "V" + Y(p.y) + '" fill="none" stroke="' + p.c + '" stroke-width="3" stroke-dasharray="6 4" stroke-linecap="round"/>';
+  });
+  pts.forEach(p => {
+    g += p.cross
+      ? '<path d="M' + (X(p.x) - 6) + " " + (Y(p.y) - 6) + "l12 12m0 -12l-12 12" + '" stroke="' + p.c + '" stroke-width="3.5" stroke-linecap="round"/>'
+      : '<circle cx="' + X(p.x) + '" cy="' + Y(p.y) + '" r="6.5" fill="' + p.c + '" stroke="#14163A" stroke-width="2"/>';
+    g += '<text x="' + (X(p.x) + 9) + '" y="' + (Y(p.y) - 8) + '" font-weight="800" font-size="12" fill="#14163A" stroke="#fff" stroke-width="3" paint-order="stroke">' + p.t + '</text>';
+  });
+  const label = pts.length ? "Grid: " + pts.map(p => p.t).join(", ") : "Empty grid from 0 to 8";
+  return '<svg viewBox="0 0 246 246" role="img" aria-label="' + esc(label) + '" font-family="Lexend, Segoe UI, sans-serif" font-size="11" fill="#4A4D78">' + g + '</svg>';
+}
+function drawGrid(on){
+  const box = $("#cgrid");
+  if (!box) return;
+  const pts = [];
+  if (on){
+    pts.push({x:2, y:6, c:"#2F7DE1", t:"A (2, 6)"}, {x:6, y:2, c:"#F39200", t:"B (6, 2)"}, {x:3, y:4, c:"#12A15E", t:"(3, 4)", path:true});
+    const inp = $('.in[data-s="C"][data-i="4"]'), typed = inp ? parsePair(inp.value) : null;
+    if (typed && STATE.C.checked && !(typed[0] === 3 && typed[1] === 4) && typed.every(v => Number.isInteger(v) && v >= 0 && v <= 8))
+      pts.push({x:typed[0], y:typed[1], c:"#E23D45", t:"(" + typed[0] + ", " + typed[1] + ")", cross:true});
+  }
+  box.innerHTML = gridSVG(pts) + '<figcaption>' + (on ? "5: right 3, then up 4 → (3, 4). 6: A (2, 6) and B (6, 2) are different points."
+    : "Check the answers to see the points for questions 5 and 6.") + '</figcaption>';
+}
+
+function readPart(id, i, j, p){
+  if (p.f === "choice") return STATE[id].sel[i + "." + j] || "";
+  const inp = $('.in[data-s="' + id + '"][data-i="' + i + '"][data-p="' + j + '"]');
+  return inp ? inp.value : "";
+}
+function unmark(id, i){
+  const li = $("#q-" + id + i);
+  if (!li) return;
+  li.classList.remove("ok", "bad");
+  $$(".in, .opt", li).forEach(el => el.classList.remove("ok", "bad", "key"));
+  const fb = $(".fb", li); fb.hidden = true; fb.innerHTML = "";
+}
+function markItem(id, i, it, vals, oks){
+  const li = $("#q-" + id + i), ok = oks.every(Boolean);
+  li.classList.toggle("ok", ok);
+  li.classList.toggle("bad", !ok);
+  it.parts.forEach((p, j) => {
+    if (p.f === "text"){ const inp = $('.in[data-p="' + j + '"]', li); inp.classList.toggle("ok", oks[j]); inp.classList.toggle("bad", !oks[j]); return; }
+    $$('.opt[data-p="' + j + '"]', li).forEach(b => {
+      const picked = b.getAttribute("aria-pressed") === "true", right = b.dataset.v === p.ans;
+      b.classList.toggle("ok", picked && right);
+      b.classList.toggle("bad", picked && !right);
+      b.classList.toggle("key", !oks[j] && right);
+    });
+  });
+  const fb = $(".fb", li);
+  if (ok){ fb.hidden = true; fb.innerHTML = ""; return ok; }
+  const blank = vals.every(v => !String(v).trim());
+  let cat = "", rule = it.rule;
+  if (it.verb && !blank){ const k = verbCat(it, norm(vals[0])); cat = TIP[k][0]; rule = TIP[k][1]; }
+  else if (it.slips && !blank){ const hit = it.slips.find(([test]) => test(vals)); if (hit) rule = hit[1]; }
+  fb.innerHTML = '<p class="fb-ans"><span class="x" aria-hidden="true">✗</span> ' + (blank ? "No answer yet. " : "") + 'Answer: <b>' + it.show + '</b>' +
+    (cat ? ' <span class="cat">' + cat + '</span>' : "") + '</p><p class="fb-rule">' + rule + '</p>';
+  fb.hidden = false;
+  return ok;
+}
+function bump(el){ if (!el || REDUCE) return; el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
+
+function check(id){
+  const s = SEC[id], st = STATE[id], n = s.items.length;
+  st.checked = true;
+  let score = 0;
+  s.items.forEach((it, i) => {
+    const vals = it.parts.map((p, j) => readPart(id, i, j, p));
+    if (markItem(id, i, it, vals, it.parts.map((p, j) => partOK(p, vals[j])))) score++;
+  });
+  const el = $('[data-score="' + id + '"]');
+  el.textContent = "Score: " + score + "/" + n;
+  el.classList.toggle("full", score === n);
+  let note;
+  if (st.shown) note = "The answers were shown, so this score is not saved. Press Try again for a fresh go.";
+  else if (!st.fresh) note = "Only the first check after a fresh start is saved. Press Try again for a fresh go.";
+  else if (S.best[id] === undefined || score > S.best[id]){ S.best[id] = score; save(); note = score === n ? "Full marks! Saved as the best score." : "Saved as the best score."; }
+  else note = "Best so far: " + S.best[id] + "/" + n + ".";
+  st.fresh = false;
+  $('[data-note="' + id + '"]').textContent = note;
+  if (id === "C") drawGrid(true);
+  renderTotals();
+  bump(el);
+}
+function reset(id){
+  const sec = $("#sec-" + id), st = STATE[id], n = SEC[id].items.length;
+  $$(".in", sec).forEach(inp => { inp.value = ""; });
+  st.sel = {};
+  $$(".opt", sec).forEach(b => b.setAttribute("aria-pressed", "false"));
+  $$(".slot", sec).forEach(el => { el.textContent = el.dataset.empty; el.classList.remove("filled"); });
+  SEC[id].items.forEach((it, i) => unmark(id, i));
+  showAnswers(id, false);
+  Object.assign(st, {shown:false, fresh:true, checked:false});
+  const el = $('[data-score="' + id + '"]'); el.textContent = "Score: –/" + n; el.classList.remove("full");
+  $('[data-note="' + id + '"]').textContent = "";
+  if (id === "C") drawGrid(false);
+  sec.scrollIntoView({behavior: REDUCE ? "auto" : "smooth", block:"start"});
+}
+function showAnswers(id, on){
+  const sec = $("#sec-" + id), btn = $('[data-act="show"][data-s="' + id + '"]');
+  sec.classList.toggle("showing", on);
+  $$(".reveal", sec).forEach(r => { r.hidden = !on; });
+  btn.textContent = on ? "Hide answers" : "Show answers";
+  btn.setAttribute("aria-pressed", String(on));
+  if (on) STATE[id].shown = true;
+  if (id === "C") drawGrid(on || STATE.C.checked);
+}
+function pick(btn){
+  const {s, i, p, v} = btn.dataset, it = SEC[s].items[+i];
+  STATE[s].sel[i + "." + p] = v;
+  $$('.opt[data-s="' + s + '"][data-i="' + i + '"][data-p="' + p + '"]').forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+  if (it.fill){
+    const vals = it.fill(v);
+    $$(".slot", $("#q-" + s + i)).forEach((el, k) => { el.textContent = vals[k] || el.dataset.empty; el.classList.toggle("filled", !!vals[k]); });
+  }
+  unmark(s, +i);
+}
+
+function renderTotals(){
+  let best = 0, full = 0;
+  SECTIONS.forEach(s => {
+    const b = S.best[s.id], n = s.items.length, has = b !== undefined, txt = (has ? b : "–") + "/" + n;
+    if (has) best += b;
+    if (b === n) full++;
+    const chip = $('.chip[data-s="' + s.id + '"]');
+    if (chip){ chip.classList.toggle("full", b === n); $("i", chip).textContent = txt; }
+    const bb = $('[data-best="' + s.id + '"]');
+    if (bb){ bb.classList.toggle("full", b === n); $("b", bb).textContent = txt; }
+  });
+  const t = best + "/" + TOTAL;
+  if ($("#meterText").textContent !== t) bump($("#meter"));
+  $("#meterText").textContent = t;
+  $("#totalScore").textContent = t;
+  $("#totalBar").style.width = Math.round(best / TOTAL * 100) + "%";
+  $("#totalBarBox").setAttribute("aria-label", "Overall best score: " + best + " of " + TOTAL);
+  $("#totalNote").textContent = full + " of " + SECTIONS.length + " sections at full marks";
+}
+
+function renderWords(){
+  $("#cards").innerHTML = TRAITS.map(([en, ar]) => '<button type="button" class="card" aria-pressed="false" aria-label="' + en + ': ' + ar + '">' +
+    '<span class="face front" aria-hidden="true">' + en + '</span><span class="face back" aria-hidden="true">' + AR(ar) + '<small>' + en + '</small></span></button>').join("");
+  $("#irr").innerHTML = IRR_GROUPS.map(g => '<div class="irr-g"><h4>' + g.name + '</h4><ul>' +
+    g.pairs.map(([a, b]) => '<li><span>' + a + '</span><span aria-hidden="true">→</span><b>' + b + '</b></li>').join("") + '</ul></div>').join("");
+}
+
+/* ---------- irregular past quiz: 10 rounds ---------- */
+const QZ = {list:[], i:0, score:0, missed:[], state:"idle", timer:0};
+function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function qzStart(){
+  Object.assign(QZ, {list: shuffle(IRREG.slice()).slice(0, 10), i:0, score:0, missed:[]});
+  $("#qzStartBox").hidden = true; $("#qzDone").hidden = true; $("#qzPlay").hidden = false;
+  qzAsk();
+}
+function qzAsk(){
+  QZ.state = "ask";
+  $("#qzRound").textContent = "Round " + (QZ.i + 1) + " of " + QZ.list.length + " · Score " + QZ.score;
+  $("#qzVerb").textContent = QZ.list[QZ.i][0];
+  const inp = $("#qzIn"); inp.value = ""; inp.readOnly = false; inp.classList.remove("ok", "bad");
+  $("#qzFb").textContent = ""; $("#qzFb").className = "qz-fb";
+  $("#qzGo").textContent = "Check";
+  inp.focus({preventScroll:true});
+}
+function qzCheck(){
+  const inp = $("#qzIn"), a = norm(inp.value), [v, past] = QZ.list[QZ.i], fb = $("#qzFb");
+  if (!a){ fb.textContent = "Type the past tense first."; fb.className = "qz-fb"; inp.focus(); return; }
+  const ok = a === past;
+  if (ok) QZ.score++; else QZ.missed.push(QZ.list[QZ.i]);
+  inp.readOnly = true; inp.classList.add(ok ? "ok" : "bad");
+  fb.className = "qz-fb " + (ok ? "ok" : "bad");
+  fb.textContent = ok ? "✓ Right: " + v + " → " + past : "✗ " + v + " → " + past + (/ed$/.test(a) ? ". Irregular verbs don't take -ed." : ".");
+  $("#qzRound").textContent = "Round " + (QZ.i + 1) + " of " + QZ.list.length + " · Score " + QZ.score;
+  $("#qzGo").textContent = QZ.i === QZ.list.length - 1 ? "See the score" : "Next";
+  QZ.state = "fb";
+  if (ok) QZ.timer = setTimeout(qzNext, 1200);
+}
+function qzNext(){
+  clearTimeout(QZ.timer);
+  if (QZ.state !== "fb") return;
+  QZ.i++;
+  if (QZ.i < QZ.list.length){ qzAsk(); return; }
+  QZ.state = "done";
+  $("#qzPlay").hidden = true; $("#qzDone").hidden = false;
+  $("#qzScore").textContent = "Score: " + QZ.score + "/" + QZ.list.length;
+  $("#qzReview").textContent = QZ.missed.length ? "Practise these again: " + QZ.missed.map(([a, b]) => a + " → " + b).join(", ") + "." : "All 10 right. Well done!";
+  $("#qzAgain").focus({preventScroll:true});
+}
+
+/* ---------- print: the questions with blank lines, then a compact answer key ---------- */
+function printItem(it, i){
+  let q = it.q, after = "";
+  it.parts.forEach((p, j) => {
+    const ph = "{" + j + "}", inline = q.includes(ph);
+    const h = p.f === "text" ? '<span class="ps-blank ' + (p.w || "") + '"></span>'
+      : '<span class="ps-opts' + (inline ? " inline" : "") + '">' + p.opts.map(o => '<span class="ps-opt">' + (Array.isArray(o) ? o[1] : esc(o)) + '</span>').join("") + '</span>';
+    if (inline) q = q.replace(ph, h); else after += h;
+  });
+  return '<li class="ps-q"><span class="ps-n">' + (it.n || i + 1) + '.</span><div>' + q + (after ? '<div class="ps-after">' + after + '</div>' : "") + '</div></li>';
+}
+function renderPrint(){
+  const secs = SECTIONS.map(s => {
+    const list = '<ol class="ps-qs ' + (s.cols || "") + '">' + s.items.map(printItem).join("") + '</ol>';
+    return '<section class="ps-sec"><h2>' + s.id + '. ' + s.title + ' ' + AR(s.ar) + ' <small>' + s.sub + '</small></h2>' +
+      (s.id === "C" ? '<div class="ps-c">' + list + '<figure>' + gridSVG([]) + '<figcaption>Use it for 5 and 6.</figcaption></figure></div>' : list) + '</section>';
+  }).join("");
+  const key = '<section class="ps-key"><h2>Answer key</h2><div class="ps-key-grid">' + SECTIONS.map(s => '<div class="ps-ks"><h3>' + s.id + '. ' + s.short + '</h3><ol>' +
+    s.items.map((it, i) => '<li><b>' + (it.n || i + 1) + '.</b> ' + it.show + '</li>').join("") + '</ol></div>').join("") + '</div>' +
+    '<div class="ps-rules"><h3>Rules to remember</h3><ul>' + ["tense","agree","irr","double","yi"].map(k => '<li><b>' + TIP[k][0] + ':</b> ' + TIP[k][1] + '</li>').join("") +
+    '<li><b>x and y:</b> ' + XY_RULE + '</li>' + SCI_TIPS.map(t => '<li><b>Science:</b> ' + t + '</li>').join("") + '</ul></div>' +
+    '<div class="ps-words"><div><h3>Character traits &amp; feelings</h3><div class="ps-traits">' + TRAITS.map(([en, ar]) => '<div><span>' + en + '</span>' + AR(ar) + '</div>').join("") + '</div></div>' +
+    '<div><h3>Irregular past tense</h3><div class="ps-irr">' + IRREG.map(([a, b]) => '<div>' + a + ' → <b>' + b + '</b></div>').join("") + '</div></div></div>' +
+    '<p class="ps-foot">The online page checks each answer and explains every one.</p></section>';
+  $("#printSheet").innerHTML = '<div class="ps-head"><h1>IXL Practice Sheet</h1><p>Practise the patterns behind common IXL mistakes. Do one section a day, or the whole sheet on Saturday.</p></div>' +
+    '<div class="ps-habits"><b>Before you answer:</b> 1. Put your finger on the key word first (present / past / future, x / y, Select all). 2. When you get one wrong, read the explanation and say the reason out loud. ' +
+    '3. Stop rule: 3 wrong in a row or 25 minutes on one IXL skill → switch to another and come back tomorrow.</div>' + secs + key;
+}
+
+/* ---------- start ---------- */
+$("#sections").innerHTML = SECTIONS.map(sectionHTML).join("");
+$$(".slot").forEach(el => { el.dataset.empty = el.textContent; });
+$("#chips").innerHTML = SECTIONS.map(s => '<a class="chip s-' + s.id.toLowerCase() + '" data-s="' + s.id + '" href="#sec-' + s.id + '"><b>' + s.id + '</b><span>' + s.short + '</span><i>–/' + s.items.length + '</i></a>').join("") +
+  '<a class="chip s-w" href="#words"><b>★</b><span>Word lists</span></a>';
+renderWords();
+drawGrid(false);
+renderTotals();
+renderPrint();
+
+document.addEventListener("click", e => {
+  const opt = e.target.closest(".opt[data-s]");
+  if (opt){ pick(opt); return; }
+  const act = e.target.closest("[data-act]");
+  if (act){
+    const id = act.dataset.s;
+    if (act.dataset.act === "check") check(id);
+    else if (act.dataset.act === "reset") reset(id);
+    else showAnswers(id, !$("#sec-" + id).classList.contains("showing"));
+    return;
+  }
+  const card = e.target.closest(".card");
+  if (card) card.setAttribute("aria-pressed", String(card.getAttribute("aria-pressed") !== "true"));
+});
+document.addEventListener("input", e => { const inp = e.target.closest(".in[data-s]"); if (inp) unmark(inp.dataset.s, +inp.dataset.i); });
+/* Enter moves to the next blank in the section; on the last blank it checks the section */
+document.addEventListener("keydown", e => {
+  if (e.key !== "Enter" || e.isComposing) return;
+  const inp = e.target.closest(".in[data-s]");
+  if (!inp) return;
+  e.preventDefault();
+  const all = $$('.in[data-s="' + inp.dataset.s + '"]'), k = all.indexOf(inp);
+  if (k < all.length - 1) all[k + 1].focus(); else check(inp.dataset.s);
+});
+$("#flipAll").addEventListener("click", e => {
+  const on = e.currentTarget.getAttribute("aria-pressed") !== "true";
+  e.currentTarget.setAttribute("aria-pressed", String(on));
+  e.currentTarget.textContent = on ? "Show all in English" : "Show all in Arabic";
+  $$(".card").forEach(c => c.setAttribute("aria-pressed", String(on)));
+});
+$("#qzStart").addEventListener("click", qzStart);
+$("#qzAgain").addEventListener("click", qzStart);
+$("#qzGo").addEventListener("click", () => { if (QZ.state === "ask") qzCheck(); else qzNext(); });
+$("#qzIn").addEventListener("keydown", e => {
+  if (e.key !== "Enter" || e.isComposing) return;
+  e.preventDefault();
+  if (QZ.state === "ask") qzCheck(); else qzNext();
+});
+$("#resetAll").addEventListener("click", () => {
+  if (!confirm("Clear the saved best scores on this device?")) return;
+  S = {best:{}};
+  try { localStorage.removeItem(KEY); } catch (e) {}
+  renderTotals();
+});
+$("#printBtn").addEventListener("click", () => { renderPrint(); window.print(); });
+window.addEventListener("beforeprint", renderPrint);
+</script>
+</body>
+</html>
