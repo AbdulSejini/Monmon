@@ -872,7 +872,10 @@ const PRACTICE_BY_ID = {
   "2026-10-29-C55D232D8569DE5E9B2C": ["math/exponents/index.html", "تدرّب على الأسس"],
   "2026-10-28-058D4164C010604689B9": ["science/control-information/index.html", "راجع درس التحكم والحواس"],
   "2026-10-29-1D91EF9EED5D8D8B": ["ict/technofuture/index.html", "ذاكر للاختبار العملي وتدرّب عليه"],
-  "ixl-teacher-wxw": ["https://www.ixl.com/science/grade-6/understanding-cells", "افتح المهارة في IXL"]
+  "ixl-teacher-wxw": ["https://www.ixl.com/science/grade-6/understanding-cells", "افتح المهارة في IXL"],
+  "ixl-quiz-19-1": ["https://www.ixl.com/signin", "ادخل IXL ثم Quizzes"],
+  "ixl-quiz-20-1": ["https://www.ixl.com/signin", "ادخل IXL ثم Quizzes"],
+  "ixl-quiz-21-1": ["https://www.ixl.com/signin", "ادخل IXL ثم Quizzes"]
 };
 
 /* What to study or bring, from the Weekly Study Plan, Weekly Events and EduPage messages (EduPage's list only gives the title). */
@@ -882,6 +885,9 @@ const NOTES = {
   "2026-10-21-7AC940BD462598F6F251": "تقويم المدرسة يذكر إجازة نهاية أسبوع طويلة يوم الأحد 25/10، فتأكدوا من يوم التسليم مع المعلم.",
   "msg-2026-10-20-art": "يحضر للحصة: كراسة الرسم، الأدوات الهندسية (خصوصًا الفرجار)، المسطرة، الألوان الخشبية.",
   "2026-10-26-8A58A178CA57DAB97159": "انتبهوا: الواجب اسمه «وظائف أجزاء الخلية الحيوانية»، لكن الرابط يفتح مهارة الخلية النباتية. اسألوا المعلم أيهما المطلوب، والأضمن حل الاثنتين.",
+  "ixl-quiz-19-1": "مسنَد في IXL من يناير ولسا مفتوح. إذا كان من السنة الماضية، اسألوا الأستاذ جمال هل هو مطلوب.",
+  "ixl-quiz-20-1": "مسنَد في IXL من يناير ولسا مفتوح. إذا كان من السنة الماضية، اسألوا الأستاذ جمال هل هو مطلوب.",
+  "ixl-quiz-21-1": "مسنَد في IXL من يناير ولسا مفتوح. إذا كان من السنة الماضية، اسألوا الأستاذ جمال هل هو مطلوب.",
   "2026-10-29-1D91EF9EED5D8D8B": "اختبار عملي على PowerPoint في الحصتين الرابعة والخامسة. يذاكر من كتاب TechnoFuture الصفحات 1-8 و11-22 و25-30."
 };
 
@@ -893,6 +899,12 @@ const EXTRA = [
    text:"تقييم تلاوة سورة الكهف 21-22", fromPlan:true},
   {id:"ixl-teacher-wxw", date:"2026-10-28", kind:"hw", type:"homework", subject:"Science", due:"2026-10-31",
    text:"IXL: أكمل مهارة Understanding cells (WXW) حتى SmartScore 100. واجبات المعلم ما تنحسب مكتملة قبل 100.", fromIxl:true},
+  {id:"ixl-quiz-19-1", date:"2026-10-28", kind:"hw", type:"IXL quiz", subject:"Science", due:"2026-10-31",
+   text:"اختبار الأستاذ جمال في IXL: HW 19.1: Particles in Motion (حركة الجسيمات). يفتحه من صفحة Quizzes ثم Start.", fromIxl:"quiz"},
+  {id:"ixl-quiz-20-1", date:"2026-10-28", kind:"hw", type:"IXL quiz", subject:"Science", due:"2026-10-31",
+   text:"اختبار الأستاذ جمال في IXL: Homework (20.1): Particles and States of Matter (الجسيمات وحالات المادة). يفتحه من صفحة Quizzes ثم Start.", fromIxl:"quiz"},
+  {id:"ixl-quiz-21-1", date:"2026-10-28", kind:"hw", type:"IXL quiz", subject:"Science", due:"2026-10-31",
+   text:"اختبار الأستاذ جمال في IXL: HW 21.1: Compare thermal energy transfers (مقارنة انتقال الطاقة الحرارية). يفتحه من صفحة Quizzes ثم Start.", fromIxl:"quiz"},
   {id:"msg-2026-10-26-flower", date:"2026-10-24", kind:"hw", type:"Bring", subject:"Science", due:"2026-10-26",
    text:"إحضار وردة بيضاء يوم الاثنين لحصة المختبر في العلوم.", fromMsg:true},
   {id:"msg-2026-10-20-art", date:"2026-10-13", kind:"hw", type:"homework", subject:"Art", due:"2026-10-20",
@@ -934,7 +946,7 @@ const SUBJ = {
   "PE":["تربية بدنية","s-pe"], "Art":["فنية","s-art"], "Be Well":["Be Well","s-well"], "ICT/MECHA":["حاسب آلي","s-ict"], "IXL":["IXL","s-ixl"]
 };
 const TYPE_AR = {"homework":"واجب", "Small exam":"اختبار قصير", "Big exam":"اختبار", "Oral exam":"اختبار شفهي",
-  "Unit Test (W2)":"اختبار وحدة", "Test":"اختبار", "Project":"مشروع", "Report":"تقرير", "Bring":"إحضار", "IXL":"تمارين IXL"};
+  "Unit Test (W2)":"اختبار وحدة", "Test":"اختبار", "Project":"مشروع", "Report":"تقرير", "Bring":"إحضار", "IXL":"تمارين IXL", "IXL quiz":"اختبار قصير في IXL"};
 const WD = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 const ICON_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -1034,7 +1046,7 @@ function itemCard(i){
     (NOTES[i.id] ? '<p class="note" dir="auto">' + esc(NOTES[i.id]) + '</p>' : "") +
     (i.fromMsg ? '<p class="meta-note">من رسائل EduPage (مو في قائمة الواجبات)</p>' : "") +
     (i.ixl ? '<p class="meta-note">' + ixlProgress(i.ixl) + ' · من خطة IXL، مو من واجبات المدرسة</p>' : "") +
-    (i.fromIxl ? '<p class="meta-note">من حساب IXL: واجب المعلم، ويُحسب مكتمل عند 100</p>' : "") +
+    (i.fromIxl ? '<p class="meta-note">' + (i.fromIxl === "quiz" ? "من حساب IXL: اختبار من المعلم، يُحل مرة وحدة" : "من حساب IXL: واجب المعلم، ويُحسب مكتمل عند 100") + '</p>' : "") +
     (prac ? '<div class="actions"><a class="act" href="' + prac[0] + '"' + (/^https?:/.test(prac[0]) ? ' target="_blank" rel="noopener"' : "") + '>' + esc(prac[1]) + ' ←</a></div>' : "") +
     '</div></li>';
 }
