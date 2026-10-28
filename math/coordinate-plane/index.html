@@ -368,6 +368,7 @@ a{color:var(--c1);font-weight:700;overflow-wrap:anywhere}
 }
 </style>
 </head><body>
+<script src="../../assets/sync.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 
 <header class="topbar">
@@ -1114,7 +1115,7 @@ function renderHome(){
     + '<p>20 mixed questions from all five zones, no hints. At the end you get a skill-by-skill report and a study plan.</p></div>'
     + '<div class="row"><button class="btn btn-ink" data-act="final">Start the Final Challenge</button>' + (S.last ? '<button class="btn btn-sm" data-act="lastreport">See my last report</button>' : "") + '</div></div>';
   h += renderHW();
-  h += '<p class="foot-note">Progress is saved on this device only. <button class="link-btn" data-act="reset">Reset progress</button></p>';
+  h += '<p class="foot-note">Progress is saved on this device, and on linked family devices. <button class="link-btn" data-act="reset">Reset progress</button></p>';
   $("#scr-home").innerHTML = h;
 }
 function zoneStatus(i){
@@ -1432,7 +1433,7 @@ const ACT = {
   sound(){ S.sound = !S.sound; save(); renderSoundBtn(); if (S.sound) Sound.tap(); },
   tohw(){ renderHome(); show("home"); const t = $("#hw"); if (t) t.scrollIntoView({behavior:reduceMotion ? "auto" : "smooth"}); },
   lastreport(){ if (S.last){ renderReport(S.last); show("report"); } },
-  reset(){ if (confirm("Reset all Coordinate Quest progress on this device?")){ const snd = S.sound; S = fresh(); S.sound = snd; save(); $("#xpVal").textContent = 0; renderHome(); } }
+  reset(){ if (confirm("Reset all Coordinate Quest progress? On a linked device this resets it on the family's other devices too.")){ const snd = S.sound; S = fresh(); S.sound = snd; save(); $("#xpVal").textContent = 0; renderHome(); } }
 };
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-act]");

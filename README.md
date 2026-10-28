@@ -59,6 +59,28 @@ Each page is a single self-contained HTML file: open it in a browser, no build s
 
 Every study page also loads `assets/site-nav.js`, which puts the same navigation strip at the top: the dashboard (لوحتي), this week's plan, the IXL plan and the list of all pages. It picks this week's plan from the date, so when a new weekly plan is added, add it to `WEEK_PAGES` there as well as in `index.html`.
 
+## Progress sync between devices
+
+Progress is saved in each browser's localStorage. Every page (the dashboard included) also loads `assets/sync.js` before its own script, which keeps that progress in step across the family's devices through a Firebase Realtime Database. Nothing changes on a device until it is linked. To link one, open the family link once: `sync/#code=<family code>`. The page [`sync/index.html`](sync/index.html) shows whether this device is linked, when it last synced, and lets you copy the link or unlink the device.
+
+- **What syncs:** the keys in `KEYS` in `assets/sync.js`. These are the homework ticks (`monmon-done-v1`), the IXL plan ticks, the practice sheet's best scores, and the saved progress of each study page. When a new page saves progress, add its key there.
+- **Sending:** ticks and best scores are sent within seconds. Quiz progress is sent a minute after the last answer, and at most 5 minutes after the first. Anything left is sent when the page is hidden or closed.
+- **Receiving:**
+  - While a page is in front, the database streams the time of each change to it.
+  - Pages that are not open fetch the changes when they open or come back to the front.
+  - The dashboard, the IXL plan and the practice sheet redraw in place. Other pages reload if nobody has touched them yet, and otherwise show a banner.
+- **No undoing other devices' changes:** each save is turned into just the changes the page made since it last read the value. So a page still showing older progress never undoes another device's change. A device that already has progress when it is linked adds what only it has; where both have a value, the family's wins.
+- **Storage:** the family's node is `/f/<family code>`. Inside it:
+  - `d` holds one entry per value, keyed by its path, for example `monmon-done-v1|done|<item id>`. Each segment is %-escaped for Firebase, and each value is stored as JSON text, so arrays and empty objects come back exactly as saved.
+  - `t` is the server time of the last change.
+- **Database rules:** they deny everything except reading and writing `f/<family code>`:
+
+  ```json
+  {"rules": {".read": false, ".write": false, "f": {"<family code>": {".read": true, ".write": true}}}}
+  ```
+
+  The family code is only in those rules and in the family link. Never put it in this repository. Changing the code in the rules (and handing out the new link) cuts off every device that has the old one.
+
 Every page has its own A4 print layout. The screen view is hidden and a paper version is printed instead:
 
 | Page | Prints as |

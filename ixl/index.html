@@ -211,6 +211,7 @@ details.wk-more .minis{margin-top:6px}
 </style>
 </head>
 <body>
+<script src="../assets/sync.js"></script>
 <script src="../assets/site-nav.js" data-root="../"></script>
 <header class="topbar">
   <div class="topbar-in">
@@ -299,9 +300,9 @@ details.wk-more .minis{margin-top:6px}
   <section class="bonus panel" id="bonus"></section>
 
   <footer class="foot">
-    <p>The skills come from his IXL personal study plans for the NWEA MAP Growth tests (math, reading, language and science), and the order follows his study file. Three skills appear in both the reading and the language plans; they are listed once. Ticks are saved on this device only. IXL's own score chart is the real record.</p>
+    <p>The skills come from his IXL personal study plans for the NWEA MAP Growth tests (math, reading, language and science), and the order follows his study file. Three skills appear in both the reading and the language plans; they are listed once. Ticks are saved on this device, and on the family's linked devices. IXL's own score chart is the real record.</p>
     <div class="row">
-      <button class="btn btn-sm" id="resetBtn" type="button">Clear the ticks on this device</button>
+      <button class="btn btn-sm" id="resetBtn" type="button">Clear all the ticks</button>
     </div>
   </footer>
 </main>
@@ -353,6 +354,11 @@ let S = (() => {
   return s;
 })();
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+/* another device's ticks arrived (assets/sync.js): show them here without reloading */
+window.addEventListener("monmon-sync", e => {
+  try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); S = v && typeof v.done === "object" ? v : {done:{}}; } catch (err) { S = {done:{}}; }
+  renderAll(false); e.preventDefault();
+});
 /* tick or untick the week on the dashboard (read fresh, so other pages' ticks are kept) */
 function syncWeek(w){
   if (!w) return;
@@ -535,7 +541,7 @@ document.addEventListener("click", e => {
 document.getElementById("printBtn").addEventListener("click", () => { renderPrint(); window.print(); });
 window.addEventListener("beforeprint", renderPrint);
 document.getElementById("resetBtn").addEventListener("click", () => {
-  if (!confirm("Clear all IXL ticks on this device?")) return;
+  if (!confirm("Clear all IXL ticks? On a linked device this clears them on the family's other devices too.")) return;
   S = {done:{}}; save(); WEEKS.forEach(syncWeek); renderAll(false);
 });
 
