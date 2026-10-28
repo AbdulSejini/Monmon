@@ -11,7 +11,7 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 - `tools/edupage_sync.py` re-reads that list and rewrites the data block in `index.html` (standard library only; `--dry-run` prints the items without changing anything). The block keeps two times: `synced`, when the list last changed, and `checked`, when it was last read (stamped at least once a day). If the list hasn't been read for two days, the dashboard shows a warning at the top.
 - `.github/workflows/edupage-sync.yml` runs it every hour from 05:41 to 23:41 Jeddah time and commits only when something changed, plus one "EduPage checked: no changes" commit a day. GitHub often starts scheduled runs late or skips some, so the hourly schedule keeps the site close to EduPage. If the school's server can't be reached, the run tries again next hour and only fails (with GitHub's failure email) once the list hasn't been read for 24 hours. The workflow can also be started by hand from the Actions tab ("Sync EduPage", then "Run workflow").
 - The site is published with GitHub Pages at <https://abdulsejini.github.io/Monmon/>, built from the root of the main branch (`.nojekyll` serves the files as they are). Any commit to the main branch, including the sync's, goes live within a couple of minutes.
-- A green "دخول IXL" button at the top opens IXL's sign-in page. The two IXL plans (below) each add one homework item a week to the dashboard, from the week's first day, with how many of its skills are closed; the plan page ticks the item when every skill of that week is closed.
+- The top bar links to the IXL plan, this week's plan and the list of study pages. The study pages are grouped: "start here" (this week's plan, the IXL plan and the practice sheet), then math, science, English and ICT, then older weekly plans. The IXL plan (below) adds one homework item a week from the week's first day, with how many of its skills are done; the plan page ticks the item when every skill of that week is done. Teacher assignments found on IXL can be added to `EXTRA` with a direct link to the skill.
 - Notes on what to study or bring, items from the Weekly Study Plan or the class's EduPage messages that the public list doesn't have (`EXTRA`), school calendar dates (`SCHOOL_DATES`) and class notices (`NOTICES`) are kept by hand near the top of the script in `index.html`. Nothing personal (messages to or about the student, reports, behaviour notes) goes on this public site.
 
 ## Weekly plans
@@ -25,8 +25,8 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 
 | Plan | Page | What's inside |
 | --- | --- | --- |
-| IXL personal study plan for the NWEA MAP Growth Math test (66 skills, from 28 Oct 2026 to 7 Jan 2027) | [`ixl/map-math/index.html`](ixl/map-math/index.html) | The 66 skills in his IXL study plan, each with a direct link, its IXL code, its area and a rough time. They are spread over nine weeks of about 8 skills each, with the expression skills in the same order as the class's Topic 3 and quick number-sense review in between, then two weeks to catch up. The page shows this week's skills (with any left from earlier weeks first), how to close a skill (SmartScore 100), progress by area, and the whole plan with ticks. It also lists the next level after the 66: 101 skills one step up in IXL's grade-6 plan for that test. Ticks are kept on the device, in `monmon-ixl-v1`. No test scores are on the page. |
-| IXL's grade-6 plan for the NWEA MAP Growth Reading test, at his level (62 skills, from 1 Nov 2026 to 28 Jan 2027) | [`ixl/map-reading/index.html`](ixl/map-reading/index.html) | The same layout for reading: 62 skills in stories and poems (14), informational texts (20) and vocabulary (28), about 5 a week next to the math plan and a few more in the two breaks, ending 23 Jan, then catch-up days to 28 Jan. Each week mixes a story skill, an informational-text skill and word skills, with a reminder to read a book for 20 minutes a day. It also lists the next level: 81 grade-4 skills. Ticks are kept in `monmon-ixl-read-v1`. |
+| His IXL personal study plans for the NWEA MAP Growth tests in math, reading, language and science (239 skills, 236 different; 16 weeks from 1 Nov 2026 to 20 Feb 2027) | [`ixl/index.html`](ixl/index.html) | One plan for the four subjects, in the order of his IXL study file (fractions and stories first, then informational texts, vocabulary and writing, then grammar and physical science, then the rest of the expressions with punctuation and spelling), about 14 skills a week and 40–45 minutes a day. A getting-started week (28–31 Oct) has the teacher's Understanding cells skill and the first exponent skills, like the class. The page shows this week day by day (3 skills Sunday to Wednesday, teacher work and Trouble Spots on Thursday, rest on Friday, 2–3 skills and the practice sheet on Saturday), left-over skills first, each skill's target (80; 90 for reading and fractions; 100 for teacher assignments and the two tense skills B54 and 42P), the stop rule (3 wrong in a row or 25 minutes), the four phases with milestones, all weeks with ticks, and 26 optional bonus skills (geometry, data, Earth and space, life science). The skills come from IXL's public grade-6 plans for those tests at his levels; no scores are on the page. Ticks are kept in `monmon-ixl-plan-v1`; the first visit copies ticks from the earlier math and reading plans, whose old addresses (`ixl/map-math/`, `ixl/map-reading/`) now redirect here. |
+| Practice sheet | [`ixl/practice/index.html`](ixl/practice/index.html) | The questions from his study file's practice sheet as an interactive drill: verb tenses, character traits and feelings, the coordinate plane, fractions and balancing equations, exponents and the order of operations, prefixes, suffixes and roots, and body tissues and states of matter, with checking, a rule for each mistake, word lists with Arabic and an irregular-past quiz. |
 
 ## Math
 
@@ -57,6 +57,8 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 
 Each page is a single self-contained HTML file: open it in a browser, no build step or server needed.
 
+Every study page also loads `assets/site-nav.js`, which puts the same navigation strip at the top: the dashboard (لوحتي), this week's plan, the IXL plan and the list of all pages. It picks this week's plan from the date, so when a new weekly plan is added, add it to `WEEK_PAGES` there as well as in `index.html`.
+
 Every page has its own A4 print layout. The screen view is hidden and a paper version is printed instead:
 
 | Page | Prints as |
@@ -64,8 +66,8 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 | Dashboard | 1 page: homework still due, with boxes to tick by hand, and the coming tests with what to study |
 | Week 8 plan | 2 pages: tests, homework and evening plan; then the Sun–Thu timetable as a grid |
 | Week 9 plan | 2 pages: tests, homework and evening plan; then the Mon–Thu timetable as a grid |
-| IXL Math Plan | 1 page: the 66 skills week by week, with codes and tick boxes |
-| IXL Reading Plan | 1 page: the 62 skills week by week, with codes and tick boxes |
+| IXL MAP Plan | 3 pages: the 16 weeks and the bonus skills as a checklist, with codes and targets |
+| Practice sheet | Up to 3 pages: the questions, then the answer key |
 | Math | 2 pages: study sheet, then 10 practice questions with an answer key |
 | Math, exponents | 2 pages: study sheet, then 10 practice questions with an answer key |
 | Science | 3 pages: key ideas and word bank, then a label-the-cell sheet with an answer key |

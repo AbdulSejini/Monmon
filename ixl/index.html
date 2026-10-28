@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>IXL MAP Plan</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%2312A15E%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M18 33l9 9 19-20%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%227%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn:#C77700; --warn-bg:#FFF0D1;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --c5:#E23F66; --c5t:#FFDDE6;
+  --col:var(--c1); --tint:var(--c1t);
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.wrap{max-width:960px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+/* subjects */
+.x-math{--col:var(--c1);--tint:var(--c1t)} .x-read{--col:var(--c5);--tint:var(--c5t)}
+.x-lang{--col:var(--c2);--tint:var(--c2t)} .x-sci{--col:var(--c4);--tint:var(--c4t)}
+.x-teacher{--col:var(--bad);--tint:var(--bad-bg)} .x-bonus{--col:var(--c3);--tint:var(--c3t)}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:960px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--good);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.meter{display:flex;align-items:center;gap:8px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--good-bg);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;white-space:nowrap}
+.meter svg{width:20px;height:20px}
+.meter.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{50%{transform:scale(1.15)}}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);padding:0}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:640px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+@media (max-width:380px){.logo-mark{display:none}}
+
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn-sm{min-height:36px;padding:5px 11px;font-size:13px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px}
+
+/* hero */
+.hero{margin-top:20px;padding:20px;display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(44px,7vw,68px)}
+.hero h1 span{color:var(--good);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero .sub{margin-top:8px;color:var(--ink-2);font-size:15px}
+.goal{margin-top:14px;padding:12px 14px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--sun-2);font-size:15px}
+.goal b{font-weight:800}
+.side{display:grid;gap:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;background:var(--page);text-align:center}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+.bars{display:grid;gap:7px}
+.bar-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;font-size:13px;font-weight:700}
+.bar-row span:last-child{font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.bar{grid-column:1 / -1;height:12px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--col);transition:width .4s}
+@media (max-width:700px){.hero{grid-template-columns:1fr}}
+
+/* this week */
+.now{margin-top:16px;padding:16px;background:var(--sun);display:grid;gap:12px}
+.now-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px}
+.now h2{font-size:32px}
+.when{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.now-note{font-size:15px;font-weight:700}
+.rhythm{font-size:14px;background:var(--paper);border:2px dashed var(--ink);border-radius:var(--r-sm);padding:8px 12px}
+.rhythm a{font-weight:800;white-space:nowrap}
+.day{display:grid;gap:10px}
+.day + .day{margin-top:6px}
+.day-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.day-head h3{font-size:24px}
+.day-head .tag{background:var(--paper)}
+.day.is-today .day-head h3{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}
+.day-note{padding:10px 12px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);font-size:14px;font-weight:600}
+.sk-list{display:grid;gap:10px}
+.sk{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:12px 14px;border-left:10px solid var(--col);box-shadow:var(--shadow-sm)}
+.sk.is-done{background:var(--good-bg)}
+.sk.is-done .sk-name{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--good)}
+.sk.next{box-shadow:0 0 0 4px var(--good),var(--shadow-sm)}
+.sk-body{min-width:0;display:grid;gap:5px}
+.sk-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.area{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border:2px solid var(--ink);border-radius:6px;background:var(--tint)}
+.kind{font-size:12px;font-weight:700;color:var(--ink-2)}
+.tag{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:1px 7px;border:2px solid var(--ink);border-radius:999px}
+.tag.carry{background:var(--bad);color:#fff}
+.tag.next{background:var(--good);color:#fff}
+.tag.today{background:var(--ink);color:#fff}
+.tgt{font-size:11px;font-weight:800;padding:1px 7px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);white-space:nowrap}
+.tgt.t90{background:var(--sun-2)} .tgt.t100{background:var(--bad);color:#fff}
+.sk-name{font-weight:700;font-size:17px;line-height:1.35}
+.sk-meta{font-size:13px;color:var(--ink-2)}
+.sk-meta b{color:var(--ink);letter-spacing:.04em}
+.sk-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.check{width:44px;height:44px;border:3px solid var(--ink);border-radius:10px;background:var(--paper);display:grid;place-items:center;padding:0;box-shadow:2px 2px 0 var(--ink)}
+.check svg{width:26px;height:26px;opacity:0;transform:scale(.4);transition:transform .2s cubic-bezier(.3,1.6,.5,1),opacity .15s}
+.check[aria-checked="true"]{background:var(--good)}
+.check[aria-checked="true"] svg{opacity:1;transform:none}
+.check.sm{width:34px;height:34px;border-width:2px;border-radius:8px}
+.check.sm svg{width:20px;height:20px}
+.empty{padding:14px;font-weight:700;background:var(--paper)}
+
+.sec-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:34px 0 14px}
+.sec-title h2{font-size:36px}
+.sec-title p{flex-basis:100%;color:var(--ink-2);font-size:14px}
+
+/* how to work */
+.how{padding:16px;display:grid;gap:16px}
+.how h3{font-size:24px}
+.how ol{display:grid;gap:8px;counter-reset:h}
+.how li{counter-increment:h;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;font-size:15px}
+.how li::before{content:counter(h);width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+.targets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.target{border:2px solid var(--ink);border-radius:var(--r-sm);padding:10px 12px;display:grid;gap:4px;background:var(--paper)}
+.target b{font-family:var(--display);font-weight:400;font-size:32px;line-height:1}
+.target span{font-size:13px}
+.target.t90{background:var(--sun-2)} .target.t100{background:var(--bad-bg)}
+@media (max-width:640px){.targets{grid-template-columns:1fr}}
+.stop{padding:10px 12px;border:2px dashed var(--ink);border-radius:var(--r-sm);background:var(--warn-bg);font-size:15px}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.wd{border:2px solid var(--ink);border-radius:8px;padding:8px 6px;background:var(--paper);font-size:12px;display:grid;gap:3px;align-content:start}
+.wd b{font-size:13px}
+.wd.rest{background:repeating-linear-gradient(-45deg,var(--paper) 0 8px,var(--page) 8px 16px)}
+.wd.teach{background:var(--bad-bg)}
+@media (max-width:700px){.week-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* phases and weeks */
+.phase{margin-top:22px;padding:14px;display:grid;gap:6px;background:var(--tint)}
+.phase h3{font-size:26px}
+.phase p{font-size:14px}
+.phase .milestone{font-weight:800}
+.weeks{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:14px}
+.wk{position:relative;padding:14px;display:grid;gap:8px;align-content:start}
+.wk.is-now{background:var(--sun-2);box-shadow:0 0 0 4px var(--sun),var(--shadow)}
+.wk.is-done{background:var(--good-bg)}
+.wk-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:2px 10px}
+.wk h3{font-size:24px}
+.wk-dates{font-size:13px;font-weight:800;color:var(--ink-2)}
+.wk-count{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);justify-self:start}
+.wk-count.left{background:var(--bad);color:#fff}
+.wk-count.ok{background:var(--good);color:#fff}
+.sticker{position:absolute;top:-13px;right:12px;font-family:var(--display);font-size:16px;letter-spacing:.05em;background:var(--good);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:1px 8px;transform:rotate(3deg)}
+.minis{display:grid;gap:6px}
+.mini{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;padding:4px 6px 4px 4px;border-radius:8px;border-left:6px solid var(--col);background:var(--paper)}
+.mini a{font-size:14px;font-weight:600;line-height:1.3;text-decoration:none}
+.mini a:hover{text-decoration:underline}
+.mini.is-done a{text-decoration:line-through;color:var(--ink-2)}
+.code{font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ink-2);white-space:nowrap}
+details.wk-more summary{cursor:pointer;font-size:13px;font-weight:800;list-style:none}
+details.wk-more summary::-webkit-details-marker{display:none}
+details.wk-more summary::before{content:"+ "} details.wk-more[open] summary::before{content:"− "}
+details.wk-more .minis{margin-top:6px}
+
+/* bonus */
+.bonus{padding:16px;display:grid;gap:12px}
+.bonus > p{font-size:14px;color:var(--ink-2)}
+.bonus h3{font-size:22px;margin-top:4px}
+
+.foot{margin-top:40px;font-size:13px;color:var(--ink-2);display:grid;gap:8px}
+.foot .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* print: the 16 weeks as a checklist, built by renderPrint() */
+.print-sheet{display:none}
+@page{size:A4;margin:10mm}
+@media print{
+  html,body{background:#fff!important}
+  body{background-image:none!important;color:#000;font-size:7.8pt;line-height:1.25}
+  .topbar,main{display:none!important}
+  .print-sheet{display:block}
+  .ps-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2pt 12pt;border-bottom:1.5pt solid #000;padding-bottom:3pt}
+  .ps-head h1{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:15pt}
+  .ps-head p{font-size:8.5pt;font-weight:700;color:#333}
+  .ps-rules{margin:4pt 0 5pt;font-size:8pt;display:grid;gap:1pt}
+  .ps-weeks{columns:2;column-gap:6mm}
+  .ps-week{break-inside:avoid;margin-bottom:4pt}
+  .ps-week h2{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:8.8pt;border-bottom:1pt solid #000;padding-bottom:1pt;margin-bottom:1pt;display:flex;justify-content:space-between;gap:6pt}
+  .ps-week h2 small{font-weight:600;font-size:7.5pt;color:#333}
+  .ps-row{display:grid;grid-template-columns:9pt 22pt 1fr 14pt;gap:3pt;align-items:start;padding:.6pt 0}
+  .ps-box{display:inline-block;width:8pt;height:8pt;border:1pt solid #000;border-radius:1.5pt;text-align:center;line-height:7pt;font-size:7pt;font-weight:800}
+  .ps-code{font-weight:800;font-size:7.4pt}
+  .ps-t{font-weight:800;font-size:7pt;text-align:end}
+  .ps-done{color:#555;text-decoration:line-through}
+  .ps-foot{margin-top:3pt;padding-top:3pt;border-top:.75pt solid #999;font-size:7.2pt;color:#444}
+}
+</style>
+</head>
+<body>
+<script src="../assets/site-nav.js" data-root="../"></script>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="logo-mark">IXL PLAN</span>
+    <span class="unit-chip">MAP · Math · Reading · Language · Science</span>
+    <span class="spacer"></span>
+    <span class="meter" id="meter" role="status" aria-live="polite">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12A15E" stroke="#14163A" stroke-width="2"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="meterText">0/210 done</span>
+    </span>
+    <a class="icon-btn" href="../index.html" aria-label="Home: homework dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+    </a>
+    <button class="icon-btn" id="printBtn" type="button" aria-label="Print the checklist">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero panel">
+    <div>
+      <h1>IXL MAP <span>Plan</span></h1>
+      <p class="sub">The skills in his IXL study plans for the NWEA MAP Growth tests in math, reading, language and science, spread over 16 weeks with direct links.</p>
+      <p class="goal"><b>Goal:</b> about <b>14 skills a week, 40–45 minutes a day</b>, from Sunday 1 November to Saturday 20 February. A skill is done when it reaches its target: <b>80</b>, or <b>90</b> for reading and fractions, and <b>100</b> for teacher assignments.</p>
+      <div class="btn-row" style="margin-top:14px">
+        <a class="btn btn-sm x-math btn-col" href="https://www.ixl.com/signin" target="_blank" rel="noopener">Sign in to IXL ↗</a>
+        <a class="btn btn-sm" href="practice/index.html">Practice sheet</a>
+      </div>
+    </div>
+    <div class="side">
+      <div class="stats">
+        <div class="stat"><b id="statDone">0</b><span>Done of 210</span></div>
+        <div class="stat"><b id="statWeek">0/0</b><span>This week</span></div>
+        <div class="stat"><b id="statDays">0</b><span>Days left</span></div>
+      </div>
+      <div class="bars" id="bars"></div>
+    </div>
+  </section>
+
+  <section class="now panel" id="now" aria-labelledby="nowTitle"></section>
+
+  <div class="sec-title"><h2>How to work</h2></div>
+  <section class="how panel">
+    <div>
+      <h3>Targets</h3>
+      <div class="targets" style="margin-top:8px">
+        <div class="target"><b>80</b><span><b>Proficient.</b> Most plan skills: reach 80, then move on.</span></div>
+        <div class="target t90"><b>90</b><span><b>Challenge Zone.</b> Reading and fraction skills: harder questions, and mistakes cost more.</span></div>
+        <div class="target t100"><b>100</b><span><b>Mastered.</b> Teacher assignments (they only count at 100), plus the two tense skills B54 and 42P.</span></div>
+      </div>
+    </div>
+    <div>
+      <h3>Every skill, step by step</h3>
+      <ol style="margin-top:8px">
+        <li><span>Open the skill from this page, or type its code (for example <b>B54</b>) in IXL's search box.</span></li>
+        <li><span>New skill? Watch <b>Learn with an example</b> or the video before the first question.</span></li>
+        <li><span>Before answering, put your finger on the key word: the tense (present / past / future), <b>Select all that apply</b>, or first / second.</span></li>
+        <li><span>Wrong answer? Read the whole explanation, say the reason out loud, then press <b>Got it</b>.</span></li>
+        <li><span>When a whole section of IXL's plan is done, press <b>I'm ready for more</b> to open the next skills.</span></li>
+        <li><span>Once a week with a parent: IXL Analytics › <b>Trouble Spots</b> and <b>Questions</b>, to see which mistakes repeat.</span></li>
+        <li><span>First time only: start IXL's <b>Real-Time Diagnostic</b> (Assessment › Step into the arena) so IXL can set the right level in each subject.</span></li>
+      </ol>
+    </div>
+    <p class="stop"><b>Stop rule:</b> 3 wrong answers in a row, or 25 minutes on the same skill → stop, switch to another skill, and come back to it tomorrow.</p>
+    <div>
+      <h3>The week</h3>
+      <div class="week-grid" style="margin-top:8px">
+        <div class="wd"><b>Sunday</b>3 skills</div>
+        <div class="wd"><b>Monday</b>3 skills</div>
+        <div class="wd"><b>Tuesday</b>3 skills</div>
+        <div class="wd"><b>Wednesday</b>3 skills</div>
+        <div class="wd teach"><b>Thursday</b>Teacher assignments first, then redo skills from Trouble Spots</div>
+        <div class="wd rest"><b>Friday</b>Rest</div>
+        <div class="wd"><b>Saturday</b>2–3 skills, then the <a href="practice/index.html">practice sheet</a></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sec-title"><h2>The 16 weeks</h2>
+    <p>In the order of his study file: fractions and reading first, then writing, grammar and science, then the rest of the expressions with punctuation. Each week mixes three areas.</p></div>
+  <div id="weeks"></div>
+
+  <div class="sec-title"><h2>Bonus skills</h2>
+    <p>Geometry, data, Earth and space, and life science, outside the 16 weeks. Optional, for weekends after the week's skills.</p></div>
+  <section class="bonus panel" id="bonus"></section>
+
+  <footer class="foot">
+    <p>The skills come from his IXL personal study plans for the NWEA MAP Growth tests (math, reading, language and science), and the order follows his study file. Three skills appear in both the reading and the language plans; they are listed once. Ticks are saved on this device only. IXL's own score chart is the real record.</p>
+    <div class="row">
+      <button class="btn btn-sm" id="resetBtn" type="button">Clear the ticks on this device</button>
+    </div>
+  </footer>
+</main>
+
+<section class="print-sheet" id="printSheet" aria-hidden="true"></section>
+
+<script>
+"use strict";
+const KEY = "monmon-ixl-plan-v1";   /* skills that reached their target, by IXL code */
+const OLD_KEYS = ["monmon-ixl-v1", "monmon-ixl-read-v1"];  /* the earlier math and reading plans */
+const DONE_KEY = "monmon-done-v1";  /* shared with the dashboard: a week's id is ticked when all its skills are done */
+const TZ = "Asia/Riyadh";
+const END = "2027-02-20";
+const IXL = "https://www.ixl.com";
+const SIGNIN = "https://www.ixl.com/signin";
+const SKILLS = {"TY5":["Write multiplication expressions using exponents","/math/grade-6/write-multiplication-expressions-using-exponents","oa","Exponents","6"],"XDA":["Evaluate powers with whole number bases","/math/grade-6/evaluate-powers","oa","Exponents","6"],"HC5":["Find the missing exponent or base","/math/grade-6/find-the-missing-exponent-or-base","oa","Exponents","6"],"Q65":["Round to the nearest ten or hundred","/math/grade-3/round-to-the-nearest-ten-or-hundred","ns","Rounding","3"],"7T9":["Determine the themes of myths, fables, and folktales","/ela/grade-3/determine-the-themes-of-myths-fables-and-folktales","lit","Theme","3"],"D5D":["Evaluate powers with decimal bases","/math/grade-6/evaluate-powers-with-decimal-bases","oa","Exponents","6"],"D69":["Complete the addition sentence: up to three digits","/math/grade-3/complete-the-addition-sentence-up-to-three-digits","ns","Addition and subtraction","3"],"PQQ":["Use actions and dialogue to understand characters","/ela/grade-3/use-actions-and-dialogue-to-understand-characters","lit","Inferences","3"],"GEQ":["Evaluate powers with fractional bases","/math/grade-6/evaluate-powers-with-fractional-bases","oa","Exponents","6"],"7PE":["Balance addition equations: up to three digits","/math/grade-3/balance-addition-equations-up-to-three-digits","ns","Addition and subtraction","3"],"GFW":["Draw inferences from a text","/ela/grade-3/draw-inferences-from-a-text","lit","Inferences","3"],"MD8":["Complete the subtraction sentence: up to three digits","/math/grade-3/complete-the-subtraction-sentence-up-to-three-digits","ns","Addition and subtraction","3"],"CXN":["Identify story elements","/ela/grade-3/identify-story-elements","lit","Story elements","3"],"8VK":["Balance subtraction equations: up to three digits","/math/grade-3/balance-subtraction-equations-up-to-three-digits","ns","Addition and subtraction","3"],"MS6":["Multiply by a multiple of ten","/math/grade-3/multiply-by-a-multiple-of-ten","ns","Multiplication","3"],"NY2":["Properties of addition","/math/grade-3/properties-of-addition","ns","Properties of operations","3"],"CGS":["Complete the equation using properties of addition","/math/grade-3/complete-the-equation-using-properties-of-addition","ns","Properties of operations","3"],"KYA":["Add using properties","/math/grade-3/add-using-properties","ns","Properties of operations","3"],"YQD":["Read realistic fiction: set 1","/ela/grade-3/read-realistic-fiction-set-1","lit","Text analysis","3"],"VG6":["Evaluate numerical expressions with or without parentheses","/math/grade-6/evaluate-numerical-expressions-with-or-without-parentheses","oa","Order of operations","6"],"LXP":["Find equivalent fractions using fraction strips","/math/grade-3/find-equivalent-fractions-using-fraction-strips","ns","Model equivalent fractions","3"],"ZQK":["Read realistic fiction: set 2","/ela/grade-3/read-realistic-fiction-set-2","lit","Text analysis","3"],"MLU":["Evaluate numerical expressions with parentheses or brackets","/math/grade-6/evaluate-numerical-expressions-with-parentheses-or-brackets","oa","Order of operations","6"],"6DY":["Find equivalent fractions using area models: one model","/math/grade-3/find-equivalent-fractions-using-area-models-one-model","ns","Model equivalent fractions","3"],"FGC":["Read historical fiction","/ela/grade-3/read-historical-fiction","lit","Text analysis","3"],"ZJ2":["Find equivalent fractions using area models: two models","/math/grade-3/find-equivalent-fractions-using-area-models-two-models","ns","Model equivalent fractions","3"],"N7R":["Distinguish points of view","/ela/grade-3/distinguish-points-of-view","lit","Point of view","3"],"HYM":["Identify equivalent fractions on number lines","/math/grade-3/identify-equivalent-fractions-on-number-lines","ns","Model equivalent fractions","3"],"JL8":["Find equivalent fractions using number lines","/math/grade-3/find-equivalent-fractions-using-number-lines","ns","Model equivalent fractions","3"],"WPQ":["Graph equivalent fractions on number lines","/math/grade-3/graph-equivalent-fractions-on-number-lines","ns","Model equivalent fractions","3"],"7DA":["Identify equivalent fractions","/math/grade-3/identify-equivalent-fractions","ns","Equivalent fractions","3"],"WMX":["Find equivalent fractions","/math/grade-3/find-equivalent-fractions","ns","Equivalent fractions","3"],"QMK":["Label the rhyme scheme","/ela/grade-3/label-the-rhyme-scheme","lit","Poetry elements","3"],"YEE":["Evaluate numerical expressions involving decimals","/math/grade-6/evaluate-numerical-expressions-involving-decimals","oa","Order of operations","6"],"RB2":["Find equivalent fractions with denominators of 10 and 100","/math/grade-3/find-equivalent-fractions-with-denominators-of-10-and-100","ns","Equivalent fractions","3"],"LW5":["Compare mythological illustrations","/ela/grade-3/compare-mythological-illustrations","lit","Visual elements","3"],"WNE":["Evaluate numerical expressions involving fractions","/math/grade-6/evaluate-numerical-expressions-involving-fractions","oa","Order of operations","6"],"YM2":["Write fractions in lowest terms","/math/grade-3/write-fractions-in-lowest-terms","ns","Equivalent fractions","3"],"QTL":["Read realistic fiction with illustrations","/ela/grade-3/read-realistic-fiction-with-illustrations","lit","Visual elements","3"],"GKZ":["Select fractions equivalent to whole numbers using models","/math/grade-3/select-fractions-equivalent-to-whole-numbers-using-models","ns","Fractions equivalent to whole numbers","3"],"7BL":["Graph fractions equivalent to 1 on number lines","/math/grade-3/graph-fractions-equivalent-to-1-on-number-lines","ns","Fractions equivalent to whole numbers","3"],"42U":["Select fractions equivalent to whole numbers","/math/grade-3/select-fractions-equivalent-to-whole-numbers","ns","Fractions equivalent to whole numbers","3"],"KCE":["Find fractions equivalent to whole numbers","/math/grade-3/find-fractions-equivalent-to-whole-numbers","ns","Fractions equivalent to whole numbers","3"],"MJ2":["Compare fractions using models","/math/grade-3/compare-fractions-using-models","ns","Compare using area models","3"],"2PH":["Graph smaller or larger fractions on a number line","/math/grade-3/graph-smaller-or-larger-fractions-on-a-number-line","ns","Compare using number lines","3"],"JC7":["Read historical fiction with illustrations","/ela/grade-3/read-historical-fiction-with-illustrations","lit","Visual elements","3"],"V46":["Identify mistakes involving the order of operations","/math/grade-6/identify-mistakes-involving-the-order-of-operations","oa","Order of operations","6"],"38T":["Compare fractions using number lines","/math/grade-3/compare-fractions-using-number-lines","ns","Compare using number lines","3"],"YGF":["Read fantasy with illustrations","/ela/grade-3/read-fantasy-with-illustrations","lit","Visual elements","3"],"XCQ":["Evaluate numerical expressions one step at a time","/math/grade-6/evaluate-whole-number-numerical-expressions-one-step-at-a-time","oa","Order of operations","6"],"63U":["Graph and compare fractions with like denominators on number lines","/math/grade-3/graph-and-compare-fractions-with-like-denominators-on-number-lines","ns","Compare using number lines","3"],"2ZK":["Read science fiction with illustrations","/ela/grade-3/read-science-fiction-with-illustrations","lit","Visual elements","3"],"ZPD":["Graph and compare fractions with like numerators on number lines","/math/grade-3/graph-and-compare-fractions-with-like-numerators-on-number-lines","ns","Compare using number lines","3"],"6H5":["Graph and compare fractions on number lines","/math/grade-3/graph-and-compare-fractions-on-number-lines","ns","Compare using number lines","3"],"78D":["Compare fractions","/math/grade-3/compare-fractions","ns","Compare fractions","3"],"9BK":["Compare fractions in recipes","/math/grade-3/compare-fractions-in-recipes","ns","Compare fractions","3"],"NHQ":["Use key details to determine the main idea","/ela/grade-3/use-key-details-to-determine-the-main-idea","info","Main idea","3"],"LT5":["Find words using context","/ela/grade-4/find-words-using-context","vocab","Context clues","4"],"DXR":["Put the sentences in order","/ela/grade-4/put-the-sentences-in-order","writing","Organization","4"],"RD9":["Determine the main idea of a passage","/ela/grade-3/determine-the-main-idea-of-a-passage","info","Main idea","3"],"WDU":["Determine the meaning of words using synonyms in context","/ela/grade-4/determine-the-meaning-of-words-using-synonyms-in-context","vocab","Context clues","4"],"2ER":["Order items from most general to most specific","/ela/grade-4/order-items-from-most-general-to-most-specific","writing","Organization","4"],"8KK":["Read about animals","/ela/grade-3/read-about-animals","info","Text analysis","3"],"DC8":["Use context to identify the meaning of a word","/ela/grade-4/use-context-to-identify-the-meaning-of-a-word","vocab","Context clues","4"],"6GA":["Organize information by topic","/ela/grade-4/organize-information-by-topic","writing","Organization","4"],"VJM":["Read about food","/ela/grade-3/read-about-food","info","Text analysis","3"],"6DS":["Which definition matches the sentence?","/ela/grade-4/which-definition-matches-the-sentence","vocab","Multiple-meaning words","4"],"82A":["Remove the sentence that does not belong","/ela/grade-4/remove-the-sentence-that-does-not-belong","writing","Organization","4"],"5TX":["Read about art, music, and traditions","/ela/grade-3/read-about-art-music-and-traditions","info","Text analysis","3"],"VBG":["Which sentence matches the definition?","/ela/grade-4/which-sentence-matches-the-definition","vocab","Multiple-meaning words","4"],"C5Z":["Choose the best topic sentence","/ela/grade-4/choose-the-best-topic-sentence","writing","Topic sentences","4"],"BG9":["Read about sports and hobbies","/ela/grade-3/read-about-sports-and-hobbies","info","Text analysis","3"],"VSQ":["Determine the meaning of a word with pre-, re-, or mis-","/ela/grade-4/determine-the-meaning-of-a-word-with-pre-re-or-mis","vocab","Prefixes","4"],"68D":["Choose the best concluding sentence","/ela/grade-4/choose-the-best-concluding-sentence","writing","Conclusions","4"],"ZZE":["Read about famous people","/ela/grade-3/read-about-famous-people","info","Text analysis","3"],"F6D":["Use the prefixes pre-, re-, and mis-","/ela/grade-4/use-the-prefixes-pre-re-and-mis","vocab","Prefixes","4"],"QWR":["Identify time-order words","/ela/grade-4/identify-time-order-words","writing","Time-order words","4"],"G5Y":["Read about business and technology","/ela/grade-3/read-about-business-and-technology","info","Text analysis","3"],"VDR":["Determine the meaning of a word with -ful or -less","/ela/grade-4/determine-the-meaning-of-a-word-with-ful-or-less","vocab","Suffixes","4"],"F79":["Use coordinating conjunctions","/ela/grade-4/use-coordinating-conjunctions","writing","Transitions","4"],"WSP":["Read about science and nature","/ela/grade-3/read-passages-about-science-and-nature","info","Text analysis","3"],"J58":["Determine the meaning of a word with -ly or -ness","/ela/grade-4/determine-the-meaning-of-a-word-with-ly-or-ness","vocab","Suffixes","4"],"27D":["Use subordinating conjunctions","/ela/grade-4/use-subordinating-conjunctions","writing","Transitions","4"],"NBX":["Read about famous places","/ela/grade-3/read-about-famous-places","info","Text analysis","3"],"YZB":["Determine the meaning of a word with -able or -ment","/ela/grade-4/determine-the-meaning-of-a-word-with-able-or-ment","vocab","Suffixes","4"],"DNH":["Compare information from two informational texts","/ela/grade-3/compare-information-from-two-informational-texts","info","Compare and contrast","3"],"XFL":["Determine the meaning of a word with a suffix: review","/ela/grade-4/determine-the-meaning-of-a-word-with-a-suffix-review","vocab","Suffixes","4"],"YMU":["Choose the best transition","/ela/grade-4/choose-the-best-transition","writing","Transitions","4"],"GC2":["Identify an author's statement of opinion","/ela/grade-3/identify-an-authors-statement-of-opinion","info","Point of view","3"],"F7T":["Identify base words, prefixes, and suffixes","/ela/grade-4/identify-base-words-prefixes-and-suffixes","vocab","Prefixes and suffixes","4"],"6RR":["Identify the purpose of a text","/ela/grade-4/identify-purposes-for-writing","writing","Text purpose","4"],"BWA":["Identify the author's purpose: mixed media","/ela/grade-3/identify-the-authors-purpose-mixed-media","info","Purpose","3"],"VZH":["Determine the meanings of words with prefixes and suffixes: review","/ela/grade-4/determine-the-meanings-of-words-with-prefixes-and-suffixes-review","vocab","Prefixes and suffixes","4"],"96L":["Distinguish facts from opinions","/ela/grade-4/distinguish-facts-from-opinions","writing","Facts and opinions","4"],"A5Q":["Identify the author's purpose: passages","/ela/grade-3/identify-the-authors-purpose-passages","info","Purpose","3"],"8GB":["Sort words with shared prefixes and suffixes by meaning","/ela/grade-4/sort-words-with-shared-prefixes-and-suffixes-by-meaning","vocab","Prefixes and suffixes","4"],"HW7":["Choose reasons to support an opinion","/ela/grade-4/choose-reasons-to-support-an-opinion","writing","Facts and opinions","4"],"FZ7":["Use text features","/ela/grade-3/use-text-features","info","Text features","3"],"G7R":["Sort words by shared Greek or Latin roots","/ela/grade-4/sort-words-by-shared-greek-or-latin-roots","vocab","Greek and Latin roots","4"],"ZXC":["Determine the order of events in informational texts","/ela/grade-3/determine-the-order-of-events-in-informational-texts","info","Text structure","3"],"XNX":["Use Greek and Latin roots as clues to the meanings of words","/ela/grade-4/use-greek-and-latin-roots-as-clues-to-the-meanings-of-words","vocab","Greek and Latin roots","4"],"VVG":["Identify supporting details in literary texts","/ela/grade-4/identify-supporting-details-in-literary-texts","writing","Supporting details","4"],"UNG":["Compare and contrast in informational texts","/ela/grade-3/compare-and-contrast-in-informational-texts","info","Text structure","3"],"49S":["Use the meanings of words as clues to the meanings of Greek and Latin roots","/ela/grade-4/use-the-meanings-of-words-as-clues-to-the-meanings-of-greek-and-latin-roots","vocab","Greek and Latin roots","4"],"8MJ":["Identify supporting details in informational texts","/ela/grade-4/identify-supporting-details-in-informational-texts","writing","Supporting details","4"],"PN7":["Match causes and effects in informational texts","/ela/grade-3/match-causes-and-effects-in-informational-texts","info","Text structure","3"],"FCL":["Determine the meanings of Greek and Latin roots","/ela/grade-4/determine-the-meanings-of-greek-and-latin-roots","vocab","Greek and Latin roots","4"],"7XV":["Determine the main idea of a passage","/ela/grade-4/determine-the-main-idea-of-a-passage","writing","Conduct research","4"],"T8Y":["Match problems with their solutions","/ela/grade-3/match-problems-with-their-solutions","info","Text structure","3"],"BJ9":["Determine the meanings of words with Greek and Latin roots","/ela/grade-4/determine-the-meanings-of-words-with-greek-and-latin-roots","vocab","Greek and Latin roots","4"],"TMH":["Identify and correct plagiarism","/ela/grade-4/identify-and-correct-plagiarism","writing","Conduct research","4"],"UYA":["Identify and analyze text structures","/ela/grade-3/identify-and-analyze-text-structures","info","Text structure","3"],"TS8":["Match words with Greek and Latin roots to their meanings","/ela/grade-4/match-words-with-greek-and-latin-roots-to-their-meanings","vocab","Greek and Latin roots","4"],"K7L":["Use dictionary entries","/ela/grade-4/use-dictionary-entries","vocab","Reference materials","4"],"GFQ":["What does the modal verb show?","/ela/grade-5/what-does-the-modal-verb-show","grammar","Modal verbs","5"],"S7U":["Understand conservation of matter using graphs","/science/grade-5/understand-conservation-of-matter-using-graphs","phys","","5"],"KXN":["Use dictionary definitions","/ela/grade-4/use-dictionary-definitions","vocab","Reference materials","4"],"TGD":["Use the correct modal verb","/ela/grade-5/use-the-correct-modal-verb","grammar","Modal verbs","5"],"WCJ":["Particle motion and changes of state","/science/grade-5/particle-motion-and-changes-of-state","phys","","5"],"N5T":["Use thesaurus entries","/ela/grade-4/use-thesaurus-entries","vocab","Reference materials","4"],"PSC":["Is the sentence in the past, present, or future tense?","/ela/grade-5/is-the-sentence-in-the-past-present-or-future-tense","grammar","Past, present, and future tense","5"],"QQC":["Use academic vocabulary in context","/ela/grade-4/use-academic-vocabulary-in-context","vocab","Academic vocabulary","4"],"B54":["Form and use the simple past, present, and future tense","/ela/grade-5/form-and-use-the-simple-past-present-and-future-tense","grammar","Past, present, and future tense","5"],"K7J":["Determine the meaning of domain-specific words with pictures","/ela/grade-4/determine-the-meaning-of-domain-specific-words-with-pictures","vocab","Domain-specific vocabulary","4"],"S7F":["Form and use the regular past tense","/ela/grade-5/form-and-use-the-regular-past-tense","grammar","Past, present, and future tense","5"],"78V":["Describe the difference between related words","/ela/grade-4/describe-the-difference-between-related-words","vocab","Shades of meaning","4"],"42P":["Form and use the irregular past tense","/ela/grade-5/form-and-use-the-irregular-past-tense","grammar","Past, present, and future tense","5"],"WDH":["Correct inappropriate shifts in verb tense","/ela/grade-5/correct-inappropriate-shifts-in-verb-tense","grammar","Shifts in verb tense","5"],"ZEA":["Positive and negative connotation","/ela/grade-4/positive-and-negative-connotation","vocab","Shades of meaning","4"],"RY6":["Use the progressive verb tenses","/ela/grade-5/use-the-progressive-verb-tenses","grammar","Progressive tense","5"],"MC7":["Introduction to static electricity and charged objects","/science/grade-4/introduction-to-static-electricity-and-charged-objects","phys","","4"],"UZ9":["Sort sensory details","/ela/grade-4/sort-sensory-details","vocab","Sensory details","4"],"AAT":["Form the progressive verb tenses","/ela/grade-5/form-the-progressive-verb-tenses","grammar","Progressive tense","5"],"ZCE":["Compare strengths of magnetic forces","/science/grade-4/compare-strengths-of-magnetic-forces","phys","","4"],"7XU":["Choose the synonym","/ela/grade-4/choose-the-synonym","vocab","Synonyms","4"],"AV6":["Choose between the past tense and past participle","/ela/grade-5/choose-between-the-past-tense-and-past-participle","grammar","Perfect tense","5"],"B6G":["Which sentence has the same meaning?","/ela/grade-4/which-sentence-has-the-same-meaning","vocab","Synonyms","4"],"YLV":["Use the perfect verb tenses","/ela/grade-5/use-the-perfect-verb-tenses","grammar","Perfect tense","5"],"RQT":["Find synonyms in context","/ela/grade-4/find-synonyms-in-context","vocab","Synonyms","4"],"AJQ":["Form the perfect verb tenses","/ela/grade-5/form-the-perfect-verb-tenses","grammar","Perfect tense","5"],"2NZ":["Identify prepositions","/ela/grade-5/identify-prepositions","grammar","Prepositions","5"],"U6W":["Identify prepositions and their objects","/ela/grade-5/identify-prepositions-and-their-objects","grammar","Prepositions","5"],"QLF":["Choose the antonym","/ela/grade-4/choose-the-antonym","vocab","Antonyms","4"],"UZH":["Identify prepositional phrases","/ela/grade-5/identify-prepositional-phrases","grammar","Prepositions","5"],"85B":["Solve problems using magnets","/science/grade-3/solve-problems-using-magnets","phys","","3"],"TJ6":["Which sentence uses an antonym?","/ela/grade-4/which-sentence-uses-an-antonym","vocab","Antonyms","4"],"K9N":["Prepositions: review","/ela/grade-5/prepositions-review","grammar","Prepositions","5"],"APR":["How do balanced and unbalanced forces affect motion?","/science/grade-5/how-do-balanced-and-unbalanced-forces-affect-motion","phys","","5"],"BTA":["Find antonyms in context","/ela/grade-4/find-antonyms-in-context","vocab","Antonyms","4"],"RMV":["Use coordinating conjunctions","/ela/grade-5/use-coordinating-conjunctions","grammar","Coordinating conjunctions","5"],"8YE":["Similes and metaphors with pictures","/ela/grade-4/similes-and-metaphors-with-pictures","vocab","Similes and metaphors","4"],"FGB":["Identify coordinating conjunctions","/ela/grade-5/identify-coordinating-conjunctions","grammar","Coordinating conjunctions","5"],"F7J":["Determine the meanings of similes and metaphors","/ela/grade-4/determine-the-meanings-of-similes-and-metaphors","vocab","Similes and metaphors","4"],"GQ6":["Identify subordinating conjunctions","/ela/grade-5/identify-subordinating-conjunctions","grammar","Subordinating conjunctions","5"],"7QW":["Use the correct pair of correlative conjunctions","/ela/grade-5/use-the-correct-pair-of-correlative-conjunctions","grammar","Correlative conjunctions","5"],"PV6":["Interpret the meaning of an allusion from its source","/ela/grade-4/interpret-the-meaning-of-an-allusion-from-its-source","vocab","Allusions","4"],"DHV":["Fill in the missing correlative conjunction","/ela/grade-5/fill-in-the-missing-correlative-conjunction","grammar","Correlative conjunctions","5"],"G9Y":["Predict temperature changes","/science/grade-4/predict-temperature-changes","phys","","4"],"JMD":["Determine the meaning of idioms from context: set 1","/ela/grade-4/determine-the-meaning-of-idioms-from-context-set-1","vocab","Idioms and adages","4"],"LJN":["Is the sentence simple or compound?","/ela/grade-5/is-the-sentence-simple-or-compound","grammar","Sentence structure","5"],"PFB":["Determine the meaning of idioms from context: set 2","/ela/grade-4/determine-the-meaning-of-idioms-from-context-set-2","vocab","Idioms and adages","4"],"UJF":["Is the sentence simple, compound, or complex?","/ela/grade-5/is-the-sentence-simple-compound-or-complex","grammar","Sentence structure","5"],"A72":["Identify the meaning of idioms and adages: set 1","/ela/grade-4/identify-the-meaning-of-idioms-and-adages-set-1","vocab","Idioms and adages","4"],"U9M":["Create compound sentences","/ela/grade-5/create-compound-sentences","grammar","Sentence structure","5"],"KNW":["Identify the meaning of idioms and adages: set 2","/ela/grade-4/identify-the-meaning-of-idioms-and-adages-set-2","vocab","Idioms and adages","4"],"RQP":["Order the words to create a sentence","/ela/grade-5/order-words-to-create-a-sentence","grammar","Sentence structure","5"],"UBL":["Create varied sentences based on models","/ela/grade-5/create-varied-sentences-based-on-models","grammar","Sentence variety","5"],"F5B":["Write variable expressions: one operation","/math/grade-6/write-variable-expressions-one-operation","oa","Write variable expressions","6"],"5L5":["Commas with coordinate adjectives","/ela/grade-7/commas-with-coordinate-adjectives","mech","Commas","7"],"FFK":["Identify sensory details","/ela/grade-4/identify-sensory-details","writing","Descriptive details","4"],"6LQ":["Write variable expressions: word problems","/math/grade-6/write-variable-expressions-word-problems","oa","Write variable expressions","6"],"PJ5":["Commas with series, dates, and places","/ela/grade-7/commas-with-series-dates-and-places","mech","Commas","7"],"XY2":["Show character emotions and traits","/ela/grade-4/show-character-emotions-and-traits","writing","Descriptive details","4"],"Q8Z":["Evaluate variable expressions with whole numbers","/math/grade-6/evaluate-variable-expressions-with-whole-numbers","oa","Evaluate variable expressions","6"],"U65":["Commas with compound and complex sentences","/ela/grade-7/commas-with-compound-and-complex-sentences","mech","Commas","7"],"49T":["Evaluate variable expressions with decimals, fractions, and mixed numbers","/math/grade-6/evaluate-variable-expressions-with-decimals-fractions-and-mixed-numbers","oa","Evaluate variable expressions","6"],"KUB":["Commas with direct addresses, introductory words, interjections, and interrupters","/ela/grade-7/commas-with-direct-addresses-introductory-words-interjections-and-interrupters","mech","Commas","7"],"UXZ":["Commas: review","/ela/grade-7/commas-review","mech","Commas","7"],"9AR":["What does the punctuation suggest?","/ela/grade-7/what-does-the-punctuation-suggest","mech","Restrictive and nonrestrictive elements","7"],"7XA":["Evaluate variable expressions: word problems","/math/grade-6/evaluate-variable-expressions-word-problems","oa","Evaluate variable expressions","6"],"RAL":["Commas with nonrestrictive elements","/ela/grade-7/commas-with-nonrestrictive-elements","mech","Restrictive and nonrestrictive elements","7"],"HXU":["Revise the sentence using a stronger verb","/ela/grade-4/revise-the-sentence-using-a-stronger-verb","writing","Descriptive details","4"],"9KE":["Identify terms and coefficients","/math/grade-6/identify-terms-and-coefficients","oa","Factors, terms, and coefficients","6"],"VQC":["Use semicolons and commas to separate clauses","/ela/grade-7/use-semicolons-and-commas-to-separate-clauses","mech","Semicolons, colons, and commas","7"],"QXS":["Sort factors of variable expressions","/math/grade-6/sort-factors-of-variable-expressions","oa","Factors, terms, and coefficients","6"],"H9K":["Use semicolons, colons, and commas with lists","/ela/grade-7/use-semicolons-colons-and-commas-with-lists","mech","Semicolons, colons, and commas","7"],"TXX":["Sort factors of numerical expressions","/math/grade-6/sort-factors-of-numerical-expressions","oa","Factors, terms, and coefficients","6"],"HHA":["Use dashes","/ela/grade-7/use-dashes","mech","Dashes, hyphens, and ellipses","7"],"JMH":["Use hyphens in compound adjectives","/ela/grade-7/use-hyphens-in-compound-adjectives","mech","Dashes, hyphens, and ellipses","7"],"5SL":["Decide whether ellipses are used appropriately","/ela/grade-7/decide-whether-ellipses-are-used-appropriately","mech","Dashes, hyphens, and ellipses","7"],"2HH":["Multiply using the distributive property","/math/grade-6/multiply-using-the-distributive-property","oa","Properties of operations","6"],"7TE":["Use the correct homophone","/ela/grade-7/use-the-correct-homophone","mech","Homophones","7"],"6BY":["Add imagery to stories","/ela/grade-4/add-imagery-to-stories","writing","Descriptive details","4"],"PGZ":["Factor variable expressions using the distributive property","/math/grade-6/factor-variable-expressions-using-the-distributive-property","oa","Properties of operations","6"],"QSP":["Form and use plurals: review","/ela/grade-7/form-and-use-plurals-review","mech","Regular plurals","7"],"JSA":["Create varied sentences based on models","/ela/grade-4/create-varied-sentences-based-on-models","writing","Sentence variety","4"],"R8H":["Write equivalent expressions using properties","/math/grade-6/write-equivalent-expressions-using-properties","oa","Properties of operations","6"],"GMJ":["Form and use plurals of compound nouns","/ela/grade-7/form-and-use-plurals-of-compound-nouns","mech","Regular plurals","7"],"7XM":["Multiply using the distributive property: area models","/math/grade-6/multiply-using-the-distributive-property-area-models","oa","Properties of operations","6"],"GWU":["Form the singular or plural possessive","/ela/grade-7/form-the-singular-or-plural-possessive","mech","Possessive nouns","7"],"FWH":["Identify and correct errors with plural and possessive nouns","/ela/grade-7/identify-and-correct-errors-with-plural-and-possessive-nouns","mech","Possessive nouns","7"],"KFG":["Identify equivalent expressions I","/math/grade-6/identify-equivalent-expressions","oa","Equivalent expressions","6"],"MRT":["Irregular past tense: review","/ela/grade-7/irregular-past-tense-review","mech","Past tense","7"],"TWK":["Shades of meaning with pictures","/ela/grade-4/shades-of-meaning-with-pictures","writing","Shades of meaning","4"],"HTG":["Identify equivalent expressions II","/math/grade-6/identify-equivalent-expressions-ii","oa","Equivalent expressions","6"],"RCL":["Form and use comparative and superlative adjectives","/ela/grade-7/form-and-use-comparative-and-superlative-adjectives","mech","Adjectives and adverbs","7"],"W5U":["Identify equivalent expressions using strip models","/math/grade-6/identify-equivalent-expressions-using-strip-models","oa","Equivalent expressions","6"],"9X4":["Form and use comparative and superlative adverbs","/ela/grade-7/form-and-use-comparative-and-superlative-adverbs","mech","Adjectives and adverbs","7"],"9CZ":["Use the correct frequently confused word","/ela/grade-7/use-the-correct-frequently-confused-word","mech","Frequently confused words","7"],"2BR":["Correct errors with frequently confused words","/ela/grade-7/correct-errors-with-frequently-confused-words","mech","Frequently confused words","7"],"MEZ":["Graph triangles and quadrilaterals","/math/grade-7/graph-triangles-and-quadrilaterals","geo","Triangles and quadrilaterals","7"],"5RX":["Triangle inequality","/math/grade-7/triangle-inequality","geo","Triangles and quadrilaterals","7"],"HKG":["Identify complementary, supplementary, vertical, and adjacent angles","/math/grade-7/identify-complementary-supplementary-vertical-and-adjacent-angles","geo","Angles","7"],"CST":["Find measures of complementary, supplementary, vertical, and adjacent angles","/math/grade-7/find-measures-of-complementary-supplementary-vertical-and-adjacent-angles","geo","Angles","7"],"DN9":["Write and solve equations using angle relationships","/math/grade-7/write-and-solve-equations-using-angle-relationships","geo","Angles","7"],"2VL":["Parts of a circle","/math/grade-7/parts-of-a-circle","geo","Circles","7"],"62H":["Area of rectangles and parallelograms","/math/grade-7/area-of-rectangles-and-parallelograms","geo","Area","7"],"ENE":["Area of triangles and trapezoids","/math/grade-7/area-of-triangles-and-trapezoids","geo","Area","7"],"8AW":["Create line plots to find averages","/math/grade-5/create-line-plots-to-find-averages","data","Line plots","5"],"HPJ":["Solar eclipses","/science/grade-6/solar-eclipses","earth","","6"],"BXJ":["Lunar eclipses","/science/grade-6/lunar-eclipses","earth","","6"],"BNG":["Analyze data to compare properties of planets","/science/grade-6/analyze-data-to-compare-properties-of-planets","earth","","6"],"ZFL":["Explore the engineering-design process: going to the Moon!","/science/grade-6/explore-the-engineering-design-process-going-to-the-moon","earth","","6"],"2E5":["Select parts of rock cycle diagrams","/science/grade-6/select-parts-of-rock-cycle-diagrams","earth","Earth's processes","6"],"PS7":["Describe tectonic plate boundaries around the world","/science/grade-6/describe-tectonic-plate-boundaries-around-the-world","earth","Earth's processes","6"],"9L8":["How do air masses form?","/science/grade-6/how-do-air-masses-form","earth","Weather and climate","6"],"N9C":["Factors affecting climate: latitude","/science/grade-6/factors-affecting-climate-latitude","earth","Weather and climate","6"],"NS6":["Factors affecting climate: altitude","/science/grade-6/factors-affecting-climate-altitude","earth","Weather and climate","6"],"N6M":["Evaluate claims about natural resource use: groundwater","/science/grade-6/evaluate-claims-about-natural-resource-use-groundwater","earth","","6"],"GK5":["Evaluate claims about natural resource use: fossil fuels","/science/grade-6/evaluate-claims-about-natural-resource-use-fossil-fuels","earth","","6"],"95F":["Analyze natural hazard maps","/science/grade-6/analyze-natural-hazard-maps","earth","","6"],"CGK":["Organization in the human body: the heart and the circulatory system","/science/biology/organization-in-the-human-body-the-heart-and-the-circulatory-system","life","","biology"],"PZJ":["The chemistry of photosynthesis","/science/biology/the-chemistry-of-photosynthesis","life","","biology"],"6MT":["Kelp forests: factors affecting biodiversity","/science/biology/kelp-forests-factors-affecting-biodiversity","life","","biology"],"QFW":["How can group behavior affect survival? Identify evidence to support a claim","/science/biology/how-can-group-behavior-affect-survival-identify-evidence-to-support-a-claim","life","","biology"],"TPU":["Sexual reproduction and genetic variation: part I","/science/biology/sexual-reproduction-and-genetic-variation-part","life","","biology"],"WXW":["Understanding cells","/science/grade-6/understanding-cells","teacher","Teacher assignment","6"]};
+const WEEKS = [{"id":"ixl-w0","n":0,"from":"2026-10-28","to":"2026-10-31","phase":0,"codes":["WXW","TY5","XDA","HC5"]},{"id":"ixl-w1","n":1,"from":"2026-11-01","to":"2026-11-07","phase":1,"codes":["Q65","7T9","D5D","D69","PQQ","GEQ","7PE","GFW","MD8","CXN","8VK","MS6","NY2","CGS"]},{"id":"ixl-w2","n":2,"from":"2026-11-08","to":"2026-11-14","phase":1,"codes":["KYA","YQD","VG6","LXP","ZQK","MLU","6DY","FGC","ZJ2","N7R","HYM","JL8","WPQ","7DA"]},{"id":"ixl-w3","n":3,"from":"2026-11-15","to":"2026-11-21","phase":1,"codes":["WMX","QMK","YEE","RB2","LW5","WNE","YM2","QTL","GKZ","7BL","42U","KCE","MJ2"]},{"id":"ixl-w4","n":4,"from":"2026-11-22","to":"2026-11-28","phase":1,"codes":["2PH","JC7","V46","38T","YGF","XCQ","63U","2ZK","ZPD","6H5","78D","9BK"]},{"id":"ixl-w5","n":5,"from":"2026-11-29","to":"2026-12-05","phase":2,"codes":["NHQ","LT5","DXR","RD9","WDU","2ER","8KK","DC8","6GA","VJM","6DS","82A","5TX","VBG","C5Z"]},{"id":"ixl-w6","n":6,"from":"2026-12-06","to":"2026-12-12","phase":2,"codes":["BG9","VSQ","68D","ZZE","F6D","QWR","G5Y","VDR","F79","WSP","J58","27D","NBX","YZB"]},{"id":"ixl-w7","n":7,"from":"2026-12-13","to":"2026-12-19","phase":2,"codes":["DNH","XFL","YMU","GC2","F7T","6RR","BWA","VZH","96L","A5Q","8GB","HW7","FZ7","G7R"]},{"id":"ixl-w8","n":8,"from":"2026-12-20","to":"2026-12-26","phase":2,"codes":["ZXC","XNX","VVG","UNG","49S","8MJ","PN7","FCL","7XV","T8Y","BJ9","TMH","UYA","TS8"]},{"id":"ixl-w9","n":9,"from":"2026-12-27","to":"2027-01-02","phase":3,"codes":["K7L","GFQ","S7U","KXN","TGD","WCJ","N5T","PSC","QQC","B54","K7J","S7F","78V","42P","WDH"]},{"id":"ixl-w10","n":10,"from":"2027-01-03","to":"2027-01-09","phase":3,"codes":["ZEA","RY6","MC7","UZ9","AAT","ZCE","7XU","AV6","B6G","YLV","RQT","AJQ","2NZ","U6W"]},{"id":"ixl-w11","n":11,"from":"2027-01-10","to":"2027-01-16","phase":3,"codes":["QLF","UZH","85B","TJ6","K9N","APR","BTA","RMV","8YE","FGB","F7J","GQ6","7QW"]},{"id":"ixl-w12","n":12,"from":"2027-01-17","to":"2027-01-23","phase":3,"codes":["PV6","DHV","G9Y","JMD","LJN","PFB","UJF","A72","U9M","KNW","RQP","UBL"]},{"id":"ixl-w13","n":13,"from":"2027-01-24","to":"2027-01-30","phase":4,"codes":["F5B","5L5","FFK","6LQ","PJ5","XY2","Q8Z","U65","49T","KUB","UXZ","9AR"]},{"id":"ixl-w14","n":14,"from":"2027-01-31","to":"2027-02-06","phase":4,"codes":["7XA","RAL","HXU","9KE","VQC","QXS","H9K","TXX","HHA","JMH","5SL"]},{"id":"ixl-w15","n":15,"from":"2027-02-07","to":"2027-02-13","phase":4,"codes":["2HH","7TE","6BY","PGZ","QSP","JSA","R8H","GMJ","7XM","GWU","FWH"]},{"id":"ixl-w16","n":16,"from":"2027-02-14","to":"2027-02-20","phase":4,"codes":["KFG","MRT","TWK","HTG","RCL","W5U","9X4","9CZ","2BR"]}];
+const BONUS = ["MEZ","5RX","HKG","CST","DN9","2VL","62H","ENE","8AW","HPJ","BXJ","BNG","ZFL","2E5","PS7","9L8","N9C","NS6","N6M","GK5","95F","CGK","PZJ","6MT","QFW","TPU"];
+const SUBJ = {math:{name:"Math", cls:"x-math"}, read:{name:"Reading", cls:"x-read"}, lang:{name:"Language", cls:"x-lang"},
+  sci:{name:"Science", cls:"x-sci"}, teacher:{name:"Teacher", cls:"x-teacher"}};
+const STRANDS = {
+  ns:{subj:"math", label:"Number sense & fractions", target:90}, oa:{subj:"math", label:"Expressions & equations", target:80},
+  lit:{subj:"read", label:"Stories & poems", target:90}, info:{subj:"read", label:"Informational texts", target:90}, vocab:{subj:"read", label:"Vocabulary", target:90},
+  writing:{subj:"lang", label:"Writing", target:80}, grammar:{subj:"lang", label:"Grammar & usage", target:80}, mech:{subj:"lang", label:"Punctuation & spelling", target:80},
+  phys:{subj:"sci", label:"Physical science", target:80},
+  geo:{subj:"math", label:"Geometry", target:80}, data:{subj:"math", label:"Data", target:80},
+  earth:{subj:"sci", label:"Earth & space", target:80}, life:{subj:"sci", label:"Life science", target:80},
+  teacher:{subj:"teacher", label:"Teacher assignment", target:100}
+};
+const TARGET_100 = {B54:true, "42P":true, WXW:true};
+const PHASES = [
+  {title:"Getting started", dates:"Wed 28 – Sat 31 Oct", what:"Mr. Jamal's Understanding cells skill to 100, and the first exponent skills, like Lesson 3-1 in class.", goal:"Understanding cells at 100."},
+  {title:"Phase 1 · Fractions and stories", dates:"Weeks 1–4 · 1–28 Nov", what:"Number sense and fractions (31), stories and poems (14), and 8 expression skills alongside the class: exponents and the order of operations.", goal:"Every fraction and story skill at 90."},
+  {title:"Phase 2 · Reading and writing", dates:"Weeks 5–8 · 29 Nov – 26 Dec", what:"Informational texts (20), vocabulary 1–20, and writing: organization and evidence (17).", goal:"Every reading skill at 90."},
+  {title:"Phase 3 · Words, grammar and science", dates:"Weeks 9–12 · 27 Dec – 23 Jan", what:"Vocabulary 21–41, grammar and usage (26), and physical science (7).", goal:"B54 (tenses) and 42P (irregular past) at 100."},
+  {title:"Phase 4 · Expressions and punctuation", dates:"Weeks 13–16 · 24 Jan – 20 Feb", what:"The other 15 expression skills, punctuation and spelling (22), and writing style (6).", goal:"Every skill at its target, ready for the next MAP test."}
+];
+const DAYS = ["sun","mon","tue","wed","thu","fri","sat"];
+const DAY_NAME = {sun:"Sunday", mon:"Monday", tue:"Tuesday", wed:"Wednesday", thu:"Thursday", fri:"Friday", sat:"Saturday"};
+const CORE = WEEKS.flatMap(w => w.codes).filter(c => SKILLS[c][2] !== "teacher");
+const ICON_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/* ticks: first visit copies the ticks from the earlier math and reading plans */
+let S = (() => {
+  try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v.done === "object") return v; } catch (e) {}
+  const s = {done:{}};
+  OLD_KEYS.forEach(k => { try { const v = JSON.parse(localStorage.getItem(k) || "null"); if (v && v.done) Object.keys(v.done).forEach(c => { if (SKILLS[c] && v.done[c]) s.done[c] = true; }); } catch (e) {} });
+  try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+  return s;
+})();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+/* tick or untick the week on the dashboard (read fresh, so other pages' ticks are kept) */
+function syncWeek(w){
+  if (!w) return;
+  try {
+    const v = JSON.parse(localStorage.getItem(DONE_KEY) || "null") || {};
+    if (!v.done || typeof v.done !== "object") v.done = {};
+    if (w.codes.every(c => S.done[c])) v.done[w.id] = true; else delete v.done[w.id];
+    localStorage.setItem(DONE_KEY, JSON.stringify(v));
+  } catch (e) {}
+}
+
+function todayISO(){
+  try { return new Intl.DateTimeFormat("en-CA", {timeZone:TZ, year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date()); }
+  catch (e) { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
+}
+function dayDiff(a, b){ const t = s => { const [y,m,d] = s.split("-").map(Number); return Date.UTC(y, m-1, d); }; return Math.round((t(b) - t(a)) / 864e5); }
+function addDays(iso, n){ const [y,m,d] = iso.split("-").map(Number); return new Date(Date.UTC(y, m-1, d + n)).toISOString().slice(0, 10); }
+const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const WDS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const wdOf = iso => { const [y,m,d] = iso.split("-").map(Number); return new Date(Date.UTC(y, m-1, d)).getUTCDay(); };
+function dm(iso, wd){ const [, m, d] = iso.split("-").map(Number); return (wd ? WDS[wdOf(iso)] + " " : "") + d + " " + MON[m-1]; }
+function range(w){ return dm(w.from, true) + " – " + dm(w.to, true); }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+const done = c => !!S.done[c];
+const strandOf = c => STRANDS[SKILLS[c][2]];
+const subjOf = c => SUBJ[strandOf(c).subj];
+const target = c => TARGET_100[c] ? 100 : strandOf(c).target;
+function minutes(c){ const g = SKILLS[c][4], t = target(c); return (g === "3" || g === "4" ? 10 : g === "5" ? 15 : g === "6" ? 20 : 25) + (t === 90 ? 5 : t === 100 ? 10 : 0); }
+const weekOf = c => WEEKS.find(w => w.codes.includes(c));
+const weekName = w => w.n === 0 ? "Getting started" : "Week " + w.n + " of 16";
+
+/* the week's skills by day: 3 a day Sunday to Wednesday, the rest on Saturday; Thursday is for teacher work, Friday is rest */
+function daySplit(w){
+  if (w.n === 0) return {thu:w.codes.filter(c => SKILLS[c][2] === "teacher"), sat:w.codes.filter(c => SKILLS[c][2] !== "teacher")};
+  const order = ["sun","mon","tue","wed","sat"], n = w.codes.length, base = Math.floor(n / 5), extra = n % 5, out = {};
+  let i = 0;
+  order.forEach((d, k) => { const size = base + (k < extra ? 1 : 0); out[d] = w.codes.slice(i, i + size); i += size; });
+  return out;
+}
+
+const TODAY = todayISO();
+function stage(){
+  if (TODAY < WEEKS[0].from) return {mode:"before", i:0};
+  const i = WEEKS.findIndex(w => TODAY >= w.from && TODAY <= w.to);
+  if (i >= 0) return {mode:"week", i};
+  return {mode:"after", i:WEEKS.length};
+}
+
+function skillHTML(c, tags){
+  const s = SKILLS[c], st = strandOf(c), sj = subjOf(c), t = target(c), d = done(c);
+  return '<li class="sk panel ' + sj.cls + (d ? " is-done" : "") + (tags.includes("next") ? " next" : "") + '">' +
+    '<button class="check" type="button" role="checkbox" aria-checked="' + d + '" data-code="' + c + '" aria-label="Reached ' + t + ': ' + esc(s[0]) + '">' + ICON_CHECK + '</button>' +
+    '<div class="sk-body"><div class="sk-top"><span class="area">' + esc(sj.name + " · " + st.label) + '</span>' +
+    '<span class="tgt' + (t === 90 ? " t90" : t === 100 ? " t100" : "") + '">Target ' + t + '</span>' +
+    '<span class="kind">about ' + minutes(c) + ' min</span>' +
+    (tags.includes("carry") ? '<span class="tag carry">From an earlier week</span>' : "") +
+    (tags.includes("next") ? '<span class="tag next">Next up</span>' : "") + '</div>' +
+    '<p class="sk-name">' + esc(s[0]) + '</p>' +
+    '<p class="sk-meta">' + esc(s[3]) + ' · IXL code <b>' + c + '</b></p>' +
+    '<div class="sk-actions"><a class="btn btn-sm btn-col" href="' + IXL + s[1] + '" target="_blank" rel="noopener">Open in IXL ↗</a></div></div></li>';
+}
+
+function renderNow(){
+  const st = stage(), el = document.getElementById("now");
+  if (st.mode === "after") {
+    const open = CORE.filter(c => !done(c));
+    el.innerHTML = '<div class="now-head"><h2 id="nowTitle">The 16 weeks are over</h2><span class="when">Since Sat 20 Feb</span></div>' +
+      '<p class="now-note">' + (open.length ? open.length + ' of the 210 skills are not done yet. Finish them first, then try the bonus skills.' : 'All 210 skills are done. Great work! Try the bonus skills next.') + '</p>' +
+      (open.length ? '<ul class="sk-list">' + open.slice(0, 20).map(c => skillHTML(c, ["carry"])).join("") + '</ul>' : "");
+    return st;
+  }
+  const w = WEEKS[st.i], split = daySplit(w), todayKey = DAYS[wdOf(TODAY)];
+  const carry = WEEKS.slice(0, st.i).flatMap(x => x.codes).filter(c => !done(c));
+  /* "Next up": the first two open skills, earlier weeks first, then today, then the rest of the week */
+  const queue = carry.concat(split[todayKey] || [], DAYS.flatMap(d => d === todayKey ? [] : (split[d] || []))).filter(c => !done(c));
+  const nextUp = new Set(queue.slice(0, 2));
+  const tagsFor = (c, extra) => (nextUp.has(c) ? ["next"] : []).concat(extra || []);
+  const left = dayDiff(TODAY, w.to);
+  let html = '<div class="now-head"><h2 id="nowTitle">' + (st.mode === "before" ? "Coming up" : "This week") + '</h2><span class="when">' +
+    weekName(w) + ' · ' + range(w) + ' · ' + (st.mode === "before" ? "starts " + dm(w.from, true) : left === 0 ? "ends today" : left === 1 ? "ends tomorrow" : "ends Saturday") + '</span></div>' +
+    '<p class="now-note">' + esc(PHASES[w.phase].title) + ': ' + esc(PHASES[w.phase].what) + '</p>' +
+    '<p class="rhythm">About 40–45 minutes a day. Start with the skills marked <b>Next up</b>; keep to the stop rule. <a href="' + SIGNIN + '" target="_blank" rel="noopener">Sign in to IXL ↗</a></p>';
+  /* at most 8 left-over skills here; the rest stay in their week cards below */
+  if (carry.length) html += '<div class="day"><div class="day-head"><h3>From earlier weeks</h3><span class="tag carry">' + carry.length + ' left · do these first</span></div><ul class="sk-list">' +
+    carry.slice(0, 8).map(c => skillHTML(c, tagsFor(c, ["carry"]))).join("") + '</ul>' +
+    (carry.length > 8 ? '<p class="day-note">' + (carry.length - 8) + ' more from earlier weeks are open: see their week cards below.</p>' : "") + '</div>';
+  for (let k = 0; k < 7; k++) {
+    const iso = addDays(w.from, k);
+    if (iso > w.to) break;
+    const d = DAYS[wdOf(iso)], codes = split[d] || [], isToday = iso === TODAY;
+    let body;
+    if (codes.length) body = '<ul class="sk-list">' + codes.map(c => skillHTML(c, tagsFor(c))).join("") + '</ul>';
+    else if (d === "thu") body = '<p class="day-note">Teacher assignments first (they count only at 100), then redo any skill from IXL\'s Trouble Spots.</p>';
+    else if (d === "fri") body = '<p class="day-note">Rest day.</p>';
+    else body = '<p class="day-note">No plan skills today.</p>';
+    if (d === "thu" && codes.length) body = '<p class="day-note">Teacher assignments first: they count only at 100.</p>' + body;
+    if (d === "sat" && codes.length) body += '<p class="day-note">Then the <a href="practice/index.html">practice sheet</a> for review.</p>';
+    html += '<div class="day' + (isToday ? " is-today" : "") + '"><div class="day-head"><h3>' + DAY_NAME[d] + ' ' + dm(iso) + '</h3>' + (isToday ? '<span class="tag today">Today</span>' : "") + '</div>' + body + '</div>';
+  }
+  el.innerHTML = html;
+  return st;
+}
+
+function renderStats(st){
+  const n = CORE.filter(done).length;
+  document.getElementById("meterText").textContent = n + "/210 done";
+  document.getElementById("statDone").textContent = n;
+  const w = WEEKS[st.i];
+  document.getElementById("statWeek").textContent = w ? w.codes.filter(done).length + "/" + w.codes.length : "—";
+  document.getElementById("statDays").textContent = Math.max(0, dayDiff(TODAY, END));
+  const groups = [["math", "Math", CORE.filter(c => strandOf(c).subj === "math")], ["read", "Reading", CORE.filter(c => strandOf(c).subj === "read")],
+    ["lang", "Language", CORE.filter(c => strandOf(c).subj === "lang")], ["sci", "Science", CORE.filter(c => strandOf(c).subj === "sci")], ["bonus", "Bonus (optional)", BONUS]];
+  document.getElementById("bars").innerHTML = groups.map(([k, name, codes]) => {
+    const d = codes.filter(done).length, cls = k === "bonus" ? "x-bonus" : SUBJ[k].cls;
+    return '<div class="bar-row ' + cls + '"><span>' + name + '</span><span>' + d + '/' + codes.length + '</span>' +
+      '<div class="bar" role="img" aria-label="' + name + ': ' + d + ' of ' + codes.length + ' done"><i style="width:' + Math.round(d / codes.length * 100) + '%"></i></div></div>';
+  }).join("");
+}
+
+function miniHTML(c){
+  const s = SKILLS[c], d = done(c), t = target(c);
+  return '<li class="mini ' + subjOf(c).cls + (d ? " is-done" : "") + '"><button class="check sm" type="button" role="checkbox" aria-checked="' + d + '" data-code="' + c + '" aria-label="Reached ' + t + ': ' + esc(s[0]) + '">' + ICON_CHECK + '</button>' +
+    '<a href="' + IXL + s[1] + '" target="_blank" rel="noopener">' + esc(s[0]) + '</a><span class="code">' + c + ' · ' + t + '</span></li>';
+}
+function renderWeeks(st){
+  document.getElementById("weeks").innerHTML = PHASES.map((p, pi) => {
+    const ws = WEEKS.filter(w => w.phase === pi);
+    return '<section class="phase panel ' + (pi === 0 ? "x-teacher" : ["", "x-math", "x-read", "x-lang", "x-sci"][pi]) + '"><h3>' + esc(p.title) + '</h3><p><b>' + esc(p.dates) + '.</b> ' + esc(p.what) + '</p><p class="milestone">Milestone: ' + esc(p.goal) + '</p></section>' +
+      '<div class="weeks">' + ws.map(w => {
+        const i = WEEKS.indexOf(w), n = w.codes.filter(done).length, all = n === w.codes.length, past = TODAY > w.to;
+        const now = st.mode !== "after" && st.i === i;
+        const count = all ? '<span class="wk-count ok">All ' + w.codes.length + ' done</span>'
+          : '<span class="wk-count' + (past ? " left" : "") + '">' + n + '/' + w.codes.length + ' done' + (past ? " · " + (w.codes.length - n) + " left" : "") + '</span>';
+        const list = '<ul class="minis">' + w.codes.map(miniHTML).join("") + '</ul>';
+        return '<article class="wk panel' + (now ? " is-now" : "") + (all ? " is-done" : "") + '">' + (now ? '<span class="sticker">' + (st.mode === "before" ? "Next" : "Now") + '</span>' : "") +
+          '<div class="wk-head"><h3>' + (w.n === 0 ? "Getting started" : "Week " + w.n) + '</h3><span class="wk-dates">' + range(w) + '</span></div>' + count +
+          (now || !past || !all ? list : '<details class="wk-more"><summary>Show the skills</summary>' + list + '</details>') + '</article>';
+      }).join("") + '</div>';
+  }).join("");
+}
+
+function renderBonus(){
+  const groups = ["geo", "data", "earth", "life"];
+  document.getElementById("bonus").innerHTML = '<p>' + BONUS.length + ' skills. Target 80. They don\'t count in the 210.</p>' +
+    groups.map(g => { const codes = BONUS.filter(c => SKILLS[c][2] === g); return '<h3>' + esc(SUBJ[STRANDS[g].subj].name + " · " + STRANDS[g].label) + ' (' + codes.length + ')</h3><ul class="minis">' + codes.map(miniHTML).join("") + '</ul>'; }).join("");
+}
+
+function renderPrint(){
+  document.getElementById("printSheet").innerHTML =
+    '<div class="ps-head"><h1>IXL MAP Plan: 16 weeks</h1><p>Math · Reading · Language · Science · 1 Nov – 20 Feb · about 14 skills a week</p></div>' +
+    '<div class="ps-rules"><div><b>Target</b> (last column): 80, or 90 for reading and fractions, 100 for teacher assignments and B54 / 42P. Tick the box when IXL shows the target.</div>' +
+    '<div><b>Each day:</b> 3 skills Sunday to Wednesday; Thursday teacher work and Trouble Spots; Friday rest; Saturday 2–3 skills and the practice sheet. <b>Stop rule:</b> 3 wrong in a row or 25 minutes → switch skills.</div></div>' +
+    '<div class="ps-weeks">' + WEEKS.map(w => '<div class="ps-week"><h2>' + (w.n === 0 ? "Getting started" : "Week " + w.n) + '<small>' + range(w) + '</small></h2>' +
+      w.codes.map(c => '<div class="ps-row' + (done(c) ? " ps-done" : "") + '"><span class="ps-box">' + (done(c) ? "✓" : "") + '</span><span class="ps-code">' + c + '</span><span>' + esc(SKILLS[c][0]) + '</span><span class="ps-t">' + target(c) + '</span></div>').join("") + '</div>').join("") +
+    '<div class="ps-week"><h2>Bonus (optional)<small>weekends</small></h2>' + BONUS.map(c => '<div class="ps-row' + (done(c) ? " ps-done" : "") + '"><span class="ps-box">' + (done(c) ? "✓" : "") + '</span><span class="ps-code">' + c + '</span><span>' + esc(SKILLS[c][0]) + '</span><span class="ps-t">80</span></div>').join("") + '</div></div>' +
+    '<p class="ps-foot">Skills: his IXL personal study plans for the NWEA MAP Growth tests. IXL\'s score chart (Analytics › Scores) shows the real SmartScores.</p>';
+}
+
+function renderAll(bump){
+  const st = renderNow();
+  renderStats(st);
+  renderWeeks(st);
+  renderBonus();
+  renderPrint();
+  if (bump) { const m = document.getElementById("meter"); m.classList.remove("bump"); void m.offsetWidth; m.classList.add("bump"); }
+}
+
+document.addEventListener("click", e => {
+  const btn = e.target.closest(".check[data-code]");
+  if (!btn) return;
+  const c = btn.dataset.code;
+  if (S.done[c]) delete S.done[c]; else S.done[c] = true;
+  save();
+  syncWeek(weekOf(c));
+  const box = btn.closest("#now") ? "#now" : btn.closest("#bonus") ? "#bonus" : "#weeks";
+  renderAll(true);
+  const again = document.querySelector(box + ' .check[data-code="' + c + '"]');
+  if (again) again.focus();
+});
+document.getElementById("printBtn").addEventListener("click", () => { renderPrint(); window.print(); });
+window.addEventListener("beforeprint", renderPrint);
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (!confirm("Clear all IXL ticks on this device?")) return;
+  S = {done:{}}; save(); WEEKS.forEach(syncWeek); renderAll(false);
+});
+
+renderAll(false);
+</script>
+</body>
+</html>

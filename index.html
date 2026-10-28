@@ -32,7 +32,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .s-math{--col:#2F7DE1;--tint:#DCEBFF} .s-ar{--col:#F39200;--tint:#FFE8C2} .s-isl{--col:#9A4FE0;--tint:#EEE0FF}
 .s-sci{--col:#119C77;--tint:#D2F4E8} .s-eng{--col:#E23F66;--tint:#FFDDE6} .s-soc{--col:#8C5A2B;--tint:#F5E6D6}
 .s-quran{--col:#1E7A46;--tint:#D9F0E2} .s-pe{--col:#0E8C9E;--tint:#D3F2F6} .s-art{--col:#B8559A;--tint:#F6E0F0}
-.s-ict{--col:#5B6270;--tint:#E7E9EE}
+.s-ict{--col:#5B6270;--tint:#E7E9EE} .s-ixl{--col:#12A15E;--tint:#DCF7E9}
 .panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
 
 /* top bar */
@@ -44,6 +44,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .top-link{font-size:14px;font-weight:800;text-decoration:none;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:var(--sun-2);box-shadow:2px 2px 0 var(--ink);white-space:nowrap}
 .top-link.ixl-link{background:#12A15E;color:#fff;text-shadow:1px 1px 0 var(--ink)}
 .top-link .short{display:none}
+.top-link svg{display:none;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-4px}
 
 /* hello */
 .hello{margin-top:20px;padding:18px;display:grid;gap:14px}
@@ -99,7 +100,10 @@ ul,ol{margin:0;padding:0;list-style:none}
 .cal span{display:block;font-size:12px;font-weight:700;color:var(--ink-2);padding-bottom:3px}
 
 /* practice */
+.pgroup + .pgroup{margin-top:20px}
+.pgroup h3{font-size:19px;font-weight:800;margin:0 0 8px}
 .practice{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.practice .kind{justify-self:start;font-size:12px;font-weight:800;padding:1px 8px;border:2px solid var(--ink);border-radius:999px;background:var(--paper)}
 .practice a{display:grid;gap:4px;padding:12px 14px;text-decoration:none;background:var(--tint)}
 .practice b{font-size:18px}
 .practice span{font-size:14px;color:var(--ink-2)}
@@ -123,8 +127,9 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
 .foot a{font-weight:700}
 .btn-sm{justify-self:start;margin-top:6px;min-height:36px;padding:5px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);font-weight:800;font-size:14px;box-shadow:2px 2px 0 var(--ink)}
 @media (max-width:520px){.tiles{gap:6px}.tile b{font-size:26px}.tile b.small{font-size:16px}.top-link{font-size:13px;padding:5px 8px}}
-@media (max-width:520px){.chip-class{display:none}.top-link .long{display:none}.top-link .short{display:inline}}
-@media (max-width:360px){.topbar-in{gap:6px;padding-inline:10px}.logo{font-size:22px}.top-link{font-size:12px;padding:4px 7px}}
+@media (max-width:520px){.chip-class{display:none}.top-link .long{display:none}.top-link .short{display:inline}.top-link svg{display:inline-block}}
+@media (max-width:420px){.topbar-in{gap:6px;padding-inline:10px}.logo{font-size:22px}.top-link{font-size:12px;padding:4px 7px}}
+@media (max-width:350px){.logo{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* print: one A4 page, built by renderPrint() */
@@ -162,9 +167,10 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
     <span class="logo">لوحتي</span>
     <span class="chip-class">الصف 6.3</span>
     <span class="spacer"></span>
-    <a class="top-link ixl-link" href="https://www.ixl.com/signin" target="_blank" rel="noopener">دخول IXL ↗</a>
-    <a class="top-link" href="#practice"><span class="long">صفحات المذاكرة</span><span class="short">المذاكرة</span></a>
-    <button class="top-link" id="printBtn" type="button">طباعة</button>
+    <a class="top-link ixl-link" href="ixl/index.html">خطة IXL</a>
+    <a class="top-link" id="topWeek" href="#" hidden><span class="long">خطة الأسبوع</span><span class="short">الأسبوع</span></a>
+    <a class="top-link" href="#practice"><span class="long">كل الصفحات</span><span class="short">الصفحات</span></a>
+    <button class="top-link" id="printBtn" type="button" aria-label="طباعة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg><span class="long">طباعة</span></button>
   </div>
 </header>
 
@@ -204,8 +210,8 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
 
   <section class="sec" id="practice" aria-labelledby="practiceTitle">
     <div class="sec-head"><h2 id="practiceTitle">صفحات المذاكرة</h2>
-      <p>تدريب تفاعلي على دروس هذا الأسبوع.</p></div>
-    <div class="practice" id="practiceList"></div>
+      <p>كل الصفحات مرتبة: ابدأ بخطة الأسبوع وخطة IXL، ثم صفحات كل مادة.</p></div>
+    <div id="practiceList"></div>
   </section>
 
   <section class="sec" aria-labelledby="historyTitle">
@@ -865,7 +871,8 @@ const PRACTICE_BY_ID = {
   "2026-10-26-8A58A178CA57DAB97159": ["science/moving-material/index.html#/cell", "راجع وظائف أجزاء الخلية"],
   "2026-10-29-C55D232D8569DE5E9B2C": ["math/exponents/index.html", "تدرّب على الأسس"],
   "2026-10-28-058D4164C010604689B9": ["science/control-information/index.html", "راجع درس التحكم والحواس"],
-  "2026-10-29-1D91EF9EED5D8D8B": ["ict/technofuture/index.html", "ذاكر للاختبار العملي وتدرّب عليه"]
+  "2026-10-29-1D91EF9EED5D8D8B": ["ict/technofuture/index.html", "ذاكر للاختبار العملي وتدرّب عليه"],
+  "ixl-teacher-wxw": ["https://www.ixl.com/science/grade-6/understanding-cells", "افتح المهارة في IXL"]
 };
 
 /* What to study or bring, from the Weekly Study Plan, Weekly Events and EduPage messages (EduPage's list only gives the title). */
@@ -884,6 +891,8 @@ const EXTRA = [
    text:"تقييم تلاوة سورة الكهف 19-20", fromPlan:true},
   {id:"wsp-2026-10-28-kahf", date:"2026-10-28", kind:"test", type:"Oral exam", subject:"Qur'an", due:"2026-10-28",
    text:"تقييم تلاوة سورة الكهف 21-22", fromPlan:true},
+  {id:"ixl-teacher-wxw", date:"2026-10-28", kind:"hw", type:"homework", subject:"Science", due:"2026-10-31",
+   text:"IXL: أكمل مهارة Understanding cells (WXW) حتى SmartScore 100. واجبات المعلم ما تنحسب مكتملة قبل 100.", fromIxl:true},
   {id:"msg-2026-10-26-flower", date:"2026-10-24", kind:"hw", type:"Bring", subject:"Science", due:"2026-10-26",
    text:"إحضار وردة بيضاء يوم الاثنين لحصة المختبر في العلوم.", fromMsg:true},
   {id:"msg-2026-10-20-art", date:"2026-10-13", kind:"hw", type:"homework", subject:"Art", due:"2026-10-20",
@@ -904,24 +913,25 @@ const NOTICES = [
   {date:"2026-10-03", subject:"Math", text:"واجبات الرياضيات تُحل في الدفتر مع كتابة خطوات الحل، عشان ما تنخصم درجات."}
 ];
 
+/* Study pages by group. The weekly plans come from WEEK_PAGES: this week's plan goes first, the older ones last. */
+const WEEK_TEXT = {8:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", 9:"إجازة الأحد، ثم جدول الاثنين للخميس والواجبات وخطة المذاكرة لكل يوم."};
+const PRACTICE_GROUPS = [["now","ابدأ من هنا"], ["math","الرياضيات"], ["sci","العلوم"], ["eng","الإنجليزي"], ["ict","الحاسب"], ["old","خطط الأسابيع السابقة"]];
 const PRACTICE_PAGES = [
-  {href:"weekly/week-09/index.html", title:"خطة الأسبوع 9", text:"إجازة الأحد، ثم جدول الاثنين للخميس والواجبات وخطة المذاكرة لكل يوم.", cls:""},
-  {href:"ict/technofuture/index.html", title:"الحاسب: اختبار PowerPoint العملي", text:"كتاب TechnoFuture كامل: المستقبليون وخطة القصة، واجهة PowerPoint، أزرار الإجراءات، والشريحة الرئيسية، مع مهام عملية واختبار شامل.", cls:"s-ict"},
-  {href:"ixl/map-math/index.html", title:"IXL: خطة MAP للرياضيات", text:"66 مهارة من خطته في IXL، موزعة على الأسابيع لين 7 يناير، مع روابط مباشرة وعلامة لكل مهارة.", cls:"s-math"},
-  {href:"ixl/map-reading/index.html", title:"IXL: خطة MAP للقراءة", text:"62 مهارة قراءة في مستواه، موزعة على الأسابيع لين 28 يناير، مع روابط مباشرة وعلامة لكل مهارة.", cls:"s-eng"},
-  {href:"weekly/week-08/index.html", title:"خطة الأسبوع 8", text:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", cls:""},
-  {href:"math/exponents/index.html", title:"الرياضيات: الأسس", text:"الدرس 3-1: كتابة القوى وحسابها، والكسور والأعداد العشرية، وقوى العدد 10.", cls:"s-math"},
-  {href:"science/control-information/index.html", title:"العلوم: التحكم والحواس", text:"الجهاز العصبي والدماغ، وكيف توصل الحواس الخمس المعلومات للدماغ.", cls:"s-sci"},
-  {href:"math/coordinate-plane/index.html", title:"الرياضيات: المستوى الإحداثي", text:"الدرسان 2-4 و2-5: تمثيل النقاط وإيجاد المسافة.", cls:"s-math"},
-  {href:"science/moving-material/index.html", title:"العلوم: نقل المواد", text:"كيف تنقل النباتات والإنسان الماء والأكسجين والدم.", cls:"s-sci"},
-  {href:"vocabulary/review-units-1-3/index.html", title:"المفردات: مراجعة الوحدات 1-3", text:"Vocabulary Workshop، صفحات 42-49.", cls:"s-eng"},
-  {href:"vocabulary/unit-02/index.html", title:"المفردات: الوحدة 2", text:"رحلة الكلمات العشرين للوحدة الثانية.", cls:"s-eng"}
+  {group:"now", kind:"خطة IXL", href:"ixl/index.html", title:"خطة IXL لاختبار MAP", text:"المواد الأربع في 16 أسبوع: مهارات كل يوم بروابطها، وهدف كل مهارة.", cls:"s-ixl"},
+  {group:"now", kind:"تدريب", href:"ixl/practice/index.html", title:"ورقة التدريب", text:"الأزمنة، صفات الشخصيات، المستوى الإحداثي، الكسور، الأسس، المفردات والعلوم، مع التصحيح.", cls:"s-ixl"},
+  {group:"math", kind:"درس تفاعلي", href:"math/exponents/index.html", title:"الأسس", text:"الدرس 3-1: كتابة القوى وحسابها، والكسور والأعداد العشرية، وقوى العدد 10.", cls:"s-math"},
+  {group:"math", kind:"درس تفاعلي", href:"math/coordinate-plane/index.html", title:"المستوى الإحداثي", text:"الدرسان 2-4 و2-5: تمثيل النقاط وإيجاد المسافة.", cls:"s-math"},
+  {group:"sci", kind:"درس تفاعلي", href:"science/control-information/index.html", title:"التحكم والحواس", text:"الجهاز العصبي والدماغ، وكيف توصل الحواس الخمس المعلومات للدماغ.", cls:"s-sci"},
+  {group:"sci", kind:"درس تفاعلي", href:"science/moving-material/index.html", title:"نقل المواد", text:"كيف تنقل النباتات والإنسان الماء والأكسجين والدم، ومختبر الخلية.", cls:"s-sci"},
+  {group:"eng", kind:"مفردات", href:"vocabulary/review-units-1-3/index.html", title:"مراجعة الوحدات 1-3", text:"Vocabulary Workshop، صفحات 42-49.", cls:"s-eng"},
+  {group:"eng", kind:"مفردات", href:"vocabulary/unit-02/index.html", title:"الوحدة 2", text:"رحلة الكلمات العشرين للوحدة الثانية.", cls:"s-eng"},
+  {group:"ict", kind:"اختبار عملي", href:"ict/technofuture/index.html", title:"PowerPoint: كتاب TechnoFuture", text:"المستقبليون وخطة القصة، واجهة PowerPoint، أزرار الإجراءات والشريحة الرئيسية، مع مهام عملية واختبار شامل.", cls:"s-ict"}
 ];
 
 const SUBJ = {
   "Math":["رياضيات","s-math"], "English":["إنجليزي","s-eng"], "Science":["علوم","s-sci"], "Arabic":["لغتي","s-ar"],
   "Islamic Studies":["دراسات إسلامية","s-isl"], "Qur'an":["قرآن كريم","s-quran"], "Social Studies":["اجتماعيات","s-soc"],
-  "PE":["تربية بدنية","s-pe"], "Art":["فنية","s-art"], "Be Well":["Be Well","s-well"], "ICT/MECHA":["حاسب آلي","s-ict"]
+  "PE":["تربية بدنية","s-pe"], "Art":["فنية","s-art"], "Be Well":["Be Well","s-well"], "ICT/MECHA":["حاسب آلي","s-ict"], "IXL":["IXL","s-ixl"]
 };
 const TYPE_AR = {"homework":"واجب", "Small exam":"اختبار قصير", "Big exam":"اختبار", "Oral exam":"اختبار شفهي",
   "Unit Test (W2)":"اختبار وحدة", "Test":"اختبار", "Project":"مشروع", "Report":"تقرير", "Bring":"إحضار", "IXL":"تمارين IXL"};
@@ -929,48 +939,35 @@ const WD = ["الأحد","الاثنين","الثلاثاء","الأربعاء",
 const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 const ICON_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-/* IXL plans: one homework item per plan week, shown from the week's first day. Each plan page keeps its
-   closed skills under its own key and ticks a week here (in monmon-done-v1) when all its skills are closed.
-   Keep the weeks in step with WEEKS on each page. */
-const IXL_PLANS = [
-  {page:"ixl/map-math/index.html", key:"monmon-ixl-v1", subject:"Math", name:"للرياضيات", review:"أسبوعا المراجعة", end:"الخميس 7/1", weeks:[
-    {id:"ixl-p1", from:"2026-10-28", due:"2026-10-31", codes:["TY5","XDA","HC5"], topic:"الأسس، مثل درس 3-1 وواجب 9.2"},
-    {id:"ixl-p2", from:"2026-11-01", due:"2026-11-07", codes:["D5D","GEQ","VG6","MLU","Q65","D69","7PE","MD8"], topic:"قوى الأعداد العشرية والكسور، وترتيب العمليات، ومراجعة سريعة للأعداد"},
-    {id:"ixl-p3", from:"2026-11-08", due:"2026-11-14", codes:["YEE","WNE","V46","XCQ","8VK","MS6","NY2","CGS"], topic:"ترتيب العمليات، ومراجعة سريعة للأعداد"},
-    {id:"ixl-p4", from:"2026-11-15", due:"2026-11-21", codes:["F5B","6LQ","Q8Z","49T","KYA","LXP","6DY","ZJ2"], topic:"كتابة العبارات الجبرية وحسابها، والكسور المتكافئة بالنماذج"},
-    {id:"ixl-p5", from:"2026-11-22", due:"2026-11-28", codes:["7XA","HYM","JL8","WPQ","7DA","WMX","RB2","YM2"], topic:"إجازة الخريف: مهارات كسور سريعة، حوالي 10 دقائق للمهارة"},
-    {id:"ixl-p6", from:"2026-11-29", due:"2026-12-05", codes:["9KE","QXS","TXX","2HH","GKZ","7BL","42U","KCE"], topic:"الحدود والمعاملات والعوامل، والكسور المساوية لأعداد صحيحة"},
-    {id:"ixl-p7", from:"2026-12-06", due:"2026-12-12", codes:["PGZ","R8H","7XM","KFG","MJ2","2PH","38T","MEZ"], topic:"خاصية التوزيع والعبارات المتكافئة، ومقارنة الكسور، وأول مهارة هندسة"},
-    {id:"ixl-p8", from:"2026-12-13", due:"2026-12-19", codes:["HTG","W5U","63U","ZPD","6H5","5RX","HKG","CST"], topic:"آخر مهارات العبارات، والكسور على خط الأعداد، والمثلثات والزوايا"},
-    {id:"ixl-p9", from:"2026-12-20", due:"2026-12-26", codes:["78D","9BK","DN9","2VL","62H","ENE","8AW"], topic:"الزوايا والدائرة والمساحة، والتمثيل بالنقاط، وآخر مهارتين في الكسور"},
-    {id:"ixl-review", from:"2026-12-27", due:"2027-01-07", codes:null, topic:"المراجعة"}
-  ]},
-  {page:"ixl/map-reading/index.html", key:"monmon-ixl-read-v1", subject:"English", name:"للقراءة", review:"أيام المراجعة", end:"الخميس 28/1", weeks:[
-    {id:"ixlr-r1", from:"2026-11-01", due:"2026-11-07", codes:["NHQ","CXN","WZZ","5A8","GGV"], topic:"الفكرة الرئيسية وعناصر القصة، ومعنى الكلمة من السياق"},
-    {id:"ixlr-r2", from:"2026-11-08", due:"2026-11-14", codes:["RD9","PQQ","WGP","QR5","ZAK"], topic:"الفكرة الرئيسية للنص والشخصيات، والكلمات متعددة المعاني، والبادئات"},
-    {id:"ixlr-r3", from:"2026-11-15", due:"2026-11-21", codes:["FZ7","GFW","SVF","XPG","8KK"], topic:"خصائص النص والاستنتاج، واللواحق، ونص عن الحيوانات"},
-    {id:"ixlr-r4", from:"2026-11-22", due:"2026-11-28", codes:["A5Q","BWA","7T9","8L8","CYD","VJM","YQD"], topic:"إجازة الخريف: غرض الكاتب ومغزى القصة، ولواحق، ونصّان"},
-    {id:"ixlr-r5", from:"2026-11-29", due:"2026-12-05", codes:["GC2","N7R","7DL","LDS","5TX"], topic:"رأي الكاتب ووجهة النظر، والبادئات واللواحق معًا، ونص عن الفن"},
-    {id:"ixlr-r6", from:"2026-12-06", due:"2026-12-12", codes:["ZXC","ZQK","TE5","XLE","BG9"], topic:"ترتيب الأحداث، وقصص واقعية، والجذور الإغريقية واللاتينية، ونص عن الرياضة"},
-    {id:"ixlr-r7", from:"2026-12-13", due:"2026-12-19", codes:["UNG","FGC","U83","6Y4","N2M"], topic:"المقارنة، وقصة تاريخية، والجذور والمترادفات والأضداد"},
-    {id:"ixlr-r8", from:"2026-12-20", due:"2026-12-26", codes:["PN7","QMK","T7U","M8H","ZZE"], topic:"السبب والنتيجة، والقافية، واستخدام القاموس، ونص عن مشاهير"},
-    {id:"ixlr-r9", from:"2026-12-27", due:"2027-01-02", codes:["T8Y","LW5","VEL","XRD"], topic:"المشكلة والحل، والأساطير، والمفردات الأكاديمية وكلمات الترتيب الزمني"},
-    {id:"ixlr-r10", from:"2027-01-03", due:"2027-01-09", codes:["UYA","QTL","2BZ","95E"], topic:"بنية النص، وقصص مصوّرة، والفروق الدقيقة بين الكلمات"},
-    {id:"ixlr-r11", from:"2027-01-10", due:"2027-01-16", codes:["G5Y","WSP","NBX","JC7","YGF","NLB","8RS"], topic:"إجازة منتصف العام: ثلاثة نصوص قصيرة، وقصتان مصوّرتان، ودلالات الكلمات"},
-    {id:"ixlr-r12", from:"2027-01-17", due:"2027-01-23", codes:["DNH","2ZK","UVX","Z59","L7C"], topic:"المقارنة بين نصين، والخيال العلمي، والتشبيه والتعابير الاصطلاحية"},
-    {id:"ixlr-review", from:"2027-01-24", due:"2027-01-28", codes:null, topic:"المراجعة"}
-  ]}
-];
-function ixlClosed(plan){ try { const v = JSON.parse(localStorage.getItem(plan.key) || "null"); return (v && v.done) || {}; } catch (e) { return {}; } }
+/* IXL MAP plan (ixl/index.html): one homework item per plan week, shown from the week's first day. The plan page keeps
+   the finished skills in monmon-ixl-plan-v1 and ticks a week here (in monmon-done-v1) when all its skills are done.
+   Keep the weeks in step with WEEKS on that page. */
+const IXL_PLAN = {page:"ixl/index.html", key:"monmon-ixl-plan-v1", weeks:[
+  {id:"ixl-w0", n:0, from:"2026-10-28", due:"2026-10-31", codes:["WXW","TY5","XDA","HC5"], topic:"واجب Understanding cells وأول 3 مهارات أسس"},
+  {id:"ixl-w1", n:1, from:"2026-11-01", due:"2026-11-07", codes:["Q65","7T9","D5D","D69","PQQ","GEQ","7PE","GFW","MD8","CXN","8VK","MS6","NY2","CGS"], topic:"الكسور والأعداد، والقصص، والجبر"},
+  {id:"ixl-w2", n:2, from:"2026-11-08", due:"2026-11-14", codes:["KYA","YQD","VG6","LXP","ZQK","MLU","6DY","FGC","ZJ2","N7R","HYM","JL8","WPQ","7DA"], topic:"الكسور والأعداد، والقصص، والجبر"},
+  {id:"ixl-w3", n:3, from:"2026-11-15", due:"2026-11-21", codes:["WMX","QMK","YEE","RB2","LW5","WNE","YM2","QTL","GKZ","7BL","42U","KCE","MJ2"], topic:"الكسور والأعداد، والقصص، والجبر"},
+  {id:"ixl-w4", n:4, from:"2026-11-22", due:"2026-11-28", codes:["2PH","JC7","V46","38T","YGF","XCQ","63U","2ZK","ZPD","6H5","78D","9BK"], topic:"الكسور والأعداد، والقصص، والجبر"},
+  {id:"ixl-w5", n:5, from:"2026-11-29", due:"2026-12-05", codes:["NHQ","LT5","DXR","RD9","WDU","2ER","8KK","DC8","6GA","VJM","6DS","82A","5TX","VBG","C5Z"], topic:"النصوص المعلوماتية، والمفردات، والكتابة"},
+  {id:"ixl-w6", n:6, from:"2026-12-06", due:"2026-12-12", codes:["BG9","VSQ","68D","ZZE","F6D","QWR","G5Y","VDR","F79","WSP","J58","27D","NBX","YZB"], topic:"النصوص المعلوماتية، والمفردات، والكتابة"},
+  {id:"ixl-w7", n:7, from:"2026-12-13", due:"2026-12-19", codes:["DNH","XFL","YMU","GC2","F7T","6RR","BWA","VZH","96L","A5Q","8GB","HW7","FZ7","G7R"], topic:"النصوص المعلوماتية، والمفردات، والكتابة"},
+  {id:"ixl-w8", n:8, from:"2026-12-20", due:"2026-12-26", codes:["ZXC","XNX","VVG","UNG","49S","8MJ","PN7","FCL","7XV","T8Y","BJ9","TMH","UYA","TS8"], topic:"النصوص المعلوماتية، والمفردات، والكتابة"},
+  {id:"ixl-w9", n:9, from:"2026-12-27", due:"2027-01-02", codes:["K7L","GFQ","S7U","KXN","TGD","WCJ","N5T","PSC","QQC","B54","K7J","S7F","78V","42P","WDH"], topic:"المفردات، والقواعد، والعلوم الفيزيائية"},
+  {id:"ixl-w10", n:10, from:"2027-01-03", due:"2027-01-09", codes:["ZEA","RY6","MC7","UZ9","AAT","ZCE","7XU","AV6","B6G","YLV","RQT","AJQ","2NZ","U6W"], topic:"المفردات، والقواعد، والعلوم الفيزيائية"},
+  {id:"ixl-w11", n:11, from:"2027-01-10", due:"2027-01-16", codes:["QLF","UZH","85B","TJ6","K9N","APR","BTA","RMV","8YE","FGB","F7J","GQ6","7QW"], topic:"المفردات، والقواعد، والعلوم الفيزيائية"},
+  {id:"ixl-w12", n:12, from:"2027-01-17", due:"2027-01-23", codes:["PV6","DHV","G9Y","JMD","LJN","PFB","UJF","A72","U9M","KNW","RQP","UBL"], topic:"المفردات، والقواعد، والعلوم الفيزيائية"},
+  {id:"ixl-w13", n:13, from:"2027-01-24", due:"2027-01-30", codes:["F5B","5L5","FFK","6LQ","PJ5","XY2","Q8Z","U65","49T","KUB","UXZ","9AR"], topic:"الجبر، والترقيم والإملاء، والكتابة"},
+  {id:"ixl-w14", n:14, from:"2027-01-31", due:"2027-02-06", codes:["7XA","RAL","HXU","9KE","VQC","QXS","H9K","TXX","HHA","JMH","5SL"], topic:"الجبر، والترقيم والإملاء، والكتابة"},
+  {id:"ixl-w15", n:15, from:"2027-02-07", due:"2027-02-13", codes:["2HH","7TE","6BY","PGZ","QSP","JSA","R8H","GMJ","7XM","GWU","FWH"], topic:"الجبر، والترقيم والإملاء، والكتابة"},
+  {id:"ixl-w16", n:16, from:"2027-02-14", due:"2027-02-20", codes:["KFG","MRT","TWK","HTG","RCL","W5U","9X4","9CZ","2BR"], topic:"الجبر، والترقيم والإملاء، والكتابة"}
+]};
+function ixlDone(){ try { const v = JSON.parse(localStorage.getItem(IXL_PLAN.key) || "null"); return (v && v.done) || {}; } catch (e) { return {}; } }
 function ixlItems(today){
-  return IXL_PLANS.flatMap(plan => {
-    const all = plan.weeks.flatMap(w => w.codes || []);
-    return plan.weeks.filter(w => w.from <= today).map((w, k) => ({id:w.id, date:w.from, due:w.due, kind:"hw", type:"IXL", subject:plan.subject, ixl:{plan, codes:w.codes || all},
-      text: w.codes ? "تمارين IXL من خطة MAP " + plan.name + "، الأسبوع " + (k + 1) + " من الخطة: " + w.codes.length + " مهارات (" + w.topic + "). المهارة تقفل لما يوصل SmartScore إلى 100."
-                    : "تمارين IXL من خطة MAP " + plan.name + ": " + plan.review + ". أي مهارة من الـ" + all.length + " ما وصلت 100 يقفلها قبل " + plan.end + "."}));
-  });
+  return IXL_PLAN.weeks.filter(w => w.from <= today).map(w => ({id:w.id, date:w.from, due:w.due, kind:"hw", type:"IXL", subject:"IXL", ixl:w,
+    text:"تمارين IXL من خطة MAP، " + (w.n ? "الأسبوع " + w.n + " من 16" : "البداية") + ": " + count(w.codes.length, "مهارة واحدة", "مهارتان", "مهارات", "مهارة") +
+      " (" + w.topic + "). المهارة تخلص لما توصل هدفها: 80، أو 90 للقراءة والكسور، و100 لواجب المعلم."}));
 }
-function ixlProgress(x){ const d = ixlClosed(x.plan); return "مقفل منها " + x.codes.filter(c => d[c]).length + " من " + x.codes.length; }
+function ixlProgress(w){ const d = ixlDone(); return "خلص منها " + w.codes.filter(c => d[c]).length + " من " + w.codes.length; }
 
 let DATA = {items:[]};
 try { DATA = JSON.parse(document.getElementById("edupage-data").textContent); } catch (e) {}
@@ -1021,12 +1018,14 @@ function renderHello(){
   document.getElementById("tNext").textContent = next ? shortDate(next) : "—";
   const btn = document.getElementById("weekBtn");
   if (WEEK_PAGES[schoolWeek]) { btn.href = WEEK_PAGES[schoolWeek]; btn.textContent = "خطة الأسبوع " + schoolWeek + " بالتفصيل ←"; btn.hidden = false; }
+  const cur = currentWeekPage(), top = document.getElementById("topWeek");
+  if (cur) { top.href = WEEK_PAGES[cur]; top.hidden = false; }
 }
 
 function itemCard(i){
   const done = !!S.done[i.id];
   const [sName, sCls] = subj(i.subject);
-  const prac = PRACTICE_BY_ID[i.id] || (i.ixl ? [i.ixl.plan.page, "افتح مهارات الأسبوع"] : null);
+  const prac = PRACTICE_BY_ID[i.id] || (i.ixl ? [IXL_PLAN.page, "افتح خطة IXL"] : null);
   const meta = typeAr(i.type) + " · انطلب " + shortDate(i.date) + (i.dueGuessed ? " · الموعد المعتاد للتسليم" : "");
   return '<li class="item panel ' + sCls + (done ? " is-done" : "") + '">' +
     '<button class="check" type="button" role="checkbox" aria-checked="' + done + '" data-id="' + esc(i.id) + '" aria-label="خلص: ' + esc(sName) + '">' + ICON_CHECK + '</button>' +
@@ -1035,7 +1034,8 @@ function itemCard(i){
     (NOTES[i.id] ? '<p class="note" dir="auto">' + esc(NOTES[i.id]) + '</p>' : "") +
     (i.fromMsg ? '<p class="meta-note">من رسائل EduPage (مو في قائمة الواجبات)</p>' : "") +
     (i.ixl ? '<p class="meta-note">' + ixlProgress(i.ixl) + ' · من خطة IXL، مو من واجبات المدرسة</p>' : "") +
-    (prac ? '<div class="actions"><a class="act" href="' + prac[0] + '">' + esc(prac[1]) + ' ←</a></div>' : "") +
+    (i.fromIxl ? '<p class="meta-note">من حساب IXL: واجب المعلم، ويُحسب مكتمل عند 100</p>' : "") +
+    (prac ? '<div class="actions"><a class="act" href="' + prac[0] + '"' + (/^https?:/.test(prac[0]) ? ' target="_blank" rel="noopener"' : "") + '>' + esc(prac[1]) + ' ←</a></div>' : "") +
     '</div></li>';
 }
 function renderTodo(){
@@ -1085,9 +1085,22 @@ function renderDates(){
   }).join("");
 }
 
+/* this week's plan, or the latest one before it */
+function currentWeekPage(){
+  const {week} = weekInfo(), have = Object.keys(WEEK_PAGES).map(Number).filter(n => n <= week);
+  return have.length ? Math.max(...have) : null;
+}
 function renderPractice(){
-  document.getElementById("practiceList").innerHTML = PRACTICE_PAGES.map(p =>
-    '<a class="panel ' + p.cls + '" href="' + p.href + '"><b>' + esc(p.title) + '</b><span>' + esc(p.text) + '</span></a>').join("");
+  const cur = currentWeekPage();
+  const weeks = Object.keys(WEEK_PAGES).map(Number).sort((a, b) => b - a).map(n => ({group:n === cur ? "now" : "old", kind:"خطة أسبوع",
+    href:WEEK_PAGES[n], title:"خطة الأسبوع " + n, text:WEEK_TEXT[n] || "", cls:""}));
+  const pages = weeks.filter(p => p.group === "now").concat(PRACTICE_PAGES, weeks.filter(p => p.group === "old"));
+  document.getElementById("practiceList").innerHTML = PRACTICE_GROUPS.map(([key, title]) => {
+    const list = pages.filter(p => p.group === key);
+    return list.length ? '<div class="pgroup"><h3>' + esc(title) + '</h3><div class="practice">' + list.map(p =>
+      '<a class="panel ' + p.cls + '" href="' + p.href + '"><small class="kind">' + esc(p.kind) + '</small><b>' + esc(p.title) + '</b><span>' + esc(p.text) + '</span></a>').join("") +
+      '</div></div>' : "";
+  }).join("");
 }
 
 function renderHistory(){
