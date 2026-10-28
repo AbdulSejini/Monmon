@@ -88,6 +88,7 @@ sup{font-size:.68em;line-height:0;position:relative;top:-.5em;vertical-align:bas
 .chip.full i{background:var(--good);color:#fff}
 .chip.s-w b{background:var(--sun);color:var(--ink);text-shadow:none;font-size:17px}
 @media (max-width:700px){.hero{grid-template-columns:1fr}}
+@media (max-width:480px){.hero{padding:16px}.chips{display:grid;grid-template-columns:minmax(0,1fr);gap:6px}.chip span{flex:1;min-width:0;white-space:normal}}
 
 /* before you answer */
 .habits{margin-top:16px;padding:16px;background:var(--sun);display:grid;gap:10px}
@@ -114,12 +115,13 @@ sup{font-size:.68em;line-height:0;position:relative;top:-.5em;vertical-align:bas
 .qs{display:grid;gap:10px}
 @media (min-width:700px){.qs.c2{grid-template-columns:repeat(2,minmax(0,1fr))}.qs.c3{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}}
 .nw{white-space:nowrap}
+.paren{display:inline-block;font-size:1.7em;font-weight:400;line-height:1;vertical-align:middle;transform:translateY(-.06em)}
 .q{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;padding:10px 12px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);transition:background .2s}
 .q.ok{background:var(--good-bg)}
 .q.bad{background:var(--bad-bg)}
-.qn{min-width:32px;height:32px;padding:0 7px;border-radius:999px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;margin-top:5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.qn{min-width:32px;height:32px;padding:0 7px;border-radius:999px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;gap:3px;font-weight:800;font-size:14px;margin-top:5px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .q.ok .qn{background:var(--good)} .q.bad .qn{background:var(--bad)}
-.q.ok .qn::after{content:" ✓"}
+.q.ok .qn::after{content:"✓"}
 .qb{min-width:0}
 .qt{font-size:17px;line-height:1.9}
 .qt b{font-weight:800}
@@ -159,6 +161,7 @@ sup{font-size:.68em;line-height:0;position:relative;top:-.5em;vertical-align:bas
 .cat{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;line-height:1.6;background:var(--ink);color:#fff;border-radius:6px;padding:0 7px;margin-left:4px;vertical-align:1px;white-space:nowrap}
 .reveal{margin-top:8px;padding:6px 10px;border:2px dashed var(--ink-3);border-radius:8px;background:var(--sun-2);font-size:14.5px;font-weight:600}
 .reveal b{font-weight:800}
+.fb:not([hidden]) ~ .reveal{display:none!important}
 
 .acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
 .score{margin-left:auto;font-weight:800;font-size:17px;padding:6px 14px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -211,7 +214,7 @@ details.hint li b{font-weight:800}
 .quiz-sub{font-size:14px;color:var(--ink-2)}
 .qz-round{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
 .qz-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
-.qz-verb{font-family:var(--display);font-size:42px;line-height:1;letter-spacing:.04em}
+.qz-verb{font-size:34px;font-weight:800;line-height:1.1;padding:2px 12px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);box-shadow:2px 2px 0 var(--ink)}
 .qz-arrow{font-size:26px;font-weight:800;color:var(--ink-2)}
 .qz-line .in{width:8.5em}
 .qz-fb{min-height:1.5em;font-weight:700}
@@ -245,7 +248,7 @@ details.hint li b{font-weight:800}
   .ps-qs{display:grid;gap:1pt 6mm}
   .ps-qs.c2{grid-template-columns:1fr 1fr}
   .ps-qs.c3{grid-template-columns:1fr 1fr 1fr}
-  .ps-q{display:grid;grid-template-columns:15pt minmax(0,1fr);break-inside:avoid;line-height:1.75}
+  .ps-q{display:grid;grid-template-columns:19pt minmax(0,1fr);break-inside:avoid;line-height:2.05}
   .ps-n{font-weight:800}
   .ps-blank{display:inline-block;width:24mm;height:1em;border-bottom:.75pt solid #000;vertical-align:baseline;margin:0 1pt}
   .ps-blank.w-xs{width:10mm} .ps-blank.w-s{width:16mm} .ps-blank.w-m{width:24mm} .ps-blank.w-v{width:27mm} .ps-blank.w-l{width:32mm}
@@ -255,14 +258,15 @@ details.hint li b{font-weight:800}
   .ps-after{line-height:1.45}
   .ps-opt{display:inline-block;white-space:nowrap;margin-right:8pt}
   .ps-opt::before{content:"";display:inline-block;width:7pt;height:7pt;border:.75pt solid #000;border-radius:50%;margin-right:2.5pt;vertical-align:-.5pt}
-  .ps-opts.inline .ps-opt{margin-right:3pt}
+  .ps-opts.inline .ps-opt{margin-right:4pt}
+  .ps-opts.inline .ps-opt:last-child{margin-right:0}
   .print-sheet .tense{border:0;padding:0;margin:0 1pt 0 0;background:none!important;font-size:inherit;font-weight:700;text-transform:none;letter-spacing:0;vertical-align:baseline;line-height:inherit;font-style:italic}
   .print-sheet .tense::before{content:"("} .print-sheet .tense::after{content:")"}
   .print-sheet .base{color:#000}
   .print-sheet .slot{min-width:5mm;min-height:0;padding:0 2pt;border:.75pt solid #000;border-radius:2pt;background:none;line-height:1.2}
   .print-sheet .slot.w{min-width:14mm;border-width:0 0 .75pt;border-radius:0;color:transparent}
-  .ps-c{display:grid;grid-template-columns:minmax(0,1fr) 34mm;gap:5mm;align-items:start}
-  .ps-c svg{display:block;width:34mm;height:auto}
+  .ps-c{display:grid;grid-template-columns:minmax(0,1fr) 44mm;gap:5mm;align-items:start}
+  .ps-c svg{display:block;width:44mm;height:auto}
   .ps-c figcaption{font-size:7.5pt;color:#333;text-align:center}
   .ps-c figure{margin:0}
   .ps-key{break-before:page}
@@ -288,6 +292,7 @@ details.hint li b{font-weight:800}
 </style>
 </head>
 <body>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
 <header class="topbar">
   <div class="topbar-in">
     <span class="logo-mark">PRACTICE</span>
@@ -531,7 +536,7 @@ const SECTIONS = [
   {q:"Point A is at (2, 6) and point B is at (6, 2). Are they the same point?", parts:[C(["Yes","No"], "No")], show:"No (order matters)",
    rule:"Order matters: (2, 6) is 2 across and 6 up; (6, 2) is 6 across and 2 up."}
 ]},
-{id:"D", short:"Fractions", title:"Fractions and balancing equations", ar:"الكسور والجمع", sub:"Type the missing number, or tap your choice.", cols:"c3", items:[
+{id:"D", short:"Fractions", title:"Fractions and balancing equations", ar:"الكسور والجمع", sub:"Type the missing number, or tap your choice.", cols:"c3", pcols:"c2", items:[
   {q:F(1, 2) + " = " + F("{0}", 8), parts:[T("num", 4, {label:"missing numerator"})], show:"4",
    rule:"2 × 4 = 8, so multiply the top by 4 too: 1 × 4 = 4.", slips:[[isNum(7), "Equivalent fractions multiply, not add: 2 × 4 = 8, so 1 × 4 = 4."]]},
   {q:F(3, 4) + " = " + F(9, "{0}"), parts:[T("num", 12, {label:"missing denominator"})], show:"12",
@@ -540,11 +545,11 @@ const SECTIONS = [
    rule:"Divide the top and bottom by 2, their greatest common factor: 6 ÷ 2 = 3 and 8 ÷ 2 = 4.",
    slips:[[v => near(parseFrac(v[0]), .75), "Equal, but not in lowest terms: divide the top and bottom by the same number until only 1 divides both: 3/4."],
           [v => near(parseNum(v[0]), .75), "Lowest terms means a fraction: 6/8 = 3/4."]]},
-  {q:"Which is greater: " + F(2, 5) + " or " + F(2, 7) + "?", parts:[C([["2/5", F(2, 5)], ["2/7", F(2, 7)]], "2/5")],
-   show:F(2, 5) + " (same numerator: the smaller denominator gives bigger pieces)", rule:"Same numerator → the smaller denominator gives bigger pieces, so 2/5 > 2/7."},
+  {q:"Which is greater: " + F(2, 5) + ' or <span class="nw">' + F(2, 7) + "?</span>", parts:[C([["2/5", F(2, 5)], ["2/7", F(2, 7)]], "2/5")],
+   show:F(2, 5), key:F(2, 5) + " (same numerator: the smaller denominator gives bigger pieces)", rule:"Same numerator → the smaller denominator gives bigger pieces, so 2/5 > 2/7."},
   {q:"Compare: " + F(3, 8) + ' <span class="slot">?</span> ' + F(5, 8), parts:[C(["<", ">", "="], "<", {aria:"Comparison sign"})], fill: v => [v],
    show:F(3, 8) + " &lt; " + F(5, 8), rule:"Same denominator → compare the numerators: 3 &lt; 5, so 3/8 &lt; 5/8."},
-  {q:"Which fraction equals 1 whole: " + F(4, 4) + ", " + F(4, 1) + ", or " + F(1, 4) + "?", parts:[C([["4/4", F(4, 4)], ["4/1", F(4, 1)], ["1/4", F(1, 4)]], "4/4")],
+  {q:'Which fraction equals 1 whole: <span class="nw">' + F(4, 4) + ", " + F(4, 1) + ", or " + F(1, 4) + "?</span>", parts:[C([["4/4", F(4, 4)], ["4/1", F(4, 1)], ["1/4", F(1, 4)]], "4/4")],
    show:F(4, 4), rule:"A fraction is 1 whole when the top and bottom are the same: 4/4 = 1. (4/1 = 4, and 1/4 is one quarter.)"},
   {q:"3 = " + F("{0}", 4), parts:[T("num", 12, {label:"missing numerator"})], show:"12",
    rule:"Each whole is 4 quarters, so 3 wholes = 3 × 4 = 12 quarters: 3 = 12/4.", slips:[[isNum(3), "3/4 is less than 1 whole. Three wholes are 3 × 4 = 12 quarters: 12/4."]]},
@@ -560,23 +565,23 @@ const SECTIONS = [
 ]},
 {id:"E", short:"Exponents", title:"Exponents and order of operations", ar:"الأسس وترتيب العمليات", sub:"Type the answer.", cols:"c2", items:[
   {q:"Write 5 × 5 × 5 using an exponent: {0}", parts:[T("exp", "5^3", {w:"w-s"})], show:"5<sup>3</sup>",
-   rule:"The base is the number being multiplied (5); the exponent counts how many times (3): 5³.",
-   slips:[[isNum(125), "125 is the value. The question wants the power: 5 used 3 times is 5³."],
-          [v => normExp(v[0]) === "3^5", "The base is the number being multiplied (5); the small raised number counts how many 5s (3): 5³."]]},
-  {q:"2<sup>4</sup> = {0}", parts:[T("num", 16, {w:"w-s"})], show:"16", rule:"2⁴ = 2 × 2 × 2 × 2 = 16.",
-   slips:[[isNum(8), "2⁴ means 2 × 2 × 2 × 2 = 16, not 2 × 4."], [isNum(6), "2⁴ means 2 × 2 × 2 × 2 = 16, not 2 + 4."]]},
+   rule:"The base is the number being multiplied (5); the exponent counts how many times (3): 5<sup>3</sup>.",
+   slips:[[isNum(125), "125 is the value. The question wants the power: 5 used 3 times is 5<sup>3</sup>."],
+          [v => normExp(v[0]) === "3^5", "The base is the number being multiplied (5); the small raised number counts how many 5s (3): 5<sup>3</sup>."]]},
+  {q:"2<sup>4</sup> = {0}", parts:[T("num", 16, {w:"w-s"})], show:"16", rule:"2<sup>4</sup> = 2 × 2 × 2 × 2 = 16.",
+   slips:[[isNum(8), "2<sup>4</sup> means 2 × 2 × 2 × 2 = 16, not 2 × 4."], [isNum(6), "2<sup>4</sup> means 2 × 2 × 2 × 2 = 16, not 2 + 4."]]},
   {q:"(0.3)<sup>2</sup> = {0}", parts:[T("num", .09, {w:"w-s", fracOk:true})], show:"0.09",
    rule:"0.3 × 0.3 = 0.09: 3 × 3 = 9, and the answer needs two decimal places (one from each 0.3).",
    slips:[[isNum(.9), "0.3 × 0.3 = 0.09, not 0.9: count the decimal places in both numbers (1 + 1 = 2)."], [isNum(.6), "Squaring means multiplying by itself, not by 2: 0.3 × 0.3 = 0.09."]]},
-  {q:"(" + F(1, 2) + ")<sup>3</sup> = {0}", parts:[T("fracdec", ["1/8"], {w:"w-s", dec:.125})], show:F(1, 8) + " (or 0.125)",
+  {q:'<span class="paren">(</span>' + F(1, 2) + '<span class="paren">)</span><sup>3</sup> = {0}', parts:[T("fracdec", ["1/8"], {w:"w-s", dec:.125})], show:F(1, 8) + " (or 0.125)",
    rule:"Multiply the top and bottom three times: 1 × 1 × 1 = 1 and 2 × 2 × 2 = 8, so 1/8.",
-   slips:[[v => ["1/6","3/6","3/2","1/2"].includes(norm(v[0]).replace(/\s/g, "")), "(1/2)³ means 1/2 × 1/2 × 1/2: multiply, don't add, so 1/8."]]},
+   slips:[[v => ["1/6","3/6","3/2","1/2"].includes(norm(v[0]).replace(/\s/g, "")), "(1/2)<sup>3</sup> means 1/2 × 1/2 × 1/2: multiply, don't add, so 1/8."]]},
   {q:"18 − 3 × 4 + 2 = {0}", parts:[T("num", 8, {w:"w-s"})], show:"8 (18 − 12 + 2)",
    rule:"Multiply first: 18 − 12 + 2. Then add and subtract from left to right: 6 + 2 = 8.",
    slips:[[isNum(62), "Multiply before adding and subtracting: 3 × 4 = 12 first, so 18 − 12 + 2 = 8."], [isNum(4), "After multiplying, add and subtract from left to right: 18 − 12 = 6, then 6 + 2 = 8."]]},
   {q:"2 × (6 + 4)<sup>2</sup> ÷ 5 = {0}", parts:[T("num", 40, {w:"w-s"})], show:"40 (2 × 100 ÷ 5)",
-   rule:"Brackets first: 6 + 4 = 10. Then the exponent: 10² = 100. Then 2 × 100 ÷ 5 = 40.",
-   slips:[[isNum(8), "10² means 10 × 10 = 100, not 10 × 2: 2 × 100 ÷ 5 = 40."]]},
+   rule:"Brackets first: 6 + 4 = 10. Then the exponent: 10<sup>2</sup> = 100. Then 2 × 100 ÷ 5 = 40.",
+   slips:[[isNum(8), "10<sup>2</sup> means 10 × 10 = 100, not 10 × 2: 2 × 100 ÷ 5 = 40."]]},
   {q:"Evaluate 3<i>x</i> + 2 when <i>x</i> = 4: {0}", parts:[T("num", 14, {w:"w-s"})], show:"14",
    rule:"3x means 3 × x: 3 × 4 + 2 = 12 + 2 = 14.",
    slips:[[isNum(36), "3x means 3 × x, not the number 34: 3 × 4 + 2 = 14."], [isNum(18), "Multiply before adding: 3 × 4 + 2 = 12 + 2 = 14, not 3 × 6."]]},
@@ -603,7 +608,7 @@ const SECTIONS = [
   {q:"Which tissue sends signals that tell muscles to contract?", parts:[C(TISSUES, "nervous")], show:"nervous", rule:"Nervous tissue sends signals; muscle tissue contracts when a signal arrives."},
   {q:"Which tissue binds and supports other tissues and attaches muscles to bones?", parts:[C(TISSUES, "connective")], show:"connective", rule:"Connective tissue binds, supports and connects: tendons are connective tissue that attach muscles to bones."},
   {q:"Which tissue lines the inside of the stomach?", parts:[C(TISSUES, "epithelial")], show:"epithelial", rule:"Epithelial tissue covers and lines surfaces: the skin outside, and the lining inside the stomach."},
-  {q:"True or false: Each organ in the body is made of only one type of tissue.", parts:[C(["True","False"], "False")], show:"False (organs have several tissue types working together)",
+  {q:"True or false: Each organ in the body is made of only one type of tissue.", parts:[C(["True","False"], "False")], show:"False", key:"False (organs have several tissue types working together)",
    rule:"An organ is made of several tissue types working together; the stomach has all four."},
   {q:"In which state do particles move the fastest: solid, liquid, or gas?", parts:[C(["solid","liquid","gas"], "gas")], show:"gas", rule:"Gas particles have the most energy, so they move fastest and spread far apart."},
   {q:"When ice melts, its particles {0} energy and move {1}.", parts:[C(["gain","lose"], "gain", {aria:"gain or lose"}), C(["faster","slower"], "faster", {aria:"faster or slower"})],
@@ -903,14 +908,16 @@ function printItem(it, i){
   });
   return '<li class="ps-q"><span class="ps-n">' + (it.n || i + 1) + '.</span><div>' + q + (after ? '<div class="ps-after">' + after + '</div>' : "") + '</div></li>';
 }
+/* on paper there is nothing to tap or type */
+const paper = t => t.replace(/\bType\b/g, "Write").replace(/\btap\b/g, "circle").replace(/\bTap\b/g, "Circle");
 function renderPrint(){
   const secs = SECTIONS.map(s => {
-    const list = '<ol class="ps-qs ' + (s.cols || "") + '">' + s.items.map(printItem).join("") + '</ol>';
-    return '<section class="ps-sec"><h2>' + s.id + '. ' + s.title + ' ' + AR(s.ar) + ' <small>' + s.sub + '</small></h2>' +
-      (s.id === "C" ? '<div class="ps-c">' + list + '<figure>' + gridSVG([]) + '<figcaption>Use it for 5 and 6.</figcaption></figure></div>' : list) + '</section>';
+    const list = '<ol class="ps-qs ' + (s.pcols || s.cols || "") + '">' + s.items.map(printItem).join("") + '</ol>';
+    return '<section class="ps-sec"><h2>' + s.id + '. ' + s.title + ' ' + AR(s.ar) + ' <small>' + paper(s.sub) + '</small></h2>' +
+      (s.id === "C" ? '<div class="ps-c">' + list + '<figure>' + gridSVG([]) + '<figcaption>Grid for questions 5 and 6</figcaption></figure></div>' : list) + '</section>';
   }).join("");
   const key = '<section class="ps-key"><h2>Answer key</h2><div class="ps-key-grid">' + SECTIONS.map(s => '<div class="ps-ks"><h3>' + s.id + '. ' + s.short + '</h3><ol>' +
-    s.items.map((it, i) => '<li><b>' + (it.n || i + 1) + '.</b> ' + it.show + '</li>').join("") + '</ol></div>').join("") + '</div>' +
+    s.items.map((it, i) => '<li><b>' + (it.n || i + 1) + '.</b> ' + (it.key || it.show) + '</li>').join("") + '</ol></div>').join("") + '</div>' +
     '<div class="ps-rules"><h3>Rules to remember</h3><ul>' + ["tense","agree","irr","double","yi"].map(k => '<li><b>' + TIP[k][0] + ':</b> ' + TIP[k][1] + '</li>').join("") +
     '<li><b>x and y:</b> ' + XY_RULE + '</li>' + SCI_TIPS.map(t => '<li><b>Science:</b> ' + t + '</li>').join("") + '</ul></div>' +
     '<div class="ps-words"><div><h3>Character traits &amp; feelings</h3><div class="ps-traits">' + TRAITS.map(([en, ar]) => '<div><span>' + en + '</span>' + AR(ar) + '</div>').join("") + '</div></div>' +

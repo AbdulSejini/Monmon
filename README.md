@@ -26,7 +26,7 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 | Plan | Page | What's inside |
 | --- | --- | --- |
 | His IXL personal study plans for the NWEA MAP Growth tests in math, reading, language and science (239 skills, 236 different; 16 weeks from 1 Nov 2026 to 20 Feb 2027) | [`ixl/index.html`](ixl/index.html) | One plan for the four subjects, in the order of his IXL study file (fractions and stories first, then informational texts, vocabulary and writing, then grammar and physical science, then the rest of the expressions with punctuation and spelling), about 14 skills a week and 40–45 minutes a day. A getting-started week (28–31 Oct) has the teacher's Understanding cells skill and the first exponent skills, like the class. The page shows this week day by day (3 skills Sunday to Wednesday, teacher work and Trouble Spots on Thursday, rest on Friday, 2–3 skills and the practice sheet on Saturday), left-over skills first, each skill's target (80; 90 for reading and fractions; 100 for teacher assignments and the two tense skills B54 and 42P), the stop rule (3 wrong in a row or 25 minutes), the four phases with milestones, all weeks with ticks, and 26 optional bonus skills (geometry, data, Earth and space, life science). The skills come from IXL's public grade-6 plans for those tests at his levels; no scores are on the page. Ticks are kept in `monmon-ixl-plan-v1`; the first visit copies ticks from the earlier math and reading plans, whose old addresses (`ixl/map-math/`, `ixl/map-reading/`) now redirect here. |
-| Practice sheet | [`ixl/practice/index.html`](ixl/practice/index.html) | The questions from his study file's practice sheet as an interactive drill: verb tenses, character traits and feelings, the coordinate plane, fractions and balancing equations, exponents and the order of operations, prefixes, suffixes and roots, and body tissues and states of matter, with checking, a rule for each mistake, word lists with Arabic and an irregular-past quiz. |
+| Practice sheet | [`ixl/practice/index.html`](ixl/practice/index.html) | The questions from his study file's practice sheet as an interactive drill: verb tenses, character traits and feelings, the coordinate plane, fractions and balancing equations, exponents and the order of operations, prefixes, suffixes and roots, and body tissues and states of matter, with checking, a rule for each mistake, word lists with Arabic and an irregular-past quiz. Each section's best score is kept on the device, in `monmon-ixl-practice-v1`. |
 
 ## Math
 
@@ -67,7 +67,7 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 | Week 8 plan | 2 pages: tests, homework and evening plan; then the Sun–Thu timetable as a grid |
 | Week 9 plan | 2 pages: tests, homework and evening plan; then the Mon–Thu timetable as a grid |
 | IXL MAP Plan | 3 pages: the 16 weeks and the bonus skills as a checklist, with codes and targets |
-| Practice sheet | Up to 3 pages: the questions, then the answer key |
+| Practice sheet | 3 pages: sections A–C, then D–G with blank lines, then the answer key with the rules and word lists |
 | Math | 2 pages: study sheet, then 10 practice questions with an answer key |
 | Math, exponents | 2 pages: study sheet, then 10 practice questions with an answer key |
 | Science | 3 pages: key ideas and word bank, then a label-the-cell sheet with an answer key |
