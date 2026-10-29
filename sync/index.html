@@ -41,8 +41,6 @@ h1{font-size:30px}
 .btn{min-height:44px;padding:8px 16px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:800;font-size:16px;box-shadow:3px 3px 0 var(--ink)}
 .btn.main{background:var(--sun)}
 .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
-.copy-note{font-size:14px;color:var(--good);font-weight:700}
-.linkbox{width:100%;font:inherit;font-size:14px;direction:ltr;padding:8px;border:2px solid var(--ink);border-radius:10px}
 .panel h2{font-size:20px;margin-bottom:8px}
 .panel ul{margin:0;padding-inline-start:20px;display:grid;gap:4px}
 .small{font-size:14px;color:var(--ink-2)}
@@ -54,7 +52,7 @@ h1{font-size:30px}
 <main class="wrap">
   <header>
     <h1>مزامنة الأجهزة</h1>
-    <p class="lead">العلامات والتقدم يتزامنون بين كل جهاز انفتح عليه الرابط العائلي: كمبيوتر محمد، الآيباد، وجوالك.</p>
+    <p class="lead">العلامات والتقدم يتزامنون تلقائياً بين كل جهاز يفتح الموقع: كمبيوتر محمد، الآيباد، وجوالك.</p>
   </header>
 
   <section class="panel status" id="status" aria-live="polite">
@@ -64,11 +62,11 @@ h1{font-size:30px}
     </div>
     <div class="row" id="actions" hidden>
       <button class="btn main" id="syncBtn" type="button">زامن الحين</button>
-      <button class="btn" id="copyBtn" type="button">انسخ الرابط العائلي</button>
-      <button class="btn" id="unlinkBtn" type="button">فصل هذا الجهاز</button>
+      <button class="btn" id="unlinkBtn" type="button">أوقف المزامنة على هذا الجهاز</button>
     </div>
-    <p class="copy-note" id="copyNote" hidden></p>
-    <input class="linkbox" id="linkBox" type="text" readonly hidden aria-label="الرابط العائلي">
+    <div class="row" id="offActions" hidden>
+      <button class="btn main" id="startBtn" type="button">شغّل المزامنة على هذا الجهاز</button>
+    </div>
   </section>
 
   <section class="panel">
@@ -84,18 +82,18 @@ h1{font-size:30px}
   <section class="panel">
     <h2>كيف تشتغل؟</h2>
     <ul>
-      <li>افتح الرابط العائلي مرة وحدة على كل جهاز. بعدها كل شيء تلقائي.</li>
+      <li>تشتغل تلقائياً على أي جهاز يفتح الموقع، بدون رابط ولا تسجيل دخول.</li>
       <li>العلامة توصل خلال ثوانٍ، وتقدّم الاختبارات كل كم دقيقة، والباقي لما تقفل الصفحة.</li>
       <li>الصفحة المفتوحة على جهاز ثاني تتحدث وحدها، والمقفلة تجيب الجديد أول ما تنفتح.</li>
-      <li>مسح العلامات في جهاز مربوط يمسحها من كل الأجهزة المربوطة.</li>
+      <li>مسح العلامات في أي جهاز يمسحها من كل الأجهزة.</li>
       <li>بدون إنترنت يبقى كل شيء محفوظ على الجهاز، ويتزامن لما يرجع الاتصال.</li>
     </ul>
   </section>
 
   <section class="panel">
     <h2>الخصوصية</h2>
-    <p class="small">التقدم محفوظ في قاعدة بيانات Firebase خاصة بالعائلة، وما أحد يقدر يشوفه أو يغيّره بدون الرابط العائلي، فلا تنشره. الموقع نفسه عام، ومن يفتحه بدون الرابط يشوف صفحات فاضية من العلامات.</p>
-    <p class="small" style="margin-top:8px">في الآيباد والآيفون: إذا ما انفتح الموقع على الجهاز فترة طويلة، ممكن Safari يمسح بيانات الموقع. افتح الرابط العائلي مرة ثانية ويرجع كل التقدم.</p>
+    <p class="small">التقدم محفوظ في قاعدة بيانات Firebase للعائلة. المزامنة تلقائية بدون رمز، فأي أحد يفتح رابط الموقع يشوف التقدم ويقدر يغيّره. لا تنشر رابط الموقع.</p>
+    <p class="small" style="margin-top:8px">في الآيباد والآيفون: إذا مسح Safari بيانات الموقع بعد فترة بدون استخدام، يرجع التقدم كله أول ما ينفتح الموقع.</p>
   </section>
 </main>
 
@@ -131,29 +129,28 @@ function render(){
   if (!S) { show("bad", "المزامنة ما تشتغل على هذا المتصفح", "المتصفح يمنع حفظ البيانات (ممكن التصفح الخاص). جرّب متصفح عادي."); return; }
   const s = S.status();
   $("actions").hidden = !s.linked || s.err === "code";
-  if (linking) return show("wait", "جاري ربط هذا الجهاز…", "ثواني ويجيب تقدّم الأجهزة الثانية.");
-  if (!s.linked) return show("off", "هذا الجهاز غير مربوط", "افتح الرابط العائلي على هذا الجهاز مرة وحدة، وبعدها يتزامن التقدم تلقائياً.");
-  if (s.err === "code") return show("bad", "الرابط العائلي غير صحيح", "ممكن الرابط تغيّر. افتح الرابط العائلي الجديد على هذا الجهاز.");
-  if (!s.ready) return show("warn", "الجهاز مربوط، وأول مزامنة ما خلصت", s.err === "net" ? "ما قدر يتصل الحين، وبيحاول مرة ثانية تلقائياً." : "ثواني…");
-  if (s.err === "net") return show("warn", "مربوط، وما في اتصال الحين", "التقدم محفوظ على الجهاز، ويتزامن لما يرجع الاتصال. آخر مزامنة: " + ago(s.last) + ".");
-  show("ok", "هذا الجهاز مربوط ويتزامن", "آخر مزامنة: " + ago(s.last) + (s.waiting ? "، وفيه تغييرات بتنرسل بعد ثواني." : "."));
+  $("offActions").hidden = s.linked && s.err !== "code";
+  if (linking) return show("wait", "جاري تشغيل المزامنة…", "ثواني ويجيب تقدّم الأجهزة الثانية.");
+  if (!s.linked) return show("off", "المزامنة موقفة على هذا الجهاز", "التقدم محفوظ على الجهاز بس ما يتزامن مع الأجهزة الثانية.");
+  if (s.err === "code") return show("bad", "قاعدة البيانات رفضت الدخول", "ممكن قواعد Firebase تغيّرت. بعد ما تتعدل، شغّل المزامنة من الزر تحت.");
+  if (!s.ready) return show("warn", "أول مزامنة على هذا الجهاز ما خلصت", s.err === "net" ? "ما قدر يتصل الحين، وبيحاول مرة ثانية تلقائياً." : "ثواني…");
+  if (s.err === "net") return show("warn", "ما في اتصال الحين", "التقدم محفوظ على الجهاز، ويتزامن لما يرجع الاتصال. آخر مزامنة: " + ago(s.last) + ".");
+  show("ok", "هذا الجهاز يتزامن", "آخر مزامنة: " + ago(s.last) + (s.waiting ? "، وفيه تغييرات بتنرسل بعد ثواني." : "."));
 }
 
-function familyLink(){ return location.origin + location.pathname + "#code=" + S.status().code; }
 $("syncBtn").addEventListener("click", () => { show("wait", "جاري المزامنة…", ""); S.sync().then(render); });
-$("copyBtn").addEventListener("click", () => {
-  const url = familyLink(), note = $("copyNote");
-  const done = ok => { note.hidden = false; note.textContent = ok ? "انتسخ الرابط. أرسله لجهاز العائلة الثاني وافتحه هناك." : "انسخ الرابط من المربع:"; $("linkBox").hidden = ok; if (!ok) { $("linkBox").value = url; $("linkBox").select(); } };
-  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(() => done(true), () => done(false)); else done(false);
-});
 $("unlinkBtn").addEventListener("click", () => {
-  if (!confirm("تفصل هذا الجهاز عن المزامنة؟ التقدم يبقى محفوظ عليه، بس ما يتزامن بعدها.")) return;
-  S.unlink(); $("copyNote").hidden = true; $("linkBox").hidden = true; render();
+  if (!confirm("توقف المزامنة على هذا الجهاز؟ التقدم يبقى محفوظ عليه، بس ما يتزامن مع الأجهزة الثانية.")) return;
+  S.unlink(); render();
+});
+$("startBtn").addEventListener("click", () => {
+  linking = true; render();
+  S.start().then(() => { linking = false; render(); }, () => { linking = false; render(); });
 });
 window.addEventListener("monmon-sync-status", render);
 setInterval(render, 30000);
 
-/* the family link: #code=... links this device, then the code is taken out of the address bar
+/* an older family link (#code=...) still works: it switches sync on, then the code is taken out of the address bar
    (also when the link is opened while this page is already open, which only changes the hash) */
 function fromLink(){
   const m = /[#&]code=([A-Za-z0-9_-]{16,128})/.exec(location.hash);

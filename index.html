@@ -1231,8 +1231,8 @@ function renderAll(){ renderHello(); renderTodo(); renderTests(); renderDates();
 /* progress sync between devices (assets/sync.js and sync/index.html) */
 function renderSyncState(){
   const s = window.MonmonSync ? MonmonSync.status() : null, on = !!(s && s.linked && s.err !== "code");
-  document.getElementById("syncState").innerHTML = (on ? "التقدم يتزامن بين أجهزة العائلة على هذا الجهاز. " : "هذا الجهاز ما يتزامن مع أجهزة العائلة. ") +
-    '<a href="sync/index.html">' + (on ? "تفاصيل المزامنة" : "طريقة الربط") + '</a>';
+  document.getElementById("syncState").innerHTML = (on ? "التقدم يتزامن تلقائياً بين أجهزة العائلة. " : "المزامنة موقفة على هذا الجهاز. ") +
+    '<a href="sync/index.html">' + (on ? "تفاصيل المزامنة" : "تشغيلها") + '</a>';
 }
 /* another device's ticks arrived: show them here without reloading */
 window.addEventListener("monmon-sync", e => { S = loadState(); renderAll(); e.preventDefault(); });
