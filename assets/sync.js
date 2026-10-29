@@ -20,10 +20,10 @@
   var KEYS = ["monmon-done-v1", "monmon-ixl-plan-v1", "monmon-ixl-practice-v1",
     "futurelab-g6-ict-q1-v1", "gridquest-envision-2-4-2-5-v1", "powerlab-envision-3-1-v1", "factorlab-envision-3-2-3-3-v1",
     "signallab-g6-m2-l5-v1", "flowlab-g6-m2-l4-v1", "reviewquest-sadlier-a-units1-3-v1", "wordquest-sadlier-unit2-v1",
-    "monmon-activity-v1"];
+    "monmon-activity-v1", "monmon-ixl-coach-v1"];
   var KEYSET = {};
   KEYS.forEach(function (k) { KEYSET[k] = 1; });
-  var QUICK = {"monmon-done-v1": 1, "monmon-ixl-plan-v1": 1, "monmon-ixl-practice-v1": 1};   /* ticks and best scores */
+  var QUICK = {"monmon-done-v1": 1, "monmon-ixl-plan-v1": 1, "monmon-ixl-practice-v1": 1, "monmon-ixl-coach-v1": 1};   /* ticks, best scores, ready checks */
   var BANNED = {"__proto__": 1, "constructor": 1, "prototype": 1};
 
   var store;

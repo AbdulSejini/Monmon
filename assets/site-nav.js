@@ -27,6 +27,7 @@
     home: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
     week: '<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
     ixl: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+    coach: '<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/>',
     all: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>'
   };
   /* icon, address, label, shorter label for phones */
@@ -34,6 +35,7 @@
     ["home", "index.html", "الرئيسية", "الرئيسية"],
     ["week", weekHref, "خطة الأسبوع", "الأسبوع"],
     ["ixl", "ixl/index.html", "خطة IXL", "IXL"],
+    ["coach", "ixl/coach/index.html", "عيادة IXL", "العيادة"],
     ["all", "index.html#practice", "كل الصفحات", "الصفحات"]
   ];
   var path = location.pathname.replace(/\/index\.html$/, "/");
@@ -52,8 +54,9 @@
     '.site-nav a:focus-visible{outline:3px solid #FFD23F;outline-offset:2px}' +
     '.site-nav svg{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}' +
     '.site-nav .s{display:none}' +
-    '@media (max-width:520px){.site-nav .f{display:none}.site-nav .s{display:inline}.site-nav a{padding:5px 8px;gap:5px}.site-nav ul{gap:2px;padding-inline:6px;justify-content:space-between}}' +
-    '@media (max-width:370px){.site-nav li + li svg{display:none}.site-nav a{font-size:13px}}' +
+    '@media (max-width:640px){.site-nav .f{display:none}.site-nav .s{display:inline}.site-nav a{padding:5px 8px;gap:5px}.site-nav ul{gap:2px;padding-inline:6px;justify-content:space-between}}' +
+    '@media (max-width:440px){.site-nav li + li svg{display:none}}' +
+    '@media (max-width:370px){.site-nav svg{display:none}.site-nav a{font-size:13px;padding:5px 6px}}' +
     /* the page's own bar and in-page links land under the strip */
     '.topbar{top:calc(env(safe-area-inset-top,0px) + var(--site-nav-h,0px))!important}' +
     'html{scroll-padding-top:var(--site-nav-h,0px)}' +

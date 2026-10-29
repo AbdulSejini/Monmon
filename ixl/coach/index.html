@@ -1,0 +1,1314 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>IXL Coach</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%235E9A0E%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M26 16h12v10h10v12H38v10H26V38H16V26h10z%22 fill=%22%23fff%22 stroke=%22%2314163A%22 stroke-width=%224%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&family=Tajawal:wght@500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --c5:#D6409F; --c5t:#FBDDF0;
+  --c6:#5E9A0E; --c6t:#E6F5CF;
+  --c7:#0B8FB0; --c7t:#D3F1F8;
+  --col:var(--c6); --tint:var(--c6t);
+  /* the IXL question look */
+  --ixl-ins:#4E8A12; --ixl-go:#4FAE0C; --ixl-go-d:#3F8F07; --ixl-blue:#3A8FD6; --ixl-tile:#9ED8F2; --ixl-bub:#EEF8D8; --ixl-bub-b:#7DB928;
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  --arabic:"Tajawal","Geeza Pro","Segoe UI",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.wrap{max-width:960px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.ar{font-family:var(--arabic);font-weight:700;letter-spacing:0;direction:rtl;unicode-bidi:isolate}
+p.ar,div.ar{display:block}
+.k-c1{--col:var(--c1);--tint:var(--c1t)} .k-c2{--col:var(--c2);--tint:var(--c2t)} .k-c3{--col:var(--c3);--tint:var(--c3t)}
+.k-c4{--col:var(--c4);--tint:var(--c4t)} .k-c5{--col:var(--c5);--tint:var(--c5t)} .k-c6{--col:var(--c6);--tint:var(--c6t)} .k-c7{--col:var(--c7);--tint:var(--c7t)}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:960px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--c6);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap;text-decoration:none}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.tlink{flex:none;display:inline-flex;align-items:center;min-height:42px;padding:0 12px;border:2px solid var(--ink);border-radius:10px;background:var(--sun);box-shadow:2px 2px 0 var(--ink);font-weight:800;font-size:14px;text-decoration:none;white-space:nowrap}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);padding:0}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:560px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+@media (max-width:400px){.topbar-in{gap:8px;padding-inline:12px}.tlink{padding:0 10px}}
+
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn-sm{min-height:40px;padding:5px 12px;font-size:13px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.btn-sun{background:var(--sun)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+
+/* hero */
+.hero{margin-top:20px;padding:20px;display:grid;gap:12px}
+.hero h1{font-size:clamp(44px,8vw,66px)}
+.hero h1 span{color:var(--c6);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero h1 .ar{display:inline-block;font-size:clamp(24px,4.4vw,34px);color:var(--ink-2);-webkit-text-stroke:0;text-shadow:none;margin-inline-start:6px;vertical-align:.18em}
+.hero .sub{color:var(--ink-2);font-size:16px;max-width:62ch}
+.hero .sub.ar{font-size:16.5px;max-width:none}
+
+/* stop rule and the Challenge Zone: at the top of every clinic */
+.rescue{margin-top:16px;padding:14px 16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;background:var(--bad-bg);border-color:var(--ink)}
+.rescue .ring{grid-row:1 / span 3;width:54px;height:54px}
+.rescue h2{font-size:28px}
+.rescue h2 .ar{font-size:19px;color:var(--ink-2);margin-inline-start:6px}
+.rescue ul{display:grid;gap:6px;font-size:15px}
+.rescue li{position:relative;padding-inline-start:18px}
+.rescue li::before{content:"";position:absolute;left:3px;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--bad)}
+.rescue b{font-weight:800}
+.rescue .ar{font-size:15.5px;font-weight:600;line-height:1.7;color:var(--ink-2)}
+@media (max-width:520px){.rescue{grid-template-columns:1fr}.rescue .ring{grid-row:auto;width:44px;height:44px}}
+
+/* home: the clinics */
+.sec-title{margin:30px 0 12px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.sec-title h2{font-size:34px}
+.sec-title h2 .ar{font-size:21px;color:var(--ink-2);margin-inline-start:6px}
+.sec-title p{flex-basis:100%;color:var(--ink-2);font-size:15px}
+.clinics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.cl{position:relative;display:grid;gap:8px;padding:14px 16px 16px;border-inline-start:12px solid var(--col)}
+.cl.main{grid-column:1 / -1;background:linear-gradient(135deg,var(--tint),var(--paper) 60%)}
+.cl-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.code{font-family:var(--display);font-size:22px;letter-spacing:.06em;line-height:1;padding:4px 10px 3px;border:2px solid var(--ink);border-radius:8px;background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.grade{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+.tag{font-size:12px;font-weight:800;padding:2px 9px;border:2px solid var(--ink);border-radius:999px;background:var(--sun-2);white-space:nowrap}
+.tag.go{background:var(--good);color:#fff}
+.tag.start{background:var(--sun)}
+.cl h3{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:19px;line-height:1.3}
+.cl.main h3{font-size:22px}
+.cl p{font-size:15px;color:var(--ink-2)}
+.cl .ar{font-size:16px;color:var(--ink-2)}
+.cl .row{margin-top:4px}
+@media (max-width:700px){.clinics{grid-template-columns:1fr}}
+
+/* a clinic */
+.c-head{margin-top:20px;padding:18px;display:grid;gap:10px;border-inline-start:14px solid var(--col);background:linear-gradient(135deg,var(--tint),var(--paper) 55%)}
+.c-head h1{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:clamp(23px,4.2vw,31px);line-height:1.25}
+.c-head h1 + .ar{font-size:20px;color:var(--ink-2)}
+.c-head .sub{color:var(--ink-2);max-width:66ch}
+.steps{display:flex;flex-wrap:wrap;gap:8px}
+.step{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:4px 12px 4px 4px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);text-decoration:none;font-weight:700;font-size:14px}
+.step b{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--col);color:#fff;font-family:var(--display);font-weight:400;font-size:19px;border:2px solid var(--ink);text-shadow:1px 1px 0 var(--ink)}
+.blk{margin-top:26px;scroll-margin-top:calc(70px + var(--site-nav-h,0px))}
+.blk-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:14px 16px;background:var(--tint);border-bottom:3px solid var(--ink);border-radius:calc(var(--r) - 3px) calc(var(--r) - 3px) 0 0}
+.blk-n{flex:none;width:48px;height:48px;border-radius:14px;border:3px solid var(--ink);background:var(--col);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:30px;line-height:1;text-shadow:2px 2px 0 var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.blk-t{flex:1 1 220px;min-width:0}
+.blk-t h2{font-size:30px}
+.blk-t h2 .ar{display:inline-block;font-size:20px;color:var(--ink-2);margin-inline-start:6px}
+.blk-t p{margin-top:2px;font-size:15px;font-weight:600;color:var(--ink-2)}
+.blk-body{padding:14px 16px 16px;display:grid;gap:14px}
+@media (max-width:520px){.blk-head,.blk-body{padding-inline:12px}.blk-t h2{font-size:27px}}
+
+/* what IXL shows: a drawing of the question */
+.mock-wrap{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:760px){.mock-wrap{grid-template-columns:1fr}}
+.notes{display:grid;gap:8px;counter-reset:n}
+.notes li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;font-size:15px}
+.nn{flex:none;width:26px;height:26px;border-radius:50%;background:var(--c2);color:#fff;border:2px solid var(--ink);display:inline-grid;place-items:center;font-weight:800;font-size:13px;line-height:1;font-family:var(--body);vertical-align:middle}
+.notes b{font-weight:800}
+.mock-note{padding:10px 12px;border:2px dashed var(--ink);border-radius:var(--r-sm);background:var(--sun-2);font-size:15px}
+.mock-note b{font-weight:800}
+
+/* the IXL look, used by the drawing, the drill and the ready check */
+.ixq{position:relative;padding:18px 18px 16px;border:2px solid #CFD8E3;border-radius:12px;background:#fff;color:#1B1B1B;font-family:"Lexend","Segoe UI",system-ui,sans-serif;display:grid;gap:12px}
+.ixq-ins{color:var(--ixl-ins);font-size:16.5px;line-height:1.45}
+.ixq-ins b{font-weight:800}
+.ixq-pass{font-size:16.5px;line-height:1.6;padding-inline-start:28px}
+.ixq-sent{font-size:18px;line-height:2.1;padding-inline-start:28px}
+.ixq-q{color:var(--ixl-ins);font-size:16.5px}
+.blank{display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom;gap:7px;margin:0 2px;position:relative}
+.bub{position:relative;font-size:15.5px;line-height:1.2;padding:4px 10px;border:2px solid var(--ixl-bub-b);border-radius:10px;background:var(--ixl-bub);color:#1B1B1B;white-space:nowrap}
+.bub::after{content:"";position:absolute;left:50%;bottom:-8px;width:10px;height:10px;transform:translateX(-50%) rotate(45deg);background:var(--ixl-bub);border-right:2px solid var(--ixl-bub-b);border-bottom:2px solid var(--ixl-bub-b)}
+.ixin{font:inherit;font-size:17px;width:8.2em;max-width:62vw;min-height:38px;padding:3px 8px;border:2px solid var(--ixl-blue);border-radius:4px;background:#fff;color:#1B1B1B;text-align:center}
+.ixin:focus{outline:3px solid #9DD0F7;outline-offset:1px}
+.ixin.ok{border-color:var(--good);background:var(--good-bg)}
+.ixin.bad{border-color:var(--bad);background:#FFF5F5}
+.ixin[readonly]{cursor:default}
+.mock .ixin{pointer-events:none}
+.ul{display:inline-block;min-width:3.6em;border-bottom:2px solid #1B1B1B;margin:0 3px;vertical-align:-2px}
+.tiles{display:flex;flex-wrap:wrap;gap:10px;padding-inline-start:28px}
+.tile{min-width:130px;min-height:52px;padding:8px 16px;border:2px solid var(--ixl-tile);border-radius:4px;background:#fff;color:#1B1B1B;font-size:16.5px;line-height:1.3;text-align:center;transition:background .12s,border-color .12s}
+.tile:hover{border-color:var(--ixl-blue)}
+.tile[aria-checked="true"]{border-color:var(--ixl-blue);background:#E3F3FD;box-shadow:inset 0 0 0 1px var(--ixl-blue)}
+.tile.ok{border-color:var(--good);background:var(--good-bg)}
+.tile.bad{border-color:var(--bad);background:#FFF0F0}
+.tile.key{outline:3px dashed var(--good);outline-offset:3px}
+.tiles.multi .tile{text-align:start;min-width:0;flex:1 1 100%;display:flex;align-items:center;gap:10px}
+.tiles.multi .tile::before{content:"";flex:none;width:18px;height:18px;border:2px solid #9AA6B2;border-radius:3px;background:#fff}
+.tiles.multi .tile[aria-checked="true"]::before{background:var(--ixl-blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat;border-color:var(--ixl-blue)}
+.ixq-go{justify-self:start;min-width:136px;min-height:40px;padding:6px 22px;border:0;border-radius:4px;background:var(--ixl-go);color:#fff;font-size:16px;font-weight:500;box-shadow:inset 0 -2px 0 var(--ixl-go-d)}
+.ixq-go:hover{background:var(--ixl-go-d)}
+.ixq-go[disabled]{opacity:.5;cursor:default}
+.ixq .fig{padding-inline-start:28px}
+.ixq .fig svg{display:block;width:100%;max-width:260px;height:auto}
+@media (max-width:520px){.ixq{padding:14px 12px}.ixq-sent,.ixq-pass,.tiles,.ixq .fig{padding-inline-start:0}.ixq-sent{font-size:17px}.tile{min-width:0;flex:1 1 40%}}
+.mock{pointer-events:none}
+.mock .blank{margin-inline:32px}
+.mock .blank .nn{position:absolute}
+/* an Arabic subtitle sits under its English title, still right to left */
+.c-head > .ar,.cl > .ar,.lesson > .ar{justify-self:start}
+
+/* lesson cards: the common traps */
+.lessons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.lessons{grid-template-columns:1fr}}
+.lesson{display:grid;gap:8px;align-content:start;padding:12px 14px 14px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);box-shadow:2px 2px 0 var(--ink);scroll-margin-top:calc(70px + var(--site-nav-h,0px))}
+.lesson.wide{grid-column:1 / -1}
+.lesson.flash{animation:flash 1.6s ease-out}
+@keyframes flash{0%,40%{background:var(--sun)}100%{background:var(--paper)}}
+.l-top{display:flex;align-items:center;gap:10px}
+.l-letter{flex:none;width:36px;height:36px;border-radius:10px;border:2px solid var(--ink);background:var(--col);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:24px;line-height:1;text-shadow:1px 1px 0 var(--ink)}
+.l-top h3{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:17px;line-height:1.3}
+.lesson .ar{font-size:15.5px;color:var(--ink-2);line-height:1.6}
+.lesson p{font-size:15px}
+.lesson b{font-weight:800}
+.ex{display:grid;gap:5px;font-size:15px}
+.ex li{padding:5px 9px;border-radius:8px;background:var(--page);line-height:1.45}
+.ex .no{color:var(--bad);font-weight:700;text-decoration:line-through;text-decoration-thickness:2px}
+.ex .yes{color:var(--good);font-weight:800}
+.ex .why{color:var(--ink-2);font-size:13.5px}
+.chart{width:100%;border-collapse:collapse;font-size:14.5px}
+.chart th,.chart td{border:2px solid var(--ink);padding:6px 8px;text-align:start;vertical-align:top}
+.chart th{background:var(--tint);font-weight:800}
+.chart td b{font-weight:800}
+.irr{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:8px}
+.irr div{padding:8px 10px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);font-size:14px;line-height:1.5}
+.irr div.first{background:var(--sun-2)}
+.irr h4{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:13px;text-transform:uppercase;color:var(--ink-2);margin-bottom:2px}
+.irr span{white-space:nowrap}
+.irr b{font-weight:800}
+.words{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(150px,100%),1fr));gap:6px}
+.words li{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:5px 9px;border:2px solid var(--ink);border-radius:8px;background:var(--paper);font-weight:700;font-size:14.5px}
+.words .ar{font-size:14.5px;color:var(--ink-2)}
+.levels{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.lv{display:grid;justify-items:center;gap:2px;min-width:92px;padding:8px 10px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);box-shadow:2px 2px 0 var(--ink);text-align:center;font-size:13px;color:var(--ink-2)}
+.lv b{font-size:15.5px;color:var(--ink);font-weight:800}
+.lv i{font-style:normal;font-size:22px;line-height:1}
+.arrow{font-weight:800;font-size:20px;color:var(--ink-2)}
+.plane-box svg{display:block;width:100%;max-width:300px;height:auto;margin-inline:auto}
+.plane-box .gl{stroke:#D8DEEA;stroke-width:1}
+.plane-box .ax{stroke:var(--ink);stroke-width:2.5}
+.plane-box .tk{stroke:var(--ink);stroke-width:2}
+.plane-box .tl{font:600 12px var(--body);fill:var(--ink-2)}
+.plane-box .axn{font:800 15px var(--body);fill:var(--ink);font-style:italic}
+.plane-box .qd{font:800 17px var(--body);fill:var(--c3)}
+.plane-box .sg{font:700 13px var(--body);fill:var(--ink-2)}
+.plane-box .pt{stroke:var(--ink);stroke-width:2}
+.plane-box .pl{font:800 14px var(--body);fill:var(--ink)}
+
+/* the drill and the ready check */
+.runner{display:grid;gap:12px}
+.run-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.streak{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:15px;padding:4px 12px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);font-variant-numeric:tabular-nums}
+.streak.hot{background:var(--sun)}
+.best{font-size:13px;font-weight:700;color:var(--ink-2)}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);display:grid;place-items:center;font-size:11px;font-weight:800}
+.dot.ok{background:var(--good);color:#fff}
+.dot.now{background:var(--sun)}
+.dot.bad{background:var(--bad);color:#fff}
+.fb{padding:10px 12px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);display:grid;gap:6px;font-size:15px}
+.fb.ok{background:var(--good-bg)}
+.fb.no{background:var(--bad-bg)}
+.fb-h{font-weight:800;font-size:16.5px}
+.fb b{font-weight:800}
+.trap{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;justify-self:start;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;line-height:1.5;padding:2px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--ink);color:#fff}
+.trap .ar{text-transform:none;font-size:13.5px;letter-spacing:0;color:var(--sun)}
+.tip{color:var(--ink)}
+.hint-box{padding:8px 12px;border:2px dashed var(--ink);border-radius:var(--r-sm);background:var(--sun-2);font-size:15px}
+.hint-box b{font-weight:800}
+.result{padding:14px 16px;border:3px solid var(--ink);border-radius:var(--r);display:grid;gap:10px;box-shadow:var(--shadow-sm)}
+.result.pass{background:var(--good-bg)}
+.result.fail{background:var(--bad-bg)}
+.result h3{font-size:28px}
+.result h3 .ar{font-size:19px;margin-inline-start:6px}
+.result p{font-size:15.5px}
+.result b{font-weight:800}
+.ready-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;justify-self:start;min-height:58px;padding:10px 24px;border:3px solid var(--ink);border-radius:14px;background:var(--good);color:#fff;font-family:var(--arabic);font-weight:800;font-size:22px;text-decoration:none;box-shadow:var(--shadow);text-shadow:1px 1px 0 var(--ink)}
+.ready-btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.ready-btn svg{width:24px;height:24px;flex:none}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.foot{margin-top:34px;font-size:14px;color:var(--ink-2);display:grid;gap:6px}
+.foot a{font-weight:700}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* print: the B54 rules sheet and 15 questions, built by renderPrint() */
+.print-sheet{display:none}
+@page{size:A4;margin:11mm 12mm}
+@media print{
+  html,body{background:#fff!important}
+  body{background-image:none!important;color:#000;font-size:9pt;line-height:1.32}
+  .topbar,main,.site-nav{display:none!important}
+  .print-sheet{display:block}
+  .print-sheet *{box-shadow:none!important;text-shadow:none!important}
+  .ps-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2pt 12pt;border-bottom:1.5pt solid #000;padding-bottom:2pt}
+  .ps-head h1{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:14.5pt}
+  .ps-head p{font-size:8.4pt;color:#333}
+  .ps-sec{margin-top:5pt;break-inside:avoid}
+  .ps-sec h2{font-family:var(--body);font-weight:800;letter-spacing:0;font-size:10.2pt;border-bottom:1pt solid #000;padding-bottom:1pt;margin-bottom:3pt}
+  .ps-chart{width:100%;border-collapse:collapse;font-size:8.6pt}
+  .ps-chart th,.ps-chart td{border:.75pt solid #000;padding:2.5pt 4pt;text-align:start;vertical-align:top}
+  .ps-chart th{background:#eee;font-weight:800}
+  .ps-chart b{font-weight:800}
+  .ps-two{display:grid;grid-template-columns:1fr 1fr;gap:4pt 8mm}
+  .ps-rules li{margin:0 0 2pt 10pt;list-style:disc;font-size:8.6pt}
+  .ps-rules b{font-weight:800}
+  .ps-irr{columns:3;column-gap:6mm;font-size:8.3pt}
+  .ps-irr p{break-inside:avoid;margin-bottom:2pt}
+  .ps-irr b{font-weight:800}
+  .ps-tip{margin-top:4pt;padding:3pt 6pt;border:.75pt solid #000;border-radius:3pt;font-size:8.6pt}
+  .ps-tip b{font-weight:800}
+  .ps-page2{break-before:page}
+  .ps-ins{margin:4pt 0 3pt;font-size:8.8pt}
+  .ps-qs{display:grid;gap:0}
+  .ps-q{display:grid;grid-template-columns:18pt minmax(0,1fr);line-height:2.15;font-size:9.4pt;break-inside:avoid}
+  .ps-q .t{font-style:italic;font-weight:700}
+  .ps-q .v{font-weight:800}
+  .ps-blank{display:inline-block;width:30mm;height:1em;border-bottom:.75pt solid #000;vertical-align:baseline;margin:0 1pt}
+  .ps-key{margin-top:6pt;padding-top:3pt;border-top:1pt dashed #000;font-size:8.4pt;columns:3;column-gap:6mm}
+  .ps-key h3{column-span:all;font-family:var(--body);font-weight:800;letter-spacing:0;font-size:9pt;margin-bottom:2pt}
+  .ps-key li{list-style:decimal;margin-inline-start:12pt}
+}
+</style>
+</head>
+<body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+<script src="../../assets/rewards.js" data-root="../../"></script>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="logo-mark" href="#/">COACH</a>
+    <span class="unit-chip">IXL · 5 clinics</span>
+    <span class="spacer"></span>
+    <a class="tlink" href="../index.html">IXL plan</a>
+    <a class="icon-btn" href="../../index.html" aria-label="Home: homework dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+    </a>
+    <button class="icon-btn" id="printBtn" type="button" aria-label="Print the B54 rules sheet and 15 questions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+<div class="vh" id="live" role="status" aria-live="polite"></div>
+
+<section class="print-sheet" id="printSheet" aria-hidden="true"></section>
+
+<script>
+"use strict";
+const KEY = "monmon-ixl-coach-v1";   /* {best:{b54:7, ...}: longest run of right answers in a row, passed:{b54:"2026-10-29"}: ready check passed} */
+const IXL = "https://www.ixl.com";
+
+/* ---------- verbs: base|he/she/it form|past, * for irregular ---------- */
+const VERB_TABLE = `
+fling|flings|flung* sting|stings|stung* grind|grinds|ground* teach|teaches|taught* sweep|sweeps|swept*
+swing|swings|swung* cling|clings|clung* stick|sticks|stuck* dig|digs|dug* spin|spins|spun* strike|strikes|struck*
+ring|rings|rang* sing|sings|sang* sink|sinks|sank* drink|drinks|drank* swim|swims|swam* begin|begins|began* sit|sits|sat*
+bring|brings|brought* think|thinks|thought* buy|buys|bought* fight|fights|fought* seek|seeks|sought* catch|catches|caught*
+keep|keeps|kept* sleep|sleeps|slept* creep|creeps|crept* feel|feels|felt* leave|leaves|left* mean|means|meant* deal|deals|dealt*
+send|sends|sent* spend|spends|spent* build|builds|built* bend|bends|bent* lend|lends|lent* find|finds|found* bind|binds|bound*
+write|writes|wrote* ride|rides|rode* drive|drives|drove* rise|rises|rose*
+blow|blows|blew* grow|grows|grew* know|knows|knew* throw|throws|threw* draw|draws|drew* fly|flies|flew*
+speak|speaks|spoke* break|breaks|broke* freeze|freezes|froze* choose|chooses|chose* steal|steals|stole* wake|wakes|woke*
+wear|wears|wore* tear|tears|tore* tread|treads|trod*
+give|gives|gave* eat|eats|ate* fall|falls|fell* hold|holds|held* stand|stands|stood* understand|understands|understood*
+come|comes|came* run|runs|ran* take|takes|took* shake|shakes|shook* forget|forgets|forgot* meet|meets|met* feed|feeds|fed*
+hide|hides|hid* bite|bites|bit* hear|hears|heard* tell|tells|told* make|makes|made* lose|loses|lost* win|wins|won*
+go|goes|went* see|sees|saw* say|says|said* pay|pays|paid* do|does|did* have|has|had*
+swap|swaps|swapped scan|scans|scanned lag|lags|lagged quiz|quizzes|quizzed stop|stops|stopped plan|plans|planned hop|hops|hopped
+grab|grabs|grabbed drag|drags|dragged nod|nods|nodded slip|slips|slipped chat|chats|chatted clap|claps|clapped hug|hugs|hugged
+jog|jogs|jogged rub|rubs|rubbed skip|skips|skipped trip|trips|tripped wrap|wraps|wrapped beg|begs|begged drop|drops|dropped
+step|steps|stepped tap|taps|tapped trap|traps|trapped zip|zips|zipped shrug|shrugs|shrugged plug|plugs|plugged scrub|scrubs|scrubbed
+spot|spots|spotted admit|admits|admitted regret|regrets|regretted prefer|prefers|preferred occur|occurs|occurred control|controls|controlled
+fasten|fastens|fastened open|opens|opened visit|visits|visited listen|listens|listened happen|happens|happened offer|offers|offered
+enter|enters|entered answer|answers|answered order|orders|ordered wonder|wonders|wondered gather|gathers|gathered limit|limits|limited
+edit|edits|edited cover|covers|covered deposit|deposits|deposited whisper|whispers|whispered
+fix|fixes|fixed mix|mixes|mixed relax|relaxes|relaxed show|shows|showed play|plays|played jump|jumps|jumped help|helps|helped
+rain|rains|rained need|needs|needed look|looks|looked cook|cooks|cooked shout|shouts|shouted float|floats|floated clean|cleans|cleaned
+conceal|conceals|concealed paint|paints|painted plant|plants|planted recommend|recommends|recommended
+terrify|terrifies|terrified modify|modifies|modified curtsy|curtsies|curtsied dry|dries|dried cry|cries|cried try|tries|tried
+carry|carries|carried hurry|hurries|hurried study|studies|studied worry|worries|worried copy|copies|copied reply|replies|replied
+bury|buries|buried empty|empties|emptied tidy|tidies|tidied fry|fries|fried
+enjoy|enjoys|enjoyed stay|stays|stayed obey|obeys|obeyed spray|sprays|sprayed delay|delays|delayed destroy|destroys|destroyed
+decide|decides|decided memorize|memorizes|memorized smile|smiles|smiled hope|hopes|hoped bake|bakes|baked dance|dances|danced
+wave|waves|waved invite|invites|invited arrive|arrives|arrived close|closes|closed share|shares|shared chase|chases|chased
+rescue|rescues|rescued measure|measures|measured practice|practices|practiced notice|notices|noticed prepare|prepares|prepared
+solve|solves|solved explore|explores|explored compare|compares|compared agree|agrees|agreed decrease|decreases|decreased
+approach|approaches|approached watch|watches|watched wash|washes|washed push|pushes|pushed miss|misses|missed pass|passes|passed
+buzz|buzzes|buzzed brush|brushes|brushed finish|finishes|finished reach|reaches|reached touch|touches|touched splash|splashes|splashed
+guess|guesses|guessed toss|tosses|tossed cross|crosses|crossed`;
+
+/* the irregular past, in families (B54 card d, the 42P clinic and the print sheet share it) */
+const IRR_GROUPS = [
+  {name:"Start with these", pairs:"fling flung sting stung grind ground teach taught sweep swept", first:true},
+  {name:"i → u", pairs:"swing swung cling clung stick stuck dig dug spin spun strike struck"},
+  {name:"i → a", pairs:"ring rang sing sang sink sank drink drank swim swam begin began sit sat"},
+  {name:"-ought / -aught", pairs:"bring brought think thought buy bought fight fought seek sought catch caught"},
+  {name:"long e → short e + t", pairs:"keep kept sleep slept creep crept feel felt leave left mean meant deal dealt"},
+  {name:"-d → -t", pairs:"send sent spend spent build built bend bent lend lent"},
+  {name:"i → ou", pairs:"find found bind bound grind ground"},
+  {name:"i → o", pairs:"write wrote ride rode drive drove rise rose"},
+  {name:"→ -ew", pairs:"blow blew grow grew know knew throw threw draw drew fly flew"},
+  {name:"→ o", pairs:"speak spoke break broke freeze froze choose chose steal stole wake woke wear wore tear tore tread trod"},
+  {name:"Learn by heart", pairs:"give gave eat ate fall fell hold held stand stood understand understood come came run ran take took shake shook forget forgot meet met feed fed hide hid bite bit hear heard tell told make made lose lost win won go went see saw say said pay paid"}
+].map(g => { const w = g.pairs.split(" "), pairs = []; for (let i = 0; i < w.length; i += 2) pairs.push([w[i], w[i + 1]]); return Object.assign({}, g, {pairs}); });
+
+/* ---------- B54: [tense, verb in the bubble, sentence, answer] ---------- */
+const B54_BANK = [
+  ["past","approach","A deer ___ the river slowly and took a drink.","approached"],
+  ["past","quiz","Our teacher ___ us on the planets before the bell rang.","quizzed"],
+  ["past","decide","Layla ___ to read one more chapter before bed.","decided"],
+  ["past","terrify","The loud thunder ___ the puppy last night.","terrified"],
+  ["past","swap","Ali and Ben ___ seats so they could see the board.","swapped"],
+  ["past","scan","The librarian ___ the library card at the desk.","scanned"],
+  ["past","lag","The smallest runner ___ behind the others on the hill.","lagged"],
+  ["past","fasten","Dad ___ his seat belt before he started the car.","fastened"],
+  ["past","fling","The angry giant ___ a huge rock into the sea.","flung"],
+  ["past","sting","A jellyfish ___ my foot at the beach.","stung"],
+  ["past","grind","The baker ___ the wheat into fine flour.","ground"],
+  ["past","teach","My grandmother ___ me how to make bread.","taught"],
+  ["past","sweep","The wind ___ the sand across the road.","swept"],
+  ["past","dry","The sun ___ the wet towels in an hour.","dried"],
+  ["past","enjoy","Everyone ___ the fireworks at the festival.","enjoyed"],
+  ["past","modify","The engineers ___ the robot so it could climb stairs.","modified"],
+  ["past","conceal","The squirrel ___ the nuts under a pile of leaves.","concealed"],
+  ["past","memorize","Sara ___ the whole poem in two days.","memorized"],
+  ["past","be","The museum ___ closed on Friday.","was"],
+  ["past","be","We ___ at the beach all afternoon.","were"],
+  ["past","have","The players ___ a long rest after the match.","had"],
+  ["past","open","Huda ___ the window to let in some fresh air.","opened"],
+  ["past","visit","Our class ___ the science center in May.","visited"],
+  ["past","plan","The students ___ a surprise party for their coach.","planned"],
+  ["past","stop","The bus ___ suddenly at the red light.","stopped"],
+  ["past","carry","The camel ___ heavy bags across the desert.","carried"],
+  ["past","hurry","Omar ___ to the gate when he heard the whistle.","hurried"],
+  ["past","bring","Mom ___ dates and coffee for the guests.","brought"],
+  ["past","catch","The goalkeeper ___ the ball with one hand.","caught"],
+  ["past","swim","We ___ across the pool three times.","swam"],
+  ["past","write","Noor ___ a letter to her pen pal in Canada.","wrote"],
+  ["past","think","I ___ the test would be harder.","thought"],
+  ["past","freeze","The water in the bucket ___ during the cold night.","froze"],
+  ["past","keep","The lighthouse keeper ___ the lamp burning all night.","kept"],
+  ["past","build","The children ___ a sandcastle with four towers.","built"],
+  ["past","grab","The monkey ___ the banana and ran up the tree.","grabbed"],
+  ["past","hug","The twins ___ their grandfather at the airport.","hugged"],
+  ["past","cry","The baby ___ until she fell asleep.","cried"],
+  ["past","obey","The well-trained dog ___ every command.","obeyed"],
+  ["past","recommend","The librarian ___ a book about desert animals.","recommended"],
+  ["past","prefer","My brother ___ the blue bike to the red one.","preferred"],
+  ["past","listen","The class ___ quietly to the story.","listened"],
+  ["past","wrap","Aunt Maha ___ the gift in shiny paper.","wrapped"],
+  ["past","rescue","The firefighters ___ a kitten from the tree.","rescued"],
+  ["past","study","Faisal ___ his spelling words on the bus.","studied"],
+  ["past","curtsy","The dancer ___ to the audience at the end of the show.","curtsied"],
+  ["past","tread","The hikers ___ carefully on the icy path.","trod"],
+  ["past","deposit","The river ___ mud and sand at its mouth.","deposited"],
+  ["present","be","I ___ ready for the science test.","am"],
+  ["present","be","The cookies ___ still warm from the oven.","are"],
+  ["present","be","My little sister ___ afraid of the dark.","is"],
+  ["present","be","You ___ the best goalkeeper on our team.","are"],
+  ["present","be","Ahmed and Yusuf ___ cousins.","are"],
+  ["present","be","The library ___ open until six o'clock.","is"],
+  ["present","have","Our teacher ___ a big map on the classroom wall.","has"],
+  ["present","have","The twins ___ piano lessons on Mondays.","have"],
+  ["present","have","I ___ two goldfish and a turtle.","have"],
+  ["present","have","A spider ___ eight legs.","has"],
+  ["present","curtsy","The ballerina ___ when the music ends.","curtsies"],
+  ["present","curtsy","The dancers ___ to the queen at the end of the play.","curtsy"],
+  ["present","approach","Every evening, the ferry ___ the harbor at seven.","approaches"],
+  ["present","approach","The ships ___ the island slowly.","approach"],
+  ["present","modify","My uncle ___ old bikes so they go faster.","modifies"],
+  ["present","enjoy","We ___ the cool evenings in winter.","enjoy"],
+  ["present","enjoy","Grandpa ___ long walks after dinner.","enjoys"],
+  ["present","deposit","Many people ___ their money in the bank on payday.","deposit"],
+  ["present","deposit","The river ___ fine sand along its banks.","deposits"],
+  ["present","tread","Camels ___ softly on the hot sand.","tread"],
+  ["present","memorize","The students ___ a new poem every week.","memorize"],
+  ["present","memorize","Hessa ___ her lines for the school play.","memorizes"],
+  ["present","quiz","The coach ___ the team on the rules before each game.","quizzes"],
+  ["present","decide","The judges ___ the winner at the end of the show.","decide"],
+  ["present","terrify","Loud storms ___ my cat.","terrify"],
+  ["present","terrify","The roller coaster ___ my little brother every time.","terrifies"],
+  ["present","conceal","An octopus ___ itself by changing color.","conceals"],
+  ["present","dry","The clothes ___ quickly in the sun.","dry"],
+  ["present","dry","My mother ___ the dishes after lunch.","dries"],
+  ["present","teach","Mr. Saleh ___ science on the second floor.","teaches"],
+  ["present","catch","Owls ___ mice at night.","catch"],
+  ["present","watch","My grandmother ___ the news every morning.","watches"],
+  ["present","fix","The mechanic ___ cars in his garage.","fixes"],
+  ["present","carry","The truck ___ fresh fruit to the market.","carries"],
+  ["present","study","Rana ___ in the library after school.","studies"],
+  ["present","fly","Flamingos ___ to the lake every winter.","fly"],
+  ["present","fly","A pilot ___ the plane above the clouds.","flies"],
+  ["present","go","The bus ___ past our house twice a day.","goes"],
+  ["present","do","Khalid ___ his homework right after school.","does"],
+  ["present","wash","The children ___ their hands before lunch.","wash"],
+  ["present","push","The wind ___ the boat toward the shore.","pushes"],
+  ["present","sting","Some ants ___ when you step on their nest.","sting"],
+  ["present","sweep","The janitor ___ the hallway every afternoon.","sweeps"],
+  ["present","decrease","During winter sleep, a bear ___ its heart rate.","decreases"],
+  ["present","grind","This machine ___ coffee beans into powder.","grinds"],
+  ["present","stay","My cousins ___ with us every summer.","stay"],
+  ["present","buzz","A bee ___ around the flowers.","buzzes"],
+  ["present","miss","Our dog ___ us when we go to school.","misses"],
+  ["future","be","The weather ___ sunny tomorrow.","will be"],
+  ["future","be","We ___ late if we don't leave now.","will be"],
+  ["future","approach","The comet ___ Earth next spring.","will approach"],
+  ["future","curtsy","At the end of the show, the dancers ___ to the crowd.","will curtsy"],
+  ["future","enjoy","You ___ this book about pirates.","will enjoy"],
+  ["future","quiz","Tomorrow, Ms. Lee ___ us on the new words.","will quiz"],
+  ["future","decide","The class ___ the trip date next week.","will decide"],
+  ["future","have","The school ___ a book fair in March.","will have"],
+  ["future","give","The guide ___ each visitor a map.","will give"],
+  ["future","teach","Next year, Mr. Fahad ___ us chemistry.","will teach"],
+  ["future","swap","After lunch, the teams ___ sides.","will swap"],
+  ["future","memorize","The choir ___ the new song by Friday.","will memorize"],
+  ["future","deposit","Next week, I ___ my prize money in the bank.","will deposit"],
+  ["future","terrify","That scary movie ___ my little cousins.","will terrify"],
+  ["future","modify","The builders ___ the old house next summer.","will modify"],
+  ["future","conceal","The magician ___ the coin in his sleeve.","will conceal"],
+  ["future","sweep","Someone ___ the leaves off the path later.","will sweep"],
+  ["future","fly","The birds ___ away when winter comes.","will fly"],
+  ["future","catch","I hope we ___ the early train tomorrow.","will catch"],
+  ["future","bring","Each student ___ a snack to the picnic.","will bring"],
+  ["future","dry","The paint ___ in about an hour.","will dry"],
+  ["future","carry","The boat ___ twenty passengers to the island.","will carry"],
+  ["future","study","Tonight, I ___ for the math test.","will study"],
+  ["future","rain","The weather report says it ___ on Thursday.","will rain"],
+  ["future","plan","Next month, the club ___ a science fair.","will plan"],
+  ["future","fasten","Before takeoff, every passenger ___ a seat belt.","will fasten"],
+  ["future","open","The new park ___ in the spring.","will open"],
+  ["future","win","I think our team ___ the final.","will win"],
+  ["future","grow","These seeds ___ into tall sunflowers.","will grow"],
+  ["future","tread","The astronauts ___ carefully on the moon's dusty surface.","will tread"]
+];
+
+/* ---------- 42P: [verb, sentence] (the answer is the irregular past) ---------- */
+const P42_BANK = [
+  ["fling","The kids ___ their caps into the air after the ceremony."],
+  ["sting","A wasp ___ my uncle on the arm."],
+  ["grind","Grandma ___ the cardamom for the coffee."],
+  ["teach","Captain Nasser ___ the scouts how to tie knots."],
+  ["sweep","Reem ___ the kitchen floor after dinner."],
+  ["swing","The monkey ___ from branch to branch."],
+  ["cling","The baby koala ___ to its mother's back."],
+  ["stick","Someone ___ a note on the fridge door."],
+  ["dig","The dog ___ a deep hole in the garden."],
+  ["spin","The top ___ for a whole minute."],
+  ["strike","Lightning ___ the tall tree during the storm."],
+  ["ring","The phone ___ just as we sat down to eat."],
+  ["sing","The choir ___ the national anthem."],
+  ["sink","The toy boat ___ to the bottom of the pool."],
+  ["drink","After the race, Saad ___ two glasses of water."],
+  ["begin","The movie ___ at eight o'clock."],
+  ["bring","Our neighbors ___ us a plate of warm cookies."],
+  ["think","We ___ the shop was closed."],
+  ["buy","Dad ___ a new tent for our camping trip."],
+  ["fight","The two kittens ___ over a ball of yarn."],
+  ["seek","The explorers ___ shelter from the sandstorm."],
+  ["catch","Hamad ___ a big fish at the lake."],
+  ["keep","Noura ___ her coins in a glass jar."],
+  ["sleep","The puppy ___ in a basket by the door."],
+  ["creep","The cat ___ up behind the mouse."],
+  ["feel","I ___ nervous before my speech."],
+  ["leave","The train ___ the station on time."],
+  ["send","Grandpa ___ us a postcard from Egypt."],
+  ["spend","We ___ the whole day at the zoo."],
+  ["build","The birds ___ a nest under the roof."],
+  ["find","Ayah ___ her missing shoe under the bed."],
+  ["write","The author ___ three books about space."],
+  ["ride","We ___ our bikes to the park."],
+  ["drive","Uncle Waleed ___ us to the airport."],
+  ["blow","The wind ___ my hat into the pool."],
+  ["grow","The tomatoes ___ fast in the sunny garden."],
+  ["throw","The pitcher ___ the ball as hard as he could."],
+  ["draw","Salma ___ a map of the treasure island."],
+  ["fly","The eagle ___ high above the mountains."],
+  ["speak","The mayor ___ to the students about recycling."],
+  ["break","The vase ___ when it fell off the shelf."],
+  ["freeze","The pond ___ during the night."],
+  ["choose","Our class ___ a name for the class pet."],
+  ["steal","A crow ___ a shiny spoon from the picnic table."],
+  ["wake","The rooster ___ the whole farm at dawn."],
+  ["wear","Everyone ___ green for the national day."],
+  ["tear","The puppy ___ the newspaper into pieces."],
+  ["give","Our teacher ___ each of us a sticker."],
+  ["eat","The goats ___ all the grass in the yard."],
+  ["fall","Leaves ___ from the trees in the wind."],
+  ["hold","Maryam ___ the baby bird gently."],
+  ["stand","We ___ in line for the roller coaster."],
+  ["come","Our cousins ___ to visit during the holiday."],
+  ["run","Rakan ___ all the way to the finish line."],
+  ["take","Mom ___ a photo of the sunset."],
+  ["shake","The ground ___ during the earthquake."],
+  ["forget","Fahad ___ his lunch box at home."],
+  ["meet","We ___ our new teacher on the first day."],
+  ["feed","Lulwa ___ the ducks some seeds."],
+  ["hide","The kitten ___ under the sofa."],
+  ["bite","The puppy ___ the end of my shoelace."],
+  ["hear","We ___ a strange noise in the attic."],
+  ["tell","Grandma ___ us a story about the old days."],
+  ["make","Rawan ___ a card for her mother."],
+  ["lose","The team ___ the first game but won the second."],
+  ["tread","The guards ___ slowly on the old wooden floor."],
+  ["go","We ___ to the museum on Saturday."],
+  ["see","I ___ a shooting star last night."],
+  ["swim","The dolphins ___ beside our boat."],
+  ["understand","At last, Bader ___ the math problem."]
+];
+
+/* ---------- CQJ: organization in the human body ---------- */
+const LEVELS = ["cell","tissue","organ","organ system","organism"];
+const TISSUES = ["nervous","connective","epithelial","muscle"];
+const L = (what, ans, tip) => ({q:"<b>" + what + "</b> is which level of organization?", opts:LEVELS, ans, tip, tag:"levels"});
+const CQJ_BANK = [
+  L("A single muscle cell", "cell", "One cell, even a special one, is the smallest level: a cell."),
+  L("A red blood cell", "cell", "It is one cell, so it is the cell level."),
+  L("A nerve cell", "cell", "One nerve cell is a cell. Many nerve cells working together make nervous tissue."),
+  L("A skin cell", "cell", "One skin cell is a cell. A layer of them is tissue, and the whole skin is an organ."),
+  L("Heart muscle, made of many heart muscle cells working together", "tissue", "Many cells of the same kind doing one job make a tissue."),
+  L("The thin layer of cells that lines the inside of the stomach", "tissue", "A layer of similar cells doing one job (lining) is a tissue: epithelial tissue."),
+  L("A bundle of nerve cells that carries signals together", "tissue", "Similar cells working together make a tissue: nervous tissue."),
+  L("The stomach", "organ", "The stomach is made of several tissues (muscle, nervous, epithelial, connective) working together: an organ."),
+  L("The heart", "organ", "The heart is made of different tissues working together: an organ."),
+  L("The brain", "organ", "The brain is an organ. With the spinal cord and the nerves it makes the nervous system."),
+  L("A lung", "organ", "A lung is an organ. The lungs and the airways make the respiratory system."),
+  L("The skin", "organ", "The skin is an organ: the largest one in the body, made of several tissues."),
+  L("The small intestine", "organ", "The small intestine is an organ of the digestive system."),
+  L("The digestive system", "organ system", "Several organs (mouth, stomach, intestines…) working together make an organ system."),
+  L("The circulatory system", "organ system", "The heart, the blood vessels and the blood work together: an organ system."),
+  L("The nervous system", "organ system", "The brain, the spinal cord and the nerves work together: an organ system."),
+  L("The respiratory system", "organ system", "The lungs and the airways work together: an organ system."),
+  L("A whole person", "organism", "A whole living thing, with all its organ systems working together, is an organism."),
+  {q:"Cells that do similar jobs are organized into ___.", opts:["tissues","organs","organ systems"], ans:"tissues", tip:"Similar cells → tissue. Then tissues → organ, and organs → organ system.", tag:"order"},
+  {q:"Different tissues working together form an ___.", opts:["organ","organ system","organism"], ans:"organ", tip:"Tissues → organ: the stomach has muscle, nervous, epithelial and connective tissue.", tag:"order"},
+  {q:"Organs working together form an ___.", opts:["organ system","tissue","organism"], ans:"organ system", tip:"Organs → organ system: the stomach and the intestines are part of the digestive system.", tag:"order"},
+  {q:"Organ systems working together make up an ___.", opts:["organism","organ","tissue"], ans:"organism", tip:"All the organ systems together make the whole living thing: the organism.", tag:"order"},
+  {q:"Which list goes from the smallest level to the largest?", opts:["cell → tissue → organ → organ system","tissue → cell → organ → organ system","cell → organ → tissue → organ system"], ans:"cell → tissue → organ → organ system", tip:"Cell → tissue → organ → organ system → organism. Each level is made of the one before it.", tag:"order"},
+  {q:"Which level is larger?", opts:["an organ","a tissue"], ans:"an organ", tip:"An organ is made of several tissues, so it is the larger level.", tag:"order"},
+  {q:"Which tissue sends signals that tell muscles to contract?", opts:TISSUES, ans:"nervous", tip:"Nervous tissue sends signals; muscle tissue contracts when a signal arrives.", tag:"tissues"},
+  {q:"Which tissue binds and supports other tissues and attaches muscles to bones?", opts:TISSUES, ans:"connective", tip:"Connective tissue binds, supports and connects: tendons are connective tissue.", tag:"tissues"},
+  {q:"Which tissue covers and lines surfaces, like the skin and the inside of the stomach?", opts:TISSUES, ans:"epithelial", tip:"Epithelial tissue covers and lines: the skin outside, the lining inside the stomach.", tag:"tissues"},
+  {q:"Which tissue contracts (gets shorter) to make body parts move?", opts:TISSUES, ans:"muscle", tip:"Muscle tissue contracts to move the body, pump the heart and squeeze food along.", tag:"tissues"},
+  {q:"True or false: each organ is made of only one type of tissue.", opts:["True","False"], ans:"False", tip:"An organ is made of several tissue types working together; the stomach has all four.", tag:"tissues"},
+  {q:"Select the true statements.", multi:true, opts:["All cells in the human body do the same job.","Cells that do similar jobs are organized into tissues.","The heart is an organ.","A tissue is bigger than an organ."], ans:[1, 2],
+   tip:"True: similar cells → tissues, and the heart is an organ. False: cells have different jobs, and an organ is bigger than a tissue.", tag:"true"},
+  {q:"Select the true statements.", multi:true, opts:["An organ is made of different tissues working together.","The stomach is an organ system.","Organ systems work together to keep the body alive.","A cell is the smallest level of organization in the body."], ans:[0, 2, 3],
+   tip:"Three are true. The stomach is an organ (part of the digestive system), not an organ system.", tag:"true"},
+  {q:"Select the true statements.", multi:true, opts:["The digestive system includes the stomach and the intestines.","Muscle tissue is made of muscle cells.","The brain is a tissue.","Each organ system works alone."], ans:[0, 1],
+   tip:"The brain is an organ, and organ systems work together, not alone.", tag:"true"}
+];
+
+/* ---------- PQQ: actions and dialogue → what a character is like or feels ---------- */
+/* [name, like|feel, passage, answer, other choice, why] */
+const PQQ_BANK = [
+  ["Faisal","like","Faisal saw Grandpa's bag of oranges split open on the sidewalk. He ran over, picked up every orange, and carried them to the car.","helpful","careless","He helped right away without being asked: helpful."],
+  ["Lina","like","Lina saved her pocket money for weeks. When her friend's birthday came, she spent all of it on a gift for her.","generous","selfish","She gave away everything she had saved: generous."],
+  ["Rami","like","Rami ate the last three cookies, even though his sisters hadn't had any. \"I was hungry,\" he shrugged.","selfish","generous","He thought only of himself and didn't share: selfish."],
+  ["Dana","like","Dana put her keys in the fridge and the milk in her backpack. Then she spent ten minutes looking for both.","scatterbrained","careful","She keeps losing and mixing things up: scatterbrained."],
+  ["Majid","like","Even on rainy days, Majid hums on the way to school and greets everyone with a big smile.","cheerful","grumpy","Humming and smiling even on gloomy days: cheerful."],
+  ["Hessa","like","Hessa took apart the old radio, one screw at a time. \"How does the sound get in here?\" she wondered, peering inside.","curious","bored","She wants to find out how things work: curious."],
+  ["Khalid","like","Khalid found a wallet on the bus. He handed it to the driver right away, without even looking inside.","honest","sneaky","He gave back what wasn't his: honest."],
+  ["Reem","like","Reem's little brother asked her the same question five times. Each time, she smiled and answered him calmly.","patient","bossy","Answering calmly again and again shows she is patient."],
+  ["Saud","like","The dog behind the gate barked and growled, but Saud walked right past it to deliver the letter to the house.","brave","lazy","He did the job even though the dog was scary: brave."],
+  ["Hamad","like","Hamad left his dirty plate on the table again. \"Someone else can wash it,\" he said, and went back to his game.","lazy","helpful","He leaves the work for others: lazy."],
+  ["Ziad","like","Before soccer practice, Ziad packs his water bottle, checks his shoelaces, and sets an alarm so he is never late.","responsible","forgetful","He plans ahead and takes care of his things: responsible."],
+  ["Sultan","like","Sultan ran down the hall with an open bottle of juice. It splashed all over the new carpet.","careless","careful","He didn't think about what could happen: careless."],
+  ["Nora","feel","When Nora opened the door, all her friends jumped out and shouted, \"Happy birthday!\" Nora's mouth fell open.","surprised","bored","She didn't expect the party, and her mouth fell open: surprised."],
+  ["Adel","feel","At recess, Adel sat by himself on the bench and watched the others play. Nobody asked him to join in.","lonely","proud","Alone and left out: lonely."],
+  ["Mom","feel","The sky turned dark and the wind grew stronger. Mom kept looking out the window. \"Your father should be home by now,\" she said.","worried","cheerful","She keeps checking the window and thinks something is wrong: worried."],
+  ["Yara","feel","Before the spelling bee, Yara's hands were sweaty. She kept whispering the words to herself and tapping her foot.","anxious","bored","Sweaty hands and tapping are signs of nerves before something big: anxious."],
+  ["Bader","feel","Bader had tried to fix his kite ten times, and it still wouldn't fly. He sat down on the sand. \"It's no use,\" he said. \"It will never work.\"","hopeless","grateful","\"It will never work\": he has given up hope: hopeless."],
+  ["Talal","feel","The puzzle piece wouldn't fit, no matter how Talal turned it. He groaned and slapped the table.","frustrated","calm","Groaning and slapping the table when something won't work: frustrated."],
+  ["Lama","feel","Lama tripped on the stage in front of the whole school. Her cheeks turned bright red, and she covered her face with her hands.","embarrassed","proud","Red cheeks and hiding her face in front of everyone: embarrassed."],
+  ["Zaid","feel","Thunder boomed outside. Little Zaid pulled the blanket over his head and wouldn't come out.","fearful","curious","Hiding from the thunder: fearful."],
+  ["Aisha","feel","When Mr. Salem carried her heavy boxes up the stairs, Aisha said, \"Thank you so much! I couldn't have done it without you.\"","grateful","jealous","She thanks him warmly for his help: grateful."],
+  ["Maha","feel","Maha held up her science medal for everyone to see. \"I worked on that project for a whole month!\" she said, beaming.","proud","embarrassed","Showing her medal and beaming about her hard work: proud."],
+  ["Omar","feel","Omar couldn't sit still. \"Only one more day until we go to the beach!\" he shouted, bouncing on his toes.","excited","tired","Bouncing and shouting about tomorrow's trip: excited."],
+  ["Huda","feel","Huda had practiced all week, but her name wasn't on the team list. She read it twice, then walked away slowly with her head down.","disappointed","excited","She hoped to be picked and wasn't: disappointed."]
+];
+/* the practice sheet's trait and feeling words, and the others these passages use */
+const TRAITS = [["helpful","متعاون"],["generous","كريم"],["selfish","أناني"],["scatterbrained","كثير النسيان"],["cheerful","مبتهج"],["surprised","متفاجئ"],["lonely","وحيد"],["worried","قلق"],
+  ["anxious","متوتر"],["hopeless","يائس"],["frustrated","محبَط"],["embarrassed","محرَج"],["curious","فضولي"],["fearful","خائف"],["proud","فخور"],["grateful","ممتن"],
+  ["honest","أمين"],["patient","صبور"],["brave","شجاع"],["lazy","كسول"],["responsible","مسؤول"],["careless","مهمل"],["excited","متحمّس"],["disappointed","خاب أمله"]];
+
+/* ---------- PF8: describe the coordinate plane ---------- */
+/* [sentence with ___, right choice, other choice, why, tag]; a graph item has a plane drawing */
+const PF8_BANK = [
+  ["On a coordinate plane, the x-axis is the ___ number line.","horizontal","vertical","The x-axis goes across (horizontal); the y-axis goes up and down (vertical).","axes"],
+  ["On a coordinate plane, the y-axis is the ___ number line.","vertical","horizontal","The y-axis goes up and down (vertical); the x-axis goes across.","axes"],
+  ["In an ordered pair, the first number is called the ___.","x-coordinate","y-coordinate","(x, y): x comes first, just like in the alphabet.","pairs"],
+  ["In an ordered pair, the second number is called the ___.","y-coordinate","x-coordinate","(x, y): the second number is the y-coordinate.","pairs"],
+  ["The point where the x-axis and the y-axis cross is called the ___.","origin","quadrant","The axes cross at the origin, (0, 0).","axes"],
+  ["The origin is the point ___.","(0, 0)","(1, 1)","At the origin you haven't moved yet: x = 0 and y = 0.","axes"],
+  ["The x-coordinate tells how far to move ___ from the origin.","left or right","up or down","x moves across (left or right); y moves up or down.","pairs"],
+  ["The y-coordinate tells how far to move ___ from the origin.","up or down","left or right","y moves up or down; x moves across.","pairs"],
+  ["To graph (4, 2), start at the origin and move 4 units ___ first.","right","up","Across first (x = 4, right), then up (y = 2).","pairs"],
+  ["In the ordered pair (7, 3), the x-coordinate is ___.","7","3","The first number is x: 7.","pairs"],
+  ["In the ordered pair (2, 9), the y-coordinate is ___.","9","2","The second number is y: 9.","pairs"],
+  ["The point (0, 5) is on the ___.","y-axis","x-axis","x = 0 means no move across, so the point sits on the y-axis.","axes"],
+  ["The point (6, 0) is on the ___.","x-axis","y-axis","y = 0 means no move up or down, so the point sits on the x-axis.","axes"],
+  ["(2, 5) and (5, 2) are ___ points.","different","the same","Order matters: (2, 5) is 2 across and 5 up; (5, 2) is 5 across and 2 up.","pairs"],
+  ["The two axes divide the coordinate plane into four ___.","quadrants","origins","Four quadrants, numbered I, II, III, IV counterclockwise from the top right.","quadrants"],
+  ["The point (3, 4) is in Quadrant ___.","I","III","(+, +): both positive is Quadrant I, top right.","quadrants"],
+  ["The point (−3, 4) is in Quadrant ___.","II","IV","(−, +): x negative and y positive is Quadrant II, top left.","quadrants"],
+  ["The point (−2, −6) is in Quadrant ___.","III","I","(−, −): both negative is Quadrant III, bottom left.","quadrants"],
+  ["The point (5, −1) is in Quadrant ___.","IV","II","(+, −): x positive and y negative is Quadrant IV, bottom right.","quadrants"],
+  ["In Quadrant II, the x-coordinate is ___ and the y-coordinate is positive.","negative","positive","Quadrant II is left of the y-axis, so x is negative.","quadrants"],
+  ["A point on an axis is in ___ quadrant.","no","the first","The axes are the borders between quadrants, so a point on an axis is in no quadrant.","quadrants"],
+  {graph:{pts:[[3, 5, "A"]]}, q:"What is the ordered pair for point A?", right:"(3, 5)", other:"(5, 3)", why:"Across 3, then up 5: (3, 5). x always comes first.", tag:"pairs"},
+  {graph:{pts:[[4, 1, "A"], [1, 4, "B"]]}, q:"Which point is at (4, 1)?", right:"A", other:"B", why:"(4, 1): 4 across, then 1 up. That is point A.", tag:"pairs"},
+  {graph:{pts:[[0, 3, "P"]]}, q:"Point P is on the ___.", right:"y-axis", other:"x-axis", why:"P is at (0, 3): x = 0, so it sits on the y-axis.", tag:"axes"}
+];
+
+/* ---------- helpers ---------- */
+const $ = (sel, el) => (el || document).querySelector(sel);
+const $$ = (sel, el) => Array.from((el || document).querySelectorAll(sel));
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+const AR = s => '<span class="ar" lang="ar" dir="rtl">' + s + '</span>';
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const REDUCE = (() => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } })();
+
+/* an answer as typed: lower case, one space between words, no end punctuation or quotes */
+function norm(raw){
+  return String(raw == null ? "" : raw).toLowerCase().replace(/[‘’ʼ`]/g, "'").replace(/[“”"]/g, "")
+    .replace(/\s+/g, " ").trim().replace(/[.!?,;:]+$/, "").trim();
+}
+/* letters added, dropped, changed or swapped (two side by side) */
+function dist(a, b){
+  const m = a.length, n = b.length, d = [];
+  for (let i = 0; i <= m; i++) d.push([i]);
+  for (let j = 1; j <= n; j++) d[0][j] = j;
+  for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++){
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+  }
+  return d[m][n];
+}
+
+/* ---------- verb forms ---------- */
+const VERBS = {};
+VERB_TABLE.trim().split(/\s+/).forEach(row => {
+  const [base, s, d] = row.split("|");
+  VERBS[base] = {base, s, d:d.replace("*", ""), irr:d.endsWith("*")};
+});
+VERBS.be = {base:"be", s:"is", d:"was", irr:true, be:true};
+const BE = {present:["am","is","are"], past:["was","were"]};
+const presentForms = v => v.be ? BE.present : [v.base, v.s];
+const pastForms = v => v.be ? BE.past : [v.d];
+/* what a rule-follower might write */
+function naiveS(b){
+  const out = [b + "s", b + "es"];
+  if (/y$/.test(b)) out.push(b.slice(0, -1) + "ies");
+  if (/z$/.test(b)) out.push(b + "zes");
+  return out;
+}
+function naiveEd(b){
+  const out = [b + "ed"];
+  if (/e$/.test(b)) out.push(b + "d");
+  if (/y$/.test(b)) out.push(b.slice(0, -1) + "ied");
+  if (/[^aeiou][aeiou][^aeiouwxy]$/.test(b)) out.push(b + b.slice(-1) + "ed");   /* doubled, right or not */
+  return out;
+}
+const naiveIng = b => [b + "ing", b.replace(/e$/, "") + "ing", b + b.slice(-1) + "ing"];
+/* which tense a written form belongs to (null if it isn't a form of this verb) */
+function tenseOf(v, a){
+  if (/^(will|shall)\b|'ll\b|^won't\b/.test(a)) return "future";
+  if (/^(am|is|are|was|were|be|been) \S+ing$/.test(a)) return "ing";
+  if (/ing$/.test(a) && (v.be ? a === "being" : naiveIng(v.base).some(f => dist(f, a) <= 1))) return "ing";
+  if (/^(has|have|had) \S+/.test(a)) return "perfect";
+  if (pastForms(v).includes(a) || (!v.be && naiveEd(v.base).includes(a))) return "past";
+  if (presentForms(v).includes(a) || (!v.be && naiveS(v.base).includes(a))) return "present";
+  return null;
+}
+/* the present forms that go with a different subject than the right one */
+function otherAgree(v, want){
+  if (v.be) return BE.present.filter(f => f !== want);
+  return want === v.s ? [v.base] : [v.s].concat(naiveS(v.base));
+}
+/* another verb in the list with this exact form (swept for swap) */
+function otherVerb(a, base){
+  for (const k in VERBS){
+    if (k === base) continue;
+    const v = VERBS[k];
+    if (presentForms(v).concat(pastForms(v), ["will " + v.base]).includes(a)) return k;
+  }
+  return "";
+}
+
+/* ---------- what kind of slip is it? ---------- */
+const TRAPS = {
+  tense:{en:"Wrong tense", ar:"زمن غير المطلوب", card:"a"},
+  agree:{en:"Subject agreement", ar:"توافق الفاعل", card:"b"},
+  irreg:{en:"-ed on an irregular verb", ar:"‑ed على فعل شاذ", card:"d"},
+  double:{en:"Doubling", ar:"مضاعفة الحرف الأخير", card:"c"},
+  y:{en:"The y rule", ar:"قاعدة y", card:"c"},
+  typo:{en:"Typo", ar:"خطأ كتابة", card:"f"},
+  other:{en:"Check the rule", ar:"راجع القاعدة", card:"a"}
+};
+/* it: {t: tense, v: verb, s: sentence, a: answer}; returns {ok} or {ok:false, trap, sub, other} */
+function classify(it, raw){
+  const a = norm(raw), want = it.a, v = VERBS[it.v];
+  const slip = (trap, sub, other) => ({ok:false, trap, sub:sub || "", other:other || ""});
+  if (!a) return slip("other", "empty");
+  if (a === want) return {ok:true};
+  const flat = s => s.replace(/[\s-]/g, "");
+  if (flat(a) === flat(want)) return slip("typo", "space");
+  if (it.t === "future" && /^will /.test(a)) return slip("tense", "willform");
+  const t = tenseOf(v, a);
+  if (t && t !== it.t) return slip("tense", t);
+  if (it.t === "present"){
+    if (otherAgree(v, want).includes(a)) return slip("agree", v.be ? "be" : v.base === "have" ? "have" : "");
+    if (["am","is","are","has","have"].includes(a)) return slip("agree", "behave");
+  }
+  if (v.be && it.t === "past" && BE.past.includes(a)) return slip("agree", "was");
+  if (it.t === "past" && v.irr && !v.be){
+    if (naiveEd(v.base).some(f => f === a || (/ed$/.test(a) && dist(f, a) <= 2))) return slip("irreg");
+    if (dist(a, want) <= 2) return slip("irreg", "spell");
+  }
+  const b = v.base, last = b.slice(-1);
+  if (it.t === "past" && !v.irr){
+    if (want === b + last + "ed" && a === b + "ed") return slip("double", "missing");
+    if (want === b + "ed" && a === b + last + "ed") return slip("double", "extra");
+  }
+  if (it.t === "present" && want === b + last + "es" && (a === b + "es" || a === b + "s")) return slip("double", "missing");
+  if (/y$/.test(b) && !v.irr){
+    const stem = b.slice(0, -1);
+    if (/[^aeiou]y$/.test(b)){
+      if (it.t === "past" && [b + "ed", b + "d"].includes(a)) return slip("y", "keep");
+      if (it.t === "present" && want === stem + "ies" && [b + "s", b + "es"].includes(a)) return slip("y", "keep");
+    } else {
+      if (it.t === "past" && [stem + "ied", stem + "ed"].includes(a)) return slip("y", "change");
+      if (it.t === "present" && want === b + "s" && [stem + "ies", stem + "es"].includes(a)) return slip("y", "change");
+    }
+  }
+  if (/e$/.test(b) && it.t === "past" && a === b + "ed") return slip("typo", "e");
+  if (it.t === "present" && /(sh|ch|ss|x|z)$/.test(b) && a === b + "s") return slip("typo", "es");
+  if (dist(a, want) <= (want.length >= 8 ? 3 : 2)) return slip("typo");
+  const o = otherVerb(a, it.v);
+  if (o) return slip("typo", "verb", o);
+  /* nothing else fits, but it starts like the right word: a slip of the fingers (crusts for curtsies) */
+  const w = want.replace(/^will /, ""), x = a.replace(/^will /, "");
+  if (x[0] === w[0] && Math.abs(x.length - w.length) <= 3) return slip("typo");
+  return slip("other");
+}
+
+/* ---------- tips ---------- */
+const B = s => "<b>" + esc(s) + "</b>";
+/* two-syllable verbs that double because the stress is at the end */
+const STRESS = {admit:"ad-MIT", regret:"re-GRET", prefer:"pre-FER", occur:"oc-CUR", control:"con-TROL"};
+/* the family for the "start with these" verbs, for "same family" examples */
+const FAMILY = {fling:"i → u", sting:"i → u", grind:"i → ou", teach:"-ought / -aught", sweep:"long e → short e + t"};
+const spellOut = w => w.split("").join("-");
+/* the subject, read from the sentence: the words just before the blank */
+function subjectOf(s){ const before = s.split("___")[0].trim(); return before.split(", ").pop(); }
+function isPlural(v, want){ return v.be ? want === "are" : v.base === "have" ? want === "have" : want === v.base; }
+function tenseRule(t, v, want){
+  if (t === "future") return "Future = will + the base form, two words: " + B(want) + ".";
+  if (t === "past") return v.be ? "be in the past: I, he, she, it " + B("was") + " · you, we, they " + B("were") + "." :
+    v.irr ? B(v.base) + " is irregular: " + B(want) + "." : "Past: add -ed with the spelling rules: " + B(want) + ".";
+  return "Present: find the subject first: " + B(want) + ".";
+}
+function tipFor(it, r){
+  const v = VERBS[it.v], want = it.a, t = it.t, subj = subjectOf(it.s);
+  switch (r.trap){
+    case "tense":
+      if (r.sub === "willform") return "After will, use the base form, with no -s or -ed: " + B(want) + ".";
+      if (r.sub === "ing") return "-ing is a different tense. The instruction asks for the simple " + B(t + "-tense") + " form: " + B(want) + ".";
+      if (r.sub === "perfect") return "has / have / had + a verb is a different tense. The instruction says " + B(t + "-tense") + ": " + B(want) + ".";
+      return "The instruction says " + B(t + "-tense") + ". " + (t === "future" ? "Future needs will: " + B(want) + "." :
+        t === "present" ? "No will and no -ed in the present: " + B(want) + "." : "Past, not " + (r.sub === "future" ? "future" : "present") + ": " + B(want) + ".");
+    case "agree":
+      if (r.sub === "behave") return "The verb in the bubble is " + B(v.base) + ": " + (v.be ? "am, is or are" : "has or have") + ". Here: " + B(want) + ".";
+      if (r.sub === "was") return "be in the past: I, he, she, it, one thing " + B("was") + " · you, we, they, more than one " + B("were") + ". Here: " + B(want) + ".";
+      if (r.sub === "be") return "be in the present: I " + B("am") + " · he, she, it, one thing " + B("is") + " · you, we, they, more than one " + B("are") + ". The subject is " + B(subj) + ": " + B(want) + ".";
+      if (r.sub === "have") return "have in the present: he, she, it, one thing " + B("has") + " · I, you, we, they, more than one " + B("have") + ". The subject is " + B(subj) + ": " + B(want) + ".";
+      if (!isPlural(v, want)) return "The subject is " + B(subj) + ": one person or thing, so the verb takes -s: " + B(want) + ".";
+      return "The subject is " + B(subj) + ": " + (/^(i|you)$/i.test(subj) ? "no -s with I or you" : "more than one, so no -s") + ": " + B(want) + ".";
+    case "irreg": {
+      const fam = FAMILY[v.base], g = IRR_GROUPS.find(x => fam ? x.name === fam : !x.first && x.pairs.some(p => p[0] === v.base)) || IRR_GROUPS.find(x => x.pairs.some(p => p[0] === v.base));
+      const like = g ? g.pairs.filter(p => p[0] !== v.base).slice(0, 2).map(p => p[0] + " → " + p[1]).join(", ") : "";
+      if (r.sub === "spell") return "Spell it letter by letter: " + B(spellOut(want)) + " (" + v.base + " → " + want + ").";
+      return B(v.base) + " is irregular, so no -ed: " + v.base + " → " + B(want) + "." + (like ? " Same family: " + like + "." : "");
+    }
+    case "double":
+      if (r.sub === "extra") return "The stress is on the first part of " + B(v.base) + ", so don't double the last letter: " + B(want) + " (like " + ["opened", "visited", "listened"].filter(x => x !== want).slice(0, 2).join(", ") + ").";
+      if (v.base === "quiz") return "quiz doubles its z: " + B("quizzes") + ", " + B("quizzed") + ".";
+      if (STRESS[v.base]) return "The stress is on the end (" + STRESS[v.base] + "), so double the last letter: " + B(want) + ".";
+      return "One short vowel + one consonant at the end → double it: " + v.base + " → " + B(want) + ".";
+    case "y":
+      if (r.sub === "change") return "A vowel before the y keeps it: " + v.base + " → " + B(v.s) + ", " + B(v.d) + ".";
+      return "Consonant + y → change the y to i: " + v.base + " → " + B(v.s) + ", " + B(v.d) + ".";
+    case "typo":
+      if (r.sub === "space") return "Two words, with a space: " + B(want) + ".";
+      if (r.sub === "e") return B(v.base) + " already ends in e, so add only d: " + B(want) + ".";
+      if (r.sub === "es") return "After -sh, -ch, -ss, -x or -z, add -es: " + B(want) + ".";
+      if (r.sub === "verb") return "Look at the verb in the bubble again: " + B(v.base) + " (not " + esc(r.other) + "). " + B(want) + ".";
+      return "So close! Check it letter by letter: " + B(spellOut(want)) + ".";
+    default:
+      if (r.sub === "empty") return "Type the missing word in the box: " + B(want) + ".";
+      return tenseRule(t, v, want);
+  }
+}
+/* where a slip sends you back to: the B54 card */
+function cardFor(it, r){
+  if (r.trap === "tense" && r.sub === "willform") return "e";
+  if (r.trap === "other") return it.t === "future" ? "e" : it.t === "present" ? "b" : VERBS[it.v].irr ? "d" : "c";
+  return TRAPS[r.trap].card;
+}
+/* a hint before answering (the drill only) */
+function hintFor(it){
+  const v = VERBS[it.v], t = it.t, b = v.base, read = "The instruction says " + B(t + "-tense") + ". ";
+  if (t === "future") return read + "Future = " + B("will") + " + the base form, two words.";
+  if (t === "present"){
+    if (v.be) return read + "Who is it? I → am · one person or thing → is · more than one, you → are. Subject: " + B(subjectOf(it.s)) + ".";
+    if (b === "have") return read + "One person or thing → has · I, you, we, they, more than one → have. Subject: " + B(subjectOf(it.s)) + ".";
+    return read + "Find the subject: " + B(subjectOf(it.s)) + ". One person or thing → add -s (or -es, -ies). More than one, I or you → no -s.";
+  }
+  if (v.be) return read + "be in the past: was or were. Who is it? " + B(subjectOf(it.s)) + ".";
+  if (v.irr) return read + B(b) + " is irregular: it doesn't take -ed.";
+  if (v.d === b + b.slice(-1) + "ed") return read + "One short vowel + one consonant at the end: double it, then -ed.";
+  if (/[^aeiou]y$/.test(b)) return read + "Consonant + y: change the y to i, then -ed.";
+  if (/[aeiou]y$/.test(b)) return read + "Vowel + y: keep the y and add -ed.";
+  if (/e$/.test(b)) return read + "It ends in e: add only -d.";
+  if (/[^aeiou][aeiou][^aeiouwxy]$/.test(b)) return read + "The stress is on the first part, so don't double: just add -ed.";
+  return read + "Add -ed.";
+}
+
+/* ---------- the clinics ---------- */
+const CLINICS = [
+  {id:"b54", code:"B54", col:"c1", main:true, title:"Form and use the simple past, present, and future tense", ar:"الماضي والمضارع والمستقبل",
+   grade:"5th grade · Language arts", path:"/ela/grade-5/form-and-use-the-simple-past-present-and-future-tense",
+   blurb:"IXL mixes the three tenses, and the tense word is in the instruction, not in the sentence. Most traps in this skill are about reading the question, not spelling."},
+  {id:"42p", code:"42P", col:"c2", title:"Form and use the irregular past tense", ar:"الماضي الشاذ",
+   grade:"5th grade · Language arts", path:"/ela/grade-5/form-and-use-the-irregular-past-tense",
+   blurb:"Next in the plan. It shares B54's families of irregular verbs: flung, stung, ground, taught, swept…"},
+  {id:"cqj", code:"CQJ", col:"c4", title:"Organization in the human body", ar:"تنظيم جسم الإنسان",
+   grade:"6th grade · Science", path:"/science/grade-6/organization-in-the-human-body",
+   blurb:"Cell → tissue → organ → organ system → organism, and the four tissue types."},
+  {id:"pqq", code:"PQQ", col:"c3", title:"Use actions and dialogue to understand characters", ar:"الأفعال والكلام يكشفون الشخصية",
+   grade:"3rd grade · Language arts", path:"/ela/grade-3/use-actions-and-dialogue-to-understand-characters",
+   blurb:"What a character does and says shows what they are like, or how they feel."},
+  {id:"pf8", code:"PF8", col:"c7", title:"Describe the coordinate plane", ar:"وصف المستوى الإحداثي",
+   grade:"5th grade · Math", path:"/math/grade-5/describe-the-coordinate-plane",
+   blurb:"Axes, the origin, ordered pairs, and the four quadrants with their signs."}
+];
+const NEED = 10;   /* the ready check: this many right in a row */
+
+/* ---------- saved progress (synced by assets/sync.js) ---------- */
+const fresh = () => ({best:{}, passed:{}});
+function load(){
+  try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v === "object") return {best:Object.assign({}, v.best), passed:Object.assign({}, v.passed)}; } catch (e) {}
+  return fresh();
+}
+let S = load();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function noteRun(id, n){ if (n > (S.best[id] || 0)) { S.best[id] = n; save(); } }
+function today(){
+  try { return new Intl.DateTimeFormat("en-CA", {timeZone:"Asia/Riyadh", year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date()); }
+  catch (e) { return new Date().toISOString().slice(0, 10); }
+}
+function announce(t){ const l = $("#live"); if (l){ l.textContent = ""; setTimeout(() => { l.textContent = t; }, 40); } }
+
+/* ---------- questions in IXL's format ---------- */
+const TAGS = {
+  levels:{en:"Name the level", ar:"سمِّ المستوى", card:"b"}, order:{en:"Smallest to largest", ar:"من الأصغر للأكبر", card:"a"},
+  tissues:{en:"Tissue types", ar:"أنواع الأنسجة", card:"c"}, true:{en:"Judge each sentence", ar:"احكم على كل جملة", card:"d"},
+  like:{en:"Trait clues", ar:"أدلة الصفة", card:"b"}, feel:{en:"Feeling clues", ar:"أدلة الشعور", card:"b"},
+  axes:{en:"Axes and origin", ar:"المحاور ونقطة الأصل", card:"a"}, pairs:{en:"Ordered pairs", ar:"الأزواج المرتبة", card:"b"},
+  quadrants:{en:"Quadrants and signs", ar:"الأرباع والإشارات", card:"c"}
+};
+const blankLine = s => esc(s).replace("___", '<span class="ul" aria-label="blank"></span>');
+const MAKE = {
+  b54: x => ({kind:"verb", t:x[0], v:x[1], s:x[2], a:x[3], ins:"Complete the sentence with the <b>" + x[0] + "-tense</b> form of the verb."}),
+  "42p": x => ({kind:"verb", t:"past", v:x[0], s:x[1], a:VERBS[x[0]].d, ins:"Complete the sentence with the verb in past tense."}),
+  cqj: x => ({kind:"tiles", ins:"", q:x.q, opts:x.opts, ans:x.ans, multi:!!x.multi, tip:x.tip, tag:x.tag}),
+  pqq: x => ({kind:"tiles", ins:"Read the sentences.", pass:esc(x[2]), q:"Based on these sentences, " + (x[1] === "like" ? "what is " + esc(x[0]) + " probably like?" : "how does " + esc(x[0]) + " probably feel?"),
+    opts:shuffle([x[3], x[4]]), ans:x[3], tip:esc(x[5]), tag:x[1]}),
+  pf8: x => Array.isArray(x)
+    ? {kind:"tiles", ins:"Complete the sentence.", q:blankLine(x[0]), plain:true, opts:shuffle([x[1], x[2]]), ans:x[1], tip:x[3], tag:x[4]}
+    : {kind:"tiles", ins:"Look at the coordinate plane.", fig:planeSVG(x.graph.pts, false), q:blankLine(x.q), plain:true, opts:shuffle([x.right, x.other]), ans:x.right, tip:x.why, tag:x.tag}
+};
+const BANKS = {b54:B54_BANK, "42p":P42_BANK, cqj:CQJ_BANK, pqq:PQQ_BANK, pf8:PF8_BANK};
+function deck(c, mode){
+  const all = BANKS[c.id].map(MAKE[c.id]);
+  if (mode === "check" && c.id === "b54"){   /* tenses mixed: 4 past, 3 present, 3 future */
+    const by = t => shuffle(all.filter(q => q.t === t));
+    return shuffle(by("past").slice(0, 4).concat(by("present").slice(0, 3), by("future").slice(0, 3)));
+  }
+  return mode === "check" ? shuffle(all).slice(0, NEED) : shuffle(all);
+}
+function qHTML(q, n, mock){
+  if (q.kind === "verb"){
+    const [pre, post] = q.s.split("___");
+    return '<div class="ixq' + (mock ? " mock" : "") + '"><p class="ixq-ins">' + (mock ? '<span class="nn">1</span> ' : "") + q.ins + '</p>'
+      + '<p class="ixq-sent">' + esc(pre) + '<span class="blank">' + (mock ? '<span class="nn" style="right:-31px;top:0">2</span><span class="nn" style="left:-31px;bottom:5px">3</span>' : "") + '<span class="bub">' + esc(q.v) + '</span>'
+      + '<input class="ixin" id="in' + n + '" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="' + esc(q.t + "-tense form of " + q.v) + '"' + (mock ? ' tabindex="-1" readonly' : "") + '>'
+      + '</span>' + esc(post) + '</p><button class="ixq-go" type="button" data-r="submit"' + (mock ? ' tabindex="-1"' : "") + '>Submit</button></div>';
+  }
+  /* in the drawing: badge 1 on the instruction (or the reading), badge 2 on the question */
+  const one = mock ? '<span class="nn">1</span> ' : "";
+  return '<div class="ixq' + (mock ? " mock" : "") + '">' + (q.ins ? '<p class="ixq-ins"' + (q.plain ? ' style="color:#1B1B1B"' : "") + '>' + one + q.ins + '</p>' : "")
+    + (q.pass ? '<p class="ixq-pass">' + (q.ins ? "" : one) + q.pass + '</p>' : "") + (q.fig ? '<div class="fig">' + q.fig + '</div>' : "")
+    + '<p class="' + (q.plain ? "ixq-sent" : "ixq-q") + '">' + (q.ins || q.pass ? "" : one) + q.q + (mock ? ' <span class="nn">2</span>' : "") + '</p>'
+    + '<div class="tiles' + (q.multi ? " multi" : "") + '" role="' + (q.multi ? "group" : "radiogroup") + '" aria-label="Choices">'
+    + q.opts.map((o, k) => '<button class="tile" type="button" role="' + (q.multi ? "checkbox" : "radio") + '" aria-checked="false" data-k="' + k + '"' + (mock ? ' tabindex="-1"' : "") + '>' + esc(o) + '</button>').join("")
+    + '</div><button class="ixq-go" type="button" data-r="submit"' + (mock ? ' tabindex="-1"' : "") + '>Submit</button>' + (mock && q.multi ? '' : "") + '</div>';
+}
+function picked(box){ return $$(".tile", box).filter(t => t.getAttribute("aria-checked") === "true").map(t => +t.dataset.k); }
+/* is it right? {ok} or {ok:false, trap…} */
+function judge(q, box){
+  if (q.kind === "verb"){ const it = {t:q.t, v:q.v, s:q.s, a:q.a}, r = classify(it, $(".ixin", box).value); if (!r.ok) r.tip = tipFor(it, r), r.card = cardFor(it, r); return r; }
+  const p = picked(box);
+  const ok = q.multi ? p.slice().sort().join() === q.ans.slice().sort().join() : p.length === 1 && q.opts[p[0]] === q.ans;
+  return ok ? {ok:true} : {ok:false, trap:q.tag, tip:q.tip, card:TAGS[q.tag].card};
+}
+const answerText = q => q.kind === "verb" ? q.a : q.multi ? q.ans.map(k => q.opts[k]).join(" · ") : q.ans;
+const trapChip = r => { const t = TRAPS[r.trap] || TAGS[r.trap]; return '<span class="trap">' + esc(t.en) + " " + AR(t.ar) + '</span>'; };
+
+/* ---------- the drill and the ready check ---------- */
+function runner(box, c, mode){
+  const st = {deck:deck(c, mode), i:0, run:0, busy:false, answered:false};
+  const lessonTitle = l => { const x = (LESSONS[c.id] || []).find(y => y.l === l); return x ? x.title : ""; };
+  function top(){
+    if (mode === "drill") return '<div class="run-top"><span class="streak' + (st.run >= 3 ? " hot" : "") + '">In a row: ' + st.run + '</span><span class="best">Best run here: ' + (S.best[c.id] || 0) + '</span>'
+      + '<span class="spacer"></span><button class="btn btn-sm" type="button" data-r="hint">Hint</button></div>';
+    return '<div class="run-top"><div class="dots" aria-label="' + st.i + ' of ' + NEED + ' right">' + Array.from({length:NEED}, (_, k) => '<span class="dot' + (k < st.i ? " ok" : k === st.i ? " now" : "") + '">' + (k < st.i ? "✓" : k + 1) + '</span>').join("") + '</div>'
+      + '<span class="best">Question ' + (st.i + 1) + ' of ' + NEED + ' · no hints</span></div>';
+  }
+  function show(){
+    if (mode === "drill" && st.i >= st.deck.length){ st.deck = deck(c, mode); st.i = 0; }
+    const q = st.deck[st.i];
+    st.answered = false; st.busy = false;
+    box.innerHTML = top() + qHTML(q, c.id + mode) + '<div class="hint-box" hidden></div><div class="fb" hidden></div>';
+    const inp = $(".ixin", box);
+    if (inp) setTimeout(() => inp.focus({preventScroll:true}), 30);
+  }
+  function next(){ st.i++; show(); }
+  function submit(){
+    if (st.busy) return;
+    const q = st.deck[st.i];
+    if (st.answered){ next(); return; }
+    if (q.kind === "verb" ? !norm($(".ixin", box).value) : !picked(box).length){
+      const fb = $(".fb", box); fb.hidden = false; fb.className = "fb"; fb.innerHTML = q.kind === "verb" ? "Type the missing word first." : "Choose an answer first."; return;
+    }
+    const r = judge(q, box), fb = $(".fb", box);
+    st.answered = true;
+    $$(".ixq button, .ixq input", box).forEach(el => { if (el.classList.contains("ixq-go")) el.disabled = true; else if (el.tagName === "INPUT") el.readOnly = true; else el.disabled = true; });
+    const inp = $(".ixin", box);
+    if (inp) inp.classList.add(r.ok ? "ok" : "bad");
+    if (q.kind === "tiles") $$(".tile", box).forEach(t => {
+      const k = +t.dataset.k, right = q.multi ? q.ans.includes(k) : q.opts[k] === q.ans, on = t.getAttribute("aria-checked") === "true";
+      if (on) t.classList.add(right ? "ok" : "bad"); else if (right && !r.ok) t.classList.add("key");
+    });
+    fb.hidden = false;
+    if (r.ok){
+      st.run++; noteRun(c.id, st.run);
+      fb.className = "fb ok";
+      fb.innerHTML = '<p class="fb-h">✓ Right' + (q.kind === "verb" ? ": " + B(q.a) : "") + '</p>';
+      announce("Right. " + (mode === "check" ? (st.i + 1) + " of " + NEED + "." : st.run + " in a row."));
+      if (mode === "check" && st.i + 1 >= NEED){ st.busy = true; setTimeout(() => pass(), 700); return; }
+      st.busy = true;
+      setTimeout(() => { st.busy = false; next(); }, 750);
+      return;
+    }
+    st.run = 0;
+    fb.className = "fb no";
+    if (mode === "check"){ st.busy = true; setTimeout(() => fail(q, r), 200); return; }
+    fb.innerHTML = '<p class="fb-h">Not quite. The answer: ' + B(answerText(q)) + '</p>' + trapChip(r) + '<p class="tip">' + r.tip + '</p>'
+      + '<div class="row"><button class="btn btn-sm btn-sun" type="button" data-r="next">Got it, next →</button>'
+      + '<button class="btn btn-sm" type="button" data-r="card" data-card="' + r.card + '">Card ' + r.card + ': ' + esc(lessonTitle(r.card)) + '</button></div>';
+    announce("Not quite. The answer is " + answerText(q) + ". " + fb.querySelector(".tip").textContent);
+    setTimeout(() => { const b = $('[data-r="next"]', box); if (b) b.focus({preventScroll:true}); }, 30);
+  }
+  function pass(){
+    const first = !S.passed[c.id];
+    S.passed[c.id] = S.passed[c.id] || today();
+    noteRun(c.id, NEED);
+    save();
+    box.innerHTML = '<div class="result pass"><h3>Ready! ' + AR("جاهز") + '</h3>'
+      + '<p>' + NEED + ' right in a row' + (c.id === "b54" ? ", with the three tenses mixed" : "") + '. Go back to IXL now, while it is fresh. Keep reading each question to the end, and use the stop rule if it gets stuck again.</p>'
+      + '<a class="ready-btn" href="' + IXL + c.path + '" target="_blank" rel="noopener" lang="ar" dir="rtl">جاهز — ارجع لـ IXL <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>'
+      + '<div class="row"><button class="btn btn-sm" type="button" data-r="again">Do the check again</button><a class="btn btn-sm" href="#/">All clinics</a></div></div>';
+    announce("Ready. Go back to IXL.");
+    if (first) refreshHead();
+  }
+  function fail(q, r){
+    box.innerHTML = '<div class="result fail"><h3>Not yet ' + AR("مو بعد") + '</h3>'
+      + '<p>' + st.i + ' right in a row, then this one: the answer was ' + B(answerText(q)) + '.</p>'
+      + '<p>' + trapChip(r) + '</p><p class="tip">' + r.tip + '</p>'
+      + '<p>Review <b>card ' + r.card + '</b> (' + esc(lessonTitle(r.card)) + '), do a few drill questions, then try the check again.</p>'
+      + '<div class="row"><button class="btn btn-col" type="button" data-r="card" data-card="' + r.card + '">Review card ' + r.card + '</button><button class="btn" type="button" data-r="again">Try the check again</button></div></div>';
+    announce("Not yet. Review card " + r.card + ".");
+  }
+  box.onclick = e => {
+    const b = e.target.closest("[data-r], .tile");
+    if (!b || !box.contains(b)) return;
+    if (b.classList.contains("tile")){
+      if (st.answered) return;
+      const q = st.deck[st.i];
+      if (q.multi) b.setAttribute("aria-checked", b.getAttribute("aria-checked") === "true" ? "false" : "true");
+      else $$(".tile", box).forEach(t => t.setAttribute("aria-checked", t === b ? "true" : "false"));
+      return;
+    }
+    const r = b.dataset.r;
+    if (r === "submit") submit();
+    else if (r === "next") next();
+    else if (r === "hint"){ const h = $(".hint-box", box), q = st.deck[st.i]; h.hidden = false; h.innerHTML = q.kind === "verb" ? hintFor({t:q.t, v:q.v, s:q.s, a:q.a}) : "Card " + TAGS[q.tag].card + ": " + esc(lessonTitle(TAGS[q.tag].card)) + "."; }
+    else if (r === "card") jump(c.id + "-card-" + b.dataset.card);
+    else if (r === "again"){ st.deck = deck(c, mode); st.i = 0; st.run = 0; show(); }
+  };
+  box.onkeydown = e => {
+    if (e.key !== "Enter" || e.target.closest("a")) return;
+    if (e.target.classList.contains("ixin") || e.target.classList.contains("tile")){ e.preventDefault(); submit(); }
+  };
+  if (mode === "check") box.innerHTML = '<div class="row"><button class="btn btn-col" type="button" data-r="again">Start the ready check</button><span class="best">' + NEED + ' right in a row, no hints' + (c.id === "b54" ? ", tenses mixed" : "") + '.</span></div>';
+  else show();
+}
+function jump(id){
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({behavior:REDUCE ? "auto" : "smooth", block:"start"});
+  el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
+}
+
+/* ---------- pictures ---------- */
+const RING = '<svg class="ring" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="25" fill="none" stroke="#14163A" stroke-width="15"/><circle cx="32" cy="32" r="25" fill="none" stroke="#fff" stroke-width="11"/>'
+  + '<circle cx="32" cy="32" r="25" fill="none" stroke="#E23D45" stroke-width="11" stroke-dasharray="19.6 19.6" transform="rotate(-10 32 32)"/><circle cx="32" cy="32" r="18" fill="#FFE1E2" stroke="#14163A" stroke-width="2.5"/><circle cx="32" cy="32" r="32" fill="none"/></svg>';
+/* a small coordinate plane, after Grid Quest's (math/coordinate-plane) */
+function planeSVG(pts, quads){
+  const W = 260, lo = quads ? -5 : 0, hi = quads ? 5 : 6, pad = 22, u = (W - 2 * pad) / (hi - lo);
+  const X = v => pad + (v - lo) * u, Y = v => W - pad - (v - lo) * u, x0 = X(0), y0 = Y(0);
+  let s = '<svg viewBox="0 0 ' + W + ' ' + W + '" role="img" aria-label="' + (quads ? "A coordinate plane with the four quadrants and their signs" : "A coordinate plane with " + pts.map(p => "point " + p[2]).join(" and ")) + '"><rect width="' + W + '" height="' + W + '" fill="#fff"/>';
+  for (let v = lo; v <= hi; v++) if (v) s += '<line class="gl" x1="' + X(v) + '" y1="' + Y(lo) + '" x2="' + X(v) + '" y2="' + Y(hi) + '"/><line class="gl" x1="' + X(lo) + '" y1="' + Y(v) + '" x2="' + X(hi) + '" y2="' + Y(v) + '"/>';
+  s += '<line class="ax" x1="' + (quads ? 4 : x0) + '" y1="' + y0 + '" x2="' + (W - 4) + '" y2="' + y0 + '"/><line class="ax" x1="' + x0 + '" y1="' + (quads ? W - 4 : y0) + '" x2="' + x0 + '" y2="4"/>';
+  s += '<path d="M' + (W - 4) + ' ' + y0 + 'l-10 -6v12zM' + x0 + ' 4l-6 10h12z' + (quads ? 'M4 ' + y0 + 'l10 -6v12zM' + x0 + ' ' + (W - 4) + 'l-6 -10h12z' : "") + '" fill="#14163A"/>';
+  for (let v = lo; v <= hi; v++){
+    if (!v) continue;
+    s += '<line class="tk" x1="' + X(v) + '" y1="' + (y0 - 4) + '" x2="' + X(v) + '" y2="' + (y0 + 4) + '"/><line class="tk" x1="' + (x0 - 4) + '" y1="' + Y(v) + '" x2="' + (x0 + 4) + '" y2="' + Y(v) + '"/>';
+    if (quads && v % 2) continue;
+    s += '<text class="tl" x="' + X(v) + '" y="' + (y0 + 17) + '" text-anchor="middle">' + (v < 0 ? "−" + -v : v) + '</text><text class="tl" x="' + (x0 - 8) + '" y="' + (Y(v) + 4) + '" text-anchor="end">' + (v < 0 ? "−" + -v : v) + '</text>';
+  }
+  s += '<text class="tl" x="' + (x0 - 6) + '" y="' + (y0 + 16) + '" text-anchor="end">0</text><text class="axn" x="' + (W - 8) + '" y="' + (y0 - 10) + '" text-anchor="end">x</text><text class="axn" x="' + (x0 + 10) + '" y="16">y</text>';
+  if (quads) [["I", "(+, +)", 2.5, 2.5], ["II", "(−, +)", -2.5, 2.5], ["III", "(−, −)", -2.5, -2.5], ["IV", "(+, −)", 2.5, -2.5]].forEach(q => {
+    s += '<rect x="' + (X(q[2]) - 34) + '" y="' + (Y(q[3]) - 22) + '" width="68" height="42" rx="8" fill="#fff" stroke="#9A4FE0" stroke-width="1.5"/><text class="qd" x="' + X(q[2]) + '" y="' + (Y(q[3]) - 3) + '" text-anchor="middle">' + q[0] + '</text><text class="sg" x="' + X(q[2]) + '" y="' + (Y(q[3]) + 14) + '" text-anchor="middle">' + q[1] + '</text>';
+  });
+  if (quads) s += '<circle class="pt" cx="' + x0 + '" cy="' + y0 + '" r="6" fill="#FFD23F"/><text class="pl" x="' + (x0 + 8) + '" y="' + (y0 - 8) + '">origin (0, 0)</text>';
+  pts.forEach(p => { s += '<circle class="pt" cx="' + X(p[0]) + '" cy="' + Y(p[1]) + '" r="7" fill="#0B8FB0"/><text class="pl" x="' + (X(p[0]) + 9) + '" y="' + (Y(p[1]) - 8) + '">' + p[2] + '</text>'; });
+  return s + '</svg>';
+}
+
+/* ---------- lesson cards: the common traps ---------- */
+const X = (no, yes, why) => '<li><span class="no">' + no + '</span> → <span class="yes">' + yes + '</span>' + (why ? ' <span class="why">' + why + '</span>' : "") + '</li>';
+const irrHTML = () => '<div class="irr">' + IRR_GROUPS.map(g => '<div' + (g.first ? ' class="first"' : "") + '><h4>' + esc(g.name) + '</h4>' + g.pairs.map(p => '<span>' + p[0] + ' → <b>' + p[1] + '</b></span>').join(", ") + '</div>').join("") + '</div>';
+const LESSONS = {
+  b54:[
+    {l:"a", title:"Read the tense word first", ar:"اقرأ كلمة الزمن أول شي",
+     html:'<p>The tense is in the instruction: <b>past-tense</b>, <b>present-tense</b> or <b>future-tense</b>. Put your finger on it before you read the sentence. It changes from one question to the next.</p>'
+      + '<p>Then look for a time clue in the sentence. Many IXL sentences have none, so the instruction is often the only clue.</p>'
+      + '<table class="chart"><tr><th>Tense</th><th>Time clues</th><th>Example</th></tr><tr><td><b>past</b></td><td>yesterday, last week, ago</td><td>The bus <b>stopped</b>.</td></tr>'
+      + '<tr><td><b>present</b></td><td>every day, usually, always</td><td>The bus <b>stops</b> here.</td></tr><tr><td><b>future</b></td><td>tomorrow, next year, soon</td><td>The bus <b>will stop</b>.</td></tr></table>'
+      + '<ul class="ex">' + X("will enjoy", "enjoy", "present-tense: no will") + X("approach", "will approach", "future-tense: will is needed") + X("decides", "decided", "past-tense: not the present") + X("approaching", "approaches", "-ing is a different tense") + '</ul>'},
+    {l:"b", title:"Present: find the subject first", ar:"المضارع: دوّر الفاعل أول",
+     html:'<p>He, she, it or one thing → add <b>-s</b>. I, you, we, they or more than one → the base form, with no -s.</p>'
+      + '<table class="chart"><tr><th>Subject</th><th>be</th><th>have</th><th>other verbs</th></tr><tr><td>I</td><td><b>am</b></td><td><b>have</b></td><td>enjoy</td></tr>'
+      + '<tr><td>he, she, it, one thing</td><td><b>is</b></td><td><b>has</b></td><td>enjoys, approaches</td></tr><tr><td>you, we, they, more than one</td><td><b>are</b></td><td><b>have</b></td><td>enjoy, approach</td></tr></table>'
+      + '<p>Spelling the -s: -sh, -ch, -ss, -x, -z → <b>-es</b> (approaches, quizzes) · consonant + y → <b>-ies</b> (curtsies, terrifies) · vowel + y → <b>-s</b> (enjoys).</p>'
+      + '<ul class="ex">' + X("Many people deposits", "Many people deposit", "more than one: no -s") + X("Our teacher have", "Our teacher has", "one person: has") + X("I is", "I am") + '</ul>'},
+    {l:"c", title:"Past: the -ed spelling rules", ar:"الماضي: قواعد كتابة ‑ed",
+     html:'<ul class="ex"><li>One short vowel + one consonant at the end → <b>double it</b>: swap → <b>swapped</b>, scan → <b>scanned</b>, lag → <b>lagged</b>, quiz → <b>quizzed</b>.</li>'
+      + '<li>Stress on the first part → <b>don\'t double</b>: fasten → <b>fastened</b>, open → <b>opened</b>, visit → <b>visited</b>.</li>'
+      + '<li>Consonant + y → <b>ied</b>: terrify → <b>terrified</b>, dry → <b>dried</b>.</li><li>Vowel + y → <b>keep the y</b>: enjoy → <b>enjoyed</b>, obey → <b>obeyed</b>.</li>'
+      + '<li>Ends in e → <b>add only d</b>: decide → <b>decided</b>, memorize → <b>memorized</b>.</li></ul>'
+      + '<ul class="ex">' + X("swaped", "swapped") + X("fastenned", "fastened") + X("terrifyed", "terrified") + X("enjoied", "enjoyed") + '</ul>'},
+    {l:"d", title:"Irregular past: no -ed", ar:"الماضي الشاذ: بدون ‑ed", wide:true,
+     html:'<p>These verbs have their own past form, so learn them in families. Start with the yellow box. The <a href="#/42p">42P clinic</a> drills them.</p>' + irrHTML()
+      + '<ul class="ex">' + X("flinged", "flung") + X("grinded", "ground") + X("sweeped", "swept") + X("tought", "taught", "letter by letter: t-a-u-g-h-t") + '</ul>'},
+    {l:"e", title:"Future: will + the base form", ar:"المستقبل: will + الفعل الأساسي",
+     html:'<p>Two words. After <b>will</b>, the verb never takes -s or -ed.</p><ul class="ex">' + X("willbe", "will be", "two words") + X("will approached", "will approach") + X("will curtsies", "will curtsy") + '</ul>'},
+    {l:"f", title:"Before you press Enter", ar:"قبل ما تضغط Enter",
+     html:'<p>Read the word letter by letter, once more:</p><ul class="ex"><li>Is it the tense the instruction asked for?</li><li>Present: does it match the subject?</li>'
+      + '<li>Is it the verb in the bubble? (swap, not sweep)</li><li>Spelling: <b>c-u-r-t-s-i-e-s</b>, <b>t-a-u-g-h-t</b>, <b>w-i-l-l b-e</b>.</li></ul>'}
+  ],
+  "42p":[
+    {l:"a", title:"Irregular verbs don't take -ed", ar:"الأفعال الشاذة ما تاخذ ‑ed",
+     html:'<p>Most verbs add -ed in the past. Irregular verbs change instead, and you have to remember the new word: teach → <b>taught</b>, sting → <b>stung</b>.</p>'
+      + '<ul class="ex">' + X("teached", "taught") + X("stinged", "stung") + X("digged", "dug") + X("swimmed", "swam") + '</ul>'},
+    {l:"b", title:"Learn them in families", ar:"احفظها عائلات", wide:true, html:'<p>Words in a family change the same way. Start with the yellow box; it is the same list as B54\'s card d.</p>' + irrHTML()},
+    {l:"c", title:"-ought and -aught: spell them carefully", ar:"انتبه لكتابة ‑ought و‑aught",
+     html:'<p>brought, thought, bought, fought and sought have <b>ough</b>; taught and caught have <b>augh</b>. Read them letter by letter.</p>'
+      + '<ul class="ex">' + X("tought", "taught") + X("brang", "brought") + X("catched", "caught") + '</ul>'}
+  ],
+  cqj:[
+    {l:"a", title:"Five levels, smallest to largest", ar:"خمس مستويات من الأصغر للأكبر", wide:true,
+     html:'<p>IXL starts this skill with a short reading that compares the body to an orchestra: many musicians, grouped into sections that play together. In the body, each level is made of the level before it.</p>'
+      + '<div class="levels"><span class="lv"><b>cell</b>a muscle cell</span><span class="arrow">→</span><span class="lv"><b>tissue</b>muscle tissue</span><span class="arrow">→</span>'
+      + '<span class="lv"><b>organ</b>the heart</span><span class="arrow">→</span><span class="lv"><b>organ system</b>circulatory system</span><span class="arrow">→</span><span class="lv"><b>organism</b>a whole person</span></div>'},
+    {l:"b", title:"Name the level", ar:"سمِّ المستوى",
+     html:'<table class="chart"><tr><th>What it is</th><th>Level</th></tr><tr><td>One cell (a muscle cell, a red blood cell)</td><td><b>cell</b></td></tr>'
+      + '<tr><td>Many cells of one kind doing one job</td><td><b>tissue</b></td></tr><tr><td>Different tissues working together (heart, stomach, brain, skin)</td><td><b>organ</b></td></tr>'
+      + '<tr><td>Organs working together (digestive, circulatory, nervous system)</td><td><b>organ system</b></td></tr><tr><td>The whole living thing</td><td><b>organism</b></td></tr></table>'},
+    {l:"c", title:"The four tissue types", ar:"أنواع الأنسجة الأربعة",
+     html:'<ul class="ex"><li><b>Nervous</b> tissue sends signals.</li><li><b>Muscle</b> tissue contracts to move the body.</li><li><b>Connective</b> tissue binds, supports and connects (tendons attach muscles to bones).</li>'
+      + '<li><b>Epithelial</b> tissue covers and lines (the skin, the inside of the stomach).</li></ul><p>An organ has several tissue types: the stomach has all four.</p>'},
+    {l:"d", title:"Select all: judge each sentence", ar:"اختر كل الصحيح: احكم على كل جملة",
+     html:'<p>In "Select the true statements" questions, decide true or false for every sentence on its own, and tick all the true ones. Don\'t stop after the first one you like.</p>'
+      + '<p>Revise the body systems in <a href="../../science/control-information/index.html">Signal Lab</a> (nerves and senses) and <a href="../../science/moving-material/index.html">Flow Lab</a> (moving materials), and the tissues in the <a href="../practice/index.html#G">practice sheet</a>.</p>'}
+  ],
+  pqq:[
+    {l:"a", title:"Actions and words are clues", ar:"الأفعال والكلام أدلة",
+     html:'<p>IXL gives a few sentences and asks what a character is probably like, or how they probably feel. The answer isn\'t written in the text: work it out from what the character does and says.</p>'
+      + '<ul class="ex"><li>Maha held up her medal and beamed. → <span class="yes">proud</span></li><li>Adel sat alone and nobody asked him to play. → <span class="yes">lonely</span></li></ul>'},
+    {l:"b", title:"Like or feel?", ar:"صفة ولا شعور؟",
+     html:'<p><b>What is … probably like?</b> asks for a trait that stays: generous, curious, responsible.</p><p><b>How does … probably feel?</b> asks for a feeling right now: anxious, proud, embarrassed.</p>'},
+    {l:"c", title:"Test both words", ar:"جرّب الكلمتين",
+     html:'<p>Say each choice in a sentence: "Faisal is <b>helpful</b>." "Faisal is <b>careless</b>." Keep the one that fits every clue, not just one of them.</p>'},
+    {l:"d", title:"Word bank", ar:"بنك الكلمات", wide:true,
+     html:'<ul class="words">' + TRAITS.map(w => '<li><span lang="en">' + w[0] + '</span>' + AR(w[1]) + '</li>').join("") + '</ul><p>The first sixteen are the practice sheet\'s list.</p>'}
+  ],
+  pf8:[
+    {l:"a", title:"Axes and the origin", ar:"المحاور ونقطة الأصل",
+     html:'<ul class="ex"><li>The <b>x-axis</b> goes across: it is the <b>horizontal</b> number line.</li><li>The <b>y-axis</b> goes up and down: it is the <b>vertical</b> number line.</li>'
+      + '<li>They cross at the <b>origin</b>, the point <b>(0, 0)</b>.</li></ul><p>x comes before y in the alphabet: along the ground first (x), then climb up (y).</p>'},
+    {l:"b", title:"Ordered pairs (x, y)", ar:"الأزواج المرتبة",
+     html:'<p>The first number is the <b>x-coordinate</b> (left or right); the second is the <b>y-coordinate</b> (up or down). Order matters: (2, 5) and (5, 2) are different points.</p>'
+      + '<p>x = 0 puts the point on the y-axis; y = 0 puts it on the x-axis.</p>'},
+    {l:"c", title:"Quadrants and signs", ar:"الأرباع والإشارات", wide:true,
+     html:'<div class="plane-box">' + planeSVG([], true) + '</div><p>The axes cut the plane into four quadrants, numbered counterclockwise from the top right: I (+, +), II (−, +), III (−, −), IV (+, −). A point on an axis is in no quadrant.</p>'
+      + '<p>More practice: <a href="../../math/coordinate-plane/index.html">Grid Quest</a>, the coordinate-plane lesson.</p>'}
+  ]
+};
+
+/* ---------- what IXL shows ---------- */
+const MOCKS = {
+  b54:{q:MAKE.b54(["past","swap","Ali and Ben ___ seats so they could see the board.","swapped"]),
+    notes:["<b>The tense word.</b> It changes from question to question, and in many sentences it is the only clue.", "<b>The verb to change</b>, always in its base form.", "<b>Type only the missing word</b>: one word for the past and the present, two for the future (will + the verb)."],
+    note:"IXL mixes the three tenses in one session, so read the instruction every single time."},
+  "42p":{q:MAKE["42p"](["teach","Captain Nasser ___ the scouts how to tie knots."]),
+    notes:["<b>Always the past tense</b> in this skill.", "<b>The verb is irregular</b>, so the answer doesn't end in -ed.", "<b>One word</b>, spelled letter by letter."],
+    note:"Same picture as B54, but the answer is always an irregular past."},
+  cqj:{q:{kind:"tiles", ins:"", pass:"The human body is made of many small parts that work together, a bit like the musicians of an orchestra…", q:"Select the true statements.", multi:true, opts:["All cells in the human body do the same job.","Cells that do similar jobs are organized into tissues.","The heart is an organ."], ans:[1, 2]},
+    notes:["<b>First a short reading</b> that compares the body to an orchestra, then the questions.", "<b>Some questions have more than one right answer.</b> Tick every true statement."],
+    note:"This skill comes in stages: Stage 1 asks for 5 right out of 6 before the next stage."},
+  pqq:{q:MAKE.pqq(["Dana","like","Dana put her keys in the fridge and the milk in her backpack. Then she spent ten minutes looking for both.","scatterbrained","careful",""]),
+    notes:["<b>A few sentences</b> about a character: what they do and what they say.", "<b>The question</b>: what is … probably like? (a trait), or how does … probably feel? (a feeling). Then two words."],
+    note:"Only two choices, so test each one against every clue before you press Submit."},
+  pf8:{q:MAKE.pf8(["In an ordered pair, the second number is called the ___.","y-coordinate","x-coordinate","",""]),
+    notes:["<b>Complete the sentence</b> with the right word about the coordinate plane.", "<b>Read the whole sentence</b>, then choose one of the two words."],
+    note:"The words to know: x-axis, y-axis, origin, ordered pair, x-coordinate, y-coordinate."}
+};
+
+/* ---------- pages ---------- */
+const RESCUE = '<section class="rescue panel" aria-labelledby="rescueT">' + RING + '<h2 id="rescueT">Stuck? Stop and come here ' + AR("علِقت؟ وقّف وتعال هنا") + '</h2>'
+  + '<ul><li><b>Stop rule:</b> 3 wrong in a row, or 25 minutes on the same skill → stop IXL and open that skill\'s clinic here. Go back after the ready check, or tomorrow.</li>'
+  + '<li><b>Challenge Zone (90 to 100):</b> the questions get harder and every wrong answer costs more. Slow down, and after each miss read IXL\'s explanation before the next question.</li></ul>'
+  + '<p class="ar" lang="ar" dir="rtl">قاعدة التوقف: 3 أخطاء ورا بعض أو 25 دقيقة على نفس المهارة. وفوق 90 (منطقة التحدي) كل خطأ ينقّص أكثر، فبطّئ واقرأ شرح IXL بعد كل خطأ.</p></section>';
+function badges(c){
+  return (S.passed[c.id] ? '<span class="tag go">Ready ✓</span>' : "") + (c.main && !S.passed[c.id] ? '<span class="tag start">Start here</span>' : "");
+}
+function renderHome(){
+  document.title = "IXL Coach";
+  $("#app").innerHTML = '<section class="hero panel"><h1>IXL <span>Coach</span> ' + AR("عيادة IXL") + '</h1>'
+    + '<p class="sub">One clinic for each IXL skill that gets stuck. See how IXL asks the question, learn the common traps, practise in IXL\'s format, then pass a ready check before going back to IXL.</p>'
+    + '<p class="sub ar" lang="ar" dir="rtl">لكل مهارة تعلق في IXL عيادة: شكل السؤال، والفخاخ الشائعة، وتدريب بنفس شكل IXL، ثم اختبار جاهزية قبل ما ترجع.</p></section>'
+    + RESCUE
+    + '<div class="sec-title"><h2>The clinics ' + AR("العيادات") + '</h2><p>Start with B54. Every clinic ends with a ready check: ' + NEED + ' right in a row, no hints.</p></div>'
+    + '<div class="clinics">' + CLINICS.map(c => '<article class="cl panel k-' + c.col + (c.main ? " main" : "") + '"><div class="cl-top"><span class="code">' + c.code + '</span><span class="grade">' + c.grade + '</span>' + badges(c) + '</div>'
+      + '<h3>' + esc(c.title) + '</h3>' + AR(c.ar) + '<p>' + esc(c.blurb) + '</p>'
+      + '<div class="row"><a class="btn btn-col" href="#/' + c.id + '">Open the clinic</a>' + (S.best[c.id] ? '<span class="best">Best run: ' + S.best[c.id] + ' in a row</span>' : "") + '</div></article>').join("") + '</div>'
+    + '<footer class="foot"><p>See also: <a href="../index.html">the IXL plan</a> · <a href="../practice/index.html">the IXL practice sheet</a> · <a href="../../index.html">the dashboard</a>. The print button prints the B54 rules sheet and 15 questions.</p>'
+    + '<p>Ready checks passed are saved on this device and on the family\'s linked devices.</p></footer>';
+}
+const STEPS = [["ixl", "What IXL shows", "شكل السؤال في IXL"], ["traps", "Common traps", "الفخاخ الشائعة في هذه المهارة"], ["drill", "Drill", "تدريب"], ["check", "Ready check", "اختبار الجاهزية"]];
+function block(c, n, key, sub, body){
+  const s = STEPS[n - 1];
+  return '<section class="blk panel k-' + c.col + '" id="' + c.id + '-' + key + '" aria-labelledby="' + c.id + '-' + key + '-h"><div class="blk-head"><span class="blk-n" aria-hidden="true">' + n + '</span><div class="blk-t"><h2 id="' + c.id + '-' + key + '-h">'
+    + (key === "traps" ? "Common traps in this skill" : s[1]) + ' ' + AR(s[2]) + '</h2><p>' + sub + '</p></div></div><div class="blk-body">' + body + '</div></section>';
+}
+function renderClinic(c, part){
+  const m = MOCKS[c.id];
+  document.title = c.code + " clinic · IXL Coach";
+  $("#app").innerHTML = '<section class="c-head panel k-' + c.col + '"><div class="cl-top"><span class="code">' + c.code + '</span><span class="grade">' + c.grade + '</span><span id="cBadges">' + badges(c) + '</span></div>'
+    + '<h1>' + esc(c.title) + '</h1>' + AR(c.ar) + '<p class="sub">' + esc(c.blurb) + '</p>'
+    + '<div class="steps">' + STEPS.map((s, i) => '<button class="step" type="button" data-jump="' + c.id + '-' + s[0] + '"><b>' + (i + 1) + '</b>' + s[1] + '</button>').join("")
+    + '<a class="step" href="' + IXL + c.path + '" target="_blank" rel="noopener"><b>↗</b>Open in IXL</a></div></section>'
+    + RESCUE
+    + block(c, 1, "ixl", "A drawing of an IXL question in this skill, with what to look at.", '<div class="mock-wrap">' + qHTML(m.q, "mock", true) + '<div><ol class="notes">' + m.notes.map((t, i) => '<li><span class="nn">' + (i + 1) + '</span><span>' + t + '</span></li>').join("") + '</ol></div></div><p class="mock-note">' + m.note + '</p>')
+    + block(c, 2, "traps", "The rules behind the questions people often get wrong here. A wrong answer in the drill points to its card.", '<div class="lessons">' + LESSONS[c.id].map(x => '<article class="lesson' + (x.wide ? " wide" : "") + '" id="' + c.id + '-card-' + x.l + '"><div class="l-top"><span class="l-letter">' + x.l + '</span><h3>' + esc(x.title) + '</h3></div>' + AR(x.ar) + x.html + '</article>').join("") + '</div>')
+    + block(c, 3, "drill", "Questions in IXL's format, with a hint button and a tip after every miss.", '<div class="runner" id="drillBox"></div>')
+    + block(c, 4, "check", NEED + " right in a row, no hints" + (c.id === "b54" ? ", tenses mixed" : "") + ". Pass it, then go back to IXL.", '<div class="runner" id="checkBox"></div>')
+    + '<footer class="foot"><p><a href="#/">← All clinics</a> · <a href="../index.html">the IXL plan</a> · <a href="../practice/index.html">the practice sheet</a></p></footer>';
+  runner($("#drillBox"), c, "drill");
+  runner($("#checkBox"), c, "check");
+  if (part && document.getElementById(c.id + "-" + part)) setTimeout(() => jump(c.id + "-" + part), 60);
+}
+function refreshHead(){ const b = $("#cBadges"), c = current(); if (b && c) b.innerHTML = badges(c); }
+function current(){ const id = (location.hash || "").replace(/^#\/?/, "").toLowerCase().split("/")[0]; return CLINICS.find(x => x.id === id) || null; }
+function route(){
+  const c = current(), part = (location.hash || "").replace(/^#\/?/, "").toLowerCase().split("/")[1];
+  if (c) renderClinic(c, part); else renderHome();
+  if (!part) window.scrollTo(0, 0);
+}
+document.addEventListener("click", e => { const j = e.target.closest("[data-jump]"); if (j) jump(j.dataset.jump); });
+window.addEventListener("hashchange", route);
+/* another device's progress arrived (assets/sync.js): update the badges here, without reloading */
+window.addEventListener("monmon-sync", e => { S = load(); if (current()) refreshHead(); else renderHome(); e.preventDefault(); });
+$("#printBtn").addEventListener("click", () => window.print());
+route();
+
+/* ---------- print: the B54 rules sheet, then 15 fixed questions with the key (A4, 2 pages) ---------- */
+const PS_PICK = [["past","swap"], ["present","deposit","Many"], ["future","approach"], ["past","fling"], ["present","have","Our teacher"], ["future","be","The weather"],
+  ["past","terrify"], ["present","curtsy","The ballerina"], ["past","fasten"], ["present","be","I "], ["future","enjoy"], ["past","grind"], ["present","quiz"], ["past","quiz"], ["present","enjoy","We "]];
+function renderPrint(){
+  const qs = PS_PICK.map(p => B54_BANK.find(x => x[0] === p[0] && x[1] === p[1] && (!p[2] || x[2].startsWith(p[2]))));
+  const head = (t, sub) => '<header class="ps-head"><h1>' + t + '</h1><p>' + sub + '</p></header>';
+  $("#printSheet").innerHTML = head("Past, Present and Future Tense: Rules Sheet", "IXL Coach · B54 · Read the tense word in the instruction first")
+    + '<div class="ps-sec"><h2>1 · Which form? The instruction tells you</h2><table class="ps-chart"><tr><th>The instruction says</th><th>Write</th><th>Examples</th></tr>'
+    + '<tr><td><b>past-tense</b></td><td>Regular verbs: <b>-ed</b>, with the spelling rules below. Irregular verbs: their own word. be: <b>was</b> / <b>were</b>.</td><td>stopped, swapped, decided · flung, taught · we were</td></tr>'
+    + '<tr><td><b>present-tense</b></td><td>Find the subject. One person or thing → <b>-s</b> (or -es, -ies). I, you, we, they, more than one → the base form. be: <b>am / is / are</b>. have: <b>has / have</b>.</td><td>the ferry approaches · the ships approach · I am · she has</td></tr>'
+    + '<tr><td><b>future-tense</b></td><td><b>will</b> + the base form: two words, no -s or -ed.</td><td>will approach · will be · will curtsy</td></tr></table></div>'
+    + '<div class="ps-sec"><h2>2 · Spelling rules</h2><div class="ps-two"><ul class="ps-rules"><li><b>-s in the present:</b></li>'
+    + '<li>-sh, -ch, -ss, -x, -z → <b>-es</b>: approaches, quizzes</li><li>consonant + y → <b>-ies</b>: curtsies, terrifies</li><li>vowel + y → <b>-s</b>: enjoys, stays</li><li>the rest → <b>-s</b>: deposits, memorizes</li></ul>'
+    + '<ul class="ps-rules"><li><b>-ed in the past:</b></li><li>one short vowel + one consonant → <b>double</b>: swapped, scanned, lagged, quizzed</li><li>stress on the first part → <b>no double</b>: fastened, opened, visited</li>'
+    + '<li>consonant + y → <b>-ied</b>: terrified, dried · vowel + y → <b>-yed</b>: enjoyed, obeyed</li><li>ends in e → <b>-d</b> only: decided, memorized</li></ul></div></div>'
+    + '<div class="ps-sec"><h2>3 · Irregular past: no -ed. Learn them in families</h2><div class="ps-irr">'
+    + IRR_GROUPS.map(g => '<p><b>' + esc(g.name) + ':</b> ' + g.pairs.map(p => p[0] + " → " + p[1]).join(", ") + '</p>').join("") + '</div></div>'
+    + '<p class="ps-tip"><b>Before Enter:</b> Is it the tense in the instruction? Present: does it match the subject? Is it the verb in the bubble? Read it letter by letter. <b>Stop rule:</b> 3 wrong in a row or 25 minutes → stop, study this sheet, come back.</p>'
+    + '<section class="ps-page2">' + head("Past, Present and Future Tense: 15 Questions", "Write the form the tense word asks for. The answer key is at the bottom: cover it.")
+    + '<p class="ps-ins">Complete each sentence with the <b>past-tense</b>, <b>present-tense</b> or <b>future-tense</b> form of the verb in brackets.</p>'
+    + '<div class="ps-qs">' + qs.map((q, i) => { const [pre, post] = q[2].split("___");
+        return '<div class="ps-q"><span>' + (i + 1) + '.</span><span><span class="t">' + q[0] + '-tense</span> (<span class="v">' + esc(q[1]) + '</span>) ' + esc(pre) + '<span class="ps-blank"></span>' + esc(post) + '</span></div>'; }).join("") + '</div>'
+    + '<div class="ps-key"><h3>Answer key</h3><ol>' + qs.map(q => '<li>' + esc(q[3]) + '</li>').join("") + '</ol></div></section>';
+}
+renderPrint();
+</script>
+</body>
+</html>
