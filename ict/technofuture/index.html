@@ -2061,7 +2061,9 @@ function show(name){
 }
 function scrollToEl(el){
   if (!el) return;
-  const top = el.getBoundingClientRect().top + window.scrollY - 76;
+  /* 76px for this page's bar, plus the site strip above it (assets/site-nav.js) */
+  const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--site-nav-h")) || 0;
+  const top = el.getBoundingClientRect().top + window.scrollY - 76 - navH;
   /* long jumps (like a deep link to Mission 6) are instant; short ones glide */
   window.scrollTo({top:Math.max(0, top), behavior:motionOn() && Math.abs(top - window.scrollY) < 1600 ? "smooth" : "auto"});
 }

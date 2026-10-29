@@ -1,0 +1,1649 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Factor Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23FFD23F%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M21 21l22 22M43 21L21 43%22 stroke=%22%2314163A%22 stroke-width=%227%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn:#C77700; --warn-bg:#FFF0D1;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --c5:#E23F66; --c5t:#FFDDE6;
+  --col:var(--c1); --tint:var(--c1t);
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--c1);font-weight:700;overflow-wrap:anywhere}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.land-c1{--col:var(--c1);--tint:var(--c1t)} .land-c2{--col:var(--c2);--tint:var(--c2t)} .land-c3{--col:var(--c3);--tint:var(--c3t)}
+.land-c4{--col:var(--c4);--tint:var(--c4t)} .land-c5{--col:var(--c5);--tint:var(--c5t)}
+
+/* math type: powers and stacked fractions */
+sup{font-size:.62em;line-height:0;position:relative;vertical-align:baseline;top:-.62em;font-weight:inherit}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.8em;line-height:1.08;margin:0 .1em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fr .nu{border-bottom:.1em solid currentColor;padding:0 .14em}
+.fr .de{padding:0 .14em}
+.fr .sl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.fp{font-size:1.3em;line-height:1;font-weight:400;vertical-align:-.1em}
+sup.qm{display:inline-block;font-size:.8em;min-width:1.2em;padding:0 .12em;border:2px dashed var(--ink-2);border-radius:5px;text-align:center;line-height:1.2;top:-.45em;color:var(--ink-2);margin-left:.14em}
+.t,.nw{white-space:nowrap}
+.slot{display:inline-grid;place-items:center;width:1.5em;height:1.5em;margin:0 .15em;border:2px dashed var(--ink-2);border-radius:50%;vertical-align:middle;font-size:.9em;font-weight:800;color:var(--ink-2);line-height:1}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:900px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.xp{display:flex;align-items:center;gap:6px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;white-space:nowrap}
+.xp svg{width:20px;height:20px}
+.xp.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{50%{transform:scale(1.18)}}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);padding:0}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:520px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+@media (max-width:400px){.topbar-in{gap:8px}.logo-mark{font-size:22px}.xp{padding:3px 9px 3px 5px}}
+/* phones: the site strip above has the way home, so this bar keeps its room for the XP */
+@media (max-width:400px){.topbar a.icon-btn{display:none}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:16px;line-height:1.2;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn-go{background:var(--sun)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.btn-sm{min-height:38px;padding:6px 12px;font-size:14px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:var(--shadow-sm)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.screen{animation:enter .35s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* home */
+.hero{margin-top:20px;padding:20px;display:grid;grid-template-columns:1.35fr 1fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(42px,7vw,66px)}
+.hero h1 span{color:var(--c1);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero p{margin-top:10px;max-width:50ch;color:var(--ink-2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;background:var(--page);text-align:center}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+@media (max-width:680px){.hero{grid-template-columns:1fr}}
+.banner{margin-top:16px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--sun-2)}
+.banner.alert{background:var(--bad-bg)}
+.banner p{flex:1 1 260px}
+.sec-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:34px 0 14px}
+.sec-title h2{font-size:36px}
+.sec-title p{color:var(--ink-2);font-size:14px}
+
+/* quest trail */
+.trail{position:relative;display:grid;gap:20px;padding-block:4px}
+.trail::before{content:"";position:absolute;top:0;bottom:-20px;left:50%;border-left:4px dashed var(--ink-3);transform:translateX(-2px)}
+.land{position:relative;width:calc(50% - 26px);display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px;text-align:left;background:var(--tint);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);transition:transform .12s}
+.land:nth-child(odd){justify-self:start}
+.land:nth-child(even){justify-self:end}
+.land:hover{transform:translateY(-3px) rotate(-.4deg)}
+.land::after{content:"";position:absolute;top:24px;width:22px;height:22px;border-radius:50%;background:var(--col);border:3px solid var(--ink)}
+.land:nth-child(odd)::after{right:-40px}
+.land:nth-child(even)::after{left:-40px}
+@media (max-width:680px){.trail::before{left:18px}.land{width:calc(100% - 44px);justify-self:end!important}.land::after{left:-40px!important;right:auto!important}}
+.badge{width:56px;height:56px;border-radius:50%;background:var(--col);border:3px solid var(--ink);display:grid;place-items:center;box-shadow:2px 2px 0 var(--ink)}
+.badge svg{width:32px;height:32px}
+.land-num{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.land h3{font-size:30px}
+.land .sub{font-size:14px;color:var(--ink-2)}
+.land-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.progress-note{font-size:13px;font-weight:700;color:var(--ink-2)}
+.stars{display:flex;gap:2px}
+.stars svg{width:24px;height:24px}
+.sticker{position:absolute;top:-19px;right:12px;font-family:var(--display);font-size:18px;letter-spacing:.05em;background:var(--bad);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 8px;transform:rotate(4deg);box-shadow:2px 2px 0 var(--ink)}
+.sticker.ok{background:var(--good)}
+.final{position:relative;margin:36px auto 0;max-width:560px;padding:18px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:var(--sun)}
+.final h3{font-size:34px}
+.final p{font-size:14px;color:var(--ink)}
+.final .row{grid-column:1 / -1}
+.final .badge{background:var(--ink)}
+
+/* homework */
+.hw{padding:16px;display:grid;gap:14px}
+.hw-item{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+.hw-item.done{background:var(--good-bg)}
+.hw-check{width:30px;height:30px;margin:2px 0 0;accent-color:var(--good);cursor:pointer}
+.hw-item h3{font-size:24px}
+.hw-item .due{font-size:13px;font-weight:800;color:var(--bad);text-transform:uppercase;letter-spacing:.06em}
+.hw-item ul{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}
+.hw-body{grid-column:2;display:grid;gap:8px;min-width:0}
+.hw-note{font-size:13px;color:var(--ink-2)}
+.foot-note{margin-top:28px;text-align:center;font-size:13px;color:var(--ink-2)}
+.foot-links{justify-content:center;margin-top:28px}
+.link-btn{background:none;border:0;padding:0;color:var(--ink-2);text-decoration:underline;font-size:13px}
+
+/* lesson */
+.lesson-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.chip-land{font-family:var(--display);font-size:22px;letter-spacing:.04em;padding:3px 12px;border:3px solid var(--ink);border-radius:10px;background:var(--col);color:#fff;-webkit-text-stroke:.5px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.intro{margin-top:14px;padding:22px;display:grid;gap:14px;background:var(--tint)}
+.intro h2{font-size:clamp(40px,8vw,64px);color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink)}
+.intro p{font-size:18px;max-width:60ch}
+.lcards{display:grid;gap:18px;margin-top:18px}
+.lcard{padding:16px;display:grid;gap:14px}
+.lcard-num{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.lcard h3{font-size:32px;color:var(--col);-webkit-text-stroke:1px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.lgrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px 20px;align-items:center}
+.lgrid.solo{grid-template-columns:1fr}
+@media (max-width:720px){.lgrid{grid-template-columns:1fr}}
+.ltext{display:grid;gap:12px;min-width:0;font-size:17px;line-height:1.6}
+.ltext b{background:var(--sun-2);padding:0 4px;border-radius:4px}
+.trick-inline{display:block;padding:10px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--sun-2);transform:rotate(-.6deg);box-shadow:2px 2px 0 var(--ink);font-weight:500}
+.ex{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--page);padding:12px 14px}
+.ex h4{margin:0;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.ex .ex-q{margin-top:2px;font-weight:800;font-size:18px}
+.ex ol{margin:8px 0 0;padding-left:22px;display:grid;gap:4px}
+.note{font-size:15px;padding:10px 12px;border-left:6px solid var(--col);background:var(--tint);border-radius:0 10px 10px 0}
+.tscroll{overflow-x:auto;max-width:100%}
+.rtable{width:100%;border-collapse:separate;border-spacing:0;border:2px solid var(--ink);border-radius:10px;overflow:hidden;font-size:15px;background:var(--paper)}
+.rtable th,.rtable td{padding:7px 10px;text-align:left;border-bottom:2px solid var(--page)}
+.rtable th{background:var(--ink);color:#fff;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.rtable tr:last-child td{border-bottom:0}
+.rtable td:first-child{font-weight:800;white-space:nowrap}
+@media (max-width:420px){.rtable{font-size:14px}.rtable th,.rtable td{padding:6px 7px}}
+.lesson-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+/* lesson pictures */
+.viz{width:100%;max-width:440px;margin:0 auto;border:3px solid var(--ink);border-radius:var(--r-sm);background:#fff;overflow:hidden;box-shadow:var(--shadow-sm)}
+.viz svg{display:block;width:100%;height:auto}
+.viz .vt{font-family:var(--body);font-size:15px;font-weight:700;fill:var(--ink)}
+.viz .vs{font-family:var(--body);font-size:13px;font-weight:600;fill:var(--ink-2)}
+.viz .vb{font-family:var(--body);font-size:21px;font-weight:800;fill:var(--ink)}
+.viz .vd{font-family:var(--display);fill:var(--ink);letter-spacing:.02em}
+.viz .vcap{font-family:var(--body);font-size:12px;font-weight:800;letter-spacing:.08em;fill:var(--ink-2)}
+.viz .ln{stroke:var(--ink);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.viz .lt{stroke:var(--ink-3);stroke-width:1.2;fill:none}
+.viz .tile{fill:var(--tint);stroke:var(--ink);stroke-width:2.5}
+.viz .hot{fill:var(--col);stroke:var(--ink);stroke-width:2.5}
+.viz .sun{fill:var(--sun-2);stroke:var(--ink);stroke-width:2.5}
+.viz .wht{fill:#fff;stroke:var(--ink);stroke-width:2.5}
+
+/* questions */
+.test-top{display:grid;gap:10px;margin-top:16px}
+.test-top .row{justify-content:space-between}
+.round-name{font-family:var(--display);font-size:26px;letter-spacing:.04em}
+.counter{font-weight:800;font-variant-numeric:tabular-nums}
+.progress{height:16px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--sun);border-right:2px solid var(--ink);transition:width .4s}
+.q-card{margin-top:14px;padding:18px;display:grid;gap:14px;min-width:0}
+.q-kicker{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.q-text{font-size:20px;line-height:1.55;font-weight:500;overflow-wrap:anywhere}
+.q-text:focus,.q-text:focus-visible{outline:none}
+.q-text b{background:var(--sun-2);padding:0 5px;border-radius:5px;box-shadow:inset 0 -3px 0 var(--sun);white-space:nowrap}
+.qx{display:block;margin-top:8px;padding:8px 12px;border:2px dashed var(--ink-3);border-radius:10px;background:var(--page);font-size:22px;font-weight:700;line-height:1.7;font-variant-numeric:tabular-nums}
+@media (max-width:420px){.q-text{font-size:19px}.qx{font-size:20px;padding:6px 10px}}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opts.three{grid-template-columns:repeat(3,1fr)}
+.opts.four{grid-template-columns:repeat(4,1fr)}
+@media (max-width:420px){.opts.two{grid-template-columns:1fr}.opts.four{grid-template-columns:1fr 1fr}}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;min-height:56px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:600;font-size:18px;line-height:1.35;box-shadow:3px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s;font-variant-numeric:tabular-nums;min-width:0}
+.opt:hover:not([disabled]){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.opt:active:not([disabled]){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.opt .k{flex:none;width:30px;height:30px;border-radius:8px;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:14px;background:var(--page)}
+.opt.big{justify-content:center;font-family:var(--display);font-size:34px;font-weight:400;letter-spacing:.04em;min-height:64px;text-align:center}
+.opt.big .fr{font-size:.72em}
+.opt.big.sym{font-family:var(--body);font-weight:800;font-size:36px}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--good-bg);animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+.opt.right .k{background:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-bg);animation:shake .4s}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt.dim{opacity:.5}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes pop{50%{transform:scale(1.04)}}
+.ans-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.type-in{min-width:0;font:inherit;font-size:22px;font-weight:700;letter-spacing:.02em;padding:10px 12px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums}
+.type-in:focus{outline:none;box-shadow:0 0 0 4px var(--sun)}
+.type-in.ok{background:var(--good-bg)} .type-in.no{background:var(--bad-bg);animation:shake .4s}
+.type-in.num{width:10em;max-width:100%}
+.lbl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);display:block;text-align:center}
+.unit{font-weight:800;font-size:18px;color:var(--ink-2)}
+/* the power input: a big base box with a small raised exponent box */
+.pow-in{display:flex;align-items:flex-start;gap:4px}
+.pow-b{display:grid;justify-items:center;gap:2px;margin-top:30px}
+.pow-e{display:grid;justify-items:center;gap:2px}
+.type-in.base{width:5.4em;font-size:28px;text-align:center;padding:10px 8px}
+.type-in.exp{width:2.8em;font-size:18px;text-align:center;padding:6px 4px}
+.keys{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.keys span{font-size:12px;font-weight:700;color:var(--ink-2);margin-right:4px}
+.key{min-width:44px;height:40px;padding:0 10px;border:2px solid var(--ink);border-radius:9px;background:var(--page);font-weight:800;font-size:18px;box-shadow:2px 2px 0 var(--ink)}
+.key:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+.input-msg{font-size:14px;font-weight:700;color:var(--bad);min-height:0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.hint-box{padding:10px 14px;border:2px dashed var(--ink);border-radius:10px;background:var(--sun-2);font-size:16px;animation:slideUp .3s ease-out}
+.hint-box b.tag,.tip b.tag{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:#fff;padding:2px 7px;border-radius:5px;margin-right:6px}
+.fb{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:start;padding:12px 14px;border:3px solid var(--ink);border-radius:12px;animation:slideUp .3s ease-out}
+.fb.ok{background:var(--good-bg)} .fb.no{background:var(--bad-bg)}
+.fb .burst{font-family:var(--display);font-size:30px;line-height:1;transform:rotate(-4deg);-webkit-text-stroke:1px var(--ink);white-space:nowrap}
+.fb.ok .burst{color:var(--good)} .fb.no .burst{color:var(--bad)}
+.fb .fb-body{font-size:16px;display:grid;gap:8px;min-width:0;overflow-wrap:anywhere}
+.fb .row{grid-column:1 / -1;justify-content:flex-end}
+@media (max-width:480px){.fb{grid-template-columns:1fr}}
+.tip{padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.7);border:2px solid var(--ink);font-weight:600}
+.your{font-size:14px;color:var(--ink-2)}
+@keyframes slideUp{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+
+/* results */
+.splash{margin-top:16px;padding:28px 20px;text-align:center;display:grid;gap:14px;justify-items:center;background:var(--tint)}
+.splash .big{font-family:var(--display);font-size:clamp(46px,10vw,78px);line-height:1;color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:5px 5px 0 var(--ink);animation:zoomIn .6s cubic-bezier(.3,1.6,.5,1)}
+.splash p{max-width:46ch;font-size:17px}
+@keyframes zoomIn{0%{transform:scale(.2) rotate(-12deg);opacity:0}100%{transform:none;opacity:1}}
+.result-stars{display:flex;gap:10px;justify-content:center}
+.result-stars span{display:inline-block;animation:starIn .6s cubic-bezier(.3,1.6,.5,1) both}
+.result-stars svg{width:64px;height:64px;display:block}
+@keyframes starIn{0%{transform:scale(0) rotate(-40deg)}100%{transform:none}}
+.miss-list{display:grid;gap:12px;margin-top:16px}
+.miss{padding:14px;display:grid;gap:6px;background:var(--paper);overflow-wrap:anywhere}
+.miss .q{font-weight:600}
+.miss .a{font-size:14px;color:var(--ink-2)}
+.miss .w{font-size:15px}
+.test-intro{margin-top:16px;padding:22px;display:grid;gap:16px}
+.test-intro h2{font-size:clamp(40px,8vw,60px)}
+.rounds{display:grid;gap:8px;margin:0;padding:0;list-style:none;counter-reset:r}
+.rounds li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:8px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--page);counter-increment:r}
+.rounds li::before{content:counter(r);width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800}
+.rounds small{color:var(--ink-2);font-size:13px}
+
+/* report */
+.report-head{margin-top:16px;padding:20px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+@media (max-width:600px){.report-head{grid-template-columns:1fr;justify-items:center;text-align:center}.report-head .row{justify-content:center}}
+.ring{width:156px;height:156px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:grid;place-items:center;align-content:center;font-family:var(--display);font-size:46px;line-height:1}
+.ring .num small{font-family:var(--body);font-size:12px;font-weight:800;color:var(--ink-2);letter-spacing:.06em}
+.rank{font-family:var(--display);font-size:clamp(36px,6vw,54px);line-height:1}
+.report-head p{margin-top:6px;color:var(--ink-2)}
+.bars{padding:16px;display:grid;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(130px,230px) 1fr auto;gap:10px 12px;align-items:center}
+.bar-label{font-weight:700;line-height:1.25}
+.bar-label small{display:block;font-weight:500;font-size:12px;color:var(--ink-2)}
+.bar{height:22px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--col);border-right:2px solid var(--ink);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar i.zero{border-right:0}
+.bar-end{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct{font-weight:800;font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.status{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:999px;border:2px solid var(--ink);white-space:nowrap}
+.status.good{background:var(--good-bg)} .status.mid{background:var(--warn-bg)} .status.low{background:var(--bad-bg)}
+@media (max-width:600px){.bar-row{grid-template-columns:1fr auto}.bar-row .bar{grid-column:1 / -1;grid-row:2}}
+.plan{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:p}
+.plan li{counter-increment:p;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+.plan li::before{content:counter(p);grid-row:span 3;width:40px;height:40px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:24px}
+.plan li > *{grid-column:2;min-width:0}
+.plan .row{margin-top:4px}
+.history{padding:16px;display:flex;align-items:flex-end;gap:10px;min-height:170px;overflow-x:auto}
+.hcol{flex:0 0 52px;display:grid;justify-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--ink-2)}
+.hbar{width:34px;background:var(--c1);border:2px solid var(--ink);border-radius:6px 6px 0 0}
+.hcol b{color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}
+.answers{padding:6px 16px 16px}
+.answers summary{cursor:pointer;font-weight:800;padding:10px 0}
+.ans{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 0;border-top:2px dashed var(--ink-3);font-size:14px}
+.ans > div{min-width:0;overflow-wrap:anywhere}
+.ans .mark{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;color:#fff}
+.ans .mark.ok{background:var(--good)} .ans .mark.no{background:var(--bad)}
+.ans small{color:var(--ink-2)}
+
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.xp-float{position:fixed;z-index:60;font-family:var(--display);font-size:32px;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);pointer-events:none;animation:floatUp 1s ease-out forwards}
+@keyframes floatUp{0%{transform:translate(-50%,0) scale(.6);opacity:0}20%{opacity:1;transform:translate(-50%,-10px) scale(1.1)}100%{transform:translate(-50%,-72px) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  .screen,.splash .big,.result-stars span,.fb,.opt,.hint-box,.type-in,.xp.bump{animation:none!important}
+  .btn,.opt,.land,.bar i,.progress i{transition:none!important}
+  .land:hover{transform:none}
+}
+/* ---------- PRINT: an A4 study sheet replaces the interactive page ---------- */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important;background-image:none!important}
+  body > :not(.print-sheet){display:none!important}
+  .print-sheet{display:block;color:#111;font-family:var(--body);font-size:10pt;line-height:1.38}
+  .print-sheet *{animation:none!important;transition:none!important;box-shadow:none!important}
+  .print-sheet h1,.print-sheet h2,.print-sheet h3{font-family:var(--body);font-weight:800;letter-spacing:0;line-height:1.2;color:#111}
+  .print-sheet h1{font-size:16pt}
+  .print-sheet h2{font-size:13pt;margin:7pt 0 3pt;break-after:avoid}
+  .print-sheet h3{font-size:10.5pt;margin:0 0 2pt;break-after:avoid}
+  .print-sheet p{margin:0 0 3pt}
+  .print-sheet ul,.print-sheet ol{margin:0;padding-left:13pt}
+  .print-sheet li{margin:0 0 2pt}
+  .print-sheet b{font-weight:800}
+  .ps-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10pt;border-bottom:0.75pt solid #999;padding-bottom:4pt;margin-bottom:5pt}
+  .ps-sub{font-size:9.5pt;color:#333;margin:1pt 0 0}
+  .ps-meta{font-size:9.5pt;font-weight:700;white-space:nowrap;text-align:right;margin:0}
+  .ps-page2{break-before:page}
+  .ps-row{display:grid;grid-template-columns:72mm 1fr;gap:6mm;align-items:start}
+  .ps-fig{margin:0}
+  .ps-fig figcaption{font-size:8.5pt;color:#333;margin-top:2pt}
+  .ps-box{border:0.75pt solid #999;border-radius:3pt;padding:4pt 7pt;break-inside:avoid}
+  .ps-box p:last-child{margin-bottom:0}
+  .ps-table{width:100%;border-collapse:collapse;font-size:9.5pt;break-inside:avoid}
+  .ps-table th,.ps-table td{border:0.75pt solid #999;padding:2.5pt 5pt;text-align:left;vertical-align:middle}
+  .ps-two{display:grid;grid-template-columns:1fr 1fr;gap:3mm 5mm;margin:3pt 0}
+  .ps-check{display:grid;grid-template-columns:auto 1fr;gap:6pt;align-items:start;margin:0 0 4pt;break-inside:avoid}
+  .ps-check .box{width:10pt;height:10pt;border:1pt solid #333;margin-top:2pt}
+  .ps-traps{columns:2;column-gap:8mm}
+  .print-sheet .viz{max-width:none;border:0.75pt solid #999;border-radius:3pt}
+  .print-sheet .fr{font-size:.85em}
+  .print-sheet .slot{border:1pt solid #666;width:1.3em;height:1.3em;color:#666}
+  .ps-qs{columns:2;column-gap:8mm;padding-left:15pt}
+  .ps-qs li{break-inside:avoid;margin-bottom:6pt}
+  .ps-line{display:block;height:8.5mm;border-bottom:0.75pt solid #999}
+  .ps-fills{display:block;margin-top:3pt;line-height:2.6}
+  .ps-fill{display:inline-block;white-space:nowrap;margin-right:4mm}
+  .print-sheet sup.qm{display:inline;border:0;min-width:0;padding:0;margin:0;color:inherit;font-size:.62em;line-height:0;top:-.62em}
+  .ps-blank{display:inline-block;width:20mm;border-bottom:0.75pt solid #999;margin:0 3mm 0 1mm;vertical-align:baseline}
+  .ps-blank.w{width:30mm}
+  .ps-key{margin-top:6pt;border-top:0.75pt dashed #999;padding-top:3pt;font-size:8.5pt;line-height:1.4;color:#333;break-inside:avoid}
+  .ps-key h3{font-size:9.5pt}
+  .ps-key ol{columns:2;column-gap:8mm}
+}
+</style>
+</head><body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="logo" data-act="home" aria-label="Back to the lab map">
+      <span class="logo-mark">FACTOR LAB</span>
+      <span class="unit-chip">enVision · 3-2 &amp; 3-3</span>
+    </button>
+    <span class="spacer"></span>
+    <span class="xp" id="xpBox" title="Your XP points"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="#FFD23F" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/></svg><b id="xpVal">0</b> XP</span>
+    <a class="icon-btn" href="../../index.html" aria-label="Home: homework dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+    </a>
+    <button class="icon-btn" id="soundBtn" data-act="sound" aria-label="Turn sound off"></button>
+  </div>
+</header>
+<main class="wrap">
+  <section id="scr-home" class="screen"></section>
+  <section id="scr-zone" class="screen" hidden></section>
+  <section id="scr-quiz" class="screen" hidden></section>
+  <section id="scr-result" class="screen" hidden></section>
+  <section id="scr-final" class="screen" hidden></section>
+  <section id="scr-report" class="screen" hidden></section>
+</main>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<div class="print-sheet" id="printSheet" aria-hidden="true"></div>
+<script>
+"use strict";
+
+/* ---------- CORE HELPERS ---------- */
+const INK = "#14163A";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const reduceMotion = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+const finePointer = !!(window.matchMedia && matchMedia("(pointer: fine)").matches);
+const pctOf = (a, b) => b ? Math.round(a / b * 100) : 0;
+const fmtDate = t => { try { return new Date(t).toLocaleString("en-GB", {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"}); } catch (e) { return ""; } };
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* ---------- NUMBERS ---------- */
+const near = (a, b) => Math.abs(a - b) < 1e-9;
+const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const isWhole = v => near(v, Math.round(v));
+const gcd = (a, b) => b ? gcd(b, a % b) : a;
+/* exact whole-number power (all values here stay far below 2^53) */
+const ipow = (b, e) => { let v = 1; for (let i = 0; i < e; i++) v *= b; return v; };
+/* 1234567 → "1,234,567" */
+const fmtInt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+/* Reads 81, 0.09, 4/9, 2 1/2, 1,000,000, "36 cm²" … and returns NaN if it can't.
+   A comma between groups of three digits is a thousands separator (1,000,000);
+   any other comma between digits is a decimal comma (0,09). */
+function parseNum(raw){
+  let s = String(raw == null ? "" : raw).trim().toLowerCase();
+  s = s.replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 0x660)).replace(/[۰-۹]/g, d => String(d.charCodeAt(0) - 0x6F0));
+  s = s.replace(/٬/g, ",").replace(/٫/g, ".");
+  s = s.replace(/[−‒–—﹣－]/g, "-").replace(/[⁄∕÷]/g, "/").replace(/[()]/g, " ");
+  s = s.replace(/½/g, " 1/2").replace(/¼/g, " 1/4").replace(/¾/g, " 3/4");
+  s = s.replace(/([a-z])[²³]/g, "$1");
+  s = s.replace(/[a-z]+\.?/g, " ").replace(/\s+/g, " ").trim().replace(/^\+\s*/, "").replace(/^-\s+/, "-");
+  s = s.replace(/(^|[^\d.,])([1-9]\d{0,2}(?:,\d{3})+)(?![\d,])/g, (m, a, n) => a + n.replace(/,/g, ""));
+  if (/^-?[1-9]\d{0,2}( \d{3})+$/.test(s)) s = s.replace(/ /g, "");
+  s = s.replace(/(\d),(\d)/g, "$1.$2");
+  let m;
+  if ((m = s.match(/^(-?)(\d+\.?\d*|\.\d+)$/))) return (m[1] ? -1 : 1) * parseFloat(m[2]);
+  if ((m = s.match(/^(-?)(\d+) (\d+) ?\/ ?(\d+)$/)) && +m[4]) return (m[1] ? -1 : 1) * (+m[2] + +m[3] / +m[4]);
+  if ((m = s.match(/^(-?)(\d+) ?\/ ?(\d+)$/)) && +m[3]) return (m[1] ? -1 : 1) * (+m[2] / +m[3]);
+  return NaN;
+}
+
+/* ---------- MATH TEXT ----------
+   A tiny markup for maths: "6^4", "(2/3)^2", "1/16".
+   M() turns it into HTML (raised exponents, stacked fractions); T() into plain text ("6⁴", "(2/3)²"). */
+const SUPC = {"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","n":"ⁿ"};
+const supT = e => { const s = String(e); return s.split("").every(c => SUPC[c]) ? s.split("").map(c => SUPC[c]).join("") : "^" + s; };
+const sup = e => e === "?" ? '<sup class="qm">?</sup>' : "<sup>" + e + "</sup>";
+/* a stacked fraction; the hidden slash (and hidden brackets around a product) keep the plain text right: "(2 × 2)/(3 × 3)" */
+const hp = x => /\s/.test(String(x)) ? '<span class="sl">(</span>' + x + '<span class="sl">)</span>' : x;
+const fr = (n, d) => '<span class="fr"><span class="nu">' + hp(n) + '</span><span class="sl">/</span><span class="de">' + hp(d) + '</span></span>';
+const FPO = '<span class="fp">(</span>', FPC = '<span class="fp">)</span>';
+function M(s){
+  return String(s).replace(/\(([\d ×]+)\)\/\(([\d ×]+)\)/g, (m, a, b) => fr(a.trim(), b.trim()))
+    .replace(/\((\d+)\/(\d+)\)/g, (m, a, b) => FPO + fr(a, b) + FPC)
+    .replace(/(\d+)\/(\d+)/g, (m, a, b) => fr(a, b))
+    .replace(/\^(\d+|\?|n)/g, (m, e) => sup(e));
+}
+const T = s => String(s).replace(/\^(\d+|\?|n)/g, (m, e) => supT(e));
+/* HTML → plain text for the answer lists and the screen-reader announcements */
+const strip = h => String(h).replace(/<sup[^>]*>(.*?)<\/sup>/g, (m, e) => supT(e.replace(/<[^>]*>/g, "")))
+  .replace(/<br\s*\/?>/g, " ").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+  .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+/* Line breaks: keep "(5 × 10³)" terms and "fraction + full stop" together. Applied to each screen's HTML. */
+const NW_FR = /<b><span class="fr">(?:(?!<\/span><\/span>).)*<\/span><\/span><\/b>[.,;:?!]|<span class="fr">(?:(?!<\/span><\/span>).)*<\/span><\/span>[.,;:?!]/g;
+const TERM10 = /\(?\d[\d,]* × 10<sup[^>]*>[^<]*<\/sup>\)?/g;
+const keep = h => String(h).replace(NW_FR, m => '<span class="nw">' + m + '</span>').replace(TERM10, m => '<span class="t">' + m + '</span>');
+const NAMES = ["Sami", "Lina", "Omar", "Huda", "Yousef", "Reem", "Faisal", "Noura", "Ziad", "Dana"];
+
+/* multiple choice: items[0] is the right answer; each wrong item can carry a tip for that slip */
+function mcQ(o, items, layout){
+  const order = shuffle(items.map((it, i) => i));
+  return Object.assign({kind:"mc", layout:layout || "list", opts:order.map(i => items[i].h), optTips:order.map(i => items[i].tip || ""), ans:order.indexOf(0)}, o);
+}
+
+/* ---------- FACTORS & MULTIPLES ---------- */
+const lcmOf = (a, b) => a / gcd(a, b) * b;
+const factorsOf = n => { const f = []; for (let i = 1; i <= n; i++) if (n % i === 0) f.push(i); return f; };
+const isPrime = n => n > 1 && factorsOf(n).length === 2;
+const PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
+/* prime factors in order, with repeats: 60 → [2, 2, 3, 5] */
+function primesOf(n){ const p = []; let m = n; for (let d = 2; d * d <= m; d++) while (m % d === 0){ p.push(d); m /= d; } if (m > 1) p.push(m); return p; }
+const times = a => a.join(" × ");
+/* [2, 2, 3, 5] → "2^2 × 3 × 5" (markup for M()) */
+function powForm(a){ const c = {}; a.forEach(x => { c[x] = (c[x] || 0) + 1; }); return Object.keys(c).map(Number).sort((x, y) => x - y).map(x => c[x] > 1 ? x + "^" + c[x] : String(x)).join(" × "); }
+/* the primes two lists share (GCF) and the primes of either, each as often as it appears most (LCM) */
+function sharedPrimes(p, q){ const r = [], left = q.slice(); p.forEach(x => { const i = left.indexOf(x); if (i >= 0){ r.push(x); left.splice(i, 1); } }); return r; }
+function unionPrimes(p, q){ const r = p.slice(), left = p.slice(); q.forEach(x => { const i = left.indexOf(x); if (i >= 0) left.splice(i, 1); else r.push(x); }); return r.sort((x, y) => x - y); }
+const multiplesTo = (n, top) => { const m = []; for (let k = n; k <= top; k += n) m.push(k); return m; };
+/* a = g·m and b = g·n with m and n sharing no factor, so GCF(a, b) = g */
+function gcfPair(maxN, minM){
+  let g, m, n;
+  do { g = rnd(2, 12); m = rnd(minM || 1, 9); n = rnd(minM || 1, 9); } while (m === n || gcd(m, n) !== 1 || g * Math.max(m, n) > maxN);
+  return [g * m, g * n, g];
+}
+function gcfWhy(a, b){
+  const G = gcd(a, b), ca = factorsOf(a).filter(x => b % x === 0);
+  return "Factors of " + a + ": " + factorsOf(a).join(", ") + ". Factors of " + b + ": " + factorsOf(b).join(", ") + ". Common factors: " + ca.join(", ") + ". The greatest is <b>" + G + "</b>.";
+}
+function lcmWhy(a, b){
+  const L = lcmOf(a, b), hi = Math.max(a, b), lo = Math.min(a, b);
+  return "Multiples of " + hi + ": " + multiplesTo(hi, L).join(", ") + ". " + L + " is the first one that " + lo + " also divides (" + L + " ÷ " + lo + " = " + L / lo + "), so the LCM is <b>" + L + "</b>.";
+}
+function gcfDiag(g, a, b){
+  const G = gcd(a, b), L = lcmOf(a, b), lo = Math.min(a, b);
+  if (g === G) return "";
+  if (!isWhole(g) || g < 1) return "The GCF is a whole number that divides both " + a + " and " + b + ".";
+  if (g === L && L !== G) return "That's the least common multiple. The GCF divides both numbers, so it can't be bigger than " + lo + ".";
+  if (g === a * b) return "That's the product. The GCF is a factor of both numbers, so it is never bigger than the smaller one, " + lo + ".";
+  if (g > lo) return "The GCF can't be bigger than the smaller number, " + lo + ". It has to divide " + lo + ".";
+  if (a % g === 0 && b % g === 0) return g + " is a common factor, but not the greatest. " + G + " divides both too: " + a + " = " + G + " × " + a / G + " and " + b + " = " + G + " × " + b / G + ".";
+  if (a % g === 0 || b % g === 0) return g + " is a factor of " + (a % g === 0 ? a : b) + " but not of " + (a % g === 0 ? b : a) + ". The GCF must divide both.";
+  return "";
+}
+function lcmDiag(g, a, b){
+  const G = gcd(a, b), L = lcmOf(a, b), hi = Math.max(a, b);
+  if (g === L) return "";
+  if (!isWhole(g) || g < 1) return "The LCM is a whole number that both " + a + " and " + b + " divide into.";
+  if (g === G && G !== L) return "That's the greatest common factor. The LCM is a multiple of both numbers, so it is at least " + hi + ".";
+  if (g === a * b && g !== L) return a + " × " + b + " = " + g + " is a common multiple, but not the least. List the multiples of " + hi + " and stop at the first one " + Math.min(a, b) + " divides: " + L + ".";
+  if (g % a === 0 && g % b === 0 && g > L) return g + " is a common multiple, but there's a smaller one: " + L + ".";
+  if (g < hi) return "The LCM can't be smaller than the bigger number, " + hi + ". It has to be a multiple of " + hi + ".";
+  if (g % a === 0 || g % b === 0) return g + " is a multiple of " + (g % a === 0 ? a : b) + " but not of " + (g % a === 0 ? b : a) + ".";
+  return "";
+}
+
+/* ---------- EXPRESSIONS ----------
+   An expression is a string such as "3 + 2^3 × 4" or "[20 − (6 − 2)] ÷ 4": whole numbers, + − × ÷, ^ for an exponent,
+   ( ) and [ ]. solve() follows the order of operations one step at a time and keeps every step for the explanation.
+   It can also make the usual slips on purpose, to recognise a wrong answer:
+   ltr  = everything from left to right (powers still first), flat = parentheses ignored,
+   pm   = × before ÷ and + before − (a PEMDAS mix-up), expx = a^b read as a × b. */
+const OPEN = {"(":")", "[":"]"};
+const tokens = s => String(s).match(/\d+|[-+×÷^()[\]−]/g).map(t => t === "-" ? "−" : t).map(t => /^\d+$/.test(t) ? +t : t);
+const showT = t => t.map(String).join(" ").replace(/([([]) /g, "$1").replace(/ ([)\]])/g, "$1").replace(/ \^ /g, "^");
+const applyOp = (a, op, b) => op === "+" ? a + b : op === "−" ? a - b : op === "×" ? a * b : op === "÷" ? a / b : Math.pow(a, b);
+const OPNAME = {"^":"the exponent", "×":"multiply", "÷":"divide", "+":"add", "−":"subtract"};
+/* drop repeated choices (the right answer is first, so it always stays) */
+const uniq = items => items.filter((o, i) => items.findIndex(x => x.h === o.h) === i);
+/* drop a pair of brackets around a single number: "(7)" → "7" */
+function unwrap(t){
+  for (let i = 0; i + 2 < t.length; i++) if (OPEN[t[i]] && typeof t[i + 1] === "number" && t[i + 2] === OPEN[t[i]]) return unwrap(t.slice(0, i).concat([t[i + 1]], t.slice(i + 3)));
+  return t;
+}
+function step(t, mode){
+  const close = t.findIndex(x => x === ")" || x === "]");
+  let lo = 0, hi = t.length;
+  const inner = close < 0 ? "" : t[close] === ")" ? "parentheses" : "brackets";
+  if (close >= 0){ let open = close - 1; while (open > 0 && !OPEN[t[open]]) open--; lo = open + 1; hi = close; }
+  const seg = t.slice(lo, hi), find = ops => seg.findIndex(x => ops.includes(x));
+  let k = find(["^"]);
+  if (k < 0) k = mode.ltr ? find(["×", "÷", "+", "−"]) : mode.pm ? [["×"], ["÷"], ["+"], ["−"]].map(find).find(i => i >= 0) : find(["×", "÷"]);
+  if (k == null || k < 0) k = mode.ltr || mode.pm ? -1 : find(["+", "−"]);
+  if (k < 0) return null;
+  const a = seg[k - 1], op = seg[k], b = seg[k + 1], v = applyOp(a, op, b);
+  return {t:unwrap(t.slice(0, lo + k - 1).concat([v], t.slice(lo + k + 2))), a, op, b, v, inner};
+}
+function solve(s, mode){
+  mode = mode || {};
+  let t = tokens(s);
+  if (mode.flat) t = t.filter(x => !OPEN[x] && x !== ")" && x !== "]");
+  if (mode.expx) t = t.map(x => x === "^" ? "×" : x);
+  t = unwrap(t);
+  const chain = [showT(t)], notes = [];
+  let ok = true, st, guard = 0;
+  while ((st = step(t, mode)) && guard++ < 30){
+    if (!isWhole(st.v) || st.v < 0) ok = false;
+    t = st.t; chain.push(showT(t));
+    notes.push({op:st.op, inner:st.inner, h:(st.op === "^" ? M(st.a + "^" + st.b) : st.a + " " + st.op + " " + st.b) + " = " + fmtInt(st.v)});
+  }
+  return {v:t.length === 1 ? t[0] : NaN, ok:ok && t.length === 1, chain, notes};
+}
+/* "Inside the parentheses: 3 + 4 = 7. Then multiply: 7 × 5 = 35." */
+function stepWords(notes){
+  return notes.map((n, i) => (i ? "Then " : "") + (n.inner ? (i ? "inside the " : "Inside the ") + n.inner : (i ? OPNAME[n.op] : cap(OPNAME[n.op]))) + ": " + n.h + ".").join(" ");
+}
+const chainM = r => r.chain.map(c => M(c)).join(" = ");
+function exprWhy(s){ const r = solve(s); return stepWords(r.notes) + " So <b>" + M(s) + " = " + fmtInt(r.v) + "</b>."; }
+/* tips for a typed value of expression s */
+function exprDiag(g, s){
+  const v = solve(s).v, hasP = /[([]/.test(s), hasE = s.includes("^");
+  const slip = mode => { const r = solve(s, mode); return isFinite(r.v) && !near(r.v, v) && near(g, r.v); };
+  if (hasP && slip({flat:true})) return "You skipped the parentheses. Work inside the parentheses (and brackets) first.";
+  if (hasE && slip({expx:true})) return "An exponent is not a multiplication by the exponent: " + M("4^2") + " = 4 × 4 = 16, not 4 × 2. Work out the powers first.";
+  if (slip({ltr:true})) return "You worked from left to right. Multiply and divide before you add and subtract: " + chainM(solve(s)) + ".";
+  if (slip({pm:true})) return "Multiplication and division are a team: do them in the order they appear, from left to right. Addition and subtraction too.";
+  return "";
+}
+/* build an expression from a template until it is valid: whole-number steps, never negative, not too big */
+function makeExpr(templates, max){
+  let s, r, tries = 0;
+  do { s = pick(templates)(); r = solve(s); } while ((!r.ok || r.v > (max || 999)) && tries++ < 200);
+  return s;
+}
+
+/* ---------- QUESTION GENERATORS ---------- */
+const G = {
+  /* ===== Zone 1 · Factor Finder ===== */
+  factorList(){
+    const n = pick([12, 16, 18, 20, 24, 28, 30, 32, 36, 40, 42, 45, 48, 50, 54, 60]), f = factorsOf(n);
+    const mid = f.filter(x => x !== 1 && x !== n), drop = pick(mid), pair = n / drop;
+    const missing = f.filter(x => x !== drop);
+    let extra; do { extra = rnd(2, n - 1); } while (n % extra === 0);
+    const withExtra = f.concat(extra).sort((x, y) => x - y);
+    return mcQ({skill:"factors", text:"Which list shows <b>all</b> the factors of <b>" + n + "</b>?",
+        hint:"Look for factor pairs: start at 1 × " + n + " and go up until the pairs repeat.",
+        why:"The factor pairs of " + n + " are " + f.filter(x => x * x <= n).map(x => x + " × " + n / x).join(", ") + ". So the factors are <b>" + f.join(", ") + "</b>.", ansText:f.join(", ")},
+      [{h:f.join(", ")},
+       {h:missing.join(", "), tip:drop + " is missing: " + drop + " × " + pair + " = " + n + "."},
+       {h:withExtra.join(", "), tip:extra + " is not a factor: " + n + " ÷ " + extra + " leaves a remainder."},
+       {h:multiplesTo(n, n * 5).join(", "), tip:"Those are multiples of " + n + " (" + n + " × 1, " + n + " × 2 …). Factors are the numbers that divide " + n + "."}]);
+  },
+  notFactor(){
+    const n = pick([24, 30, 36, 40, 42, 48, 54, 56, 60, 63, 64, 72, 80, 84, 90, 96]), f = factorsOf(n).filter(x => x !== 1 && x !== n);
+    const three = shuffle(f.slice()).slice(0, 3).sort((x, y) => x - y);
+    let odd; do { odd = rnd(3, Math.min(n - 1, 20)); } while (n % odd === 0);
+    return mcQ({skill:"factors", text:"Which number is <b>not</b> a factor of <b>" + n + "</b>?",
+        hint:"Divide " + n + " by each number. A factor leaves no remainder.",
+        why:n + " ÷ " + odd + " leaves a remainder, so <b>" + odd + "</b> is not a factor. " + three.map(x => x + " × " + n / x + " = " + n).join(", ") + ".", ansText:String(odd)},
+      [{h:String(odd)}].concat(three.map(x => ({h:String(x), tip:x + " is a factor: " + x + " × " + n / x + " = " + n + "."}))), "four");
+  },
+  primeMC(){
+    const fakes = [9, 15, 21, 25, 27, 33, 35, 39, 49, 51, 57, 63, 69, 77, 81, 87, 91];
+    const facts = n => { const f = factorsOf(n); return n + " = " + f[1] + " × " + n / f[1]; };
+    if (Math.random() < .5){
+      const p = pick(PRIMES.filter(x => x > 10)), opts = shuffle(fakes.filter(x => x !== 9)).slice(0, 2).concat(pick([1, 1, 9]));
+      return mcQ({skill:"factors", text:"Which number is <b>prime</b>?",
+          hint:"A prime number has exactly two factors: 1 and itself. Try dividing by 2, 3, 5 and 7.",
+          why:"The only factors of " + p + " are 1 and " + p + ", so <b>" + p + "</b> is prime. " + opts.filter(x => x > 1).map(facts).join(" and ") + " have other factors, so they are composite.", ansText:String(p)},
+        [{h:String(p)}].concat(opts.map(x => ({h:String(x), tip:x === 1 ? "1 has only one factor, so it is neither prime nor composite." : facts(x) + ", so " + x + " has more than two factors: it's composite."}))), "four");
+    }
+    const c = pick(fakes), ps = shuffle(PRIMES.filter(x => x > 10 && x < 60).slice()).slice(0, 3);
+    return mcQ({skill:"factors", text:"Which number is <b>composite</b>?",
+        hint:"A composite number has more than two factors. Try dividing by 3, 5 and 7, not just 2.",
+        why:"<b>" + facts(c) + "</b>, so " + c + " has more than two factors: it is composite. " + ps.join(", ") + " are prime.", ansText:String(c)},
+      [{h:String(c)}].concat(ps.map(x => ({h:String(x), tip:x + " is prime: its only factors are 1 and " + x + "."}))), "four");
+  },
+  gcfNum(){
+    const [a, b] = gcfPair(60);
+    return {skill:"gcf", kind:"num", num:gcd(a, b), text:pick(["Find the GCF of <b>" + a + "</b> and <b>" + b + "</b>.", "What is the greatest common factor of <b>" + a + "</b> and <b>" + b + "</b>?"]),
+      hint:"List the factors of each number. Circle the ones in both lists and take the biggest.",
+      why:gcfWhy(a, b), diag:g => gcfDiag(g, a, b), ansText:String(gcd(a, b))};
+  },
+  gcfMC(){
+    let a, b, G, L; do { [a, b] = gcfPair(72); G = gcd(a, b); L = lcmOf(a, b); } while (G < 4 || factorsOf(G).length < 3);
+    const smaller = pick(factorsOf(G).filter(x => x > 1 && x < G));
+    const one = pick(factorsOf(a).filter(x => b % x !== 0 && x > 1).concat(factorsOf(b).filter(x => a % x !== 0 && x > 1)).filter(x => x < Math.max(a, b)));
+    return mcQ({skill:"gcf", text:"What is the GCF of <b>" + a + "</b> and <b>" + b + "</b>?",
+        hint:"The GCF divides both numbers, and no bigger number does.",
+        why:gcfWhy(a, b), ansText:String(G)},
+      [{h:String(G)},
+       {h:String(L), tip:"That's the least common multiple. The GCF is a factor of both, so it is at most " + Math.min(a, b) + "."},
+       {h:String(smaller), tip:smaller + " is a common factor, but " + G + " is a greater one."},
+       {h:String(one), tip:one + " divides " + (a % one === 0 ? a : b) + " but not " + (a % one === 0 ? b : a) + "."}].filter(o => o.h !== "undefined"), "four");
+  },
+  gcfSpecial(){
+    if (Math.random() < .5){
+      const lo = rnd(3, 15), hi = lo * rnd(2, 6);
+      const [a, b] = shuffle([lo, hi]);
+      return {skill:"gcf", kind:"num", num:lo, text:"Find the GCF of <b>" + a + "</b> and <b>" + b + "</b>.",
+        hint:"Does the smaller number divide the bigger one?",
+        why:hi + " ÷ " + lo + " = " + hi / lo + ", so " + lo + " divides both numbers, and nothing bigger can divide " + lo + ". When the smaller number divides the bigger one, it is the GCF: <b>" + lo + "</b>.",
+        diag:g => gcfDiag(g, a, b), ansText:String(lo)};
+    }
+    let a, b; do { a = rnd(4, 30); b = rnd(4, 30); } while (a === b || gcd(a, b) !== 1 || isPrime(a) || isPrime(b));
+    return {skill:"gcf", kind:"num", num:1, text:"Find the GCF of <b>" + a + "</b> and <b>" + b + "</b>.",
+      hint:"List the factors of each. Is there any common factor besides 1?",
+      why:"Factors of " + a + ": " + factorsOf(a).join(", ") + ". Factors of " + b + ": " + factorsOf(b).join(", ") + ". The only common factor is 1, so the GCF is <b>1</b>.",
+      diag:g => gcfDiag(g, a, b), ansText:"1"};
+  },
+
+  /* ===== Zone 2 · Multiple Mountain ===== */
+  lcmNum(){
+    let a, b; do { a = rnd(2, 12); b = rnd(2, 12); } while (a === b || a % b === 0 || b % a === 0 || (gcd(a, b) === 1 && Math.random() < .6));
+    const L = lcmOf(a, b);
+    return {skill:"lcm", kind:"num", num:L, text:pick(["Find the LCM of <b>" + a + "</b> and <b>" + b + "</b>.", "What is the least common multiple of <b>" + a + "</b> and <b>" + b + "</b>?"]),
+      hint:"List the multiples of the bigger number. Stop at the first one the smaller number divides.",
+      why:lcmWhy(a, b), diag:g => lcmDiag(g, a, b), ansText:String(L)};
+  },
+  lcmMC(){
+    let a, b; do { a = rnd(3, 12); b = rnd(3, 12); } while (a === b || a % b === 0 || b % a === 0 || gcd(a, b) === 1);
+    const L = lcmOf(a, b), G = gcd(a, b), P = a * b, hi = Math.max(a, b);
+    return mcQ({skill:"lcm", text:"What is the LCM of <b>" + a + "</b> and <b>" + b + "</b>?",
+        hint:"The LCM is the smallest number that both " + a + " and " + b + " divide into.",
+        why:lcmWhy(a, b), ansText:String(L)},
+      [{h:String(L)},
+       {h:String(P), tip:a + " × " + b + " = " + P + " is a common multiple, but not the least one. " + L + " is smaller."},
+       {h:String(G), tip:"That's the greatest common factor. The LCM is a multiple of both numbers, so it is at least " + hi + "."},
+       {h:String(hi * (L / hi + 1)), tip:hi * (L / hi + 1) + " is a multiple of " + hi + ", but " + Math.min(a, b) + " doesn't divide it."}], "four");
+  },
+  lcmSpecial(){
+    if (Math.random() < .5){
+      const lo = rnd(2, 6), hi = lo * rnd(2, 4); const [a, b] = shuffle([lo, hi]);
+      return {skill:"lcm", kind:"num", num:hi, text:"Find the LCM of <b>" + a + "</b> and <b>" + b + "</b>.",
+        hint:"Is the bigger number already a multiple of the smaller one?",
+        why:hi + " = " + lo + " × " + hi / lo + ", so " + hi + " is already a multiple of " + lo + ". When one number is a multiple of the other, the LCM is the bigger number: <b>" + hi + "</b>.",
+        diag:g => lcmDiag(g, a, b), ansText:String(hi)};
+    }
+    let a, b; do { a = rnd(2, 12); b = rnd(2, 12); } while (a === b || gcd(a, b) !== 1 || a === 1 || b === 1);
+    return {skill:"lcm", kind:"num", num:a * b, text:"Find the LCM of <b>" + a + "</b> and <b>" + b + "</b>.",
+      hint:"Do " + a + " and " + b + " share any factor besides 1?",
+      why:a + " and " + b + " share no factor except 1, so their LCM is their product: " + a + " × " + b + " = <b>" + a * b + "</b>. Check: " + a * b + " ÷ " + a + " = " + b + " and " + a * b + " ÷ " + b + " = " + a + ".",
+      diag:g => lcmDiag(g, a, b), ansText:String(a * b)};
+  },
+  primeFact(){
+    const n = pick([24, 30, 36, 40, 42, 45, 48, 54, 56, 60, 63, 66, 70, 72, 75, 80, 84, 90, 96, 100]), p = primesOf(n);
+    const notPrime = (() => { const f = factorsOf(n).filter(x => x > 3 && x < n && !isPrime(x)); const c = pick(f); return times(primesOf(n / c).concat(c).sort((x, y) => x - y)); })();
+    const i = rnd(0, p.length - 1), swap = p.slice(); swap[i] = p[i] === 2 ? 3 : 2; swap.sort((x, y) => x - y);
+    const short = p.slice(); short.splice(rnd(0, p.length - 1), 1);
+    const opts = [{h:times(p)},
+      {h:notPrime, tip:"Not every factor there is prime. Keep splitting until every factor is a prime number."},
+      {h:times(swap), tip:"Multiply it out: " + times(swap) + " = " + swap.reduce((x, y) => x * y, 1) + ", not " + n + "."},
+      {h:times(short), tip:"That multiplies to " + short.reduce((x, y) => x * y, 1) + ". A prime factor is missing."}];
+    return mcQ({skill:"prime", text:"Which is the <b>prime factorization</b> of <b>" + n + "</b>?",
+        hint:"Split " + n + " into two factors, then keep splitting until every branch is prime. Check by multiplying.",
+        why:"A factor tree gives " + n + " = <b>" + times(p) + "</b>" + (powForm(p) !== times(p) ? " = " + M(powForm(p)) : "") + ". Every factor is prime, and they multiply to " + n + ".", ansText:times(p)},
+      uniq(opts));
+  },
+  gcfPrime(){
+    let a, b; do { a = rnd(12, 100); b = rnd(12, 100); } while (a === b || gcd(a, b) < 4 || isPrime(a) || isPrime(b) || a % b === 0 || b % a === 0);
+    const pa = primesOf(a), pb = primesOf(b), sh = sharedPrimes(pa, pb), G = gcd(a, b);
+    return {skill:"prime", kind:"num", num:G,
+      text:"<span class=\"qx\">" + a + " = " + times(pa) + "<br>" + b + " = " + times(pb) + "</span>Use the prime factors to find the <b>GCF</b> of " + a + " and " + b + ".",
+      hint:"Circle the primes that appear in both lists (as many times as they appear in both). Multiply them.",
+      why:"Both lists share " + times(sh) + ". So the GCF is " + times(sh) + " = <b>" + G + "</b>.",
+      diag:g => gcfDiag(g, a, b), ansText:String(G)};
+  },
+  lcmPrime(){
+    let a, b; do { a = rnd(6, 30); b = rnd(6, 30); } while (a === b || gcd(a, b) < 2 || isPrime(a) || isPrime(b) || a % b === 0 || b % a === 0 || lcmOf(a, b) > 180);
+    const pa = primesOf(a), pb = primesOf(b), un = unionPrimes(pa, pb), L = lcmOf(a, b);
+    return {skill:"prime", kind:"num", num:L,
+      text:"<span class=\"qx\">" + a + " = " + times(pa) + "<br>" + b + " = " + times(pb) + "</span>Use the prime factors to find the <b>LCM</b> of " + a + " and " + b + ".",
+      hint:"Take every prime the greatest number of times it appears in either list. Multiply them.",
+      why:"Take each prime the most times it appears in either number: " + times(un) + " = <b>" + L + "</b>. Check: " + L + " ÷ " + a + " = " + L / a + " and " + L + " ÷ " + b + " = " + L / b + ".",
+      diag:g => lcmDiag(g, a, b), ansText:String(L)};
+  },
+
+  /* ===== Zone 3 · Party Planner ===== */
+  wordGcf(){
+    const [a, b, g] = gcfPair(60, 2), who = pick(NAMES);
+    const t = pick([
+      ["red beads", "blue beads", "uses all of them to make identical bracelets", "bracelets"],
+      ["pencils", "erasers", "packs all of them into identical kits", "kits"],
+      ["apples", "oranges", "packs all of them into identical gift bags", "bags"],
+      ["chocolate cookies", "date cookies", "puts all of them on identical plates", "plates"]]);
+    return {skill:"word", kind:"num", num:g, unit:t[3],
+      text:who + " has <b>" + a + " " + t[0] + "</b> and <b>" + b + " " + t[1] + "</b>, and " + t[2] + ", with nothing left over. What is the <b>greatest number</b> of " + t[3] + "?",
+      hint:"The number of " + t[3] + " must divide both " + a + " and " + b + ". Greatest means the GCF.",
+      why:"The number of " + t[3] + " must be a common factor of " + a + " and " + b + ", and as many as possible means the GCF. " + gcfWhy(a, b) + " Each one gets " + a / g + " " + t[0] + " and " + b / g + " " + t[1] + ".",
+      diag:g2 => near(g2, lcmOf(a, b)) ? "That's the LCM. Sharing into equal groups with nothing left over needs a common factor, the GCF." : gcfDiag(g2, a, b), ansText:g + " " + t[3]};
+  },
+  wordGcf2(){
+    /* the amount in each group never equals the number of groups, so the two can't be mixed up */
+    let a, b, g; do { [a, b, g] = gcfPair(60, 2); } while (a / g === g || b / g === g);
+    const who = pick(NAMES);
+    if (Math.random() < .5){
+      const t = pick([["pencils", "erasers", "kits"], ["markers", "notebooks", "gift bags"], ["apples", "oranges", "baskets"]]), askA = Math.random() < .5;
+      const ans = askA ? a / g : b / g;
+      return {skill:"word", kind:"num", num:ans, unit:askA ? t[0] : t[1],
+        text:who + " packs <b>" + a + " " + t[0] + "</b> and <b>" + b + " " + t[1] + "</b> into identical " + t[2] + ", as many " + t[2] + " as possible, with nothing left over. How many <b>" + (askA ? t[0] : t[1]) + "</b> go in each one?",
+        hint:"First find how many " + t[2] + ": the GCF of " + a + " and " + b + ". Then share the " + (askA ? t[0] : t[1]) + " among them.",
+        why:"As many " + t[2] + " as possible: GCF(" + a + ", " + b + ") = " + g + ". Each gets " + (askA ? a : b) + " ÷ " + g + " = <b>" + ans + "</b> " + (askA ? t[0] : t[1]) + ".",
+        diag:x => near(x, g) ? "That's the number of " + t[2] + ". Now divide: " + (askA ? a : b) + " ÷ " + g + "." : "", ansText:ans + " " + (askA ? t[0] : t[1])};
+    }
+    return {skill:"word", kind:"num", num:g, unit:"cm",
+      text:"Two ribbons are <b>" + a + " cm</b> and <b>" + b + " cm</b> long. Both are cut into pieces of the same length, as long as possible, with nothing left over. How long is each piece?",
+      hint:"The piece length must divide both " + a + " and " + b + ". As long as possible means the GCF.",
+      why:"The length must be a common factor of " + a + " and " + b + ", and the longest one is the GCF. " + gcfWhy(a, b).replace(/<b>(\d+)<\/b>\.$/, "<b>$1 cm</b>."),
+      diag:x => gcfDiag(x, a, b), ansText:g + " cm"};
+  },
+  wordLcm(){
+    let a, b; do { a = rnd(3, 12); b = rnd(3, 12); } while (a === b || a % b === 0 || b % a === 0 || lcmOf(a, b) > 72);
+    const L = lcmOf(a, b), who = pick(NAMES), other = pick(NAMES.filter(x => x !== who)), v = pick(["packs", "lights", "gym", "packs2"]);
+    const base = {skill:"word", kind:"num", num:L, diag:g => near(g, gcd(a, b)) ? "That's the GCF. “Together again” or “the same number of each” needs a common multiple, the LCM." : lcmDiag(g, a, b), ansText:String(L)};
+    if (v === "packs") return Object.assign(base, {unit:"juice boxes",
+      text:"Juice boxes come in packs of <b>" + a + "</b> and straws in packs of <b>" + b + "</b>. What is the <b>least</b> number of juice boxes " + who + " can buy to have exactly one straw for each juice box?",
+      hint:"The number must be a multiple of " + a + " and of " + b + ". Least means the LCM.",
+      why:"The number has to be a common multiple of " + a + " and " + b + ", and the least one is the LCM. " + lcmWhy(a, b) + " That's " + L / a + " packs of juice boxes and " + L / b + " packs of straws.", ansText:L + " juice boxes"});
+    if (v === "lights") return Object.assign(base, {unit:"seconds",
+      text:"One light flashes every <b>" + a + " seconds</b> and another every <b>" + b + " seconds</b>. They flash together right now. After how many seconds will they flash together again?",
+      hint:"Together again means a time that is a multiple of both " + a + " and " + b + ": the LCM.",
+      why:"They flash together at common multiples of " + a + " and " + b + ". The first one is the LCM. " + lcmWhy(a, b), ansText:L + " seconds"});
+    if (v === "gym") return Object.assign(base, {unit:"days",
+      text:who + " goes to the gym every <b>" + a + " days</b> and " + other + " every <b>" + b + " days</b>. They were both there today. In how many days will they both be there again?",
+      hint:"Find the first number of days that is a multiple of " + a + " and of " + b + ".",
+      why:"Both are there on common multiples of " + a + " and " + b + " days. The first one is the LCM. " + lcmWhy(a, b), ansText:L + " days"});
+    return Object.assign(base, {unit:"packs", num:L / b, ansText:L / b + " packs",
+      text:"Cups come in packs of <b>" + a + "</b> and plates in packs of <b>" + b + "</b>. " + who + " wants the same number of cups and plates, as few as possible. How many <b>packs of plates</b> is that?",
+      hint:"First find the least number of each: the LCM of " + a + " and " + b + ". Then divide by " + b + ".",
+      why:"The least equal number is LCM(" + a + ", " + b + ") = " + L + ". That's " + L + " ÷ " + b + " = <b>" + L / b + " packs</b> of plates (and " + L / a + " packs of cups).",
+      diag:g => near(g, L) ? "That's the number of plates. Each pack has " + b + ", so divide: " + L + " ÷ " + b + "." : near(g, L / a) ? "That's the number of packs of cups. For plates, divide " + L + " by " + b + "." : ""});
+  },
+  gcfOrLcm(){
+    const gcfs = [
+      "18 apples and 24 oranges go into identical bags with nothing left over. What is the greatest number of bags?",
+      "A 30 cm ribbon and a 45 cm ribbon are cut into equal pieces, as long as possible, with nothing left over. How long is each piece?",
+      "36 boys and 48 girls are split into teams of the same size, each team only boys or only girls. What is the largest team size?",
+      "A 12 cm by 18 cm card is covered with equal squares, as big as possible, with no gaps. What is the side of each square?"];
+    const lcms = [
+      "Buns come in packs of 8 and burgers in packs of 6. What is the least number of each to buy so they match?",
+      "One bell rings every 15 minutes and another every 20 minutes. They ring together at 8:00. When do they next ring together?",
+      "Sami visits the library every 4 days and Omar every 6 days. They were both there today. When will they meet there again?",
+      "Stickers come in sheets of 12 and frames in packs of 8. What is the smallest number of each so they are equal?"];
+    const isG = Math.random() < .5, story = pick(isG ? gcfs : lcms);
+    return mcQ({skill:"word", text:"Do you need the <b>GCF</b> or the <b>LCM</b>? <span class=\"qx\" style=\"font-size:18px\">" + story + "</span>",
+        hint:"Splitting into equal groups or pieces, as big or as many as possible: GCF. Happening together again, or matching packs: LCM.",
+        why:isG ? "The groups or pieces have to divide both numbers, and the question wants the greatest: that's the <b>GCF</b>." : "The answer has to be a multiple of both numbers, and the question wants the least: that's the <b>LCM</b>.",
+        ansText:isG ? "the GCF" : "the LCM"},
+      [{h:isG ? "the GCF" : "the LCM"},
+       {h:isG ? "the LCM" : "the GCF", tip:isG ? "The LCM is for “together again” or matching packs. Here you split into equal parts, so you need a factor of both numbers." : "The GCF is for splitting into equal parts. Here you need a number both divide into, a multiple."}], "two");
+  },
+  distNum(){
+    let a, b, g; do { [a, b, g] = gcfPair(100, 2); } while (a + b > 150);
+    const m = a / g, n = b / g, askG = Math.random() < .6, slot = '<span class="slot">?</span>';
+    return {skill:"dist", kind:"num", num:askG ? g : n,
+      text:"Use the GCF and the Distributive Property. What number goes in the circle? <span class=\"qx\">" + a + " + " + b + " = " + (askG ? slot + " × (" + m + " + " + n + ")" : g + " × (" + m + " + " + slot + ")") + "</span>",
+      hint:askG ? "Find the GCF of " + a + " and " + b + ". Check: GCF × " + m + " should be " + a + "." : "Divide " + b + " by the GCF, " + g + ".",
+      why:"GCF(" + a + ", " + b + ") = " + g + ". " + a + " = " + g + " × " + m + " and " + b + " = " + g + " × " + n + ", so " + a + " + " + b + " = " + g + " × " + m + " + " + g + " × " + n + " = <b>" + g + " × (" + m + " + " + n + ")</b>. Check: " + g + " × " + (m + n) + " = " + (a + b) + ".",
+      diag:x => askG ? gcfDiag(x, a, b) : (near(x, b) ? "Divide " + b + " by " + g + " first." : ""), ansText:String(askG ? g : n)};
+  },
+  distMC(){
+    let a, b, g; do { [a, b, g] = gcfPair(100, 2); } while (factorsOf(g).length < 3 || a + b > 150);
+    const m = a / g, n = b / g, f = pick(factorsOf(g).filter(x => x > 1 && x < g));
+    return mcQ({skill:"dist", text:"Which shows <b>" + a + " + " + b + "</b> as the GCF times a sum of two numbers with no common factor?",
+        hint:"Find the GCF first. Then divide both numbers by it.",
+        why:"GCF(" + a + ", " + b + ") = " + g + ", and " + a + " ÷ " + g + " = " + m + ", " + b + " ÷ " + g + " = " + n + ". So " + a + " + " + b + " = <b>" + g + " × (" + m + " + " + n + ")</b>. " + m + " and " + n + " share no factor.",
+        ansText:g + " × (" + m + " + " + n + ")"},
+      [{h:g + " × (" + m + " + " + n + ")"},
+       {h:f + " × (" + a / f + " + " + b / f + ")", tip:"That is equal to " + a + " + " + b + ", but " + f + " isn't the greatest common factor: " + a / f + " and " + b / f + " still share " + g / f + "."},
+       {h:g + " × (" + m + " × " + n + ")", tip:"Inside the parentheses it has to be a sum: " + g + " × " + m + " + " + g + " × " + n + " = " + a + " + " + b + "."},
+       {h:g + " × (" + m + " + " + (n + 1) + ")", tip:"Check it: " + g + " × " + (n + 1) + " = " + g * (n + 1) + ", not " + b + "."}]);
+  },
+
+  /* ===== Zone 4 · Order Station ===== */
+  evalBasic(){
+    const s = makeExpr([
+      () => rnd(2, 20) + " + " + rnd(2, 9) + " × " + rnd(2, 9),
+      () => { const a = rnd(2, 9), b = rnd(2, 9); return a + " × " + b + " − " + rnd(1, a * b - 1); },
+      () => { const c = rnd(2, 9), q = rnd(2, 9); return rnd(q + 1, 30) + " − " + c * q + " ÷ " + c; },
+      () => { const b = rnd(2, 6), c = rnd(2, 5), k = rnd(1, 3); return b * c * k + " ÷ " + b + " × " + c; },
+      () => { const a = rnd(12, 30), b = rnd(3, a - 3); return a + " − " + b + " + " + rnd(2, 9); },
+      () => "(" + rnd(2, 9) + " + " + rnd(2, 9) + ") × " + rnd(2, 6),
+      () => { const b = rnd(5, 12); return rnd(2, 8) + " × (" + b + " − " + rnd(1, b - 2) + ")"; },
+      () => rnd(2, 15) + " + " + rnd(2, 9) + " × " + rnd(2, 9) + " − " + rnd(1, 10),
+      () => { const c = rnd(2, 6), q = rnd(2, 9), a = rnd(1, c * q - 1); return "(" + a + " + " + (c * q - a) + ") ÷ " + c + " + " + rnd(2, 9); }]);
+    const v = solve(s).v;
+    return {skill:"order", kind:"num", num:v, text:"Evaluate <b>" + M(s) + "</b>.",
+      hint:"Parentheses first, then multiply and divide from left to right, then add and subtract from left to right.",
+      why:exprWhy(s), diag:g => exprDiag(g, s), ansText:fmtInt(v)};
+  },
+  evalPow(){
+    const s = makeExpr([
+      () => rnd(2, 20) + " + " + rnd(2, 5) + "^2 × " + rnd(2, 6),
+      () => { const a = rnd(2, 6), b = rnd(1, 5); return "(" + a + " + " + b + ")^2 − " + rnd(1, (a + b) * (a + b) - 1); },
+      () => { const a = rnd(3, 9), b = rnd(2, 5); return a + "^2 − " + b + " × " + rnd(1, Math.floor(a * a / b)); },
+      () => { const a = rnd(2, 5), b = rnd(2, 6), c = rnd(1, 6); return "[" + a + " × (" + b + " + " + c + ")] − " + rnd(1, a * (b + c) - 1); },
+      () => { const c = rnd(4, 9); return rnd(2, 4) + " × [" + rnd(1, 10) + " + (" + c + " − " + rnd(1, c - 2) + ")^2]"; },
+      () => { const a = pick([2, 3, 4, 5, 6]); return a + "^3 ÷ " + pick(factorsOf(a * a * a).filter(x => x > 1 && x < a * a * a)) + " + " + rnd(1, 15); },
+      () => "2^" + rnd(2, 5) + " + " + rnd(2, 4) + " × " + rnd(2, 9),
+      () => { const a = rnd(2, 4), c = rnd(2, 5); return rnd(c * a * a, c * a * a + 20) + " − " + c + " × " + a + "^2"; }], 600);
+    const v = solve(s).v;
+    return {skill:"powers", kind:"num", num:v, text:"Evaluate <b>" + M(s) + "</b>.",
+      hint:"Work inside the parentheses and brackets first (innermost first), then the exponents, then × and ÷, then + and −.",
+      why:exprWhy(s), diag:g => exprDiag(g, s), ansText:fmtInt(v)};
+  },
+  firstStepMC(){
+    let s, t, ops, first; do {
+      s = makeExpr([
+        () => rnd(10, 30) + " − " + rnd(2, 5) + " × " + rnd(2, 4) + "^2",
+        () => "(" + rnd(2, 9) + " + " + rnd(2, 9) + ") × " + rnd(2, 4) + "^2 − " + rnd(1, 9),
+        () => rnd(2, 9) + " + " + rnd(10, 20) + " ÷ " + pick([2, 5]) + " × " + rnd(2, 4),
+        () => rnd(20, 40) + " − " + rnd(2, 6) + " + " + rnd(2, 6) + " × " + rnd(2, 6),
+        () => rnd(2, 6) + "^2 + " + rnd(2, 9) + " × (" + rnd(5, 9) + " − " + rnd(1, 4) + ")"], 999);
+      t = tokens(s);
+      ops = []; t.forEach((x, i) => { if (OPNAME[x] && typeof t[i - 1] === "number" && typeof t[i + 1] === "number") ops.push(i); });
+      first = solve(s).notes[0];
+    } while (ops.length < 3);
+    const depth = i => t.slice(0, i).reduce((d, x) => d + (OPEN[x] ? 1 : x === ")" || x === "]" ? -1 : 0), 0);
+    const label = i => "Work out " + (t[i] === "^" ? M(t[i - 1] + "^" + t[i + 1]) : t[i - 1] + " " + t[i] + " " + t[i + 1]) + (depth(i) ? " in the " + (t.slice(0, i).reverse().find(x => OPEN[x]) === "[" ? "brackets" : "parentheses") : "");
+    const right = ops.find(i => (t[i] === "^" ? M(t[i - 1] + "^" + t[i + 1]) : t[i - 1] + " " + t[i] + " " + t[i + 1]) + " = " + fmtInt(applyOp(t[i - 1], t[i], t[i + 1])) === first.h);
+    const others = ops.filter(i => i !== right).slice(0, 3);
+    return mcQ({skill:"order", text:"What is the <b>first step</b> to evaluate <b>" + M(s) + "</b>?",
+        hint:"Parentheses, then exponents, then × and ÷ from left to right, then + and − from left to right.",
+        why:"The order of operations: " + (first.inner ? "parentheses come first, so " : first.op === "^" ? "with no parentheses, exponents come first, so " : "") + "start with <b>" + first.h.split(" = ")[0] + "</b>. " + exprWhy(s),
+        ansText:strip(label(right))},
+      [{h:label(right)}].concat(others.map(i => ({h:label(i), tip:t[i] === "+" || t[i] === "−" ? "Addition and subtraction come last, after the parentheses, the exponents, × and ÷." : t[i] === "×" || t[i] === "÷" ? "Multiplication and division wait until the parentheses and the exponents are done." : "Parentheses come before exponents."}))));
+  },
+  leftRightMC(){
+    if (Math.random() < .5){
+      let a, b, c; do { a = rnd(12, 30); b = rnd(3, 10); c = rnd(2, 9); } while (b + c >= a);
+      const v = a - b + c, slip = a - (b + c), alt = a - b - c;
+      return mcQ({skill:"order", text:"What is the value of <b>" + a + " − " + b + " + " + c + "</b>?",
+          hint:"Addition and subtraction are a team: work from left to right.",
+          why:"Work from left to right: " + a + " − " + b + " = " + (a - b) + ", then " + (a - b) + " + " + c + " = <b>" + v + "</b>.", ansText:String(v)},
+        [{h:String(v)}, {h:String(slip), tip:"That adds " + b + " + " + c + " first. Add and subtract in order from left to right."},
+         {h:String(alt), tip:"That subtracts both numbers. The " + c + " is added."}, {h:String(a + b + c), tip:"The " + b + " is subtracted, not added."}].filter((o, i, arr) => arr.findIndex(x => x.h === o.h) === i), "four");
+    }
+    const b = rnd(2, 5), c = rnd(2, 5), k = rnd(2, 4), a = b * c * k, v = a / b * c, slip = a / (b * c);
+    return mcQ({skill:"order", text:"What is the value of <b>" + a + " ÷ " + b + " × " + c + "</b>?",
+        hint:"Multiplication and division are a team: work from left to right.",
+        why:"Work from left to right: " + a + " ÷ " + b + " = " + a / b + ", then " + a / b + " × " + c + " = <b>" + v + "</b>.", ansText:String(v)},
+      [{h:String(v)}, {h:String(slip), tip:"That multiplies " + b + " × " + c + " first. Multiply and divide in order from left to right."},
+       {h:String(a / b), tip:"Don't forget the last step: × " + c + "."}, {h:String(a * c), tip:"Divide by " + b + " too."}].filter((o, i, arr) => arr.findIndex(x => x.h === o.h) === i), "four");
+  },
+
+  /* ===== Zone 5 · Expression Builder ===== */
+  wordsExprMC(){
+    const TPL = [
+      () => { const a = rnd(2, 9), b = rnd(2, 9), c = rnd(2, 6); return {w:"Add " + a + " and " + b + ", then multiply by " + c + ".", ok:"(" + a + " + " + b + ") × " + c,
+        bad:[[a + " + " + b + " × " + c, "Without parentheses you would multiply " + b + " × " + c + " first. The adding comes first, so it goes in parentheses."], [a + " × " + c + " + " + b, "Only " + a + " is multiplied there. The whole sum is multiplied by " + c + "."], ["(" + a + " × " + b + ") + " + c, "That multiplies first and adds " + c + ". Read the order of the words again."]]}; },
+      () => { const a = rnd(2, 9), b = rnd(3, 9), c = rnd(1, a * b - 1); return {w:"Multiply " + a + " by " + b + ", then subtract " + c + ".", ok:a + " × " + b + " − " + c,
+        bad:[[a + " × (" + b + " − " + c + ")", "Those parentheses make you subtract first. The words multiply first."], [c + " − " + a + " × " + b, "The order of subtraction matters: start with the product and take " + c + " away."], ["(" + a + " + " + b + ") − " + c, "“Multiply” means ×, not +."]]}; },
+      () => { const c = rnd(2, 6), q = rnd(2, 8), a = rnd(1, 9), b = a + c * q; return {w:"Subtract " + a + " from " + b + ", then divide by " + c + ".", ok:"(" + b + " − " + a + ") ÷ " + c,
+        bad:[[b + " − " + a + " ÷ " + c, "Without parentheses you would divide " + a + " ÷ " + c + " first. The subtraction comes first."], ["(" + a + " − " + b + ") ÷ " + c, "“Subtract " + a + " from " + b + "” means " + b + " − " + a + ", not " + a + " − " + b + "."], [b + " ÷ " + c + " − " + a, "That divides first. Read the order of the words again."]]}; },
+      () => { const a = rnd(2, 9), b = rnd(2, 9), c = rnd(2, 9); return {w:"The product of " + a + " and the sum of " + b + " and " + c + ".", ok:a + " × (" + b + " + " + c + ")",
+        bad:[[a + " × " + b + " + " + c, "That multiplies " + a + " by " + b + " only. Put the sum in parentheses."], ["(" + a + " + " + b + ") × " + c, "The sum is " + b + " + " + c + ", and " + a + " multiplies it."], [a + " + " + b + " × " + c, "“Product” means multiply: " + a + " times the sum."]]}; },
+      () => { const b = rnd(2, 9), q = rnd(2, 9), a = b * q, c = rnd(2, 9); return {w:"The quotient of " + a + " and " + b + ", plus " + c + ".", ok:a + " ÷ " + b + " + " + c,
+        bad:[[a + " ÷ (" + b + " + " + c + ")", "That divides by the sum. The words add " + c + " after dividing."], [b + " ÷ " + a + " + " + c, "The quotient of " + a + " and " + b + " is " + a + " ÷ " + b + ": the first number is divided."], ["(" + a + " + " + c + ") ÷ " + b, "That adds first. The words divide first, then add."]]}; },
+      () => { const a = rnd(1, 6), b = rnd(1, 6); return {w:"The square of the sum of " + a + " and " + b + ".", ok:"(" + a + " + " + b + ")^2",
+        bad:[[a + " + " + b + "^2", "That squares only " + b + ". The whole sum is squared, so it needs parentheses."], [a + "^2 + " + b + "^2", "Squaring a sum isn't the same as adding the squares: (" + a + " + " + b + ")² = " + (a + b) * (a + b) + "."], ["2 × (" + a + " + " + b + ")", "Squaring means multiplying the number by itself, not by 2."]]}; }];
+    const p = pick(TPL)();
+    return mcQ({skill:"write", text:"Which expression shows this? <span class=\"qx\" style=\"font-size:19px\">" + p.w + "</span>",
+        hint:"Write the operations in the order the words say. If an addition or subtraction must happen before × or ÷, put it in parentheses.",
+        why:"The words give <b>" + M(p.ok) + "</b>. Its value: " + chainM(solve(p.ok)) + ".", ansText:T(p.ok)},
+      uniq([{h:M(p.ok)}].concat(p.bad.map(x => ({h:M(x[0]), tip:x[1]})))));
+  },
+  storyNum(){
+    const who = pick(NAMES), v = pick(["shop", "left", "share", "teams", "cupcakes", "tiles"]);
+    let s, text, unit;
+    if (v === "shop"){ const n = rnd(2, 6), p = rnd(3, 12), q = rnd(2, 9); s = n + " × " + p + " + " + q; unit = "riyals";
+      text = who + " buys <b>" + n + " notebooks</b> for <b>" + p + " riyals</b> each and a pen for <b>" + q + " riyals</b>. How many riyals does " + who + " spend in all?"; }
+    else if (v === "left"){ const n = rnd(2, 5), p = rnd(5, 15), m = n * p + 5 * rnd(1, 10); s = m + " − " + n + " × " + p; unit = "riyals";
+      text = who + " has <b>" + m + " riyals</b> and buys <b>" + n + " books</b> for <b>" + p + " riyals</b> each. How many riyals are left?"; }
+    else if (v === "share"){ const k = rnd(3, 6), tot = k * rnd(4, 12), a = rnd(2, tot - 2); s = "(" + a + " + " + (tot - a) + ") ÷ " + k; unit = "marbles";
+      text = who + " has <b>" + a + " red marbles</b> and <b>" + (tot - a) + " blue marbles</b>, and shares all of them equally among <b>" + k + " friends</b>. How many marbles does each friend get?"; }
+    else if (v === "teams"){ const t = rnd(3, 8), p = rnd(5, 11), c = rnd(2, 6); s = t + " × " + p + " + " + c; unit = "people";
+      text = "A sports day has <b>" + t + " teams</b> of <b>" + p + " players</b>, plus <b>" + c + " coaches</b>. How many people is that in all?"; }
+    else if (v === "cupcakes"){ const r = rnd(3, 6), c = rnd(4, 8), e = rnd(2, 9); s = r + " × " + c + " − " + e; unit = "cupcakes";
+      text = "A tray holds <b>" + r + " rows</b> of <b>" + c + " cupcakes</b>. " + who + "'s family eats <b>" + e + "</b> of them. How many cupcakes are left?"; }
+    else { const side = rnd(3, 9), k = rnd(2, 6); s = k + " × " + side + "^2"; unit = "cm²";
+      text = "A square tile has <b>" + side + " cm</b> sides. What is the total area of <b>" + k + " tiles</b>?"; }
+    const r = solve(s);
+    return {skill:"write", kind:"num", num:r.v, unit, text,
+      hint:"Write one expression for the story first, then use the order of operations.",
+      why:"An expression for the story is <b>" + M(s) + "</b>. " + stepWords(r.notes) + " The answer is <b>" + fmtInt(r.v) + " " + unit + "</b>.",
+      diag:g => exprDiag(g, s), ansText:fmtInt(r.v) + " " + unit};
+  },
+  parensMC(){
+    let base, nat, choices, tries = 0;
+    do {
+      const n = [rnd(2, 9), rnd(2, 9), rnd(2, 9), rnd(1, 9)], o = [pick(["+", "×", "−"]), pick(["×", "+"]), pick(["+", "−", "×"])];
+      base = [n[0], o[0], n[1], o[1], n[2], o[2], n[3]];
+      nat = solve(showT(base));
+      choices = [[0, 2], [2, 4], [4, 6], [0, 4], [2, 6]].map(([i, j]) => showT(base.slice(0, i).concat(["("], base.slice(i, j + 1), [")"], base.slice(j + 1))))
+        .map(s => ({s, r:solve(s)})).filter(c => c.r.ok && c.r.v !== nat.v);
+      const counts = {}; choices.concat([{r:nat}]).forEach(c => { counts[c.r.v] = (counts[c.r.v] || 0) + 1; });
+      choices = choices.filter(c => counts[c.r.v] === 1);
+    } while ((!nat.ok || choices.length < 3) && tries++ < 300);
+    const pickC = shuffle(choices.slice()), target = pickC[0], others = pickC.slice(1, 3);
+    const plain = showT(base);
+    return mcQ({skill:"parens", text:"Where do the parentheses go so that this is true? <span class=\"qx\">" + plain + " = " + target.r.v + "</span>",
+        hint:"Try each choice: work inside the parentheses first, then follow the order of operations.",
+        why:"<b>" + chainM(target.r) + "</b>. Without parentheses, " + plain + " = " + nat.v + ".", ansText:target.s},
+      [{h:target.s}].concat(others.map(c => ({h:c.s, tip:"That gives " + chainM(c.r) + "."})), [{h:"No parentheses needed", tip:"Without parentheses, " + chainM(nat) + "."}]));
+  },
+  errorMC(){
+    const who = pick(NAMES), v = pick(["ltr", "pm", "exp", "flat"]);
+    let s, wrong, diag, fixes;
+    if (v === "ltr"){ const a = rnd(2, 12), b = rnd(2, 9), c = rnd(2, 9); s = a + " + " + b + " × " + c; wrong = (a + b) * c;
+      diag = who + " added first. Multiply before adding: " + b + " × " + c + " = " + b * c + ", so the answer is " + (a + b * c) + "."; }
+    else if (v === "pm"){ let a, b, c; do { a = rnd(12, 30); b = rnd(3, 9); c = rnd(2, 9); } while (b + c >= a); s = a + " − " + b + " + " + c; wrong = a - (b + c);
+      diag = who + " added " + b + " + " + c + " first. Add and subtract from left to right: " + (a - b) + " + " + c + " = " + (a - b + c) + "."; }
+    else if (v === "exp"){ const a = rnd(2, 5), b = rnd(2, 5); s = a + " × " + b + "^2"; wrong = (a * b) * (a * b);
+      diag = who + " multiplied before squaring. Exponents come first: " + b + "² = " + b * b + ", so the answer is " + a * b * b + "."; }
+    else { const a = rnd(2, 9), b = rnd(2, 9), c = rnd(2, 6); s = "(" + a + " + " + b + ") × " + c; wrong = a + b * c;
+      diag = who + " skipped the parentheses. Add inside them first: " + (a + b) + " × " + c + " = " + (a + b) * c + "."; }
+    const right = solve(s).v;
+    return mcQ({skill:"parens", text:who + " says <b>" + M(s) + " = " + wrong + "</b>. What went wrong?",
+        hint:"Redo it with the order of operations, and find the first step that's different.",
+        why:diag + " Correct: " + chainM(solve(s)) + ".", ansText:strip(M(diag))},
+      [{h:M(diag)},
+       {h:"Nothing. " + M(s) + " = " + wrong + " is right.", tip:"Check it with the order of operations: " + chainM(solve(s)) + "."},
+       {h:"The answer should be bigger, because you always multiply last.", tip:"Multiplication comes before addition and subtraction, not after."},
+       {h:"It should be worked from right to left.", tip:"Never right to left: inside each team (× ÷, then + −) work from left to right."}]);
+  }
+};
+const gen = name => G[name.includes("|") ? pick(name.split("|")) : name]();
+
+/* ---------- SKILLS & ZONES ---------- */
+const SKILLS = {
+  factors:{name:"Factors & primes", zone:0, tip:"Factors come in pairs that multiply to the number: 24 = 1 × 24 = 2 × 12 = 3 × 8 = 4 × 6. A prime has exactly two factors, 1 and itself; 1 is neither prime nor composite."},
+  gcf:{name:"Greatest common factor", zone:0, tip:"List the factors of both numbers and take the biggest one in both lists: GCF(18, 24) = 6. The GCF is never bigger than the smaller number."},
+  lcm:{name:"Least common multiple", zone:1, tip:"List the multiples of the bigger number and stop at the first one the smaller number divides: LCM(6, 8) = 24. The product 6 × 8 = 48 is a common multiple, but not the least."},
+  prime:{name:"Prime factorization", zone:1, tip:"Split with a factor tree until every branch is prime: 60 = 2 × 2 × 3 × 5. GCF = the primes both numbers share; LCM = every prime, the most times it appears."},
+  word:{name:"GCF or LCM word problems", zone:2, tip:"Equal groups or pieces, as many or as big as possible: GCF. Together again, or packs that match, as few as possible: LCM."},
+  dist:{name:"GCF & the Distributive Property", zone:2, tip:"Divide both numbers by the GCF and put the results in parentheses: 36 + 48 = 12 × (3 + 4)."},
+  order:{name:"Order of operations", zone:3, tip:"Parentheses, then exponents, then × and ÷ from left to right, then + and − from left to right: 3 + 4 × 5 = 23, not 35."},
+  powers:{name:"Exponents & brackets", zone:3, tip:"Innermost parentheses first, then the exponents: 2 × [5 + (6 − 2)^2] = 2 × [5 + 16] = 42."},
+  write:{name:"Write expressions", zone:4, tip:"Write the operations in the order the words say. If adding or subtracting comes before × or ÷, use parentheses: “add 8 and 4, then multiply by 3” is (8 + 4) × 3."},
+  parens:{name:"Parentheses & mistakes", zone:4, tip:"Parentheses change the order: 3 + 4 × 5 = 23 but (3 + 4) × 5 = 35. To find a mistake, redo the work one step at a time."}
+};
+const SKILL_ORDER = Object.keys(SKILLS);
+
+const ZONES = [
+  {key:"z1", col:"c1", name:"Factor Finder", tag:"Factors, primes and the GCF", icon:"search", lesson:"Lesson 3-2 · pp. 129–136",
+   intro:"Every number hides its factors in pairs. Find them, sort primes from composites, and catch the greatest factor two numbers share: the GCF.",
+   set:["factorList", "notFactor|primeMC", "gcfNum", "gcfNum", "gcfMC", "gcfSpecial"]},
+  {key:"z2", col:"c2", name:"Multiple Mountain", tag:"Multiples, the LCM and prime factors", icon:"peak", lesson:"Lesson 3-2 · pp. 129–136",
+   intro:"Climb the multiples of two numbers until they meet: that's the LCM. Then use factor trees to find the GCF and the LCM from prime factors.",
+   set:["lcmNum", "lcmNum", "lcmMC", "lcmSpecial", "primeFact", "gcfPrime|lcmPrime"]},
+  {key:"z3", col:"c4", name:"Party Planner", tag:"GCF or LCM? · the Distributive Property", icon:"gift", lesson:"Lesson 3-2 · pp. 129–136",
+   intro:"Packing party bags, cutting ribbons, buying packs that match: decide whether you need the GCF or the LCM. Then use the GCF to rewrite a sum.",
+   set:["gcfOrLcm", "wordGcf", "wordGcf2", "wordLcm", "distNum", "distMC"]},
+  {key:"z4", col:"c3", name:"Order Station", tag:"Order of operations with exponents and brackets", icon:"steps", lesson:"Lesson 3-3 · pp. 137–142",
+   intro:"An expression with several operations has one right value, as long as everyone works in the same order. Learn the order and use it every time.",
+   set:["evalBasic", "evalBasic", "evalPow", "evalPow", "firstStepMC", "leftRightMC"]},
+  {key:"z5", col:"c5", name:"Expression Builder", tag:"Words to expressions · parentheses · spot the mistake", icon:"blocks", lesson:"Lesson 3-3 · pp. 137–142",
+   intro:"Turn words and stories into numerical expressions, decide where the parentheses go, and catch the mistake in someone else's work.",
+   set:["wordsExprMC", "wordsExprMC", "storyNum", "storyNum", "parensMC", "errorMC"]}
+];
+const FINAL_SET = [["factorList|notFactor|primeMC", "gcfNum", "gcfMC", "gcfSpecial"], ["lcmNum", "lcmMC|lcmSpecial", "primeFact", "gcfPrime|lcmPrime"],
+  ["gcfOrLcm", "wordGcf|wordGcf2", "wordLcm", "distNum|distMC"], ["evalBasic", "evalPow", "evalPow", "firstStepMC|leftRightMC"], ["wordsExprMC", "storyNum", "parensMC", "errorMC"]];
+
+/* ---------- PICTURES (SVG) ---------- */
+const svgBox = (w, h, body, label) => '<div class="viz"><svg viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + esc(label) + '">' + body + '</svg></div>';
+const tx = (x, y, s, cls, anchor, extra) => '<text class="' + cls + '" x="' + x + '" y="' + y + '"' + (anchor ? ' text-anchor="' + anchor + '"' : "") + (extra || "") + '>' + s + '</text>';
+/* a power inside SVG text: base, then a raised exponent */
+const tsup = (e, rest) => '<tspan dy="-7" font-size="62%">' + e + '</tspan>' + (rest ? '<tspan dy="7">' + rest + '</tspan>' : "");
+const poly = (pts, cls) => '<polygon class="' + cls + '" points="' + pts.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ") + '"/>';
+
+/* the factor pairs of 24 as rectangles of 24 squares */
+function vizPairs(){
+  const u = 11, pairs = [[1, 24], [2, 12], [3, 8], [4, 6]];
+  let s = "", y = 18;
+  pairs.forEach(([r, c], k) => {
+    s += tx(14, y + r * u / 2 + 6, r + " × " + c, "vb", "", ' font-size="17"');
+    for (let i = 0; i < r; i++) for (let j = 0; j < c; j++)
+      s += '<rect class="' + (k % 2 ? "sun" : "tile") + '" x="' + (96 + j * u) + '" y="' + (y + i * u) + '" width="' + u + '" height="' + u + '" style="stroke-width:1.5"/>';
+    y += r * u + 18;
+  });
+  s += tx(210, y + 8, "24 = 1 × 24 = 2 × 12 = 3 × 8 = 4 × 6", "vt", "middle");
+  return svgBox(420, y + 22, s, "The factor pairs of 24 as rectangles of 24 squares: 1 by 24, 2 by 12, 3 by 8 and 4 by 6.");
+}
+/* the factors of 18 and of 24, with the common ones shaded */
+function vizCommon(){
+  const A = [1, 2, 3, 6, 9, 18], B = [1, 2, 3, 4, 6, 8, 12, 24], com = [1, 2, 3, 6];
+  const row = (y, label, list) => tx(14, y + 7, label, "vb", "", ' font-size="19"') + list.map((n, i) => {
+    const x = 84 + i * 41, on = com.includes(n);
+    return '<circle class="' + (on ? "hot" : "wht") + '" cx="' + x + '" cy="' + y + '" r="17"' + (n === 6 ? ' style="stroke-width:4.5"' : "") + '/>'
+      + tx(x, y + 6, n, "vt", "middle", on ? ' style="fill:#fff;font-weight:800"' : "");
+  }).join("");
+  let s = row(36, "18", A) + row(96, "24", B);
+  s += tx(210, 150, "common factors: 1, 2, 3, 6", "vt", "middle") + tx(210, 180, "GCF = 6", "vb", "middle");
+  return svgBox(420, 196, s, "Factors of 18: 1, 2, 3, 6, 9, 18. Factors of 24: 1, 2, 3, 4, 6, 8, 12, 24. The common factors 1, 2, 3 and 6 are shaded; the greatest, 6, is the GCF.");
+}
+/* a factor tree for 60 */
+function vizTree(){
+  const node = (x, y, n, prime) => '<circle class="' + (prime ? "hot" : "wht") + '" cx="' + x + '" cy="' + y + '" r="20"/>' + tx(x, y + 7, n, "vb", "middle", ' font-size="19"' + (prime ? ' style="fill:#fff"' : ""));
+  const edge = (x1, y1, x2, y2) => '<path class="ln" d="M' + x1 + ' ' + (y1 + 20) + ' L' + x2 + ' ' + (y2 - 20) + '"/>';
+  let s = edge(210, 32, 130, 102) + edge(210, 32, 290, 102) + edge(130, 102, 90, 172) + edge(130, 102, 170, 172) + edge(290, 102, 250, 172) + edge(290, 102, 330, 172);
+  s += node(210, 32, 60) + node(130, 102, 6) + node(290, 102, 10) + node(90, 172, 2, 1) + node(170, 172, 3, 1) + node(250, 172, 2, 1) + node(330, 172, 5, 1);
+  s += tx(210, 230, "60 = 2 × 2 × 3 × 5", "vb", "middle") + tx(210, 254, "the shaded numbers are prime", "vs", "middle");
+  return svgBox(420, 268, s, "A factor tree: 60 splits into 6 and 10, 6 into 2 and 3, and 10 into 2 and 5. So 60 = 2 × 2 × 3 × 5.");
+}
+/* jumps of 8 and jumps of 6 meet first at 24 */
+function vizJumps(){
+  const x0 = 26, k = 14.5, X = n => x0 + n * k;
+  let s = "";
+  [[70, 8, "JUMPS OF 8"], [150, 6, "JUMPS OF 6"]].forEach(([y, st, label]) => {
+    s += '<path class="ln" d="M' + x0 + ' ' + y + ' H' + X(26) + '"/>';
+    for (let n = 0; n <= 26; n += 2) s += '<path class="lt" d="M' + X(n) + ' ' + (y - 5) + ' V' + (y + 5) + '"/>';
+    for (let n = 0; n + st <= 24; n += st) s += '<path class="ln" d="M' + X(n) + ' ' + (y - 6) + ' Q' + X(n + st / 2) + ' ' + (y - 40) + ' ' + X(n + st) + ' ' + (y - 6) + '"/>' + tx(X(n + st), y + 24, n + st, "vt", "middle");
+    s += tx(x0, y - 44, label, "vcap");
+  });
+  s += '<path class="ln" d="M' + X(24) + ' 98 V176" style="stroke-dasharray:5 5"/>';
+  s += '<rect class="hot" x="' + (X(24) - 36) + '" y="178" width="72" height="28" rx="8"/>' + tx(X(24), 197, "LCM 24", "vt", "middle", ' style="fill:#fff;font-weight:800"');
+  return svgBox(420, 214, s, "Jumps of 8 land on 8, 16 and 24. Jumps of 6 land on 6, 12, 18 and 24. They meet first at 24, so the LCM of 6 and 8 is 24.");
+}
+/* 36 + 48 = 12 × (3 + 4) as an area model */
+function vizArea(){
+  const x0 = 98, y0 = 34, h = 120, w1 = 96, w2 = 128;
+  let s = '<rect class="tile" x="' + x0 + '" y="' + y0 + '" width="' + w1 + '" height="' + h + '"/><rect class="sun" x="' + (x0 + w1) + '" y="' + y0 + '" width="' + w2 + '" height="' + h + '"/>';
+  s += tx(x0 - 12, y0 + h / 2 + 7, "12", "vb", "end") + tx(x0 + w1 / 2, y0 - 10, "3", "vb", "middle") + tx(x0 + w1 + w2 / 2, y0 - 10, "4", "vb", "middle");
+  s += tx(x0 + w1 / 2, y0 + h / 2 + 6, "12 × 3 = 36", "vt", "middle") + tx(x0 + w1 + w2 / 2, y0 + h / 2 + 6, "12 × 4 = 48", "vt", "middle");
+  s += tx(210, y0 + h + 34, "36 + 48 = 12 × (3 + 4) = 84", "vt", "middle");
+  return svgBox(420, y0 + h + 50, s, "An area model: a rectangle 12 tall and 3 plus 4 wide. The parts are 12 × 3 = 36 and 12 × 4 = 48, so 36 + 48 = 12 × (3 + 4).");
+}
+/* the order of operations as four steps */
+function vizOrder(){
+  const rows = [["1", "( )  [ ]", "parentheses, brackets"], ["2", "4²", "exponents"], ["3", "× ÷", "left to right"], ["4", "+ −", "left to right"]];
+  let s = "";
+  rows.forEach((r, i) => {
+    const x = 18 + i * 32, y = 14 + i * 58;
+    s += '<rect class="' + (i % 2 ? "sun" : "tile") + '" x="' + x + '" y="' + y + '" width="' + (384 - i * 32) + '" height="48" rx="10"/>';
+    s += '<circle class="hot" cx="' + (x + 26) + '" cy="' + (y + 24) + '" r="16"/>' + tx(x + 26, y + 30, r[0], "vt", "middle", ' style="fill:#fff;font-weight:800"');
+    s += tx(x + 54, y + 32, r[1], "vb", "", ' font-size="20"') + tx(x + 140, y + 30, r[2], "vt");
+  });
+  return svgBox(420, 14 + 4 * 58, s, "The order of operations: 1 parentheses and brackets, 2 exponents, 3 multiply and divide from left to right, 4 add and subtract from left to right.");
+}
+
+/* ---------- LESSON CARDS ---------- */
+const LESSONS = [
+  [
+    {t:"Factors come in pairs", b:"A <b>factor</b> of a number divides it with no remainder. Factors come in pairs that multiply to the number: 24 = 1 × 24 = 2 × 12 = 3 × 8 = 4 × 6.",
+     ex:{h:"Example", q:"List all the factors of 24", steps:["Start at 1 and go up: 1 × 24, 2 × 12, 3 × 8, 4 × 6.", "5 doesn't divide 24. The next pair would be 6 × 4, which you already have, so stop.", "The factors of 24: 1, 2, 3, 4, 6, 8, 12, 24."]},
+     viz:vizPairs},
+    {t:"Common factors and the GCF", b:"A <b>common factor</b> divides both numbers. The <b>greatest common factor (GCF)</b> is the biggest of them.",
+     ex:{h:"Example", q:"Find the GCF of 18 and 24", steps:["Factors of 18: 1, 2, 3, 6, 9, 18", "Factors of 24: 1, 2, 3, 4, 6, 8, 12, 24", "Common factors: 1, 2, 3, 6", "The GCF is 6."]},
+     viz:vizCommon},
+    {t:"Prime or composite?", b:"A <b>prime number</b> has exactly two factors: 1 and itself. A <b>composite number</b> has more than two. The number 1 has only one factor, so it is neither.",
+     table:[["Number", "Factors", "Type"], ["7", "1, 7", "prime"], ["9", "1, 3, 9", "composite"], ["2", "1, 2", "prime, the only even one"], ["51", "1, 3, 17, 51", "composite"], ["1", "1", "neither"]],
+     note:"Primes up to 50: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47. Numbers like 51 = 3 × 17 and 91 = 7 × 13 only look prime."},
+    {t:"GCF shortcuts", b:"Two quick checks before you list everything.",
+     table:[["Case", "Example", "GCF"], ["The smaller number divides the bigger one", "8 and 24", "8"], ["The only common factor is 1", "8 and 15", "1"], ["Anything else", "18 and 24", "list the factors: 6"]],
+     note:"The GCF is never bigger than the smaller number. To check it, divide both numbers by it: 18 ÷ 6 = 3 and 24 ÷ 6 = 4. If those two still shared a factor, there would be a bigger GCF."}
+  ],
+  [
+    {t:"Multiples and the LCM", b:"The <b>multiples</b> of a number are the number times 1, 2, 3 … The <b>least common multiple (LCM)</b> of two numbers is the smallest number that is a multiple of both.",
+     ex:{h:"Example", q:"Find the LCM of 6 and 8", steps:["Multiples of 8: 8, 16, 24, 32 …", "Multiples of 6: 6, 12, 18, 24 …", "The first one in both lists is 24, so the LCM is 24."]},
+     note:"Faster: list the multiples of the bigger number only, and stop at the first one the smaller number divides.",
+     viz:vizJumps},
+    {t:"Prime factorization", b:"Every composite number is a product of primes in exactly one way (the order doesn't matter). A <b>factor tree</b> finds it: split the number into two factors, then keep splitting until every branch ends in a prime.",
+     ex:{h:"Example", q:"The prime factorization of 60", steps:["60 = 6 × 10", "6 = 2 × 3 and 10 = 2 × 5", "60 = 2 × 2 × 3 × 5 = " + M("2^2") + " × 3 × 5"]},
+     note:"Any first split works: 60 = 4 × 15 = 2 × 2 × 3 × 5 too.",
+     viz:vizTree},
+    {t:"GCF and LCM from the primes", b:"Write both numbers as products of primes, then compare the lists.",
+     ex:{h:"Example", q:"18 = 2 × 3 × 3 and 24 = 2 × 2 × 2 × 3", steps:["GCF: multiply the primes they share: one 2 and one 3, so 2 × 3 = 6.", "LCM: take each prime the most times it appears in either number: three 2s and two 3s, so 2 × 2 × 2 × 3 × 3 = 72.", "Check: 72 ÷ 18 = 4 and 72 ÷ 24 = 3."]},
+     note:"The GCF times the LCM equals the two numbers multiplied: 6 × 72 = 432 = 18 × 24."},
+    {t:"LCM shortcuts", table:[["Case", "Example", "LCM"], ["One number is a multiple of the other", "4 and 12", "12, the bigger number"], ["The only common factor is 1", "4 and 9", "36, the product"], ["They share a factor", "6 and 8", "24, less than 6 × 8 = 48"]],
+     note:"The product of two numbers is always a common multiple, but it is the least one only when their GCF is 1."}
+  ],
+  [
+    {t:"GCF or LCM? Read the question", table:[["Clue", "Use", "Why"], ["equal groups, as many as possible, nothing left over", "GCF", "the number of groups divides both amounts"], ["equal pieces, as long or as big as possible", "GCF", "the piece size divides both lengths"], ["together again, at the same time", "LCM", "the time is a multiple of both"], ["packs that match, as few as possible", "LCM", "the total is a multiple of both pack sizes"]],
+     note:"Ask yourself: is the answer smaller than the numbers in the story (sharing, cutting)? GCF. Is it bigger (waiting, buying)? LCM."},
+    {t:"A GCF problem", ex:{h:"Example", q:"Huda has 24 pencils and 36 erasers and makes identical kits with nothing left over. What is the greatest number of kits, and what goes in each?", steps:["The number of kits must divide 24 and 36, so it's a common factor.", "As many kits as possible: the GCF. GCF(24, 36) = 12 kits.", "Each kit: 24 ÷ 12 = 2 pencils and 36 ÷ 12 = 3 erasers."]}},
+    {t:"An LCM problem", ex:{h:"Example", q:"Hot dogs come in packs of 10 and buns in packs of 8. What is the least number of each to buy so that they match?", steps:["The total must be a multiple of 10 and of 8, a common multiple.", "Least means the LCM. Multiples of 10: 10, 20, 30, 40. 8 divides 40, so LCM(10, 8) = 40.", "Buy 40 hot dogs (4 packs) and 40 buns (5 packs)."]},
+     note:"Times work the same way: a light flashing every 6 seconds and one flashing every 8 seconds flash together again after LCM(6, 8) = 24 seconds."},
+    {t:"The GCF and the Distributive Property", b:"You can write a sum of two numbers as their GCF times a sum. Divide each number by the GCF, and put the results in parentheses.",
+     ex:{h:"Example", q:"Write 36 + 48 using the GCF", steps:["GCF(36, 48) = 12", "36 = 12 × 3 and 48 = 12 × 4", "36 + 48 = 12 × 3 + 12 × 4 = 12 × (3 + 4)", "Check: 12 × 7 = 84 = 36 + 48."]},
+     note:"Use the GCF, not just any common factor: 6 × (6 + 8) is equal too, but 6 and 8 still share 2, so 6 isn't the greatest.",
+     viz:vizArea}
+  ],
+  [
+    {t:"The order of operations", b:"When an expression has more than one operation, everyone works in the same order, so everyone gets the same value.",
+     table:[["Step", "Do", "Example"], ["1", "parentheses ( ) and brackets [ ]", "(2 + 3) × 4 = 5 × 4"], ["2", "exponents", M("2^3") + " = 8"], ["3", "multiply and divide, left to right", "12 ÷ 3 × 2 = 4 × 2"], ["4", "add and subtract, left to right", "9 − 4 + 1 = 5 + 1"]],
+     viz:vizOrder},
+    {t:"Step by step", ex:{h:"Example", q:"Evaluate 3 + " + M("2^3") + " × 4", steps:["Exponent first: " + M("2^3") + " = 8, so 3 + 8 × 4", "Then multiply: 8 × 4 = 32, so 3 + 32", "Then add: 3 + 32 = 35"]},
+     note:"Write each step on a new line in your notebook. Working left to right instead gives (3 + 8) × 4 = 44, which is wrong."},
+    {t:"Left to right", b:"Multiplication and division are a team: do them in the order they appear, from left to right. Addition and subtraction are a team too.",
+     ex:{h:"Examples", q:"24 ÷ 4 × 2 and 20 − 6 + 4", steps:["24 ÷ 4 × 2 = 6 × 2 = 12, not 24 ÷ 8 = 3.", "20 − 6 + 4 = 14 + 4 = 18, not 20 − 10 = 10."]},
+     note:"“Multiply before divide” is a trap: in each team, the one on the left goes first."},
+    {t:"Brackets inside parentheses", b:"When grouping symbols sit inside each other, start with the innermost and work outwards.",
+     ex:{h:"Example", q:"Evaluate 2 × [5 + " + M("(6 − 2)^2") + "]", steps:["Innermost parentheses: 6 − 2 = 4, so 2 × [5 + " + M("4^2") + "]", "Exponent: " + M("4^2") + " = 16, so 2 × [5 + 16]", "Brackets: 5 + 16 = 21, so 2 × 21", "Multiply: 2 × 21 = 42"]}}
+  ],
+  [
+    {t:"Words to expressions", table:[["Words", "Expression"], ["the sum of 8 and 4", "8 + 4"], ["the difference of 9 and 3", "9 − 3"], ["the product of 6 and 7", "6 × 7"], ["the quotient of 20 and 5", "20 ÷ 5"], ["subtract 4 from 10", "10 − 4 (the order flips)"], ["the square of 5", M("5^2")]],
+     note:"“Subtract 4 from 10” starts with 10. “The quotient of 20 and 5” is 20 ÷ 5: the first number is divided."},
+    {t:"When to use parentheses", b:"If the words say to do an addition or a subtraction <b>before</b> a multiplication or a division, put it in parentheses.",
+     ex:{h:"Example", q:"Add 8 and 4, then multiply by 3", steps:["The adding comes first, so it goes in parentheses: (8 + 4) × 3", "(8 + 4) × 3 = 12 × 3 = 36", "Without them: 8 + 4 × 3 = 8 + 12 = 20, a different value."]}},
+    {t:"An expression for a story", ex:{h:"Example", q:"Sami buys 3 notebooks for 5 riyals each and a pen for 2 riyals. How much does Sami spend?", steps:["Notebooks: 3 × 5. Pen: 2.", "Expression: 3 × 5 + 2", "3 × 5 + 2 = 15 + 2 = 17 riyals"]},
+     note:"Read the story twice: once to find the numbers, once to find what happens to them."},
+    {t:"Spot the mistake", b:"Error-analysis questions show someone else's work. Redo it with the order of operations and find the first step that is different.",
+     ex:{h:"Example", q:"Omar says 18 − 6 ÷ 3 = 4. What went wrong?", steps:["Omar subtracted first: 18 − 6 = 12, then 12 ÷ 3 = 4.", "Divide before you subtract: 6 ÷ 3 = 2.", "18 − 2 = 16, so 18 − 6 ÷ 3 = 16."]},
+     note:"Other slips: adding before multiplying, ignoring the parentheses, and multiplying before squaring: 3 × " + M("4^2") + " = 3 × 16 = 48, not " + M("12^2") + "."}
+  ]
+];
+
+/* ---------- ICONS ---------- */
+const ICONS = {
+  search:'<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="13.5" cy="13.5" r="8.5" fill="#fff" stroke="' + INK + '" stroke-width="2.5"/><path d="M20 20l7.5 7.5" stroke="' + INK + '" stroke-width="3.6" stroke-linecap="round"/><path d="M9.8 11.8h7.4M9.8 15.4h4.6" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>',
+  peak:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 28L13 11l5 8 3-4.5L29 28z" fill="#fff" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/><path d="M13 11V3l7 2.8-7 2.8" fill="#FFD23F" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/></svg>',
+  gift:'<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="14" width="22" height="14" rx="1.5" fill="#fff" stroke="' + INK + '" stroke-width="2.5"/><rect x="3.5" y="9.5" width="25" height="5.5" rx="1.5" fill="#FFD23F" stroke="' + INK + '" stroke-width="2.5"/><path d="M16 9.5V28" stroke="' + INK + '" stroke-width="2.5"/><path d="M16 9.5c-2-5-8.5-5-7.2-1.4.9 2.4 7.2 1.4 7.2 1.4zM16 9.5c2-5 8.5-5 7.2-1.4-.9 2.4-7.2 1.4-7.2 1.4z" fill="#fff" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/></svg>',
+  steps:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 28v-6h6v-6h6v-6h6V4h6v24z" fill="#fff" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/><path d="M22 4h6v6h-6z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/></svg>',
+  blocks:'<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="17" width="11" height="11" rx="1.5" fill="#fff" stroke="' + INK + '" stroke-width="2.5"/><rect x="17" y="17" width="11" height="11" rx="1.5" fill="#FFD23F" stroke="' + INK + '" stroke-width="2.5"/><rect x="10.5" y="4" width="11" height="11" rx="1.5" fill="#fff" stroke="' + INK + '" stroke-width="2.5"/><path d="M13 9.5h6M16 6.5v6" stroke="' + INK + '" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z" fill="#FFD23F" stroke="#fff" stroke-width="1.8"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M12 14v4M8 20h8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>'
+};
+const STAR = on => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="' + (on ? "#FFD23F" : "#fff") + '" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/></svg>';
+const ICON_SOUND = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9q2 3 0 6M18.5 6.5q4 5.5 0 11" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+const ICON_MUTE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#fff" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+
+/* ---------- SAVED PROGRESS (this device only) ---------- */
+const KEY = "factorlab-envision-3-2-3-3-v1";
+const fresh = () => ({xp:0, zones:{}, skills:{}, attempts:[], last:null, hw:{}, sound:true});
+let S = (() => { try { const raw = localStorage.getItem(KEY); if (raw) return Object.assign(fresh(), JSON.parse(raw)); } catch (e) {} return fresh(); })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+/* Homework ticks are shared with the dashboard and the Week 10 plan, keyed by EduPage item id. */
+const DONE_KEY = "monmon-done-v1";
+const HW_EP = {ixl:"2026-11-02-AF0E0C5514DF10DC0F24", book:"2026-11-05-C76C6FC82FDC4EBF77D9"};
+function hwDone(k){ try { const v = JSON.parse(localStorage.getItem(DONE_KEY) || "null"); return !!(v && v.done && v.done[HW_EP[k]]); } catch (e) { return !!S.hw[k]; } }
+function setHwDone(k, on){
+  S.hw[k] = on; save();
+  try { const v = JSON.parse(localStorage.getItem(DONE_KEY) || "null") || {done:{}}; v.done = v.done || {};
+    if (on) v.done[HW_EP[k]] = true; else delete v.done[HW_EP[k]];
+    localStorage.setItem(DONE_KEY, JSON.stringify(v)); } catch (e) {}
+}
+const WEEK_PLAN = "../../weekly/week-10/index.html";
+
+/* ---------- SOUND (tiny synth, no files) ---------- */
+const Sound = {
+  ctx:null,
+  get(){ try { if (!this.ctx){ const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; this.ctx = new AC(); }
+    if (this.ctx.state === "suspended") this.ctx.resume(); return this.ctx; } catch (e) { return null; } },
+  tone(f, at, dur, type, vol){ const c = this.get(); if (!c) return; try {
+    const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + at;
+    o.type = type || "triangle"; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05); } catch (e) {} },
+  good(){ if (!S.sound) return; this.tone(660, 0, .15); this.tone(990, .1, .25); },
+  bad(){ if (!S.sound) return; this.tone(196, 0, .28, "square", .05); this.tone(147, .12, .3, "square", .05); },
+  win(){ if (!S.sound) return; [523, 659, 784, 1047].forEach((f, i) => this.tone(f, i * .11, .3)); },
+  tap(){ if (!S.sound) return; this.tone(520, 0, .06, "sine", .05); }
+};
+
+/* ---------- CONFETTI ---------- */
+const FX = (() => {
+  const cv = $("#fx"), ctx = cv && cv.getContext ? cv.getContext("2d") : null;
+  let parts = [], raf = 0;
+  const COLS = ["#FFD23F", "#2F7DE1", "#F39200", "#9A4FE0", "#119C77", "#E23F66"];
+  function size(){ if (!cv) return; const d = window.devicePixelRatio || 1; cv.width = innerWidth * d; cv.height = innerHeight * d; }
+  size(); addEventListener("resize", size);
+  function tick(){
+    const d = window.devicePixelRatio || 1;
+    ctx.setTransform(d, 0, 0, d, 0, 0); ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => p.life < p.max);
+    parts.forEach(p => {
+      p.life++; p.vy += .25; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      ctx.save(); ctx.globalAlpha = Math.max(0, 1 - p.life / p.max); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.c;
+      if (p.sq) ctx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); else { ctx.beginPath(); ctx.arc(0, 0, p.r / 2.6, 0, Math.PI * 2); ctx.fill(); }
+      ctx.restore();
+    });
+    raf = parts.length ? requestAnimationFrame(tick) : 0;
+  }
+  function burstAt(x, y, n){
+    if (reduceMotion || !ctx) return;
+    for (let i = 0; i < (n || 36); i++){ const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
+      parts.push({x, y, vx:Math.cos(a) * v, vy:Math.sin(a) * v - 4, r:5 + Math.random() * 6, rot:Math.random() * 6, vr:(Math.random() - .5) * .4, c:COLS[i % COLS.length], life:0, max:55 + Math.random() * 40, sq:Math.random() < .55}); }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function burstEl(el, n){ if (!el) return; const r = el.getBoundingClientRect(); burstAt(r.left + r.width / 2, r.top + r.height / 2, n); }
+  function party(){ for (let k = 0; k < 5; k++) setTimeout(() => burstAt(innerWidth * (.15 + Math.random() * .7), innerHeight * (.2 + Math.random() * .25), 40), k * 170); }
+  return {burstEl, party};
+})();
+
+function floatXP(el, text){
+  if (!el || reduceMotion) return;
+  const r = el.getBoundingClientRect(), f = document.createElement("div");
+  f.className = "xp-float"; f.textContent = text; f.style.left = (r.left + r.width / 2) + "px"; f.style.top = (r.top - 6) + "px";
+  document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
+}
+function addXP(n, el){
+  S.xp += n; save();
+  const v = $("#xpVal"); if (v) v.textContent = S.xp;
+  const box = $("#xpBox"); if (box){ box.classList.remove("bump"); void box.offsetWidth; box.classList.add("bump"); }
+  if (el) floatXP(el, "+" + n);
+}
+function announce(t){ const l = $("#live"); if (l) l.textContent = t; }
+
+/* ---------- SCREENS & LINKS ----------
+   Hash routes (all optional): #/zone/1–5 opens a lesson, #/practice/1–5 starts a practice round,
+   #/final the Final Challenge, #/report the last report, #/hw the Homework Check. */
+const SCREENS = ["home", "zone", "quiz", "result", "final", "report"];
+let current = "home";
+function show(name){
+  SCREENS.forEach(s => { $("#scr-" + s).hidden = s !== name; });
+  const el = $("#scr-" + name); el.classList.remove("screen"); void el.offsetWidth; el.classList.add("screen");
+  current = name; window.scrollTo(0, 0);
+}
+function setHash(h){ try { if ((location.hash || "") !== h) history.replaceState(null, "", h || location.pathname + location.search); } catch (e) {} }
+function renderSoundBtn(){
+  const b = $("#soundBtn"); b.innerHTML = S.sound ? ICON_SOUND : ICON_MUTE;
+  b.setAttribute("aria-label", S.sound ? "Turn sound off" : "Turn sound on");
+}
+const starRow = (n, label) => '<div class="stars" role="img" aria-label="' + (label || n + " of 3 stars") + '">' + [1, 2, 3].map(k => STAR(n >= k)).join("") + '</div>';
+const finals = () => S.attempts.filter(a => a.kind === "final");
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const stars = ZONES.reduce((m, z) => m + ((S.zones[z.key] || {}).stars || 0), 0);
+  const fs = finals(), best = fs.reduce((m, a) => Math.max(m, a.pct), 0);
+  let h = '<div class="panel hero"><div><h1>Factor <span>Lab</span></h1>'
+    + '<p>This week\'s math, Lessons 3-2 and 3-3 of enVision Mathematics (Volume 1): Find Greatest Common Factor and Least Common Multiple, and Write and Evaluate Numerical Expressions. Find factors and multiples, solve GCF and LCM problems, and follow the order of operations. Learn each zone, win its 6-question practice, then take the Final Challenge.</p></div>'
+    + '<div class="stats"><div class="stat"><b>' + stars + '/15</b><span>Stars</span></div><div class="stat"><b>' + S.xp + '</b><span>XP</span></div><div class="stat"><b>' + (fs.length ? best + "%" : "–") + '</b><span>Best final</span></div></div></div>';
+  const n = Object.keys(HW_EP).filter(hwDone).length;
+  h += '<div class="panel banner' + (S.last && S.last.pct < 70 ? " alert" : "") + '"><p><b>Homework due Saturday 7/11:</b> H.W. 10.1 on IXL (Greatest common factor, 70% or more) and H.W. 10.2 in the math notebook with the steps. '
+    + (n === 2 ? "Both are marked done. Well done!" : n === 1 ? "One of the two is marked done." : "Not marked done yet.") + '</p><div class="row"><button class="btn btn-sm btn-go" data-act="tohw">Homework check</button>'
+    + (S.last ? '<button class="btn btn-sm" data-act="lastreport">Last report (' + S.last.pct + '%)</button>' : "") + '<a class="btn btn-sm" href="' + WEEK_PLAN + '">Week 10 plan</a></div></div>';
+  h += '<div class="sec-title"><h2>The Lab Map</h2><p>Five zones. Read the lesson, then win the practice.</p></div><div class="trail">';
+  ZONES.forEach((z, i) => {
+    const Z = S.zones[z.key] || {}, st = zoneStatus(i);
+    const sticker = st === "low" ? '<span class="sticker">Review me!</span>' : st === "good" ? '<span class="sticker ok">Mastered</span>' : "";
+    h += '<div class="land land-' + z.col + '">' + sticker + '<div class="badge">' + ICONS[z.icon] + '</div>'
+      + '<div><div class="land-num">Zone ' + (i + 1) + ' · ' + z.lesson.split(" · ")[0] + '</div><h3>' + z.name + '</h3><p class="sub">' + z.tag + '</p></div>'
+      + '<div class="land-foot">' + starRow(Z.stars || 0) + '<span class="progress-note">' + (Z.plays ? "Best: " + Z.best + "/6" : "Not started") + '</span>'
+      + '<div class="row"><button class="btn btn-sm" data-act="zone" data-z="' + i + '">Lesson</button><button class="btn btn-sm ' + (Z.stars ? "" : "btn-go") + '" data-act="practice" data-z="' + i + '">' + (Z.plays ? "Practice again" : "Practice") + '</button></div></div></div>';
+  });
+  h += '</div><div class="panel final"><div class="badge">' + ICONS.trophy + '</div><div><div class="land-num">The boss level</div><h3>Final Challenge</h3>'
+    + '<p>20 mixed questions from all five zones, no hints. At the end you get a skill-by-skill report and a study plan.</p></div>'
+    + '<div class="row"><button class="btn btn-ink" data-act="final">Start the Final Challenge</button>' + (S.last ? '<button class="btn btn-sm" data-act="lastreport">See my last report</button>' : "") + '</div></div>';
+  h += renderHW();
+  h += '<div class="row foot-links"><a class="btn btn-sm" href="../../index.html">← Dashboard</a><a class="btn btn-sm" href="' + WEEK_PLAN + '">Week 10 plan</a></div>';
+  h += '<p class="foot-note">Progress is saved on this device, and on linked family devices. <button class="link-btn" data-act="reset">Reset progress</button></p>';
+  $("#scr-home").innerHTML = keep(h);
+}
+function zoneStatus(i){
+  const ks = Object.keys(SKILLS).filter(k => SKILLS[k].zone === i).map(k => S.skills[k]).filter(Boolean);
+  const n = ks.reduce((m, s) => m + s.n, 0), c = ks.reduce((m, s) => m + s.c, 0);
+  if (n < 4) return "";
+  const p = c / n; return p >= .85 ? "good" : p < .6 ? "low" : "";
+}
+function renderHW(){
+  const item = (key, title, due, body) => '<div class="hw-item ' + (hwDone(key) ? "done" : "") + '"><input type="checkbox" class="hw-check" id="hw-' + key + '" data-hw="' + key + '" ' + (hwDone(key) ? "checked" : "") + '>'
+    + '<div class="hw-body"><label for="hw-' + key + '"><h3>' + title + '</h3></label><span class="due">' + due + '</span>' + body + '</div></div>';
+  const warm = zs => '<div class="row">' + zs.map(i => '<button class="btn btn-sm" data-act="practice" data-z="' + i + '">Warm up: ' + ZONES[i].name + '</button>').join("") + '</div>';
+  return '<div class="sec-title" id="hw"><h2>Homework Check</h2><p>Class 6.3 · Week 10 · tick each one when it\'s done.</p></div><div class="panel hw">'
+    + item("ixl", "H.W. 10.1 · IXL", "Due Sat 7/11/2026",
+      '<p>Lesson 3-2: Find Greatest Common Factor and Least Common Multiple. On IXL: <a href="https://www.ixl.com/math/grade-6/greatest-common-factor" target="_blank" rel="noopener">Greatest common factor</a>, minimum score 70%.</p>'
+      + '<ul><li><b>List the factors</b> of both numbers and take the biggest one in both lists: GCF(18, 24) = 6.</li>'
+      + '<li><b>Shortcuts:</b> if the smaller number divides the bigger one, it is the GCF: GCF(8, 24) = 8. If they share only 1, the GCF is 1.</li>'
+      + '<li><b>Check:</b> divide both numbers by your answer. If the results still share a factor, there is a bigger GCF.</li></ul>'
+      + warm([0, 1]))
+    + item("book", "H.W. 10.2 · Notebook", "Due Sat 7/11/2026",
+      '<p>Lesson 3-3: Write and Evaluate Numerical Expressions. In the math notebook, as set: <b>p. 133</b> Questions 7, 9, 11, 13 and <b>p. 128</b> Questions 15, 19, 22, 25. Show the steps.</p>'
+      + '<p class="note"><b>Check the pages with the teacher:</b> Lesson 3-3 is pages 137–142 in the plan, but page 133 is in Lesson 3-2 and page 128 is in Lesson 3-1.</p>'
+      + '<ul><li><b>Order of operations:</b> parentheses and brackets, then exponents, then × and ÷ from left to right, then + and − from left to right.</li>'
+      + '<li><b>One step per line:</b> 3 + ' + M("2^3") + ' × 4 = 3 + 8 × 4 = 3 + 32 = 35.</li>'
+      + '<li><b>Words to expressions:</b> “add 8 and 4, then multiply by 3” is (8 + 4) × 3 = 36.</li></ul>'
+      + warm([3, 4])
+      + '<div class="row"><a class="btn btn-sm" href="' + WEEK_PLAN + '">Week 10 plan →</a></div>')
+    + '</div>';
+}
+
+/* ---------- ZONE LESSON ---------- */
+let ZI = 0;
+function openZone(i){ ZI = i; renderZone(); show("zone"); setHash("#/zone/" + (i + 1)); }
+function renderZone(){
+  const z = ZONES[ZI], sec = $("#scr-zone");
+  let h = '<div class="land-' + z.col + '"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button><span class="chip-land">Zone ' + (ZI + 1) + '</span><span class="spacer"></span><button class="btn btn-sm btn-go" data-act="practice" data-z="' + ZI + '">Skip to practice →</button></div>'
+    + '<div class="panel intro"><div class="land-num">' + z.lesson + '</div><h2>' + z.name + '</h2><p>' + z.intro + '</p></div><div class="lcards">';
+  LESSONS[ZI].forEach((c, k) => {
+    let text = "";
+    if (c.b) text += '<p>' + c.b + '</p>';
+    if (c.table) text += '<div class="tscroll"><table class="rtable"><thead><tr>' + c.table[0].map(t => '<th scope="col">' + t + '</th>').join("") + '</tr></thead><tbody>' + c.table.slice(1).map(r => '<tr>' + r.map(t => '<td' + (strip(t).length <= 14 ? ' class="nw"' : "") + '>' + t + '</td>').join("") + '</tr>').join("") + '</tbody></table></div>';
+    if (c.ex) text += '<div class="ex"><h4>' + c.ex.h + '</h4><p class="ex-q">' + c.ex.q + '</p><ol>' + c.ex.steps.map(s => '<li>' + s + '</li>').join("") + '</ol></div>';
+    if (c.note) text += '<p class="note">' + c.note + '</p>';
+    h += '<article class="panel lcard"><div class="lcard-num">Card ' + (k + 1) + ' of ' + LESSONS[ZI].length + '</div><h3>' + c.t + '</h3>'
+      + '<div class="lgrid ' + (c.viz ? "" : "solo") + '"><div class="ltext">' + text + '</div>' + (c.viz ? c.viz() : "") + '</div></article>';
+  });
+  h += '</div><div class="lesson-nav">' + (ZI ? '<button class="btn" data-act="zone" data-z="' + (ZI - 1) + '">← ' + ZONES[ZI - 1].name + '</button>' : '<button class="btn" data-act="home">← Map</button>')
+    + '<button class="btn btn-go" data-act="practice" data-z="' + ZI + '">Start practice: 6 questions →</button></div></div>';
+  sec.innerHTML = keep(h);
+}
+
+/* ---------- RUNNING A ROUND ---------- */
+let R = null;
+function startPractice(i){
+  R = {mode:"practice", zi:i, qs:shuffle(ZONES[i].set.slice()).map(gen), i:0, res:[]};
+  show("quiz"); renderQ(); setHash("#/practice/" + (i + 1));
+}
+function startFinal(){
+  const early = shuffle(FINAL_SET.slice(0, 4).flat()), late = shuffle(FINAL_SET[4].slice());
+  R = {mode:"final", qs:early.concat(late).map(gen), i:0, res:[]};
+  show("quiz"); renderQ(); setHash("#/final");
+}
+function qCol(q){ return R.mode === "practice" ? ZONES[R.zi].col : ZONES[SKILLS[q.skill].zone].col; }
+const KICK = {mc:"Choose one", num:"Type the answer"};
+const INPUT_ATTRS = ' autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="numeric"';
+
+function renderQ(){
+  const q = R.qs[R.i], n = R.qs.length, sec = $("#scr-quiz");
+  R.locked = false; R.hinted = false; R.lastInput = null;
+  const title = R.mode === "practice" ? "Zone " + (R.zi + 1) + " · " + ZONES[R.zi].name : "Final Challenge";
+  let h = '<div class="land-' + qCol(q) + '"><div class="test-top"><div class="row"><span class="round-name">' + title + '</span><span class="counter">' + (R.i + 1) + ' / ' + n + '</span></div>'
+    + '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + R.i + '" aria-label="Questions answered"><i style="width:' + pctOf(R.i, n) + '%"></i></div></div>'
+    + '<article class="panel q-card"><p class="q-kicker">' + (q.kick || SKILLS[q.skill].name) + ' · ' + KICK[q.kind] + '</p><p class="q-text" id="qtext" tabindex="-1">' + q.text + '</p>';
+  if (q.kind === "mc"){
+    const big = q.layout === "four" || q.layout === "three";
+    h += '<div class="opts ' + (q.layout === "list" ? "" : q.layout) + '" role="group" aria-labelledby="qtext">' + q.opts.map((o, i) => big
+      ? '<button class="opt big' + (q.layout === "three" ? " sym" : "") + '" data-act="mc" data-i="' + i + '" aria-label="' + esc(optLabel(o)) + '">' + o + '</button>'
+      : '<button class="opt" data-act="mc" data-i="' + i + '"><span class="k" aria-hidden="true">' + "ABCDE"[i] + '</span><span>' + o + '</span></button>').join("") + '</div>';
+  } else {
+    h += '<div class="ans-row"><input class="type-in num" id="inN" aria-label="Your answer' + (q.unit ? " in " + esc(strip(q.unit)) : "") + '"' + INPUT_ATTRS + ' enterkeyhint="done">' + (q.unit ? '<span class="unit">' + q.unit + '</span>' : "") + '</div>';
+  }
+  h += '<p class="input-msg" id="imsg" aria-live="polite"></p>';
+  if (q.kind !== "mc") h += '<div class="actions">' + (R.mode === "practice" ? '<button class="btn btn-sm" data-act="hint" id="hintBtn">Hint</button>' : '<span class="your">No hints in the Final Challenge.</span>')
+    + '<button class="btn btn-go" data-act="check" id="checkBtn">Check</button></div>';
+  else if (R.mode === "practice") h += '<div class="actions"><button class="btn btn-sm" data-act="hint" id="hintBtn">Hint</button></div>';
+  h += '<div id="hintBox"></div><div id="fbBox"></div></article></div>';
+  sec.innerHTML = keep(h);
+  const first = $("#inN");
+  $$(".type-in", sec).forEach(inp => inp.addEventListener("focus", () => { R.lastInput = inp; }));
+  if (first) R.lastInput = first;
+  /* desktop: straight into the answer box; otherwise put focus on the question so the keyboard and screen readers start there */
+  if (first && finePointer) first.focus({preventScroll:true});
+  else $("#qtext").focus({preventScroll:true});
+}
+/* spoken names for the big comparison buttons */
+const optLabel = o => ({"&lt;":"less than", "&gt;":"greater than", "=":"equal to"}[o] || strip(o));
+
+function showHint(){
+  const q = R.qs[R.i]; if (R.locked || R.hinted) return;
+  R.hinted = true;
+  $("#hintBox").innerHTML = keep('<div class="hint-box"><b class="tag">Hint</b>' + q.hint + '</div>');
+  const b = $("#hintBtn"); if (b) b.disabled = true;
+  announce("Hint: " + strip(q.hint));
+}
+
+function check(){
+  const q = R.qs[R.i]; if (R.locked) return;
+  const msg = $("#imsg"), inp = $("#inN"), raw = inp.value, g = parseNum(raw);
+  if (isNaN(g)){ msg.textContent = "Type a whole number, like 12."; inp.focus(); return; }
+  const ok = near(g, q.num);
+  inp.classList.add(ok ? "ok" : "no");
+  finish(ok, raw.trim().replace(/\s+/g, " ") + (q.unit ? " " + strip(q.unit) : ""), ok ? "" : (q.diag ? q.diag(g) : ""));
+}
+function chooseMC(i){
+  const q = R.qs[R.i]; if (R.locked) return;
+  const ok = i === q.ans;
+  $$("#scr-quiz .opt").forEach((b, k) => { b.disabled = true; if (k === q.ans) b.classList.add("right"); else if (k === i) b.classList.add("wrong"); else b.classList.add("dim"); });
+  finish(ok, strip(q.opts[i]), ok ? "" : ((q.optTips && q.optTips[i]) || ""));
+}
+const YES = ["NAILED IT!", "BOOM!", "SPOT ON!", "YES!", "SHARP!"];
+function finish(ok, given, extra){
+  const q = R.qs[R.i];
+  R.locked = true;
+  /* no tip for this exact slip? fall back to the skill's own tip, so every wrong answer gets one */
+  if (!ok && !extra) extra = M(SKILLS[q.skill].tip);
+  R.res.push({ok, hinted:R.hinted, given, skill:q.skill, text:strip(q.text), correct:q.ansText, why:q.why});
+  const sk = S.skills[q.skill] || (S.skills[q.skill] = {c:0, n:0});
+  sk.n++; if (ok) sk.c++;
+  save();
+  $$("#scr-quiz .type-in").forEach(i => { i.readOnly = true; });
+  $$("#scr-quiz .key").forEach(b => { b.disabled = true; });
+  const cb = $("#checkBtn"); if (cb) cb.disabled = true;
+  const hb = $("#hintBtn"); if (hb) hb.disabled = true;
+  $("#imsg").textContent = "";
+  const burst = ok ? (R.hinted ? "GOT IT!" : pick(YES)) : "NOT QUITE";
+  const body = (ok ? "" : '<p class="your">Your answer: <b>' + esc(given) + '</b> · Correct: <b>' + esc(q.ansText) + '</b></p>')
+    + '<p>' + q.why + '</p>' + (extra ? '<p class="tip"><b class="tag">Tip</b>' + extra + '</p>' : "");
+  const last = R.i === R.qs.length - 1;
+  $("#fbBox").innerHTML = keep('<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + burst + '</span><div class="fb-body">' + body + '</div>'
+    + '<div class="row"><button class="btn btn-ink" data-act="next" id="nextBtn">' + (last ? "See results →" : "Next →") + '</button></div></div>');
+  if (ok){ Sound.good(); addXP(R.hinted ? 5 : 10, $("#nextBtn")); }
+  else Sound.bad();
+  announce((ok ? "Correct. " : "Not quite. The answer is " + q.ansText + ". ") + strip(q.why) + (extra ? " Tip: " + strip(extra) : ""));
+  $("#nextBtn").focus({preventScroll:true});
+  try { $("#fbBox").scrollIntoView({behavior:reduceMotion ? "auto" : "smooth", block:"nearest"}); } catch (e) {}
+}
+function next(){
+  if (!R) return;
+  if (R.i < R.qs.length - 1){ R.i++; renderQ(); window.scrollTo(0, 0); return; }
+  if (R.mode === "practice") zoneResult(); else finalReport();
+}
+
+/* ---------- PRACTICE RESULT ---------- */
+function zoneResult(){
+  const z = ZONES[R.zi], res = R.res, n = res.length;
+  const right = res.filter(r => r.ok).length, hinted = res.filter(r => r.ok && r.hinted).length;
+  const pts = right - hinted / 2, stars = pts >= 6 ? 3 : pts >= 4 ? 2 : pts >= 2 ? 1 : 0;
+  const Z = S.zones[z.key] || {};
+  S.zones[z.key] = {stars:Math.max(Z.stars || 0, stars), best:Math.max(Z.best || 0, right), plays:(Z.plays || 0) + 1};
+  S.attempts.push({kind:"practice", zone:R.zi, t:Date.now(), pct:pctOf(right, n)}); S.attempts = S.attempts.slice(-60);
+  save();
+  const big = stars === 3 ? "ZONE CLEAR!" : stars === 2 ? "GREAT WORK!" : stars === 1 ? "GOOD START!" : "KEEP GOING!";
+  const nextZ = R.zi < ZONES.length - 1 ? '<button class="btn btn-go" data-act="zone" data-z="' + (R.zi + 1) + '">Next: ' + ZONES[R.zi + 1].name + ' →</button>' : '<button class="btn btn-go" data-act="final">Final Challenge →</button>';
+  let h = '<div class="land-' + z.col + '"><div class="panel splash"><div class="land-num">Zone ' + (R.zi + 1) + ' · ' + z.name + '</div><div class="big">' + big + '</div>'
+    + '<div class="result-stars" role="img" aria-label="' + stars + ' of 3 stars">' + [1, 2, 3].map(k => '<span style="animation-delay:' + (k * .18) + 's">' + STAR(stars >= k) + '</span>').join("") + '</div>'
+    + '<p><b>' + right + ' of ' + n + '</b> correct' + (hinted ? " (" + hinted + " with a hint)" : "") + '. ' + (stars === 3 ? "Perfect round, no hints!" : "3 stars = all 6 right without hints.") + '</p>'
+    + '<div class="row" style="justify-content:center"><button class="btn" data-act="practice" data-z="' + R.zi + '">Practice again</button>' + nextZ + '<button class="btn btn-sm" data-act="home">Map</button></div></div>';
+  const miss = res.filter(r => !r.ok);
+  if (miss.length) h += '<div class="sec-title"><h2>Fix these</h2><p>Read why, then try a new round. The numbers change every time.</p></div><div class="miss-list">'
+    + miss.map(r => '<div class="panel miss"><p class="q">' + esc(r.text) + '</p><p class="a">You: <b>' + esc(r.given) + '</b> · Answer: <b>' + esc(r.correct) + '</b></p><p class="w">' + r.why + '</p></div>').join("") + '</div>';
+  else h += '<p class="foot-note">No mistakes this round. Want a different set of numbers? Practice again.</p>';
+  $("#scr-result").innerHTML = keep(h + '</div>');
+  show("result");
+  if (stars >= 2){ Sound.win(); FX.party(); }
+}
+
+/* ---------- FINAL CHALLENGE ---------- */
+function renderFinalIntro(){
+  $("#scr-final").innerHTML = '<div class="land-c1"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button></div><div class="panel test-intro"><h2>Final Challenge</h2>'
+    + '<p>20 questions from every zone, with new numbers each time. There are no hints, but every answer comes with an explanation. At the end you\'ll see which skills are strong and what to practice before the homework.</p><ol class="rounds">'
+    + ZONES.map((z, i) => '<li><span><b>' + z.name + '</b><br><small>' + z.tag + '</small></span><small>' + FINAL_SET[i].length + ' Qs</small></li>').join("")
+    + '</ol><div class="row"><button class="btn btn-go" data-act="startfinal">Start →</button></div></div></div>';
+  show("final"); setHash("#/final");
+}
+function finalReport(){
+  const res = R.res, n = res.length, right = res.filter(r => r.ok).length, pct = pctOf(right, n);
+  const skills = {};
+  res.forEach(r => { const s = skills[r.skill] || (skills[r.skill] = [0, 0]); s[1]++; if (r.ok) s[0]++; });
+  const rep = {t:Date.now(), pct, right, n, skills, items:res.map(r => ({ok:r.ok, skill:r.skill, text:r.text, given:r.given, correct:r.correct, why:r.why}))};
+  S.last = rep;
+  S.attempts.push({kind:"final", t:rep.t, pct}); S.attempts = S.attempts.slice(-60);
+  addXP(20);
+  save();
+  renderReport(rep);
+  show("report"); setHash("#/report");
+  if (pct >= 75){ Sound.win(); FX.party(); }
+}
+function renderReport(rep){
+  const C = 2 * Math.PI * 64, rank = rep.pct >= 90 ? "Factor Master" : rep.pct >= 75 ? "Expression Expert" : rep.pct >= 50 ? "Lab Assistant" : "Scientist in Training";
+  const low = Object.keys(rep.skills).some(k => rep.skills[k][0] / rep.skills[k][1] < .5);
+  const ready = rep.pct >= 80 && !low ? "You're ready for H.W. 10.1 and 10.2. Show your steps in the notebook."
+    : rep.pct >= 60 ? "Almost ready. Practice the skills marked below first, then do the homework." : "Practice the zones in the study plan below before the homework, then take the challenge again.";
+  let h = '<div class="land-c1"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button><span class="your">' + fmtDate(rep.t) + '</span></div>'
+    + '<div class="panel report-head"><div class="ring"><svg viewBox="0 0 156 156" aria-hidden="true"><circle cx="78" cy="78" r="64" fill="none" stroke="#E4F2FF" stroke-width="16"/><circle cx="78" cy="78" r="64" fill="none" stroke="' + (rep.pct >= 75 ? "#12A15E" : rep.pct >= 50 ? "#F39200" : "#E23D45") + '" stroke-width="16" stroke-linecap="round" stroke-dasharray="' + (C * rep.pct / 100).toFixed(2) + ' ' + C.toFixed(2) + '"/></svg><div class="num">' + rep.pct + '%<small>' + rep.right + ' / ' + rep.n + '</small></div></div>'
+    + '<div><div class="land-num">Final Challenge result</div><div class="rank">' + rank + '</div><p>' + ready + '</p><div class="row" style="margin-top:12px"><button class="btn btn-go" data-act="startfinal">Try again</button><button class="btn btn-sm" data-act="tohw">Homework check</button></div></div></div>';
+  h += '<div class="sec-title"><h2>Skills</h2><p>Green 80%+ · Orange 50–79% · Red below 50%.</p></div><div class="panel bars">';
+  const order = SKILL_ORDER.filter(k => rep.skills[k]);
+  order.forEach(k => {
+    const [c, t] = rep.skills[k], p = pctOf(c, t), st = p >= 80 ? "good" : p >= 50 ? "mid" : "low";
+    h += '<div class="bar-row land-' + ZONES[SKILLS[k].zone].col + '"><div class="bar-label">' + SKILLS[k].name + '<small>' + ZONES[SKILLS[k].zone].name + ' · ' + c + '/' + t + '</small></div>'
+      + '<div class="bar" role="img" aria-label="' + p + ' percent"><i class="' + (p ? "" : "zero") + '" data-w="' + p + '"></i></div><div class="bar-end"><span class="pct">' + p + '%</span><span class="status ' + st + '">' + (st === "good" ? "Strong" : st === "mid" ? "Almost" : "Practice") + '</span></div></div>';
+  });
+  h += '</div>';
+  const weak = order.map(k => ({k, p:rep.skills[k][0] / rep.skills[k][1]})).filter(x => x.p < .8).sort((a, b) => a.p - b.p);
+  h += '<div class="sec-title"><h2>Study Plan</h2><p>' + (weak.length ? "Do these in order, weakest first. Each one takes about 5 minutes." : "No weak spots. Keep it fresh before the homework.") + '</p></div>';
+  if (weak.length){
+    h += '<ol class="plan">' + weak.map(x => {
+      const zi = SKILLS[x.k].zone;
+      return '<li><b>' + SKILLS[x.k].name + '</b> <span class="your">(' + Math.round(x.p * 100) + '%) · Zone ' + (zi + 1) + ': ' + ZONES[zi].name + '</span><p>' + M(SKILLS[x.k].tip) + '</p><div class="row"><button class="btn btn-sm" data-act="zone" data-z="' + zi + '">Re-read ' + ZONES[zi].name + '</button><button class="btn btn-sm btn-go" data-act="practice" data-z="' + zi + '">Practice ' + ZONES[zi].name + '</button></div></li>';
+    }).join("") + '</ol>';
+  } else h += '<ol class="plan"><li><b>Do the homework</b><p>H.W. 10.1 on IXL (Greatest common factor, 70% or more) and H.W. 10.2 in the math notebook. Show the steps.</p><div class="row"><button class="btn btn-sm btn-go" data-act="tohw">Homework check</button></div></li></ol>';
+  const fs = finals().slice(-8);
+  if (fs.length > 1) h += '<div class="sec-title"><h2>Progress</h2><p>Your last ' + fs.length + ' Final Challenges.</p></div><div class="panel history">'
+    + fs.map(a => '<div class="hcol"><b>' + a.pct + '%</b><div class="hbar" style="height:' + Math.max(6, a.pct * 1.1) + 'px"></div><span>' + fmtDate(a.t).split(",")[0] + '</span></div>').join("") + '</div>';
+  h += '<div class="sec-title"><h2>Every Answer</h2></div><div class="panel answers"><details><summary>Show all ' + rep.n + ' questions with explanations</summary>'
+    + rep.items.map((r, i) => '<div class="ans"><span class="mark ' + (r.ok ? "ok" : "no") + '" aria-label="' + (r.ok ? "correct" : "wrong") + '">' + (r.ok ? "✓" : "✗") + '</span><div><b>' + (i + 1) + '. ' + esc(r.text) + '</b><br><small>You: ' + esc(r.given) + ' · Answer: ' + esc(r.correct) + '</small><p>' + r.why + '</p></div></div>').join("")
+    + '</details></div></div>';
+  $("#scr-report").innerHTML = keep(h);
+  requestAnimationFrame(() => requestAnimationFrame(() => $$("#scr-report .bar i").forEach(i => { i.style.width = i.dataset.w + "%"; })));
+}
+
+/* ---------- EVENTS ---------- */
+function goHome(toHw){
+  renderHome(); show("home"); setHash(toHw ? "#/hw" : "");
+  if (toHw){ const t = $("#hw"); if (t) t.scrollIntoView({behavior:reduceMotion ? "auto" : "smooth"}); }
+}
+const ACT = {
+  home(){ goHome(false); },
+  zone(b){ openZone(+b.dataset.z); },
+  practice(b){ startPractice(+b.dataset.z); },
+  final(){ renderFinalIntro(); },
+  startfinal(){ startFinal(); },
+  mc(b){ chooseMC(+b.dataset.i); },
+  check(){ check(); },
+  hint(){ showHint(); },
+  next(){ next(); },
+  key(b){
+    const inp = R && R.lastInput; if (!inp || inp.readOnly) return;
+    const k = b.dataset.k, s = inp.selectionStart == null ? inp.value.length : inp.selectionStart, e = inp.selectionEnd == null ? s : inp.selectionEnd;
+    inp.value = inp.value.slice(0, s) + k + inp.value.slice(e);
+    inp.focus({preventScroll:true}); try { inp.setSelectionRange(s + k.length, s + k.length); } catch (err) {}
+  },
+  sound(){ S.sound = !S.sound; save(); renderSoundBtn(); if (S.sound) Sound.tap(); },
+  tohw(){ goHome(true); },
+  lastreport(){ if (S.last){ renderReport(S.last); show("report"); setHash("#/report"); } },
+  reset(){ if (confirm("Reset all Factor Lab progress? On a linked device this resets it on the family's other devices too.")){ const snd = S.sound; S = fresh(); S.sound = snd; save(); $("#xpVal").textContent = 0; renderHome(); } }
+};
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b || b.disabled) return;
+  const f = ACT[b.dataset.act]; if (f) f(b, e);
+});
+document.addEventListener("keydown", e => {
+  if (e.key !== "Enter" || current !== "quiz" || !R) return;
+  const t = e.target;
+  if (t.id === "inB" && !R.locked){ e.preventDefault(); $("#inE").focus(); return; }
+  if ((t.id === "inE" || t.id === "inN") && !R.locked){ e.preventDefault(); check(); }
+});
+document.addEventListener("mousedown", e => { if (e.target.closest(".key")) e.preventDefault(); });
+document.addEventListener("change", e => {
+  const c = e.target.closest("[data-hw]"); if (!c) return;
+  setHwDone(c.dataset.hw, c.checked);
+  c.closest(".hw-item").classList.toggle("done", c.checked);
+  if (c.checked){ Sound.win(); FX.burstEl(c, 30); }
+});
+function route(){
+  const [a, b] = location.hash.replace(/^#\/?/, "").split("/"), z = parseInt(b, 10) - 1;
+  if (a === "zone" && ZONES[z]) openZone(z);
+  else if (a === "practice" && ZONES[z]) startPractice(z);
+  else if (a === "final") renderFinalIntro();
+  else if (a === "report" && S.last){ renderReport(S.last); show("report"); }
+  else goHome(a === "hw");
+}
+addEventListener("hashchange", route);
+
+/* ---------- PRINT SHEET (A4; only visible when printing) ---------- */
+/* fixed questions, so the printed answer key always matches */
+const PS_QS = [
+  {q:"List all the factors of 36.", line:true, key:"1, 2, 3, 4, 6, 9, 12, 18, 36"},
+  {q:"Find the GCF.", blanks:["a) 18 and 30", "b) 24 and 36", "c) 15 and 28"], key:"a) 6 b) 12 c) 1"},
+  {q:"Find the LCM.", blanks:["a) 4 and 6", "b) 5 and 8", "c) 3 and 12"], key:"a) 12 b) 40 c) 12"},
+  {q:"Write the prime factorization of 72. Use a factor tree.", line:true, line2:true, key:"72 = 2 × 2 × 2 × 3 × 3 = " + M("2^3") + " × " + M("3^2")},
+  {q:"Use the GCF to write 42 + 56 as a product: 42 + 56 = ___ × (___ + ___).", line:true, key:"14 × (3 + 4)"},
+  {q:"30 pencils and 45 erasers are packed into identical kits with nothing left over. a) What is the greatest number of kits? b) What goes in each kit?", line:true, line2:true, key:"a) 15 kits (the GCF) b) 2 pencils and 3 erasers"},
+  {q:"One bus leaves every 12 minutes and another every 18 minutes. Both leave at 8:00. When do they next leave together?", line:true, key:"36 minutes later (the LCM), at 8:36"},
+  {q:"Evaluate. Show each step.", blanks:["a) 5 + 3 × 4", "b) (5 + 3) × 4", "c) " + M("2^3") + " + 6 ÷ 2", "d) 40 − [3 × (2 + 4)]"], wide:true, key:"a) 17 b) 32 c) 11 d) 22"},
+  {q:"Write an expression, then evaluate it. a) Add 9 and 6, then divide by 3. b) Multiply 4 by 7, then subtract 8.", line:true, line2:true, key:"a) (9 + 6) ÷ 3 = 5 b) 4 × 7 − 8 = 20"},
+  {q:"a) Put in parentheses to make it true: 6 + 4 × 3 = 30. b) Omar says 18 − 6 ÷ 3 = 4. Is Omar right? Explain.", line:true, line2:true, key:"a) (6 + 4) × 3 = 30 b) No. Divide first: 6 ÷ 3 = 2, so 18 − 2 = 16"}
+];
+function renderPrintSheet(){
+  const el = $("#printSheet"); if (!el) return;
+  const head = (title, sub) => '<header class="ps-head"><div><h1>' + title + '</h1><p class="ps-sub">' + sub + '</p></div><p class="ps-meta">Class 6.3 · Week 10 (1–5 Nov 2026)</p></header>';
+  const check = body => '<div class="ps-check"><span class="box"></span><div>' + body + '</div></div>';
+  const box = (title, body) => '<div class="ps-box"><h3>' + title + '</h3>' + body + '</div>';
+  const rules = [
+    ["GCF", "GCF(18, 24) = 6 &nbsp;·&nbsp; GCF(8, 24) = 8 &nbsp;·&nbsp; GCF(8, 15) = 1"],
+    ["LCM", "LCM(6, 8) = 24 &nbsp;·&nbsp; LCM(4, 12) = 12 &nbsp;·&nbsp; LCM(4, 9) = 36"],
+    ["From prime factors", "18 = 2 × 3 × 3, 24 = 2 × 2 × 2 × 3: GCF = 2 × 3 = 6, LCM = 2 × 2 × 2 × 3 × 3 = 72"],
+    ["Distributive Property", "36 + 48 = 12 × 3 + 12 × 4 = 12 × (3 + 4)"],
+    ["Order of operations", "( ) and [ ], then exponents, then × ÷ left to right, then + − left to right"],
+    ["Left to right", "24 ÷ 4 × 2 = 12 &nbsp;·&nbsp; 20 − 6 + 4 = 18"],
+    ["Parentheses", "3 + 4 × 5 = 23 &nbsp;·&nbsp; (3 + 4) × 5 = 35"]
+  ];
+  el.innerHTML = keep(head("GCF, LCM and Expressions: Study Sheet", "enVision Mathematics, Volume 1 · Lessons 3-2 (pp. 129–136) and 3-3 (pp. 137–142)")
+    + '<div class="ps-row"><figure class="ps-fig">' + vizTree() + '<figcaption>A factor tree: 60 = 2 × 2 × 3 × 5 = ' + M("2^2") + ' × 3 × 5.</figcaption></figure>'
+    + box("Words to know", '<ul><li><b>Factor:</b> a number that divides another with no remainder: 6 is a factor of 24.</li>'
+      + '<li><b>Multiple:</b> a number times 1, 2, 3 …: 24 is a multiple of 6.</li>'
+      + '<li><b>Prime:</b> exactly two factors, 1 and itself (2, 3, 5, 7, 11 …). <b>Composite:</b> more than two factors. 1 is neither.</li>'
+      + '<li><b>GCF:</b> greatest common factor. <b>LCM:</b> least common multiple.</li>'
+      + '<li><b>Numerical expression:</b> numbers and operations, like 3 + ' + M("2^3") + ' × 4. <b>Evaluate:</b> find its value.</li></ul>') + '</div>'
+    + '<h2>Key rules</h2><table class="ps-table"><tr><th>Rule</th><th>Example</th></tr>' + rules.map(r => '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td></tr>').join("") + '</table>'
+    + '<h2>One worked example per zone</h2><div class="ps-two">'
+    + box("1 · Factor Finder: the GCF", '<p>Factors of 18: 1, 2, 3, 6, 9, 18. Factors of 24: 1, 2, 3, 4, 6, 8, 12, 24. Common: 1, 2, 3, 6, so <b>GCF = 6</b>.</p>')
+    + box("2 · Multiple Mountain: the LCM", '<p>Multiples of 8: 8, 16, 24. 6 divides 24, so <b>LCM(6, 8) = 24</b>, not 6 × 8 = 48.</p>')
+    + box("3 · Party Planner: word problems", '<p>24 pencils and 36 erasers in identical kits: GCF = <b>12 kits</b> of 2 pencils and 3 erasers. Packs of 10 and of 8 that match: LCM = <b>40</b>.</p>')
+    + box("4 · Order Station: evaluate", '<p>3 + ' + M("2^3") + ' × 4 = 3 + 8 × 4 = 3 + 32 = <b>35</b>: the exponent, then multiply, then add.</p>')
+    + box("5 · Expression Builder: parentheses", '<p>“Add 8 and 4, then multiply by 3” = <b>(8 + 4) × 3 = 36</b>. Without the parentheses, 8 + 4 × 3 = 20.</p>')
+    + box("Common traps", '<ul><li>The GCF is never bigger than the smaller number.</li><li>The product is a common multiple, but not always the least.</li><li>Not left to right: 3 + 4 × 5 = 23, not 35.</li><li>“Subtract 4 from 10” is 10 − 4.</li><li>3 × ' + M("4^2") + ' = 48, not ' + M("12^2") + '.</li></ul>')
+    + '</div>'
+    + '<h2>Homework · due Saturday 7/11/2026</h2>'
+    + check('<b>H.W. 10.1 · IXL</b>: Greatest common factor, minimum score 70%.')
+    + check('<b>H.W. 10.2 · Math notebook</b>, as set: p. 133 (Q 7, 9, 11, 13) and p. 128 (Q 15, 19, 22, 25), with the steps. Ask the teacher about the pages: Lesson 3-3 is pp. 137–142.')
+    + '<section class="ps-page2">' + head("GCF, LCM and Expressions: Practice", "Show your work. The answer key is at the bottom: cover it while you practice.")
+    + '<ol class="ps-qs">' + PS_QS.map(q => '<li>' + q.q
+      + (q.blanks ? '<span class="ps-fills">' + q.blanks.map(b => '<span class="ps-fill">' + b + '<span class="ps-blank' + (q.wide ? " w" : "") + '"></span></span>').join(" ") + '</span>' : "")
+      + (q.line ? '<span class="ps-line"></span>' : "") + (q.line2 ? '<span class="ps-line"></span>' : "") + '</li>').join("") + '</ol>'
+    + '<div class="ps-key"><h3>Answer key</h3><ol>' + PS_QS.map(q => '<li>' + q.key + '</li>').join("") + '</ol></div></section>');
+}
+
+/* ---------- START ---------- */
+$("#xpVal").textContent = S.xp;
+renderSoundBtn();
+route();
+renderPrintSheet();
+</script>
+</body></html>

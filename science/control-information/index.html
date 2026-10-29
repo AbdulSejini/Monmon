@@ -1680,7 +1680,9 @@ function show(name){
 }
 function scrollToEl(el){
   if (!el) return;
-  const top = el.getBoundingClientRect().top + window.scrollY - 76;
+  /* 76px for this page's bar, plus the site strip above it (assets/site-nav.js) */
+  const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--site-nav-h")) || 0;
+  const top = el.getBoundingClientRect().top + window.scrollY - 76 - navH;
   window.scrollTo({top:Math.max(0, top), behavior:reduceMotion ? "auto" : "smooth"});
 }
 let R = null;      /* review run in progress */
