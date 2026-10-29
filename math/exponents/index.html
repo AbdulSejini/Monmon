@@ -365,6 +365,7 @@ sup.qm{display:inline-block;font-size:.8em;min-width:1.2em;padding:0 .12em;borde
 }
 </style>
 </head><body>
+<script src="../../assets/sync.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 
 <header class="topbar">
@@ -1365,7 +1366,7 @@ function renderHome(){
     + '<div class="row"><button class="btn btn-ink" data-act="final">Start the Final Challenge</button>' + (S.last ? '<button class="btn btn-sm" data-act="lastreport">See my last report</button>' : "") + '</div></div>';
   h += renderHW();
   h += '<div class="row foot-links"><a class="btn btn-sm" href="../../index.html">← Dashboard</a><a class="btn btn-sm" href="' + WEEK_PLAN + '">Week 9 plan</a></div>';
-  h += '<p class="foot-note">Progress is saved on this device only. <button class="link-btn" data-act="reset">Reset progress</button></p>';
+  h += '<p class="foot-note">Progress is saved on this device, and on linked family devices. <button class="link-btn" data-act="reset">Reset progress</button></p>';
   $("#scr-home").innerHTML = keep(h);
 }
 function zoneStatus(i){
@@ -1637,7 +1638,7 @@ const ACT = {
   sound(){ S.sound = !S.sound; save(); renderSoundBtn(); if (S.sound) Sound.tap(); },
   tohw(){ goHome(true); },
   lastreport(){ if (S.last){ renderReport(S.last); show("report"); setHash("#/report"); } },
-  reset(){ if (confirm("Reset all Power Lab progress on this device?")){ const snd = S.sound; S = fresh(); S.sound = snd; save(); $("#xpVal").textContent = 0; renderHome(); } }
+  reset(){ if (confirm("Reset all Power Lab progress? On a linked device this resets it on the family's other devices too.")){ const snd = S.sound; S = fresh(); S.sound = snd; save(); $("#xpVal").textContent = 0; renderHome(); } }
 };
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-act]");

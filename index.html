@@ -162,6 +162,7 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
 </style>
 </head>
 <body>
+<script src="assets/sync.js"></script>
 <header class="topbar">
   <div class="topbar-in">
     <span class="logo">لوحتي</span>
@@ -191,7 +192,7 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
 
   <section class="sec" aria-labelledby="todoTitle">
     <div class="sec-head"><h2 id="todoTitle">لازم يسويه</h2>
-      <p>الواجبات اللي موعد تسليمها ما فات. علّم على الواجب إذا خلص، ويبقى محفوظ على هذا الجهاز.</p></div>
+      <p>الواجبات اللي موعد تسليمها ما فات. علّم على الواجب إذا خلص، ويبقى محفوظ على هذا الجهاز وعلى أجهزة العائلة المربوطة.</p></div>
     <div id="todo"></div>
   </section>
 
@@ -223,6 +224,7 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
   <footer class="foot">
     <p>المصدر: صفحة الواجبات والاختبارات العامة للصف 6.3 في <a href="https://aisedusa.edupage.org/exam/" target="_blank" rel="noopener">EduPage</a>، مع ملاحظات من الخطة الأسبوعية للمدرسة. إذا اختلف شيء، المعتمد هو كلام المدرسة.</p>
     <p id="synced"></p>
+    <p id="syncState"></p>
     <p>الدرجات والحضور والرسائل ما تظهر هنا لأنها تحتاج تسجيل دخول في EduPage.</p>
     <button class="btn-sm" id="resetBtn" type="button">مسح كل العلامات</button>
   </footer>
@@ -1025,7 +1027,8 @@ let DATA = {items:[]};
 try { DATA = JSON.parse(document.getElementById("edupage-data").textContent); } catch (e) {}
 const ITEMS = (DATA.items || []).concat(EXTRA, ixlItems(todayISO()));
 
-let S = (() => { try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v.done === "object") return v; } catch (e) {} return {done:{}}; })();
+function loadState(){ try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v.done === "object") return v; } catch (e) {} return {done:{}}; }
+let S = loadState();
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 
 function todayISO(){
@@ -1225,6 +1228,16 @@ function renderPrint(){
 
 function renderAll(){ renderHello(); renderTodo(); renderTests(); renderDates(); renderHistory(); renderPrint(); }
 
+/* progress sync between devices (assets/sync.js and sync/index.html) */
+function renderSyncState(){
+  const s = window.MonmonSync ? MonmonSync.status() : null, on = !!(s && s.linked && s.err !== "code");
+  document.getElementById("syncState").innerHTML = (on ? "التقدم يتزامن بين أجهزة العائلة على هذا الجهاز. " : "هذا الجهاز ما يتزامن مع أجهزة العائلة. ") +
+    '<a href="sync/index.html">' + (on ? "تفاصيل المزامنة" : "طريقة الربط") + '</a>';
+}
+/* another device's ticks arrived: show them here without reloading */
+window.addEventListener("monmon-sync", e => { S = loadState(); renderAll(); e.preventDefault(); });
+window.addEventListener("monmon-sync-status", renderSyncState);
+
 document.getElementById("todo").addEventListener("click", e => {
   const btn = e.target.closest(".check");
   if (!btn) return;
@@ -1237,13 +1250,14 @@ document.getElementById("todo").addEventListener("click", e => {
 });
 document.getElementById("printBtn").addEventListener("click", () => window.print());
 document.getElementById("resetBtn").addEventListener("click", () => {
-  if (!confirm("تمسح كل العلامات على هذا الجهاز؟")) return;
+  if (!confirm("تمسح كل العلامات؟ إذا كان الجهاز مربوط بالمزامنة، تنمسح من كل الأجهزة المربوطة.")) return;
   S = {done:{}}; save(); renderAll();
 });
 
 renderAll();
 renderPractice();
 renderSynced();
+renderSyncState();
 </script>
 </body>
 </html>

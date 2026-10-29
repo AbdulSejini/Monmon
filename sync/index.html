@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مزامنة الأجهزة</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn-bg:#FFF0D1;
+  --shadow:4px 4px 0 var(--ink);
+  --r:14px;
+  --font:"Tajawal","Segoe UI","Geeza Pro",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+h1,h2{margin:0;line-height:1.25;font-weight:800}
+p{margin:0}
+:focus-visible{outline:3px solid #2F7DE1;outline-offset:3px}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 56px;display:grid;gap:18px}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);padding:18px}
+h1{font-size:30px}
+.lead{color:var(--ink-2);margin-top:6px}
+.status{display:grid;gap:12px}
+.state{display:flex;align-items:center;gap:12px}
+.dot{flex:none;width:44px;height:44px;border-radius:50%;border:3px solid var(--ink);display:grid;place-items:center;background:var(--sun-2)}
+.dot svg{width:24px;height:24px;fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.status.ok .dot{background:var(--good-bg)} .status.bad .dot{background:var(--bad-bg)} .status.warn .dot{background:var(--warn-bg)}
+.state h2{font-size:22px}
+.state p{color:var(--ink-2);font-size:15px}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.btn{min-height:44px;padding:8px 16px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:800;font-size:16px;box-shadow:3px 3px 0 var(--ink)}
+.btn.main{background:var(--sun)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.copy-note{font-size:14px;color:var(--good);font-weight:700}
+.linkbox{width:100%;font:inherit;font-size:14px;direction:ltr;padding:8px;border:2px solid var(--ink);border-radius:10px}
+.panel h2{font-size:20px;margin-bottom:8px}
+.panel ul{margin:0;padding-inline-start:20px;display:grid;gap:4px}
+.small{font-size:14px;color:var(--ink-2)}
+</style>
+</head>
+<body>
+<script src="../assets/sync.js"></script>
+<script src="../assets/site-nav.js" data-root="../"></script>
+<main class="wrap">
+  <header>
+    <h1>مزامنة الأجهزة</h1>
+    <p class="lead">العلامات والتقدم يتزامنون بين كل جهاز انفتح عليه الرابط العائلي: كمبيوتر محمد، الآيباد، وجوالك.</p>
+  </header>
+
+  <section class="panel status" id="status" aria-live="polite">
+    <div class="state">
+      <span class="dot" id="dot" aria-hidden="true"></span>
+      <div><h2 id="stTitle">…</h2><p id="stText"></p></div>
+    </div>
+    <div class="row" id="actions" hidden>
+      <button class="btn main" id="syncBtn" type="button">زامن الحين</button>
+      <button class="btn" id="copyBtn" type="button">انسخ الرابط العائلي</button>
+      <button class="btn" id="unlinkBtn" type="button">فصل هذا الجهاز</button>
+    </div>
+    <p class="copy-note" id="copyNote" hidden></p>
+    <input class="linkbox" id="linkBox" type="text" readonly hidden aria-label="الرابط العائلي">
+  </section>
+
+  <section class="panel">
+    <h2>وش اللي يتزامن؟</h2>
+    <ul>
+      <li>علامات الواجبات في اللوحة وفي خطط الأسابيع.</li>
+      <li>علامات المهارات في خطة IXL.</li>
+      <li>أفضل الدرجات في ورقة التدريب.</li>
+      <li>التقدم في صفحات المذاكرة: الأسس، المستوى الإحداثي، العلوم، المفردات، والحاسب.</li>
+    </ul>
+  </section>
+
+  <section class="panel">
+    <h2>كيف تشتغل؟</h2>
+    <ul>
+      <li>افتح الرابط العائلي مرة وحدة على كل جهاز. بعدها كل شيء تلقائي.</li>
+      <li>العلامة توصل خلال ثوانٍ، وتقدّم الاختبارات كل كم دقيقة، والباقي لما تقفل الصفحة.</li>
+      <li>الصفحة المفتوحة على جهاز ثاني تتحدث وحدها، والمقفلة تجيب الجديد أول ما تنفتح.</li>
+      <li>مسح العلامات في جهاز مربوط يمسحها من كل الأجهزة المربوطة.</li>
+      <li>بدون إنترنت يبقى كل شيء محفوظ على الجهاز، ويتزامن لما يرجع الاتصال.</li>
+    </ul>
+  </section>
+
+  <section class="panel">
+    <h2>الخصوصية</h2>
+    <p class="small">التقدم محفوظ في قاعدة بيانات Firebase خاصة بالعائلة، وما أحد يقدر يشوفه أو يغيّره بدون الرابط العائلي، فلا تنشره. الموقع نفسه عام، ومن يفتحه بدون الرابط يشوف صفحات فاضية من العلامات.</p>
+    <p class="small" style="margin-top:8px">في الآيباد والآيفون: إذا ما انفتح الموقع على الجهاز فترة طويلة، ممكن Safari يمسح بيانات الموقع. افتح الرابط العائلي مرة ثانية ويرجع كل التقدم.</p>
+  </section>
+</main>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const S = window.MonmonSync;
+const ICON = {
+  ok:'<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  wait:'<svg viewBox="0 0 24 24"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="8"/></svg>',
+  bad:'<svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg>',
+  off:'<svg viewBox="0 0 24 24"><path d="M9 15l6-6"/><path d="M10.5 6.5l1.6-1.6a4 4 0 0 1 5.7 5.7l-1.6 1.6M13.5 17.5l-1.6 1.6a4 4 0 0 1-5.7-5.7l1.6-1.6"/></svg>'
+};
+let linking = false;
+
+function ago(t){
+  const m = Math.round((Date.now() - t) / 60000);
+  if (m < 1) return "الحين";
+  if (m === 1) return "قبل دقيقة";
+  if (m === 2) return "قبل دقيقتين";
+  if (m <= 10) return "قبل " + m + " دقائق";
+  if (m < 60) return "قبل " + m + " دقيقة";
+  const d = new Date(t);
+  return "الساعة " + d.getHours() + ":" + String(d.getMinutes()).padStart(2, "0") + (Date.now() - t > 864e5 ? " يوم " + d.getDate() + "/" + (d.getMonth() + 1) : "");
+}
+function show(kind, title, text){
+  $("status").className = "panel status " + (kind === "ok" ? "ok" : kind === "bad" ? "bad" : kind === "warn" ? "warn" : "");
+  $("dot").innerHTML = ICON[kind === "warn" ? "wait" : kind] || ICON.wait;
+  $("stTitle").textContent = title;
+  $("stText").textContent = text;
+}
+function render(){
+  if (!S) { show("bad", "المزامنة ما تشتغل على هذا المتصفح", "المتصفح يمنع حفظ البيانات (ممكن التصفح الخاص). جرّب متصفح عادي."); return; }
+  const s = S.status();
+  $("actions").hidden = !s.linked || s.err === "code";
+  if (linking) return show("wait", "جاري ربط هذا الجهاز…", "ثواني ويجيب تقدّم الأجهزة الثانية.");
+  if (!s.linked) return show("off", "هذا الجهاز غير مربوط", "افتح الرابط العائلي على هذا الجهاز مرة وحدة، وبعدها يتزامن التقدم تلقائياً.");
+  if (s.err === "code") return show("bad", "الرابط العائلي غير صحيح", "ممكن الرابط تغيّر. افتح الرابط العائلي الجديد على هذا الجهاز.");
+  if (!s.ready) return show("warn", "الجهاز مربوط، وأول مزامنة ما خلصت", s.err === "net" ? "ما قدر يتصل الحين، وبيحاول مرة ثانية تلقائياً." : "ثواني…");
+  if (s.err === "net") return show("warn", "مربوط، وما في اتصال الحين", "التقدم محفوظ على الجهاز، ويتزامن لما يرجع الاتصال. آخر مزامنة: " + ago(s.last) + ".");
+  show("ok", "هذا الجهاز مربوط ويتزامن", "آخر مزامنة: " + ago(s.last) + (s.waiting ? "، وفيه تغييرات بتنرسل بعد ثواني." : "."));
+}
+
+function familyLink(){ return location.origin + location.pathname + "#code=" + S.status().code; }
+$("syncBtn").addEventListener("click", () => { show("wait", "جاري المزامنة…", ""); S.sync().then(render); });
+$("copyBtn").addEventListener("click", () => {
+  const url = familyLink(), note = $("copyNote");
+  const done = ok => { note.hidden = false; note.textContent = ok ? "انتسخ الرابط. أرسله لجهاز العائلة الثاني وافتحه هناك." : "انسخ الرابط من المربع:"; $("linkBox").hidden = ok; if (!ok) { $("linkBox").value = url; $("linkBox").select(); } };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(() => done(true), () => done(false)); else done(false);
+});
+$("unlinkBtn").addEventListener("click", () => {
+  if (!confirm("تفصل هذا الجهاز عن المزامنة؟ التقدم يبقى محفوظ عليه، بس ما يتزامن بعدها.")) return;
+  S.unlink(); $("copyNote").hidden = true; $("linkBox").hidden = true; render();
+});
+window.addEventListener("monmon-sync-status", render);
+setInterval(render, 30000);
+
+/* the family link: #code=... links this device, then the code is taken out of the address bar
+   (also when the link is opened while this page is already open, which only changes the hash) */
+function fromLink(){
+  const m = /[#&]code=([A-Za-z0-9_-]{16,128})/.exec(location.hash);
+  if (!m || !S) return false;
+  history.replaceState(null, "", location.pathname + location.search);
+  linking = true; render();
+  S.link(m[1]).then(() => { linking = false; render(); }, () => { linking = false; render(); });
+  return true;
+}
+window.addEventListener("hashchange", fromLink);
+if (!fromLink()) render();
+</script>
+</body>
+</html>

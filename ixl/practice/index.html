@@ -292,6 +292,7 @@ details.hint li b{font-weight:800}
 </style>
 </head>
 <body>
+<script src="../../assets/sync.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <header class="topbar">
   <div class="topbar-in">
@@ -372,8 +373,8 @@ details.hint li b{font-weight:800}
   </section>
 
   <footer class="foot">
-    <p>The questions come from a printed practice sheet for skills practised on IXL. Best scores are saved on this device only. A section's score is saved from the first check after a fresh start, so press Try again before another go.</p>
-    <div class="row"><button class="btn btn-sm" id="resetAll" type="button">Clear the saved scores on this device</button></div>
+    <p>The questions come from a printed practice sheet for skills practised on IXL. Best scores are saved on this device, and on the family's linked devices. A section's score is saved from the first check after a fresh start, so press Try again before another go.</p>
+    <div class="row"><button class="btn btn-sm" id="resetAll" type="button">Clear the saved scores</button></div>
   </footer>
 </main>
 
@@ -651,6 +652,8 @@ function loadBest(){
   } catch (e) { return {}; }
 }
 let S = {best: loadBest()};
+/* another device's best scores arrived (assets/sync.js): show them here without reloading */
+window.addEventListener("monmon-sync", e => { S.best = loadBest(); renderTotals(); e.preventDefault(); });
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 
 /* per-section screen state: chosen buttons, answers shown, fresh start */
@@ -977,7 +980,7 @@ $("#qzIn").addEventListener("keydown", e => {
   if (QZ.state === "ask") qzCheck(); else qzNext();
 });
 $("#resetAll").addEventListener("click", () => {
-  if (!confirm("Clear the saved best scores on this device?")) return;
+  if (!confirm("Clear the saved best scores? On a linked device this clears them on the family's other devices too.")) return;
   S = {best:{}};
   try { localStorage.removeItem(KEY); } catch (e) {}
   renderTotals();

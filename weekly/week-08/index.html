@@ -242,6 +242,7 @@ details.helper[open] summary::before{content:"−"}
 </style>
 </head>
 <body>
+<script src="../../assets/sync.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <header class="topbar">
   <div class="topbar-in">
@@ -708,7 +709,7 @@ function renderPrint(){
 document.getElementById("printBtn").addEventListener("click", () => { renderPrint(); window.print(); });
 window.addEventListener("beforeprint", renderPrint);
 document.getElementById("resetBtn").addEventListener("click", () => {
-  if (!confirm("Clear this week's homework ticks on this device?")) return;
+  if (!confirm("Clear this week's homework ticks? On a linked device this clears them on the family's other devices too.")) return;
   HW.forEach(h => delete S.done[h.ep]); save(); renderHomework(); updateMeter(false); renderPrint();
 });
 
