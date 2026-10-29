@@ -18,7 +18,7 @@
   var OFF = "monmon-sync-off";   /* "1" on a device where sync was switched off on sync/index.html */
   var META = "monmon-sync-v1";   /* {code, rev, flat, base, ready, last, err}: flat and base are the progress as the database last sent it */
   var KEYS = ["monmon-done-v1", "monmon-ixl-plan-v1", "monmon-ixl-practice-v1",
-    "futurelab-g6-ict-q1-v1", "gridquest-envision-2-4-2-5-v1", "powerlab-envision-3-1-v1",
+    "futurelab-g6-ict-q1-v1", "gridquest-envision-2-4-2-5-v1", "powerlab-envision-3-1-v1", "factorlab-envision-3-2-3-3-v1",
     "signallab-g6-m2-l5-v1", "flowlab-g6-m2-l4-v1", "reviewquest-sadlier-a-units1-3-v1", "wordquest-sadlier-unit2-v1"];
   var KEYSET = {};
   KEYS.forEach(function (k) { KEYSET[k] = 1; });

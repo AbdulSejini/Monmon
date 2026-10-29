@@ -35,14 +35,13 @@ ul,ol{margin:0;padding:0;list-style:none}
 .s-ict{--col:#5B6270;--tint:#E7E9EE} .s-ixl{--col:#12A15E;--tint:#DCF7E9}
 .panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
 
-/* top bar */
-.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+/* top bar: scrolls away; the site strip above it (assets/site-nav.js) stays */
+.topbar{position:static;background:var(--paper);border-bottom:3px solid var(--ink)}
 .topbar-in{max-width:860px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
 .logo{font-size:28px;font-weight:800;color:var(--sun);-webkit-text-stroke:1.2px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg);white-space:nowrap;line-height:1.2}
 .chip-class{font-size:13px;font-weight:800;background:var(--ink);color:#fff;padding:3px 9px;border-radius:6px;white-space:nowrap}
 .spacer{flex:1}
 .top-link{font-size:14px;font-weight:800;text-decoration:none;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:var(--sun-2);box-shadow:2px 2px 0 var(--ink);white-space:nowrap}
-.top-link.ixl-link{background:#12A15E;color:#fff;text-shadow:1px 1px 0 var(--ink)}
 .top-link .short{display:none}
 .top-link svg{display:none;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-4px}
 
@@ -56,6 +55,20 @@ ul,ol{margin:0;padding:0;list-style:none}
 .tile b.small{font-size:19px}
 .tile span{font-size:13px;font-weight:700;color:var(--ink-2)}
 .tile.hot{background:var(--sun-2)}
+/* today alert: tests and projects one by one, homework grouped by due date, then the nearest test */
+.alert{border:3px solid var(--ink);border-radius:var(--r-sm);background:var(--sun);padding:12px 14px;display:grid;gap:8px;box-shadow:var(--shadow-sm)}
+.alert h2{font-size:23px;display:flex;align-items:center;gap:8px}
+.alert h2 svg{width:26px;height:26px;flex:none}
+.alert ul{display:grid;gap:6px}
+.alert li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;background:var(--paper);border:2px solid var(--ink);border-radius:8px;padding:7px 10px;font-size:15px;font-weight:700}
+.alert li.hot{background:var(--bad-bg)}
+.alert .when{font-size:13px;font-weight:800;padding:1px 9px;border-radius:999px;background:var(--ink);color:#fff;white-space:nowrap}
+.alert li.hot .when{background:var(--bad)}
+.alert .subj{font-size:13px}
+.alert .what{min-width:0;overflow-wrap:anywhere}
+.alert li a,.alert .more a{font-weight:800;color:#1F5FB8;white-space:nowrap}
+.alert .more{font-size:15px;font-weight:700}
+.alert .more b{font-weight:800}
 .week-btn{justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--sun);font-weight:800;text-decoration:none;box-shadow:var(--shadow-sm)}
 .week-btn:active{transform:translate(3px,3px);box-shadow:none}
 
@@ -163,14 +176,12 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
 </head>
 <body>
 <script src="assets/sync.js"></script>
+<script src="assets/site-nav.js" data-root=""></script>
 <header class="topbar">
   <div class="topbar-in">
     <span class="logo">لوحتي</span>
     <span class="chip-class">الصف 6.3</span>
     <span class="spacer"></span>
-    <a class="top-link ixl-link" href="ixl/index.html">خطة IXL</a>
-    <a class="top-link" id="topWeek" href="#" hidden><span class="long">خطة الأسبوع</span><span class="short">الأسبوع</span></a>
-    <a class="top-link" href="#practice"><span class="long">كل الصفحات</span><span class="short">الصفحات</span></a>
     <button class="top-link" id="printBtn" type="button" aria-label="طباعة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg><span class="long">طباعة</span></button>
   </div>
 </header>
@@ -182,6 +193,7 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
       <p class="today" id="today"></p>
       <p class="note" id="stale" hidden></p>
     </div>
+    <div class="alert" id="todayBox" role="region" aria-labelledby="todayTitle"></div>
     <div class="tiles">
       <div class="tile hot"><b id="tTodo">0</b><span>واجبات باقية</span></div>
       <div class="tile"><b id="tTests">0</b><span>اختبارات قادمة</span></div>
@@ -915,10 +927,10 @@ const PRACTICE_BY_ID = {
   "2026-10-28-058D4164C010604689B9": ["science/control-information/index.html", "راجع درس التحكم والحواس"],
   "2026-10-29-1D91EF9EED5D8D8B": ["ict/technofuture/index.html", "ذاكر للاختبار العملي وتدرّب عليه"],
   "2026-11-01-C2D1CC524AB448DF": ["weekly/week-10/index.html#hw-bewell", "جهّز العرض خطوة بخطوة"],
-  "2026-11-02-AF0E0C5514DF10DC0F24": ["weekly/week-10/index.html#hw-math101", "تذكير القاسم والمضاعف المشترك"],
+  "2026-11-02-AF0E0C5514DF10DC0F24": ["math/factors-expressions/index.html#/zone/1", "تدرّب على القاسم المشترك الأكبر"],
   "2026-11-02-FD9143A00DB8BAD90E78": ["weekly/week-10/index.html#hw-sci101", "قارن الخلية النباتية والحيوانية"],
   "2026-11-03-3F1AE8E0CCB975280BA3": ["weekly/week-10/index.html#hw-eng101", "تذكير ضمائر الفاعل والمفعول"],
-  "2026-11-05-C76C6FC82FDC4EBF77D9": ["weekly/week-10/index.html#hw-math102", "تذكير ترتيب العمليات"],
+  "2026-11-05-C76C6FC82FDC4EBF77D9": ["math/factors-expressions/index.html#/zone/4", "تدرّب على ترتيب العمليات"],
   "2026-11-05-6632DC8C9C4FDB251225": ["weekly/week-10/index.html#hw-eng102", "شكل الرسالة الودية"],
   "ixl-teacher-wxw": ["https://www.ixl.com/science/grade-6/understanding-cells", "افتح المهارة في IXL"],
   "ixl-quiz-19-1": ["https://www.ixl.com/signin", "ادخل IXL ثم Quizzes"],
@@ -990,6 +1002,7 @@ const PRACTICE_GROUPS = [["now","ابدأ من هنا"], ["math","الرياضي
 const PRACTICE_PAGES = [
   {group:"now", kind:"خطة IXL", href:"ixl/index.html", title:"خطة IXL لاختبار MAP", text:"المواد الأربع في 16 أسبوع: مهارات كل يوم بروابطها، وهدف كل مهارة.", cls:"s-ixl"},
   {group:"now", kind:"تدريب", href:"ixl/practice/index.html", title:"ورقة التدريب", text:"الأزمنة، صفات الشخصيات، المستوى الإحداثي، الكسور، الأسس، المفردات والعلوم، مع التصحيح.", cls:"s-ixl"},
+  {group:"math", kind:"درس تفاعلي", href:"math/factors-expressions/index.html", title:"العوامل والمضاعفات وترتيب العمليات", text:"الدرسان 3-2 و3-3: القاسم المشترك الأكبر والمضاعف المشترك الأصغر، ومسائلهما، وترتيب العمليات وكتابة التعابير.", cls:"s-math"},
   {group:"math", kind:"درس تفاعلي", href:"math/exponents/index.html", title:"الأسس", text:"الدرس 3-1: كتابة القوى وحسابها، والكسور والأعداد العشرية، وقوى العدد 10.", cls:"s-math"},
   {group:"math", kind:"درس تفاعلي", href:"math/coordinate-plane/index.html", title:"المستوى الإحداثي", text:"الدرسان 2-4 و2-5: تمثيل النقاط وإيجاد المسافة.", cls:"s-math"},
   {group:"sci", kind:"درس تفاعلي", href:"science/control-information/index.html", title:"التحكم والحواس", text:"الجهاز العصبي والدماغ، وكيف توصل الحواس الخمس المعلومات للدماغ.", cls:"s-sci"},
@@ -1093,8 +1106,54 @@ function renderHello(){
   document.getElementById("tNext").textContent = next ? shortDate(next) : "—";
   const btn = document.getElementById("weekBtn");
   if (WEEK_PAGES[schoolWeek]) { btn.href = WEEK_PAGES[schoolWeek]; btn.textContent = "خطة الأسبوع " + schoolWeek + " بالتفصيل ←"; btn.hidden = false; }
-  const cur = currentWeekPage(), top = document.getElementById("topWeek");
-  if (cur) { top.href = WEEK_PAGES[cur]; top.hidden = false; }
+}
+
+/* ---------- today alert ---------- */
+function hourNow(){
+  try { return +new Intl.DateTimeFormat("en-GB", {timeZone:TZ, hour:"2-digit", hourCycle:"h23"}).format(new Date()); }
+  catch (e) { return new Date().getHours(); }
+}
+/* the next day with school: Sunday after Thursday, Friday and Saturday */
+function nextSchoolDay(iso){ const wd = parts(iso).wd; return addDays(iso, wd === 4 ? 3 : wd === 5 ? 2 : 1); }
+function dayWord(iso){ const n = dayDiff(TODAY, iso); return n === 0 ? "اليوم" : n === 1 ? "غدًا" : shortDate(iso); }
+/* the first line of an item's text, without links, cut at a word */
+function brief(s, n){
+  const t = String(s).split("\n")[0].replace(/https?:\/\/\S+/g, "").replace(/\s+/g, " ").trim();
+  return t.length > n ? t.slice(0, n).replace(/\s+\S*$/, "") + "…" : t;
+}
+const ICON_BELL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z" fill="#fff" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M10 20a2 2 0 0 0 4 0" fill="none" stroke="#14163A" stroke-width="2" stroke-linecap="round"/></svg>';
+function renderToday(){
+  /* a test today still counts until school is over (15:00 Jeddah time) */
+  const nextDay = nextSchoolDay(TODAY), afterSchool = hourNow() >= 15;
+  const coming = tests.filter(i => i.date > TODAY || !afterSchool).sort((a, b) => a.date.localeCompare(b.date));
+  /* only what has been set already; a project dated on its own deadline counts from now */
+  const open = todo.filter(i => !S.done[i.id] && (i.date <= TODAY || !asked(i)));
+  const rows = [];
+  const one = (when, i) => {
+    const [sName, sCls] = subj(i.subject), prac = PRACTICE_BY_ID[i.id];
+    return '<li class="hot ' + sCls + '"><span class="when">' + esc(when) + '</span><span class="subj">' + esc(sName) + '</span>' +
+      '<span class="what" dir="auto">' + esc(brief(i.text, 80)) + '</span>' +
+      (prac ? '<a href="' + prac[0] + '"' + (/^https?:/.test(prac[0]) ? ' target="_blank" rel="noopener"' : "") + '>' + esc(prac[1]) + ' ←</a>' : "") + '</li>';
+  };
+  coming.filter(i => i.date <= nextDay).forEach(i => rows.push(one("اختبار " + dayWord(i.date), i)));
+  open.filter(i => i.kind !== "hw" && dayDiff(TODAY, i.due) <= 7).sort((a, b) => a.due.localeCompare(b.due))
+    .forEach(i => rows.push(one(typeAr(i.type) + " " + dayWord(i.due), i)));
+  /* homework: one line for each of the next two due dates */
+  const hw = open.filter(i => i.kind === "hw");
+  [...new Set(hw.map(i => i.due))].sort().slice(0, 2).forEach(due => {
+    const list = hw.filter(i => i.due === due), [sName, sCls] = subj(list[0].subject);
+    const what = list.length === 1 ? '<span class="subj">' + esc(sName) + '</span><span class="what" dir="auto">' + esc(brief(list[0].text, 70)) + '</span>'
+      : '<span class="what">' + esc(count(list.length, "واجب واحد", "واجبين", "واجبات", "واجبًا") + ": " + [...new Set(list.map(i => subj(i.subject)[0]))].join("، ")) + '</span>';
+    rows.push('<li' + (list.length === 1 ? ' class="' + sCls + '"' : "") + '><span class="when">يسلّم ' + esc(dayWord(due)) + '</span>' + what + '<a href="#todo">القائمة ←</a></li>');
+  });
+  if (!rows.length) rows.push('<li><span class="what">ما عليه شيء مطلوب الحين. يقدر يتقدّم في <a href="ixl/index.html">خطة IXL</a>.</span></li>');
+  const first = coming[0], listed = first && first.date <= nextDay;
+  const nearest = first ? (listed ? "" : '<p class="more"><b>أقرب اختبار:</b> ' + esc(subj(first.subject)[0]) + ' · <span dir="auto">' + esc(brief(first.text, 60)) + '</span> · ' +
+      esc(shortDate(first.date)) + ' (' + esc(whenLabel(dayDiff(TODAY, first.date))) + ')</p>')
+    : '<p class="more">ما فيه اختبارات معلنة الحين.</p>';
+  const {week} = weekInfo();
+  const plan = WEEK_PAGES[week] ? '<p class="more"><a href="' + WEEK_PAGES[week] + '#tonight">ترتيب مذاكرة الليلة خطوة بخطوة ←</a></p>' : "";
+  document.getElementById("todayBox").innerHTML = '<h2 id="todayTitle">' + ICON_BELL + 'المطلوب اليوم</h2><ul>' + rows.join("") + '</ul>' + nearest + plan;
 }
 
 function itemCard(i){
@@ -1246,7 +1305,7 @@ function renderPrint(){
     '<p class="ps-foot">' + esc(syncedText()) + ' المصدر: EduPage ورسائله والخطة الأسبوعية للمدرسة.</p>';
 }
 
-function renderAll(){ renderHello(); renderTodo(); renderTests(); renderDates(); renderHistory(); renderPrint(); }
+function renderAll(){ renderHello(); renderToday(); renderTodo(); renderTests(); renderDates(); renderHistory(); renderPrint(); }
 
 /* progress sync between devices (assets/sync.js and sync/index.html) */
 function renderSyncState(){

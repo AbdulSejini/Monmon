@@ -353,6 +353,11 @@ const PAGES = {
   lab:{href:"../../science/control-information/index.html#/lab", label:"Label the eye and ear"},
   cell:{href:"../../science/moving-material/index.html#/cell", label:"Cell Lab"},
   exp:{href:"../../math/exponents/index.html", label:"Exponent practice"},
+  fl:{href:"../../math/factors-expressions/index.html", label:"Factor Lab"},
+  flgcf:{href:"../../math/factors-expressions/index.html#/zone/1", label:"Factor Lab: factors and the GCF"},
+  fllcm:{href:"../../math/factors-expressions/index.html#/zone/2", label:"Factor Lab: the LCM"},
+  flword:{href:"../../math/factors-expressions/index.html#/zone/3", label:"Factor Lab: GCF or LCM?"},
+  florder:{href:"../../math/factors-expressions/index.html#/zone/4", label:"Factor Lab: order of operations"},
   ixl:{href:"../../ixl/index.html", label:"IXL plan"},
   w9:{href:"../week-09/index.html", label:"Week 9 plan"},
   talk:{href:"#hw-bewell", label:"Presentation planner"},
@@ -380,14 +385,14 @@ const TIMETABLE = {
     {s:"sci", topic:SCI_L5 + "Lesson Review. STEM Module Project: Body of Evidences. Module Wrap-Up.", page:"review",
      paper:"L5: Lesson Review, STEM Module Project, Module Wrap-Up"},
     {s:"soc", topic:{ar:"تقويم الوحدة الثانية"}},
-    {s:"math", topic:GCF + " (Part 1)"},
+    {s:"math", topic:GCF + " (Part 1)", page:"flgcf"},
     {s:"ar", topic:{ar:KANA + "ص 90"}, hw:["ar"]},
     {s:"well", topic:"Project: The Values That Define Me. A 3-minute individual presentation about one value.", test:"bewell",
      paper:"Values presentation, 3 minutes"},
     {s:"eng", topic:VOCAB}
   ],
   mon:[
-    {s:"math", topic:GCF + " (Part 2)", hw:["math101"]},
+    {s:"math", topic:GCF + " (Part 2)", hw:["math101"], page:"fllcm"},
     {s:"isl", topic:{ar:"التوحيد / مظاهر الشرك"}},
     {s:"pe", topic:{ar:"أن يتعلم الطالب مهارة ضرب الكرة بالرأس"}},
     {s:"quran", topic:{ar:"حفظ سورة القلم 34-39"}},
@@ -400,7 +405,7 @@ const TIMETABLE = {
   tue:[
     {s:"isl", topic:{ar:"الحديث / هدي النبي صلى الله عليه وسلم في معاملة القائمين على قضاء حوائجه"}, hw:["isl"]},
     {s:"eng", topic:G73, hw:["eng101"]},
-    {s:"math", topic:GCF + " (Part 3)"},
+    {s:"math", topic:GCF + " (Part 3)", page:"flword"},
     {s:"quran", topic:{ar:"تلاوة سورة الكهف 23-27"}},
     {s:"art", topic:{ar:"تعلم طريقة الطبيعة بورق الاستنسل"}},
     {s:"sci", topic:SCI_L1 + "What controls traits?", hw:["sci102"]},
@@ -414,7 +419,7 @@ const TIMETABLE = {
     {s:"quran", topic:{ar:"تقييم تلاوة سورة الكهف 23-27"}, test:"kahf"}
   ],
   thu:[
-    {s:"math", topic:"Lesson 3-3: Write and Evaluate Numerical Expressions, pp. 137–142", hw:["math102"], page:"exp",
+    {s:"math", topic:"Lesson 3-3: Write and Evaluate Numerical Expressions, pp. 137–142", hw:["math102"], page:"florder",
      paper:"Lesson 3-3: Numerical Expressions, pp. 137–142"},
     {s:"eng", topic:"Writing: a Friendly Letter, Grammar for Writing book pp. 46–49", hw:["eng102"]},
     {s:"sci", topic:SCI_L1 + "How can you predict what offspring will look like?"},
@@ -450,7 +455,7 @@ const HW = [
    ar:"واجب الأسبوع العاشر: حل الواجب المنزلي صـ 98"},
   {id:"math101", ep:"2026-11-02-AF0E0C5514DF10DC0F24", s:"math", code:"HW 10.1", day:"mon", due:"2026-11-07",
    title:"IXL: Greatest common factor", detail:"Lesson 3-2. Minimum score: 70%.",
-   links:[["https://www.ixl.com/math/grade-6/greatest-common-factor", "Open on IXL"]], helper:"gcf"},
+   links:[["https://www.ixl.com/math/grade-6/greatest-common-factor", "Open on IXL"]], helper:"gcf", page:"flgcf", pageLabel:"Practise in Factor Lab"},
   {id:"sci101", ep:"2026-11-02-FD9143A00DB8BAD90E78", s:"sci", code:"HW 10.1", day:"mon", due:"2026-11-07",
    title:"IXL: Compare cells and cell parts", detail:"Skill 1 on IXL. Target: at least 70%.",
    links:[["https://www.ixl.com/science/grade-6/compare-cells-and-cell-parts", "Open on IXL"]],
@@ -466,7 +471,7 @@ const HW = [
    title:"Notebook: Lesson 3-3, Write and Evaluate Numerical Expressions",
    detail:"As set: page 133 (Q 7, 9, 11, 13) and page 128 (Q 15, 19, 22, 25). Solve in the math notebook and show the steps.",
    warn:"Check the pages with the math teacher: the homework is for Lesson 3-3 (pages 137–142 in the plan), but page 133 is in Lesson 3-2 and page 128 is in Lesson 3-1.",
-   helper:"order", page:"exp", pageLabel:"Practise powers first"},
+   helper:"order", page:"florder", pageLabel:"Practise in Factor Lab"},
   {id:"eng102", ep:"2026-11-05-6632DC8C9C4FDB251225", s:"eng", code:"HWK 10.2", day:"thu", due:"2026-11-07",
    title:"Writing: a friendly letter about a new hobby",
    detail:"Write to a friend about a new hobby you would like to try: why you chose it, what you will need, and how you plan to learn it. Bring the English notebook for correction.",
@@ -482,6 +487,7 @@ const PLAN = {
        ["Sunday's Science (P2–P3) ends Lesson 5 with sight and the Lesson Review: try the 20-question review.", "review"]],
   sun:[["Read Al-Qalam 34–39 five times: tomorrow's Qur'an lesson (P4) memorises it, and Thursday (P8) is the memorisation check.", null, true],
        ["Arabic homework, page 98 (due Saturday 7/11).", null],
+       ["Math: Factor Lab zone 1, factors and the GCF, to go with today's lesson.", "flgcf"],
        ["The IXL plan's week 1 starts today: the plan page lists today's skills.", "ixl"]],
   mon:[["Math HW 10.1 on IXL: greatest common factor, 70% or more.", "gcf", true],
        ["Science HW 10.1 on IXL: compare cells and cell parts.", "cells"],
@@ -775,6 +781,7 @@ function renderPlan(){
 /* ---------- study pages ---------- */
 function renderStudy(){
   const cards = [
+    {cls:"s-math", page:"fl", title:"Factor Lab", text:"Lessons 3-2 and 3-3 in five zones: factors and the GCF, the LCM, GCF or LCM word problems, the order of operations, and writing expressions. Ready for HW 10.1 and 10.2."},
     {cls:"s-sci", page:"review", title:"Signal Lab", text:"Sunday's Science ends Lesson 5 with sight and the Lesson Review. The lab has the 8 parts, the Label Lab for the eye and ear, and a 20-question review."},
     {cls:"s-sci", page:"cell", title:"Cell Lab", text:"Warm-up for Science HW 10.1: what each animal cell part does. The homework list adds what plant cells have that animal cells don't."},
     {cls:"s-math", page:"exp", title:"Power Lab", text:"Lesson 3-3 puts powers inside expressions, like 3 + 2³ × 4, and page 128 in HW 10.2 is from the exponents lesson."},
