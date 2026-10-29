@@ -11,8 +11,9 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 - `tools/edupage_sync.py` re-reads that list and rewrites the data block in `index.html` (standard library only; `--dry-run` prints the items without changing anything). The block keeps two times: `synced`, when the list last changed, and `checked`, when it was last read (stamped at least once a day). If the list hasn't been read for two days, the dashboard shows a warning at the top.
 - `.github/workflows/edupage-sync.yml` runs it every hour from 05:41 to 23:41 Jeddah time and commits only when something changed, plus one "EduPage checked: no changes" commit a day. GitHub often starts scheduled runs late or skips some, so the hourly schedule keeps the site close to EduPage. If the school's server can't be reached, the run tries again next hour and only fails (with GitHub's failure email) once the list hasn't been read for 24 hours. The workflow can also be started by hand from the Actions tab ("Sync EduPage", then "Run workflow").
 - The site is published with GitHub Pages at <https://abdulsejini.github.io/Monmon/>, built from the root of the main branch (`.nojekyll` serves the files as they are). Any commit to the main branch, including the sync's, goes live within a couple of minutes.
-- Every page, the dashboard included, has the same dark strip at the top (`assets/site-nav.js`): the home page, this week's plan, the IXL plan and the list of study pages. It stays on screen while the page scrolls, with the page's own bar just under it, so there is always a way back; on phones it uses short labels. Pages that scroll to an element themselves read its height from `--site-nav-h`.
+- Every page, the dashboard included, has the same dark strip at the top (`assets/site-nav.js`): the home page, this week's plan, the IXL plan and the list of study pages. It stays on screen while the page scrolls, with the page's own bar just under it, so there is always a way back; on phones it uses short labels. Pages that scroll to an element themselves read its height from `--site-nav-h`. On pages that don't load the Arabic font (Tajawal) for their own text, the strip loads it.
 - Under the greeting, «المطلوب اليوم» says what to do now: tests on the next school day and graded projects one by one, homework that has been set grouped by due date (the next two dates), the nearest test with a countdown, and a link to tonight's jobs on the week's plan. A test on the day itself counts until 15:00 Jeddah time.
+- Under it, «إنجازاتي» shows his level, today's goal, the streak of study days and the latest stickers, with a link to the album (see [Rewards](#rewards-points-stickers-and-celebrations)).
 - The study pages are grouped: "start here" (this week's plan, next week's once it is ready, the IXL plan and the practice sheet), then math, science, English and ICT, then older weekly plans. The IXL plan (below) adds one homework item a week from the week's first day, with how many of its skills are done; the plan page ticks the item when every skill of that week is done. Teacher assignments found on IXL can be added to `EXTRA` with a direct link to the skill.
 - Notes on what to study or bring, items from the Weekly Study Plan or the class's EduPage messages that the public list doesn't have (`EXTRA`), due dates that the list leaves out but the Weekly Study Plan or Weekly Events give (`DUE_FIX`, for example the Be Well presentation on 1 Nov, which EduPage dates without a deadline), school calendar dates (`SCHOOL_DATES`) and class notices (`NOTICES`) are kept by hand near the top of the script in `index.html`. Nothing personal (messages to or about the student, reports, behaviour notes) goes on this public site.
 
@@ -61,13 +62,38 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 
 Each page is a single self-contained HTML file: open it in a browser, no build step or server needed.
 
-Every study page also loads `assets/site-nav.js`, which puts the same navigation strip at the top: the dashboard (لوحتي), this week's plan, the IXL plan and the list of all pages. It picks this week's plan from the date, so when a new weekly plan is added, add it to `WEEK_PAGES` there as well as in `index.html`.
+Every study page also loads `assets/site-nav.js`, which puts the same navigation strip at the top: the dashboard (لوحتي), this week's plan, the IXL plan and the list of all pages. It picks this week's plan from the date, so when a new weekly plan is added, add it to `WEEK_PAGES` there as well as in `index.html`. Right after it comes `assets/rewards.js` (below), so a new page should load all three: `sync.js`, `site-nav.js` and `rewards.js`.
+
+## Rewards (points, stickers and celebrations)
+
+`assets/rewards.js` makes studying on the site feel rewarding for an 11-year-old, without changing the pages themselves:
+
+- **Points** come from the progress the pages already save and sync, so every device shows the same total: 50 for each tick on the dashboard and the week plans, 30 for each IXL skill that reached its target, 10 for each question in the practice sheet's best scores, and each XP point in the interactive lessons (a right answer is 10). Points, levels and stickers follow the highest total so far, so they never go down: unticking and ticking again doesn't count twice, and clearing the ticks takes nothing away.
+- **Levels:** level *n* starts at 50·*n*·(*n*−1) points, so each takes 100 more than the one before. The titles praise effort, from مبتدئ to أسطورة.
+- **Daily goal and streak:** the goal is 100 points a day, and 30 points make a day of the streak. Friday and Saturday never break the streak. Every 7 days in a row earn a shield (2 at most) that saves the streak on one missed school day.
+- **Sticker album,** [`rewards/index.html`](rewards/index.html): four series of ten (space, desert and sea, sports, science and technology), each with common, rare and legendary stickers. The first three are a gift. After that a sticker opens every 200–380 points earned since the album started, and the order isn't shown, so the next one is a surprise. Once the album is full, every 500 points add a gold star. The page also shows the level, today's goal, the streak and the last two weeks' points, and tapping a sticker shows it again.
+- **Celebrations** only happen for progress saved on this device within seconds of a tap. Pages also save as they open, and another device's progress only updates the numbers. A celebration can be:
+  - a short toast with the points and a line that praises the work, never his cleverness, sometimes with a fun fact;
+  - a sound from a tiny synth, with a few versions of each sound. It can be switched off on the card or the album, and stays silent when a lesson's own sound is off;
+  - confetti, except with reduced motion;
+  - a card for the daily goal, a new level, a new sticker, a finished series or a gold star.
+
+  Right answers in the lessons get no toast of their own, because the lessons already celebrate them, but they count towards the goal.
+- **Where it shows:** the dashboard's «إنجازاتي» card, and a chip at the end of the strip (from 700 px wide) that opens the album. The first visit to the dashboard on each device explains the system once.
+- **Storage:**
+  - `monmon-activity-v1` (synced) keeps each day's points per device in `days[date][device]`, so two devices never overwrite each other. It also keeps the highest total (`peak`) and the total when the album started (`start`). The start is only set once a page has the family's progress, so a device that is behind doesn't move it.
+  - `monmon-fx-v1` (this device only) keeps the sound setting, the device's id and what this device already celebrated.
+  - `assets/sync.js` sends a `monmon-saved` event for each save made on this device. `MonmonSync.peek()` reads a value without counting as the page's own read.
+- **Why it works this way:**
+  - Unexpected rewards and praise that tells the child something about the work keep or raise interest, while rewards promised in advance for doing a task can lower it (Deci, Koestner and Ryan, 1999). So the sticker order is a surprise, and nothing is promised for a particular task.
+  - Praising effort rather than intelligence helps children keep going after mistakes (Mueller and Dweck, 1998).
+  - Points, badges and levels have a moderate positive effect on learning (Sailer and Homner, 2020).
 
 ## Progress sync between devices
 
 Progress is saved in each browser's localStorage. Every page (the dashboard included) also loads `assets/sync.js` before its own script, which keeps that progress in step across the family's devices through a Firebase Realtime Database. Every device that opens the site syncs, with no link or sign-in: the family chose that over opening a link on each device, so the progress is open to anyone who opens the site. The page [`sync/index.html`](sync/index.html) shows whether this device syncs and when it last did, and can switch sync off (or back on) on this device. An older family link (`sync/#code=…`) still works and just switches sync on.
 
-- **What syncs:** the keys in `KEYS` in `assets/sync.js`. These are the homework ticks (`monmon-done-v1`), the IXL plan ticks, the practice sheet's best scores, and the saved progress of each study page. When a new page saves progress, add its key there.
+- **What syncs:** the keys in `KEYS` in `assets/sync.js`. These are the homework ticks (`monmon-done-v1`), the IXL plan ticks, the practice sheet's best scores, the saved progress of each study page, and the rewards' log of points (`monmon-activity-v1`). When a new page saves progress, add its key there. Its `xp` then counts towards the rewards too.
 - **Sending:** ticks and best scores are sent within seconds. Quiz progress is sent a minute after the last answer, and at most 5 minutes after the first. Anything left is sent when the page is hidden or closed.
 - **Receiving:**
   - While a page is in front, the database streams the time of each change to it.
@@ -103,5 +129,6 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 | ICT, TechnoFuture | 2 pages: the PowerPoint window with its 9 parts labelled and a "How do I…?" table; then the three big procedures (link an action button, a picture on every slide, stop click-to-advance with Home and Return), futurist facts and a 10-question self-test with an answer key |
 | Vocabulary Unit 2 | 2 pages: word list, then "Test yourself" with an answer key |
 | Vocabulary Review Units 1–3 | 3 pages: one per unit, with a word table and a short test |
+| Sticker album | No paper version: the screen as it is, about 3 pages, without the strip and the sound button |
 
 Progress is saved in the browser of the device being used (`localStorage`). Homework ticks are shared between the dashboard and the weekly plans, keyed by EduPage item id.

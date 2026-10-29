@@ -61,6 +61,13 @@
   var style = document.createElement("style");
   style.textContent = css;
   document.head.appendChild(style);
+  /* the strip (and assets/rewards.js) are in Arabic: the lessons don't load Tajawal for their own text */
+  if (!document.querySelector('link[href*="family=Tajawal"]')) {
+    var font = document.createElement("link");
+    font.rel = "stylesheet";
+    font.href = "https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap";
+    document.head.appendChild(font);
+  }
 
   var nav = document.createElement("nav");
   nav.className = "site-nav";

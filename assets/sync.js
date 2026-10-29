@@ -19,7 +19,8 @@
   var META = "monmon-sync-v1";   /* {code, rev, flat, base, ready, last, err}: flat and base are the progress as the database last sent it */
   var KEYS = ["monmon-done-v1", "monmon-ixl-plan-v1", "monmon-ixl-practice-v1",
     "futurelab-g6-ict-q1-v1", "gridquest-envision-2-4-2-5-v1", "powerlab-envision-3-1-v1", "factorlab-envision-3-2-3-3-v1",
-    "signallab-g6-m2-l5-v1", "flowlab-g6-m2-l4-v1", "reviewquest-sadlier-a-units1-3-v1", "wordquest-sadlier-unit2-v1"];
+    "signallab-g6-m2-l5-v1", "flowlab-g6-m2-l4-v1", "reviewquest-sadlier-a-units1-3-v1", "wordquest-sadlier-unit2-v1",
+    "monmon-activity-v1"];
   var KEYSET = {};
   KEYS.forEach(function (k) { KEYSET[k] = 1; });
   var QUICK = {"monmon-done-v1": 1, "monmon-ixl-plan-v1": 1, "monmon-ixl-practice-v1": 1};   /* ticks and best scores */
@@ -129,7 +130,8 @@
     return r;
   };
   proto.setItem = function (k, v) {
-    if (!mine(this, k)) return rawSet.apply(this, arguments);
+    var before = this === store && own(KEYSET, k) ? parse(rawGet.call(this, k)) : undefined;
+    if (!mine(this, k)) { rawSet.apply(this, arguments); saved(this, k, before); return; }
     var next = parse(String(v));
     if (next === undefined) return rawSet.apply(this, arguments);
     var cur = parse(rawGet.call(this, k)), box = {v: clone(cur)};
@@ -137,7 +139,14 @@
     seen[k] = next;
     rawSet.call(this, k, JSON.stringify(box.v === undefined ? next : box.v));
     changed(k);
+    saved(this, k, before);
   };
+  /* tell the page about progress saved on this device (assets/rewards.js celebrates it); another device's
+     progress is written with rawSet and never comes through here */
+  function saved(st, k, before) {
+    if (st !== store || !own(KEYSET, k)) return;
+    try { window.dispatchEvent(new CustomEvent("monmon-saved", {detail: {key: k, before: before, after: parse(rawGet.call(store, k))}})); } catch (e) {}
+  }
   proto.removeItem = function (k) {
     var r = rawRemove.apply(this, arguments);
     if (mine(this, k)) { seen[k] = undefined; changed(k); }
@@ -226,7 +235,8 @@
     });
     m.rev = res.rev; m.flat = res.flat; m.base = data; m.ready = true; m.last = Date.now(); m.err = "";
     saveMeta(m);
-    if (ops.length) { dirty = true; plan(Math.max(Date.now() + 500, lastSend + 5000)); }
+    /* send them soon, like a tick: a later save on this page mustn't push that back by a minute */
+    if (ops.length) { dirty = true; quickAt = Math.max(Date.now() + 500, lastSend + 5000); plan(quickAt); }
     tell();
     if (keys.length) landed(keys);
   }
@@ -305,6 +315,8 @@
 
   window.MonmonSync = {
     keys: KEYS.slice(),
+    /* a saved value, read without counting as the page's own read (the page's reads protect its next save) */
+    peek: function (k) { return get(k); },
     status: function () {
       var m = meta();
       return {linked: !!m, off: get(OFF) === "1", code: m ? m.code : "", ready: !!(m && m.ready), last: (m && m.last) || 0, err: (m && m.err) || "", waiting: dirty};
