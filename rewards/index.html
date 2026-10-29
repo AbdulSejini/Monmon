@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ألبومي</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23FFD23F%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M32 13l5.6 11.4 12.6 1.8-9.1 8.9 2.1 12.5L32 41.7l-11.2 5.9 2.1-12.5-9.1-8.9 12.6-1.8z%22 fill=%22%23fff%22 stroke=%22%2314163A%22 stroke-width=%224%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --blue:#2F7DE1; --orange:#F39200; --purple:#9A4FE0; --rose:#E23F66;
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --font:"Tajawal","Segoe UI","Geeza Pro",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+h1,h2,h3{margin:0;line-height:1.25;font-weight:800;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 56px;display:grid;gap:18px}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.empty{padding:16px;text-align:center;color:var(--ink-2);font-weight:700}
+
+/* level */
+.hero{padding:18px;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:linear-gradient(135deg,var(--sun-2),var(--paper) 70%)}
+.badge-lg{width:104px;height:104px;border-radius:50%;display:grid;place-items:center;background:var(--sun);border:4px solid var(--ink);box-shadow:var(--shadow);font-size:46px;font-weight:800}
+.hero-t{display:grid;gap:6px;min-width:0}
+.kick{justify-self:start;font-size:14px;font-weight:800;padding:1px 12px;border-radius:999px;background:var(--ink);color:var(--sun)}
+.hero h1{font-size:clamp(30px,6vw,40px)}
+.pts{font-weight:700;color:var(--ink-2)}
+.pts b{font-size:22px;color:var(--ink);font-variant-numeric:tabular-nums}
+.bar{height:16px;border:3px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--good);border-radius:999px}
+.bar.purple i{background:var(--purple)}
+.sub{font-size:15px;font-weight:700;color:var(--ink-2)}
+
+/* today */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tile{padding:14px 12px;display:grid;gap:4px;justify-items:center;align-content:start;text-align:center}
+.tile .big{font-size:30px;font-weight:800;line-height:1.15;font-variant-numeric:tabular-nums}
+.tile .lbl{font-size:15px;font-weight:800}
+.tile .note{font-size:13px;font-weight:700;color:var(--ink-2);line-height:1.4}
+.tile .bar{justify-self:stretch;height:13px;border-width:2px;margin-top:4px}
+.tile.goal.ok{background:var(--good-bg)}
+.ring{width:86px;height:86px}
+.flame{font-size:44px;line-height:1.1}
+
+/* the last two weeks */
+.days{padding:16px 16px 12px;display:grid;gap:10px}
+.days h2,.sec-head h2,.how h2{font-size:24px}
+.chart{--goal:.8;position:relative;display:grid;grid-template-columns:repeat(14,1fr);gap:4px;height:180px}
+.chart::before{content:"";position:absolute;inset-inline:0;bottom:calc(36px + (100% - 36px) * var(--goal));border-top:2px dashed var(--good);z-index:0}
+.chart li{position:relative;z-index:1;display:grid;grid-template-rows:1fr 36px;min-width:0}
+.chart .col{display:flex;align-items:flex-end;justify-content:center}
+.chart .b{width:100%;max-width:34px;border:2px solid var(--ink);border-bottom:0;border-radius:6px 6px 0 0;background:#C9D3EA;position:relative}
+.chart .b small{position:absolute;bottom:100%;inset-inline:-6px;text-align:center;font-size:10px;font-weight:800;line-height:1.6;font-variant-numeric:tabular-nums}
+.chart .g .b{background:var(--good)} .chart .s .b{background:var(--blue)} .chart .z .b{height:4px!important;border:0;background:var(--ink-3);border-radius:2px}
+.chart .lb{display:grid;justify-items:center;align-content:start;border-top:2px solid var(--ink);padding-top:2px;font-size:12px;font-weight:800;line-height:1.25}
+.chart .lb small{font-size:10px;font-weight:700;color:var(--ink-2)}
+.chart .off .lb{color:var(--ink-3)}
+.chart .today .lb{background:var(--sun);border-radius:0 0 6px 6px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;font-weight:700;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border:2px solid var(--ink);border-radius:4px}
+.legend .lg-line{width:18px;height:0;border:0;border-top:2px dashed var(--good);border-radius:0}
+
+/* the album */
+.sec-head{display:grid;gap:4px}
+.sec-head p{color:var(--ink-2);font-size:15px;font-weight:700}
+.next{padding:12px 14px;display:grid;gap:6px}
+.next p{font-weight:700}
+.next b{font-variant-numeric:tabular-nums}
+.album{display:grid;gap:14px}
+.series{padding:14px;display:grid;gap:10px;border-inline-start:12px solid var(--sc)}
+.series-head{display:flex;align-items:center;gap:10px}
+.series-head h3{flex:1;font-size:21px}
+.pill{font-size:14px;font-weight:800;padding:1px 12px;border:2px solid var(--ink);border-radius:999px;background:var(--sc);color:#fff;font-variant-numeric:tabular-nums}
+.series .bar{height:10px;border-width:2px}
+.series .bar i{background:var(--sc)}
+.slots{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.slot{position:relative;width:100%;min-height:92px;display:grid;justify-items:center;align-content:center;gap:2px;padding:8px 2px 6px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);text-align:center;box-shadow:2px 2px 0 var(--ink)}
+button.slot:active{transform:translate(2px,2px);box-shadow:none}
+.slot .em{font-size:clamp(28px,7vw,40px);line-height:1.15}
+.slot .nm{font-size:12px;font-weight:800;line-height:1.3;overflow-wrap:anywhere}
+.slot.r1{background:#F1E6FF;border-color:var(--purple);box-shadow:2px 2px 0 var(--purple)}
+.slot.r2{background:linear-gradient(#FFE8A3,#FFF8DC);border-color:#C98A00;box-shadow:2px 2px 0 #C98A00}
+.slot.locked{background:repeating-linear-gradient(-45deg,#F2F4FA 0 8px,#E8ECF6 8px 16px);box-shadow:none;border-style:dashed;color:var(--ink-3)}
+.slot.locked .em{font-size:clamp(22px,5vw,30px);font-weight:800}
+.slot.locked.r1{border-color:var(--purple);color:var(--purple)}
+.slot.locked.r2{border-color:#C98A00;color:#A06E00}
+.slot .new{position:absolute;top:-9px;inset-inline-start:-6px;font-style:normal;font-size:11px;font-weight:800;color:#fff;background:var(--rose);border:2px solid var(--ink);border-radius:999px;padding:0 7px;line-height:1.5}
+.gold{padding:14px;display:flex;align-items:center;gap:12px;font-weight:800;background:linear-gradient(#FFE8A3,var(--paper))}
+.gold .em{font-size:40px}
+
+/* how it works */
+.how{padding:16px;display:grid;gap:10px}
+.how ul{display:grid;gap:8px}
+.how li{display:grid;grid-template-columns:34px 1fr;gap:8px;align-items:start;font-size:16px}
+.how li span:first-child{font-size:22px;line-height:1.3;text-align:center}
+.how b{font-variant-numeric:tabular-nums}
+.foot{display:grid;gap:10px;font-size:14px;color:var(--ink-2)}
+.btn{justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:6px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--sun-2);font-weight:800;font-size:16px;box-shadow:var(--shadow-sm)}
+.btn[aria-pressed="false"]{background:var(--paper)}
+.btn svg{width:24px;height:24px}
+
+@media (max-width:640px){.tiles{grid-template-columns:1fr 1fr}.tile.stk{grid-column:1/-1}}
+@media (max-width:520px){
+  .hero{grid-template-columns:1fr;justify-items:center;text-align:center}.hero-t{justify-items:center;width:100%}.hero .bar{width:100%}.kick{justify-self:center}
+  .badge-lg{width:88px;height:88px;font-size:38px}
+  .chart .b small{display:none}
+  .slots{gap:5px}.slot{min-height:76px;padding:6px 1px 4px;border-radius:10px}.slot .nm{font-size:10.5px}
+  .series{padding:12px 10px;border-inline-start-width:8px}
+}
+@media (max-width:360px){.tile .big{font-size:26px}.ring{width:72px;height:72px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{
+  html,body{background:#fff!important}
+  body{background-image:none!important}
+  .foot .btn{display:none!important}
+  .panel{box-shadow:none}
+  .series{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<script src="../assets/sync.js"></script>
+<script src="../assets/site-nav.js" data-root="../"></script>
+<script src="../assets/rewards.js" data-root="../"></script>
+<main class="wrap">
+  <section class="hero panel" id="hero" aria-labelledby="lvTitle"><p class="empty">…</p></section>
+
+  <div class="tiles" id="tiles"></div>
+
+  <section class="days panel" aria-labelledby="daysTitle">
+    <h2 id="daysTitle">آخر أسبوعين</h2>
+    <ol class="chart" id="chart"></ol>
+    <p class="legend" id="legend"></p>
+  </section>
+
+  <section class="album" aria-labelledby="albumTitle">
+    <div class="sec-head"><h2 id="albumTitle">ألبوم الملصقات</h2>
+      <p>أربع سلاسل، كل وحدة عشرة ملصقات تنفتح بالنقاط. الملصق النادر والأسطوري يبان إطاره من الحين، بس ما تعرف متى يجي دوره.</p></div>
+    <div class="next panel" id="next"></div>
+    <div class="gold panel" id="gold" hidden></div>
+    <div class="album" id="album"></div>
+  </section>
+
+  <section class="how panel" aria-labelledby="howTitle">
+    <h2 id="howTitle">كيف تجمع النقاط؟</h2>
+    <ul id="how"></ul>
+  </section>
+
+  <footer class="foot">
+    <button class="btn" id="soundBtn" type="button" aria-pressed="true" hidden></button>
+    <p>النقاط محسوبة من التقدّم المحفوظ في الموقع، فتطلع نفسها على كل أجهزة العائلة المربوطة. الاحتفالات تطلع على الجهاز اللي تذاكر عليه.</p>
+  </footer>
+</main>
+
+<script>
+"use strict";
+const R = window.MonmonRewards;
+const $ = id => document.getElementById(id);
+const fmt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+const DAY = ["ح", "ن", "ث", "ر", "خ", "ج", "س"];
+const DAY_FULL = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+const ICON_ON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#FFD23F" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M16 9q2 3 0 6M18.5 6.5q4 5.5 0 11" fill="none" stroke="#14163A" stroke-width="2" stroke-linecap="round"/></svg>';
+const ICON_OFF = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#fff" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="#14163A" stroke-width="2" stroke-linecap="round"/></svg>';
+const weekday = d => new Date(d + "T12:00:00Z").getUTCDay();
+const daysAr = n => n === 1 ? "يوم واحد" : n === 2 ? "يومين" : n <= 10 ? n + " أيام" : n + " يوم";
+let newFrom = null;   /* stickers from this one on were new when the page opened */
+
+/* replace a part only when it changed, keeping the focus on the same button */
+function put(el, html){
+  if (el.rwHtml === html) return;
+  const f = document.activeElement, key = f && el.contains(f) ? f.dataset.focus : null;
+  el.rwHtml = html; el.innerHTML = html;
+  if (key){ const again = el.querySelector('[data-focus="' + key + '"]'); if (again) again.focus(); }
+}
+function ring(g, done){
+  const C = 2 * Math.PI * 25;
+  return '<svg class="ring" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="25" fill="#fff" stroke="#14163A" stroke-width="2"/>'
+    + (g > 0 ? '<circle cx="32" cy="32" r="25" fill="none" stroke="' + (done ? "#12A15E" : "#F39200") + '" stroke-width="8" stroke-linecap="round" stroke-dasharray="' + (C * g).toFixed(1) + " " + C.toFixed(1) + '" transform="rotate(-90 32 32)"/>' : "")
+    + (done ? '<path d="M22 33l7 7 13-15" fill="none" stroke="#12A15E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>' : '<text x="32" y="39" text-anchor="middle" font-size="19">🎯</text>') + "</svg>";
+}
+
+function render(s){
+  if (newFrom === null) newFrom = s.count - s.unseen;
+  const pct = Math.max(0, Math.min(100, Math.round((s.points - s.levelFrom) / (s.levelTo - s.levelFrom) * 100)));
+  put($("hero"), '<div class="badge-lg" aria-hidden="true">' + s.level + '</div><div class="hero-t"><p class="kick">المستوى ' + s.level + '</p><h1 id="lvTitle">' + s.title + '</h1>'
+    + '<p class="pts"><b>' + fmt(s.points) + '</b> نقطة</p><div class="bar" role="img" aria-label="' + pct + '% من الطريق للمستوى ' + (s.level + 1) + '"><i style="width:' + pct + '%"></i></div>'
+    + '<p class="sub">باقي ' + fmt(s.levelTo - s.points) + ' نقطة للمستوى ' + (s.level + 1) + ': ' + s.nextTitle + '</p></div>');
+
+  const done = s.today >= s.goal, active = s.today >= s.streakMin;
+  const savedRecently = s.saved && s.saved >= s.days[Math.max(0, s.days.length - 4)].day;
+  const sp = Math.round((s.earned - s.next.from) / Math.max(1, s.next.to - s.next.from) * 100);
+  put($("tiles"), '<div class="tile goal panel' + (done ? " ok" : "") + '">' + ring(Math.min(1, s.today / s.goal), done)
+      + '<span class="big">' + (done ? fmt(s.today) : s.today + "/" + s.goal) + '</span><span class="lbl">هدف اليوم</span>'
+      + '<span class="note">' + (done ? "حققته! وكل نقطة زيادة تقرّبك من الملصق الجاي." : "باقي " + (s.goal - s.today) + " نقطة.") + '</span></div>'
+    + '<div class="tile panel"><span class="flame" aria-hidden="true">🔥</span><span class="big">' + s.streak + '</span><span class="lbl">سلسلة الأيام</span>'
+      + '<span class="note">' + (active ? "اليوم محسوب في السلسلة." : "ذاكر " + (s.streakMin - s.today) + " نقطة بعد عشان يتحسب اليوم.")
+      + (s.shields ? " عندك 🛡️ " + (s.shields === 1 ? "درع واحد" : "درعين") + "." : "")
+      + (savedRecently ? " الدرع حمى سلسلتك يوم " + DAY_FULL[weekday(s.saved)] + "." : "") + '</span></div>'
+    + '<div class="tile stk panel"><span class="big">' + s.count + "/" + s.of + '</span><span class="lbl">ملصقات</span>'
+      + '<div class="bar purple" role="img" aria-label="' + sp + '% من الطريق للملصق الجاي"><i style="width:' + sp + '%"></i></div>'
+      + '<span class="note">' + (s.next.gold ? "النجمة الذهبية الجاية" : "الملصق الجاي") + " بعد " + fmt(s.next.need) + " نقطة.</span></div>");
+
+  const max = Math.max(s.goal * 1.25, ...s.days.map(d => d.points));
+  $("chart").style.setProperty("--goal", (s.goal / max).toFixed(3));
+  put($("chart"), s.days.map(d => {
+    const wd = weekday(d.day), cls = d.points >= s.goal ? "g" : d.points >= s.streakMin ? "s" : d.points > 0 ? "l" : "z";
+    return '<li class="' + cls + (wd === 5 || wd === 6 ? " off" : "") + (d.day === s.date ? " today" : "") + '" aria-label="' + DAY_FULL[wd] + " " + (+d.day.slice(8)) + ": " + d.points + ' نقطة">'
+      + '<span class="col" aria-hidden="true"><span class="b" style="height:' + Math.round(d.points / max * 100) + '%">' + (d.points ? "<small>" + d.points + "</small>" : "") + '</span></span>'
+      + '<span class="lb" aria-hidden="true">' + DAY[wd] + "<small>" + (+d.day.slice(8)) + "</small></span></li>";
+  }).join(""));
+  put($("legend"), '<span><i style="background:#12A15E"></i>حقق الهدف (' + s.goal + ')</span><span><i style="background:#2F7DE1"></i>محسوب في السلسلة (' + s.streakMin + '+)</span>'
+    + '<span><i class="lg-line"></i>خط الهدف</span><span>الجمعة والسبت ما يقطعون السلسلة.</span>');
+
+  put($("next"), '<p>' + (s.next.gold ? "كمّلت الألبوم! النجمة الذهبية الجاية" : "الملصق الجاي") + ' بعد <b>' + fmt(s.next.need) + '</b> نقطة</p>'
+    + '<div class="bar purple" role="img" aria-label="' + sp + '%"><i style="width:' + sp + '%"></i></div>');
+  $("gold").hidden = !s.next.gold;
+  if (s.next.gold) put($("gold"), '<span class="em" aria-hidden="true">⭐</span><span>' + (s.gold ? "عندك " + s.gold + " " + (s.gold === 1 ? "نجمة ذهبية" : s.gold === 2 ? "نجمتين ذهبيتين" : "نجوم ذهبية") : "كل " + R.goldEvery + " نقطة بعد الألبوم تجيب نجمة ذهبية") + '</span>');
+
+  put($("album"), R.series.map((ser, si) => {
+    const list = R.stickers.filter(x => x.series === si).sort((a, b) => a.slot - b.slot), have = list.filter(x => x.n < s.count).length;
+    return '<section class="series panel" style="--sc:' + ser.color + '" aria-label="سلسلة ' + ser.name + '"><div class="series-head"><h3>' + ser.name + '</h3><span class="pill">' + have + "/" + ser.items + '</span></div>'
+      + '<div class="bar" aria-hidden="true"><i style="width:' + have * 100 / ser.items + '%"></i></div><ul class="slots">' + list.map(x => {
+        if (x.n >= s.count) return '<li><div class="slot locked r' + x.rarity + '" role="img" aria-label="ملصق مقفل' + (x.rarity ? "، " + R.rarity[x.rarity] : "") + '"><span class="em" aria-hidden="true">؟</span><span class="nm" aria-hidden="true">' + (x.rarity ? R.rarity[x.rarity] : "مقفل") + "</span></div></li>";
+        const isNew = x.n >= newFrom;
+        return '<li><button class="slot r' + x.rarity + '" type="button" data-n="' + x.n + '" data-focus="s' + x.n + '" aria-label="' + x.name + "، " + R.rarity[x.rarity] + (isNew ? "، جديد" : "") + '">'
+          + '<span class="em" aria-hidden="true">' + x.emoji + '</span><span class="nm" aria-hidden="true">' + x.name + "</span>" + (isNew ? '<i class="new" aria-hidden="true">جديد</i>' : "") + "</button></li>";
+      }).join("") + "</ul></section>";
+  }).join(""));
+
+  const snd = $("soundBtn");
+  snd.hidden = false; snd.setAttribute("aria-pressed", s.sound);
+  put(snd, (s.sound ? ICON_ON : ICON_OFF) + "صوت الاحتفالات: " + (s.sound ? "شغّال" : "مطفي"));
+}
+
+const HOW = [
+  ["✅", "علامة على واجب أو اختبار في الصفحة الرئيسية أو خطط الأسابيع: <b>50</b> نقطة."],
+  ["🧠", "مهارة في خطة IXL وصلت هدفها: <b>30</b> نقطة."],
+  ["📝", "كل سؤال تزيده على أحسن نتيجة في ورقة التدريب: <b>10</b> نقاط."],
+  ["🎮", "الدروس التفاعلية: كل نقطة XP بنقطة، والإجابة الصحيحة <b>10</b>."],
+  ["🎯", "هدف اليوم <b>100</b> نقطة، واليوم ينحسب في السلسلة من <b>30</b> نقطة. الجمعة والسبت ما يقطعون السلسلة."],
+  ["🛡️", "كل <b>7</b> أيام ورا بعض تكسب درع (لين درعين)، يحمي السلسلة يوم دراسة تغيب فيه."],
+  ["⭐", "النقاط والمستوى والملصقات ما تنقص، والعلامة اللي تشيلها وترجعها ما تنحسب مرتين."]
+];
+$("how").innerHTML = HOW.map(h => '<li><span aria-hidden="true">' + h[0] + "</span><span>" + h[1] + "</span></li>").join("");
+
+if (!R){
+  $("hero").innerHTML = '<p class="empty">الألبوم يحتاج حفظ المتصفح شغّال على هذا الجهاز.</p>';
+} else {
+  render(R.state());
+  window.addEventListener("monmon-rewards", e => render(e.detail));
+  setTimeout(() => R.seen(), 1500);
+  $("album").addEventListener("click", e => { const b = e.target.closest("[data-n]"); if (b) R.show(+b.dataset.n); });
+  $("soundBtn").addEventListener("click", () => R.sound(!R.sound()));
+}
+</script>
+</body></html>
