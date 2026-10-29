@@ -901,7 +901,7 @@ const TZ = "Asia/Riyadh";
 const TERM_START = "2026-08-30"; /* Sunday of school week 1 */
 
 /* School weeks that have a detailed plan page. */
-const WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html"};
+const WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html", 10: "weekly/week-10/index.html"};
 
 /* Practice pages for particular homework items and tests (by EduPage id). */
 const PRACTICE_BY_ID = {
@@ -914,6 +914,12 @@ const PRACTICE_BY_ID = {
   "2026-10-29-C55D232D8569DE5E9B2C": ["math/exponents/index.html", "تدرّب على الأسس"],
   "2026-10-28-058D4164C010604689B9": ["science/control-information/index.html", "راجع درس التحكم والحواس"],
   "2026-10-29-1D91EF9EED5D8D8B": ["ict/technofuture/index.html", "ذاكر للاختبار العملي وتدرّب عليه"],
+  "2026-11-01-C2D1CC524AB448DF": ["weekly/week-10/index.html#hw-bewell", "جهّز العرض خطوة بخطوة"],
+  "2026-11-02-AF0E0C5514DF10DC0F24": ["weekly/week-10/index.html#hw-math101", "تذكير القاسم والمضاعف المشترك"],
+  "2026-11-02-FD9143A00DB8BAD90E78": ["weekly/week-10/index.html#hw-sci101", "قارن الخلية النباتية والحيوانية"],
+  "2026-11-03-3F1AE8E0CCB975280BA3": ["weekly/week-10/index.html#hw-eng101", "تذكير ضمائر الفاعل والمفعول"],
+  "2026-11-05-C76C6FC82FDC4EBF77D9": ["weekly/week-10/index.html#hw-math102", "تذكير ترتيب العمليات"],
+  "2026-11-05-6632DC8C9C4FDB251225": ["weekly/week-10/index.html#hw-eng102", "شكل الرسالة الودية"],
   "ixl-teacher-wxw": ["https://www.ixl.com/science/grade-6/understanding-cells", "افتح المهارة في IXL"],
   "ixl-quiz-19-1": ["https://www.ixl.com/signin", "ادخل IXL ثم Quizzes"],
   "ixl-quiz-20-1": ["https://www.ixl.com/signin", "ادخل IXL ثم Quizzes"],
@@ -930,8 +936,13 @@ const NOTES = {
   "ixl-quiz-19-1": "مسنَد في IXL من يناير ولسا مفتوح. إذا كان من السنة الماضية، اسألوا الأستاذ جمال هل هو مطلوب.",
   "ixl-quiz-20-1": "مسنَد في IXL من يناير ولسا مفتوح. إذا كان من السنة الماضية، اسألوا الأستاذ جمال هل هو مطلوب.",
   "ixl-quiz-21-1": "مسنَد في IXL من يناير ولسا مفتوح. إذا كان من السنة الماضية، اسألوا الأستاذ جمال هل هو مطلوب.",
-  "2026-10-29-1D91EF9EED5D8D8B": "اختبار عملي على PowerPoint في الحصتين الرابعة والخامسة. يذاكر من كتاب TechnoFuture الصفحات 1-8 و11-22 و25-30."
+  "2026-10-29-1D91EF9EED5D8D8B": "اختبار عملي على PowerPoint في الحصتين الرابعة والخامسة. يذاكر من كتاب TechnoFuture الصفحات 1-8 و11-22 و25-30.",
+  "2026-11-01-C2D1CC524AB448DF": "العرض الأحد 1/11 في الحصة السابعة (خطة الأسبوع العاشر)، 3 دقائق، ويُحسب من 15 درجة بدل الاختبار الأول.",
+  "2026-11-05-C76C6FC82FDC4EBF77D9": "انتبهوا: الواجب للدرس 3-3 (ص 137-142)، لكن ص 133 من الدرس 3-2 وص 128 من الدرس 3-1. يسأل المعلم عن الصفحات المقصودة."
 };
+
+/* Due dates that EduPage's list leaves out but the Weekly Study Plan or Weekly Events give (by EduPage id). */
+const DUE_FIX = {"2026-11-01-C2D1CC524AB448DF": "2026-11-01"};
 
 /* In the Weekly Study Plan or the class's EduPage messages, but not on the public homework list. */
 const EXTRA = [
@@ -939,6 +950,10 @@ const EXTRA = [
    text:"تقييم تلاوة سورة الكهف 19-20", fromPlan:true},
   {id:"wsp-2026-10-28-kahf", date:"2026-10-28", kind:"test", type:"Oral exam", subject:"Qur'an", due:"2026-10-28",
    text:"تقييم تلاوة سورة الكهف 21-22", fromPlan:true},
+  {id:"wsp-2026-11-04-kahf", date:"2026-11-04", kind:"test", type:"Oral exam", subject:"Qur'an", due:"2026-11-04",
+   text:"تقييم تلاوة سورة الكهف 23-27", fromPlan:true},
+  {id:"wsp-2026-11-05-qalam", date:"2026-11-05", kind:"test", type:"Oral exam", subject:"Qur'an", due:"2026-11-05",
+   text:"تسميع سورة القلم 34-39", fromPlan:true},
   {id:"ixl-teacher-wxw", date:"2026-10-28", kind:"hw", type:"homework", subject:"Science", due:"2026-10-31",
    text:"IXL: أكمل مهارة Understanding cells (WXW) حتى SmartScore 100. واجبات المعلم ما تنحسب مكتملة قبل 100.", fromIxl:true},
   {id:"ixl-quiz-19-1", date:"2026-10-28", kind:"hw", type:"IXL quiz", subject:"Science", due:"2026-10-31",
@@ -958,6 +973,7 @@ const EXTRA = [
 const SCHOOL_DATES = [
   {date:"2026-10-19", title:"يوم دوام مختصر", en:"Shortened Schedule"},
   {date:"2026-10-25", title:"إجازة نهاية أسبوع طويلة", en:"Long Weekend"},
+  {date:"2026-11-04", title:"رحلة ترفيهية من الحصة الثالثة إلى السابعة", en:"Recreational Trip"},
   {date:"2026-11-22", title:"إجازة الخريف", en:"Autumn Break"},
   {date:"2027-01-10", title:"إجازة منتصف العام", en:"Mid-Year Break"}
 ];
@@ -967,8 +983,9 @@ const NOTICES = [
   {date:"2026-10-03", subject:"Math", text:"واجبات الرياضيات تُحل في الدفتر مع كتابة خطوات الحل، عشان ما تنخصم درجات."}
 ];
 
-/* Study pages by group. The weekly plans come from WEEK_PAGES: this week's plan goes first, the older ones last. */
-const WEEK_TEXT = {8:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", 9:"إجازة الأحد، ثم جدول الاثنين للخميس والواجبات وخطة المذاكرة لكل يوم."};
+/* Study pages by group. The weekly plans come from WEEK_PAGES: this week's plan goes first (then next week's, once it is ready), the older ones last. */
+const WEEK_TEXT = {8:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", 9:"إجازة الأحد، ثم جدول الاثنين للخميس والواجبات وخطة المذاكرة لكل يوم.",
+  10:"عرض Be Well يوم الأحد، ورحلة الأربعاء، والجدول اليومي والواجبات وخطة المذاكرة لكل يوم."};
 const PRACTICE_GROUPS = [["now","ابدأ من هنا"], ["math","الرياضيات"], ["sci","العلوم"], ["eng","الإنجليزي"], ["ict","الحاسب"], ["old","خطط الأسابيع السابقة"]];
 const PRACTICE_PAGES = [
   {group:"now", kind:"خطة IXL", href:"ixl/index.html", title:"خطة IXL لاختبار MAP", text:"المواد الأربع في 16 أسبوع: مهارات كل يوم بروابطها، وهدف كل مهارة.", cls:"s-ixl"},
@@ -1025,7 +1042,8 @@ function ixlProgress(w){ const d = ixlDone(); return "خلص منها " + w.code
 
 let DATA = {items:[]};
 try { DATA = JSON.parse(document.getElementById("edupage-data").textContent); } catch (e) {}
-const ITEMS = (DATA.items || []).concat(EXTRA, ixlItems(todayISO()));
+const ITEMS = (DATA.items || []).map(i => DUE_FIX[i.id] ? Object.assign({}, i, {due:DUE_FIX[i.id], dueGuessed:false}) : i)
+  .concat(EXTRA, ixlItems(todayISO()));
 
 function loadState(){ try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v.done === "object") return v; } catch (e) {} return {done:{}}; }
 let S = loadState();
@@ -1050,6 +1068,8 @@ function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt
 function textHTML(s){ return esc(s).replace(/https?:\/\/[^\s<]+/g, u => '<a href="' + u + '" target="_blank" rel="noopener" dir="ltr">' + u + '</a>'); }
 function subj(name){ return SUBJ[name] || [name || "أخرى", ""]; }
 function typeAr(t){ return TYPE_AR[t] || t || ""; }
+/* when it was set; an item dated on its own due day (the Be Well presentation) has no separate request date */
+function asked(i){ return i.date < i.due ? "انطلب " + shortDate(i.date) : ""; }
 
 const TODAY = todayISO();
 const todo = ITEMS.filter(i => i.kind !== "test" && i.due >= TODAY);
@@ -1081,7 +1101,7 @@ function itemCard(i){
   const done = !!S.done[i.id];
   const [sName, sCls] = subj(i.subject);
   const prac = PRACTICE_BY_ID[i.id] || (i.ixl ? [IXL_PLAN.page, "افتح خطة IXL"] : null);
-  const meta = typeAr(i.type) + " · انطلب " + shortDate(i.date) + (i.dueGuessed ? " · الموعد المعتاد للتسليم" : "");
+  const meta = [typeAr(i.type), asked(i), i.dueGuessed ? "الموعد المعتاد للتسليم" : ""].filter(Boolean).join(" · ");
   return '<li class="item panel ' + sCls + (done ? " is-done" : "") + '">' +
     '<button class="check" type="button" role="checkbox" aria-checked="' + done + '" data-id="' + esc(i.id) + '" aria-label="خلص: ' + esc(sName) + '">' + ICON_CHECK + '</button>' +
     '<div class="item-body"><div class="item-meta"><span class="subj">' + esc(sName) + '</span><span class="meta-note">' + esc(meta) + '</span></div>' +
@@ -1147,9 +1167,9 @@ function currentWeekPage(){
 }
 function renderPractice(){
   const cur = currentWeekPage();
-  const weeks = Object.keys(WEEK_PAGES).map(Number).sort((a, b) => b - a).map(n => ({group:n === cur ? "now" : "old", kind:"خطة أسبوع",
+  const weeks = Object.keys(WEEK_PAGES).map(Number).sort((a, b) => b - a).map(n => ({group:n >= cur ? "now" : "old", kind:n > cur ? "الأسبوع الجاي" : "خطة أسبوع",
     href:WEEK_PAGES[n], title:"خطة الأسبوع " + n, text:WEEK_TEXT[n] || "", cls:""}));
-  const pages = weeks.filter(p => p.group === "now").concat(PRACTICE_PAGES, weeks.filter(p => p.group === "old"));
+  const pages = weeks.filter(p => p.group === "now").reverse().concat(PRACTICE_PAGES, weeks.filter(p => p.group === "old"));
   document.getElementById("practiceList").innerHTML = PRACTICE_GROUPS.map(([key, title]) => {
     const list = pages.filter(p => p.group === key);
     return list.length ? '<div class="pgroup"><h3>' + esc(title) + '</h3><div class="practice">' + list.map(p =>
@@ -1172,7 +1192,7 @@ function renderHistory(){
     return '<details class="week"><summary><b>الأسبوع ' + w + '</b><span>' + range + '</span><span>' + counts + '</span></summary><div class="rows">' +
       items.map(i => {
         const [sName, sCls] = subj(i.subject);
-        const when = i.kind === "test" ? shortDate(i.date) : "انطلب " + shortDate(i.date) + " · التسليم " + shortDate(i.due);
+        const when = i.kind === "test" ? shortDate(i.date) : [asked(i), "التسليم " + shortDate(i.due)].filter(Boolean).join(" · ");
         return '<div class="row ' + sCls + '"><div class="item-meta"><span class="subj">' + esc(sName) + '</span><span class="meta-note">' + esc(typeAr(i.type) + " · " + when) + '</span>' +
           (S.done[i.id] ? '<span class="done-mark">خلص</span>' : "") + '</div><p class="item-text" dir="auto">' + textHTML(i.text) + '</p></div>';
       }).join("") + '</div></details>';

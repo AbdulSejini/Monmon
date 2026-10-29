@@ -6,7 +6,7 @@
   var me = document.currentScript || document.querySelector('script[src*="site-nav.js"]');
   var root = (me && me.getAttribute("data-root")) || "";
   var TZ = "Asia/Riyadh", TERM_START = "2026-08-30";
-  var WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html"};
+  var WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html", 10: "weekly/week-10/index.html"};
 
   function today() {
     try { return new Intl.DateTimeFormat("en-CA", {timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit"}).format(new Date()); }
