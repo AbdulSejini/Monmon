@@ -4,7 +4,8 @@
    data-root is the path from the page back to the site root (the album is rewards/index.html).
    - Points come from the progress the pages already save and sync, so every device shows the same: 50 for each tick on
      the dashboard and the week plans, 30 for each IXL skill that reached its target, 10 for each question in the IXL
-     practice sheet's best scores, and the XP of the interactive lessons (10 for each right answer).
+     practice sheet's best scores, 40 for each IXL Coach ready check passed, and the XP of the interactive lessons (10 for
+     each right answer).
    - Points, levels and stickers never go down: they follow the highest total so far, so unticking and ticking again
      doesn't count twice, and clearing the ticks doesn't take anything away.
    - monmon-activity-v1 (synced) holds each day's points from each device (for the daily goal and the streak), the
@@ -22,7 +23,7 @@
   var ALBUM = root + "rewards/index.html";
   var onAlbum = /\/rewards\/(index\.html)?$/.test(location.pathname);
   var TZ = "Asia/Riyadh", T0 = Date.now();
-  var DONE = "monmon-done-v1", PLAN = "monmon-ixl-plan-v1", PRAC = "monmon-ixl-practice-v1", ACT = "monmon-activity-v1", FXK = "monmon-fx-v1";
+  var DONE = "monmon-done-v1", PLAN = "monmon-ixl-plan-v1", PRAC = "monmon-ixl-practice-v1", COACH = "monmon-ixl-coach-v1", ACT = "monmon-activity-v1", FXK = "monmon-fx-v1";
   var GOAL = 100, STREAK_MIN = 30, GOLD = 500;
 
   /* ---------- points, from the saved progress ---------- */
@@ -36,6 +37,7 @@
     if (k === DONE) return ticks(v.done) * 50;
     if (k === PLAN) return ticks(v.done) * 30;
     if (k === PRAC) { var s = 0; if (isObj(v.best)) for (var id in v.best) if (own(v.best, id)) s += num(v.best[id], 1000); return s * 10; }
+    if (k === COACH) return ticks(v.passed) * 40;   /* each IXL Coach ready check passed */
     return num(v.xp, 1e6);   /* the interactive lessons */
   }
   function total() { var t = 0; Sync.keys.forEach(function (k) { t += worth(k, read(k)); }); return t; }
@@ -139,6 +141,7 @@
       "خطوة خطوة توصل 👣", "كفو، خلّصته 🔥", "هذا الاجتهاد اللي يفرق 🙌", "إنجاز جديد ينضاف لك 🏅", "كل واجب تخلّصه يقرّبك لهدفك 🎯"],
     ixl: ["مهارة IXL وصلت هدفها 🧠", "تدرّبت لين وصلت، أحسنت 📈", "مهارة ورا مهارة، ماشي صح 🚀", "صبرك على التمرين جاب نتيجة 💪", "كفو، مهارة جديدة في جيبك 🎒"],
     ixlweek: ["كمّلت مهارات الأسبوع كلها في IXL 🏆", "أسبوع IXL خلص كامل، كفو 🏆", "كل مهارات الأسبوع وصلت هدفها 🏆"],
+    coach: ["جاهز! ارجع لـ IXL وطبّق 🎯", "اختبار الجاهزية خلص، كفو 🏅", "عشرة صح ورا بعض، IXL ينتظرك 💪"],
     best: ["رقم قياسي جديد لك! 📈", "تفوّقت على نفسك 🏅", "أحسن من المرة اللي فاتت، كمّل 🔥", "التمرين يفرق، وهذا الدليل 👀"],
     streak: ["كمّل السلسلة 💪", "لا توقف الحين!", "السلسلة تكبر معك 🌱", "الاستمرار سر الإنجاز ⭐"],
     fact: ["الأخطبوط عنده 3 قلوب.", "ضوء الشمس يوصل للأرض في حوالي 8 دقائق.", "قلبك ينبض حوالي 100 ألف مرة في اليوم.",
@@ -367,7 +370,7 @@
     flushTimer = setTimeout(flush, 60);
   });
   window.addEventListener("pagehide", function () { if (flushTimer) { clearTimeout(flushTimer); flush(); } });
-  var KIND = {}; KIND[DONE] = "done"; KIND[PLAN] = "ixl"; KIND[PRAC] = "best";
+  var KIND = {}; KIND[DONE] = "done"; KIND[PLAN] = "ixl"; KIND[PRAC] = "best"; KIND[COACH] = "coach";
   function flush() {
     flushTimer = 0;
     var items = queue.splice(0, queue.length), gain = 0, shown = 0, kinds = {}, quiet = false;
@@ -377,7 +380,7 @@
       if (kd && q.gain > 0) { shown += q.gain; kinds[kd] = 1; }
     });
     /* the IXL plan ticks the week on the dashboard when its last skill is done */
-    var kind = kinds.ixl ? (kinds.done ? "ixlweek" : "ixl") : kinds.done ? "done" : "best";
+    var kind = kinds.coach ? "coach" : kinds.ixl ? (kinds.done ? "ixlweek" : "ixl") : kinds.done ? "done" : "best";
     var a = act(), t = today(), tot = total(), f = fx(), peak = num(a.peak);
     var ptsB = Math.max(peak, tot - gain), ptsA = Math.max(peak, tot), dayB = dayPoints(a, t), stB = streakOf(a, t);
     var mine = isObj(a.days[t]) ? a.days[t] : (a.days[t] = {});
@@ -567,7 +570,7 @@
     '.site-nav a.rw-chip{gap:9px;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28);font-variant-numeric:tabular-nums;position:relative}' +
     '.site-nav a.rw-chip[aria-current="page"]{background:#FFD23F;color:#14163A;border-color:#FFD23F}' +
     '.rw-dot{position:absolute;top:-3px;inset-inline-end:-3px;width:11px;height:11px;border-radius:50%;background:#E23F66;border:2px solid #14163A}' +
-    '@media (max-width:699px){.rw-li{display:none}}' +   /* under that the strip's links need the room */
+    '@media (max-width:819px){.rw-li{display:none}}' +   /* under that the strip's five links need the room */
     /* the dashboard's card */
     '.rw-card{margin-top:20px;padding:14px 16px 16px;display:grid;gap:12px;background:#fff;border:3px solid #14163A;border-radius:14px;box-shadow:4px 4px 0 #14163A;color:#14163A}' +
     '.rw-card p{margin:0}' +

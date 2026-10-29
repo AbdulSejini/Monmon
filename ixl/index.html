@@ -116,6 +116,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .sk-meta{font-size:13px;color:var(--ink-2)}
 .sk-meta b{color:var(--ink);letter-spacing:.04em}
 .sk-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.btn.clinic{background:var(--good-bg)}
 .check{width:44px;height:44px;border:3px solid var(--ink);border-radius:10px;background:var(--paper);display:grid;place-items:center;padding:0;box-shadow:2px 2px 0 var(--ink)}
 .check svg{width:26px;height:26px;opacity:0;transform:scale(.4);transition:transform .2s cubic-bezier(.3,1.6,.5,1),opacity .15s}
 .check[aria-checked="true"]{background:var(--good)}
@@ -141,6 +142,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .target.t90{background:var(--sun-2)} .target.t100{background:var(--bad-bg)}
 @media (max-width:640px){.targets{grid-template-columns:1fr}}
 .stop{padding:10px 12px;border:2px dashed var(--ink);border-radius:var(--r-sm);background:var(--warn-bg);font-size:15px}
+.stop a{font-weight:800}
 .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .wd{border:2px solid var(--ink);border-radius:8px;padding:8px 6px;background:var(--paper);font-size:12px;display:grid;gap:3px;align-content:start}
 .wd b{font-size:13px}
@@ -169,6 +171,8 @@ ul,ol{margin:0;padding:0;list-style:none}
 .mini a{font-size:14px;font-weight:600;line-height:1.3;text-decoration:none}
 .mini a:hover{text-decoration:underline}
 .mini.is-done a{text-decoration:line-through;color:var(--ink-2)}
+.mini-t{min-width:0;display:grid;justify-items:start}
+.mini a.mini-clinic,.mini.is-done a.mini-clinic{font-size:12px;font-weight:800;text-decoration:underline;color:var(--good)}
 .code{font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ink-2);white-space:nowrap}
 details.wk-more summary{cursor:pointer;font-size:13px;font-weight:800;list-style:none}
 details.wk-more summary::-webkit-details-marker{display:none}
@@ -277,7 +281,7 @@ details.wk-more .minis{margin-top:6px}
         <li><span>First time only: start IXL's <b>Real-Time Diagnostic</b> (Assessment › Step into the arena) so IXL can set the right level in each subject.</span></li>
       </ol>
     </div>
-    <p class="stop"><b>Stop rule:</b> 3 wrong answers in a row, or 25 minutes on the same skill → stop, switch to another skill, and come back to it tomorrow.</p>
+    <p class="stop"><b>Stop rule:</b> 3 wrong answers in a row, or 25 minutes on the same skill → stop, switch to another skill, and come back to it tomorrow. For B54, 42P, PQQ, CQJ and PF8, open its clinic in the <a href="coach/index.html">IXL Coach</a> first.</p>
     <div>
       <h3>The week</h3>
       <div class="week-grid" style="margin-top:8px">
@@ -334,6 +338,7 @@ const STRANDS = {
   teacher:{subj:"teacher", label:"Teacher assignment", target:100}
 };
 const TARGET_100 = {B54:true, "42P":true, WXW:true};
+const CLINIC = {B54:"b54", "42P":"42p", PQQ:"pqq"};   /* skills with a clinic in ixl/coach/ (CQJ and PF8 have one too, but aren't in the plan) */
 const PHASES = [
   {title:"Getting started", dates:"Wed 28 – Sat 31 Oct", what:"Mr. Jamal's Understanding cells skill to 100, and the first exponent skills, like Lesson 3-1 in class.", goal:"Understanding cells at 100."},
   {title:"Phase 1 · Fractions and stories", dates:"Weeks 1–4 · 1–28 Nov", what:"Number sense and fractions (31), stories and poems (14), and 8 expression skills alongside the class: exponents and the order of operations.", goal:"Every fraction and story skill at 90."},
@@ -419,7 +424,8 @@ function skillHTML(c, tags){
     (tags.includes("next") ? '<span class="tag next">Next up</span>' : "") + '</div>' +
     '<p class="sk-name">' + esc(s[0]) + '</p>' +
     '<p class="sk-meta">' + esc(s[3]) + ' · IXL code <b>' + c + '</b></p>' +
-    '<div class="sk-actions"><a class="btn btn-sm btn-col" href="' + IXL + s[1] + '" target="_blank" rel="noopener">Open in IXL ↗</a></div></div></li>';
+    '<div class="sk-actions"><a class="btn btn-sm btn-col" href="' + IXL + s[1] + '" target="_blank" rel="noopener">Open in IXL ↗</a>' +
+    (CLINIC[c] ? '<a class="btn btn-sm clinic" href="coach/index.html#/' + CLINIC[c] + '">Stuck? Clinic</a>' : "") + '</div></div></li>';
 }
 
 function renderNow(){
@@ -482,7 +488,8 @@ function renderStats(st){
 function miniHTML(c){
   const s = SKILLS[c], d = done(c), t = target(c);
   return '<li class="mini ' + subjOf(c).cls + (d ? " is-done" : "") + '"><button class="check sm" type="button" role="checkbox" aria-checked="' + d + '" data-code="' + c + '" aria-label="Reached ' + t + ': ' + esc(s[0]) + '">' + ICON_CHECK + '</button>' +
-    '<a href="' + IXL + s[1] + '" target="_blank" rel="noopener">' + esc(s[0]) + '</a><span class="code">' + c + ' · ' + t + '</span></li>';
+    (CLINIC[c] ? '<span class="mini-t"><a href="' + IXL + s[1] + '" target="_blank" rel="noopener">' + esc(s[0]) + '</a><a class="mini-clinic" href="coach/index.html#/' + CLINIC[c] + '">Stuck? Clinic</a></span>'
+      : '<a href="' + IXL + s[1] + '" target="_blank" rel="noopener">' + esc(s[0]) + '</a>') + '<span class="code">' + c + ' · ' + t + '</span></li>';
 }
 function renderWeeks(st){
   document.getElementById("weeks").innerHTML = PHASES.map((p, pi) => {
