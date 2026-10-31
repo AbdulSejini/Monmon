@@ -18,6 +18,8 @@ once a day, so the page can warn when its list may be out of date.
 Standard library only. Exits non-zero, without touching index.html, if any
 week cannot be fetched or does not look like the class 6.3 list; with
 --grace HOURS it only warns instead, while the last check is newer than that.
+In GitHub Actions it also sets the step output read=true once the list was
+read, so the workflow can try again from another machine when it wasn't.
 """
 import argparse
 import datetime as dt
@@ -184,8 +186,10 @@ def main():
         if args.grace and last and now - dt.datetime.fromisoformat(last) < dt.timedelta(hours=args.grace):
             # one failed run is not worth an alarm; the next run will try again
             print(f"EduPage could not be read ({err}); last check {last}, trying again next run")
+            set_output("read", "false")
             return 0
         raise
+    set_output("read", "true")
 
     if args.dry_run:
         for it in items:
