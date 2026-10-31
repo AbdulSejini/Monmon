@@ -5,6 +5,12 @@ name: Sync EduPage
 # changed (plus one "checked" stamp a day). GitHub often starts scheduled runs
 # late or skips some, so the hourly schedule keeps the site close to EduPage.
 # GitHub Pages builds the site from this branch, so a sync commit goes live.
+#
+# EduPage refuses connections from many of GitHub's machines, by address:
+# from 29 Oct no run on ubuntu-latest could connect, and a test on 31 Oct
+# reached the school from 3 of 3 macOS machines, 2 of 3 ARM Linux machines
+# and 0 of 3 ubuntu-latest ones. So the sync runs on macOS, and when EduPage
+# can't be read from there it tries once more from an ARM Linux machine.
 on:
   schedule:
     - cron: "41 2-20 * * *"
@@ -20,7 +26,51 @@ concurrency:
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
+    timeout-minutes: 15
+    outputs:
+      read: ${{ steps.fetch.outputs.read }}
+    steps:
+      - uses: actions/checkout@v5
+      # if EduPage can't be read from this machine, the fallback job tries
+      - name: Fetch homework and tests for class 6.3
+        id: fetch
+        continue-on-error: true
+        run: python3 tools/edupage_sync.py
+      - name: Commit if changed
+        id: commit
+        if: steps.fetch.outputs.read == 'true'
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "No changes"
+            exit 0
+          fi
+          if [ "${{ steps.fetch.outputs.changed }}" = "true" ]; then
+            msg="Sync homework and tests from EduPage"
+          else
+            msg="EduPage checked: no changes"
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "$msg"
+          # a merge to this branch during the run would make a plain push fail
+          git pull --rebase --quiet
+          git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+      # the bot's push should start a Pages build by itself; ask for one in case it doesn't
+      - name: Rebuild GitHub Pages
+        if: steps.commit.outputs.pushed == 'true'
+        continue-on-error: true
+        run: gh api --method POST "repos/${{ github.repository }}/pages/builds"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  # the same steps from a machine with other addresses
+  fallback:
+    needs: sync
+    if: ${{ !cancelled() && needs.sync.outputs.read != 'true' }}
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
@@ -49,7 +99,6 @@ jobs:
           git pull --rebase --quiet
           git push
           echo "pushed=true" >> "$GITHUB_OUTPUT"
-      # the bot's push should start a Pages build by itself; ask for one in case it doesn't
       - name: Rebuild GitHub Pages
         if: steps.commit.outputs.pushed == 'true'
         continue-on-error: true

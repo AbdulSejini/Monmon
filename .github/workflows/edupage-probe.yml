@@ -1,38 +1,36 @@
 name: EduPage probe (temporary)
 
-# Which GitHub runner types can reach the school's EduPage server? Each job is
-# a separate machine with its own address. Runs only on the work branch and
-# only when this file changes; it changes nothing in the repository.
+# Runs tools/edupage_sync.py as the sync workflow will, on the two kinds of
+# machine it will use, without committing or pushing anything. Runs only on
+# the work branch and only when this file changes.
 on:
   push:
     branches: [claude/zen-mayer-9y6b6q]
     paths: [".github/workflows/edupage-probe.yml"]
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
   probe:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
-        try: [1, 2, 3]
+        os: [macos-latest, ubuntu-24.04-arm]
+        try: [1, 2]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 6
+    timeout-minutes: 10
     steps:
-      - name: Probe
-        shell: bash
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Run the sync script (no commit)
+        id: fetch
         run: |
-          set +e
-          U="https://aisedusa.edupage.org/exam/?wid=exam_ExamList_1&classid=-177&date=2026-11-01&type="
-          echo "PROBE runner=$RUNNER_OS/$RUNNER_ARCH ipv4=$(curl -4 -s --max-time 10 https://api.ipify.org)"
-          for i in 1 2 3; do
-            curl -4 -sS -o page.html --connect-timeout 10 --max-time 30 \
-              -w "PROBE edupage try $i: http=%{http_code} connect=%{time_connect}s total=%{time_total}s\n" "$U" \
-              || echo "PROBE edupage try $i: failed"
-            sleep 3
-          done
-          if grep -q 'id="exam_ExamList_1"' page.html 2>/dev/null; then echo "PROBE list: OK"; else echo "PROBE list: missing"; fi
-          curl -4 -sS -o /dev/null --connect-timeout 10 --max-time 20 -w "PROBE www.edupage.org: http=%{http_code}\n" https://www.edupage.org/ || echo "PROBE www.edupage.org: failed"
-          curl -4 -sS -o /dev/null --connect-timeout 10 --max-time 20 -w "PROBE example.com: http=%{http_code}\n" https://example.com/ || echo "PROBE example.com: failed"
-          exit 0
+          echo "PROBE $(python3 --version) at $(command -v python3); $(bash --version | head -1)"
+          python3 tools/edupage_sync.py
+      - name: Report
+        if: always()
+        run: |
+          echo "PROBE outcome=${{ steps.fetch.outcome }} read=${{ steps.fetch.outputs.read }} changed=${{ steps.fetch.outputs.changed }}"
+          echo "PROBE $(git diff --stat -- index.html | tail -1)"
