@@ -1268,9 +1268,9 @@ function syncedText(){
   const [date, time] = DATA.synced.split("T");
   return "آخر تحديث من EduPage: " + longDate(date) + " الساعة " + time.slice(0, 5) + " (بتوقيت السعودية).";
 }
-/* The sync reads EduPage every hour and stamps "checked" at least once a day. */
+/* The sync reads EduPage several times a day and stamps "checked" at least once a day. */
 function renderSynced(){
-  document.getElementById("synced").textContent = syncedText() + (DATA.synced ? " الصفحة تتحدّث تلقائيًا من EduPage كل ساعة." : "");
+  document.getElementById("synced").textContent = syncedText() + (DATA.synced ? " الصفحة تتحدّث تلقائيًا من EduPage عدة مرات في اليوم." : "");
   const last = (DATA.checked || DATA.synced || "").slice(0, 10);
   const el = document.getElementById("stale");
   if (last && dayDiff(last, TODAY) >= 2) {
