@@ -1,0 +1,38 @@
+name: EduPage probe (temporary)
+
+# Which GitHub runner types can reach the school's EduPage server? Each job is
+# a separate machine with its own address. Runs only on the work branch and
+# only when this file changes; it changes nothing in the repository.
+on:
+  push:
+    branches: [claude/zen-mayer-9y6b6q]
+    paths: [".github/workflows/edupage-probe.yml"]
+
+permissions: {}
+
+jobs:
+  probe:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
+        try: [1, 2, 3]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 6
+    steps:
+      - name: Probe
+        shell: bash
+        run: |
+          set +e
+          U="https://aisedusa.edupage.org/exam/?wid=exam_ExamList_1&classid=-177&date=2026-11-01&type="
+          echo "PROBE runner=$RUNNER_OS/$RUNNER_ARCH ipv4=$(curl -4 -s --max-time 10 https://api.ipify.org)"
+          for i in 1 2 3; do
+            curl -4 -sS -o page.html --connect-timeout 10 --max-time 30 \
+              -w "PROBE edupage try $i: http=%{http_code} connect=%{time_connect}s total=%{time_total}s\n" "$U" \
+              || echo "PROBE edupage try $i: failed"
+            sleep 3
+          done
+          if grep -q 'id="exam_ExamList_1"' page.html 2>/dev/null; then echo "PROBE list: OK"; else echo "PROBE list: missing"; fi
+          curl -4 -sS -o /dev/null --connect-timeout 10 --max-time 20 -w "PROBE www.edupage.org: http=%{http_code}\n" https://www.edupage.org/ || echo "PROBE www.edupage.org: failed"
+          curl -4 -sS -o /dev/null --connect-timeout 10 --max-time 20 -w "PROBE example.com: http=%{http_code}\n" https://example.com/ || echo "PROBE example.com: failed"
+          exit 0
