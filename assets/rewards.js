@@ -23,7 +23,7 @@
   var ALBUM = root + "rewards/index.html";
   var onAlbum = /\/rewards\/(index\.html)?$/.test(location.pathname);
   var TZ = "Asia/Riyadh", T0 = Date.now();
-  var DONE = "monmon-done-v1", PLAN = "monmon-ixl-plan-v1", PRAC = "monmon-ixl-practice-v1", COACH = "monmon-ixl-coach-v1", ACT = "monmon-activity-v1", FXK = "monmon-fx-v1";
+  var DONE = "monmon-done-v1", PLAN = "monmon-ixl-plan-v1", PRAC = "monmon-ixl-practice-v1", COACH = "monmon-ixl-coach-v1", QUIZ = "monmon-quiz2-v1", ACT = "monmon-activity-v1", FXK = "monmon-fx-v1";
   var GOAL = 100, STREAK_MIN = 30, GOLD = 500;
 
   /* ---------- points, from the saved progress ---------- */
@@ -38,6 +38,7 @@
     if (k === PLAN) return ticks(v.done) * 30;
     if (k === PRAC) { var s = 0; if (isObj(v.best)) for (var id in v.best) if (own(v.best, id)) s += num(v.best[id], 1000); return s * 10; }
     if (k === COACH) return ticks(v.passed) * 40;   /* each IXL Coach ready check passed */
+    if (k === QUIZ) return ticks(v.done) * 20;   /* each lesson reviewed for Quiz 2 (review/quiz-2) */
     return num(v.xp, 1e6);   /* the interactive lessons */
   }
   function total() { var t = 0; Sync.keys.forEach(function (k) { t += worth(k, read(k)); }); return t; }
@@ -142,6 +143,7 @@
     ixl: ["مهارة IXL وصلت هدفها 🧠", "تدرّبت لين وصلت، أحسنت 📈", "مهارة ورا مهارة، ماشي صح 🚀", "صبرك على التمرين جاب نتيجة 💪", "كفو، مهارة جديدة في جيبك 🎒"],
     ixlweek: ["كمّلت مهارات الأسبوع كلها في IXL 🏆", "أسبوع IXL خلص كامل، كفو 🏆", "كل مهارات الأسبوع وصلت هدفها 🏆"],
     coach: ["جاهز! ارجع لـ IXL وطبّق 🎯", "اختبار الجاهزية خلص، كفو 🏅", "عشرة صح ورا بعض، IXL ينتظرك 💪"],
+    quiz: ["درس راجعته، والاختبار صار أسهل 📚", "مراجعة مرتّبة، كمّل كذا 💪", "كل درس تراجعه يثبت في راسك 🧠"],
     best: ["رقم قياسي جديد لك! 📈", "تفوّقت على نفسك 🏅", "أحسن من المرة اللي فاتت، كمّل 🔥", "التمرين يفرق، وهذا الدليل 👀"],
     streak: ["كمّل السلسلة 💪", "لا توقف الحين!", "السلسلة تكبر معك 🌱", "الاستمرار سر الإنجاز ⭐"],
     fact: ["الأخطبوط عنده 3 قلوب.", "ضوء الشمس يوصل للأرض في حوالي 8 دقائق.", "قلبك ينبض حوالي 100 ألف مرة في اليوم.",
@@ -370,7 +372,7 @@
     flushTimer = setTimeout(flush, 60);
   });
   window.addEventListener("pagehide", function () { if (flushTimer) { clearTimeout(flushTimer); flush(); } });
-  var KIND = {}; KIND[DONE] = "done"; KIND[PLAN] = "ixl"; KIND[PRAC] = "best"; KIND[COACH] = "coach";
+  var KIND = {}; KIND[DONE] = "done"; KIND[PLAN] = "ixl"; KIND[PRAC] = "best"; KIND[COACH] = "coach"; KIND[QUIZ] = "quiz";
   function flush() {
     flushTimer = 0;
     var items = queue.splice(0, queue.length), gain = 0, shown = 0, kinds = {}, quiet = false;
@@ -380,7 +382,7 @@
       if (kd && q.gain > 0) { shown += q.gain; kinds[kd] = 1; }
     });
     /* the IXL plan ticks the week on the dashboard when its last skill is done */
-    var kind = kinds.coach ? "coach" : kinds.ixl ? (kinds.done ? "ixlweek" : "ixl") : kinds.done ? "done" : "best";
+    var kind = kinds.coach ? "coach" : kinds.quiz ? "quiz" : kinds.ixl ? (kinds.done ? "ixlweek" : "ixl") : kinds.done ? "done" : "best";
     var a = act(), t = today(), tot = total(), f = fx(), peak = num(a.peak);
     var ptsB = Math.max(peak, tot - gain), ptsA = Math.max(peak, tot), dayB = dayPoints(a, t), stB = streakOf(a, t);
     var mine = isObj(a.days[t]) ? a.days[t] : (a.days[t] = {});

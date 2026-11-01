@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مراجعة الاختبار القصير 2</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23FFD23F%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M18 33l9 9 19-21%22 fill=%22none%22 stroke=%22%2314163A%22 stroke-width=%227%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --col:#5B6270; --tint:#E7E9EE;
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --font:"Tajawal","Segoe UI","Geeza Pro",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+h1,h2,h3{margin:0;line-height:1.25;font-weight:800;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid #2F7DE1;outline-offset:3px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+/* subject colours, as on the dashboard */
+.s-math{--col:#2F7DE1;--tint:#DCEBFF} .s-ar{--col:#F39200;--tint:#FFE8C2} .s-isl{--col:#9A4FE0;--tint:#EEE0FF}
+.s-sci{--col:#119C77;--tint:#D2F4E8} .s-eng{--col:#E23F66;--tint:#FFDDE6} .s-soc{--col:#8C5A2B;--tint:#F5E6D6}
+.s-quran{--col:#1E7A46;--tint:#D9F0E2} .s-ict{--col:#5B6270;--tint:#E7E9EE}
+
+.topbar{background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:860px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{font-size:26px;font-weight:800;color:var(--sun);-webkit-text-stroke:1.2px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg);white-space:nowrap;line-height:1.2}
+.chip{font-size:13px;font-weight:800;background:var(--ink);color:#fff;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.icon-btn{width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--sun-2);box-shadow:2px 2px 0 var(--ink);text-decoration:none;padding:0}
+.icon-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* top: what's next and how far he is */
+.hero{margin-top:20px;padding:18px;display:grid;gap:12px}
+.hero h1{font-size:clamp(28px,6vw,40px)}
+.hero .sub{color:var(--ink-2);font-weight:700}
+.next{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;border:3px solid var(--ink);border-radius:var(--r-sm);background:var(--sun);padding:10px 14px;box-shadow:var(--shadow-sm);font-weight:800;text-decoration:none}
+.next .lbl{font-size:14px;padding:1px 9px;border-radius:999px;background:var(--ink);color:#fff}
+.next .what{font-size:19px}
+.next .more{font-size:15px;font-weight:700}
+.next.done{background:var(--good-bg)}
+.overall{display:grid;gap:4px;font-weight:700;color:var(--ink-2)}
+.overall b{color:var(--ink);font-size:22px;font-variant-numeric:tabular-nums}
+.bar{height:16px;border:3px solid var(--ink);border-radius:999px;background:var(--page);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--good);transition:width .4s}
+.how{font-size:15px;color:var(--ink-2)}
+
+/* jump to a subject */
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.jump a{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border:2px solid var(--ink);border-radius:999px;background:var(--tint);font-size:14px;font-weight:800;text-decoration:none;white-space:nowrap}
+.jump a.past{opacity:.6}
+.jump a .ok{color:var(--good)}
+
+/* one subject */
+.subjects{display:grid;gap:18px;margin-top:18px}
+.subj{padding:14px 16px 16px;border-inline-start:12px solid var(--col);display:grid;gap:10px;scroll-margin-top:12px}
+.subj-head{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+.subj-head h2{font-size:25px}
+.subj-head .date{font-weight:800;color:var(--ink-2)}
+.badge{font-size:13px;font-weight:800;padding:2px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--sun-2);white-space:nowrap}
+.badge.hot{background:var(--bad);color:#fff}
+.badge.done{background:var(--good);color:#fff}
+.prog{margin-inline-start:auto;font-size:14px;font-weight:800;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.lessons{display:grid;gap:8px}
+.unit{font-size:14px;font-weight:800;color:var(--col);margin-top:4px}
+.lesson{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px 12px;padding:8px 10px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+.lesson.is-done{background:var(--good-bg)}
+.lesson.is-done .t{text-decoration:line-through;text-decoration-color:var(--good);text-decoration-thickness:2px}
+.check{width:42px;height:42px;border:3px solid var(--ink);border-radius:10px;background:var(--paper);display:grid;place-items:center;padding:0;box-shadow:2px 2px 0 var(--ink)}
+.check svg{width:26px;height:26px;opacity:0;transform:scale(.4);transition:transform .2s cubic-bezier(.3,1.6,.5,1),opacity .15s}
+.check[aria-checked="true"]{background:var(--good)}
+.check[aria-checked="true"] svg{opacity:1;transform:none}
+.lesson .body{min-width:0;display:grid;gap:1px}
+.lesson .t{font-weight:700;overflow-wrap:anywhere}
+.lesson .pg{font-size:13px;font-weight:700;color:var(--ink-2)}
+.go{font-size:14px;font-weight:800;color:#1F5FB8;white-space:nowrap}
+.note{font-size:15px;font-weight:600;border-inline-start:4px solid var(--col);background:var(--tint);border-radius:0 8px 8px 0;padding:8px 12px}
+.note b{font-weight:800}
+.dict{font-size:19px;font-weight:700;line-height:1.9}
+.past-btn{justify-self:start;font-size:14px;font-weight:800;border:2px solid var(--ink);border-radius:10px;background:var(--paper);padding:5px 12px;box-shadow:2px 2px 0 var(--ink)}
+.subj.is-past{opacity:.85}
+.subj.is-past:not(.open) .lessons,.subj.is-past:not(.open) .note{display:none}
+.foot{margin-top:28px;font-size:14px;color:var(--ink-2);display:grid;gap:6px}
+
+@media (max-width:520px){
+  .lesson{grid-template-columns:auto 1fr}
+  .lesson .go{grid-column:2}
+  .subj-head h2{font-size:22px}
+  .chip{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* print: the whole plan on paper, every lesson with a box */
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important}
+  body{background-image:none!important;color:#000;font-size:9.5pt;line-height:1.35}
+  .topbar,.jump,.how,.go,.past-btn,.next .more{display:none!important}
+  .wrap{max-width:none;padding:0}
+  .panel{box-shadow:none;border-width:1.2pt;border-radius:6pt}
+  .hero{margin:0 0 6pt;padding:6pt 8pt;gap:4pt}
+  .hero h1{font-size:15pt}
+  .next{box-shadow:none;border-width:1.2pt;padding:3pt 8pt;background:#fff!important}
+  .next .what{font-size:11pt}
+  .bar{height:7pt;border-width:1pt}
+  .subjects{grid-template-columns:1fr 1fr;align-items:start;gap:5pt 5mm;margin-top:4pt}
+  .subj{break-inside:avoid;padding:5pt 7pt;gap:3pt;border-inline-start-width:5pt}
+  .lesson .body{display:block}
+  .lesson .pg{margin-inline-start:5pt}
+  .subj.is-past .lessons,.subj.is-past .note{display:grid!important}
+  .subj-head h2{font-size:12pt}
+  .badge{font-size:8pt;border-width:1pt;padding:0 5pt}
+  .lesson{border:0;padding:1pt 0;gap:2pt 5pt;background:none!important}
+  .check{width:11pt;height:11pt;border-width:1pt;border-radius:2pt;box-shadow:none}
+  .check svg{width:9pt;height:9pt}
+  .check[aria-checked="true"]{background:#000}
+  .lesson .pg{font-size:8pt}
+  .note{font-size:8.5pt;padding:2pt 6pt;border-inline-start-width:2pt}
+  .dict{font-size:10pt;line-height:1.5}
+  .foot{display:none}
+}
+</style>
+</head>
+<body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+<script src="../../assets/rewards.js" data-root="../../"></script>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="logo">مراجعة</span>
+    <span class="chip">الاختبار القصير 2</span>
+    <span class="spacer"></span>
+    <button class="icon-btn" id="printBtn" type="button" aria-label="طباعة خطة المراجعة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg></button>
+    <a class="icon-btn" href="../../index.html" aria-label="الرئيسية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero panel" aria-labelledby="title">
+    <h1 id="title">مراجعة الاختبار القصير 2</h1>
+    <p class="sub">الفصل الأول · من الأحد 8 إلى الخميس 19 نوفمبر، والقرآن والحاسب بعدها</p>
+    <a class="next" id="next" href="#"></a>
+    <div class="overall"><span><b id="doneN">0</b> من <span id="allN">0</span> درس راجعها</span><div class="bar" role="img" id="allBar"><i></i></div></div>
+    <p class="how">علّم على الدرس إذا راجعته: قرأه من الكتاب في صفحاته، وحل تمارينها، وتدرّب على صفحته في الموقع إذا لها صفحة. الأفضل يراجع كل مادة مرتين: مرة قبلها بأيام، ومرة الليلة اللي قبلها. العلامات تتزامن بين أجهزة العائلة.</p>
+  </section>
+
+  <nav class="jump" id="jump" aria-label="المواد"></nav>
+  <div class="subjects" id="subjects"></div>
+
+  <footer class="foot">
+    <p>النطاق والصفحات من ملف التقييم الرسمي للاختبار القصير 2. إذا اختلف شيء، المعتمد هو كلام المدرسة.</p>
+  </footer>
+</main>
+
+<script>
+"use strict";
+/* Quiz 2 of Term 1, lesson by lesson, from the school's assessment outline. Each lesson can be ticked once it is reviewed;
+   the ticks are saved in monmon-quiz2-v1 ({done: {lesson id: true}}), synced by assets/sync.js and worth 20 points each in
+   assets/rewards.js. The dashboard lists the same quizzes in EXTRA (ids quiz2-…) and links here by subject. */
+const KEY = "monmon-quiz2-v1", TZ = "Asia/Riyadh";
+const SUBJECTS = [
+  {id:"math", name:"رياضيات", cls:"s-math", date:"2026-11-08", lessons:[
+    {id:"m21", t:"Lesson 2-1: Understand Integers", pg:"69–74"},
+    {id:"m22", t:"Lesson 2-2: Represent Rational Numbers on the Number Line", pg:"75–80"},
+    {id:"m23", t:"Lesson 2-3: Absolute Values of Rational Numbers", pg:"81–86"},
+    {id:"m24", t:"Lesson 2-4: Represent Rational Numbers on the Coordinate Plane", pg:"89–94", go:["../../math/coordinate-plane/index.html", "تدرّب عليه"]},
+    {id:"m25", t:"Lesson 2-5: Find Distances on the Coordinate Plane", pg:"99–104", go:["../../math/coordinate-plane/index.html", "تدرّب عليه"]},
+    {id:"m26", t:"Lesson 2-6: Represent Polygons on the Coordinate Plane", pg:"105–110", go:["../../math/coordinate-plane/index.html", "تدرّب عليه"]},
+    {id:"m31", t:"Lesson 3-1: Understand and Represent Exponents", pg:"123–128", go:["../../math/exponents/index.html", "تدرّب عليه"]}]},
+  {id:"isl", name:"دراسات إسلامية", cls:"s-isl", date:"2026-11-10", lessons:[
+    {id:"i1", unit:"التوحيد", t:"الشرك", pg:"30–32"},
+    {id:"i2", t:"أنواع الشرك", pg:"28–30"},
+    {id:"i3", t:"مظاهر الشرك", pg:"34–36"},
+    {id:"i4", unit:"الحديث", t:"من فضائل صلة الرحم", pg:"61–62"},
+    {id:"i5", t:"تواضعه ﷺ وبشاشته مع جلسائه", pg:"63–65"},
+    {id:"i6", t:"من آداب المجلس", pg:"66–67"},
+    {id:"i7", unit:"الفقه", t:"صلاة العيدين", pg:"110–113"},
+    {id:"i8", t:"سنن العيدين", pg:"114–117"},
+    {id:"i9", t:"الاستسقاء", pg:"120–123"}]},
+  {id:"eng", name:"إنجليزي", cls:"s-eng", date:"2026-11-12", lessons:[
+    {id:"e1", t:"Reading: StudySync “Personal Statement: Individual Twin”", pg:"42–44"},
+    {id:"e2", t:"Reading skill: Central or Main Idea", pg:"45–46"},
+    {id:"e3", t:"Vocabulary: Level A, Unit 4", pg:"52–58"},
+    {id:"e4", t:"Grammar: Chapter 7, Lessons 7.1, 7.2 and 7.3", pg:"141–146"},
+    {id:"e5", t:"Writing: a friendly letter", pg:"46–49"}],
+   note:'<b>الرسالة الودية:</b> ست جمل كاملة، وفيها التاريخ والتحية والختام الودي واسمه. درجتها من 3.5: الأفكار والمحتوى 1، ترتيب الأفكار 1، صحة اللغة (القواعد والإملاء والترقيم) 1، ووضوح الخط ونظافته 0.5.'},
+  {id:"sci", name:"علوم", cls:"s-sci", date:"2026-11-15", lessons:[
+    {id:"s2", t:"Lesson 2: Structure and Support"},
+    {id:"s3", t:"Lesson 3: Obtaining Energy and Removing Waste"},
+    {id:"s4", t:"Lesson 4: Moving Materials", go:["../../science/moving-material/index.html", "تدرّب عليه"]},
+    {id:"s5", t:"Lesson 5: Control and Information Processing", go:["../../science/control-information/index.html", "تدرّب عليه"]}],
+   note:'من Unit 1 · Module 2: Body Systems. الصفحات المطلوبة في ملفات إجابات الكتاب اللي أرسلتها المدرسة.'},
+  {id:"soc", name:"اجتماعيات", cls:"s-soc", date:"2026-11-17", lessons:[
+    {id:"so1", t:"شبه الجزيرة العربية قبل قيام الدولة السعودية الأولى", pg:"26–29"},
+    {id:"so2", t:"تأسيس الدولة السعودية الأولى", pg:"30–39"},
+    {id:"so3", t:"أئمة الدولة السعودية الأولى", pg:"40–45"}]},
+  {id:"ar", name:"لغتي", cls:"s-ar", date:"2026-11-19", lessons:[
+    {id:"a1", t:"همزتا الوصل والقطع (ابن – ابنة)", pg:"65–68"},
+    {id:"a2", t:"الهمزة المتوسطة", pg:"73–76"},
+    {id:"a3", t:"الهمزة المتطرفة", pg:"78–83"},
+    {id:"a4", t:"الأفعال الناسخة (كان وأخواتها)", pg:"85–90"},
+    {id:"a5", t:"الإملاء: قطعة «كل شيء في قرب الأم جميل…»"}],
+   note:'<b>قطعة الإملاء:</b><p class="dict">كل شيء في قرب الأم جميل، فهي شاطئ الأمان، الذي ننشأ في أحضانه.</p>'},
+  {id:"quran", name:"قرآن كريم", cls:"s-quran", date:"2026-11-22", to:"2026-11-26", week:13, lessons:[
+    {id:"q1", t:"تلاوة: سورة الكهف، الآيات 21–34"},
+    {id:"q2", t:"حفظ: سورة القلم، الآيات 31–47"}],
+   note:'الاختبار في يوم يحدده المعلم خلال الأسبوع 13، فالأفضل يكون جاهز من الأحد.'},
+  {id:"ict", name:"حاسب آلي", cls:"s-ict", date:"2026-11-29", to:"2026-12-03", week:14, lessons:[],
+   note:'نطاقه في الخطة الأسبوعية للأسبوع 14.'}
+];
+const WD = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const ICON_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function todayISO(){
+  try { return new Intl.DateTimeFormat("en-CA", {timeZone:TZ, year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date()); }
+  catch (e) { return new Date().toISOString().slice(0, 10); }
+}
+function parts(iso){ const [y, m, d] = iso.split("-").map(Number); return {y, m, d, wd:new Date(Date.UTC(y, m - 1, d)).getUTCDay()}; }
+function dayDiff(a, b){ const t = s => { const p = parts(s); return Date.UTC(p.y, p.m - 1, p.d); }; return Math.round((t(b) - t(a)) / 864e5); }
+function longDate(iso){ const p = parts(iso); return WD[p.wd] + " " + p.d + " " + MONTHS[p.m - 1]; }
+function count(n, one, two, few, many){ return n === 1 ? one : n === 2 ? two : n <= 10 ? n + " " + few : n + " " + many; }
+function days(n){ return count(n, "يوم واحد", "يومين", "أيام", "يومًا"); }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function load(){ try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && v.done && typeof v.done === "object") return v; } catch (e) {} return {done:{}}; }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+let S = load();
+const TODAY = todayISO();
+const opened = {};   /* passed subjects shown again by tapping */
+
+/* where a subject's test stands today: before it, during its week (Qur'an, ICT), on the day, or over */
+function status(s){
+  const end = s.to || s.date, n = dayDiff(TODAY, s.date);
+  if (TODAY > end) return {past:true, label:"خلص", cls:"done"};
+  if (s.to) {
+    const when = "الأسبوع " + s.week + " · " + parts(s.date).d + "–" + parts(s.to).d + " " + MONTHS[parts(s.to).m - 1];
+    return n > 0 ? {when, label:"يبدأ بعد " + days(n), cls:n <= 1 ? "hot" : "", n} : {when, label:"هذا الأسبوع", cls:"hot", n:0};
+  }
+  return {when:longDate(s.date), label:n === 0 ? "اليوم" : n === 1 ? "غدًا" : "بعد " + days(n), cls:n <= 1 ? "hot" : "", n};
+}
+function doneIn(s){ return s.lessons.filter(l => S.done[l.id]).length; }
+
+/* lessons taught in English (their titles are English) read left to right, pages included */
+function lessonHTML(l){
+  const d = !!S.done[l.id], en = /^[A-Za-z]/.test(l.t);
+  return '<li class="lesson' + (d ? " is-done" : "") + '"><button class="check" type="button" role="checkbox" aria-checked="' + d + '" data-id="' + l.id +
+    '" aria-label="راجعته: ' + esc(l.t) + '">' + ICON_CHECK + '</button><div class="body"' + (en ? ' dir="ltr"' : '') + '><span class="t">' + esc(l.t) + '</span>' +
+    (l.pg ? '<span class="pg">' + (en ? "pp. " : "ص ") + l.pg + '</span>' : "") + '</div>' + (l.go ? '<a class="go" href="' + l.go[0] + '">' + esc(l.go[1]) + ' ←</a>' : "") + '</li>';
+}
+function subjHTML(s){
+  const st = status(s), n = doneIn(s), total = s.lessons.length;
+  let units = "", list = "";
+  s.lessons.forEach(l => { if (l.unit && l.unit !== units) { units = l.unit; list += '<li class="unit">' + esc(l.unit) + '</li>'; } list += lessonHTML(l); });
+  return '<section class="subj panel ' + s.cls + (st.past ? " is-past" : "") + (opened[s.id] ? " open" : "") + '" id="' + s.id + '" aria-labelledby="h-' + s.id + '">' +
+    '<div class="subj-head"><h2 id="h-' + s.id + '">' + esc(s.name) + '</h2>' + (st.past ? "" : '<span class="date">' + esc(st.when) + '</span>') +
+    '<span class="badge ' + st.cls + '">' + st.label + '</span>' + (total ? '<span class="prog">راجع ' + n + ' من ' + total + '</span>' : "") + '</div>' +
+    (st.past ? '<button class="past-btn" type="button" data-open="' + s.id + '">' + (opened[s.id] ? "اخفِ الدروس" : "اعرض الدروس") + '</button>' : "") +
+    (total ? '<ul class="lessons">' + list + '</ul>' : "") + (s.note ? '<div class="note">' + s.note + '</div>' : "") + '</section>';
+}
+
+function render(){
+  const upcoming = SUBJECTS.filter(s => !status(s).past), past = SUBJECTS.filter(s => status(s).past);
+  document.getElementById("subjects").innerHTML = upcoming.concat(past).map(subjHTML).join("");
+  document.getElementById("jump").innerHTML = SUBJECTS.map(s => {
+    const st = status(s), all = s.lessons.length && doneIn(s) === s.lessons.length;
+    return '<a class="' + s.cls + (st.past ? " past" : "") + '" href="#' + s.id + '">' + esc(s.name) + ' · ' + (s.to ? "الأسبوع " + s.week : parts(s.date).d + "/" + parts(s.date).m) +
+      (all ? ' <span class="ok" aria-label="راجع كل الدروس">✓</span>' : "") + '</a>';
+  }).join("");
+  const lessons = SUBJECTS.flatMap(s => s.lessons), n = lessons.filter(l => S.done[l.id]).length;
+  document.getElementById("doneN").textContent = n;
+  document.getElementById("allN").textContent = lessons.length;
+  const bar = document.getElementById("allBar");
+  bar.firstChild.style.width = (n / lessons.length * 100).toFixed(1) + "%";
+  bar.setAttribute("aria-label", "راجع " + n + " من " + lessons.length + " درس");
+  const next = upcoming[0], el = document.getElementById("next");
+  if (!next) { el.className = "next done"; el.href = "#subjects"; el.innerHTML = '<span class="what">خلصت كل اختبارات الاختبار القصير 2 🎉</span>'; return; }
+  const st = status(next);
+  el.className = "next"; el.href = "#" + next.id;
+  el.innerHTML = '<span class="lbl">أقرب اختبار</span><span class="what">' + esc(next.name) + ' · ' + esc(st.when) + ' · ' + st.label + '</span>' +
+    (next.lessons.length ? '<span class="more">راجع ' + doneIn(next) + ' من ' + next.lessons.length + ' دروس ←</span>' : "");
+}
+
+document.getElementById("subjects").addEventListener("click", e => {
+  const btn = e.target.closest(".check[data-id]");
+  if (btn) {
+    const id = btn.dataset.id;
+    if (S.done[id]) delete S.done[id]; else S.done[id] = true;
+    save(); render();
+    const again = document.querySelector('.check[data-id="' + id + '"]');
+    if (again) again.focus({preventScroll:true});
+    return;
+  }
+  const open = e.target.closest("[data-open]");
+  if (open) { opened[open.dataset.open] = !opened[open.dataset.open]; render(); }
+});
+document.getElementById("printBtn").addEventListener("click", () => window.print());
+/* another device's ticks arrived: redraw here instead of reloading */
+window.addEventListener("monmon-sync", e => { S = load(); render(); e.preventDefault(); });
+render();
+</script>
+</body>
+</html>

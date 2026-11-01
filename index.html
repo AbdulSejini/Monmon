@@ -32,7 +32,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .s-math{--col:#2F7DE1;--tint:#DCEBFF} .s-ar{--col:#F39200;--tint:#FFE8C2} .s-isl{--col:#9A4FE0;--tint:#EEE0FF}
 .s-sci{--col:#119C77;--tint:#D2F4E8} .s-eng{--col:#E23F66;--tint:#FFDDE6} .s-soc{--col:#8C5A2B;--tint:#F5E6D6}
 .s-quran{--col:#1E7A46;--tint:#D9F0E2} .s-pe{--col:#0E8C9E;--tint:#D3F2F6} .s-art{--col:#B8559A;--tint:#F6E0F0}
-.s-ict{--col:#5B6270;--tint:#E7E9EE} .s-ixl{--col:#12A15E;--tint:#DCF7E9}
+.s-ict{--col:#5B6270;--tint:#E7E9EE} .s-ixl{--col:#12A15E;--tint:#DCF7E9} .s-quiz{--col:#E23D45;--tint:#FFE1E2}
 .panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
 
 /* top bar: scrolls away; the site strip above it (assets/site-nav.js) stays */
@@ -964,7 +964,15 @@ const PRACTICE_BY_ID = {
   "ixl-teacher-wxw": ["https://www.ixl.com/science/grade-6/understanding-cells", "افتح المهارة في IXL"],
   "ixl-quiz-19-1": ["https://www.ixl.com/signin", "ادخل IXL ثم Quizzes"],
   "ixl-quiz-20-1": ["https://www.ixl.com/signin", "ادخل IXL ثم Quizzes"],
-  "ixl-quiz-21-1": ["https://www.ixl.com/signin", "ادخل IXL ثم Quizzes"]
+  "ixl-quiz-21-1": ["https://www.ixl.com/signin", "ادخل IXL ثم Quizzes"],
+  "quiz2-math": ["review/quiz-2/index.html#math", "راجع دروسه درسًا درسًا"],
+  "quiz2-isl": ["review/quiz-2/index.html#isl", "راجع دروسه درسًا درسًا"],
+  "quiz2-eng": ["review/quiz-2/index.html#eng", "راجع دروسه درسًا درسًا"],
+  "quiz2-sci": ["review/quiz-2/index.html#sci", "راجع دروسه درسًا درسًا"],
+  "quiz2-soc": ["review/quiz-2/index.html#soc", "راجع دروسه درسًا درسًا"],
+  "quiz2-ar": ["review/quiz-2/index.html#ar", "راجع دروسه درسًا درسًا"],
+  "quiz2-quran": ["review/quiz-2/index.html#quran", "راجع الآيات"],
+  "quiz2-ict": ["review/quiz-2/index.html#ict", "صفحة المراجعة"]
 };
 
 /* What to study or bring, from the Weekly Study Plan, Weekly Events and EduPage messages (EduPage's list only gives the title). */
@@ -1007,7 +1015,25 @@ const EXTRA = [
    text:"إحضار وردة بيضاء يوم الاثنين لحصة المختبر في العلوم.", fromMsg:true},
   {id:"msg-2026-10-20-art", date:"2026-10-13", kind:"hw", type:"homework", subject:"Art", due:"2026-10-20",
    text:"إنهاء تصميم الزخرفة الإسلامية (تصميم واحد من التصميمين المرسلين) وتلوينه بزوج ألوان متقابل: الأصفر مع البنفسجي، أو الأحمر مع الأخضر، أو الأزرق مع البرتقالي، ثم تسليمه في حصة الفنية القادمة.",
-   fromMsg:true}
+   fromMsg:true},
+  /* Quiz 2 of Term 1, from the school's assessment outline (review/quiz-2 has the same scope lesson by lesson). Qur'an and ICT
+     have a week, not a day: they are dated its Sunday, so he is ready from the start of it. */
+  {id:"quiz2-math", date:"2026-11-08", kind:"test", type:"Small exam", subject:"Math", due:"2026-11-08", fromOutline:true,
+   text:"Quiz 2: Topic 2, Lessons 2-1 to 2-6 (pp. 69–110): integers, rational numbers on the number line, absolute value, the coordinate plane, distances and polygons. Topic 3, Lesson 3-1: exponents (pp. 123–128)."},
+  {id:"quiz2-isl", date:"2026-11-10", kind:"test", type:"Small exam", subject:"Islamic Studies", due:"2026-11-10", fromOutline:true,
+   text:"الاختبار القصير 2: التوحيد (الشرك، أنواع الشرك، مظاهر الشرك)، الحديث (من فضائل صلة الرحم، تواضعه ﷺ وبشاشته مع جلسائه، من آداب المجلس)، الفقه (صلاة العيدين، سنن العيدين، الاستسقاء)."},
+  {id:"quiz2-eng", date:"2026-11-12", kind:"test", type:"Small exam", subject:"English", due:"2026-11-12", fromOutline:true,
+   text:"Quiz 2: StudySync \"Personal Statement: Individual Twin\" (pp. 42–44), Central or Main Idea (pp. 45–46), Vocabulary Level A Unit 4 (pp. 52–58), Grammar Chapter 7, Lessons 7.1–7.3 (pp. 141–146), and a friendly letter (pp. 46–49): six complete sentences with the date, a greeting, a friendly closing and his name. The letter is marked out of 3.5."},
+  {id:"quiz2-sci", date:"2026-11-15", kind:"test", type:"Small exam", subject:"Science", due:"2026-11-15", fromOutline:true,
+   text:"Quiz 2: Unit 1, Module 2 (Body Systems), Lessons 2–5: Structure and Support; Obtaining Energy and Removing Waste; Moving Materials; Control and Information Processing."},
+  {id:"quiz2-soc", date:"2026-11-17", kind:"test", type:"Small exam", subject:"Social Studies", due:"2026-11-17", fromOutline:true,
+   text:"الاختبار القصير 2: شبه الجزيرة العربية قبل قيام الدولة السعودية الأولى (ص 26–29)، تأسيس الدولة السعودية الأولى (ص 30–39)، أئمة الدولة السعودية الأولى (ص 40–45)."},
+  {id:"quiz2-ar", date:"2026-11-19", kind:"test", type:"Small exam", subject:"Arabic", due:"2026-11-19", fromOutline:true,
+   text:"الاختبار القصير 2: همزتا الوصل والقطع (ابن – ابنة) ص 65–68، الهمزة المتوسطة ص 73–76، الهمزة المتطرفة ص 78–83، الأفعال الناسخة (كان وأخواتها) ص 85–90. وقطعة الإملاء: «كل شيء في قرب الأم جميل، فهي شاطئ الأمان، الذي ننشأ في أحضانه.»"},
+  {id:"quiz2-quran", date:"2026-11-22", kind:"test", type:"Oral exam", subject:"Qur'an", due:"2026-11-22", fromOutline:true,
+   text:"في الأسبوع 13 (الأحد 22 – الخميس 26 نوفمبر)، والمعلم يحدد اليوم: تلاوة سورة الكهف الآيات 21–34، وحفظ سورة القلم الآيات 31–47."},
+  {id:"quiz2-ict", date:"2026-11-29", kind:"test", type:"Small exam", subject:"ICT/MECHA", due:"2026-11-29", fromOutline:true,
+   text:"في الأسبوع 14 (29 نوفمبر – 3 ديسمبر)، ونطاقه في الخطة الأسبوعية لذاك الأسبوع."}
 ];
 
 /* School calendar entries and class notices from EduPage messages. */
@@ -1029,6 +1055,7 @@ const WEEK_TEXT = {8:"الجدول اليومي والواجبات وخطة ال
   10:"عرض Be Well يوم الأحد، ورحلة الأربعاء، والجدول اليومي والواجبات وخطة المذاكرة لكل يوم."};
 const PRACTICE_GROUPS = [["now","ابدأ من هنا"], ["math","الرياضيات"], ["sci","العلوم"], ["eng","الإنجليزي"], ["ict","الحاسب"], ["old","خطط الأسابيع السابقة"]];
 const PRACTICE_PAGES = [
+  {group:"now", kind:"مراجعة", href:"review/quiz-2/index.html", title:"مراجعة الاختبار القصير 2", text:"مواعيد اختبارات 8–19 نوفمبر ونطاق كل مادة درسًا درسًا، وعلامة على كل درس يراجعه.", cls:"s-quiz"},
   {group:"now", kind:"خطة IXL", href:"ixl/index.html", title:"خطة IXL لاختبار MAP", text:"المواد الأربع في 16 أسبوع: مهارات كل يوم بروابطها، وهدف كل مهارة.", cls:"s-ixl"},
   {group:"now", kind:"عيادة", href:"ixl/coach/index.html", title:"عيادة IXL", text:"إذا علِقت مهارة في IXL: شكل السؤال، والفخاخ الشائعة، وتدريب بنفس شكل IXL، ثم اختبار جاهزية قبل ما يرجع. فيها B54 و42P وCQJ وPQQ وPF8.", cls:"s-ixl"},
   {group:"now", kind:"تدريب", href:"ixl/practice/index.html", title:"ورقة التدريب", text:"الأزمنة، صفات الشخصيات، المستوى الإحداثي، الكسور، الأسس، المفردات والعلوم، مع التصحيح.", cls:"s-ixl"},
@@ -1099,7 +1126,10 @@ const IXL_CORE = new Set(IXL_SUBJECTS.flatMap(s => s.codes));
 
 let DATA = {items:[]};
 try { DATA = JSON.parse(document.getElementById("edupage-data").textContent); } catch (e) {}
-const ITEMS = (DATA.items || []).map(i => DUE_FIX[i.id] ? Object.assign({}, i, {due:DUE_FIX[i.id], dueGuessed:false}) : i)
+/* An EduPage test of the same subject on the same day as one from the assessment outline is the same quiz: the outline's has the pages. */
+const OUTLINE = new Set(EXTRA.filter(x => x.fromOutline).map(x => x.subject + "|" + x.date));
+const ITEMS = (DATA.items || []).filter(i => !(i.kind === "test" && OUTLINE.has(i.subject + "|" + i.date)))
+  .map(i => DUE_FIX[i.id] ? Object.assign({}, i, {due:DUE_FIX[i.id], dueGuessed:false}) : i)
   .concat(EXTRA, ixlItems(todayISO()));
 
 function loadState(){ try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v.done === "object") return v; } catch (e) {} return {done:{}}; }
@@ -1274,6 +1304,7 @@ function renderTests(){
       '<p class="item-text" dir="auto">' + textHTML(i.text) + '</p>' +
       (note ? '<p class="note" dir="auto">' + esc(note) + '</p>' : "") +
       (i.fromPlan ? '<p class="meta-note">من الخطة الأسبوعية (مو موجود في EduPage)</p>' : "") +
+      (i.fromOutline ? '<p class="meta-note">من ملف التقييم الرسمي للاختبار القصير 2</p>' : "") +
       (prac ? '<div class="actions"><a class="act" href="' + prac[0] + '">' + esc(prac[1]) + ' ←</a></div>' : "") +
       '</div></li>';
   }).join("");
