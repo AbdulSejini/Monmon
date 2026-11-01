@@ -72,6 +72,28 @@ ul,ol{margin:0;padding:0;list-style:none}
 .week-btn{justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--sun);font-weight:800;text-decoration:none;box-shadow:var(--shadow-sm)}
 .week-btn:active{transform:translate(3px,3px);box-shadow:none}
 
+/* IXL plan progress: the skills ticked on ixl/index.html, with a line where this week should end */
+.ixl-card{margin-top:20px;padding:14px 16px 16px;display:grid;gap:10px;border-inline-start:10px solid var(--good)}
+.ixl-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.ixl-head h2{font-size:23px}
+.ixl-head a{margin-inline-start:auto;font-size:15px;font-weight:800;color:#1F5FB8;white-space:nowrap}
+.ixl-big{font-size:16px;font-weight:700;color:var(--ink-2)}
+.ixl-big b{font-size:30px;font-weight:800;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums}
+.ixl-bar{position:relative}
+.ixl-track{height:22px;border:3px solid var(--ink);border-radius:999px;background:var(--page);overflow:hidden}
+.ixl-track i{display:block;height:100%;background:var(--good);transition:width .5s}
+.ixl-marks{position:absolute;inset:0 3px;pointer-events:none}
+.ixl-goal{position:absolute;top:-5px;bottom:-5px;width:5px;margin-inline-start:-2px;background:var(--ink);border-radius:3px}
+.ixl-lines{display:grid;gap:2px;font-size:15px;font-weight:700}
+.ixl-lines .ok{color:var(--good)}
+.ixl-swatch{display:inline-block;width:5px;height:15px;margin-inline-end:6px;background:var(--ink);border-radius:3px;vertical-align:-2px}
+.ixl-subj{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px 16px}
+.ixl-s{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;font-size:14px;font-weight:700}
+.ixl-s span:nth-child(2){font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.ixl-mb{grid-column:1 / -1;height:12px;border:2px solid var(--ink);border-radius:999px;background:var(--page);overflow:hidden}
+.ixl-mb i{display:block;height:100%;background:var(--col);transition:width .5s}
+@media (max-width:620px){.ixl-subj{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 /* sections */
 .sec{margin-top:34px}
 .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:12px}
@@ -205,6 +227,9 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
 
   <!-- points, the daily goal, the streak and the latest stickers: filled by assets/rewards.js -->
   <section class="rw-card" data-rewards-card aria-labelledby="rwTitle" hidden></section>
+
+  <!-- progress in the IXL MAP plan, from the skills ticked on ixl/index.html: filled by renderIxl() -->
+  <section class="ixl-card panel" id="ixlCard" aria-labelledby="ixlTitle"></section>
 
   <section class="sec" aria-labelledby="todoTitle">
     <div class="sec-head"><h2 id="todoTitle">لازم يسويه</h2>
@@ -1057,6 +1082,20 @@ function ixlItems(today){
       " (" + w.topic + "). المهارة تخلص لما توصل هدفها: 80، أو 90 للقراءة والكسور، و100 لواجب المعلم."}));
 }
 function ixlProgress(w){ const d = ixlDone(); return "خلص منها " + w.codes.filter(c => d[c]).length + " من " + w.codes.length; }
+/* The plan's 210 skills by subject, from SKILLS in ixl/index.html (keep in step with it). Mr. Jamal's WXW in the
+   first week isn't one of them, and neither are the bonus skills. Colours as on the plan page. */
+const IXL_SUBJECTS = [
+  {name:"رياضيات", col:"#2F7DE1", codes:("TY5 XDA HC5 Q65 D5D D69 GEQ 7PE MD8 8VK MS6 NY2 CGS KYA VG6 LXP MLU 6DY ZJ2 HYM JL8 WPQ 7DA WMX YEE RB2 WNE " +
+    "YM2 GKZ 7BL 42U KCE MJ2 2PH V46 38T XCQ 63U ZPD 6H5 78D 9BK F5B 6LQ Q8Z 49T 7XA 9KE QXS TXX 2HH PGZ R8H 7XM KFG HTG W5U").split(" ")},
+  {name:"قراءة", col:"#E23F66", codes:("7T9 PQQ GFW CXN YQD ZQK FGC N7R QMK LW5 QTL JC7 YGF 2ZK NHQ LT5 RD9 WDU 8KK DC8 VJM 6DS 5TX VBG BG9 VSQ ZZE " +
+    "F6D G5Y VDR WSP J58 NBX YZB DNH XFL GC2 F7T BWA VZH A5Q 8GB FZ7 G7R ZXC XNX UNG 49S PN7 FCL T8Y BJ9 UYA TS8 K7L KXN N5T QQC K7J 78V " +
+    "ZEA UZ9 7XU B6G RQT QLF TJ6 BTA 8YE F7J PV6 JMD PFB A72 KNW").split(" ")},
+  {name:"قواعد وكتابة", col:"#F39200", codes:("DXR 2ER 6GA 82A C5Z 68D QWR F79 27D YMU 6RR 96L HW7 VVG 8MJ 7XV TMH GFQ TGD PSC B54 S7F 42P WDH RY6 " +
+    "AAT AV6 YLV AJQ 2NZ U6W UZH K9N RMV FGB GQ6 7QW DHV LJN UJF U9M RQP UBL 5L5 FFK PJ5 XY2 U65 KUB UXZ 9AR RAL HXU VQC H9K HHA JMH 5SL " +
+    "7TE 6BY QSP JSA GMJ GWU FWH MRT TWK RCL 9X4 9CZ 2BR").split(" ")},
+  {name:"علوم", col:"#119C77", codes:"S7U WCJ MC7 ZCE 85B APR G9Y".split(" ")}
+];
+const IXL_CORE = new Set(IXL_SUBJECTS.flatMap(s => s.codes));
 
 let DATA = {items:[]};
 try { DATA = JSON.parse(document.getElementById("edupage-data").textContent); } catch (e) {}
@@ -1111,6 +1150,37 @@ function renderHello(){
   document.getElementById("tNext").textContent = next ? shortDate(next) : "—";
   const btn = document.getElementById("weekBtn");
   if (WEEK_PAGES[schoolWeek]) { btn.href = WEEK_PAGES[schoolWeek]; btn.textContent = "خطة الأسبوع " + schoolWeek + " بالتفصيل ←"; btn.hidden = false; }
+}
+
+/* ---------- IXL plan progress ---------- */
+/* The line on the bar is where the plan expects him by the end of this plan week (Saturday): every skill of the weeks so far. */
+function renderIxl(){
+  const d = ixlDone(), weeks = IXL_PLAN.weeks, last = weeks[weeks.length - 1], total = IXL_CORE.size;
+  const done = [...IXL_CORE].filter(c => d[c]).length;
+  const wk = weeks.find(w => w.from <= TODAY && TODAY <= w.due);
+  const goal = TODAY > last.due ? total : weeks.filter(w => w.from <= TODAY).flatMap(w => w.codes).filter(c => IXL_CORE.has(c)).length;
+  const skills = n => count(n, "مهارة واحدة", "مهارتان", "مهارات", "مهارة");
+  const pct = n => (n / total * 100).toFixed(1) + "%";
+  let week, status;
+  if (wk) week = "مهارات " + (wk.n ? "الأسبوع " + wk.n + " (من 16)" : "البداية") + ": خلص " + wk.codes.filter(c => d[c]).length + " من " + wk.codes.length;
+  else week = TODAY < weeks[0].from ? "الخطة تبدأ " + shortDate(weeks[0].from) : "مدة الخطة خلصت " + shortDate(last.due);
+  const by = wk ? WD[parts(wk.due).wd] : "نهاية الخطة", swatch = '<span class="ixl-swatch" aria-hidden="true"></span>';
+  if (done >= total) status = '<span class="ok">خلّص كل مهارات الخطة 🎉</span>';
+  else if (!goal) status = "";
+  else if (done >= goal) status = '<span class="ok">' + swatch + 'وصل المطلوب لين ' + by + ' (' + goal + ') ✓</span>';
+  else status = '<span>' + swatch + 'المفروض ' + goal + ' لين ' + by + ' · باقي ' + skills(goal - done) + '</span>';
+  document.getElementById("ixlCard").innerHTML =
+    '<div class="ixl-head"><h2 id="ixlTitle">تقدّمه في خطة IXL</h2><a href="' + IXL_PLAN.page + '">افتح خطة IXL ←</a></div>' +
+    '<p class="ixl-big"><b>' + done + '</b> من ' + total + ' مهارة · ' + Math.round(done / total * 100) + '٪</p>' +
+    '<div class="ixl-bar" role="img" aria-label="خلص ' + done + ' من ' + total + ' مهارة' + (goal && done < total ? '، والمفروض ' + goal + ' لين ' + by : '') + '">' +
+      '<div class="ixl-track"><i style="width:' + pct(done) + (done ? ';min-width:12px' : '') + '"></i></div>' +
+      (goal && done < total ? '<div class="ixl-marks"><span class="ixl-goal" style="inset-inline-start:' + pct(goal) + '"></span></div>' : '') + '</div>' +
+    '<p class="ixl-lines"><span>' + week + '</span>' + status + '</p>' +
+    '<div class="ixl-subj">' + IXL_SUBJECTS.map(s => {
+      const n = s.codes.filter(c => d[c]).length;
+      return '<div class="ixl-s" style="--col:' + s.col + '"><span>' + s.name + '</span><span>' + n + '/' + s.codes.length + '</span>' +
+        '<span class="ixl-mb" role="img" aria-label="' + s.name + ': ' + n + ' من ' + s.codes.length + '"><i style="width:' + (n / s.codes.length * 100).toFixed(1) + '%"></i></span></div>';
+    }).join("") + '</div>';
 }
 
 /* ---------- today alert ---------- */
@@ -1310,7 +1380,7 @@ function renderPrint(){
     '<p class="ps-foot">' + esc(syncedText()) + ' المصدر: EduPage ورسائله والخطة الأسبوعية للمدرسة.</p>';
 }
 
-function renderAll(){ renderHello(); renderToday(); renderTodo(); renderTests(); renderDates(); renderHistory(); renderPrint(); }
+function renderAll(){ renderHello(); renderIxl(); renderToday(); renderTodo(); renderTests(); renderDates(); renderHistory(); renderPrint(); }
 
 /* progress sync between devices (assets/sync.js and sync/index.html) */
 function renderSyncState(){
