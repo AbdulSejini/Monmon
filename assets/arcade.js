@@ -37,6 +37,7 @@
   }
   var ISL = {mc: "اختيار من متعدد", tf: "صح أو خطأ", match: "صِل", fill: "أكمل", mock: "الاختبار التجريبي"};
   var ENG = {read: "Reading", idea: "Main idea", vocab: "Vocabulary", gram: "Grammar", write: "Letter", test: "Practice test"};
+  var AR = {a1: "همزتا الوصل والقطع", a2: "الهمزة المتوسطة", a3: "الهمزة المتطرفة", a4: "كان وأخواتها", dict: "قطعة الإملاء", mock: "الاختبار التجريبي"};
   var SOURCES = [
     {key: "islamic-g6-quiz2-v1", page: "islamic/quiz-2/index.html", title: "الإسلامية: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة، أو 12 من 15 في الاختبار التجريبي",
      all: Object.keys(ISL).map(function (m) { return ["isl-" + m, "الإسلامية: " + ISL[m]]; }),
@@ -44,6 +45,9 @@
     {key: "english-g6-quiz2-v1", page: "english/quiz-2/index.html", title: "الإنجليزي: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة، أو 24 من 30 في الاختبار التجريبي",
      all: Object.keys(ENG).map(function (m) { return ["eng-" + m, "الإنجليزي: " + ENG[m]]; }),
      parts: function (v) { return keys(v && v.mastered).filter(function (m) { return ENG[m]; }).map(function (m) { return ["eng-" + m, "الإنجليزي: " + ENG[m]]; }); }},
+    {key: "arabic-g6-quiz2-v1", page: "arabic/quiz-2/index.html", title: "لغتي: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة، أو 16 من 20 في الاختبار التجريبي، أو قطعة الإملاء بلا خطأ",
+     all: Object.keys(AR).map(function (m) { return ["ar-" + m, "لغتي: " + AR[m]]; }),
+     parts: function (v) { return keys(v && v.mastered).filter(function (m) { return AR[m]; }).map(function (m) { return ["ar-" + m, "لغتي: " + AR[m]]; }); }},
     {key: "numberline-envision-2-1-2-3-v1", page: "math/integers-rational/index.html", title: "رياضيات: الأعداد الصحيحة", rule: "3 نجوم في المنطقة، أو 80% في التحدي النهائي",
      zones: {z1: "Integer Island", z2: "Rational Road", z3: "Absolute Value Bridge"}, pre: "nll"},
     {key: "factorlab-envision-3-2-3-3-v1", page: "math/factors-expressions/index.html", title: "رياضيات: العوامل والمضاعفات", rule: "3 نجوم في المنطقة، أو 80% في التحدي النهائي",
