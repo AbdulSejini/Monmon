@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مراجعة الاجتماعيات: الاختبار القصير 2</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23F5E6D6%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M32 50V22M32 22c-10-8-18-4-20 0M32 22c10-8 18-4 20 0M32 22c-6-10-2-14 0-14M32 22c6-10 2-14 0-14%22 fill=%22none%22 stroke=%22%230F8A5F%22 stroke-width=%224.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#F6EFE6; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --col:#8C5A2B; --tint:#F5E6D6;
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --font:"Tajawal","Segoe UI","Geeza Pro",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;line-height:1.3;font-weight:800;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+:focus-visible{outline:3px solid #2F7DE1;outline-offset:3px}
+.wrap{max-width:880px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.c-so1{--col:#B5651D;--tint:#FBE9D7} .c-so2{--col:#0F8A5F;--tint:#D7F2E6} .c-so3{--col:#7A4FD0;--tint:#ECE3FF} .c-mock{--col:#8C5A2B;--tint:#F5E6D6}
+
+.topbar{background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:880px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{font-size:26px;font-weight:800;color:#E9B97A;-webkit-text-stroke:1.2px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg);white-space:nowrap;line-height:1.2}
+.chip{font-size:13px;font-weight:800;background:var(--ink);color:#fff;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.xp{display:inline-flex;align-items:center;gap:5px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:2px 11px;white-space:nowrap}
+.spacer{flex:1}
+.icon-btn{width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--sun-2);box-shadow:2px 2px 0 var(--ink);text-decoration:none;padding:0}
+.icon-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:800;text-decoration:none;box-shadow:var(--shadow-sm);text-align:center;white-space:nowrap}
+.btn:active{transform:translate(3px,3px);box-shadow:none}
+.btn.go{background:var(--sun)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.sm{min-height:38px;padding:5px 12px;font-size:15px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+.hero{margin-top:20px;padding:18px;display:grid;gap:12px;border-inline-start:12px solid var(--col)}
+.hero h1{font-size:clamp(26px,5.6vw,38px)}
+.hero .sub{color:var(--ink-2);font-weight:700}
+.badge{font-size:13px;font-weight:800;padding:2px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--sun-2);white-space:nowrap}
+.badge.hot{background:var(--bad);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:var(--r-sm);padding:8px;background:var(--page);text-align:center;display:grid}
+.stat b{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:13px;font-weight:700;color:var(--ink-2)}
+.sec{margin-top:30px}
+.sec-head{margin-bottom:12px;display:grid;gap:2px}
+.sec-head h2{font-size:27px}
+.sec-head p{color:var(--ink-2);font-size:15px}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tile{padding:14px;display:grid;gap:8px;align-content:start;border:3px solid var(--ink);border-radius:var(--r);background:var(--paper);box-shadow:var(--shadow-sm);border-inline-start:10px solid var(--col)}
+.tile b{font-size:17px;line-height:1.45}
+.tile span{font-size:14px;color:var(--ink-2);font-weight:700}
+.tile .row{margin-top:auto}
+.mock-cta{margin-top:14px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;background:var(--sun-2)}
+.mock-cta p{flex:1 1 260px;font-weight:700}
+
+/* the timeline */
+.tl{position:relative;display:grid;gap:10px;padding-inline-start:30px}
+.tl::before{content:"";position:absolute;inset-block:8px;inset-inline-start:11px;border-inline-start:4px solid var(--col)}
+.tl li{list-style:none;position:relative;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;padding:8px 12px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);box-shadow:2px 2px 0 var(--ink)}
+.tl li::before{content:"";position:absolute;inset-inline-start:-27px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;background:var(--sun);border:3px solid var(--ink)}
+.tl li.big::before{background:var(--col)}
+.tl .y{font-weight:800;font-size:19px;font-variant-numeric:tabular-nums;color:var(--col);white-space:nowrap}
+.tl .y small{display:block;font-size:12px;color:var(--ink-2);font-weight:700}
+.tl .e{font-weight:700;font-size:16px}
+/* the emirs of ad-Diriyah */
+.chain{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chain span{border:2px solid var(--ink);border-radius:999px;padding:3px 11px;background:var(--tint);font-weight:800;font-size:15px}
+.chain span.top{background:var(--col);color:#fff}
+.chain i{font-style:normal;font-weight:800;color:var(--ink-3)}
+/* the imams */
+.imams{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.imam{position:relative;padding:14px 16px 16px;display:grid;gap:8px;align-content:start;border:3px solid var(--ink);border-radius:16px;background:linear-gradient(160deg,var(--tint),#fff 70%);box-shadow:5px 5px 0 var(--ink);scroll-margin-top:12px}
+.imam .num{position:absolute;top:-14px;inset-inline-start:14px;width:34px;height:34px;border-radius:50%;background:var(--col);color:#fff;border:3px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:17px}
+.imam h3{font-size:21px;margin-top:6px}
+.imam .yrs{justify-self:start;font-weight:800;font-variant-numeric:tabular-nums;background:var(--ink);color:#fff;border-radius:8px;padding:1px 10px;font-size:15px}
+.imam .tag{justify-self:start;font-weight:800;font-size:14px;background:var(--sun);border:2px solid var(--ink);border-radius:999px;padding:1px 10px}
+.quals{display:flex;flex-wrap:wrap;gap:6px}
+.quals span{font-size:13.5px;font-weight:800;border:2px solid var(--col);color:var(--col);background:#fff;border-radius:999px;padding:1px 9px}
+.imam ul{padding-inline-start:18px;display:grid;gap:3px;font-size:15.5px}
+.imam .end{font-size:14.5px;font-weight:700;color:var(--ink-2);border-top:2px dashed var(--ink-3);padding-top:6px}
+.logo5{display:flex;flex-wrap:wrap;gap:8px}
+.logo5 span{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--ink);border-radius:12px;padding:4px 10px;background:#fff;font-weight:800}
+.logo5 span b{font-size:22px;line-height:1}
+
+/* lesson summaries */
+.part{scroll-margin-top:12px}
+.part-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:12px}
+.part-head h2{font-size:27px;color:var(--col)}
+.part-head span{font-size:14px;font-weight:800;color:var(--ink-2)}
+.card{padding:14px 16px;display:grid;gap:8px;border-inline-start:10px solid var(--col);scroll-margin-top:12px}
+.card + .card{margin-top:12px}
+.card h3{font-size:20px}
+.card ul{padding-inline-start:20px;display:grid;gap:4px}
+.card li{font-size:16px}
+.quote{border-inline-start:4px solid var(--col);background:var(--tint);border-radius:0 8px 8px 0;padding:8px 12px;font-size:16.5px;line-height:1.9;font-weight:700}
+.quote small{display:block;color:var(--ink-2);font-size:13px;font-weight:700}
+.def{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--tint);padding:8px 12px;font-weight:700}
+.note{font-size:14px;color:var(--ink-2);font-weight:700}
+
+/* practice */
+.run{margin-top:20px;padding:16px;display:grid;gap:14px;border-inline-start:10px solid var(--col)}
+.run > *,.card > *,.fb > *{min-width:0}
+.run-top{display:flex;align-items:center;gap:10px}
+.run-top b{font-size:18px}
+.counter{margin-inline-start:auto;font-weight:800;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.progress{height:12px;border:2px solid var(--ink);border-radius:999px;background:var(--page);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--col);transition:width .3s}
+.q-part{font-size:14px;font-weight:800;color:var(--col)}
+.q-text{font-size:21px;font-weight:700;line-height:1.7}
+.q-text small{display:block;font-size:15px;color:var(--ink-2)}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:10px;min-height:52px;padding:8px 14px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);box-shadow:var(--shadow-sm);font-weight:700;text-align:start;font-size:18px;line-height:1.45}
+.opt .k{display:grid;place-items:center;width:30px;height:30px;flex:none;border:2px solid var(--ink);border-radius:8px;background:var(--tint);font-weight:800}
+.opt.right{background:var(--good-bg);border-color:var(--good)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.opt.dim{opacity:.55}
+.opt:disabled{cursor:default}
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tf .opt{justify-content:center;font-size:22px;min-height:64px}
+.match{display:grid;gap:10px}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:8px 12px;align-items:center;padding:8px 10px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+.mrow.right{background:var(--good-bg);border-color:var(--good)}
+.mrow.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.mrow b{font-weight:800}
+.mrow select{width:100%;min-height:46px;border:2px solid var(--ink);border-radius:10px;background:#fff;padding:4px 8px;font-weight:700}
+.mrow .fix{grid-column:1 / -1;font-size:14px;font-weight:700;color:var(--good)}
+.ord-pool{display:flex;flex-wrap:wrap;gap:8px}
+.ord-pool .opt{min-height:46px;font-size:16px;flex:1 1 200px}
+.ord-pool .opt:disabled{opacity:.35;box-shadow:none;transform:translate(3px,3px)}
+.ord-ans{list-style:none;display:grid;gap:8px;counter-reset:o}
+.ord-ans li{counter-increment:o;display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;min-height:46px;padding:6px 12px;border:2px dashed var(--ink-3);border-radius:var(--r-sm);background:var(--page);font-weight:700}
+.ord-ans li::before{content:counter(o);width:28px;height:28px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);display:grid;place-items:center;font-weight:800;font-size:14px}
+.ord-ans li.on{border-style:solid;border-color:var(--ink);background:var(--paper)}
+.ord-ans li.right{background:var(--good-bg);border:2px solid var(--good)}
+.ord-ans li.wrong{background:var(--bad-bg);border:2px solid var(--bad)}
+.ord-ans li small{grid-column:2;font-size:13px;font-weight:700;color:var(--good)}
+.fill input{width:100%;min-height:50px;border:3px solid var(--ink);border-radius:12px;padding:6px 12px;font-size:19px;font-weight:700;background:#fff}
+.fb{border:3px solid var(--ink);border-radius:var(--r-sm);padding:10px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--good-bg)}
+.fb.no{background:var(--bad-bg)}
+.fb .burst{font-size:20px;font-weight:800}
+.fb .why{font-size:16px}
+.peek{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);padding:4px 12px}
+.peek summary{font-weight:800;color:#1F5FB8;cursor:pointer;min-height:40px;padding-block:6px}
+.peek-in{display:grid;gap:8px;padding:2px 0 10px}
+.peek-in ul{padding-inline-start:20px;display:grid;gap:4px}
+.peek-in li{font-size:15.5px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+.result{margin-top:20px;padding:18px;display:grid;gap:12px;text-align:center}
+.result .big{font-size:44px;font-weight:800;line-height:1.2}
+.result .big small{font-size:20px;color:var(--ink-2)}
+.parts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.miss-list{display:grid;gap:10px;margin-top:12px}
+.miss{padding:10px 14px;display:grid;gap:4px;text-align:start}
+.miss .q{font-weight:700}
+.miss .a{font-size:15px;color:var(--ink-2);font-weight:700}
+.miss a{font-weight:800;color:#1F5FB8}
+.foot{margin-top:28px;font-size:14px;color:var(--ink-2);display:grid;gap:6px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+@media (max-width:760px){.tiles{grid-template-columns:1fr}.imams{grid-template-columns:1fr}}
+@media (max-width:520px){.chip{display:none}.mrow{grid-template-columns:1fr}.q-text{font-size:19px}.stat b{font-size:21px}.part-head h2{font-size:24px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* print, 2 pages: the three lessons in short with the imams; then the timelines and a practice test with its answer key */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important}
+  body{background-image:none!important;color:#000;font-size:9.4pt;line-height:1.45}
+  .topbar,main{display:none!important}
+  .print-sheet{display:block}
+  .ps-head{display:flex;justify-content:space-between;align-items:baseline;gap:8pt;border-bottom:1.5pt solid #000;padding-bottom:3pt;margin-bottom:5pt}
+  .ps-head h1{font-size:14.5pt}
+  .ps-head p{font-size:9pt;font-weight:700}
+  .ps-cols{columns:2;column-gap:6mm}
+  .ps-l{break-inside:avoid;margin-bottom:5pt}
+  .ps-l h3{font-size:10.5pt;border-bottom:.75pt solid #999;margin-bottom:2pt}
+  .ps-l ul{padding-inline-start:12pt}
+  .ps-l li{margin-bottom:1pt}
+  .ps-page{break-before:page}
+  .ps-tl{width:100%;border-collapse:collapse;font-size:9pt;margin-bottom:6pt}
+  .ps-tl td,.ps-tl th{border:.75pt solid #888;padding:2pt 5pt;text-align:start;vertical-align:top}
+  .ps-tl th{background:#eee}
+  .ps-grid2{display:grid;grid-template-columns:1fr 1.25fr;gap:5mm;align-items:start}
+  .ps-grid2 .ps-tl{font-size:8.6pt}
+  .ps-q{margin-bottom:6pt}
+  .ps-q h2{font-size:11pt;margin-bottom:3pt}
+  .ps-q ol{padding-inline-start:16pt}
+  .ps-q li{margin-bottom:3pt;break-inside:avoid}
+  .ps-q .o{display:inline-block;margin-inline-end:12pt}
+  .ps-two ol{columns:2;column-gap:6mm}
+  .ps-match{width:100%;border-collapse:collapse;font-size:9.5pt}
+  .ps-match td{border:.75pt solid #999;padding:1.5pt 5pt}
+  .ps-key{border-top:1pt solid #000;margin-top:6pt;padding-top:3pt;font-size:8.5pt}
+  .ps-key h3{font-size:10pt}
+}
+</style>
+</head>
+<body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+<script src="../../assets/rewards.js" data-root="../../"></script>
+<script src="../../assets/arcade.js" data-root="../../"></script>
+<script src="../../assets/fx.js" data-sound="1" data-enter=".run"></script>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="logo">اجتماعيات</span>
+    <span class="chip">الاختبار القصير 2</span>
+    <span class="spacer"></span>
+    <span class="xp" title="نقاطك في هذه الصفحة">⭐ <b id="xpVal">0</b></span>
+    <button class="icon-btn" id="printBtn" type="button" aria-label="طباعة ورقة المراجعة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg></button>
+    <a class="icon-btn" href="../../index.html" aria-label="الرئيسية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></a>
+  </div>
+</header>
+<main class="wrap" id="main"></main>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<section class="print-sheet" id="printSheet" aria-hidden="true"></section>
+
+<script>
+"use strict";
+/* Social Studies, Quiz 2 of Term 1 (Tuesday 17 November): Unit 2, the First Saudi State, Lessons 3–5 of the assessment
+   outline (pp. 26–29, 30–39, 40–45). Each lesson is summarised topic by topic from the current student book (1447), with
+   two timelines and a card for each imam; each lesson has its own practice (choose, true or false, complete, match, put in
+   order), and a mock test mixes all three. The outline gives no marks, so the mock is counted out of its questions.
+   The questions are written for this page from the lessons; the book's activities and unit review are covered, not copied.
+   Progress (xp, the best mock, the lessons mastered) is saved in social-g6-quiz2-v1, synced by assets/sync.js; its xp counts
+   towards the rewards, and a lesson mastered (80% of a full round or of the mock) gives arcade time once.
+   review/quiz-2 links each lesson here (#l-so1, #l-so2, #l-so3). */
+const KEY = "social-g6-quiz2-v1", TZ = "Asia/Riyadh", QUIZ_DAY = "2026-11-17";
+
+/* ---------- THE LESSONS ---------- */
+const LESSONS = [
+  {id:"so1", n:3, t:"شبه الجزيرة العربية قبل قيام الدولة السعودية الأولى", short:"قبل الدولة السعودية الأولى", pg:"26–29",
+   blurb:"الحالة السياسية والاقتصادية والدينية والعلمية قبل الدولة، وما الذي تغيّر بعدها، ومراحل الدولة السعودية."},
+  {id:"so2", n:4, t:"تأسيس الدولة السعودية الأولى", short:"تأسيس الدولة", pg:"30–39",
+   blurb:"بنو حنيفة ومانع المريدي وتأسيس الدرعية، وأمراؤها، وتأسيس الدولة عام 1139هـ، والدعوة الإصلاحية، ويوم التأسيس."},
+  {id:"so3", n:5, t:"أئمة الدولة السعودية الأولى", short:"الأئمة", pg:"40–45",
+   blurb:"الأئمة الأربعة بالترتيب: سنوات حكمهم وصفاتهم وأعمالهم، ونهاية الدولة عام 1233هـ."}
+];
+const LESSON = Object.fromEntries(LESSONS.map(l => [l.id, l]));
+/* the topics: the cards on the page; every question points to one, for the lesson box and the review link */
+const TOPICS = [
+  {id:"a-pol", l:"so1", t:"الحالة السياسية", pts:[
+    "لم تكن شبه الجزيرة العربية تحت حكم موحّد كما كانت في عصر الرسول ﷺ والخلافة الراشدة.",
+    "بعض أجزائها تحت <b>نفوذ دول من خارجها</b>، وبعضها <b>إمارات صغيرة وزعامات محلية متعددة</b>، وبينهم نزاعات.",
+    "النتيجة: <b>غياب الأمن</b> في أغلب جهاتها؛ فكانت بحاجة إلى <b>حكومة قوية ووحدة حقيقية</b> تعيد لها أمجادها ودورها التاريخي والحضاري، وهو ما حدث في عصر الدولة السعودية الأولى."]},
+  {id:"a-eco", l:"so1", t:"الحالة الاقتصادية", pts:[
+    "تأثّر الاقتصاد بغياب الدولة الموحدة: <b>الطرق غير آمنة، والحروب مستمرة، والمزارع وأماكن التجارة عُرضة للسرقة</b>.",
+    "فأدّى ذلك إلى <b>ضعف الحركة الاقتصادية والنشاط التجاري</b>.",
+    "ومن شرح المعلم: كان الناس يحمون أنفسهم بالبقاء داخل أسوار البلدات، أو بدفع <b>الإتاوات</b> لحماية قوافلهم، أو بالتكتّل للدفاع، ولم يكن الحل إلا دولة مركزية تحكم بالعدل والشريعة."]},
+  {id:"a-rel", l:"so1", t:"الحالة الدينية والعلمية", pts:[
+    "ظهرت في بعض المناطق <b>ممارسات مخالفة للدين، من بدع وخرافات</b>، مثل غيرها من المناطق خارج شبه الجزيرة.",
+    "وتأخّرت الجوانب العلمية والاقتصادية منذ ما بعد الخلافة الراشدة حتى قيام الدولة السعودية الأولى."]},
+  {id:"a-four", l:"so1", t:"للاطلاع: بلدة واحدة وأربعة أمراء", pts:[
+    "بلدة صغيرة جدًا في وسط شبه الجزيرة كان يحكمها في وقت واحد <b>أربعة أمراء</b>، كل أمير يحكم ربعها.",
+    "ذكر ذلك المؤرخ <b>عثمان بن بشر</b>: «فقسّموا البلد أربعًا، كل واحد شاخ (أي أصبح شيخًا) في ربعها».",
+    "وهذا يجعلنا نشكر الله على <b>الوحدة الوطنية والقيادة المباركة</b>."]},
+  {id:"a-change", l:"so1", t:"ما الذي تغيّر؟ ومراحل الدولة السعودية", pts:[
+    "<b>عادت الوحدة والأمن والاستقرار</b> لأغلب شبه الجزيرة، و<b>ازدهرت العلوم والمعارف</b>، وأصبحت المنطقة تحت راية دولة واحدة إلى اليوم.",
+    "الدولة السعودية: <b>الأولى</b>، ثم <b>الثانية</b>، ثم <b>المملكة العربية السعودية</b> (انظر خط الزمن).",
+    "<b>واجبنا تجاه الوطن:</b> شكر الله على ما نعيشه، والولاء لله ثم للقيادة (آل سعود)، ومعرفة أهمية الوحدة الوطنية، والفخر بالوطن والعمل بإخلاص من أجل وحدته ورقيّه."], tl:"stages"},
+  {id:"a-maps", l:"so1", t:"نشاط: الخرائط الثلاث", pts:[
+    "<b>في العهد النبوي والخلافة الراشدة:</b> شبه الجزيرة كلها تحت حكم موحّد، مع أمن واستقرار.",
+    "<b>قبل الدولة السعودية الأولى:</b> أجزاء صغيرة متفرّقة، لا حكم موحّد، ونزاعات وغياب للأمن.",
+    "<b>في عصر الدولة السعودية الأولى:</b> عادت الوحدة والأمن لأغلب شبه الجزيرة تحت دولة واحدة."]},
+  {id:"b-roots", l:"so2", t:"الجذور: بنو حنيفة", pts:[
+    "ترجع جذور الأسرة المالكة (آل سعود) إلى <b>200 سنة قبل الإسلام</b>، عندما هاجرت قبيلة <b>بني حنيفة</b> من <b>الحجاز</b> إلى وسط شبه الجزيرة، وأسست دولة قوية موحّدة مركزها <b>حَجْر اليمامة</b> (الرياض اليوم).",
+    "<b>بنو حنيفة:</b> قبيلة عربية عريقة، معروفة بالكثرة والقوة. بعد إسلامهم منعوا الميرة عن قريش، حتى طلب منهم النبي ﷺ أن يمدّوهم بها لأسباب إنسانية، وقاتلوا مع المسلمين في حروب الردة، وخرج منهم علماء في القرآن والحديث.",
+    "<b>لماذا اليمامة (العارض)؟</b> كانت موطنًا قديمًا للحضارات، عاشت فيها قبيلتا <b>طَسْم وجَدِيس</b> (من القبائل البائدة) حتى 300 سنة قبل الإسلام، ومنها <b>زرقاء اليمامة</b> المعروفة بحدّة بصرها.",
+    "<b>نشاط:</b> تنتقل القبائل لأسباب منها: تقوية النفوذ، وطلب الماء والكلأ، والحفاظ على استقلالها."]},
+  {id:"b-mani", l:"so2", t:"مانع المريدي وتأسيس الدرعية (850هـ)", pts:[
+    "تعود جذور الدولة إلى عام <b>850هـ (1446م)</b>، حين نشأت بلدات جديدة في وسط الجزيرة مثل الدرعية والعيينة.",
+    "دعا <b>ابن دِرْع</b>، حاكم حَجْر اليمامة، ابنَ عمه <b>مانع المُرَيْدي</b> (وكان يسكن بلدته الدرعية في <b>شرق</b> الجزيرة قرب القطيف) للعودة إلى <b>وادي حنيفة</b>، وأعطاه موضعين: <b>المُلَيْبيد وغَصِيبة</b>.",
+    "أسس مانع بلدة تضم الموضعين وسمّاها <b>الدرعية</b>، نسبة إلى <b>الدروع</b> (فرع من بني حنيفة) وإلى اسم بلدتهم القديمة في شرق الجزيرة."]},
+  {id:"b-emirs", l:"so2", t:"إمارة الدرعية وأمراؤها (850–1139هـ)", pts:[
+    "قوّى مانع المريدي وأبناؤه وأحفاده إمارة الدرعية؛ لتصبح دولة تقوم على <b>الأمن والاستقرار والكيان الواحد</b>.",
+    "<b>مانع المريدي:</b> أنشأ الدرعية عام 850هـ وأسس فيها إمارة. <b>ربيعة بن مانع:</b> واصل إكمال تأسيسها. <b>موسى بن ربيعة:</b> زاد نفوذها. <b>إبراهيم بن موسى:</b> أمّن طرق الحج والتجارة التي تمر بالدرعية.",
+    "<b>مرخان بن إبراهيم:</b> زاد نفوذها. <b>مقرن بن مرخان:</b> توسّعت في عهده وعُرف بالشجاعة. <b>سعود بن محمد:</b> زادت قوتها في عهده. <b>محمد بن سعود:</b> مؤسس الدولة السعودية الأولى."], chain:true},
+  {id:"b-wadi", l:"so2", t:"وادي حنيفة", pts:[
+    "من أهم أودية وسط الجزيرة، واسمه القديم <b>وادي العِرض</b>، وسُمّي نسبة إلى بني حنيفة الذين استقروا على جوانبه.",
+    "قامت على ضفافه بلدات منها: <b>الدرعية، والرياض، ومنفوحة، والعيينة، وعرقة</b>.",
+    "طوله نحو <b>80 كم</b>، من حافة جبل طويق حتى يصب في وادي السهباء في الخرج."]},
+  {id:"b-nakhwa", l:"so2", t:"نخوة العوجا", pts:[
+    "<b>نخوة العوجا:</b> نخوة الدولة السعودية؛ النداء الذي يبث الحماس والفخر وروح الانتماء للوطن، ويردّده أبناء الوطن في أهازيجهم.",
+    "<b>النخوة:</b> النداء المرتبط بمجتمع أو دولة ليبث في أهلها الحماسة والفخر. <b>العوجا:</b> الدرعية، على امتداد وادي حنيفة المتعرّج.",
+    "قالت الشاعرة موضي الدهلاوية: «سِرْ وملفاك للعوجا مِسيره / ديرة الشيخ بلّغه السلام» (ملفاك: قصدك، العوجا: الدرعية، الشيخ: الإمام عبدالله بن سعود).",
+    "وتُردَّد قصائد نخوة الوطن في <b>العرضة السعودية</b>."]},
+  {id:"b-found", l:"so2", t:"تأسيس الدولة السعودية الأولى (1139هـ / 1727م)", pts:[
+    "أسس <b>الإمام محمد بن سعود</b> الدولة السعودية الأولى عام <b>1139هـ (1727م)</b> عندما تولّى إمارة <b>الدرعية</b> التي أصبحت <b>عاصمتها</b>.",
+    "<b>جهوده السياسية:</b> زاد قوة الإمارة ونفوذها، وعقد <b>تحالفات</b> مع البلدات المجاورة، ولم تخضع الدرعية في عهده <b>لأي سلطة أخرى</b>.",
+    "<b>جهوده الاقتصادية:</b> وثّق العلاقة بالبادية والحاضرة، و<b>أمّن طرق التجارة والحج</b>؛ فتيسّرت التجارة وتهيّأ قيام دولة قوية موحّدة.",
+    "<b>جهوده الاجتماعية:</b> أصبحت الدرعية مقصدًا للبادية والحاضرة لعلاقتها الجيدة بالجميع، فاتسع مجتمعها."]},
+  {id:"b-dawa", l:"so2", t:"الدعوة الإصلاحية (1157هـ)", pts:[
+    "قدم <b>الشيخ محمد بن عبدالوهاب</b> من <b>العيينة</b> إلى الدرعية عام <b>1157هـ</b> لطلب تأييد دعوته من الإمام محمد بن سعود؛ فالدرعية كانت قوية مستقرة قادرة على نصرة الدعوة وخدمة التعليم الشرعي.",
+    "دعا الشيخ إلى <b>التوحيد</b> وفق القرآن والسنة، والقضاء على <b>البدع والخرافات</b>، ووجدت الدعوة المساندة والحماية والتأييد من أئمة الدولة السعودية الأولى.",
+    "معنى قول الإمام «أبشر ببلادٍ خيرٍ من بلادك»: أن الدرعية قوية وفيها دولة تقوم على مبادئ الإسلام، وأنه سيسانده وينصره في نشر التوحيد."],
+   quote:{t:"الإمام: «أبشر ببلادٍ خيرٍ من بلادك، وأبشر بالعزة والتمكين». الشيخ: «وأنا أبشرك بالعز والتمكين، وهذه كلمة (لا إله إلا الله) من تمسّك بها وعمل بها ونصرها ملك بها البلاد والعباد، وهي كلمة التوحيد».", s:"من كتاب «عنوان المجد في تاريخ نجد» لعثمان بن بشر"}},
+  {id:"b-day", l:"so2", t:"يوم التأسيس", pts:[
+    "مناسبة وطنية للاعتزاز بالجذور الراسخة للدولة السعودية، واستذكار تأسيسها على يد <b>الإمام محمد بن سعود</b> منذ أكثر من ثلاثمئة عام، وما حققته من الوحدة والأمن والاستقرار.",
+    "تأسست الدولة في هذا اليوم: <b>منتصف عام 1139هـ، الموافق 22 فبراير 1727م</b>، وكانت الدرعية العاصمة ومركز الدولة.",
+    "<b>معانيه الوطنية:</b> الاعتزاز بالجذور الراسخة للدولة، والفخر بما حققته من الوحدة والأمن والاستقرار، والارتباط بين المواطنين وقادتهم."], logo:true},
+  {id:"c-titles", l:"so3", t:"الأئمة بالترتيب", pts:[
+    "تولّى حكم الدولة السعودية الأولى أربعة أئمة من آل سعود، بنوها ووحّدوا أجزاءها.",
+    "يُلقّب حكام الدولة السعودية <b>الأولى والثانية بالأئمة</b>، وحكام <b>المملكة العربية السعودية بالملوك</b>."]},
+  {id:"c-m", l:"so3", t:"الإمام محمد بن سعود (1139–1179هـ)", imam:0},
+  {id:"c-a", l:"so3", t:"الإمام عبدالعزيز بن محمد (1179–1218هـ)", imam:1},
+  {id:"c-s", l:"so3", t:"الإمام سعود بن عبدالعزيز (1218–1229هـ)", imam:2},
+  {id:"c-ab", l:"so3", t:"الإمام عبدالله بن سعود (1229–1233هـ)", imam:3}
+];
+const TOPIC = Object.fromEntries(TOPICS.map(t => [t.id, t]));
+const IMAMS = [
+  {name:"الإمام محمد بن سعود", yrs:"1139–1179هـ", tag:"مؤسس الدولة السعودية الأولى",
+   quals:["الشجاعة وقوة الشخصية", "الحزم والعدل", "التدين ومخافة الله", "الحكمة والقيادة", "الاهتمام بالمحتاجين والأرامل"],
+   deeds:["شهدت الدرعية في عهده قوة واستقرارًا داخليًا؛ ولذلك اختيرت عاصمة للدولة.", "بدأ توحيد الدولة: ضمّ <b>العيينة ومنفوحة وحريملاء وعرقة</b>.",
+     "صدّ حملات بعض القوى في المنطقة عام <b>1172هـ</b>، وحملة حاكم نجران عام <b>1178هـ</b>؛ ففشلت لصمود أهالي الدرعية.",
+     "سدّد ديون رجل من الوجهاء وقال: «الدنيا جُعلت كرامةً لبني آدم…»: كرمه ومساعدته للمحتاجين."],
+   end:"توفي في الدرعية عام 1179هـ، بعد أربعين سنة من العمل والتأسيس."},
+  {name:"الإمام عبدالعزيز بن محمد", yrs:"1179–1218هـ", tag:"بداية توسّع الدولة",
+   quals:["التدين", "العدل", "الحكمة", "الشجاعة"],
+   deeds:["أكمل التوحيد: ضمّ <b>الرياض عام 1187هـ</b>، ثم الوشم والخرج والقصيم وسدير والأحساء وعسير ونجران وجازان، وبسط نفوذ الدولة على جهات عُمان والبحرين وقطر وساحل الخليج.",
+     "صدّ <b>الحملات العثمانية من العراق</b>: بقيادة ثويني بن عبدالله (1201هـ و1211هـ)، والكيخيا علي (1213هـ)، وفشلت كلها.",
+     "بنى <b>قصر سلوى</b> في حي الطريف بالدرعية مقرًّا للحكم (الاسم من السُّلوان: ما يبعث السعادة والأنس)، وكان يستقبل فيه صغار الطلاب ويستمع لقراءتهم ويكافئهم."],
+   end:"اغتيل غدرًا عام 1218هـ وهو يصلي العصر في مسجد الطريف، بتدبير من أعداء الدولة."},
+  {name:"الإمام سعود بن عبدالعزيز", yrs:"1218–1229هـ", tag:"«سعود الكبير»: الفترة الذهبية",
+   quals:["القوة", "خدمة الحرمين والحجاج"],
+   deeds:["عهده <b>الفترة الذهبية</b> للدولة وذروة قوتها: وصلت إلى <b>أقصى نطاق</b> لها، إلى حدود العراق والشام واليمن وجهات من ساحل الخليج؛ ولذلك وُصف بـ«سعود الكبير».",
+     "صارت معظم شبه الجزيرة تحت راية التوحيد ودولة موحّدة، كما كانت في العهد النبوي والخلافة الراشدة.",
+     "أعاد الأمن والاستقرار إلى <b>مكة المكرمة والمدينة المنورة</b>، وخدم الحجاج ووفّر ما يحتاجون."],
+   end:"توفي في الدرعية عام 1229هـ."},
+  {name:"الإمام عبدالله بن سعود", yrs:"1229–1233هـ", tag:"الدفاع عن الدولة حتى النهاية",
+   quals:["القيادة", "إدارة الجيوش", "الشجاعة والبسالة"],
+   deeds:["قضى عهده في مقاومة الأعداء الذين أرادوا إسقاط الدولة.",
+     "أرسل <b>محمد علي باشا</b> (والي الدولة العثمانية في مصر) جيوشًا ضخمة جدًا شاركت في تسليحها الدولة العثمانية وولاياتها وبعض الدول الأوروبية؛ خوفًا من قوة الدولة السعودية ومنهجها الإسلامي الصحيح ومبادئها.",
+     "شهد عهده <b>سقوط الدرعية ونهاية الدولة السعودية الأولى</b>؛ فاستسلم عام <b>1233هـ</b> لحماية أبناء وطنه وحقن دمائهم."],
+   end:"نُقل إلى مصر ثم إلى إسطنبول حيث عُذّب وقُتل هناك."}
+];
+const TL_STAGES = [["850هـ", "1446م", "تأسيس الدرعية", 0], ["1139هـ", "1727م", "بداية إمارة الإمام محمد بن سعود في الدرعية وتأسيس الدولة السعودية الأولى", 1],
+  ["1240هـ", "", "تأسيس الدولة السعودية الثانية", 1], ["1319هـ", "", "دخول الملك عبدالعزيز الرياض وانطلاق تأسيس المملكة العربية السعودية", 0], ["1351هـ", "", "توحيد المملكة العربية السعودية", 1]];
+const TL_FIRST = [["1139هـ", "تأسيس الدولة السعودية الأولى، والدرعية عاصمتها"], ["1157هـ", "قدوم الشيخ محمد بن عبدالوهاب من العيينة إلى الدرعية"], ["1172هـ و1178هـ", "فشل حملات على الدرعية (منها حملة حاكم نجران 1178هـ)"],
+  ["1179هـ", "وفاة الإمام محمد بن سعود، وتولّي الإمام عبدالعزيز بن محمد"], ["1187هـ", "ضمّ الرياض"], ["1201–1213هـ", "فشل ثلاث حملات عثمانية من العراق"],
+  ["1218هـ", "اغتيال الإمام عبدالعزيز، وتولّي الإمام سعود (الفترة الذهبية)"], ["1229هـ", "وفاة الإمام سعود، وتولّي الإمام عبدالله بن سعود"], ["1233هـ", "سقوط الدرعية ونهاية الدولة السعودية الأولى"]];
+const EMIRS = ["مانع المريدي", "ربيعة بن مانع", "موسى بن ربيعة", "إبراهيم بن موسى", "مرخان بن إبراهيم", "مقرن بن مرخان", "محمد بن مقرن", "سعود بن محمد", "محمد بن سعود"];
+const LOGO = [["🇸🇦", "العلم السعودي"], ["🌴", "النخلة"], ["🦅", "الصقر"], ["🐎", "الخيل العربية"], ["🏪", "السوق"]];
+
+/* ---------- THE QUESTION BANKS ---------- */
+/* multiple choice: o[0] is right; w says why */
+const MC = [
+  {t:"a-pol", q:"قبل قيام الدولة السعودية الأولى، كانت شبه الجزيرة العربية:", o:["مقسّمة بين إمارات صغيرة وزعامات محلية متنازعة", "تحت حكم دولة واحدة قوية", "خالية من السكان"], w:"لم يكن هناك حكم موحّد؛ بعضها تحت نفوذ دول من خارجها، وبعضها إمارات صغيرة وزعامات متنازعة."},
+  {t:"a-pol", q:"ما نتيجة النزاعات بين الإمارات والزعامات المحلية؟", o:["غياب الأمن في أغلب جهات شبه الجزيرة", "ازدهار التجارة", "توحيد شبه الجزيرة"], w:"أدّت النزاعات إلى غياب الأمن، فكانت الجزيرة بحاجة إلى حكومة قوية ووحدة حقيقية."},
+  {t:"a-pol", q:"متى كانت شبه الجزيرة العربية تحت حكم موحّد قبل الدولة السعودية؟", o:["في عصر الرسول ﷺ والخلافة الراشدة", "قبل الإسلام بقليل", "قبل الدولة السعودية مباشرة"], w:"كانت موحّدة في عصر الرسول ﷺ والخلافة الراشدة، ثم تفرّقت حتى قيام الدولة السعودية الأولى."},
+  {t:"a-pol", q:"ماذا كانت شبه الجزيرة تحتاج قبل الدولة السعودية الأولى؟", o:["حكومة قوية ووحدة حقيقية", "مزيدًا من الإمارات الصغيرة", "نفوذًا أكبر لدول من خارجها"], w:"كانت بحاجة إلى حكومة قوية ووحدة حقيقية تعيد لها أمجادها، وهذا ما حدث في عصر الدولة السعودية الأولى."},
+  {t:"a-eco", q:"لماذا ضعفت الحركة الاقتصادية قبل الدولة السعودية الأولى؟", o:["لأن الطرق غير آمنة والحروب مستمرة والمزارع وأماكن التجارة عرضة للسرقة", "لأن الناس لم يحتاجوا إلى التجارة", "لكثرة الأمطار"], w:"غياب الدولة الموحدة جعل الطرق غير آمنة والحروب مستمرة، فضعف الاقتصاد والتجارة."},
+  {t:"a-eco", q:"كيف كان بعض الناس يحمون قوافلهم قبل قيام الدولة؟", o:["بدفع الإتاوات أو بالتكتّل للدفاع عنها", "بحراسة جيش دولة موحّدة", "بالسفر في طرق آمنة يحميها الحاكم"], w:"لم تكن هناك دولة موحّدة تحمي الطرق، فكانوا يدفعون الإتاوات أو يتكتّلون أو يبقون داخل أسوار البلدات."},
+  {t:"a-rel", q:"ما الذي ظهر في بعض مناطق شبه الجزيرة قبل الدولة السعودية الأولى؟", o:["بدع وخرافات مخالفة للدين", "مدارس وجامعات كثيرة", "مصانع حديثة"], w:"ظهرت ممارسات مخالفة للدين من بدع وخرافات، وتأخّرت الجوانب العلمية."},
+  {t:"a-four", q:"بلدة صغيرة في وسط الجزيرة كان يحكمها في وقت واحد:", o:["أربعة أمراء، لكل واحد ربعها", "أمير واحد", "عشرة أمراء"], w:"قال عثمان بن بشر: «فقسّموا البلد أربعًا، كل واحد شاخ في ربعها»."},
+  {t:"a-four", q:"من المؤرخ الذي ذكر قصة البلدة التي حكمها أربعة أمراء؟", o:["عثمان بن بشر", "مانع المريدي", "ابن درع"], w:"المؤرخ عثمان بن بشر، صاحب كتاب «عنوان المجد في تاريخ نجد»."},
+  {t:"a-change", q:"ما الذي تغيّر في شبه الجزيرة بعد قيام الدولة السعودية الأولى؟", o:["عادت الوحدة والأمن والاستقرار وازدهرت العلوم والمعارف", "زادت النزاعات", "ضعفت التجارة"], w:"عادت الوحدة والأمن والاستقرار لأغلب شبه الجزيرة وازدهرت العلوم، تحت راية دولة واحدة إلى اليوم."},
+  {t:"a-change", q:"في أي عام كان تأسيس الدرعية؟", o:["850هـ", "1139هـ", "1240هـ"], w:"850هـ: تأسيس الدرعية. 1139هـ: تأسيس الدولة السعودية الأولى. 1240هـ: الدولة السعودية الثانية."},
+  {t:"a-change", q:"في أي عام تأسست الدولة السعودية الثانية؟", o:["1240هـ", "1139هـ", "1351هـ"], w:"تأسست الدولة السعودية الثانية عام 1240هـ."},
+  {t:"a-change", q:"في أي عام دخل الملك عبدالعزيز الرياض وانطلق تأسيس المملكة العربية السعودية؟", o:["1319هـ", "1240هـ", "1157هـ"], w:"1319هـ دخول الملك عبدالعزيز الرياض، و1351هـ توحيد المملكة."},
+  {t:"a-change", q:"في أي عام كان توحيد المملكة العربية السعودية؟", o:["1351هـ", "1319هـ", "1233هـ"], w:"توحيد المملكة العربية السعودية عام 1351هـ."},
+  {t:"a-change", q:"ما ترتيب مراحل الدولة السعودية؟", o:["الأولى، ثم الثانية، ثم المملكة العربية السعودية", "المملكة، ثم الأولى، ثم الثانية", "الثانية، ثم الأولى، ثم المملكة"], w:"الدولة السعودية الأولى (1139هـ)، ثم الثانية (1240هـ)، ثم المملكة العربية السعودية."},
+  {t:"a-change", q:"من واجباتنا تجاه الوطن:", o:["الولاء لله ثم للقيادة، والعمل بإخلاص من أجل وحدة الوطن", "التفرّق والنزاع", "ترك حمايته للآخرين"], w:"شكر الله، والولاء لله ثم للقيادة، ومعرفة أهمية الوحدة الوطنية، والعمل بإخلاص من أجل الوطن."},
+  {t:"a-maps", q:"خريطة شبه الجزيرة «قبل الدولة السعودية الأولى» تُظهر:", o:["أجزاء صغيرة متفرّقة", "دولة واحدة تغطي معظمها", "حكمًا موحّدًا كالعهد النبوي"], w:"قبلها كانت متفرّقة، وفي عصر الدولة السعودية الأولى عادت الوحدة لأغلبها."},
+  {t:"b-roots", q:"إلى متى ترجع جذور الأسرة المالكة (آل سعود)؟", o:["إلى 200 سنة قبل الإسلام، مع هجرة بني حنيفة", "إلى عام 850هـ فقط", "إلى عام 1139هـ"], w:"ترجع إلى 200 سنة قبل الإسلام، حين هاجرت بنو حنيفة من الحجاز إلى وسط الجزيرة."},
+  {t:"b-roots", q:"هاجرت قبيلة بني حنيفة إلى وسط شبه الجزيرة قادمة من:", o:["الحجاز", "الأحساء", "اليمن"], w:"هاجرت من الحجاز، وأسست دولة مركزها حجر اليمامة."},
+  {t:"b-roots", q:"كان مركز دولة بني حنيفة:", o:["حَجْر اليمامة (الرياض اليوم)", "مكة المكرمة", "القطيف"], w:"حَجْر اليمامة هي الرياض اليوم."},
+  {t:"b-roots", q:"من القبائل البائدة التي عاشت في اليمامة: طَسْم و…", o:["جَدِيس", "بنو حنيفة", "قريش"], w:"عاشت طسم وجديس في اليمامة حتى 300 سنة قبل الإسلام، ومنها زرقاء اليمامة."},
+  {t:"b-roots", q:"زرقاء اليمامة اشتهرت بـ:", o:["حدّة بصرها", "قوة صوتها", "سرعة ركضها"], w:"زرقاء اليمامة معروفة بحدّة البصر."},
+  {t:"b-mani", q:"من دعا مانع المريدي إلى العودة إلى وادي حنيفة؟", o:["ابن عمه ابن درع، حاكم حجر اليمامة", "الإمام محمد بن سعود", "الشيخ محمد بن عبدالوهاب"], w:"دعاه ابن عمه ابن درع حاكم حجر اليمامة، وأعطاه المليبيد وغصيبة."},
+  {t:"b-mani", q:"ما الموضعان اللذان أعطاهما ابن درع لمانع المريدي؟", o:["المليبيد وغصيبة", "العيينة وعرقة", "منفوحة والحاير"], w:"أعطاه المليبيد وغصيبة، فأسس فيهما الدرعية."},
+  {t:"b-mani", q:"لماذا سُمّيت الدرعية بهذا الاسم؟", o:["نسبة إلى الدروع (فرع بني حنيفة) وإلى بلدتهم القديمة في شرق الجزيرة", "لأنها كانت مصنعًا للدروع", "نسبة إلى جبل اسمه الدرع"], w:"سمّاها مانع الدرعية نسبة إلى الدروع وإلى بلدتهم القديمة في شرق الجزيرة."},
+  {t:"b-mani", q:"أين كانت الدرعية القديمة التي جاء منها مانع المريدي؟", o:["في شرق شبه الجزيرة العربية", "في الحجاز", "في عسير"], w:"كانت في شرق الجزيرة (قرب القطيف)، ثم انتقل إلى وادي حنيفة."},
+  {t:"b-mani", q:"متى أسس مانع المريدي الدرعية؟", o:["850هـ", "1139هـ", "1157هـ"], w:"أسسها عام 850هـ (1446م)."},
+  {t:"b-emirs", q:"من الأمير الذي أمّن طرق الحج والتجارة التي تمر بالدرعية؟", o:["إبراهيم بن موسى", "مقرن بن مرخان", "ربيعة بن مانع"], w:"إبراهيم بن موسى أمّن طرق الحج والتجارة."},
+  {t:"b-emirs", q:"أمير توسّعت الإمارة في عهده وعُرف بالشجاعة:", o:["مقرن بن مرخان", "موسى بن ربيعة", "سعود بن محمد"], w:"مقرن بن مرخان توسّعت الإمارة في عهده وعُرف بالشجاعة."},
+  {t:"b-emirs", q:"من واصل إكمال تأسيس إمارة الدرعية بعد مانع المريدي؟", o:["ابنه ربيعة بن مانع", "إبراهيم بن موسى", "عثمان بن بشر"], w:"ربيعة بن مانع واصل إكمال تأسيسها."},
+  {t:"b-wadi", q:"ما الاسم القديم لوادي حنيفة؟", o:["وادي العِرض", "وادي الدواسر", "وادي السهباء"], w:"اسمه القديم وادي العِرض، ويصب في وادي السهباء في الخرج."},
+  {t:"b-wadi", q:"كم يبلغ طول وادي حنيفة تقريبًا؟", o:["نحو 80 كم", "نحو 8 كم", "نحو 800 كم"], w:"نحو 80 كم من حافة جبل طويق حتى وادي السهباء."},
+  {t:"b-wadi", q:"من البلدات التي قامت على ضفاف وادي حنيفة:", o:["الدرعية والرياض ومنفوحة والعيينة", "مكة والمدينة", "الأحساء والقطيف"], w:"الدرعية والرياض ومنفوحة والعيينة وعرقة."},
+  {t:"b-nakhwa", q:"ما المقصود بـ«العوجا»؟", o:["الدرعية، الواقعة على وادي حنيفة المتعرّج", "الرياض الحديثة", "اسم سيف الإمام"], w:"العوجا هي الدرعية، على وادي حنيفة بطبيعته المتعرّجة."},
+  {t:"b-nakhwa", q:"النخوة هي:", o:["النداء الذي يبث الحماسة والفخر في أهل الدولة", "أكلة شعبية", "قصر في الدرعية"], w:"النخوة: النداء المرتبط بمجتمع أو دولة ليبث في أهلها الحماسة والفخر."},
+  {t:"b-found", q:"متى أسس الإمام محمد بن سعود الدولة السعودية الأولى؟", o:["1139هـ (1727م)", "1157هـ", "850هـ"], w:"1139هـ عام التأسيس؛ 1157هـ عام قدوم الشيخ محمد بن عبدالوهاب؛ 850هـ تأسيس الدرعية."},
+  {t:"b-found", q:"ما عاصمة الدولة السعودية الأولى؟", o:["الدرعية", "الرياض", "العيينة"], w:"الدرعية عاصمة الدولة السعودية الأولى ومركزها."},
+  {t:"b-found", q:"من جهود الإمام محمد بن سعود السياسية:", o:["عقد تحالفات مع البلدات المجاورة وعدم الخضوع لأي سلطة", "إغلاق طرق التجارة", "نقل العاصمة إلى مكة"], w:"زاد قوة الإمارة، وعقد تحالفات، ولم تخضع الدرعية في عهده لأي سلطة أخرى."},
+  {t:"b-found", q:"من جهود الإمام محمد بن سعود الاقتصادية:", o:["تأمين طرق التجارة والحج", "منع التجارة مع البادية", "فرض الإتاوات على القوافل"], w:"أمّن طرق التجارة والحج ووثّق العلاقة بالبادية والحاضرة."},
+  {t:"b-found", q:"لماذا أصبحت الدرعية مقصدًا للبادية والحاضرة؟", o:["لعلاقتها الجيدة بالجميع", "لأنها على البحر", "لأنها أكبر مدينة في العالم"], w:"علاقتها الجيدة بالجميع جعلتها مقصدًا، فاتسع مجتمعها (جهود اجتماعية)."},
+  {t:"b-dawa", q:"في أي عام قدم الشيخ محمد بن عبدالوهاب إلى الدرعية؟", o:["1157هـ", "1139هـ", "1179هـ"], w:"قدم عام 1157هـ، بعد تأسيس الدولة عام 1139هـ."},
+  {t:"b-dawa", q:"من أين قدم الشيخ محمد بن عبدالوهاب إلى الدرعية؟", o:["من العيينة", "من الأحساء", "من مكة المكرمة"], w:"قدم من العيينة."},
+  {t:"b-dawa", q:"لماذا قدم الشيخ محمد بن عبدالوهاب إلى الدرعية؟", o:["لطلب تأييد دعوته؛ لقوة الدرعية وحاكمها واستقرارها", "للتجارة", "ليؤسس الدرعية"], w:"جاء لطلب تأييد الدعوة من الإمام محمد بن سعود؛ فالدرعية قوية مستقرة قادرة على نصرتها."},
+  {t:"b-dawa", q:"إلى ماذا دعا الشيخ محمد بن عبدالوهاب؟", o:["إلى التوحيد وفق القرآن والسنة، والقضاء على البدع والخرافات", "إلى ترك التعليم", "إلى الهجرة من نجد"], w:"دعا إلى التوحيد والقضاء على البدع والخرافات."},
+  {t:"b-dawa", q:"قول الإمام «أبشر ببلادٍ خيرٍ من بلادك» معناه:", o:["أن الدرعية قوية وسيسانده وينصره في نشر التوحيد", "أنه سيعطيه بلادًا أخرى", "أنه يطلب منه الرحيل"], w:"الدرعية قوية وفيها دولة تقوم على مبادئ الإسلام، والإمام سيسانده في نشر دعوته."},
+  {t:"b-day", q:"يوم التأسيس يوافق:", o:["22 فبراير", "23 سبتمبر", "1 محرم"], w:"يوم التأسيس 22 فبراير (منتصف 1139هـ = 22 فبراير 1727م)."},
+  {t:"b-day", q:"يستذكر يوم التأسيس تأسيس الدولة السعودية على يد:", o:["الإمام محمد بن سعود", "الملك عبدالعزيز", "الإمام سعود بن عبدالعزيز"], w:"على يد الإمام محمد بن سعود عام 1139هـ (1727م)."},
+  {t:"b-day", q:"كم عنصرًا في شعار يوم التأسيس؟", o:["خمسة", "ثلاثة", "سبعة"], w:"خمسة: العلم السعودي، والنخلة، والصقر، والخيل العربية، والسوق."},
+  {t:"b-day", q:"أيّ مما يلي ليس من عناصر شعار يوم التأسيس؟", o:["السفينة", "الصقر", "النخلة"], w:"العناصر: العلم السعودي، والنخلة، والصقر، والخيل العربية، والسوق."},
+  {t:"c-titles", q:"بماذا يُلقَّب حكام الدولة السعودية الأولى والثانية؟", o:["الأئمة", "الملوك", "الخلفاء"], w:"حكام الدولتين الأولى والثانية أئمة، وحكام المملكة ملوك."},
+  {t:"c-titles", q:"من الإمام الثاني في الدولة السعودية الأولى؟", o:["عبدالعزيز بن محمد", "سعود بن عبدالعزيز", "عبدالله بن سعود"], w:"الترتيب: محمد بن سعود، عبدالعزيز بن محمد، سعود بن عبدالعزيز، عبدالله بن سعود."},
+  {t:"c-m", q:"كم سنة عمل الإمام محمد بن سعود في التأسيس حتى وفاته؟", o:["أربعين سنة", "عشر سنوات", "مئة سنة"], w:"من 1139هـ إلى 1179هـ: أربعون سنة."},
+  {t:"c-m", q:"من صفات الإمام محمد بن سعود:", o:["الشجاعة والحزم والعدل والحكمة والتدين", "التردد والضعف", "حب المال"], w:"الشجاعة وقوة الشخصية، والحزم والعدل، والتدين، والحكمة والقيادة، والاهتمام بالمحتاجين."},
+  {t:"c-m", q:"أيّ البلدات ضُمّت في عهد الإمام محمد بن سعود؟", o:["العيينة ومنفوحة وحريملاء وعرقة", "الأحساء وعسير ونجران", "مكة والمدينة"], w:"بدأ التوحيد بضم العيينة ومنفوحة وحريملاء وعرقة."},
+  {t:"c-m", q:"لماذا فشلت الحملات على الدرعية في عهد الإمام محمد بن سعود؟", o:["لصمود أهالي الدرعية", "لأن الأعداء لم يصلوا إليها", "بسبب الأمطار"], w:"فشلت حملات 1172هـ و1178هـ لصمود أهالي الدرعية."},
+  {t:"c-m", q:"لماذا اختيرت الدرعية عاصمة للدولة السعودية الأولى؟", o:["لقوتها واستقرارها الداخلي منذ تولّى الإمام محمد بن سعود إمارتها", "لأنها أبعد مدينة عن الناس", "لأنها على ساحل البحر"], w:"شهدت الدرعية قوة واستقرارًا داخليًا منذ 1139هـ، ومنها انطلقت حملات التوحيد."},
+  {t:"c-m", q:"سدّد الإمام محمد بن سعود ديون رجل من الوجهاء وقال: «الدنيا جُعلت كرامةً لبني آدم». ماذا نستنتج؟", o:["كرمه وحبه للعطاء ومساعدة المحتاجين", "أنه يحب جمع المال", "أنه رفض مساعدته"], w:"نستنتج كرمه وحبه للعطاء ومساعدة المحتاجين وإنزال الناس منازلهم."},
+  {t:"c-a", q:"في أي عام ضمّ الإمام عبدالعزيز بن محمد الرياض؟", o:["1187هـ", "1139هـ", "1229هـ"], w:"ضمّ الرياض عام 1187هـ، ثم توالى ضم المناطق."},
+  {t:"c-a", q:"من المناطق التي ضمّها الإمام عبدالعزيز بن محمد:", o:["الوشم والخرج والقصيم وسدير والأحساء", "مصر والشام", "العراق كله"], w:"ضمّ الرياض والوشم والخرج والقصيم وسدير والأحساء وعسير ونجران وجازان."},
+  {t:"c-a", q:"من أين جاءت الحملات العثمانية في عهد الإمام عبدالعزيز بن محمد؟", o:["من العراق", "من مصر", "من اليمن"], w:"ثلاث حملات من العراق (1201هـ و1211هـ و1213هـ)، فشلت كلها."},
+  {t:"c-a", q:"قاد الحملة العثمانية الثالثة عام 1213هـ:", o:["الكيخيا علي", "ثويني بن عبدالله", "محمد علي باشا"], w:"الأولى والثانية بقيادة ثويني بن عبدالله، والثالثة بقيادة الكيخيا علي."},
+  {t:"c-a", q:"أين بنى الإمام عبدالعزيز قصر سلوى؟", o:["في حي الطريف بالدرعية", "في الرياض", "في مكة المكرمة"], w:"في حي الطريف بالدرعية، ليكون مقرًّا للحكم."},
+  {t:"c-a", q:"لماذا سُمّي قصر الحكم بقصر سلوى؟", o:["من السُّلوان: كل ما يبعث السعادة والأنس في النفس", "لأنه بُني على جبل اسمه سلوى", "نسبة إلى مدينة سلوى"], w:"الاسم من السُّلوان، وهو كل ما يبعث السعادة والأنس في النفس."},
+  {t:"c-a", q:"كيف توفي الإمام عبدالعزيز بن محمد؟", o:["اغتيل غدرًا وهو يصلي العصر في مسجد الطريف", "في معركة خارج الدرعية", "في رحلة حج"], w:"اغتيل عام 1218هـ وهو يصلي العصر، بتدبير من أعداء الدولة."},
+  {t:"c-a", q:"ماذا كان الإمام عبدالعزيز يفعل مع صغار الطلاب؟", o:["يستقبلهم في قصر سلوى ويستمع لقراءتهم ويكافئهم", "يمنعهم من الدراسة", "يرسلهم إلى العمل"], w:"كان يخصص لهم وقتًا ليحفّزهم على طلب العلم."},
+  {t:"c-s", q:"بماذا عُرف عهد الإمام سعود بن عبدالعزيز؟", o:["بالفترة الذهبية للدولة وذروة قوتها", "بنهاية الدولة", "بتأسيس الدرعية"], w:"عهده الفترة الذهبية؛ وصلت الدولة إلى أقصى نطاق لها."},
+  {t:"c-s", q:"لماذا وُصف الإمام سعود بـ«سعود الكبير»؟", o:["لأن الدولة وصلت في عهده إلى أقصى نطاق لها", "لأنه أطول الأئمة قامة", "لأنه أكبر إخوته سنًّا"], w:"وصلت الدولة في عهده إلى أقصى نطاق لها (حدود العراق والشام واليمن)."},
+  {t:"c-s", q:"إلى أين امتدت الدولة في عهد الإمام سعود؟", o:["إلى حدود العراق والشام واليمن وجهات من ساحل الخليج", "إلى مصر والمغرب", "إلى الهند"], w:"امتدت إلى حدود العراق والشام واليمن وجهات في ساحل الخليج العربي."},
+  {t:"c-s", q:"ماذا قدّم الإمام سعود لمكة المكرمة والمدينة المنورة؟", o:["أعاد إليهما الأمن والاستقرار وخدم الحجاج", "أغلقهما أمام الحجاج", "نقل سكانهما إلى الدرعية"], w:"أعاد الأمن والاستقرار إليهما، وقدّم للحجاج الخدمة والمساندة."},
+  {t:"c-ab", q:"في عهد أي إمام سقطت الدرعية وانتهت الدولة السعودية الأولى؟", o:["عبدالله بن سعود", "سعود بن عبدالعزيز", "محمد بن سعود"], w:"في عهد الإمام عبدالله بن سعود، عام 1233هـ."},
+  {t:"c-ab", q:"من أرسل الجيوش العثمانية الضخمة على الدولة السعودية الأولى؟", o:["محمد علي باشا، والي مصر", "ثويني بن عبدالله", "ابن درع"], w:"أرسلها محمد علي باشا والي الدولة العثمانية في مصر."},
+  {t:"c-ab", q:"لماذا استسلم الإمام عبدالله بن سعود عام 1233هـ؟", o:["لحماية أبناء وطنه وحقن دمائهم", "لأنه لم يرد الدفاع", "ليسافر إلى مصر للتجارة"], w:"استسلم لحماية أبناء وطنه وحقن دمائهم، ثم نُقل إلى مصر ثم إسطنبول."},
+  {t:"c-ab", q:"لماذا هاجم الأعداء الدولة السعودية الأولى ودمّروا الدرعية؟", o:["خوفًا من قوتها ومنهجها الإسلامي الصحيح ومبادئها التي أثّرت في نفوذهم ومصالحهم", "لأنها هاجمتهم أولًا", "لأنها كانت ضعيفة"], w:"خافوا من قوتها ومنهجها ومبادئها التي أثّرت في نفوذهم ومصالحهم."},
+  {t:"c-ab", q:"بماذا عُرف الإمام عبدالله بن سعود؟", o:["القيادة والقدرة على إدارة الجيوش والشجاعة", "حب السفر", "كتابة الشعر"], w:"عُرف بالقيادة وإدارة الجيوش، وكان شجاعًا يواجه الأعداء ببسالة."}
+];
+/* true or false: a says which; w starts with the answer */
+const TF = [
+  {t:"a-pol", q:"كانت شبه الجزيرة العربية قبل الدولة السعودية الأولى تحت حكم موحّد.", a:false, w:"خطأ: كانت مقسّمة بين نفوذ دول من خارجها وإمارات صغيرة وزعامات متنازعة."},
+  {t:"a-eco", q:"كانت الطرق قبل قيام الدولة السعودية الأولى آمنة والتجارة مزدهرة.", a:false, w:"خطأ: كانت الطرق غير آمنة، فضعفت الحركة الاقتصادية والتجارة."},
+  {t:"a-rel", q:"ظهرت قبل الدولة السعودية الأولى بدع وخرافات في بعض مناطق شبه الجزيرة.", a:true, w:"صح: ظهرت ممارسات مخالفة للدين من بدع وخرافات."},
+  {t:"a-change", q:"بعد قيام الدولة السعودية الأولى ازدهرت العلوم والمعارف.", a:true, w:"صح: عادت الوحدة والأمن وازدهرت العلوم والمعارف."},
+  {t:"a-change", q:"تأسست الدولة السعودية الثانية عام 1240هـ.", a:true, w:"صح: 1240هـ تأسيس الدولة السعودية الثانية."},
+  {t:"a-change", q:"توحيد المملكة العربية السعودية كان عام 1319هـ.", a:false, w:"خطأ: التوحيد عام 1351هـ؛ أما 1319هـ فدخول الملك عبدالعزيز الرياض."},
+  {t:"a-four", q:"قسّم أربعة أمراء بلدة صغيرة في وسط الجزيرة فيما بينهم.", a:true, w:"صح: ذكر ذلك عثمان بن بشر: «فقسّموا البلد أربعًا»."},
+  {t:"b-roots", q:"هاجرت بنو حنيفة من الحجاز إلى وسط شبه الجزيرة العربية.", a:true, w:"صح: هاجرت قبل الإسلام بنحو 200 سنة، وأسست دولة مركزها حجر اليمامة."},
+  {t:"b-mani", q:"أسس مانع المريدي الدرعية عام 850هـ.", a:true, w:"صح: أسسها عام 850هـ (1446م)."},
+  {t:"b-mani", q:"أعطى ابن درع مانعًا موضعي العيينة وعرقة.", a:false, w:"خطأ: أعطاه المليبيد وغصيبة."},
+  {t:"b-wadi", q:"الاسم القديم لوادي حنيفة: وادي العِرض.", a:true, w:"صح: وسُمّي وادي حنيفة نسبة إلى بني حنيفة."},
+  {t:"b-nakhwa", q:"العوجا هي مدينة الرياض.", a:false, w:"خطأ: العوجا هي الدرعية."},
+  {t:"b-found", q:"أسس الإمام محمد بن سعود الدولة السعودية الأولى عام 1157هـ.", a:false, w:"خطأ: أسسها عام 1139هـ (1727م)؛ و1157هـ عام قدوم الشيخ محمد بن عبدالوهاب."},
+  {t:"b-found", q:"لم تخضع الدرعية في عهد الإمام محمد بن سعود لأي سلطة أخرى.", a:true, w:"صح: من جهوده السياسية."},
+  {t:"b-dawa", q:"قدم الشيخ محمد بن عبدالوهاب إلى الدرعية من الأحساء.", a:false, w:"خطأ: قدم من العيينة عام 1157هـ."},
+  {t:"b-dawa", q:"وجدت الدعوة الإصلاحية المساندة والحماية من أئمة الدولة السعودية الأولى.", a:true, w:"صح: وجدت المساندة والحماية والتأييد."},
+  {t:"b-day", q:"يوم التأسيس يوافق 22 فبراير 1727م.", a:true, w:"صح: منتصف 1139هـ، الموافق 22 فبراير 1727م."},
+  {t:"b-day", q:"من عناصر شعار يوم التأسيس: الصقر والخيل العربية.", a:true, w:"صح: مع العلم السعودي والنخلة والسوق."},
+  {t:"c-titles", q:"يُلقَّب حكام المملكة العربية السعودية بالأئمة.", a:false, w:"خطأ: حكام المملكة ملوك، وحكام الدولتين الأولى والثانية أئمة."},
+  {t:"c-m", q:"حكم الإمام محمد بن سعود من 1139هـ إلى 1179هـ.", a:true, w:"صح: أربعون سنة من العمل والتأسيس."},
+  {t:"c-a", q:"ضمّ الإمام عبدالعزيز بن محمد الرياض عام 1187هـ.", a:true, w:"صح: ثم الوشم والخرج والقصيم وسدير والأحساء وغيرها."},
+  {t:"c-a", q:"نجحت الحملات العثمانية من العراق في عهد الإمام عبدالعزيز بن محمد.", a:false, w:"خطأ: انتهت كلها بالإخفاق رغم تعددها."},
+  {t:"c-a", q:"قصر سلوى في حي الطريف بالدرعية.", a:true, w:"صح: بناه الإمام عبدالعزيز مقرًّا للحكم."},
+  {t:"c-s", q:"عهد الإمام سعود بن عبدالعزيز هو الفترة الذهبية للدولة السعودية الأولى.", a:true, w:"صح: وصلت الدولة في عهده إلى أقصى نطاق لها."},
+  {t:"c-s", q:"حكم الإمام سعود بن عبدالعزيز من 1218هـ إلى 1229هـ.", a:true, w:"صح: وتوفي في الدرعية عام 1229هـ."},
+  {t:"c-ab", q:"انتهت الدولة السعودية الأولى عام 1233هـ.", a:true, w:"صح: سقطت الدرعية في عهد الإمام عبدالله بن سعود."},
+  {t:"c-ab", q:"نُقل الإمام عبدالله بن سعود إلى مصر ثم إلى إسطنبول.", a:true, w:"صح: وهناك عُذّب وقُتل."},
+  {t:"c-ab", q:"كانت الجيوش التي هاجمت الدرعية صغيرة وضعيفة.", a:false, w:"خطأ: كانت ضخمة جدًا، شاركت في تسليحها الدولة العثمانية وولاياتها وبعض الدول الأوروبية."}
+];
+/* matching: one set per round, four pairs drawn from it */
+const MATCH = [
+  {id:"years", ask:"صِل كل عام بحدثه.", ls:["so1", "so2", "so3"], pairs:[
+    {t:"b-mani", a:"850هـ", b:"تأسيس الدرعية"}, {t:"b-found", a:"1139هـ", b:"تأسيس الدولة السعودية الأولى"}, {t:"b-dawa", a:"1157هـ", b:"قدوم الشيخ محمد بن عبدالوهاب إلى الدرعية"},
+    {t:"c-a", a:"1187هـ", b:"ضمّ الرياض"}, {t:"c-ab", a:"1233هـ", b:"سقوط الدرعية ونهاية الدولة الأولى"}, {t:"a-change", a:"1240هـ", b:"تأسيس الدولة السعودية الثانية"},
+    {t:"a-change", a:"1319هـ", b:"دخول الملك عبدالعزيز الرياض"}, {t:"a-change", a:"1351هـ", b:"توحيد المملكة العربية السعودية"}]},
+  {id:"imams", ask:"صِل كل إمام بما يناسبه.", ls:["so3"], pairs:[
+    {t:"c-m", a:"الإمام محمد بن سعود", b:"مؤسس الدولة السعودية الأولى"}, {t:"c-a", a:"الإمام عبدالعزيز بن محمد", b:"بنى قصر سلوى وضمّ الرياض"},
+    {t:"c-s", a:"الإمام سعود بن عبدالعزيز", b:"«سعود الكبير»: الفترة الذهبية"}, {t:"c-ab", a:"الإمام عبدالله بن سعود", b:"شهد عهده سقوط الدرعية"}]},
+  {id:"emirs", ask:"صِل كل أمير من أمراء الدرعية بعمله.", ls:["so2"], pairs:[
+    {t:"b-emirs", a:"مانع المريدي", b:"أنشأ الدرعية عام 850هـ"}, {t:"b-emirs", a:"ربيعة بن مانع", b:"واصل إكمال تأسيس الإمارة"},
+    {t:"b-emirs", a:"إبراهيم بن موسى", b:"أمّن طرق الحج والتجارة"}, {t:"b-emirs", a:"مقرن بن مرخان", b:"توسّعت الإمارة في عهده وعُرف بالشجاعة"}]},
+  {id:"terms", ask:"صِل كل كلمة بمعناها.", ls:["so2", "so3"], pairs:[
+    {t:"b-nakhwa", a:"العوجا", b:"الدرعية"}, {t:"b-nakhwa", a:"النخوة", b:"نداء يبث الحماسة والفخر"}, {t:"c-a", a:"قصر سلوى", b:"مقر الحكم في حي الطريف"},
+    {t:"b-wadi", a:"وادي العِرض", b:"الاسم القديم لوادي حنيفة"}, {t:"b-roots", a:"زرقاء اليمامة", b:"اشتهرت بحدّة بصرها"}, {t:"b-roots", a:"حَجْر اليمامة", b:"الرياض اليوم"}]},
+  {id:"state", ask:"صِل كل حال بوصفها.", ls:["so1"], pairs:[
+    {t:"a-pol", a:"الحالة السياسية قبل الدولة", b:"إمارات صغيرة ونزاعات وغياب للأمن"}, {t:"a-eco", a:"الحالة الاقتصادية قبل الدولة", b:"طرق غير آمنة وتجارة ضعيفة"},
+    {t:"a-rel", a:"الحالة الدينية قبل الدولة", b:"بدع وخرافات في بعض المناطق"}, {t:"a-change", a:"بعد قيام الدولة السعودية الأولى", b:"وحدة وأمن واستقرار وازدهار للعلوم"}]}
+];
+/* put in order: the items in their right order */
+const ORDER = [
+  {t:"a-change", ls:["so1"], q:"رتّب مراحل الدولة السعودية من الأقدم إلى الأحدث.", items:["تأسيس الدرعية", "تأسيس الدولة السعودية الأولى", "تأسيس الدولة السعودية الثانية", "دخول الملك عبدالعزيز الرياض", "توحيد المملكة العربية السعودية"]},
+  {t:"a-maps", ls:["so1"], q:"رتّب حال شبه الجزيرة العربية من الأقدم إلى الأحدث.", items:["حكم موحّد في العهد النبوي والخلافة الراشدة", "تفرّق: إمارات صغيرة ونزاعات", "عودة الوحدة في عصر الدولة السعودية الأولى"]},
+  {t:"b-emirs", ls:["so2"], q:"رتّب أمراء الدرعية من الأقدم.", items:["مانع المريدي", "ربيعة بن مانع", "موسى بن ربيعة", "إبراهيم بن موسى", "مرخان بن إبراهيم", "مقرن بن مرخان"]},
+  {t:"b-found", ls:["so2", "so3"], q:"رتّب الأحداث من الأقدم إلى الأحدث.", items:["تأسيس الدرعية", "تأسيس الدولة السعودية الأولى", "قدوم الشيخ محمد بن عبدالوهاب إلى الدرعية", "ضمّ الرياض", "سقوط الدرعية"]},
+  {t:"c-titles", ls:["so3"], q:"رتّب أئمة الدولة السعودية الأولى بحسب حكمهم.", items:["الإمام محمد بن سعود", "الإمام عبدالعزيز بن محمد", "الإمام سعود بن عبدالعزيز", "الإمام عبدالله بن سعود"]}
+];
+/* complete: any one of the answers counts; k lists the words to look for in each (letters and digits normalised) */
+const FILL = [
+  {t:"b-found", q:"تأسست الدولة السعودية الأولى عام ……… هـ.", ans:["1139"], k:[["1139"]]},
+  {t:"b-found", q:"عاصمة الدولة السعودية الأولى: ………", ans:["الدرعية"], k:[["درعي"]]},
+  {t:"b-found", q:"مؤسس الدولة السعودية الأولى: الإمام ………", ans:["محمد بن سعود"], k:[["محمد", "سعود"]]},
+  {t:"c-s", q:"عُرف عهد الإمام سعود بن عبدالعزيز بالفترة ………", ans:["الذهبية"], k:[["ذهبي"]]},
+  {t:"b-mani", q:"أعطى ابن درع مانع المريدي موضعين، هما: ………", ans:["المليبيد وغصيبة"], k:[["مليبيد", "غصيب"]]},
+  {t:"b-day", q:"يوم التأسيس يوافق ……… فبراير.", ans:["22"], k:[["22"]]},
+  {t:"b-dawa", q:"قدم الشيخ محمد بن عبدالوهاب إلى الدرعية عام ……… هـ.", ans:["1157"], k:[["1157"]]},
+  {t:"c-a", q:"قصر الحكم الذي بناه الإمام عبدالعزيز في حي الطريف: قصر ………", ans:["سلوى"], k:[["سلوي"]]},
+  {t:"b-day", q:"من عناصر شعار يوم التأسيس: ………", ans:["العلم السعودي", "النخلة", "الصقر", "الخيل العربية", "السوق"], k:[["علم"], ["نخل"], ["صقر"], ["خيل"], ["سوق"]]},
+  {t:"c-m", q:"من صفات الإمام محمد بن سعود: ………", ans:["الشجاعة", "الحزم", "العدل", "التدين", "الحكمة", "الاهتمام بالمحتاجين والأرامل"],
+   k:[["شجاع"], ["حزم"], ["عدل"], ["تدين"], ["دين"], ["حكم"], ["قياد"], ["محتاج"], ["ارامل"], ["قوه"], ["كرم"]]},
+  {t:"a-change", q:"بعد قيام الدولة السعودية الأولى عادت لأغلب شبه الجزيرة الوحدة و……… و………", ans:["الأمن والاستقرار"], k:[["امن"], ["استقرار"]]},
+  {t:"a-eco", q:"أدّى غياب الدولة الموحدة إلى ضعف الحركة ……… والنشاط التجاري.", ans:["الاقتصادية"], k:[["اقتصاد"]]},
+  {t:"c-ab", q:"انتهت الدولة السعودية الأولى عام ……… هـ.", ans:["1233"], k:[["1233"]]},
+  {t:"b-wadi", q:"الاسم القديم لوادي حنيفة: وادي ………", ans:["العِرض"], k:[["عرض"]]}
+];
+
+/* ---------- HELPERS ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const strip = s => String(s).replace(/<[^>]+>/g, "");
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = (a, n) => shuffle(a).slice(0, n);
+const rand = a => a[Math.floor(Math.random() * a.length)];
+/* letters normalised for checking typed Arabic: no diacritics or tatweel, one alef, ة as ه, ى as ي, Arabic-Indic digits as 0-9 */
+const norm = s => String(s).replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+  .replace(/[ً-ٰٟـ]/g, "").replace(/[أإآٱ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي").replace(/[«»"':؛،.,()هـ]+$/g, "").replace(/[«»"':؛،.,()]/g, " ").replace(/\s+/g, " ").trim();
+function fillOK(q, typed){ const v = norm(typed); return !!v && q.k.some(words => words.every(w => v.includes(norm(w)))); }
+function todayISO(){ try { return new Intl.DateTimeFormat("en-CA", {timeZone:TZ, year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date()); } catch (e) { return new Date().toISOString().slice(0, 10); } }
+const dayDiff = (a, b) => Math.round((Date.UTC(...b.split("-").map((x, i) => i === 1 ? x - 1 : +x)) - Date.UTC(...a.split("-").map((x, i) => i === 1 ? x - 1 : +x))) / 864e5);
+const count = (n, one, two, few, many) => n === 1 ? one : n === 2 ? two : n <= 10 ? n + " " + few : n + " " + many;
+function announce(t){ const l = $("#live"); if (l){ l.textContent = ""; setTimeout(() => { l.textContent = t; }, 40); } }
+const lesOf = t => TOPIC[t].l;
+
+/* ---------- SAVED PROGRESS ---------- */
+const fresh = () => ({xp:0, best:null, mocks:0, rounds:0, mastered:{}});
+let S = (() => { try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v === "object") return Object.assign(fresh(), v); } catch (e) {} return fresh(); })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function addXP(n){ S.xp += n; save(); $("#xpVal").textContent = S.xp; }
+/* a lesson mastered (80% of a full round) or the mock (80% of it): the arcade (assets/arcade.js) gives play time for it, once */
+function master(m){ if (!S.mastered || typeof S.mastered !== "object") S.mastered = {}; if (!S.mastered[m]) S.mastered[m] = Date.now(); }
+
+/* ---------- THE TOPIC CARDS, on the page and in the lesson box during a round ---------- */
+function tlHTML(list, kind){
+  return '<ol class="tl">' + list.map(x => kind === "stages"
+    ? '<li class="' + (x[3] ? "big" : "") + '"><span class="y">' + x[0] + (x[1] ? '<small>' + x[1] + '</small>' : "") + '</span><span class="e">' + x[2] + '</span></li>'
+    : '<li><span class="y">' + x[0] + '</span><span class="e">' + x[1] + '</span></li>').join("") + '</ol>';
+}
+const chainHTML = () => '<div class="chain" aria-label="أمراء الدرعية بالترتيب">' + EMIRS.map((n, i) => '<span' + (i === EMIRS.length - 1 ? ' class="top"' : "") + '>' + n + '</span>').join('<i aria-hidden="true">←</i>') + '</div>';
+const logoHTML = () => '<p><b>شعار يوم التأسيس، خمسة عناصر:</b></p><div class="logo5">' + LOGO.map(x => '<span><b aria-hidden="true">' + x[0] + '</b>' + x[1] + '</span>').join("") + '</div>';
+function imamHTML(i, full){
+  const m = IMAMS[i];
+  return (full ? '<span class="num" aria-hidden="true">' + (i + 1) + '</span><h3>' + m.name + '</h3>' : "")
+    + '<span class="yrs">' + m.yrs + '</span><span class="tag">' + m.tag + '</span><div class="quals">' + m.quals.map(q => '<span>' + q + '</span>').join("") + '</div>'
+    + '<ul>' + m.deeds.map(d => '<li>' + d + '</li>').join("") + '</ul><p class="end">' + m.end + '</p>';
+}
+function topicBody(t){
+  if (t.imam !== undefined) return imamHTML(t.imam, false);
+  return '<ul>' + t.pts.map(p => '<li>' + p + '</li>').join("") + '</ul>' + (t.quote ? '<p class="quote">' + t.quote.t + '<small>' + t.quote.s + '</small></p>' : "")
+    + (t.tl === "stages" ? tlHTML(TL_STAGES, "stages") : "") + (t.chain ? chainHTML() : "") + (t.logo ? logoHTML() : "");
+}
+const lessonPeek = t => '<details class="peek c-' + lesOf(t) + '"><summary>راجع «' + esc(TOPIC[t].t) + '»</summary><div class="peek-in">' + topicBody(TOPIC[t]) + '</div></details>';
+const lessonLink = t => '<a href="#' + t + '" data-act="lesson" data-t="' + t + '">راجع «' + esc(TOPIC[t].t) + '» ←</a>';
+
+/* ---------- ROUNDS ----------
+   A round is a list of steps: mc, tf, fill, match (four pairs of one set) or order (a sequence to tap in order). A lesson
+   round is 6 choose, 3 true or false, 1 complete, then a match or an order from that lesson; the mock mixes all three. */
+const mcStep = q => ({type:"mc", q, order:shuffle([0, 1, 2])});
+const tfStep = q => ({type:"tf", q});
+const fillStep = q => ({type:"fill", q});
+function matchStep(set){ const ps = pick(set.pairs, 4); return {type:"match", set, ps, right:shuffle(ps.map((p, i) => i))}; }
+function mixed(items){ let s; do s = shuffle(items); while (items.length > 1 && s.every((x, i) => x === items[i])); return s; }
+const orderStep = q => ({type:"order", q, pool:mixed(q.items), ans:[]});
+function spread(list, n){
+  const by = {}; shuffle(list).forEach(q => (by[q.t] = by[q.t] || []).push(q));
+  const groups = shuffle(Object.values(by)), out = [];
+  while (out.length < n && groups.some(g => g.length)) groups.forEach(g => { if (g.length && out.length < n) out.push(g.shift()); });
+  return out;
+}
+const ofL = (a, l) => a.filter(q => lesOf(q.t) === l);
+function lessonSteps(l){
+  const singles = shuffle(spread(ofL(MC, l), 6).map(mcStep).concat(pick(ofL(TF, l), 3).map(tfStep), pick(ofL(FILL, l), 1).map(fillStep)));
+  const sets = MATCH.filter(m => m.ls.includes(l) && m.pairs.filter(p => lesOf(p.t) === l).length >= 4), orders = ORDER.filter(o => o.ls.includes(l));
+  const big = Math.random() < .5 && orders.length ? orderStep(rand(orders)) : sets.length ? matchStep(rand(sets)) : orderStep(rand(orders));
+  return singles.concat([big]);
+}
+function mockSteps(){
+  const mc = LESSONS.flatMap((x, i) => spread(ofL(MC, x.id), [3, 4, 3][i])), tf = LESSONS.flatMap((x, i) => pick(ofL(TF, x.id), 2));
+  return shuffle(mc).map(mcStep).concat(shuffle(tf).map(tfStep), [matchStep(rand(MATCH.filter(m => m.id === "years" || m.id === "imams")))],
+    [orderStep(rand(ORDER.filter(o => o.items.length === 4)))], pick(FILL, 2).map(fillStep));
+}
+const MODES = Object.fromEntries(LESSONS.map(x => [x.id, {name:"الدرس " + x.n + ": " + x.short, short:"تدريب الدرس " + x.n, c:x.id, steps:() => lessonSteps(x.id)}]));
+MODES.mock = {name:"الاختبار التجريبي", short:"الاختبار التجريبي", c:"mock", steps:mockSteps};
+const PART = {mc:"اختر الإجابة الصحيحة", tf:"ضع ✔ أو ✖", fill:"أكمل الفراغ", match:"صِل من (أ) ما يناسبه من (ب)", order:"رتّب"};
+let R = null;
+function start(mode){ R = {mode, steps:MODES[mode].steps(), i:0, res:[], locked:false}; renderStep(); window.scrollTo(0, 0); }
+const stepTopic = st => st.type === "match" ? st.ps[0].t : st.q.t;
+
+function renderStep(){
+  const st = R.steps[R.i], n = R.steps.length;
+  R.locked = false;
+  let body = "";
+  if (st.type === "mc") body = '<p class="q-text" id="qtext">' + esc(st.q.q) + '</p><div class="opts" role="group" aria-labelledby="qtext">'
+    + st.order.map((k, i) => '<button class="opt" type="button" data-act="mc" data-k="' + k + '"><span class="k" aria-hidden="true">' + "أبج"[i] + '</span><span>' + esc(st.q.o[k]) + '</span></button>').join("") + '</div>';
+  else if (st.type === "tf") body = '<p class="q-text" id="qtext">' + esc(st.q.q) + '</p><div class="tf" role="group" aria-labelledby="qtext">'
+    + '<button class="opt" type="button" data-act="tf" data-v="1">✔ صح</button><button class="opt" type="button" data-act="tf" data-v="0">✖ خطأ</button></div>';
+  else if (st.type === "match") body = '<p class="q-text" id="qtext">' + esc(st.set.ask) + '</p><div class="match">'
+    + st.ps.map((p, i) => '<div class="mrow" data-i="' + i + '"><b id="ma' + i + '">' + esc(p.a) + '</b><select data-i="' + i + '" aria-labelledby="ma' + i + '"><option value="">اختر من (ب)…</option>'
+      + st.right.map(j => '<option value="' + j + '">' + esc(st.ps[j].b) + '</option>').join("") + '</select></div>').join("") + '</div>'
+    + '<div class="actions"><button class="btn go" type="button" data-act="checkmatch">تحقّق</button></div>';
+  else if (st.type === "order") body = '<p class="q-text" id="qtext">' + esc(st.q.q) + '<small>اضغط عليها بالترتيب: الأول ثم الذي بعده.</small></p>'
+    + '<div class="ord-pool" role="group" aria-labelledby="qtext">' + st.pool.map((x, i) => '<button class="opt" type="button" data-act="ordpick" data-i="' + i + '">' + esc(x) + '</button>').join("") + '</div>'
+    + '<ol class="ord-ans" id="ordAns" aria-label="ترتيبك">' + st.q.items.map(() => '<li></li>').join("") + '</ol>'
+    + '<div class="actions"><button class="btn sm" type="button" data-act="ordundo" id="ordUndo" disabled>تراجع</button><button class="btn go" type="button" data-act="checkorder" id="ordCheck" disabled>تحقّق</button></div>';
+  else body = '<p class="q-text" id="qtext">' + esc(st.q.q) + '</p><div class="fill"><input id="fillIn" type="text" autocomplete="off" aria-labelledby="qtext" placeholder="اكتب إجابتك"></div>'
+    + '<div class="actions"><button class="btn go" type="button" data-act="checkfill">تحقّق</button></div>';
+  $("#main").innerHTML = '<section class="run panel c-' + (R.mode === "mock" ? lesOf(stepTopic(st)) : R.mode) + '">'
+    + '<div class="run-top"><button class="btn sm" type="button" data-act="home">→ الصفحة</button><b>' + esc(MODES[R.mode].short) + '</b><span class="counter">' + (R.i + 1) + ' / ' + n + '</span></div>'
+    + '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + R.i + '" aria-label="الأسئلة المنجزة"><i style="width:' + Math.round(R.i / n * 100) + '%"></i></div>'
+    + '<p class="q-part">الدرس ' + LESSON[lesOf(stepTopic(st))].n + ' · ' + PART[st.type] + '</p>' + body + '<div id="fbBox"></div></section>';
+  const f = $(".opt") || $("select") || $("#fillIn");
+  if (f && window.matchMedia && matchMedia("(pointer: fine)").matches) f.focus({preventScroll:true});
+}
+
+/* ---------- ANSWERS ---------- */
+function record(ok, given, right, why, t, text){
+  R.res.push({ok, given, right, why, t, text, l:lesOf(t), type:R.steps[R.i].type});
+  if (ok) addXP(10);
+}
+function feedback(ok, why, t, extra){
+  R.locked = true;
+  const last = R.i === R.steps.length - 1;
+  $("#fbBox").innerHTML = '<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + (ok ? "أحسنت! ✔" : "انتبه ✖") + '</span>' + (extra || "")
+    + '<p class="why">' + esc(why) + '</p>' + (ok ? "" : lessonPeek(t)) + '</div>'
+    + '<div class="actions"><button class="btn ink" type="button" data-act="next" id="nextBtn">' + (last ? "النتيجة ←" : "التالي ←") + '</button></div>';
+  announce((ok ? "صحيح. " : "خطأ. ") + why);
+  $("#nextBtn").focus({preventScroll:true});
+}
+function answerMC(k){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const ok = k === 0;
+  document.querySelectorAll(".opt").forEach(b => { const bk = +b.dataset.k; b.disabled = true; b.classList.add(bk === 0 ? "right" : bk === k ? "wrong" : "dim"); });
+  record(ok, st.q.o[k], st.q.o[0], st.q.w, st.q.t, st.q.q);
+  feedback(ok, st.q.w, st.q.t);
+}
+function answerTF(v){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const ok = v === st.q.a;
+  document.querySelectorAll(".opt").forEach(b => { const bv = b.dataset.v === "1"; b.disabled = true; b.classList.add(bv === st.q.a ? "right" : bv === v ? "wrong" : "dim"); });
+  record(ok, v ? "✔ صح" : "✖ خطأ", st.q.a ? "✔ صح" : "✖ خطأ", st.q.w, st.q.t, st.q.q);
+  feedback(ok, st.q.w, st.q.t);
+}
+function checkMatch(){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const sel = [...document.querySelectorAll(".mrow select")];
+  if (sel.some(s => s.value === "")){ announce("اختر إجابة لكل عبارة أولًا."); sel.find(s => s.value === "").focus(); return; }
+  let right = 0;
+  sel.forEach(s => {
+    const i = +s.dataset.i, ok = +s.value === i, row = s.closest(".mrow");
+    s.disabled = true; row.classList.add(ok ? "right" : "wrong");
+    if (!ok) row.insertAdjacentHTML("beforeend", '<p class="fix">الصحيح: ' + esc(st.ps[i].b) + '</p>');
+    if (ok) right++;
+    record(ok, st.ps[+s.value].b, st.ps[i].b, st.ps[i].a + ": " + st.ps[i].b + ".", st.ps[i].t, st.ps[i].a);
+  });
+  const miss = st.ps.find((p, i) => +sel[i].value !== i);
+  feedback(right === st.ps.length, right + " من " + st.ps.length + " صحيحة.", miss ? miss.t : st.ps[0].t);
+}
+function orderPick(i){ const st = R.steps[R.i]; if (R.locked || st.ans.includes(i)) return; st.ans.push(i); orderDraw(); }
+function orderUndo(){ const st = R.steps[R.i]; if (R.locked || !st.ans.length) return; st.ans.pop(); orderDraw(); }
+function orderDraw(){
+  const st = R.steps[R.i];
+  document.querySelectorAll("#ordAns li").forEach((li, k) => { const i = st.ans[k]; li.textContent = i === undefined ? "" : st.pool[i]; li.classList.toggle("on", i !== undefined); });
+  document.querySelectorAll(".ord-pool .opt").forEach(b => { b.disabled = st.ans.includes(+b.dataset.i); });
+  $("#ordUndo").disabled = !st.ans.length; $("#ordCheck").disabled = st.ans.length < st.pool.length;
+  const nb = [...document.querySelectorAll(".ord-pool .opt")].find(b => !b.disabled);
+  if (nb && window.matchMedia && matchMedia("(pointer: fine)").matches) nb.focus({preventScroll:true}); else if (!nb) $("#ordCheck").focus({preventScroll:true});
+}
+function checkOrder(){
+  const st = R.steps[R.i]; if (R.locked || st.ans.length < st.pool.length) return;
+  let right = 0;
+  document.querySelectorAll(".ord-pool .opt").forEach(b => { b.disabled = true; }); $("#ordUndo").disabled = true; $("#ordCheck").disabled = true;
+  document.querySelectorAll("#ordAns li").forEach((li, k) => {
+    const given = st.pool[st.ans[k]], want = st.q.items[k], ok = given === want;
+    li.classList.add(ok ? "right" : "wrong"); if (!ok) li.insertAdjacentHTML("beforeend", '<small>مكانه: ' + esc(want) + '</small>');
+    if (ok) right++;
+    record(ok, given, want, "رقم " + (k + 1) + ": " + want + ".", st.q.t, st.q.q + " (رقم " + (k + 1) + ")");
+  });
+  feedback(right === st.q.items.length, right + " من " + st.q.items.length + " في مكانها الصحيح. الترتيب: " + st.q.items.join(" ← ") + ".", st.q.t);
+}
+function checkFill(){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const inp = $("#fillIn");
+  if (!norm(inp.value)){ announce("اكتب إجابتك أولًا."); inp.focus(); return; }
+  const ok = fillOK(st.q, inp.value);
+  inp.readOnly = true;
+  const model = (st.q.ans.length > 1 ? "إجابات صحيحة: " : "الإجابة: ") + st.q.ans.join("، ") + ".";
+  record(ok, inp.value.trim(), st.q.ans[0], model, st.q.t, st.q.q);
+  feedback(ok, model, st.q.t);
+}
+function next(){ if (R.i < R.steps.length - 1){ R.i++; renderStep(); window.scrollTo(0, 0); } else result(); }
+
+/* ---------- RESULT ---------- */
+function result(){
+  const res = R.res, right = res.filter(r => r.ok).length, pct = right / res.length;
+  let h = '<section class="result panel c-' + MODES[R.mode].c + '">';
+  if (R.mode === "mock"){
+    S.mocks++; if (S.best === null || pct > S.best) S.best = pct;
+    if (pct >= .8) master("mock");
+    addXP(20);
+    h += '<p class="q-part">الاختبار التجريبي</p><div class="big">' + right + ' <small>من ' + res.length + '</small></div><div class="parts">'
+      + LESSONS.map(x => { const mine = res.filter(r => r.l === x.id); return '<div class="stat"><b>' + mine.filter(r => r.ok).length + '/' + mine.length + '</b><span>الدرس ' + x.n + '</span></div>'; }).join("") + '</div>'
+      + '<p>' + (pct >= .9 ? "ممتاز، أنت جاهز للاختبار! 🌟" : pct >= .7 ? "جيد جدًا. صحّح الأخطاء تحت ثم جرّب مرة ثانية." : "راجع الدروس المذكورة تحت، ثم جرّب اختبارًا جديدًا: الأسئلة تتغيّر.") + '</p>';
+  } else {
+    S.rounds++;
+    if (pct >= .8) master(R.mode);
+    h += '<p class="q-part">' + esc(MODES[R.mode].name) + '</p><div class="big">' + right + ' <small>من ' + res.length + '</small></div>'
+      + '<p>' + (right === res.length ? "كلها صحيحة! 🌟" : "صحّح الأخطاء تحت، والأسئلة تتغيّر في كل جولة.") + '</p>';
+  }
+  save();
+  h += '<div class="row" style="justify-content:center"><button class="btn go" type="button" data-act="start" data-m="' + R.mode + '">جولة جديدة</button>'
+    + (R.mode !== "mock" ? '<button class="btn" type="button" data-act="start" data-m="mock">الاختبار التجريبي</button>' : "") + '<button class="btn sm" type="button" data-act="home">الصفحة</button></div></section>';
+  const miss = res.filter(r => !r.ok);
+  if (miss.length) h += '<div class="sec"><div class="sec-head"><h2>صحّح هذه</h2><p>اقرأ السبب، ثم ارجع للدرس.</p></div><div class="miss-list">'
+    + miss.map(r => '<div class="miss panel"><p class="q">' + esc(r.text) + '</p><p class="a">إجابتك: ' + esc(r.given) + ' · الصحيح: ' + esc(r.right) + '</p><p>' + esc(r.why) + '</p><p>' + lessonLink(r.t) + '</p></div>').join("") + '</div></div>';
+  $("#main").innerHTML = h;
+  window.scrollTo(0, 0);
+  announce("النتيجة: " + right + " من " + res.length);
+}
+
+/* ---------- HOME ---------- */
+const pctTxt = v => v === null ? "–" : Math.round(v * 100) + "%";
+function renderHome(){
+  const n = dayDiff(todayISO(), QUIZ_DAY), when = n < 0 ? "خلص الاختبار" : n === 0 ? "اليوم" : n === 1 ? "غدًا" : "بعد " + count(n, "يوم واحد", "يومين", "أيام", "يومًا");
+  let h = '<section class="hero panel c-mock"><h1>الاجتماعيات: مراجعة الاختبار القصير 2</h1>'
+    + '<p class="sub">الثلاثاء 17 نوفمبر · الوحدة الثانية: الدولة السعودية الأولى · الدروس 3–5 <span class="badge' + (n >= 0 && n <= 1 ? " hot" : "") + '">' + when + '</span></p>'
+    + '<div class="stats"><div class="stat"><b>' + pctTxt(S.best) + '</b><span>أفضل اختبار تجريبي</span></div><div class="stat"><b>' + S.mocks + '</b><span>اختبارات تجريبية</span></div><div class="stat"><b>' + S.xp + '</b><span>نقاط</span></div></div>'
+    + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="mock">ابدأ اختبارًا تجريبيًا</button><a class="btn" href="#timeline">خط الزمن</a><a class="btn sm" href="../../review/quiz-2/index.html#soc">قائمة الاختبار القصير 2</a></div></section>';
+  h += '<section class="sec"><div class="sec-head"><h2>ما في الاختبار</h2><p>ثلاثة دروس من ملف التقييم، مع صفحاتها.</p></div><div class="tiles">'
+    + LESSONS.map(x => '<article class="tile c-' + x.id + '"><b>الدرس ' + x.n + ': ' + x.t + '</b><span>ص ' + x.pg + '</span><span>' + x.blurb + '</span><div class="row"><a class="btn sm" href="#l-' + x.id + '">راجعه</a>'
+      + '<button class="btn sm go" type="button" data-act="start" data-m="' + x.id + '">تدرّب</button></div></article>').join("") + '</div>'
+    + '<div class="mock-cta panel"><p><b>الاختبار التجريبي:</b> 10 اختيار من الدروس الثلاثة، و6 صح وخطأ، وصِل، ورتّب، وسؤالان «أكمل»، ثم نتيجتك في كل درس.</p><button class="btn go" type="button" data-act="start" data-m="mock">ابدأ</button></div></section>';
+  h += '<section class="sec part c-so2" id="timeline"><div class="part-head"><h2>خط الزمن</h2><span>احفظ هذه السنوات</span></div>'
+    + '<article class="card panel"><h3>مراحل الدولة السعودية</h3>' + tlHTML(TL_STAGES, "stages") + '</article>'
+    + '<article class="card panel c-so3"><h3>أحداث الدولة السعودية الأولى (1139–1233هـ)</h3>' + tlHTML(TL_FIRST, "first") + '</article></section>';
+  LESSONS.forEach(x => {
+    h += '<section class="sec part c-' + x.id + '" id="l-' + x.id + '"><div class="part-head"><h2>الدرس ' + x.n + ': ' + x.t + '</h2><span>ص ' + x.pg + '</span></div>';
+    if (x.id === "so3"){
+      const t0 = TOPIC["c-titles"];
+      h += '<article class="card panel" id="c-titles"><h3>' + t0.t + '</h3>' + topicBody(t0) + '</article><div class="imams" style="margin-top:22px">'
+        + IMAMS.map((m, i) => '<article class="imam" id="' + ["c-m", "c-a", "c-s", "c-ab"][i] + '">' + imamHTML(i, true) + '</article>').join("") + '</div>';
+    } else h += TOPICS.filter(t => t.l === x.id).map(t => '<article class="card panel" id="' + t.id + '"><h3>' + t.t + '</h3>' + topicBody(t) + '</article>').join("");
+    h += '<div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="' + x.id + '">تدرّب على الدرس ' + x.n + '</button></div></section>';
+  });
+  h += '<footer class="foot"><p>الدروس والصفحات من ملف التقييم الرسمي للاختبار القصير 2، والملخص من كتاب الطالب (طبعة 1447؛ أرقام صفحاتها أقل بصفحتين). الأسئلة مكتوبة لهذه الصفحة من الدروس. إذا اختلف شيء عن الكتاب، المعتمد كلام المعلم والكتاب.</p></footer>';
+  $("#main").innerHTML = h;
+}
+
+/* ---------- PRINT ---------- */
+const PT = {mc:[["أسس الإمام محمد بن سعود الدولة السعودية الأولى عام:", ["1157هـ", "1139هـ", "850هـ"], 1], ["عاصمة الدولة السعودية الأولى:", ["الرياض", "العيينة", "الدرعية"], 2],
+    ["من أين قدم الشيخ محمد بن عبدالوهاب إلى الدرعية؟", ["العيينة", "الأحساء", "مكة المكرمة"], 0], ["عُرف عهد الإمام سعود بن عبدالعزيز بالفترة:", ["الأولى", "الذهبية", "الأخيرة"], 1],
+    ["حكام الدولة السعودية الأولى يُلقَّبون بـ:", ["الملوك", "الأئمة", "الخلفاء"], 1], ["أمّن طرق الحج والتجارة التي تمر بالدرعية:", ["مقرن بن مرخان", "ربيعة بن مانع", "إبراهيم بن موسى"], 2],
+    ["سبب ضعف الاقتصاد قبل الدولة السعودية الأولى:", ["الطرق غير آمنة والحروب مستمرة", "كثرة المصانع", "قلة السكان"], 0], ["اغتيل وهو يصلي العصر في مسجد الطريف:", ["الإمام محمد بن سعود", "الإمام عبدالعزيز بن محمد", "الإمام سعود بن عبدالعزيز"], 1]],
+  tf:[["أعطى ابن درع مانع المريدي موضعي المليبيد وغصيبة.", true], ["توحيد المملكة العربية السعودية كان عام 1319هـ.", false], ["العوجا هي الدرعية.", true],
+    ["نجحت الحملات العثمانية من العراق في عهد الإمام عبدالعزيز.", false], ["يوم التأسيس يوافق 22 فبراير 1727م.", true], ["حكم الإمام عبدالله بن سعود من 1229هـ إلى 1233هـ.", true]],
+  match:[["850هـ", "تأسيس الدرعية"], ["1157هـ", "قدوم الشيخ محمد بن عبدالوهاب"], ["1187هـ", "ضمّ الرياض"], ["1233هـ", "سقوط الدرعية"]], matchOrder:[2, 0, 3, 1],
+  fill:[["من عناصر شعار يوم التأسيس: ……………… و………………", "العلم السعودي، النخلة، الصقر، الخيل العربية، السوق (أي اثنين)"], ["سُمّي قصر الحكم بقصر سلوى نسبة إلى ………………", "السُّلوان: ما يبعث السعادة والأنس"],
+    ["وُصف الإمام سعود بـ«سعود الكبير» لأن ………………", "الدولة وصلت في عهده إلى أقصى نطاق لها"], ["من صفات الإمام محمد بن سعود: ……………… و………………", "الشجاعة، الحزم، العدل، التدين، الحكمة (أي اثنين)"]]};
+/* the printed summary is shorter than the page: one line per idea */
+const PS = {
+  so1:[["الحالة السياسية", "لا حكم موحّد بعد عهد الرسول ﷺ والخلافة الراشدة: نفوذ دول من خارجها، وإمارات صغيرة وزعامات متنازعة ← غياب الأمن، والحاجة إلى حكومة قوية ووحدة حقيقية."],
+    ["الحالة الاقتصادية", "طرق غير آمنة، وحروب مستمرة، وسرقة المزارع وأماكن التجارة ← ضعف الحركة الاقتصادية والنشاط التجاري (ودفع الإتاوات لحماية القوافل)."],
+    ["الحالة الدينية والعلمية", "بدع وخرافات في بعض المناطق، وتأخر في الجوانب العلمية."],
+    ["أربعة أمراء", "بلدة صغيرة في وسط الجزيرة يحكمها أربعة أمراء؛ عثمان بن بشر: «فقسّموا البلد أربعًا»."],
+    ["ما الذي تغيّر؟", "عادت الوحدة والأمن والاستقرار، وازدهرت العلوم والمعارف: الدولة السعودية الأولى ← الثانية ← المملكة العربية السعودية."],
+    ["واجبنا تجاه الوطن", "شكر الله، والولاء لله ثم للقيادة (آل سعود)، ومعرفة أهمية الوحدة الوطنية، والعمل بإخلاص من أجل الوطن."]],
+  so2:[["الجذور", "بنو حنيفة هاجروا من الحجاز (200 سنة قبل الإسلام)، ومركزهم حجر اليمامة (الرياض). اليمامة موطن طسم وجديس (زرقاء اليمامة: حدّة البصر)."],
+    ["850هـ: الدرعية", "ابن درع حاكم حجر اليمامة دعا ابن عمه مانع المريدي (من الدرعية في شرق الجزيرة) وأعطاه المليبيد وغصيبة؛ فأسس الدرعية نسبة إلى الدروع."],
+    ["أمراء الدرعية", "مانع ← ربيعة (أكمل التأسيس) ← موسى ← إبراهيم (أمّن طرق الحج والتجارة) ← مرخان ← مقرن (توسّع وشجاعة) ← محمد ← سعود ← محمد بن سعود."],
+    ["وادي حنيفة", "اسمه القديم وادي العِرض، نحو 80 كم من طويق إلى وادي السهباء؛ عليه الدرعية والرياض ومنفوحة والعيينة وعرقة."],
+    ["نخوة العوجا", "العوجا: الدرعية. النخوة: نداء يبث الحماسة والفخر، يُردَّد في الأهازيج والعرضة السعودية."],
+    ["1139هـ (1727م): التأسيس", "الإمام محمد بن سعود، والدرعية العاصمة. جهوده: سياسية (تحالفات، ولا خضوع لأي سلطة)، واقتصادية (تأمين طرق التجارة والحج)، واجتماعية (الدرعية مقصد البادية والحاضرة)."],
+    ["1157هـ: الدعوة الإصلاحية", "قدم الشيخ محمد بن عبدالوهاب من العيينة لطلب تأييد دعوته (التوحيد والقضاء على البدع)؛ «أبشر ببلادٍ خيرٍ من بلادك»."],
+    ["يوم التأسيس", "22 فبراير (منتصف 1139هـ = 22 فبراير 1727م). الشعار: العلم السعودي، النخلة، الصقر، الخيل العربية، السوق."]]
+};
+function renderPrint(){
+  const notes = l => PS[l].map(([h, t]) => '<li><b>' + h + ':</b> ' + t + '</li>').join("");
+  $("#printSheet").innerHTML = '<header class="ps-head"><h1>الاجتماعيات: ملخص الاختبار القصير 2</h1><p>الصف السادس · الثلاثاء 17/11/2026 · الدروس 3–5</p></header>'
+    + '<div class="ps-cols"><div class="ps-l"><h3>الدرس 3: ' + LESSON.so1.t + ' (ص ' + LESSON.so1.pg + ')</h3><ul>' + notes("so1") + '</ul></div>'
+    + '<div class="ps-l"><h3>الدرس 4: ' + LESSON.so2.t + ' (ص ' + LESSON.so2.pg + ')</h3><ul>' + notes("so2") + '</ul></div></div>'
+    + '<div class="ps-l"><h3>الدرس 5: ' + LESSON.so3.t + ' (ص ' + LESSON.so3.pg + ') · يُلقَّب حكام الدولتين الأولى والثانية بالأئمة، وحكام المملكة بالملوك</h3></div>'
+    + '<table class="ps-tl"><tr><th>الإمام</th><th>صفاته وأبرز ما في عهده</th><th>النهاية</th></tr>' + IMAMS.map(m => '<tr><td><b>' + m.name + '</b><br>' + m.yrs + '<br>' + m.tag + '</td><td>' + m.quals.join("، ") + '. ' + m.deeds.map(strip).join(" ") + '</td><td>' + m.end + '</td></tr>').join("") + '</table>'
+    + '<section class="ps-page"><header class="ps-head"><h1>خط الزمن</h1><p>احفظ هذه السنوات</p></header>'
+    + '<div class="ps-grid2"><table class="ps-tl"><tr><th>السنة</th><th>مراحل الدولة السعودية</th></tr>' + TL_STAGES.map(x => '<tr><td><b>' + x[0] + '</b>' + (x[1] ? " (" + x[1] + ")" : "") + '</td><td>' + x[2] + '</td></tr>').join("") + '</table>'
+    + '<table class="ps-tl"><tr><th>السنة</th><th>أحداث الدولة السعودية الأولى</th></tr>' + TL_FIRST.map(x => '<tr><td><b>' + x[0] + '</b></td><td>' + x[1] + '</td></tr>').join("") + '</table></div>'
+    + '<div class="ps-q ps-two"><h2>اختبار تجريبي · السؤال الأول: ضع دائرة حول الإجابة الصحيحة</h2><ol>' + PT.mc.map(q => '<li>' + q[0] + '<br>' + q[1].map((o, j) => '<span class="o">' + "أبج"[j] + ') ' + o + '</span>').join("") + '</li>').join("") + '</ol></div>'
+    + '<div class="ps-q ps-two"><h2>السؤال الثاني: ضع ✔ أو ✖</h2><ol>' + PT.tf.map(q => '<li>' + q[0] + ' (   )</li>').join("") + '</ol></div>'
+    + '<div class="ps-q"><h2>السؤال الثالث: صِل كل عام بحدثه</h2><table class="ps-match"><tr><td><b>أ</b></td><td><b>ب</b></td></tr>'
+    + PT.match.map((p, i) => '<tr><td>' + (i + 1) + ') ' + p[0] + '</td><td>' + PT.match[PT.matchOrder[i]][1] + '</td></tr>').join("") + '</table></div>'
+    + '<div class="ps-q"><h2>السؤال الرابع: رتّب الأئمة بحسب حكمهم (1–4)</h2><p>…… الإمام سعود بن عبدالعزيز &nbsp; …… الإمام محمد بن سعود &nbsp; …… الإمام عبدالله بن سعود &nbsp; …… الإمام عبدالعزيز بن محمد</p></div>'
+    + '<div class="ps-q ps-two"><h2>السؤال الخامس: أكمل</h2><ol>' + PT.fill.map(q => '<li>' + q[0] + '</li>').join("") + '</ol></div>'
+    + '<div class="ps-key"><h3>الإجابات</h3><p><b>الأول:</b> ' + PT.mc.map((q, i) => (i + 1) + ') ' + "أبج"[q[2]] + ' ' + q[1][q[2]]).join(" · ") + '</p>'
+    + '<p><b>الثاني:</b> ' + PT.tf.map((q, i) => (i + 1) + ') ' + (q[1] ? "✔" : "✖")).join(" · ") + ' &nbsp; <b>الثالث:</b> ' + PT.match.map((p, i) => (i + 1) + ') ' + p[1]).join(" · ") + '</p>'
+    + '<p><b>الرابع:</b> 3، 1، 4، 2 &nbsp; <b>الخامس:</b> ' + PT.fill.map((q, i) => (i + 1) + ') ' + q[1]).join(" · ") + '</p></div></section>';
+}
+
+/* ---------- EVENTS ---------- */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b || b.disabled) return;
+  const a = b.dataset.act;
+  if (a === "start") start(b.dataset.m);
+  else if (a === "mc") answerMC(+b.dataset.k);
+  else if (a === "tf") answerTF(b.dataset.v === "1");
+  else if (a === "checkmatch") checkMatch();
+  else if (a === "checkfill") checkFill();
+  else if (a === "ordpick") orderPick(+b.dataset.i);
+  else if (a === "ordundo") orderUndo();
+  else if (a === "checkorder") checkOrder();
+  else if (a === "next") next();
+  else if (a === "home"){ R = null; renderHome(); window.scrollTo(0, 0); }
+  else if (a === "lesson"){ e.preventDefault(); R = null; renderHome(); const t = document.getElementById(b.dataset.t); if (t) t.scrollIntoView(); }
+});
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.id === "fillIn" && R && !R.locked){ e.preventDefault(); checkFill(); } });
+$("#printBtn").addEventListener("click", () => window.print());
+/* another device's progress arrived: refresh the numbers in place, without leaving a round */
+window.addEventListener("monmon-sync", e => {
+  try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v) S = Object.assign(fresh(), v); } catch (err) {}
+  $("#xpVal").textContent = S.xp;
+  if (!R){ const st = document.querySelectorAll(".hero .stat b"); if (st.length === 3){ st[0].textContent = pctTxt(S.best); st[1].textContent = S.mocks; st[2].textContent = S.xp; } }
+  e.preventDefault();
+});
+
+$("#xpVal").textContent = S.xp;
+renderHome();
+renderPrint();
+if (location.hash.length > 1){ const t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
+</script>
+</body>
+</html>
