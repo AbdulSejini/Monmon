@@ -68,6 +68,12 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 | --- | --- | --- |
 | TechnoFuture (TechnoKids), Sessions 1–3, pp. 1–8, 11–22 and 25–30, for ICT practical Quiz 1 (MS PowerPoint, Thursday 29 Oct 2026) | [`ict/technofuture/index.html`](ict/technofuture/index.html) | Future Lab: seven parts following the book's assignments (what a futurist is, the Imagine Tomorrow story and emerging technologies, the story organizer, the PowerPoint 2013 window and ribbon, the Home of the Future slide, the START action button, and the slide master with Home and Return buttons), with 47 lesson cards, drawn PowerPoint screens, try-it widgets and a 6-question quick check per part; a Ribbon Lab with three games (name the 9 window parts, a Ribbon Hunt of 43 "where would you click?" tasks on a drawn ribbon with the Picture Tools and Drawing Tools tabs, and a Link Lab in the Action Settings box); six step-by-step missions to do in PowerPoint on a computer, ending with a timed Speed Run; a 30-question Final Test drawn from 85, weighted to the practical parts, with a weak-spot report; tonight's job from a four-evening plan; a table of names that differ in newer PowerPoint; and a 50-word word bank with Arabic. |
 
+## English
+
+| Assessment | Page | What's inside |
+| --- | --- | --- |
+| Quiz 2 of Term 1 (Thursday 12 Nov 2026): StudySync “Personal Statement: Individual Twin” pp. 42–44, central or main idea pp. 45–46, Vocabulary Workshop Level A Unit 4 pp. 52–58, grammar Lessons 7.1–7.3 pp. 141–146, a friendly letter pp. 46–49 | [`english/quiz-2/index.html`](english/quiz-2/index.html) | The five parts of the outline, each with a lesson and its own practice. Reading: what happens, the central idea, theme, structure and purpose, four words from the text, and the five Think Questions of p. 44 with model answers. Main idea: topic, central idea and details, how to find it, stated or implied, with short passages written for the page. Vocabulary: the 20 words with meaning, synonyms, antonyms, a sentence and a 🔊 button; the questions are made at random (meaning, word, choose the word for a sentence, synonym, antonym, typed spelling), and words close in meaning are never asked together. Grammar: nouns, pronouns, subject and object pronouns. Letter: the five parts, the commas, the marking (3.5), a model letter, and a letter checker that lists what the outline asks for (the date, a greeting, six complete sentences, a friendly closing, the name) and the commas and capitals, grouped by the marking; it is a checklist, not a mark. A practice test of 30 questions (6 reading, 4 main idea, 8 vocabulary, 8 grammar, 4 letter) shows the result for each part; the outline gives marks only for the letter, so no other mark is invented. Progress (xp, best test, letters checked) is saved in `english-g6-quiz2-v1`, synced, and counts towards the rewards; the letter being written stays on the device only (`english-g6-quiz2-letter`, not synced). |
+
 ## Vocabulary
 
 | Unit | Page | What's inside |
@@ -113,7 +119,7 @@ Progress is saved in each browser's localStorage. Every page (the dashboard incl
 - **Receiving:**
   - While a page is in front, the database streams the time of each change to it.
   - Pages that are not open fetch the changes when they open or come back to the front.
-  - The dashboard, the IXL plan, the practice sheet and the Islamic Studies review redraw in place. Other pages reload if nobody has touched them yet, and otherwise show a banner.
+  - The dashboard, the IXL plan, the practice sheet and the Islamic Studies and English reviews redraw in place. Other pages reload if nobody has touched them yet, and otherwise show a banner.
 - **No undoing other devices' changes:** each save is turned into just the changes the page made since it last read the value. So a page still showing older progress never undoes another device's change. A device that already has progress when it first syncs adds what only it has; where both have a value, the family's wins.
 - **Storage:** the family's node is `/f/<CODE>`, with `CODE` from `assets/sync.js`. Inside it:
   - `d` holds one entry per value, keyed by its path, for example `monmon-done-v1|done|<item id>`. Each segment is %-escaped for Firebase, and each value is stored as JSON text, so arrays and empty objects come back exactly as saved.
@@ -145,6 +151,7 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 | Science | 3 pages: key ideas and word bank, then a label-the-cell sheet with an answer key |
 | Science, control and information | 3 pages: homework and key ideas, the rest of the key ideas and the word bank, then a label-the-eye-and-ear sheet with an answer key |
 | ICT, TechnoFuture | 2 pages: the PowerPoint window with its 9 parts labelled and a "How do I…?" table; then the three big procedures (link an action button, a picture on every slide, stop click-to-advance with Home and Return), futurist facts and a 10-question self-test with an answer key |
+| English, Quiz 2 | 3 pages: a study sheet (the reading, the main idea, grammar 7.1–7.3 and the friendly letter); the 20 Unit 4 words in a table with the model letter; then a practice test (vocabulary with a word box, grammar, a main-idea passage, letter commas and parts) with an answer key |
 | Vocabulary Unit 2 | 2 pages: word list, then "Test yourself" with an answer key |
 | Vocabulary Review Units 1–3 | 3 pages: one per unit, with a word table and a short test |
 | Sticker album | No paper version: the screen as it is, about 3 pages, without the strip and the sound button |

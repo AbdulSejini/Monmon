@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>English Quiz 2 Review</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23FFDDE6%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M18 46V18h10a8 8 0 0 1 0 16h-10M34 46l12-28 12 28M38 37h16%22 fill=%22none%22 stroke=%22%23E23F66%22 stroke-width=%225%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --tip:#C77700; --tip-bg:#FFF0D1;
+  --col:#E23F66; --tint:#FFDDE6;
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+:focus-visible{outline:3px solid #2F7DE1;outline-offset:3px}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.p-read{--col:#E23F66;--tint:#FFDDE6} .p-idea{--col:#F39200;--tint:#FFE8C2} .p-vocab{--col:#9A4FE0;--tint:#EEE0FF}
+.p-gram{--col:#2F7DE1;--tint:#DCEBFF} .p-write{--col:#119C77;--tint:#D2F4E8} .p-test{--col:#E23D45;--tint:#FFE1E2}
+
+.topbar{background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:900px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:#FF8FB0;-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap;line-height:1.2}
+.chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.xp{display:inline-flex;align-items:center;gap:5px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:2px 11px;white-space:nowrap}
+.spacer{flex:1}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--sun-2);box-shadow:2px 2px 0 var(--ink);text-decoration:none;padding:0}
+.icon-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:800;text-decoration:none;box-shadow:var(--shadow-sm);text-align:center;line-height:1.25}
+.btn:active{transform:translate(3px,3px);box-shadow:none}
+.btn.go{background:var(--sun)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.sm{min-height:40px;padding:5px 12px;font-size:15px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+.hero{margin-top:20px;padding:18px;display:grid;gap:12px;border-inline-start:12px solid var(--col)}
+.hero h1{font-size:clamp(34px,7vw,52px)}
+.hero .sub{color:var(--ink-2);font-weight:700}
+.badge{font-size:13px;font-weight:800;padding:2px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--sun-2);white-space:nowrap}
+.badge.hot{background:var(--bad);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:var(--r-sm);padding:8px;background:var(--page);text-align:center;display:grid}
+.stat b{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:13px;font-weight:700;color:var(--ink-2)}
+.sec{margin-top:30px}
+.sec-head{margin-bottom:12px;display:grid;gap:2px}
+.sec-head h2{font-size:36px}
+.sec-head p{color:var(--ink-2);font-size:15px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.tile{padding:14px;display:grid;gap:8px;border:3px solid var(--ink);border-radius:var(--r);background:var(--paper);box-shadow:var(--shadow-sm);border-inline-start:10px solid var(--col)}
+.tile b{font-size:18px;line-height:1.3}
+.tile span{font-size:14px;color:var(--ink-2);font-weight:600}
+.test-cta{margin-top:14px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;background:var(--sun-2)}
+.test-cta p{flex:1 1 260px;font-weight:600}
+
+/* lessons */
+.part{scroll-margin-top:12px}
+.part-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:12px}
+.part-head h2{font-size:36px;color:var(--col);-webkit-text-stroke:.6px var(--ink)}
+.part-head span{font-size:14px;font-weight:700;color:var(--ink-2)}
+.card{padding:16px;display:grid;gap:10px;border-inline-start:10px solid var(--col);scroll-margin-top:12px}
+.card + .card{margin-top:12px}
+.card h3{font-size:26px}
+.card h4{margin:0;font-size:16px;font-weight:800}
+.card ul,.card ol{padding-inline-start:22px;display:grid;gap:4px}
+.big-idea{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--tint);padding:8px 12px;font-weight:700}
+.facts{display:grid;gap:6px}
+.facts div{display:grid;grid-template-columns:150px 1fr;gap:10px;padding-bottom:6px;border-bottom:1px dashed var(--ink-3)}
+.facts div:last-child{border-bottom:0}
+.facts dt,.facts b.k{font-weight:800;color:var(--col)}
+.words-mini{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.words-mini p{border:2px solid var(--ink);border-radius:var(--r-sm);padding:6px 10px;background:var(--page);font-size:15px}
+details.think{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);padding:4px 12px}
+details.think summary{font-weight:700;cursor:pointer;min-height:40px;padding-block:6px}
+details.think p{padding:2px 0 10px;color:var(--ink-2)}
+.passage{border-inline-start:5px solid var(--col);background:var(--tint);border-radius:0 10px 10px 0;padding:10px 14px;font-size:16px;line-height:1.7}
+.gtable{width:100%;border-collapse:collapse;font-size:15px}
+.gtable th,.gtable td{border:2px solid var(--ink);padding:6px 8px;text-align:start;vertical-align:top}
+.gtable th{background:var(--tint)}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.word{padding:12px 14px;display:grid;gap:6px;align-content:start;scroll-margin-top:12px;border-inline-start:8px solid var(--col)}
+.word h3{font-size:28px;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px}
+.word h3 small{font-family:var(--body);font-size:13px;font-weight:700;color:var(--ink-2);letter-spacing:0}
+.word .say{margin-inline-start:auto;width:36px;height:36px;border:2px solid var(--ink);border-radius:8px;background:var(--tint);display:grid;place-items:center;padding:0}
+.word .say svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.word .m{font-weight:700}
+.word .sa{font-size:14px;color:var(--ink-2)}
+.word .ex{font-size:14.5px;font-style:italic}
+.letter{background:#FFFDF6;border:2px solid var(--ink);border-radius:var(--r-sm);padding:14px 16px;display:grid;gap:10px;font-size:16px;line-height:1.7;background-image:repeating-linear-gradient(transparent 0 26px,rgba(47,125,225,.12) 26px 27px)}
+.letter .lp{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:start}
+.letter .lp > span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#fff;background:var(--col);border-radius:6px;padding:2px 6px;justify-self:start;margin-top:4px}
+.letter .lp.right p{text-align:start}
+.letter .body p + p{margin-top:8px}
+.marks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.marks div{border:2px solid var(--ink);border-radius:var(--r-sm);padding:8px;background:var(--paper);display:grid;gap:2px}
+.marks b{font-size:20px}
+.marks span{font-size:13px;font-weight:700;color:var(--ink-2)}
+
+/* the letter checker */
+.checker{padding:16px;display:grid;gap:12px;border-inline-start:10px solid var(--col);scroll-margin-top:12px}
+.prompt{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;border:2px dashed var(--ink);border-radius:var(--r-sm);padding:8px 12px;background:var(--tint)}
+.prompt p{flex:1 1 240px;font-weight:700}
+.checker textarea{width:100%;min-height:300px;border:3px solid var(--ink);border-radius:12px;padding:12px;font-size:17px;line-height:1.6;background:#fff;resize:vertical}
+.checker .hint{font-size:14px;color:var(--ink-2)}
+.report{display:grid;gap:10px}
+.rgroup{border:2px solid var(--ink);border-radius:var(--r-sm);padding:10px 12px;display:grid;gap:6px;background:var(--paper)}
+.rgroup h4{margin:0;font-size:15px;font-weight:800;display:flex;justify-content:space-between;gap:8px}
+.ritem{display:grid;grid-template-columns:26px 1fr;gap:8px;font-size:15px}
+.ritem i{font-style:normal;font-weight:800;text-align:center}
+.ritem.ok i{color:var(--good)} .ritem.no i{color:var(--bad)} .ritem.tip i{color:var(--tip)}
+.ritem.no{background:var(--bad-bg);border-radius:6px} .ritem.tip{background:var(--tip-bg);border-radius:6px}
+.verdict{border:3px solid var(--ink);border-radius:var(--r-sm);padding:10px 14px;font-weight:800}
+.verdict.ok{background:var(--good-bg)} .verdict.no{background:var(--tip-bg)}
+
+/* practice */
+.run{margin-top:20px;padding:16px;display:grid;gap:14px;border-inline-start:10px solid var(--col)}
+.run-top{display:flex;align-items:center;gap:10px}
+.run-top b{font-size:17px}
+.counter{margin-inline-start:auto;font-weight:800;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.progress{height:12px;border:2px solid var(--ink);border-radius:999px;background:var(--page);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--col);transition:width .3s}
+.q-part{font-size:13px;font-weight:800;color:var(--col);text-transform:uppercase;letter-spacing:.06em}
+.q-text{font-size:20px;font-weight:600;line-height:1.6}
+.q-text i{font-weight:500}
+.q-text .blank{display:inline-block;min-width:70px;border-bottom:3px solid var(--ink)}
+.q-text small{display:block;margin-top:4px;font-size:15px;color:var(--ink-2);font-weight:600}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:10px;min-height:52px;padding:8px 14px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);box-shadow:var(--shadow-sm);font-weight:600;text-align:start;font-size:17px;line-height:1.35}
+.opt .k{display:grid;place-items:center;width:30px;height:30px;flex:none;border:2px solid var(--ink);border-radius:8px;background:var(--tint);font-weight:800}
+.opt.right{background:var(--good-bg);border-color:var(--good)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.opt.dim{opacity:.55}
+.opt:disabled{cursor:default}
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tf .opt{justify-content:center;font-size:20px;min-height:60px}
+.match{display:grid;gap:10px}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:8px 12px;align-items:center;padding:8px 10px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+.mrow.right{background:var(--good-bg);border-color:var(--good)}
+.mrow.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.mrow b{font-weight:700}
+.mrow select{width:100%;min-height:46px;border:2px solid var(--ink);border-radius:10px;background:#fff;padding:4px 8px;font-weight:600;font-size:16px}
+.mrow .fix{grid-column:1 / -1;font-size:14px;font-weight:700;color:var(--good)}
+.typein input{width:100%;min-height:50px;border:3px solid var(--ink);border-radius:12px;padding:6px 12px;font-size:19px;font-weight:600;background:#fff}
+.fb{border:3px solid var(--ink);border-radius:var(--r-sm);padding:10px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--good-bg)}
+.fb.no{background:var(--bad-bg)}
+.fb .burst{font-family:var(--display);font-size:26px;letter-spacing:.04em}
+.fb .why{font-size:16px}
+.peek{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);padding:4px 12px}
+.peek summary{font-weight:800;color:#1F5FB8;cursor:pointer;min-height:40px;padding-block:6px}
+.peek-in{display:grid;gap:8px;padding:2px 0 10px;font-size:15px}
+.peek-in ul{padding-inline-start:20px;display:grid;gap:4px}
+.peek-in .gtable{font-size:14px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+.result{margin-top:20px;padding:18px;display:grid;gap:12px;text-align:center}
+.result .big{font-family:var(--display);font-size:56px;letter-spacing:.03em;line-height:1.1}
+.result .big small{font-family:var(--body);font-size:20px;color:var(--ink-2)}
+.parts5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.miss-list{display:grid;gap:10px;margin-top:12px}
+.miss{padding:10px 14px;display:grid;gap:4px;text-align:start}
+.miss .q{font-weight:600}
+.miss .a{font-size:15px;color:var(--ink-2);font-weight:700}
+.miss a{font-weight:800;color:#1F5FB8}
+.foot{margin-top:28px;font-size:14px;color:var(--ink-2);display:grid;gap:6px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (max-width:620px){.marks{grid-template-columns:repeat(2,1fr)}.parts5{grid-template-columns:repeat(3,1fr)}.words-mini{grid-template-columns:1fr}.facts div{grid-template-columns:1fr;gap:2px}}
+@media (max-width:520px){.chip{display:none}.logo{font-size:24px}.mrow{grid-template-columns:1fr}.q-text{font-size:18px}.stat b{font-size:21px}.letter .lp{grid-template-columns:1fr;gap:2px}.sec-head h2,.part-head h2{font-size:32px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* print, 3 pages: a study sheet, the word list with the model letter, then a practice test with its answer key */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important}
+  body{background-image:none!important;color:#000;font-size:9.3pt;line-height:1.4}
+  .topbar,main{display:none!important}
+  .print-sheet{display:block}
+  .print-sheet h1,.print-sheet h2,.print-sheet h3{font-family:var(--body);font-weight:800;letter-spacing:0}
+  .ps-head{display:flex;justify-content:space-between;align-items:baseline;gap:8pt;border-bottom:1.5pt solid #000;padding-bottom:3pt;margin-bottom:5pt}
+  .ps-head h1{font-size:14pt}
+  .ps-head p{font-size:9pt;font-weight:700}
+  .ps-cols{display:grid;grid-template-columns:1fr 1fr;gap:6mm;align-items:start}
+  .ps-b{break-inside:avoid;margin-bottom:5pt}
+  .ps-b h3{font-size:10.5pt;border-bottom:.75pt solid #999;margin-bottom:2pt}
+  .ps-b ul,.ps-b ol{padding-inline-start:12pt}
+  .ps-b li{margin-bottom:1pt}
+  .ps-page{break-before:page}
+  .ps-words{width:100%;border-collapse:collapse;font-size:8.8pt}
+  .ps-words th,.ps-words td{border:.75pt solid #888;padding:2.5pt 4pt;text-align:start;vertical-align:top}
+  .ps-words th{background:#eee}
+  .ps-letter{margin-top:8pt;border:1pt solid #000;padding:6pt 9pt;font-size:9.5pt;line-height:1.5}
+  .ps-letter p + p{margin-top:4pt}
+  .ps-q{margin-bottom:6pt;break-inside:avoid}
+  .ps-q h2{font-size:10.5pt;margin-bottom:3pt}
+  .ps-q ol{padding-inline-start:16pt}
+  .ps-q li{margin-bottom:3pt}
+  .ps-bank{border:.75pt solid #000;padding:3pt 6pt;margin-bottom:4pt;font-weight:700;word-spacing:6pt}
+  .ps-pass{border-inline-start:2pt solid #000;padding-inline-start:6pt;margin-bottom:4pt;font-style:italic}
+  .ps-q .o{display:inline-block;margin-inline-end:12pt}
+  .ps-key{border-top:1pt solid #000;margin-top:6pt;padding-top:3pt;font-size:8.5pt}
+  .ps-key h3{font-size:10pt}
+}
+</style>
+</head>
+<body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+<script src="../../assets/rewards.js" data-root="../../"></script>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="logo">English</span>
+    <span class="chip">Quiz 2 Review</span>
+    <span class="spacer"></span>
+    <span class="xp" title="Your points on this page">⭐ <b id="xpVal">0</b></span>
+    <button class="icon-btn" id="printBtn" type="button" aria-label="Print the study sheet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg></button>
+    <a class="icon-btn" href="../../index.html" aria-label="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></a>
+  </div>
+</header>
+<main class="wrap" id="main"></main>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<section class="print-sheet" id="printSheet" aria-hidden="true"></section>
+
+<script>
+"use strict";
+/* English, Quiz 2 of Term 1 (Thursday 12 November): the five parts in the assessment outline (StudySync "Individual Twin",
+   the central or main idea, Vocabulary Workshop Level A Unit 4, grammar Lessons 7.1–7.3, a friendly letter), each with a
+   lesson and practice, a 30-question practice test across all five, and a letter checker for the writing task. The outline
+   gives marks only for the letter (3.5), so the practice test is counted out of 30 questions, not given a mark. Questions,
+   sentences, passages and the model letter are written for this page; the books' texts are not copied.
+   Progress (xp, the best practice test) is saved in english-g6-quiz2-v1, synced by assets/sync.js; its xp counts towards
+   the rewards. The letter being written stays on this device only (english-g6-quiz2-letter is not synced).
+   review/quiz-2 links each part here (#p-read, #p-idea, #p-vocab, #p-gram, #p-write). */
+const KEY = "english-g6-quiz2-v1", DRAFT = "english-g6-quiz2-letter", TZ = "Asia/Riyadh", QUIZ_DAY = "2026-11-12";
+
+const PARTS = [
+  {id:"read", name:"Reading: “Individual Twin”", short:"Reading", src:"StudySync, personal statement", pg:"42–44"},
+  {id:"idea", name:"Central or Main Idea", short:"Main idea", src:"Reading skill", pg:"45–46"},
+  {id:"vocab", name:"Vocabulary: Level A, Unit 4", short:"Vocabulary", src:"Vocabulary Workshop", pg:"52–58"},
+  {id:"gram", name:"Grammar: Nouns and Pronouns", short:"Grammar", src:"Chapter 7, Lessons 7.1–7.3", pg:"141–146"},
+  {id:"write", name:"Writing: a Friendly Letter", short:"Letter", src:"Writing", pg:"46–49"}
+];
+const PART = Object.fromEntries(PARTS.map(p => [p.id, p]));
+
+/* ---------- READING: "Individual Twin" ---------- */
+const READ = {
+  facts:[
+    ["Genre", "A <b>personal statement</b>: a short essay in which the writer explains who he is. It is written in the <b>first person</b> (“I”)."],
+    ["Writer", "Zachary Walsdorf (2018). He grew up in San Antonio with his <b>twin sister, Rachel</b>."],
+    ["Beginning", "As young children the twins were very close and even dressed alike."],
+    ["Conflict", "Zachary wants to be known as <b>himself</b>, not only as “Rachel’s twin”. He works against <b>conformity</b> (being the same as everyone else)."],
+    ["His own choices", "He learned the <b>trumpet and guitar</b> instead of Rachel’s violin, and chose a <b>different high school</b>."],
+    ["His passions", "Landscape photography, fashion and fitness; outdoor exploration; Bob Dylan’s music; Ultimate Frisbee."],
+    ["Leading, helping", "He joined groups such as the National Honor Society and UNICEF, took leadership roles and practised public speaking."],
+    ["Ending", "He sees his individuality as a lasting <b>gift from being a twin</b>: Rachel pushed him to find out who he is."]
+  ],
+  central:"Being a twin pushed Zachary to discover and build his own identity.",
+  theme:"People can shape who they are through their own choices and passions.",
+  structure:"Childhood as a twin → the choices and interests that make him unique → what he learned (reflection).",
+  purpose:"To explain the experiences and values that make him a unique individual.",
+  words:[["conformity", "acting or looking the same as everyone else"], ["individuality", "the qualities that make a person different from others"],
+    ["vehemently", "strongly, with passion (“fought vehemently”: fought hard)"], ["attribute", "a quality or characteristic of a person (“treasured attributes”)"]],
+  think:[   /* the five Think Questions on page 44, each with a short model answer */
+    ["How has being a twin affected Walsdorf’s sense of self? Give evidence.", "It made him want an identity of his own. Evidence: he learned the trumpet and guitar instead of Rachel’s violin, and he chose a different high school."],
+    ["What is Walsdorf against, and why?", "He is against conformity, because he wants his choices to show his own interests and identity. He says he worked to “combat” conformity."],
+    ["What does he mean by calling it all “an exploration of self”?", "Trying new interests helps him discover and grow his identity. Evidence: photography, fashion and fitness, and developing his own style and values."],
+    ["What does “vehemently” mean in the essay? Which clues help?", "Strongly and with passion. Clue: he “fought vehemently” for honest choices; “fought” shows a big effort."],
+    ["What does “attribute” mean? Which clues help?", "A quality or characteristic. Clues: “treasured attributes” and “the qualities that make me, me”."]
+  ]
+};
+const READ_MC = [
+  {q:"What kind of text is “Individual Twin”?", o:["A personal statement: the writer explains who he is", "A news article about twins", "A fairy tale"], w:"It is a personal statement. Zachary writes in the first person (“I”) about his own identity."},
+  {q:"Who is Rachel?", o:["Zachary’s twin sister", "Zachary’s cousin", "Zachary’s teacher"], w:"Rachel is Zachary’s twin sister."},
+  {q:"From which point of view is the essay written?", o:["First person: the writer uses “I”", "Third person: a narrator uses “he”", "Second person: the writer uses “you”"], w:"A personal statement is in the first person: Zachary tells his own story with “I”."},
+  {q:"What were Zachary and Rachel like as young children?", o:["Very close: they even dressed alike", "They lived in different cities", "They hardly spoke to each other"], w:"As young children the twins were very close and even wore matching clothes."},
+  {q:"What does Zachary want most?", o:["To be known as his own person", "To be exactly like Rachel", "To become a famous musician"], w:"His conflict is finding his own identity, apart from being “Rachel’s twin”."},
+  {q:"Which detail shows Zachary making his own choice in music?", o:["He learned the trumpet and guitar instead of the violin", "He joined Rachel’s violin lessons", "He stopped playing music"], w:"Rachel plays the violin; Zachary chose the trumpet and guitar."},
+  {q:"Which choice about school shows his independence?", o:["He went to a different high school from Rachel", "He moved into Rachel’s class", "He left school early"], w:"Choosing a separate high school was his own decision."},
+  {q:"Which is one of Zachary’s interests?", o:["Landscape photography", "Building boats", "Cooking contests"], w:"He names landscape photography, fashion and fitness."},
+  {q:"Why does Zachary join groups such as the National Honor Society and UNICEF?", o:["To lead and to help others", "To compete with Rachel", "To miss classes"], w:"He takes leadership roles, practises public speaking and helps communities."},
+  {q:"Zachary works against “conformity”. What is conformity?", o:["Acting the same as everyone else", "Being very kind to others", "Winning many prizes"], w:"Conformity means following what everyone else does. Zachary wants honest, personal choices."},
+  {q:"In “fought vehemently”, what does “vehemently” mean?", o:["Strongly and with passion", "Quietly and calmly", "Slowly and carefully"], w:"“Fought” is the context clue: he made a strong, passionate effort."},
+  {q:"In the essay, an “attribute” is…", o:["a quality or characteristic of a person", "a musical instrument", "a kind of school"], w:"“Treasured attributes” are the qualities that make him who he is."},
+  {q:"How does Zachary feel about Rachel at the end of the essay?", o:["Grateful: being her twin helped him find his individuality", "Angry that she copied him", "He no longer mentions her"], w:"He calls his individuality a lasting gift from being a twin."},
+  {q:"Which sentence best states the central idea?", o:["Being a twin pushed Zachary to discover and build his own identity.", "Zachary learned to play the trumpet.", "Many people have brothers and sisters."], w:"The trumpet is only one detail (too narrow); brothers and sisters in general is too broad."},
+  {q:"How is the essay organized?", o:["Growing up as a twin → his own choices → what he learned", "A list of steps to follow", "A mystery and how it was solved"], w:"Beginning: close to Rachel. Middle: his choices and interests. End: what he learned."},
+  {q:"What is the author’s purpose?", o:["To explain what makes him a unique individual", "To persuade readers to buy a guitar", "To teach how to take photos"], w:"A personal statement explains the writer’s experiences and values."},
+  {q:"Which is a theme of the essay?", o:["People can shape who they are through their own choices and passions.", "Family members never influence us.", "Only famous people are special."], w:"Zachary builds his identity through his choices, and his twin helped him do it."},
+  {q:"What does “personal style” suggest about Zachary?", o:["His own way of expressing himself", "A uniform for twins", "Dressing the same as Rachel"], w:"Developing a personal style is one way he shows his identity."}
+];
+const READ_TF = [
+  {q:"Zachary and Rachel grew up in San Antonio.", a:true, w:"Yes, the twins grew up in San Antonio."},
+  {q:"Zachary plays the violin, like his sister.", a:false, w:"Rachel plays the violin; Zachary chose the trumpet and guitar."},
+  {q:"The essay is written in the third person.", a:false, w:"It is written in the first person (“I”)."},
+  {q:"Zachary wants to be known only as “Rachel’s twin”.", a:false, w:"He wants to be known as his own person."},
+  {q:"Zachary credits his twin with helping him find his individuality.", a:true, w:"He sees his individuality as a gift from being a twin."},
+  {q:"Zachary is against conformity.", a:true, w:"He works against conformity so that his choices are his own."},
+  {q:"As young children, the twins even dressed alike.", a:true, w:"Yes, they were very close and wore matching clothes."},
+  {q:"Zachary went to the same high school as Rachel.", a:false, w:"He chose a different high school."}
+];
+
+/* ---------- CENTRAL OR MAIN IDEA ---------- */
+const IDEA = {
+  defs:[["Topic", "what the text is about, in a word or two: <i>desert life</i>."],
+    ["Central (main) idea", "the most important point the writer makes about the topic, as a full sentence: <i>The desert is full of living things.</i>"],
+    ["Supporting details", "facts, examples and reasons that explain or prove the central idea."]],
+  steps:["Name the topic: who or what is the text about?", "Ask: what does the writer say about it again and again?", "Check the title and the first and last sentences or paragraphs.",
+    "Test it: do most of the details support it? If it fits only one detail, it is <b>too narrow</b>; if it could fit almost any text, it is <b>too broad</b>."],
+  notes:["The central idea may be <b>stated</b> in one sentence (anywhere, not only the first) or <b>implied</b>: you put it together from the details.",
+    "A <b>summary</b> gives the central idea and the key details in your own words, short, and with no opinions."]
+};
+const PASSAGES = {
+  bees:"Some honeybees fly out to collect nectar from flowers. Others guard the entrance to the hive. Young bees stay inside to clean the cells and feed the baby bees. Every bee has a job, and the hive needs all of them.",
+  desert:"Many people think of the desert as an empty place. In fact, it is full of life. Camels can go for days without drinking water. Lizards dig under the sand to escape the midday heat. After a rare rain, tiny flowers bloom within a few days.",
+  reading:"Reading every day helps students in many ways. It builds vocabulary, because readers meet new words in context. It improves writing, since readers notice how good sentences are built. It can even help you relax before bed.",
+  grandpa:"Last spring, Omar’s grandfather showed him how to fix the chain on his bike. In the summer, they planted tomatoes and mint in the yard. Then, on a rainy weekend, they built a small bookshelf together, measuring every board twice."
+};
+const IDEA_MC = [
+  {pass:"bees", q:"Which sentence best states the central idea?", o:["A hive survives because its bees share the work.", "Some bees guard the entrance to the hive.", "Insects live all over the world."], w:"Guarding is one detail (too narrow); insects everywhere is not what the passage is about (too broad)."},
+  {pass:"bees", q:"Which is the best summary?", o:["In a hive, bees share the work: some collect nectar, some guard, and young bees clean and feed the babies.", "Bees are amazing, and I think everyone should love them.", "Young bees clean the cells."], w:"A summary gives the central idea and key details, with no opinion; one detail alone is not a summary."},
+  {pass:"desert", q:"Which sentence states the central idea?", o:["In fact, it is full of life.", "Camels can go for days without drinking water.", "Lizards dig under the sand to escape the midday heat."], w:"The other sentences are details that prove the desert is full of life."},
+  {pass:"desert", q:"Which detail supports the central idea?", o:["After a rare rain, tiny flowers bloom within a few days.", "Many people think of the desert as an empty place.", "Deserts are found on every continent."], w:"Flowers blooming is evidence of life in the desert. The last option is not in the passage."},
+  {pass:"reading", q:"Where is the central idea stated?", o:["In the first sentence", "In the last sentence", "It is not stated; it is implied"], w:"“Reading every day helps students in many ways” is the point; the other sentences give the ways."},
+  {pass:"reading", q:"Which sentence is a supporting detail?", o:["It builds vocabulary, because readers meet new words in context.", "Reading every day helps students in many ways.", "Some students prefer video games."], w:"The second option is the central idea itself; the last is not in the passage."},
+  {pass:"grandpa", q:"What is the central idea?", o:["Omar learns many useful skills from his grandfather.", "Omar’s grandfather likes tomatoes and mint.", "Bikes need repairs."], w:"Each detail is something his grandfather teaches him."},
+  {pass:"grandpa", q:"Is the central idea stated or implied?", o:["Implied: you put it together from the details", "Stated in the first sentence", "Stated in the last sentence"], w:"No single sentence says it; every detail is a skill Omar learns from his grandfather."},
+  {q:"What is the difference between a topic and a central idea?", o:["A topic is a word or two; the central idea is a full sentence about the topic.", "They mean exactly the same thing.", "The topic is always longer than the central idea."], w:"Topic: desert life. Central idea: The desert is full of living things."},
+  {q:"What does a supporting detail do?", o:["It gives a fact, example or reason that backs up the central idea.", "It is the most important point of the whole text.", "It is the title of the text."], w:"Details explain or prove the central idea."},
+  {q:"A “central idea” that fits only one detail of the text is…", o:["too narrow", "too broad", "just right"], w:"A central idea must cover most of the details."},
+  {q:"Which is the central idea of “Individual Twin”?", o:["Being a twin pushed Zachary to discover who he really is.", "Zachary learned to play the trumpet.", "Many people have brothers and sisters."], w:"The trumpet is a detail; brothers and sisters in general is too broad."}
+];
+const IDEA_TF = [
+  {q:"The central idea is always in the first sentence.", a:false, w:"It can be in any sentence, or only implied."},
+  {q:"Supporting details explain or prove the central idea.", a:true, w:"Yes: facts, examples and reasons."},
+  {q:"A good summary includes your own opinion.", a:false, w:"A summary gives the central idea and key details in your own words, without opinions."},
+  {q:"A topic can be just one or two words, like “desert life”.", a:true, w:"Yes. The central idea is a full sentence about the topic."},
+  {q:"An implied central idea is not written in one sentence; you work it out from the details.", a:true, w:"Yes, like the passage about Omar and his grandfather."}
+];
+
+/* ---------- VOCABULARY: Level A, Unit 4 ----------
+   s: sentences for "choose the word", each [text with ___, part of speech used, words never offered there]. Words in one GROUP are
+   close in meaning, so they are never in the same question. */
+const WORDS = [
+  {w:"acquit", say:"uh-KWIT", pos:"verb", m:"to declare someone not guilty; to free from blame", syn:["clear", "exonerate"], ant:["convict"],
+   s:[["With no proof against him, the judge had to ___ the man of all charges.", "v"], ["The new video proved she was at home, so the court decided to ___ her.", "v", ["discredit"]]]},
+  {w:"deem", say:"DEEM", pos:"verb", m:"to think or consider; to judge", syn:["judge", "regard"], ant:["disregard"],
+   s:[["The coach will ___ the field too wet for today’s game if it keeps raining.", "v"], ["Teachers ___ it wise to review a little every day before a test.", "v"]]},
+  {w:"devastate", say:"DEV-uh-stayt", pos:"verb", m:"to destroy completely; to leave in ruins; to upset someone deeply", syn:["wreck", "ruin"], ant:["restore", "build up"],
+   s:[["Floods can ___ farms, washing away crops in a single night.", "v"], ["Losing the final did not ___ the team; they trained even harder.", "v", ["discredit", "strand"]]]},
+  {w:"discredit", say:"dis-KRED-it", pos:"verb / noun", m:"to make people doubt someone or something; to damage a reputation", syn:["disgrace", "cast doubt on"], ant:["confirm", "support"],
+   s:[["One false fact can ___ an entire science report.", "v", ["devastate", "topple"]], ["The rumor was meant to ___ the class president, but no one believed it.", "v", ["devastate", "topple"]]]},
+  {w:"elusive", say:"ih-LOO-siv", pos:"adjective", m:"hard to catch or find; hard to understand", syn:["slippery", "puzzling"],
+   s:[["The ___ fox slipped away every time the camera came close.", "adj"], ["The answer to the riddle stayed ___ until his sister gave him a hint.", "adj"]]},
+  {w:"generate", say:"JEN-uh-rayt", pos:"verb", m:"to produce; to bring into being; to cause", syn:["produce", "create"], ant:["end", "stop"],
+   s:[["Wind turbines ___ electricity for thousands of homes.", "v"], ["The class bake sale helped ___ money for the school library.", "v"]]},
+  {w:"idolize", say:"EYE-duh-lize", pos:"verb", m:"to admire or love someone very much, like an idol", syn:["adore", "worship"], ant:["despise", "scorn"],
+   s:[["Many young players ___ famous footballers and copy their moves.", "v", ["scan"]], ["My little cousin seems to ___ his big brother and follows him everywhere.", "v"]]},
+  {w:"ingratitude", say:"in-GRAT-ih-tood", pos:"noun", m:"a lack of thankfulness", syn:["ungratefulness", "thanklessness"], ant:["gratitude", "thankfulness"],
+   s:[["Throwing away a handmade gift shows ___.", "n"], ["After all her help, his ___ hurt her feelings.", "n"]]},
+  {w:"keepsake", say:"KEEP-sayk", pos:"noun", m:"something kept to remember a person, place or event; a souvenir", syn:["souvenir", "memento"],
+   s:[["She kept the shell from the beach trip as a ___.", "n"], ["Grandpa gave me his old watch as a ___ to remember him by.", "n"]]},
+  {w:"mortal", say:"MOR-tl", pos:"noun / adjective", m:"a human being, who must die one day; causing death, fatal", syn:["human", "fatal"], ant:["immortal", "eternal"],
+   s:[["In the old story, the hero was only a ___, so he could be hurt like anyone else.", "n"], ["The snake’s bite can be ___ if it is not treated quickly.", "adj"]]},
+  {w:"ovation", say:"oh-VAY-shun", pos:"noun", m:"a long, loud burst of applause; an enthusiastic welcome", syn:["applause", "cheers"], ant:["boos", "jeers"],
+   s:[["When the choir finished, the audience stood and gave them a long ___.", "n"], ["The speaker received a warm ___ before she even said a word.", "n"]]},
+  {w:"petty", say:"PET-ee", pos:"adjective", m:"small and unimportant; mean about small things", syn:["trivial", "minor"], ant:["important", "major"],
+   s:[["Let’s not argue over such a ___ matter as who sits by the window.", "adj"], ["Complaining about ___ things wastes time that could go to real problems.", "adj"]]},
+  {w:"plight", say:"PLITE", pos:"noun", m:"a difficult or dangerous situation", syn:["predicament", "trouble"],
+   s:[["News of the lost hikers’ ___ made the whole town want to help.", "n"], ["The documentary showed the ___ of animals whose forests are disappearing.", "n"]]},
+  {w:"repent", say:"rih-PENT", pos:"verb", m:"to feel sorry for something you did wrong", syn:["regret"], ant:["boast about", "rejoice over"],
+   s:[["He began to ___ his unkind words and apologized the next day.", "v"], ["If you ___ a mistake, the best next step is to fix it.", "v", ["generate"]]]},
+  {w:"reverie", say:"REV-uh-ree", pos:"noun", m:"a daydream; being lost in pleasant thoughts", syn:["daydream", "fantasy"],
+   s:[["The bell broke his ___ about the summer holiday.", "n"], ["Lost in a happy ___, she did not hear her name being called.", "n"]]},
+  {w:"revocation", say:"rev-uh-KAY-shun", pos:"noun", m:"the act of cancelling or taking something back", syn:["cancellation", "withdrawal"], ant:["approval"],
+   s:[["Breaking the rules again led to the ___ of his library card.", "n"], ["The ___ of the new rule made the students cheer.", "n"]]},
+  {w:"scan", say:"SKAN", pos:"verb / noun", m:"to look over quickly; to examine closely", syn:["skim", "examine"],
+   s:[["I always ___ the page for key words before I read it closely.", "v"], ["At the airport, machines ___ every bag before it goes on the plane.", "v"]]},
+  {w:"strand", say:"STRAND", pos:"verb / noun", m:"to leave someone stuck and helpless; a single thread or hair", syn:["abandon", "maroon"], ant:["rescue", "save"],
+   s:[["A flat tire could ___ us on the empty desert road.", "v", ["devastate", "topple"]], ["She pulled a single ___ of hair off her sweater.", "n"]]},
+  {w:"strife", say:"STRIFE", pos:"noun", m:"bitter disagreement; fighting", syn:["conflict", "discord"], ant:["peace", "harmony"],
+   s:[["The two neighbors finally ended years of ___ and became friends.", "n"], ["The story tells how ___ between the two kingdoms ended in peace.", "n"]]},
+  {w:"topple", say:"TOP-ul", pos:"verb", m:"to fall over; to knock down; to bring down from power", syn:["tumble", "overturn"], ant:["set up", "stand firm"],
+   s:[["A strong gust of wind can ___ a tall stack of boxes.", "v"], ["The builders made the tower wide at the bottom so it would not ___.", "v"]]}
+];
+const GROUPS = [["devastate", "topple", "generate"], ["discredit", "revocation"], ["deem", "scan"], ["plight", "strife"]];
+const WORD = Object.fromEntries(WORDS.map(x => [x.w, x]));
+const POS = {v:["acquit", "deem", "devastate", "discredit", "generate", "idolize", "repent", "scan", "strand", "topple"],
+  n:["ingratitude", "keepsake", "mortal", "ovation", "plight", "reverie", "revocation", "strife", "discredit", "scan", "strand"], adj:["elusive", "petty", "mortal"]};
+
+/* ---------- GRAMMAR: Chapter 7 ---------- */
+const GRAM = [
+  {id:"g1", t:"7.1 Nouns", pg:"141–142", html:
+    '<p>A <b>noun</b> names a person, place, thing or idea: <i>pilot, city, book, honesty</i>. It can be one word (<i>river</i>) or several words together (<i>Golden Gate Bridge</i>).</p>'
+    + '<table class="gtable"><tr><th>Common noun: any one, lowercase</th><th>Proper noun: a specific one, Capital Letters</th></tr>'
+    + '<tr><td>city · river · holiday</td><td>Jeddah · Nile River · Eid al-Fitr</td></tr><tr><td>language · country · university</td><td>Arabic · Kenya · King Abdulaziz University</td></tr></table>'
+    + '<ul><li>Capitalize <b>each important word</b> of a proper noun: <i>Red Sea</i>, not <i>Red sea</i>.</li>'
+    + '<li>The same word can be a noun or a verb: <i>Fall is my favorite season</i> (noun) · <i>Leaves fall</i> (verb).</li>'
+    + '<li>Proper nouns make writing specific: <i>Sami and Fahad watched the match in Riyadh</i> beats <i>The boys watched a match in a city</i>.</li></ul>'},
+  {id:"g2", t:"7.2 Pronouns", pg:"143–144", html:
+    '<p>A <b>pronoun</b> takes the place of a noun. The noun it replaces is its <b>antecedent</b>: <i>The concert was great, but <u>it</u> was short</i> (it → concert). Two antecedents: <i>Lina and Sara love art, so <u>they</u> draw every day.</i></p>'
+    + '<p>A pronoun <b>agrees</b> with its antecedent in person (1st, 2nd, 3rd) and number (one or more): <i>The players thanked <u>their</u> coach.</i></p>'
+    + '<table class="gtable"><tr><th>Personal</th><td>I, you, he, she, it, we, they · me, him, her, us, them</td></tr>'
+    + '<tr><th>Possessive</th><td>before a noun: my, your, his, her, its, our, their · alone: mine, yours, his, hers, ours, theirs</td></tr>'
+    + '<tr><th>Indefinite</th><td>anybody, anyone, both, each, everybody, everyone, few, many, neither, no one, nobody, one, several, somebody, someone</td></tr></table>'
+    + '<ul><li><b>No apostrophe</b> in possessive pronouns: <i>its, hers, yours, theirs</i>.</li><li><i>its</i> = belonging to it (<i>The cat licked its paw</i>) · <i>it’s</i> = it is / it has (<i>It’s raining</i>).</li></ul>'},
+  {id:"g3", t:"7.3 Subject and Object Pronouns", pg:"145–146", html:
+    '<table class="gtable"><tr><th>Subject pronouns: I, we, you, he, she, it, they</th><th>Object pronouns: me, us, you, him, her, it, them</th></tr>'
+    + '<tr><td>The subject: who does it? <i><u>She</u> is the best diver.</i><br>After a linking verb (is, are, was): <i>The winners are Katie and <u>she</u>.</i></td>'
+    + '<td>After an action verb (whom? what?): <i>The coach encouraged <u>her</u>.</i><br>After a preposition (after, at, between, for, to, with): <i>between you and <u>me</u></i>.</td></tr></table>'
+    + '<ul><li>Two people? Test each one alone: <i>(Mom and) <u>he</u> clapped</i> → <i>he clapped</i> · <i>with (Kyle and) <u>me</u></i> → <i>with me</i>.</li>'
+    + '<li><i><u>We</u> students tried hard</i> (subject) · <i>The prize went to <u>us</u> students</i> (object).</li></ul>'}
+];
+const GRAM_MC = [
+  {l:"g1", q:"Which word is a <b>proper noun</b>? <i>My cousin visited Jeddah last summer.</i>", o:["Jeddah", "cousin", "summer"], w:"Jeddah names a specific place, so it is capitalized. Cousin and summer are common nouns."},
+  {l:"g1", q:"Which word is a <b>common noun</b>? <i>Captain Ali flew the plane over the Red Sea.</i>", o:["plane", "Captain Ali", "Red Sea"], w:"Plane names any plane. Captain Ali and Red Sea are specific (proper) nouns."},
+  {l:"g1", q:"Which noun names an <b>idea</b>?", o:["honesty", "teacher", "library"], w:"An idea is something you cannot touch: honesty, courage, freedom, history."},
+  {l:"g1", q:"Which sentence is capitalized correctly?", o:["We sailed on the Red Sea near Jeddah.", "We sailed on the red sea near jeddah.", "We sailed on the Red sea near Jeddah."], w:"Capitalize every important word of a proper noun: Red Sea, Jeddah."},
+  {l:"g1", q:"What is wrong with this sentence? <i>My Teacher told us about the nile river.</i>", o:["“Teacher” should be lowercase, and “Nile River” needs capitals.", "“us” should have a capital letter.", "Nothing is wrong."], w:"Teacher is a common noun (lowercase); Nile River is a specific river (capitals)."},
+  {l:"g1", q:"In which sentence is “watch” a <b>noun</b>?", o:["Grandpa gave me a silver watch.", "Let’s watch the match tonight.", "We watch the stars from the roof."], w:"In the first sentence, watch names a thing. In the others it is an action (a verb)."},
+  {l:"g1", q:"Which pair shows a common noun and a matching proper noun?", o:["holiday — Eid al-Fitr", "city — country", "Jeddah — Riyadh"], w:"Holiday is general; Eid al-Fitr is a specific holiday. The other pairs are both common or both proper."},
+  {l:"g1", q:"Which sentence uses proper nouns to be more specific?", o:["Sami and Fahad watched the match in Riyadh.", "The boys watched a match in a city.", "Some people went somewhere."], w:"Proper nouns (Sami, Fahad, Riyadh) make writing specific."},
+  {l:"g2", q:"<i>The museum was crowded, but it was worth the visit.</i> What is the antecedent of “it”?", o:["museum", "visit", "crowded"], w:"“It” replaces the museum, so museum is the antecedent."},
+  {l:"g2", q:"<i>Lina and Sara love art, so they draw every day.</i> Who does “they” refer to?", o:["Lina and Sara", "art", "every day"], w:"A pronoun can have two antecedents: Lina + Sara → they."},
+  {l:"g2", q:"Which word is a <b>possessive pronoun</b>? <i>Is this pencil yours?</i>", o:["yours", "pencil", "is"], w:"Yours shows ownership. Possessive pronouns: mine, yours, his, hers, ours, theirs."},
+  {l:"g2", q:"Choose the correct word: <i>The cat licked ___ paw.</i>", o:["its", "it’s", "its’"], w:"Its (no apostrophe) shows possession. It’s means “it is”."},
+  {l:"g2", q:"Choose the correct word: <i>___ raining, so take an umbrella.</i>", o:["It’s", "Its", "Its’"], w:"It’s = it is: It is raining."},
+  {l:"g2", q:"Which sentence writes the possessive pronoun correctly?", o:["The idea was hers.", "The idea was her’s.", "The idea was hers’."], w:"Possessive pronouns never use an apostrophe: hers, yours, theirs."},
+  {l:"g2", q:"Which word is an <b>indefinite pronoun</b>? <i>Everyone in the class finished the test.</i>", o:["Everyone", "class", "test"], w:"Everyone does not name a specific person. Others: anybody, both, each, few, many, nobody, several, someone."},
+  {l:"g2", q:"Choose the pronoun that agrees: <i>The players thanked ___ coach.</i>", o:["their", "his", "its"], w:"Players is plural, so the pronoun is plural: their."},
+  {l:"g2", q:"<i>He called his friend on the phone.</i> Which word is a <b>possessive</b> pronoun?", o:["his", "He", "friend"], w:"His shows whose friend. He is a personal pronoun."},
+  {l:"g2", q:"Choose the correct word: <i>My sister lost ___ keys.</i>", o:["her", "hers", "she"], w:"Before a noun, use my, your, his, her, its, our or their."},
+  {l:"g3", q:"Choose the correct pronoun: <i>___ is the best swimmer on the team.</i>", o:["She", "Her", "Hers"], w:"The subject needs a subject pronoun: She is…"},
+  {l:"g3", q:"Choose the correct pronoun: <i>The coach encouraged ___ before the race.</i>", o:["us", "we", "I"], w:"After an action verb (encouraged whom?), use an object pronoun: us."},
+  {l:"g3", q:"Choose the correct pronoun: <i>My best friends are Faisal and ___.</i>", o:["he", "him", "his"], w:"After a linking verb (are), the book uses a subject pronoun: Faisal and he."},
+  {l:"g3", q:"Choose the correct pronoun: <i>This secret is between you and ___.</i>", o:["me", "I", "my"], w:"Between is a preposition, so use an object pronoun: between you and me."},
+  {l:"g3", q:"Choose the correct pronoun: <i>___ and I went to the science fair.</i>", o:["He", "Him", "His"], w:"Test it alone: He went to the fair. So: He and I."},
+  {l:"g3", q:"Choose the correct pronoun: <i>Our parents took Huda and ___ to the museum.</i>", o:["me", "I", "mine"], w:"Test it alone: took me. So: Huda and me."},
+  {l:"g3", q:"Choose the correct pronoun: <i>Mom made sandwiches for ___.</i>", o:["them", "they", "their"], w:"After the preposition for, use an object pronoun: them."},
+  {l:"g3", q:"Choose the correct word: <i>___ students planted trees in the schoolyard.</i>", o:["We", "Us", "Me"], w:"Students is the subject, so: We students planted…"},
+  {l:"g3", q:"Choose the correct word: <i>The prize went to ___ students.</i>", o:["us", "we", "I"], w:"After the preposition to: us students."},
+  {l:"g3", q:"What is wrong? <i>Him and his family are at the beach.</i>", o:["“Him” should be “He”.", "“his” should be “him”.", "Nothing is wrong."], w:"Him is the subject of “are”, so it must be He."},
+  {l:"g3", q:"What is wrong? <i>Can you sit next to she?</i>", o:["“she” should be “her”.", "“you” should be “your”.", "Nothing is wrong."], w:"After the preposition (next) to, use an object pronoun: her."},
+  {l:"g3", q:"Two girls baked a cake. Which sentence is correct?", o:["Sara and I baked a cake.", "Sara and me baked a cake.", "Me and Sara baked a cake."], w:"Test it alone: I baked a cake. So: Sara and I."},
+  {l:"g3", q:"Two boys got a prize. Which sentence is correct?", o:["The teacher gave Omar and me a prize.", "The teacher gave Omar and I a prize.", "The teacher gave I and Omar a prize."], w:"Test it alone: gave me a prize. So: Omar and me."},
+  {l:"g3", q:"Choose the correct pronoun: <i>Last one of ___ to finish buys juice for everyone!</i>", o:["us", "we", "our"], w:"After the preposition of, use an object pronoun: us."}
+];
+const GRAM_TF = [
+  {l:"g1", q:"A proper noun names a specific person, place, thing or idea.", a:true, w:"Yes, and it begins with a capital letter."},
+  {l:"g1", q:"Common nouns always begin with a capital letter.", a:false, w:"Common nouns are lowercase unless they start a sentence."},
+  {l:"g2", q:"The word a pronoun replaces is called its antecedent.", a:true, w:"Yes: The concert was great, but it was short (it → concert)."},
+  {l:"g2", q:"“Its” (belonging to it) is written with an apostrophe.", a:false, w:"Its has no apostrophe. It’s means “it is” or “it has”."},
+  {l:"g2", q:"“Everyone” and “nobody” are indefinite pronouns.", a:true, w:"Yes, they do not name a specific person."},
+  {l:"g3", q:"Object pronouns come after prepositions such as “for” and “with”.", a:true, w:"Yes: for me, with them, between you and me."},
+  {l:"g3", q:"“Me” is a subject pronoun.", a:false, w:"Me is an object pronoun. The subject pronoun is I."},
+  {l:"g3", q:"In “The winners are Katie and she,” the pronoun “she” is correct.", a:true, w:"After a linking verb (are), the book uses a subject pronoun."}
+];
+
+/* ---------- WRITING: a friendly letter ---------- */
+const MODEL = {heading:"November 12, 2026", greeting:"Dear Uncle Khalid,", closing:"Your nephew,", signature:"Sami",
+  body:["Thanks so much for the telescope you sent for my birthday! I couldn’t wait to try it, so I set it up on the roof that same night. The Moon looked huge and bright, and I could even see its craters. My little brother and I took turns until Mom called us inside.",
+    "I’ve wanted a telescope for a long time, so I was thrilled when I opened the box. Now I feel like a real astronomer. I’m planning to look at Saturn next week, and I’ll tell you what I see."]};
+const PROMPTS = ["Thank a relative for a gift you love.", "Thank a friend who helped you with something hard.", "Tell a friend about the best day of your holiday.",
+  "Invite a cousin to visit, and tell him what you will do together.", "Thank your teacher for something special he did for the class.", "Write to a friend who moved away, and share your news."];
+const WRITE_MC = [
+  {q:"Which is <b>not</b> one of the five parts of a friendly letter?", o:["A title", "The greeting", "The signature"], w:"The five parts: heading, greeting, body, closing and signature."},
+  {q:"Which greeting is written correctly?", o:["Dear Lina,", "Dear Lina", "dear lina,"], w:"Capital letters for Dear and the name, and a comma after the greeting."},
+  {q:"Which date is written correctly?", o:["November 12, 2026", "November, 12 2026", "november 12 2026"], w:"A capital letter for the month, and a comma between the day and the year."},
+  {q:"Which closing is written correctly?", o:["Your friend,", "your friend", "Your Friend."], w:"Capitalize only the first word of the closing, and end it with a comma."},
+  {q:"Which sentence sounds right in a friendly letter?", o:["Thanks so much for the awesome book!", "I am writing to inform you that the book was received.", "Thank you kindly for the item."], w:"Friendly letters are informal: friendly words, contractions, short sentences."},
+  {q:"What goes in the heading?", o:["Your address and the date (the quiz asks for the date)", "Your name", "A goodbye phrase"], w:"The heading, at the top, has your address and the date."},
+  {q:"What goes in the body?", o:["Your message, in one or more paragraphs", "Only the date", "Only your name"], w:"The body is the main message."},
+  {q:"What comes right after the closing?", o:["The signature: your name", "The greeting", "The heading"], w:"Order: heading, greeting, body, closing, signature."},
+  {q:"You are thanking your aunt for a scarf. Which detail does <b>not</b> belong?", o:["My friend gave me a football last year.", "The scarf is soft and warm.", "I wore it to school the next day."], w:"Stay on topic: cross out details that are not about the scarf."},
+  {q:"Which sentence uses a <b>sensory detail</b>?", o:["The warm bread smelled of butter and honey.", "The bread was nice.", "I got some bread."], w:"Sensory details tell what you saw, heard, smelled, tasted or felt."},
+  {q:"How many complete sentences does the quiz letter need?", o:["At least six", "Exactly two", "One long sentence"], w:"The outline asks for six complete sentences, with the date, a greeting, a friendly closing and your name."},
+  {q:"Which closing is too formal for a friendly letter?", o:["Yours faithfully,", "Talk to you soon,", "See you soon,"], w:"Friendly closings: Your friend, Talk to you soon, See you soon."},
+  {q:"In a thank-you letter with two body paragraphs, what does the second one usually tell?", o:["How it made you feel", "The date", "Your address"], w:"Paragraph 1: what the person did. Paragraph 2: how it made you feel."},
+  {q:"Which mark is for clear, neat handwriting?", o:["Presentation (0.5)", "Ideas and content (1)", "Organization (1)"], w:"Ideas 1 + Organization 1 + Language accuracy 1 + Presentation 0.5 = 3.5."}
+];
+const WRITE_TF = [
+  {q:"A friendly letter needs a comma after the greeting.", a:true, w:"Yes: Dear Lina,"},
+  {q:"The signature comes before the closing.", a:false, w:"The closing comes first, then your name: Your friend, / Sami"},
+  {q:"Contractions such as I’m and can’t are fine in a friendly letter.", a:true, w:"Yes, they make it sound friendly and natural."},
+  {q:"The date goes at the very end of the letter.", a:false, w:"The date is in the heading, at the top."},
+  {q:"Organization means putting your ideas in a logical order.", a:true, w:"Yes, that is the Organization mark (1)."},
+  {q:"Language accuracy means correct grammar, spelling and punctuation.", a:true, w:"Yes, that is the Language accuracy mark (1)."}
+];
+const WRITE_MATCH = [{a:"Heading", b:"November 12, 2026"}, {a:"Greeting", b:"Dear Uncle Khalid,"}, {a:"Body", b:"Thanks so much for the telescope!"},
+  {a:"Closing", b:"Your nephew,"}, {a:"Signature", b:"Sami"}];
+
+/* ---------- HELPERS ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const strip = s => String(s).replace(/<[^>]+>/g, "");
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = (a, n) => shuffle(a).slice(0, n);
+const rand = a => a[Math.floor(Math.random() * a.length)];
+function todayISO(){ try { return new Intl.DateTimeFormat("en-CA", {timeZone:TZ, year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date()); } catch (e) { return new Date().toISOString().slice(0, 10); } }
+const dayDiff = (a, b) => Math.round((Date.UTC(...b.split("-").map((x, i) => i === 1 ? x - 1 : +x)) - Date.UTC(...a.split("-").map((x, i) => i === 1 ? x - 1 : +x))) / 864e5);
+function announce(t){ const l = $("#live"); if (l){ l.textContent = ""; setTimeout(() => { l.textContent = t; }, 40); } }
+const ICON_SAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg>';
+function speak(w){ try { const u = new SpeechSynthesisUtterance(w); u.lang = "en-US"; u.rate = .85; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {} }
+
+/* ---------- SAVED PROGRESS ---------- */
+const fresh = () => ({xp:0, best:null, tests:0, rounds:0, letters:0, lh:""});
+let S = (() => { try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v === "object") return Object.assign(fresh(), v); } catch (e) {} return fresh(); })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function addXP(n){ S.xp += n; save(); $("#xpVal").textContent = S.xp; }
+
+/* ---------- VOCABULARY QUESTIONS (made at random from WORDS) ---------- */
+function apart(x){ const g = GROUPS.find(g => g.includes(x.w)) || []; return WORDS.filter(y => y !== x && !g.includes(y.w)); }
+function vocabQ(kind, x){
+  const pool = apart(x), l = "w:" + x.w, card = x.w + " (" + x.pos + "): " + x.m + ".";
+  if (kind === "meaning") return {p:"vocab", l, q:"What does <b>" + x.w + "</b> mean?", o:[x.m].concat(pick(pool, 2).map(y => y.m)), w:card};
+  if (kind === "word") return {p:"vocab", l, q:"Which word means “" + x.m + "”?", o:[x.w].concat(pick(pool, 2).map(y => y.w)), w:card};
+  if (kind === "syn"){ const r = rand(x.syn); return {p:"vocab", l, q:"Which word or phrase is a <b>synonym</b> of <b>" + x.w + "</b> (nearly the same meaning)?", o:[r].concat(pick(pool, 2).map(y => rand(y.syn))), w:card + " Synonyms: " + x.syn.join(", ") + "."}; }
+  if (kind === "ant"){ const r = rand(x.ant); return {p:"vocab", l, q:"Which word or phrase is most nearly the <b>opposite</b> of <b>" + x.w + "</b>?", o:[r].concat(pick(pool.filter(y => y.ant), 2).map(y => rand(y.ant))), w:card + " Antonyms: " + x.ant.join(", ") + "."}; }
+  const s = rand(x.s), blank = s[0].replace("___", '<span class="blank" aria-label="blank"></span>'), full = s[0].replace("___", x.w);
+  if (kind === "type") return {p:"vocab", l, type:"type", q:"Type the Unit 4 word that completes the sentence:<br>" + blank + "<small>Hint: it means “" + x.m + "”.</small>", a:x.w, w:full};
+  const same = pool.filter(y => (POS[s[1]] || []).includes(y.w) && !(s[2] || []).includes(y.w));
+  return {p:"vocab", l, q:"Choose the word that best completes the sentence:<br>" + blank, o:[x.w].concat(pick(same, 2).map(y => y.w)), w:full + " (" + x.w + ": " + x.m + ")"};
+}
+function vocabSet(n, withType){
+  const kinds = ["meaning", "word", "sentence", "sentence", "syn", "ant", "meaning", "sentence", "word", "syn"];
+  return pick(WORDS, n).map((x, i) => { let k = kinds[i % kinds.length]; if (k === "ant" && !x.ant) k = "sentence"; if (withType && i === n - 1) k = "type"; return vocabQ(k, x); });
+}
+function vocabMatch(){ return pick(WORDS, 4).map(x => ({a:x.w, b:x.m, l:"w:" + x.w})); }
+
+/* ---------- ROUNDS ----------
+   A round is a list of steps: {type:"mc"|"tf"|"type"|"match", …}. Every step remembers its part, for the test's breakdown. */
+const tag = (a, p) => a.map(q => Object.assign({p}, q, {l:q.l || p}));
+const mcStep = q => ({type:"mc", q, order:shuffle(q.o.map((o, i) => i))});
+const tfStep = q => ({type:"tf", q});
+const qStep = q => q.type === "type" ? {type:"type", q} : q.a === true || q.a === false ? tfStep(q) : mcStep(q);
+const matchStep = (ps, p) => ({type:"match", ps, p, right:shuffle(ps.map((x, i) => i))});
+const B = {read:{mc:tag(READ_MC, "read"), tf:tag(READ_TF, "read")}, idea:{mc:tag(IDEA_MC, "idea"), tf:tag(IDEA_TF, "idea")},
+  gram:{mc:tag(GRAM_MC, "gram"), tf:tag(GRAM_TF, "gram")}, write:{mc:tag(WRITE_MC, "write"), tf:tag(WRITE_TF, "write")}};
+const draw = (part, mc, tf) => shuffle(pick(B[part].mc, mc).concat(pick(B[part].tf, tf))).map(qStep);
+const MODES = {
+  read:{name:"Reading: “Individual Twin”", p:"read", steps:() => draw("read", 6, 2)},
+  idea:{name:"Central or main idea", p:"idea", steps:() => draw("idea", 4, 2)},
+  vocab:{name:"Vocabulary, Unit 4", p:"vocab", steps:() => vocabSet(8, true).map(qStep).concat([matchStep(vocabMatch(), "vocab")])},
+  gram:{name:"Grammar 7.1–7.3", p:"gram", steps:() => draw("gram", 8, 2)},
+  write:{name:"Friendly letter", p:"write", steps:() => [matchStep(WRITE_MATCH.map(x => Object.assign({l:"write"}, x)), "write")].concat(draw("write", 4, 2))},
+  test:{name:"Practice test", p:"test", steps:() => draw("read", 4, 2).concat(draw("idea", 3, 1), vocabSet(8, true).map(qStep), draw("gram", 7, 1), draw("write", 3, 1))}
+};
+const TEST_N = {read:6, idea:4, vocab:8, gram:8, write:4};
+const PART_LABEL = {mc:"Choose the best answer", tf:"True or false?", type:"Type the word", match:"Match each one"};
+let R = null;
+function start(mode){ R = {mode, steps:MODES[mode].steps(), i:0, res:[], locked:false}; renderStep(); window.scrollTo(0, 0); }
+const stepPart = st => st.type === "match" ? st.p : st.q.p;
+
+function renderStep(){
+  const st = R.steps[R.i], n = R.steps.length, p = stepPart(st);
+  R.locked = false;
+  let body = "";
+  if (st.type === "mc") body = (st.q.pass ? '<p class="passage">' + esc(PASSAGES[st.q.pass]) + '</p>' : "") + '<p class="q-text" id="qtext">' + st.q.q + '</p><div class="opts" role="group" aria-labelledby="qtext">'
+    + st.order.map((k, i) => '<button class="opt" type="button" data-act="mc" data-k="' + k + '"><span class="k" aria-hidden="true">' + "ABCD"[i] + '</span><span>' + esc(st.q.o[k]) + '</span></button>').join("") + '</div>';
+  else if (st.type === "tf") body = '<p class="q-text" id="qtext">' + esc(st.q.q) + '</p><div class="tf" role="group" aria-labelledby="qtext">'
+    + '<button class="opt" type="button" data-act="tf" data-v="1">✔ True</button><button class="opt" type="button" data-act="tf" data-v="0">✖ False</button></div>';
+  else if (st.type === "match") body = '<p class="q-text" id="qtext">' + (p === "vocab" ? "Match each word with its meaning." : "Match each part of the letter with an example.") + '</p><div class="match">'
+    + st.ps.map((x, i) => '<div class="mrow" data-i="' + i + '"><b id="ma' + i + '">' + esc(x.a) + '</b><select data-i="' + i + '" aria-labelledby="ma' + i + '"><option value="">Choose…</option>'
+      + st.right.map(j => '<option value="' + j + '">' + esc(st.ps[j].b) + '</option>').join("") + '</select></div>').join("") + '</div>'
+    + '<div class="actions"><button class="btn go" type="button" data-act="checkmatch">Check</button></div>';
+  else body = '<p class="q-text" id="qtext">' + st.q.q + '</p><div class="typein"><input id="typeIn" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" aria-labelledby="qtext" placeholder="Type the word"></div>'
+    + '<div class="actions"><button class="btn go" type="button" data-act="checktype">Check</button></div>';
+  $("#main").innerHTML = '<section class="run panel p-' + p + '">'
+    + '<div class="run-top"><button class="btn sm" type="button" data-act="home">← Page</button><b>' + esc(MODES[R.mode].name) + '</b><span class="counter">' + (R.i + 1) + ' / ' + n + '</span></div>'
+    + '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + R.i + '" aria-label="Questions done"><i style="width:' + Math.round(R.i / n * 100) + '%"></i></div>'
+    + '<p class="q-part">' + esc(PART[p].short) + ' · ' + PART_LABEL[st.type] + '</p>' + body + '<div id="fbBox"></div></section>';
+  const f = $(".opt") || $("select") || $("#typeIn");
+  if (f && window.matchMedia && matchMedia("(pointer: fine)").matches) f.focus({preventScroll:true});
+}
+
+/* ---------- LESSON CARDS, shown in place during a round and on the page ---------- */
+function wordCard(x){
+  return '<h3>' + x.w + ' <small>' + x.pos + ' · /' + x.say + '/</small></h3><p class="m">' + esc(x.m) + '</p>'
+    + '<p class="sa"><b>Synonyms:</b> ' + x.syn.join(", ") + (x.ant ? ' · <b>Antonyms:</b> ' + x.ant.join(", ") : "") + '</p>'
+    + '<p class="ex">' + esc(x.s[0][0]).replace("___", "<b>" + x.w + "</b>") + '</p>';
+}
+const readBody = () => '<div class="facts">' + READ.facts.map(f => '<div><b class="k">' + f[0] + '</b><span>' + f[1] + '</span></div>').join("") + '</div>'
+  + '<p class="big-idea">Central idea: ' + READ.central + '</p>';
+const ideaBody = () => '<ul>' + IDEA.defs.map(d => '<li><b>' + d[0] + ':</b> ' + d[1] + '</li>').join("") + '</ul><h4>How to find it</h4><ol>' + IDEA.steps.map(s => '<li>' + s + '</li>').join("") + '</ol>'
+  + '<ul>' + IDEA.notes.map(s => '<li>' + s + '</li>').join("") + '</ul>';
+const writeBody = () => '<ol><li><b>Heading:</b> your address and the date (the quiz asks for the date): <i>November 12, 2026</i></li><li><b>Greeting:</b> <i>Dear Uncle Khalid,</i></li>'
+  + '<li><b>Body:</b> your message in paragraphs: 1) what the person did, 2) how it made you feel</li><li><b>Closing:</b> <i>Your friend,</i> · <i>Talk to you soon,</i> · <i>See you soon,</i></li><li><b>Signature:</b> your name</li></ol>'
+  + '<p><b>Commas:</b> between the day and the year (<i>November 12, 2026</i>), after the city in an address (<i>Jeddah, Saudi Arabia</i>), after the greeting and after the closing.</p>';
+function lessonHTML(l){
+  if (l.startsWith("w:")) return wordCard(WORD[l.slice(2)]);
+  const g = GRAM.find(g => g.id === l); if (g) return '<h4>' + g.t + ' (pp. ' + g.pg + ')</h4>' + g.html;
+  return l === "read" ? readBody() : l === "idea" ? ideaBody() : writeBody();
+}
+const lessonName = l => l.startsWith("w:") ? "the word “" + l.slice(2) + "”" : (GRAM.find(g => g.id === l) || {}).t || PART[l].name;
+const lessonPeek = l => '<details class="peek"><summary>Look at ' + esc(lessonName(l)) + '</summary><div class="peek-in">' + lessonHTML(l) + '</div></details>';
+const anchor = l => l.startsWith("w:") ? "w-" + l.slice(2) : GRAM.some(g => g.id === l) ? l : "p-" + l;
+const lessonLink = l => '<a href="#' + anchor(l) + '" data-act="lesson" data-l="' + esc(l) + '">Review ' + esc(lessonName(l)) + ' →</a>';
+
+/* ---------- ANSWERS ---------- */
+function record(ok, given, right, why, l, text, p){
+  R.res.push({ok, given, right, why, l, text, p, type:R.steps[R.i].type});
+  if (ok) addXP(10);
+}
+function feedback(ok, why, l, extra){
+  R.locked = true;
+  const last = R.i === R.steps.length - 1;
+  $("#fbBox").innerHTML = '<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + (ok ? "Nice! ✔" : "Not quite ✖") + '</span>' + (extra || "")
+    + '<p class="why">' + esc(why) + '</p>' + (ok ? "" : lessonPeek(l)) + '</div>'
+    + '<div class="actions"><button class="btn ink" type="button" data-act="next" id="nextBtn">' + (last ? "See my result →" : "Next →") + '</button></div>';
+  announce((ok ? "Correct. " : "Not quite. ") + why);
+  $("#nextBtn").focus({preventScroll:true});
+}
+function answerMC(k){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const ok = k === 0;
+  document.querySelectorAll(".opt").forEach(b => { const bk = +b.dataset.k; b.disabled = true; b.classList.add(bk === 0 ? "right" : bk === k ? "wrong" : "dim"); });
+  record(ok, st.q.o[k], st.q.o[0], st.q.w, st.q.l, strip(st.q.q), st.q.p);
+  feedback(ok, st.q.w, st.q.l);
+}
+function answerTF(v){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const ok = v === st.q.a;
+  document.querySelectorAll(".opt").forEach(b => { const bv = b.dataset.v === "1"; b.disabled = true; b.classList.add(bv === st.q.a ? "right" : bv === v ? "wrong" : "dim"); });
+  record(ok, v ? "True" : "False", st.q.a ? "True" : "False", st.q.w, st.q.l, st.q.q, st.q.p);
+  feedback(ok, st.q.w, st.q.l);
+}
+function checkMatch(){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const sel = [...document.querySelectorAll(".mrow select")];
+  if (sel.some(s => s.value === "")){ announce("Choose an answer for each row first."); sel.find(s => s.value === "").focus(); return; }
+  let right = 0;
+  sel.forEach(s => {
+    const i = +s.dataset.i, ok = +s.value === i, row = s.closest(".mrow");
+    s.disabled = true; row.classList.add(ok ? "right" : "wrong");
+    if (!ok) row.insertAdjacentHTML("beforeend", '<p class="fix">Right answer: ' + esc(st.ps[i].b) + '</p>');
+    if (ok) right++;
+    record(ok, st.ps[+s.value].b, st.ps[i].b, st.ps[i].a + ": " + st.ps[i].b + ".", st.ps[i].l, st.ps[i].a, st.p);
+  });
+  const miss = st.ps.find((x, i) => +sel[i].value !== i);
+  feedback(right === st.ps.length, right + " of " + st.ps.length + " right.", miss ? miss.l : st.ps[0].l);
+}
+function checkType(){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const inp = $("#typeIn"), v = inp.value.trim().toLowerCase().replace(/[^a-z]/g, "");
+  if (!v){ announce("Type your answer first."); inp.focus(); return; }
+  const ok = v === st.q.a, near = !ok && v.startsWith(st.q.a);
+  inp.readOnly = true;
+  record(ok, inp.value.trim(), st.q.a, st.q.w, st.q.l, strip(st.q.q).replace(/Hint:.*$/, ""), st.q.p);
+  feedback(ok, st.q.w, st.q.l, ok ? "" : '<p><b>' + (near ? "Right word, but the sentence needs this form: " : "The word is: ") + esc(st.q.a) + '</b></p>');
+}
+function next(){ if (R.i < R.steps.length - 1){ R.i++; renderStep(); window.scrollTo(0, 0); } else result(); }
+
+/* ---------- RESULT ---------- */
+function result(){
+  const res = R.res, right = res.filter(r => r.ok).length;
+  let h = '<section class="result panel p-' + MODES[R.mode].p + '">';
+  if (R.mode === "test"){
+    S.tests++; if (S.best === null || right > S.best) S.best = right;
+    addXP(20);
+    h += '<p class="q-part">Practice test</p><div class="big">' + right + ' <small>of ' + res.length + '</small></div><div class="parts5">'
+      + PARTS.map(p => { const mine = res.filter(r => r.p === p.id); return '<div class="stat"><b>' + mine.filter(r => r.ok).length + '/' + mine.length + '</b><span>' + p.short + '</span></div>'; }).join("") + '</div>'
+      + '<p>' + (right >= 27 ? "Excellent: you are ready! 🌟 Now write one letter below and check it." : right >= 21 ? "Good work. Fix the questions below, then try a new test." : "Review the parts below, then try a new test: the questions change every time.") + '</p>';
+  } else {
+    S.rounds++;
+    h += '<p class="q-part">' + esc(MODES[R.mode].name) + '</p><div class="big">' + right + ' <small>of ' + res.length + '</small></div>'
+      + '<p>' + (right === res.length ? "All correct! 🌟" : "Fix the ones below. The questions change every round.") + '</p>';
+  }
+  save();
+  h += '<div class="row" style="justify-content:center"><button class="btn go" type="button" data-act="start" data-m="' + R.mode + '">New round</button>'
+    + (R.mode !== "test" ? '<button class="btn" type="button" data-act="start" data-m="test">Practice test (30)</button>' : "") + '<button class="btn sm" type="button" data-act="home">Back to the page</button></div></section>';
+  const miss = res.filter(r => !r.ok);
+  if (miss.length) h += '<div class="sec"><div class="sec-head"><h2>Fix these</h2><p>Read why, then go back to the lesson.</p></div><div class="miss-list">'
+    + miss.map(r => '<div class="miss panel"><p class="q">' + esc(r.text) + '</p><p class="a">Your answer: ' + esc(r.given) + ' · Right: ' + esc(r.right) + '</p><p>' + esc(r.why) + '</p><p>' + lessonLink(r.l) + '</p></div>').join("") + '</div></div>';
+  $("#main").innerHTML = h;
+  window.scrollTo(0, 0);
+  announce("Result: " + right + " of " + res.length);
+}
+
+/* ---------- THE LETTER CHECKER ----------
+   Looks for what the outline asks for (the date, a greeting, six complete sentences, a friendly closing, the name) and the
+   commas and capitals of the lesson. It is a checklist, not a mark: the teacher marks the ideas and the handwriting. */
+const MONTHS = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sept?|oct|nov|dec)";
+const DATE_MDY = new RegExp("\\b" + MONTHS + "\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?(\\s*,)?\\s*(\\d{4})\\b", "i");
+const DATE_DMY = new RegExp("\\b(\\d{1,2})(?:st|nd|rd|th)?\\s+" + MONTHS + "\\.?,?\\s*(\\d{4})\\b", "i");
+const DATE_NUM = /\b\d{1,2}\s*[\/.-]\s*\d{1,2}\s*[\/.-]\s*\d{2,4}\b/;
+const GREET = /^(dear|hi|hello|hey)\b/i;
+const CLOSE = /^(your\s+(?:loving\s+|best\s+|good\s+|dear\s+)?(?:friend|pal|buddy|cousin|nephew|niece|brother|sister|son|daughter|grandson|granddaughter|student|classmate|neighbor|neighbour)|yours(?:\s+truly|\s+sincerely|\s+faithfully)?|love|lots of love|with love|best wishes|warm wishes|best|take care|talk to you soon|talk soon|see you soon|see you|bye for now|bye|all the best|cheers|hugs|miss you|regards|kind regards|best regards|sincerely|thanks again|thank you again)\b/i;
+const FORMAL = /^(yours\s+sincerely|yours\s+faithfully|yours\s+truly|sincerely|regards|kind regards|best regards)\b/i;
+const FRIENDLY = /\b(\w+['’](m|re|s|ve|ll|d|t)|thanks|awesome|amazing|cool|fun|wow|psyched|thrilled|excited|hilarious|can['’]t wait)\b/i;
+const STIFF = /(i am writing to inform|thank you kindly|it gave me great pleasure|to whom it may concern)/i;
+const UNIT4 = new RegExp("\\b(" + WORDS.map(x => x.w).join("|") + ")(s|es|d|ed|ing|ted|led)?\\b", "gi");
+function sentencesOf(text){ return (text.match(/[^.!?]+[.!?]+["”’)]*|[^.!?]+$/g) || []).map(s => s.trim()).filter(s => /[A-Za-z]/.test(s)); }
+function letterCheck(raw){
+  const L = String(raw || "").replace(/\r\n?/g, "\n").split("\n").map(s => s.replace(/\s+$/, "")), T = L.map(s => s.trim());
+  const idx = T.map((s, i) => s ? i : -1).filter(i => i >= 0);
+  const items = [];   /* {g: rubric group, ok: "ok"|"no"|"tip", t} */
+  const add = (g, ok, t) => items.push({g, ok, t});
+  if (idx.length < 3) return {items:[{g:"org", ok:"no", t:"Write your letter first: the date, a greeting, at least six sentences, a closing and your name."}], pass:false, sentences:0, unit4:[]};
+  /* the date, in the heading (the first three lines) */
+  let dateAt = -1;
+  for (const i of idx.slice(0, 3)){
+    const s = T[i], m = s.match(DATE_MDY);
+    if (m){ dateAt = i;
+      add("org", "ok", "Date: " + s);
+      if (!m[3]) add("lang", "no", "Put a comma between the day and the year: " + m[1][0].toUpperCase() + m[1].slice(1).toLowerCase() + " " + m[2] + ", " + m[4] + ".");
+      if (m[1][0] !== m[1][0].toUpperCase()) add("lang", "no", "Begin the month with a capital letter: " + m[1][0].toUpperCase() + m[1].slice(1) + ".");
+      break; }
+    if (DATE_DMY.test(s) || DATE_NUM.test(s)){ dateAt = i; add("org", "ok", "Date: " + s); add("lang", "tip", "In English letters the date is usually written like this: November 12, 2026."); break; }
+  }
+  if (dateAt < 0) add("org", "no", "Add the date at the top, for example: November 12, 2026.");
+  /* the greeting */
+  const gi = idx.find(i => i > dateAt && GREET.test(T[i]));
+  if (gi === undefined) add("org", "no", "Start with a greeting, for example: Dear Ali,");
+  else {
+    add("org", "ok", "Greeting: " + T[gi]);
+    if (!/,$/.test(T[gi])) add("lang", "no", "Put a comma after the greeting: " + T[gi].replace(/[.!:;]+$/, "") + ",");
+    if (!/^[A-Z]/.test(T[gi])) add("lang", "no", "Begin the greeting with a capital letter: " + T[gi][0].toUpperCase() + T[gi].slice(1));
+  }
+  /* the closing and the name, from the end */
+  const after = gi === undefined ? dateAt : gi;
+  const ci = idx.slice().reverse().find(i => i > after && CLOSE.test(T[i]) && T[i].split(/\s+/).length <= 6);
+  let si;
+  if (ci === undefined) add("org", "no", "End with a friendly closing, for example: Your friend, or Talk to you soon,");
+  else {
+    const close = T[ci].split(",")[0];
+    add("org", "ok", "Closing: " + T[ci]);
+    if (!/,/.test(T[ci])) add("lang", "no", "Put a comma after the closing: " + T[ci].replace(/[.!:;]+$/, "") + ",");
+    if (!/^[A-Z]/.test(T[ci])) add("lang", "no", "Begin the closing with a capital letter.");
+    else if (/\s[A-Z]/.test(close) && !/\bI\b/.test(close)) add("lang", "tip", "Only the first word of the closing needs a capital letter: " + close[0] + close.slice(1).toLowerCase() + ",");
+    if (FORMAL.test(T[ci])) add("org", "tip", "That closing sounds formal. A friendly letter uses closings like Your friend, Talk to you soon, See you soon.");
+    si = idx.find(i => i > ci);
+    const sameLine = T[ci].split(",").slice(1).join(",").trim();
+    if (si !== undefined && T[si].split(/\s+/).length <= 4) add("org", "ok", "Signature: " + T[si]);
+    else if (sameLine) { add("org", "ok", "Signature: " + sameLine); add("org", "tip", "Write your name on its own line, under the closing."); }
+    else add("org", "no", "Sign your name on the line under the closing.");
+  }
+  /* the body: everything between the greeting and the closing */
+  const from = gi !== undefined ? gi + 1 : dateAt + 1, to = ci !== undefined ? ci : idx[idx.length - 1] + 1;
+  const bodyLines = L.slice(from, to), bodyText = bodyLines.map(s => s.trim()).join(" ").replace(/\s+/g, " ").trim();
+  const paras = bodyLines.join("\n").split(/\n\s*\n/).map(s => s.trim()).filter(Boolean).length;
+  const sents = sentencesOf(bodyText);
+  const complete = sents.filter(s => s.split(/\s+/).filter(w => /[A-Za-z]/.test(w)).length >= 3 && /[.!?]["”’)]*$/.test(s) && /^["“‘(]*[A-Z]/.test(s));
+  const lower = sents.filter(s => /^["“‘(]*[a-z]/.test(s)), unended = sents.filter(s => !/[.!?]["”’)]*$/.test(s));
+  if (complete.length >= 6) add("ideas", "ok", complete.length + " complete sentences (the quiz asks for six).");
+  else add("ideas", "no", complete.length + " complete sentence" + (complete.length === 1 ? "" : "s") + " so far. The quiz asks for at least six.");
+  if (lower.length) add("lang", "no", "Begin every sentence with a capital letter: “" + lower[0].slice(0, 40) + (lower[0].length > 40 ? "…" : "") + "”");
+  if (unended.length) add("lang", "no", "End every sentence with . ! or ?: “" + unended[0].slice(-40) + "”");
+  if (/(^|[^A-Za-z'’])i(?=[^A-Za-z]|$)/.test(bodyText)) add("lang", "no", "Write the word I as a capital letter: I, I’m, I’ve.");
+  if (paras >= 2) add("org", "ok", paras + " paragraphs in the body.");
+  else if (complete.length >= 4) add("org", "tip", "Try two paragraphs: what the person did, then how it made you feel. Leave an empty line between them.");
+  if (STIFF.test(bodyText)) add("ideas", "tip", "Some words sound formal. In a friendly letter, write the way you talk: “Thanks so much!”, “I’m dropping a note to say…”");
+  else if (FRIENDLY.test(bodyText)) add("ideas", "ok", "Friendly, informal tone.");
+  const unit4 = [...new Set((bodyText.match(UNIT4) || []).map(w => w.toLowerCase()))];
+  if (unit4.length) add("ideas", "ok", "Unit 4 words used: " + unit4.join(", ") + ". Great!");
+  const need = items.filter(x => x.ok === "no").length;
+  return {items, pass:need === 0, sentences:complete.length, unit4, paras};
+}
+const RGROUPS = [["org", "Organization (1 mark): the parts in order"], ["lang", "Language accuracy (1 mark): grammar, spelling, punctuation"], ["ideas", "Ideas and content (1 mark)"]];
+function hashText(s){ let h = 5381; s = String(s).replace(/\s+/g, " ").trim().toLowerCase(); for (let i = 0; i < s.length; i++) h = (h * 33 + s.charCodeAt(i)) >>> 0; return h.toString(36); }
+function isModel(text){ const t = String(text).toLowerCase(); return t.includes("telescope") && t.includes("uncle khalid") && t.includes("saturn"); }
+function renderReport(text){
+  const r = letterCheck(text);
+  let h = RGROUPS.map(([g, title]) => { const mine = r.items.filter(x => x.g === g); return mine.length ? '<div class="rgroup"><h4>' + title + '</h4>'
+    + mine.map(x => '<div class="ritem ' + x.ok + '"><i aria-hidden="true">' + (x.ok === "ok" ? "✔" : x.ok === "no" ? "✖" : "💡") + '</i><span>' + esc(x.t) + '</span></div>').join("") + '</div>' : ""; }).join("");
+  h += '<div class="rgroup"><h4>Check yourself</h4><div class="ritem tip"><i aria-hidden="true">💡</i><span>Ideas: did you stay on one topic and give specific details (what, where, how it felt)?</span></div>'
+    + '<div class="ritem tip"><i aria-hidden="true">💡</i><span>Presentation (0.5 mark): on paper, write neatly, keep margins, and leave space between the parts.</span></div></div>';
+  let verdict;
+  if (r.pass && isModel(text)) verdict = '<p class="verdict no">That is the model letter. Write your own letter to earn ⭐.</p>';
+  else if (r.pass){
+    const hsh = hashText(text);
+    if (hsh !== S.lh){ S.lh = hsh; S.letters++; addXP(30); verdict = '<p class="verdict ok">Everything the quiz asks for is there! ⭐ +30</p>'; }
+    else verdict = '<p class="verdict ok">Everything the quiz asks for is there!</p>';
+  } else verdict = '<p class="verdict no">Almost: fix the ✖ items, then check again.</p>';
+  $("#report").innerHTML = verdict + h;
+  announce(r.pass ? "Everything the quiz asks for is there." : "Some items need fixing.");
+}
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const n = dayDiff(todayISO(), QUIZ_DAY), when = n < 0 ? "Quiz is over" : n === 0 ? "Today" : n === 1 ? "Tomorrow" : "In " + n + " days";
+  let h = '<section class="hero panel p-read"><h1>English: Quiz 2 Review</h1>'
+    + '<p class="sub">Thursday 12 November · reading, main idea, vocabulary, grammar and a friendly letter <span class="badge' + (n >= 0 && n <= 1 ? " hot" : "") + '">' + when + '</span></p>'
+    + '<div class="stats"><div class="stat"><b>' + (S.best === null ? "–" : S.best + "/30") + '</b><span>Best practice test</span></div><div class="stat"><b>' + S.tests + '</b><span>Tests done</span></div><div class="stat"><b>' + S.xp + '</b><span>Points</span></div></div>'
+    + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="test">Start a practice test</button><a class="btn" href="#letter">Write a letter</a><a class="btn sm" href="../../review/quiz-2/index.html#eng">Quiz 2 checklist</a></div></section>';
+  h += '<section class="sec"><div class="sec-head"><h2>What’s on the quiz</h2><p>Five parts, with the pages from the school’s assessment outline.</p></div><div class="tiles">'
+    + PARTS.map(p => '<article class="tile p-' + p.id + '"><b>' + p.name + '</b><span>' + p.src + ' · pp. ' + p.pg + '</span><div class="row"><a class="btn sm" href="#p-' + p.id + '">Learn</a>'
+      + '<button class="btn sm go" type="button" data-act="start" data-m="' + p.id + '">Practice</button></div></article>').join("") + '</div>'
+    + '<div class="test-cta panel"><p><b>Practice test:</b> 30 questions from all five parts (6 reading, 4 main idea, 8 vocabulary, 8 grammar, 4 letter), then your result for each part.</p>'
+    + '<button class="btn go" type="button" data-act="start" data-m="test">Start</button></div></section>';
+  /* 1. reading */
+  h += '<section class="sec part p-read" id="p-read"><div class="part-head"><h2>1. Reading</h2><span>StudySync · “Personal Statement: Individual Twin” · pp. 42–44</span></div>'
+    + '<article class="card panel"><h3>What happens</h3>' + readBody()
+    + '<p><b>Theme:</b> ' + READ.theme + '</p><p><b>How it is organized:</b> ' + READ.structure + '</p><p><b>Author’s purpose:</b> ' + READ.purpose + '</p>'
+    + '<h4>Words from the text</h4><div class="words-mini">' + READ.words.map(w => '<p><b>' + w[0] + ':</b> ' + esc(w[1]) + '</p>').join("") + '</div></article>'
+    + '<article class="card panel"><h3>Think questions (p. 44)</h3><p>Answer in your head first, then open each one for a model answer. Use evidence from the text.</p>'
+    + READ.think.map(t => '<details class="think"><summary>' + esc(t[0]) + '</summary><p>' + esc(t[1]) + '</p></details>').join("") + '</article>'
+    + '<div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="read">Practice reading (8)</button></div></section>';
+  /* 2. main idea */
+  h += '<section class="sec part p-idea" id="p-idea"><div class="part-head"><h2>2. Central or main idea</h2><span>Reading skill · pp. 45–46</span></div>'
+    + '<article class="card panel"><h3>Find the central idea</h3>' + ideaBody() + '</article>'
+    + '<article class="card panel"><h3>Worked example</h3><p class="passage">' + esc(PASSAGES.grandpa) + '</p>'
+    + '<p><b>Topic:</b> Omar and his grandfather. <b>Details:</b> fixing a bike chain, planting tomatoes and mint, building a bookshelf.</p>'
+    + '<p class="big-idea">Central idea (implied): Omar learns many useful skills from his grandfather.</p></article>'
+    + '<div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="idea">Practice main idea (6)</button></div></section>';
+  /* 3. vocabulary */
+  h += '<section class="sec part p-vocab" id="p-vocab"><div class="part-head"><h2>3. Vocabulary</h2><span>Vocabulary Workshop, Level A · Unit 4 · pp. 52–58</span></div>'
+    + '<p style="margin-bottom:12px;color:var(--ink-2)">The 20 words, each with its meaning, synonyms, antonyms and a sentence. Tap 🔊 to hear a word.</p><div class="wgrid">'
+    + WORDS.map(x => '<article class="word panel" id="w-' + x.w + '">' + wordCard(x).replace('</small></h3>', '</small><button class="say" type="button" data-act="say" data-w="' + x.w + '" aria-label="Say ' + x.w + '">' + ICON_SAY + '</button></h3>') + '</article>').join("")
+    + '</div><div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="vocab">Practice vocabulary (12)</button></div></section>';
+  /* 4. grammar */
+  h += '<section class="sec part p-gram" id="p-gram"><div class="part-head"><h2>4. Grammar</h2><span>Chapter 7: Nouns and Pronouns · Lessons 7.1–7.3 · pp. 141–146</span></div>'
+    + GRAM.map(g => '<article class="card panel" id="' + g.id + '"><h3>' + g.t + ' <small style="font-family:var(--body);font-size:14px;color:var(--ink-2)">pp. ' + g.pg + '</small></h3>' + g.html + '</article>').join("")
+    + '<div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="gram">Practice grammar (10)</button></div></section>';
+  /* 5. writing */
+  h += '<section class="sec part p-write" id="p-write"><div class="part-head"><h2>5. Writing: a friendly letter</h2><span>pp. 46–49</span></div>'
+    + '<article class="card panel"><h3>The five parts</h3>' + writeBody()
+    + '<p><b>Sound friendly:</b> write the way you talk: contractions (<i>I’m, can’t</i>), friendly words (<i>Thanks so much! awesome</i>) and details you saw, heard, smelled, tasted or felt. Stay on one topic.</p>'
+    + '<p class="big-idea">On the quiz: at least six complete sentences, with the date, a greeting, a friendly closing and your name.</p>'
+    + '<h4>How it is marked (3.5)</h4><div class="marks"><div><b>1</b><span>Ideas and content: clear, relevant ideas</span></div><div><b>1</b><span>Organization: ideas in a logical order</span></div>'
+    + '<div><b>1</b><span>Language accuracy: grammar, spelling, punctuation</span></div><div><b>0.5</b><span>Presentation: clear, neat handwriting</span></div></div></article>'
+    + '<article class="card panel"><h3>Model letter</h3><div class="letter">'
+    + '<div class="lp"><span>Heading</span><p>' + MODEL.heading + '</p></div><div class="lp"><span>Greeting</span><p>' + MODEL.greeting + '</p></div>'
+    + '<div class="lp body"><span>Body</span><div>' + MODEL.body.map(p => '<p>' + esc(p) + '</p>').join("") + '</div></div>'
+    + '<div class="lp"><span>Closing</span><p>' + MODEL.closing + '</p></div><div class="lp"><span>Signature</span><p>' + MODEL.signature + '</p></div></div>'
+    + '<p>Paragraph 1 tells what Uncle Khalid did and what happened; paragraph 2 tells how it made Sami feel. Seven complete sentences.</p></article>'
+    + '<article class="checker panel" id="letter"><h3 style="font-size:28px">Write a letter and check it</h3>'
+    + '<div class="prompt"><p id="promptText">' + esc(PROMPTS[0]) + '</p><button class="btn sm" type="button" data-act="prompt">New topic</button></div>'
+    + '<label for="letterIn" class="hint">Write the date, a greeting, your message (at least six sentences), a closing and your name, each part on its own line. This stays on this device only.</label>'
+    + '<textarea id="letterIn" spellcheck="true" autocapitalize="sentences"></textarea>'
+    + '<div class="row"><button class="btn go" type="button" data-act="checkletter">Check my letter</button><button class="btn sm" type="button" data-act="clearletter">Clear</button></div>'
+    + '<div class="report" id="report" aria-live="polite"></div></article>'
+    + '<div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="write">Practice letter format (11)</button></div></section>';
+  h += '<footer class="foot"><p>Parts and pages from the school’s assessment outline for Quiz 2. The questions, sentences, passages and model letter are written for this page; the books’ texts are not copied. If anything here differs from the book, follow the teacher and the book.</p></footer>';
+  $("#main").innerHTML = h;
+  let draft = ""; try { draft = localStorage.getItem(DRAFT) || ""; } catch (e) {}
+  $("#letterIn").value = draft;
+}
+
+/* ---------- PRINT ---------- */
+const LETTER_PRINT = '<div class="ps-b"><h3>Friendly letter (pp. 46–49)</h3><ol><li><b>Heading:</b> address and date: November 12, 2026</li><li><b>Greeting:</b> Dear Uncle Khalid,</li><li><b>Body:</b> 1) what the person did 2) how it made you feel</li><li><b>Closing:</b> Your friend, · Talk to you soon,</li><li><b>Signature:</b> your name</li></ol>'
+  + '<p><b>Commas:</b> day, year · after the greeting · after the closing. Friendly words, contractions, sensory details; stay on topic.</p>'
+  + '<p><b>Quiz:</b> at least 6 complete sentences + date, greeting, friendly closing, name. <b>Marks:</b> Ideas 1 · Organization 1 · Language accuracy 1 · Presentation (handwriting) 0.5 = 3.5</p></div>';
+function renderPrint(){
+  const vw = ["ovation", "keepsake", "elusive", "generate", "petty", "plight", "strife", "topple"].map(w => WORD[w]);
+  const bank = ["acquit", "elusive", "generate", "keepsake", "ovation", "petty", "plight", "reverie", "strife", "topple"];
+  const gq = [["(She / Her) is the best swimmer on the team.", "She"], ["The coach encouraged (we / us) before the race.", "us"], ["This secret is between you and (I / me).", "me"],
+    ["(He / Him) and I went to the science fair.", "He"], ["The cat licked (its / it’s) paw.", "its"], ["My best friends are Faisal and (he / him).", "he"],
+    ["(Everyone / Theirs) in my class watched the program.", "Everyone"], ["We sailed on the (red sea / Red Sea).", "Red Sea"]];
+  const im = IDEA_MC.filter(q => q.pass === "desert");
+  $("#printSheet").innerHTML = '<header class="ps-head"><h1>English · Quiz 2 Study Sheet</h1><p>Grade 6 · Thursday 12/11/2026</p></header><div class="ps-cols"><div>'
+    + '<div class="ps-b"><h3>Reading: “Individual Twin” (StudySync, pp. 42–44)</h3><ul>' + READ.facts.map(f => '<li><b>' + f[0] + ':</b> ' + f[1] + '</li>').join("") + '</ul>'
+    + '<p><b>Central idea:</b> ' + READ.central + '</p><p><b>Theme:</b> ' + READ.theme + '</p><p><b>Structure:</b> ' + READ.structure + '</p>'
+    + '<p><b>Words:</b> ' + READ.words.map(w => '<i>' + w[0] + '</i> = ' + esc(w[1])).join("; ") + '</p></div>' + LETTER_PRINT + '</div><div>'
+    + '<div class="ps-b"><h3>Central or main idea (pp. 45–46)</h3><ul>' + IDEA.defs.map(d => '<li><b>' + d[0] + ':</b> ' + d[1] + '</li>').join("") + '</ul><ol>' + IDEA.steps.map(s => '<li>' + s + '</li>').join("") + '</ol>'
+    + '<ul>' + IDEA.notes.map(s => '<li>' + s + '</li>').join("") + '</ul></div>'
+    + '<div class="ps-b"><h3>Grammar 7.1–7.3 (pp. 141–146)</h3><ul><li><b>Noun:</b> person, place, thing or idea. <b>Common</b> = any one, lowercase (city); <b>proper</b> = a specific one, capitals (Jeddah, Red Sea).</li>'
+    + '<li><b>Pronoun</b> replaces a noun, its <b>antecedent</b>, and agrees with it in person and number (The players thanked their coach).</li>'
+    + '<li><b>Personal:</b> I, you, he, she, it, we, they · me, him, her, us, them. <b>Possessive:</b> my, your, his, her, its, our, their · mine, yours, hers, ours, theirs (no apostrophes). <b>Indefinite:</b> everyone, nobody, both, each, few, many, several, someone…</li>'
+    + '<li><b>its</b> = belonging to it · <b>it’s</b> = it is.</li><li><b>Subject pronouns</b> (I, we, you, he, she, it, they): the subject, and after is/are (The winners are Katie and she).</li>'
+    + '<li><b>Object pronouns</b> (me, us, you, him, her, it, them): after an action verb or a preposition (between you and me).</li><li>Two people? Test each alone: Sara and I baked · gave Omar and me.</li></ul></div></div></div>'
+    + '<section class="ps-page"><header class="ps-head"><h1>Vocabulary · Level A, Unit 4 (pp. 52–58)</h1><p>20 words</p></header><table class="ps-words"><tr><th>Word</th><th>Part of speech</th><th>Meaning</th><th>Synonyms</th><th>Antonyms</th></tr>'
+    + WORDS.map(x => '<tr><td><b>' + x.w + '</b></td><td>' + x.pos + '</td><td>' + esc(x.m) + '</td><td>' + x.syn.join(", ") + '</td><td>' + (x.ant ? x.ant.join(", ") : "–") + '</td></tr>').join("") + '</table>'
+    + '<div class="ps-letter"><p><b>Model friendly letter</b></p><p>' + MODEL.heading + '</p><p>' + MODEL.greeting + '</p>' + MODEL.body.map(p => '<p>' + esc(p) + '</p>').join("") + '<p>' + MODEL.closing + '<br>' + MODEL.signature + '</p></div></section>'
+    + '<section class="ps-page"><header class="ps-head"><h1>Practice test</h1><p>Name: ……………………</p></header>'
+    + '<div class="ps-q"><h2>A. Vocabulary: write the word from the box that completes each sentence.</h2><p class="ps-bank">' + bank.join(" · ") + '</p><ol>'
+    + vw.map(x => '<li>' + esc(x.s[0][0]).replace("___", "…………………") + '</li>').join("") + '</ol></div>'
+    + '<div class="ps-q"><h2>B. Grammar: circle the correct word.</h2><ol>' + gq.map(g => '<li>' + esc(g[0]) + '</li>').join("") + '</ol></div>'
+    + '<div class="ps-q"><h2>C. Main idea: read, then circle the best answer.</h2><p class="ps-pass">' + esc(PASSAGES.desert) + '</p><ol>'
+    + im.map(q => '<li>' + esc(q.q) + '<br>' + [q.o[1], q.o[0], q.o[2]].map((o, i) => '<span class="o">' + "abc"[i] + ') ' + esc(o) + '</span>').join("") + '</li>').join("") + '</ol></div>'
+    + '<div class="ps-q"><h2>D. Letter: add the missing commas, then write the five parts in order.</h2><ol><li>Dear Uncle Khalid</li><li>November 12 2026</li><li>Your nephew</li>'
+    + '<li>1 ……………… 2 ……………… 3 ……………… 4 ……………… 5 ………………</li></ol></div>'
+    + '<div class="ps-key"><h3>Answers</h3><p><b>A:</b> ' + vw.map((x, i) => (i + 1) + ') ' + x.w).join(" · ") + '</p><p><b>B:</b> ' + gq.map((g, i) => (i + 1) + ') ' + esc(g[1])).join(" · ") + '</p>'
+    + '<p><b>C:</b> ' + im.map((q, i) => (i + 1) + ') b ' + esc(q.o[0])).join(" · ") + '</p><p><b>D:</b> Dear Uncle Khalid, · November 12, 2026 · Your nephew, · heading, greeting, body, closing, signature</p></div></section>';
+}
+
+/* ---------- EVENTS ---------- */
+let draftTimer = 0;
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b || b.disabled) return;
+  const a = b.dataset.act;
+  if (a === "start") start(b.dataset.m);
+  else if (a === "mc") answerMC(+b.dataset.k);
+  else if (a === "tf") answerTF(b.dataset.v === "1");
+  else if (a === "checkmatch") checkMatch();
+  else if (a === "checktype") checkType();
+  else if (a === "next") next();
+  else if (a === "say") speak(b.dataset.w);
+  else if (a === "home"){ R = null; renderHome(); window.scrollTo(0, 0); }
+  else if (a === "lesson"){ e.preventDefault(); R = null; renderHome(); const t = document.getElementById(anchor(b.dataset.l)); if (t) t.scrollIntoView(); }
+  else if (a === "prompt"){ const p = $("#promptText"), cur = p.textContent; p.textContent = rand(PROMPTS.filter(x => x !== cur)); }
+  else if (a === "checkletter") renderReport($("#letterIn").value);
+  else if (a === "clearletter"){ $("#letterIn").value = ""; $("#report").innerHTML = ""; try { localStorage.removeItem(DRAFT); } catch (err) {} $("#letterIn").focus(); }
+});
+document.addEventListener("input", e => {
+  if (e.target.id !== "letterIn") return;
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(() => { draftTimer = 0; try { localStorage.setItem(DRAFT, e.target.value); } catch (err) {} }, 400);
+});
+/* a letter typed just before the page closes is still kept */
+window.addEventListener("pagehide", () => { const t = $("#letterIn"); if (t && draftTimer){ clearTimeout(draftTimer); draftTimer = 0; try { localStorage.setItem(DRAFT, t.value); } catch (err) {} } });
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.id === "typeIn" && R && !R.locked){ e.preventDefault(); checkType(); } });
+$("#printBtn").addEventListener("click", () => window.print());
+/* another device's progress arrived: refresh the numbers on the home view, keeping a letter being written */
+window.addEventListener("monmon-sync", e => {
+  try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v) S = Object.assign(fresh(), v); } catch (err) {}
+  $("#xpVal").textContent = S.xp;
+  if (!R){ const stats = document.querySelectorAll(".hero .stat b"); if (stats.length === 3){ stats[0].textContent = S.best === null ? "–" : S.best + "/30"; stats[1].textContent = S.tests; stats[2].textContent = S.xp; } }
+  e.preventDefault();
+});
+
+$("#xpVal").textContent = S.xp;
+renderHome();
+renderPrint();
+if (location.hash.length > 1){ const t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
+</script>
+</body>
+</html>
