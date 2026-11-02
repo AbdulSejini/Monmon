@@ -79,12 +79,12 @@
   function centre(el) { var r = el.getBoundingClientRect(); return {x: r.left + r.width / 2, y: r.top + r.height / 2, ok: r.width > 0 && r.bottom > 0 && r.top < innerHeight}; }
   function pop(el) {
     if (still() || !el || !el.animate) return;
-    el.animate([{transform: "scale(1)"}, {transform: "scale(1.12, .9)", offset: .25}, {transform: "scale(.94, 1.08)", offset: .55}, {transform: "scale(1.03, .98)", offset: .8}, {transform: "scale(1)"}],
+    el.animate([{transform: "scale(1)"}, {transform: "scale(1.05, .9)", offset: .25}, {transform: "scale(.96, 1.08)", offset: .55}, {transform: "scale(1.01, .98)", offset: .8}, {transform: "scale(1)"}],
       {duration: 480, easing: "cubic-bezier(.3,1.4,.5,1)"});
   }
   function shake(el) {
     if (still() || !el || !el.animate) return;
-    el.animate([{transform: "translateX(0)"}, {transform: "translateX(-9px) rotate(-1deg)"}, {transform: "translateX(8px) rotate(1deg)"}, {transform: "translateX(-6px)"}, {transform: "translateX(4px)"}, {transform: "translateX(0)"}],
+    el.animate([{transform: "translateX(0)"}, {transform: "translateX(-7px) rotate(-.6deg)"}, {transform: "translateX(6px) rotate(.6deg)"}, {transform: "translateX(-4px)"}, {transform: "translateX(3px)"}, {transform: "translateX(0)"}],
       {duration: 420, easing: "ease-out"});
   }
   function flash() {
@@ -167,7 +167,8 @@
     else if (n.querySelectorAll) { var f = n.querySelectorAll(".fb.ok, .fb.no"); if (f.length) onFeedback(f[f.length - 1]); }
     if (n.matches && (n.matches(".result, .result-stars") || (n.querySelector && n.querySelector(".result, .result-stars")))) streak = 0;
     if (ENTER && !still() && n.animate && n.matches && n.matches(ENTER)) {
-      n.animate([{transform: "translateX(36px) skewX(-6deg)", opacity: 0}, {transform: "translateX(-4px) skewX(1deg)", opacity: 1, offset: .7}, {transform: "none", opacity: 1}], {duration: 300, easing: "cubic-bezier(.2,.9,.3,1.2)"});
+      /* up and in, never wider than the panel, so a phone never scrolls sideways */
+      n.animate([{transform: "translateY(22px) scale(.95) rotate(-1deg)", opacity: 0}, {transform: "translateY(-4px) scale(1) rotate(.3deg)", opacity: 1, offset: .7}, {transform: "none", opacity: 1}], {duration: 320, easing: "cubic-bezier(.2,.9,.3,1.2)"});
       SFX.swish();
     }
   }
