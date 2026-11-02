@@ -118,6 +118,17 @@ Every study page also loads `assets/site-nav.js`, which puts the same navigation
 - **No tricks:** a part counts when a page saves it as newly mastered on that device (the `monmon-saved` event: before → after), so parts mastered before the arcade existed, or mastered again, give nothing, and each part id is earned once. Play time is a balance spent second by second only while a game runs in front, and saved every second: going back, reloading or leaving never gives it back, a hidden page pauses, one window plays at a time (`monmon-arcade-live`, on the device only), and a changed clock can only move the day limit, not create time. At most 20 minutes a day.
 - **Saved** in `monmon-arcade-v1` (synced): the parts earned with their time, the play time per day per device (each device adds only its own), and the best score per game. The lobby has a parents' log of the parts and the minutes per day.
 
+## Game feel
+
+`assets/fx.js` is loaded on the study pages: the Islamic and English reviews, the math, science, vocabulary and ICT pages.
+
+- **Right answer:** the answer pops with sparks, and the points fly to the page's ⭐ chip.
+- **Wrong answer:** the answer shakes and the screen flashes red.
+- **Combos:** 3, 5, 8, 12 and 20 right answers in a row show a tilted combo banner in rarity colours.
+- **How it hooks in:** it watches the feedback box every page already shows (`.fb.ok` / `.fb.no`) and the ⭐ chip going up, so no page has to call it.
+- **Sounds and slide-in:** `data-sound="1"` adds short sounds and `data-enter=".run"` slides questions in. Only the two reviews use them; the labs keep their own sounds and transitions.
+- **Reduced motion:** with "reduce motion" on, nothing moves.
+
 ## Progress sync between devices
 
 Progress is saved in each browser's localStorage. Every page (the dashboard included) also loads `assets/sync.js` before its own script, which keeps that progress in step across the family's devices through a Firebase Realtime Database. Every device that opens the site syncs, with no link or sign-in: the family chose that over opening a link on each device, so the progress is open to anyone who opens the site. The page [`sync/index.html`](sync/index.html) shows whether this device syncs and when it last did, and can switch sync off (or back on) on this device. An older family link (`sync/#code=…`) still works and just switches sync on.
