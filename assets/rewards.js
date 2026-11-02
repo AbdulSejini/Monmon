@@ -572,7 +572,7 @@
     '.site-nav a.rw-chip{gap:9px;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28);font-variant-numeric:tabular-nums;position:relative}' +
     '.site-nav a.rw-chip[aria-current="page"]{background:#FFD23F;color:#14163A;border-color:#FFD23F}' +
     '.rw-dot{position:absolute;top:-3px;inset-inline-end:-3px;width:11px;height:11px;border-radius:50%;background:#E23F66;border:2px solid #14163A}' +
-    '@media (max-width:819px){.rw-li{display:none}}' +   /* under that the strip's five links need the room */
+    '@media (max-width:819px){.rw-li{display:none}}' +   /* under that the strip's six links need the room */
     /* the dashboard's card */
     '.rw-card{margin-top:20px;padding:14px 16px 16px;display:grid;gap:12px;background:#fff;border:3px solid #14163A;border-radius:14px;box-shadow:4px 4px 0 #14163A;color:#14163A}' +
     '.rw-card p{margin:0}' +

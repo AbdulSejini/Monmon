@@ -224,6 +224,7 @@ details.think p{padding:2px 0 10px;color:var(--ink-2)}
 <script src="../../assets/sync.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <script src="../../assets/rewards.js" data-root="../../"></script>
+<script src="../../assets/arcade.js" data-root="../../"></script>
 <header class="topbar">
   <div class="topbar-in">
     <span class="logo">English</span>
@@ -519,10 +520,12 @@ const ICON_SAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l
 function speak(w){ try { const u = new SpeechSynthesisUtterance(w); u.lang = "en-US"; u.rate = .85; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {} }
 
 /* ---------- SAVED PROGRESS ---------- */
-const fresh = () => ({xp:0, best:null, tests:0, rounds:0, letters:0, lh:""});
+const fresh = () => ({xp:0, best:null, tests:0, rounds:0, letters:0, lh:"", mastered:{}});
 let S = (() => { try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v === "object") return Object.assign(fresh(), v); } catch (e) {} return fresh(); })();
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 function addXP(n){ S.xp += n; save(); $("#xpVal").textContent = S.xp; }
+/* a part mastered (80% of a full round, or 24 of 30 in the test): the arcade (assets/arcade.js) gives play time for it, once */
+function master(m){ if (!S.mastered || typeof S.mastered !== "object") S.mastered = {}; if (!S.mastered[m]) S.mastered[m] = Date.now(); }
 
 /* ---------- VOCABULARY QUESTIONS (made at random from WORDS) ---------- */
 function apart(x){ const g = GROUPS.find(g => g.includes(x.w)) || []; return WORDS.filter(y => y !== x && !g.includes(y.w)); }
@@ -672,12 +675,14 @@ function result(){
   let h = '<section class="result panel p-' + MODES[R.mode].p + '">';
   if (R.mode === "test"){
     S.tests++; if (S.best === null || right > S.best) S.best = right;
+    if (right >= 24) master("test");
     addXP(20);
     h += '<p class="q-part">Practice test</p><div class="big">' + right + ' <small>of ' + res.length + '</small></div><div class="parts5">'
       + PARTS.map(p => { const mine = res.filter(r => r.p === p.id); return '<div class="stat"><b>' + mine.filter(r => r.ok).length + '/' + mine.length + '</b><span>' + p.short + '</span></div>'; }).join("") + '</div>'
       + '<p>' + (right >= 27 ? "Excellent: you are ready! 🌟 Now write one letter below and check it." : right >= 21 ? "Good work. Fix the questions below, then try a new test." : "Review the parts below, then try a new test: the questions change every time.") + '</p>';
   } else {
     S.rounds++;
+    if (right / res.length >= .8) master(R.mode);
     h += '<p class="q-part">' + esc(MODES[R.mode].name) + '</p><div class="big">' + right + ' <small>of ' + res.length + '</small></div>'
       + '<p>' + (right === res.length ? "All correct! 🌟" : "Fix the ones below. The questions change every round.") + '</p>';
   }
