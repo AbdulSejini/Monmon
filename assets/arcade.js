@@ -22,7 +22,8 @@
     {id: "drop", name: "هبوط المظلة", en: "Sky Drop", rarity: 1},
     {id: "stack", name: "برج البناء", en: "Build Rush", rarity: 2},
     {id: "storm", name: "هروب العاصفة", en: "Storm Run", rarity: 3},
-    {id: "target", name: "صيد الأهداف", en: "Target Rush", rarity: 4}
+    {id: "target", name: "صيد الأهداف", en: "Target Rush", rarity: 4},
+    {id: "slice", name: "مطر الفواكه", en: "Fruit Rain", rarity: 5}
   ];
 
   /* ---------- where the parts come from: a saved key, and the parts its value has mastered ---------- */
