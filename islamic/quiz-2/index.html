@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مراجعة الإسلامية: الاختبار القصير 2</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23EEE0FF%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M38 16a17 17 0 1 0 10 30a14 14 0 1 1-10-30z%22 fill=%22%239A4FE0%22 stroke=%22%2314163A%22 stroke-width=%224%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --col:#9A4FE0; --tint:#EEE0FF;
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --font:"Tajawal","Segoe UI","Geeza Pro",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+h1,h2,h3{margin:0;line-height:1.3;font-weight:800;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+:focus-visible{outline:3px solid #2F7DE1;outline-offset:3px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.u-taw{--col:#9A4FE0;--tint:#EEE0FF} .u-had{--col:#119C77;--tint:#D2F4E8} .u-fiq{--col:#F39200;--tint:#FFE8C2}
+
+.topbar{background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:860px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{font-size:26px;font-weight:800;color:#C8A6FF;-webkit-text-stroke:1.2px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg);white-space:nowrap;line-height:1.2}
+.chip{font-size:13px;font-weight:800;background:var(--ink);color:#fff;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.xp{display:inline-flex;align-items:center;gap:5px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:2px 11px;white-space:nowrap}
+.spacer{flex:1}
+.icon-btn{width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--sun-2);box-shadow:2px 2px 0 var(--ink);text-decoration:none;padding:0}
+.icon-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:800;text-decoration:none;box-shadow:var(--shadow-sm);text-align:center}
+.btn:active{transform:translate(3px,3px);box-shadow:none}
+.btn.go{background:var(--sun)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.sm{min-height:38px;padding:5px 12px;font-size:15px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+.hero{margin-top:20px;padding:18px;display:grid;gap:12px;border-inline-start:12px solid var(--col)}
+.hero h1{font-size:clamp(26px,5.6vw,38px)}
+.hero .sub{color:var(--ink-2);font-weight:700}
+.badge{font-size:13px;font-weight:800;padding:2px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--sun-2);white-space:nowrap}
+.badge.hot{background:var(--bad);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:var(--r-sm);padding:8px;background:var(--page);text-align:center;display:grid}
+.stat b{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:13px;font-weight:700;color:var(--ink-2)}
+.sec{margin-top:30px}
+.sec-head{margin-bottom:12px;display:grid;gap:2px}
+.sec-head h2{font-size:27px}
+.sec-head p{color:var(--ink-2);font-size:15px}
+.format{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.format div{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);padding:8px 10px;display:grid;gap:2px}
+.format b{font-size:16px}
+.format span{font-size:13px;color:var(--ink-2);font-weight:700}
+.modes{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.mode{padding:14px;display:grid;gap:8px;text-align:start;border:3px solid var(--ink);border-radius:var(--r);background:var(--paper);box-shadow:var(--shadow-sm)}
+.mode b{font-size:19px}
+.mode span{font-size:14px;color:var(--ink-2);font-weight:600}
+.mode.mock{grid-column:1 / -1;background:var(--sun-2)}
+
+/* lesson summaries */
+.unit-title{font-size:21px;margin:18px 0 8px;color:var(--col)}
+.lessons{display:grid;gap:12px}
+.lesson{padding:14px 16px;border-inline-start:10px solid var(--col);display:grid;gap:8px;scroll-margin-top:12px}
+.lesson h3{font-size:20px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.lesson h3 small{font-size:13px;font-weight:700;color:var(--ink-2)}
+.lesson ul{padding-inline-start:20px;display:grid;gap:4px}
+.lesson li{font-size:16px}
+.def{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--tint);padding:8px 12px;font-weight:700}
+.hadith{border-inline-start:4px solid var(--col);background:#FBF8FF;border-radius:0 8px 8px 0;padding:8px 12px;font-size:16.5px;line-height:1.9}
+.hadith small{display:block;color:var(--ink-2);font-size:13px;font-weight:700}
+.lesson .drill{justify-self:start}
+
+/* practice */
+.run{margin-top:20px;padding:16px;display:grid;gap:14px}
+.run-top{display:flex;align-items:center;gap:10px}
+.run-top b{font-size:18px}
+.counter{margin-inline-start:auto;font-weight:800;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.progress{height:12px;border:2px solid var(--ink);border-radius:999px;background:var(--page);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--col);transition:width .3s}
+.q-part{font-size:14px;font-weight:800;color:var(--col)}
+.q-text{font-size:21px;font-weight:700;line-height:1.7}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:10px;min-height:52px;padding:8px 14px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);box-shadow:var(--shadow-sm);font-weight:700;text-align:start;font-size:18px}
+.opt .k{display:grid;place-items:center;width:30px;height:30px;flex:none;border:2px solid var(--ink);border-radius:8px;background:var(--tint);font-weight:800}
+.opt.right{background:var(--good-bg);border-color:var(--good)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.opt.dim{opacity:.55}
+.opt:disabled{cursor:default}
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tf .opt{justify-content:center;font-size:22px;min-height:64px}
+.match{display:grid;gap:10px}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 12px;align-items:center;padding:8px 10px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+.mrow.right{background:var(--good-bg);border-color:var(--good)}
+.mrow.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.mrow b{font-weight:700}
+.mrow select{width:100%;min-height:46px;border:2px solid var(--ink);border-radius:10px;background:#fff;padding:4px 8px;font-weight:700}
+.mrow .fix{grid-column:1 / -1;font-size:14px;font-weight:700;color:var(--good)}
+.fill input{width:100%;min-height:50px;border:3px solid var(--ink);border-radius:12px;padding:6px 12px;font-size:19px;font-weight:700;background:#fff}
+.fb{border:3px solid var(--ink);border-radius:var(--r-sm);padding:10px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--good-bg)}
+.fb.no{background:var(--bad-bg)}
+.fb .burst{font-size:20px;font-weight:800}
+.fb .why{font-size:16px}
+.fb a{font-weight:800;color:#1F5FB8}
+.peek{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);padding:4px 12px}
+.peek summary{font-weight:800;color:#1F5FB8;cursor:pointer;min-height:40px;padding-block:6px}
+.peek-in{display:grid;gap:8px;padding:2px 0 10px}
+.peek-in ul{padding-inline-start:20px;display:grid;gap:4px}
+.peek-in li{font-size:15.5px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+.result{margin-top:20px;padding:18px;display:grid;gap:12px;text-align:center}
+.result .big{font-size:44px;font-weight:800;line-height:1.2}
+.result .big small{font-size:20px;color:var(--ink-2)}
+.parts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.miss-list{display:grid;gap:10px;margin-top:12px}
+.miss{padding:10px 14px;display:grid;gap:4px;text-align:start}
+.miss .q{font-weight:700}
+.miss .a{font-size:15px;color:var(--ink-2);font-weight:700}
+.foot{margin-top:28px;font-size:14px;color:var(--ink-2);display:grid;gap:6px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+@media (max-width:620px){.format{grid-template-columns:repeat(2,1fr)}.modes{grid-template-columns:1fr}}
+@media (max-width:520px){.chip{display:none}.mrow{grid-template-columns:1fr}.q-text{font-size:19px}.stats b{font-size:21px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* print: the summary, then a practice test with its answer key */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important}
+  body{background-image:none!important;color:#000;font-size:9.5pt;line-height:1.45}
+  .topbar,main{display:none!important}
+  .print-sheet{display:block}
+  .ps-head{display:flex;justify-content:space-between;align-items:baseline;gap:8pt;border-bottom:1.5pt solid #000;padding-bottom:3pt;margin-bottom:5pt}
+  .ps-head h1{font-size:15pt}
+  .ps-head p{font-size:9pt;font-weight:700}
+  .ps-cols{columns:2;column-gap:6mm}
+  .ps-l{break-inside:avoid;margin-bottom:5pt}
+  .ps-l h3{font-size:10.5pt;border-bottom:.75pt solid #999;margin-bottom:2pt}
+  .ps-l ul{padding-inline-start:12pt}
+  .ps-l li{margin-bottom:1pt}
+  .ps-page2{break-before:page}
+  .ps-q{margin-bottom:6pt}
+  .ps-q h2{font-size:11pt;margin-bottom:3pt}
+  .ps-q ol{padding-inline-start:16pt}
+  .ps-q li{margin-bottom:3pt;break-inside:avoid}
+  .ps-q .o{display:inline-block;margin-inline-end:12pt}
+  .ps-match{width:100%;border-collapse:collapse;font-size:9.5pt}
+  .ps-match td{border:.75pt solid #999;padding:3pt 5pt}
+  .ps-key{border-top:1pt solid #000;margin-top:6pt;padding-top:3pt;font-size:8.5pt}
+  .ps-key h3{font-size:10pt}
+}
+</style>
+</head>
+<body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+<script src="../../assets/rewards.js" data-root="../../"></script>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="logo">إسلامية</span>
+    <span class="chip">الاختبار القصير 2</span>
+    <span class="spacer"></span>
+    <span class="xp" title="نقاطك في هذه الصفحة">⭐ <b id="xpVal">0</b></span>
+    <button class="icon-btn" id="printBtn" type="button" aria-label="طباعة ورقة المراجعة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg></button>
+    <a class="icon-btn" href="../../index.html" aria-label="الرئيسية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></a>
+  </div>
+</header>
+<main class="wrap" id="main"></main>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<section class="print-sheet" id="printSheet" aria-hidden="true"></section>
+
+<script>
+"use strict";
+/* Islamic Studies, Quiz 2 of Term 1 (Tuesday 10 November): the nine lessons in the assessment outline, summarised, and
+   practice in the formats of the teacher's model test (multiple choice, true or false, matching, complete), with a
+   mock test marked out of 15 like it. The questions are written for this page from the lessons; the teacher's model
+   test is not copied. Progress (xp, the best mock score) is saved in islamic-g6-quiz2-v1, synced by assets/sync.js;
+   its xp counts towards the rewards. review/quiz-2 links each lesson here (#l-i1 … #l-i9). */
+const KEY = "islamic-g6-quiz2-v1", TZ = "Asia/Riyadh", QUIZ_DAY = "2026-11-10";
+
+/* ---------- THE LESSONS ---------- */
+const UNITS = [{u:"taw", name:"التوحيد"}, {u:"had", name:"الحديث"}, {u:"fiq", name:"الفقه"}];
+const LESSONS = [
+  {id:"i1", u:"taw", t:"الشرك", pg:"30–32", def:"الشرك: جعلُ شريكٍ مع الله تعالى في ربوبيته، أو ألوهيته، أو أسمائه وصفاته.",
+   pts:["هو أعظم الذنوب، ولا يغفره الله لمن مات عليه ولم يتب منه.", "ضدّه التوحيد: إفراد الله تعالى بما يختص به."],
+   hadith:{t:"﴿إِنَّ اللَّهَ لَا يَغْفِرُ أَن يُشْرَكَ بِهِ وَيَغْفِرُ مَا دُونَ ذَٰلِكَ لِمَن يَشَاءُ﴾", s:"سورة النساء، الآية 48"}},
+  {id:"i2", u:"taw", t:"أنواع الشرك", pg:"28–30",
+   pts:["<b>الشرك الأكبر:</b> صرفُ نوعٍ من أنواع العبادة لغير الله. يُخرج صاحبه من ملة الإسلام. من أمثلته: دعاء الأموات والاستغاثة بهم، والذبح أو النذر لغير الله، والسجود لغير الله.",
+        "<b>الشرك الأصغر:</b> ما جاء في الشرع تسميته شركًا ولم يبلغ الشرك الأكبر. لا يُخرج من الملة، لكنه من أكبر الذنوب. من أمثلته: الحلف بغير الله، ويسير الرياء، وقول: «ما شاء الله وشئت»."]},
+  {id:"i3", u:"taw", t:"مظاهر الشرك", pg:"34–36",
+   pts:["<b>في الربوبية:</b> اعتقاد أن غير الله يخلق أو يرزق أو يدبّر الكون.", "<b>في الألوهية:</b> صرف العبادة لغير الله، مثل السجود أو الدعاء أو الذبح أو النذر لغيره.",
+        "<b>في الأسماء والصفات:</b> تشبيه صفات الله بصفات المخلوقين، أو وصف مخلوق بصفة لا تكون إلا لله."]},
+  {id:"i4", u:"had", t:"من فضائل صلة الرحم", pg:"61–62",
+   hadith:{t:"عن أبي أيوب الأنصاري رضي الله عنه أن رجلًا قال للنبي ﷺ: أخبرني بعملٍ يُدخلني الجنة، فقال ﷺ: «تعبدُ اللهَ ولا تُشركُ به شيئًا، وتُقيمُ الصلاةَ، وتُؤتي الزكاةَ، وتَصِلُ الرَّحِمَ».", s:"متفق عليه"},
+   pts:["<b>الراوي:</b> أبو أيوب الأنصاري، واسمه خالد بن زيد الأنصاري، ونزل النبي ﷺ في بيته لما قدم المدينة.",
+        "<b>ذوو الرحم:</b> الأقارب من النسب من جهة الأم والأب. <b>تُؤتي الزكاة:</b> تعطيها لمستحقيها شرعًا.",
+        "<b>من فضائلها:</b> سببٌ لدخول الجنة، ولسعة الرزق وطول العمر: «من سرّه أن يُبسَط له في رزقه، أو يُنسأ له في أثره، فليصل رحمه» (متفق عليه).",
+        "<b>من صورها:</b> زيارة الأقارب، والاتصال بهم، وتفقّد أحوالهم، والإحسان إليهم. <b>ومن مظاهر قطيعتها:</b> قطع الاتصال بهم وهجرهم.",
+        "العباس بن عبد المطلب رضي الله عنه، عمّ النبي ﷺ، كان أجود قريش كفًّا وأوصلها رحمًا."]},
+  {id:"i5", u:"had", t:"تواضعه ﷺ وبشاشته مع جلسائه", pg:"63–65",
+   hadith:{t:"عن أنس رضي الله عنه قال: «لم يكن شخصٌ أحبَّ إليهم من رسول الله ﷺ، وكانوا إذا رأوه لم يقوموا؛ لِما يعلمون من كراهيته لذلك».", s:"رواه الترمذي"},
+   pts:["كان ﷺ متواضعًا، يكره أن يقوم له أصحابه إذا دخل عليهم.", "وكان بشوشًا يتبسّم في وجوه أصحابه؛ قال جرير رضي الله عنه: «ولا رآني إلا تبسّم في وجهي» (متفق عليه).",
+        "نتعلّم منه: التواضع وترك التكبّر، وطلاقة الوجه مع الناس."]},
+  {id:"i6", u:"had", t:"من آداب المجلس", pg:"66–67",
+   hadith:{t:"«نهى النبي ﷺ أن يُقام الرجلُ من مجلسه ويجلسَ فيه آخر، ولكن تفسّحوا وتوسّعوا».", s:"متفق عليه"},
+   pts:["السلام عند الدخول، والجلوس حيث ينتهي المجلس.", "لا تُقِم أحدًا من مكانه لتجلس فيه، وتفسّح للقادم.", "لا يتناجى اثنان دون الثالث، ولا يُفرَّق بين اثنين إلا بإذنهما.",
+        "دعاء كفارة المجلس: «سبحانك اللهم وبحمدك، أشهد أن لا إله إلا أنت، أستغفرك وأتوب إليك»."]},
+  {id:"i7", u:"fiq", t:"صلاة العيدين", pg:"110–113",
+   pts:["العيدان: عيد الفطر (1 شوال) وعيد الأضحى (10 ذي الحجة).", "<b>حكمها:</b> فرض كفاية على الرجال، ويُسنّ للنساء حضورها غير متطيّبات ولا متبرّجات.",
+        "<b>وقتها:</b> من ارتفاع الشمس قِيدَ رمح إلى الزوال.",
+        "<b>صفتها:</b> ركعتان قبل الخطبة، بلا أذان ولا إقامة. يكبّر في الأولى ستّ تكبيرات بعد تكبيرة الإحرام، وفي الثانية خمسًا بعد تكبيرة القيام، ثم يقرأ الفاتحة وسورة، وبعد الصلاة الخطبة.",
+        "<b>من حكمة مشروعيتها:</b> إظهار الفرح والسرور، وشكر الله على إتمام العبادة."]},
+  {id:"i8", u:"fiq", t:"سنن العيدين", pg:"114–117",
+   pts:["الاغتسال، والتطيّب، ولبس أحسن الثياب.", "<b>في الفطر:</b> أكل تمرات وترًا قبل الخروج للصلاة. <b>في الأضحى:</b> تأخير الأكل حتى يأكل من أضحيته.",
+        "التكبير ليلة العيد وفي الطريق إلى المصلى.", "<b>مخالفة الطريق:</b> الذهاب إلى المصلى من طريق، والرجوع من طريق آخر.", "التهنئة بالعيد: «تقبّل الله منا ومنكم»."]},
+  {id:"i9", u:"fiq", t:"الاستسقاء", pg:"120–123", def:"الاستسقاء: طلبُ السُّقيا من الله تعالى عند الجدب وانقطاع المطر.",
+   pts:["<b>حكم صلاة الاستسقاء:</b> سنة مؤكدة.", "<b>صفتها:</b> كصفة صلاة العيد، ثم الخطبة، ويُكثَر فيها من الاستغفار والدعاء.",
+        "من أسباب حبس المطر: الذنوب والمعاصي، ومن أسباب نزوله: الاستغفار والتوبة.", "يُستحب عند نزول المطر أن يقول: «اللهم صيّبًا نافعًا» (رواه البخاري)."]}
+];
+const LESSON = Object.fromEntries(LESSONS.map(l => [l.id, l]));
+
+/* ---------- THE QUESTION BANKS ---------- */
+/* multiple choice: o[0] is right; w says why */
+const MC = [
+  {l:"i1", q:"«جعلُ شريكٍ مع الله في ربوبيته أو ألوهيته أو أسمائه وصفاته» هذا تعريف:", o:["الشرك", "التوحيد", "الإيمان"], w:"هذا تعريف الشرك. والتوحيد ضده: إفراد الله بما يختص به."},
+  {l:"i1", q:"أعظم الذنوب عند الله تعالى:", o:["الشرك بالله", "الكذب", "الغيبة"], w:"الشرك أعظم الذنوب، ولا يغفره الله لمن مات عليه."},
+  {l:"i2", q:"«صرفُ نوعٍ من أنواع العبادة لغير الله» هذا تعريف:", o:["الشرك الأكبر", "الشرك الأصغر", "يسير الرياء"], w:"صرف العبادة لغير الله هو الشرك الأكبر، ويُخرج صاحبه من الملة."},
+  {l:"i2", q:"الحلف بغير الله من:", o:["الشرك الأصغر", "الشرك الأكبر", "الأمور الجائزة"], w:"الحلف بغير الله من الشرك الأصغر، مثل يسير الرياء وقول «ما شاء الله وشئت»."},
+  {l:"i2", q:"الشرك الذي يُخرج صاحبه من ملة الإسلام:", o:["الشرك الأكبر", "الشرك الأصغر", "الحلف بغير الله"], w:"الشرك الأكبر يُخرج من الملة، أما الأصغر فلا يُخرج لكنه من أكبر الذنوب."},
+  {l:"i2", q:"من أمثلة الشرك الأكبر:", o:["الذبح لغير الله", "قول: ما شاء الله وشئت", "يسير الرياء"], w:"الذبح عبادة، وصرفها لغير الله شرك أكبر. أما الخياران الآخران فمن الشرك الأصغر."},
+  {l:"i3", q:"السجود لغير الله شرك في:", o:["الألوهية", "الربوبية", "الأسماء والصفات"], w:"السجود عبادة، وصرف العبادة لغير الله شرك في الألوهية."},
+  {l:"i3", q:"اعتقاد أن أحدًا غير الله يرزق العباد ويدبّر الكون شرك في:", o:["الربوبية", "الألوهية", "الأسماء والصفات"], w:"الخلق والرزق والتدبير من أفعال الله، فاعتقادها لغيره شرك في الربوبية."},
+  {l:"i3", q:"تشبيه صفات الله بصفات المخلوقين شرك في:", o:["الأسماء والصفات", "الربوبية", "الألوهية"], w:"هذا شرك في الأسماء والصفات."},
+  {l:"i4", q:"راوي حديث «أخبرني بعملٍ يُدخلني الجنة»:", o:["أبو أيوب الأنصاري", "أنس بن مالك", "جرير بن عبد الله"], w:"رواه أبو أيوب الأنصاري رضي الله عنه."},
+  {l:"i4", q:"الاسم الحقيقي لأبي أيوب الأنصاري رضي الله عنه:", o:["خالد بن زيد الأنصاري", "خالد بن الوليد", "زيد بن ثابت"], w:"أبو أيوب هو خالد بن زيد الأنصاري، ونزل النبي ﷺ في بيته لما قدم المدينة."},
+  {l:"i4", q:"الصحابي الذي نزل النبي ﷺ في بيته لما قدم المدينة:", o:["أبو أيوب الأنصاري", "العباس بن عبد المطلب", "أنس بن مالك"], w:"نزل النبي ﷺ في بيت أبي أيوب الأنصاري رضي الله عنه."},
+  {l:"i4", q:"المراد بذوي الرحم:", o:["الأقارب من جهة الأب والأم", "الجيران", "الأصدقاء"], w:"ذوو الرحم هم الأقارب من النسب من جهة الأم والأب."},
+  {l:"i4", q:"من مظاهر قطيعة الرحم:", o:["قطع الاتصال بالأقارب", "زيارة الأقارب", "دعوة الأقارب إلى وليمة"], w:"قطع الاتصال بالأقارب قطيعة، والخياران الآخران من صلة الرحم."},
+  {l:"i4", q:"من ثمرات صلة الرحم في الدنيا:", o:["سعة الرزق وطول العمر", "كثرة الأصدقاء فقط", "الشهرة بين الناس"], w:"قال ﷺ: «من سرّه أن يُبسط له في رزقه، أو يُنسأ له في أثره، فليصل رحمه»."},
+  {l:"i5", q:"كان الصحابة رضي الله عنهم إذا رأوا النبي ﷺ:", o:["لا يقومون له لعلمهم بكراهيته لذلك", "يقومون له جميعًا", "يخرجون من المجلس"], w:"قال أنس رضي الله عنه: «وكانوا إذا رأوه لم يقوموا؛ لما يعلمون من كراهيته لذلك»."},
+  {l:"i5", q:"كان النبي ﷺ مع جلسائه:", o:["متواضعًا بشوشًا يتبسّم في وجوههم", "عابسًا لا يكلّمهم", "يجلس بعيدًا عنهم"], w:"كان ﷺ متواضعًا بشوشًا، قال جرير: «ولا رآني إلا تبسّم في وجهي»."},
+  {l:"i6", q:"إذا دخلتَ مجلسًا فيه أناس، فمن الأدب أن:", o:["تسلّم وتجلس حيث ينتهي المجلس", "تُقيم أحدهم وتجلس مكانه", "تجلس بين اثنين دون إذنهما"], w:"من آداب المجلس السلام، والجلوس حيث ينتهي المجلس."},
+  {l:"i6", q:"نهى النبي ﷺ أن يُقام الرجل من مجلسه ثم:", o:["يجلس فيه آخر", "يُسلَّم عليه", "يُعتذَر منه"], w:"نهى ﷺ أن يُقام الرجل من مجلسه ويجلس فيه آخر، وأمر بالتفسّح."},
+  {l:"i6", q:"إذا كانوا ثلاثة في مجلس فلا يصحّ أن:", o:["يتناجى اثنان دون الثالث", "يتحدثوا جميعًا", "يسلّموا عند القيام"], w:"لا يتناجى اثنان دون الثالث؛ لأن ذلك يحزنه."},
+  {l:"i7", q:"حكم صلاة العيد للرجال:", o:["فرض كفاية", "مستحبة", "فرض عين على كل أحد"], w:"صلاة العيد فرض كفاية: إذا قام بها من يكفي سقط الإثم عن الباقين."},
+  {l:"i7", q:"عدد ركعات صلاة العيد:", o:["ركعتان", "أربع ركعات", "ثلاث ركعات"], w:"صلاة العيد ركعتان، بلا أذان ولا إقامة."},
+  {l:"i7", q:"يكبّر الإمام في الركعة الأولى من صلاة العيد سوى تكبيرة الإحرام:", o:["ست تكبيرات", "أربع تكبيرات", "خمس تكبيرات"], w:"في الأولى ست تكبيرات بعد تكبيرة الإحرام، وفي الثانية خمس بعد تكبيرة القيام."},
+  {l:"i7", q:"يكبّر الإمام في الركعة الثانية من صلاة العيد سوى تكبيرة القيام:", o:["خمس تكبيرات", "ست تكبيرات", "ثلاث تكبيرات"], w:"في الثانية خمس تكبيرات بعد تكبيرة القيام."},
+  {l:"i7", q:"خطبة العيد تكون:", o:["بعد الصلاة", "قبل الصلاة", "لا خطبة للعيد"], w:"الخطبة في العيد بعد الصلاة، بخلاف الجمعة."},
+  {l:"i7", q:"يبدأ وقت صلاة العيد:", o:["من ارتفاع الشمس قِيد رمح", "بعد صلاة الظهر", "قبل طلوع الفجر"], w:"وقتها من ارتفاع الشمس قِيد رمح إلى الزوال."},
+  {l:"i8", q:"من سنن عيد الفطر قبل الخروج إلى الصلاة:", o:["أكل تمرات وترًا", "الصيام حتى الظهر", "تأخير الأكل حتى العصر"], w:"يُسن في الفطر أكل تمرات وترًا قبل الخروج، وفي الأضحى تأخير الأكل حتى يأكل من أضحيته."},
+  {l:"i8", q:"في عيد الأضحى يُسنّ:", o:["تأخير الأكل حتى يأكل من أضحيته", "الأكل قبل الصلاة", "صيام يوم العيد"], w:"في الأضحى يؤخّر الأكل حتى يرجع ويأكل من أضحيته."},
+  {l:"i8", q:"مخالفة الطريق في العيد معناها:", o:["الذهاب من طريق والرجوع من طريق آخر", "الذهاب ماشيًا والرجوع راكبًا", "الخروج قبل الفجر"], w:"من سنن العيد الذهاب إلى المصلى من طريق والرجوع من طريق آخر."},
+  {l:"i9", q:"الاستسقاء هو:", o:["طلب السقيا من الله عند الجدب وانقطاع المطر", "صلاة الكسوف", "صلاة العيد"], w:"الاستسقاء: طلب السقيا (المطر) من الله تعالى عند الجدب."},
+  {l:"i9", q:"حكم صلاة الاستسقاء:", o:["سنة مؤكدة", "فرض كفاية", "واجبة"], w:"صلاة الاستسقاء سنة مؤكدة."},
+  {l:"i9", q:"صفة صلاة الاستسقاء:", o:["كصفة صلاة العيد", "كصفة صلاة الجمعة", "أربع ركعات بتسليمة"], w:"صفتها كصفة صلاة العيد، ثم الخطبة."},
+  {l:"i9", q:"الدعاء المستحب عند نزول المطر:", o:["اللهم صيّبًا نافعًا", "سبحان ربي العظيم", "أعوذ بالله من الشيطان الرجيم"], w:"كان النبي ﷺ إذا رأى المطر قال: «اللهم صيّبًا نافعًا» (رواه البخاري)."}
+];
+/* true or false: a = the right mark; w says why */
+const TF = [
+  {l:"i1", q:"الشرك أعظم الذنوب.", a:true, w:"نعم، الشرك أعظم الذنوب."},
+  {l:"i2", q:"الشرك الأصغر يُخرج صاحبه من ملة الإسلام.", a:false, w:"الذي يُخرج من الملة هو الشرك الأكبر. الأصغر لا يُخرج، لكنه من أكبر الذنوب."},
+  {l:"i2", q:"دعاء الأموات والاستغاثة بهم من الشرك الأكبر.", a:true, w:"الدعاء عبادة، وصرفها لغير الله شرك أكبر."},
+  {l:"i2", q:"قول «ما شاء الله وشئت» من الشرك الأصغر.", a:true, w:"هو من الشرك الأصغر، والصواب: ما شاء الله ثم شئت."},
+  {l:"i2", q:"يجوز الحلف بغير الله إذا كان المحلوف به عظيمًا.", a:false, w:"الحلف بغير الله من الشرك الأصغر مهما كان المحلوف به."},
+  {l:"i3", q:"الذبح لغير الله شرك في الربوبية.", a:false, w:"الذبح عبادة، فصرفه لغير الله شرك في الألوهية."},
+  {l:"i3", q:"اعتقاد أن غير الله يخلق أو يرزق شرك في الربوبية.", a:true, w:"الخلق والرزق من أفعال الله، واعتقادهما لغيره شرك في الربوبية."},
+  {l:"i4", q:"تكون صلة الرحم بالإحسان إلى الأقارب.", a:true, w:"صلة الرحم: الإحسان إلى الأقارب بالزيارة والاتصال وتفقّد الأحوال."},
+  {l:"i4", q:"صلة الرحم من الأعمال التي تُدخل الجنة.", a:true, w:"ذكرها النبي ﷺ في جواب «أخبرني بعمل يدخلني الجنة»."},
+  {l:"i4", q:"ذوو الرحم هم الجيران والأصدقاء.", a:false, w:"ذوو الرحم هم الأقارب من النسب من جهة الأب والأم."},
+  {l:"i4", q:"اسم أبي أيوب الأنصاري خالد بن الوليد.", a:false, w:"اسمه خالد بن زيد الأنصاري."},
+  {l:"i5", q:"كان الصحابة يقومون للنبي ﷺ إذا دخل المجلس.", a:false, w:"كانوا لا يقومون له؛ لما يعلمون من كراهيته لذلك."},
+  {l:"i5", q:"كان النبي ﷺ يتبسّم في وجوه أصحابه.", a:true, w:"قال جرير: «ولا رآني إلا تبسّم في وجهي»."},
+  {l:"i6", q:"يجوز أن تُقيم شخصًا من مكانه لتجلس فيه.", a:false, w:"نهى النبي ﷺ عن ذلك، وأمر بالتفسّح."},
+  {l:"i6", q:"من آداب المجلس أن يتناجى اثنان دون الثالث.", a:false, w:"لا يتناجى اثنان دون الثالث؛ لأن ذلك يحزنه."},
+  {l:"i6", q:"من آداب المجلس الجلوس حيث ينتهي المجلس.", a:true, w:"نعم، يجلس حيث ينتهي المجلس ولا يتخطى الناس."},
+  {l:"i7", q:"صلاة العيد ركعتان بلا أذان ولا إقامة.", a:true, w:"نعم، ركعتان بلا أذان ولا إقامة."},
+  {l:"i7", q:"صلاة العيد أربع ركعات.", a:false, w:"صلاة العيد ركعتان."},
+  {l:"i7", q:"خطبة العيد قبل الصلاة كخطبة الجمعة.", a:false, w:"خطبة العيد بعد الصلاة."},
+  {l:"i7", q:"يكبّر الإمام في الركعة الثانية من صلاة العيد خمس تكبيرات بعد تكبيرة القيام.", a:true, w:"نعم: ست في الأولى بعد تكبيرة الإحرام، وخمس في الثانية بعد تكبيرة القيام."},
+  {l:"i7", q:"من حكمة مشروعية العيد إظهار الفرح والسرور.", a:true, w:"نعم، ومن حكمته شكر الله على إتمام العبادة."},
+  {l:"i7", q:"يُسن للنساء حضور صلاة العيد بلا أي شروط.", a:false, w:"يُسن لهن حضورها غير متطيّبات ولا متبرّجات."},
+  {l:"i8", q:"من سنن العيد لبس أحسن الثياب.", a:true, w:"نعم، ومنها الاغتسال والتطيّب."},
+  {l:"i8", q:"يُسن في عيد الفطر ألا يأكل حتى يرجع من الصلاة.", a:false, w:"في الفطر يأكل تمرات وترًا قبل الصلاة. تأخير الأكل في الأضحى."},
+  {l:"i9", q:"صلاة الاستسقاء سنة مؤكدة.", a:true, w:"نعم، صلاة الاستسقاء سنة مؤكدة."},
+  {l:"i9", q:"صفة صلاة الاستسقاء كصفة صلاة العيد.", a:true, w:"نعم، صفتها كصفة صلاة العيد."},
+  {l:"i9", q:"من أسباب نزول المطر الاستغفار والتوبة.", a:true, w:"نعم، ومن أسباب حبسه الذنوب والمعاصي."}
+];
+/* matching: a left item and its answer; pairs of the same g are never asked together (they could swap answers) */
+const MATCH = [
+  {l:"i4", a:"المراد بذوي الرحم", b:"الأقارب من جهة الأب والأم"},
+  {l:"i4", a:"معنى «تُؤتي الزكاة»", b:"تعطيها لمستحقيها شرعًا"},
+  {l:"i4", a:"كان أجود قريش كفًّا وأوصلها رحمًا", b:"العباس بن عبد المطلب رضي الله عنه"},
+  {l:"i4", a:"الاسم الحقيقي لأبي أيوب الأنصاري", b:"خالد بن زيد"},
+  {l:"i3", a:"الاعتقاد بأن خالق الخلق غير الله", b:"شرك في الربوبية", g:"shirk"},
+  {l:"i3", a:"السجود أو الذبح لغير الله", b:"شرك في الألوهية", g:"shirk"},
+  {l:"i3", a:"تشبيه صفات الله بصفات المخلوقين", b:"شرك في الأسماء والصفات", g:"shirk"},
+  {l:"i2", a:"الحلف بغير الله", b:"شرك أصغر", g:"shirk"},
+  {l:"i9", a:"طلب السقيا من الله عند الجدب", b:"الاستسقاء"},
+  {l:"i9", a:"ما يُقال عند نزول المطر", b:"«اللهم صيّبًا نافعًا»"},
+  {l:"i8", a:"الذهاب من طريق والرجوع من آخر يوم العيد", b:"مخالفة الطريق"},
+  {l:"i7", a:"التكبيرات في الركعة الأولى من صلاة العيد بعد تكبيرة الإحرام", b:"ست تكبيرات"}
+];
+/* complete: any one of the answers counts. k lists the words to look for in each (letters normalised); "~" means the
+   answer must also say no (لا، ألا، عدم), since «يتناجى اثنان» is the opposite of the manner; an answer with a bad word is wrong */
+const FILL = [
+  {l:"i2", q:"من أمثلة الشرك الأصغر: …", ans:["الحلف بغير الله", "يسير الرياء", "قول: ما شاء الله وشئت"], k:[["حلف"], ["ريا"], ["شاء", "شئت"]]},
+  {l:"i9", q:"الدعاء المستحب عند نزول المطر: …", ans:["«اللهم صيّبًا نافعًا»"], k:[["صيب", "نافع"]]},
+  {l:"i8", q:"من سنن عيد الفطر: …", ans:["أكل تمرات وترًا قبل الصلاة", "الاغتسال", "التطيّب", "لبس أحسن الثياب", "التكبير", "مخالفة الطريق", "التهنئة بالعيد"],
+   k:[["تمر"], ["غتس"], ["غسل"], ["طيب"], ["عطر"], ["ثياب"], ["ملابس"], ["لبس"], ["تكبير"], ["طريق"], ["تهنئ"], ["هنئ"], ["تقبل"]]},
+  {l:"i4", q:"من صور صلة الرحم: …", ans:["زيارة الأقارب", "الاتصال بهم", "تفقّد أحوالهم والسؤال عنهم", "الإحسان إليهم"],
+   k:[["زيار"], ["زور"], ["اتصال"], ["يتصل"], ["اتصل"], ["تتصل"], ["تفقد"], ["سؤال"], ["سال"], ["احسان"], ["احسن"], ["مساعد"], ["هدي"], ["هدا"]], bad:["قطع", "هجر"]},
+  {l:"i6", q:"من آداب المجلس: …", ans:["السلام", "الجلوس حيث ينتهي المجلس", "التفسّح للقادم", "ألا تقيم أحدًا من مكانه", "ألا يتناجى اثنان دون الثالث"],
+   k:[["سلام"], ["سلم"], ["ينتهي"], ["فسح"], ["~", "قيم"], ["~", "قام"], ["~", "تناجي"], ["~", "فرق"], ["~", "تفريق"], ["اذن"], ["استئذان"], ["كفار"]]}
+];
+
+/* ---------- HELPERS ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+/* letters normalised for checking typed Arabic: no diacritics or tatweel, one alef, ة as ه, ى as ي */
+const norm = s => String(s).replace(/[ً-ٰٟـ]/g, "").replace(/[أإآٱ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي").replace(/[«»"':؛،.,]/g, " ").replace(/\s+/g, " ").trim();
+const NEG = /(^| )(و?لا|و?الا|و?عدم|و?لن)( |$)/;
+function fillOK(q, typed){
+  const v = norm(typed);
+  if (!v || (q.bad && q.bad.some(w => v.includes(norm(w))))) return false;
+  return q.k.some(words => words.every(w => w === "~" ? NEG.test(v) : v.includes(norm(w))));
+}
+function todayISO(){ try { return new Intl.DateTimeFormat("en-CA", {timeZone:TZ, year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date()); } catch (e) { return new Date().toISOString().slice(0, 10); } }
+const dayDiff = (a, b) => Math.round((Date.UTC(...b.split("-").map((x, i) => i === 1 ? x - 1 : +x)) - Date.UTC(...a.split("-").map((x, i) => i === 1 ? x - 1 : +x))) / 864e5);
+const count = (n, one, two, few, many) => n === 1 ? one : n === 2 ? two : n <= 10 ? n + " " + few : n + " " + many;
+const fmtScore = v => String(Math.round(v * 100) / 100);
+const lessonLink = id => '<a href="#l-' + id + '" data-act="lesson" data-l="' + id + '">راجع درس «' + esc(LESSON[id].t) + '» ←</a>';
+const lessonBody = l => (l.def ? '<p class="def">' + l.def + '</p>' : "") + (l.hadith ? '<p class="hadith">' + l.hadith.t + '<small>' + l.hadith.s + '</small></p>' : "")
+  + '<ul>' + l.pts.map(p => '<li>' + p + '</li>').join("") + '</ul>';
+/* inside a round, the lesson opens in place, so the round carries on */
+const lessonPeek = id => '<details class="peek u-' + LESSON[id].u + '"><summary>راجع درس «' + esc(LESSON[id].t) + '»</summary><div class="peek-in">' + lessonBody(LESSON[id]) + '</div></details>';
+function announce(t){ const l = $("#live"); if (l){ l.textContent = ""; setTimeout(() => { l.textContent = t; }, 40); } }
+
+/* ---------- SAVED PROGRESS ---------- */
+const fresh = () => ({xp:0, best:null, mocks:0, rounds:0});
+let S = (() => { try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v === "object") return Object.assign(fresh(), v); } catch (e) {} return fresh(); })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function addXP(n){ S.xp += n; save(); $("#xpVal").textContent = S.xp; }
+
+/* ---------- ROUNDS ----------
+   A round is a list of steps: {type:"mc"|"tf"|"match"|"fill", …}. A practice round is one format; the mock test is
+   8 multiple choice, 8 true or false, 4 matching (0.75 a mark each, 15 in all) and 2 complete as a bonus. */
+function pickMatch(n, used){
+  const out = [], groups = new Set();
+  for (const p of shuffle(MATCH)){
+    if ((used && used.has(p)) || (p.g && groups.has(p.g))) continue;
+    out.push(p); if (p.g) groups.add(p.g); if (used) used.add(p);
+    if (out.length === n) break;
+  }
+  return out;
+}
+const mcStep = q => ({type:"mc", q, order:shuffle([0, 1, 2])});
+const tfStep = q => ({type:"tf", q});
+const matchStep = ps => ({type:"match", ps, right:shuffle(ps.map((p, i) => i))});
+const fillStep = q => ({type:"fill", q});
+const MODES = {
+  mc:{name:"اختيار من متعدد", steps:() => shuffle(MC).slice(0, 8).map(mcStep)},
+  tf:{name:"صح أو خطأ", steps:() => shuffle(TF).slice(0, 8).map(tfStep)},
+  match:{name:"صِل", steps:() => { const used = new Set(); return [matchStep(pickMatch(4, used)), matchStep(pickMatch(4, used))]; }},
+  fill:{name:"أكمل", steps:() => shuffle(FILL).slice(0, 3).map(fillStep)},
+  mock:{name:"اختبار تجريبي", steps:() => shuffle(MC).slice(0, 8).map(mcStep).concat(shuffle(TF).slice(0, 8).map(tfStep), [matchStep(pickMatch(4))], shuffle(FILL).slice(0, 2).map(fillStep))}
+};
+const PART = {mc:"السؤال الأول: اختر الإجابة الصحيحة", tf:"السؤال الثاني: ضع ✔ أو ✖", match:"السؤال الثالث: صِل من (أ) ما يناسبه من (ب)", fill:"السؤال الإضافي: أكمل"};
+let R = null;
+function start(mode){
+  R = {mode, steps:MODES[mode].steps(), i:0, res:[], locked:false};
+  renderStep(); window.scrollTo(0, 0);
+}
+
+function renderStep(){
+  const st = R.steps[R.i], n = R.steps.length;
+  R.locked = false;
+  let body = "";
+  if (st.type === "mc") body = '<p class="q-text" id="qtext">' + esc(st.q.q) + '</p><div class="opts" role="group" aria-labelledby="qtext">'
+    + st.order.map((k, i) => '<button class="opt" type="button" data-act="mc" data-k="' + k + '"><span class="k" aria-hidden="true">' + "أبج"[i] + '</span><span>' + esc(st.q.o[k]) + '</span></button>').join("") + '</div>';
+  else if (st.type === "tf") body = '<p class="q-text" id="qtext">' + esc(st.q.q) + '</p><div class="tf" role="group" aria-labelledby="qtext">'
+    + '<button class="opt" type="button" data-act="tf" data-v="1">✔ صح</button><button class="opt" type="button" data-act="tf" data-v="0">✖ خطأ</button></div>';
+  else if (st.type === "match") body = '<p class="q-text" id="qtext">اختر لكل عبارة من (أ) ما يناسبها من (ب).</p><div class="match">'
+    + st.ps.map((p, i) => '<div class="mrow" data-i="' + i + '"><b id="ma' + i + '">' + esc(p.a) + '</b><select data-i="' + i + '" aria-labelledby="ma' + i + '"><option value="">اختر من (ب)…</option>'
+      + st.right.map(j => '<option value="' + j + '">' + esc(st.ps[j].b) + '</option>').join("") + '</select></div>').join("") + '</div>'
+    + '<div class="actions"><button class="btn go" type="button" data-act="checkmatch">تحقّق</button></div>';
+  else body = '<p class="q-text" id="qtext">' + esc(st.q.q) + '</p><div class="fill"><input id="fillIn" type="text" autocomplete="off" aria-labelledby="qtext" placeholder="اكتب إجابتك"></div>'
+    + '<div class="actions"><button class="btn go" type="button" data-act="checkfill">تحقّق</button></div>';
+  $("#main").innerHTML = '<section class="run panel u-' + (R.mode === "mock" ? "taw" : LESSON[st.type === "match" ? st.ps[0].l : st.q.l].u) + '">'
+    + '<div class="run-top"><button class="btn sm" type="button" data-act="home">→ الصفحة</button><b>' + esc(MODES[R.mode].name) + '</b><span class="counter">' + (R.i + 1) + ' / ' + n + '</span></div>'
+    + '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + R.i + '" aria-label="الأسئلة المنجزة"><i style="width:' + Math.round(R.i / n * 100) + '%"></i></div>'
+    + '<p class="q-part">' + PART[st.type] + '</p>' + body + '<div id="fbBox"></div></section>';
+  const f = $(".opt") || $("select") || $("#fillIn");
+  if (f && window.matchMedia && matchMedia("(pointer: fine)").matches) f.focus({preventScroll:true});
+}
+
+/* record one answer: ok, what was given, the right answer, why, the lesson */
+function record(ok, given, right, why, l, text){
+  R.res.push({ok, given, right, why, l, text, type:R.steps[R.i].type});
+  if (ok) addXP(10);
+}
+function feedback(ok, why, l, extra){
+  R.locked = true;
+  const last = R.i === R.steps.length - 1;
+  $("#fbBox").innerHTML = '<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + (ok ? "أحسنت! ✔" : "انتبه ✖") + '</span>' + (extra || "")
+    + '<p class="why">' + esc(why) + '</p>' + (ok ? "" : lessonPeek(l)) + '</div>'
+    + '<div class="actions"><button class="btn ink" type="button" data-act="next" id="nextBtn">' + (last ? "النتيجة ←" : "التالي ←") + '</button></div>';
+  announce((ok ? "صحيح. " : "خطأ. ") + why);
+  $("#nextBtn").focus({preventScroll:true});
+}
+function answerMC(k){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const ok = k === 0;
+  document.querySelectorAll(".opt").forEach(b => { const bk = +b.dataset.k; b.disabled = true; b.classList.add(bk === 0 ? "right" : bk === k ? "wrong" : "dim"); });
+  record(ok, st.q.o[k], st.q.o[0], st.q.w, st.q.l, st.q.q);
+  feedback(ok, st.q.w, st.q.l);
+}
+function answerTF(v){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const ok = v === st.q.a;
+  document.querySelectorAll(".opt").forEach(b => { const bv = b.dataset.v === "1"; b.disabled = true; b.classList.add(bv === st.q.a ? "right" : bv === v ? "wrong" : "dim"); });
+  record(ok, v ? "✔" : "✖", st.q.a ? "✔" : "✖", st.q.w, st.q.l, st.q.q);
+  feedback(ok, st.q.w, st.q.l);
+}
+function checkMatch(){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const sel = [...document.querySelectorAll(".mrow select")];
+  if (sel.some(s => s.value === "")) { announce("اختر إجابة لكل عبارة أولًا."); const e = sel.find(s => s.value === ""); e.focus(); return; }
+  let right = 0;
+  sel.forEach(s => {
+    const i = +s.dataset.i, ok = +s.value === i, row = s.closest(".mrow");
+    s.disabled = true; row.classList.add(ok ? "right" : "wrong");
+    if (!ok) row.insertAdjacentHTML("beforeend", '<p class="fix">الصحيح: ' + esc(st.ps[i].b) + '</p>');
+    if (ok) right++;
+    record(ok, st.ps[+s.value].b, st.ps[i].b, st.ps[i].a + ": " + st.ps[i].b + ".", st.ps[i].l, st.ps[i].a);
+  });
+  const miss = st.ps.find((p, i) => +sel[i].value !== i);
+  feedback(right === st.ps.length, right + " من " + st.ps.length + " صحيحة.", miss ? miss.l : st.ps[0].l);
+}
+function checkFill(){
+  const st = R.steps[R.i]; if (R.locked) return;
+  const inp = $("#fillIn"), v = norm(inp.value);
+  if (!v){ announce("اكتب إجابتك أولًا."); inp.focus(); return; }
+  const ok = fillOK(st.q, inp.value);
+  inp.readOnly = true;
+  const model = "إجابات صحيحة: " + st.q.ans.join("، ") + ".";
+  record(ok, inp.value.trim(), st.q.ans[0], model, st.q.l, st.q.q);
+  feedback(ok, model, st.q.l);
+}
+function next(){ if (R.i < R.steps.length - 1){ R.i++; renderStep(); window.scrollTo(0, 0); } else result(); }
+
+/* ---------- RESULT ---------- */
+function result(){
+  const res = R.res, right = res.filter(r => r.ok).length;
+  let h = '<section class="result panel">', say = right + " من " + res.length;
+  if (R.mode === "mock"){
+    const part = t => res.filter(r => r.type === t), sc = t => part(t).filter(r => r.ok).length * 0.75;
+    const score = sc("mc") + sc("tf") + sc("match"), bonus = part("fill").filter(r => r.ok).length;
+    S.mocks++; if (S.best === null || score > S.best) S.best = score;
+    say = fmtScore(score) + " من 15";
+    addXP(20);
+    h += '<p class="q-part">الاختبار التجريبي</p><div class="big">' + fmtScore(score) + ' <small>من 15</small></div>'
+      + '<div class="parts"><div class="stat"><b>' + fmtScore(sc("mc")) + '/6</b><span>اختيار</span></div><div class="stat"><b>' + fmtScore(sc("tf")) + '/6</b><span>صح وخطأ</span></div><div class="stat"><b>' + fmtScore(sc("match")) + '/3</b><span>صِل</span></div></div>'
+      + '<p>' + (bonus ? "والسؤال الإضافي: " + bonus + " من 2 ✔. " : "") + (score >= 13.5 ? "ممتاز، أنت جاهز للاختبار! 🌟" : score >= 10.5 ? "جيد جدًا. راجع الأخطاء تحت ثم جرّب مرة ثانية." : "راجع الدروس المذكورة تحت، ثم جرّب اختبارًا جديدًا.") + '</p>';
+  } else {
+    S.rounds++;
+    h += '<p class="q-part">' + esc(MODES[R.mode].name) + '</p><div class="big">' + right + ' <small>من ' + res.length + '</small></div>'
+      + '<p>' + (right === res.length ? "كلها صحيحة! 🌟" : "راجع الأخطاء تحت، والأسئلة تتغيّر في كل جولة.") + '</p>';
+  }
+  save();
+  h += '<div class="row" style="justify-content:center"><button class="btn go" type="button" data-act="start" data-m="' + R.mode + '">جولة جديدة</button>'
+    + (R.mode !== "mock" ? '<button class="btn" type="button" data-act="start" data-m="mock">اختبار تجريبي /15</button>' : "") + '<button class="btn sm" type="button" data-act="home">الصفحة</button></div></section>';
+  const miss = res.filter(r => !r.ok);
+  if (miss.length) h += '<div class="sec"><div class="sec-head"><h2>صحّح هذه</h2><p>اقرأ السبب، ثم ارجع للدرس.</p></div><div class="miss-list">'
+    + miss.map(r => '<div class="miss panel"><p class="q">' + esc(r.text) + '</p><p class="a">إجابتك: ' + esc(r.given) + ' · الصحيح: ' + esc(r.right) + '</p><p>' + esc(r.why) + '</p><p>' + lessonLink(r.l) + '</p></div>').join("") + '</div></div>';
+  $("#main").innerHTML = h;
+  window.scrollTo(0, 0);
+  announce("النتيجة: " + say);
+}
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const n = dayDiff(todayISO(), QUIZ_DAY), when = n < 0 ? "خلص الاختبار" : n === 0 ? "اليوم" : n === 1 ? "غدًا" : "بعد " + count(n, "يوم واحد", "يومين", "أيام", "يومًا");
+  let h = '<section class="hero panel u-taw"><h1>الدراسات الإسلامية: مراجعة الاختبار القصير 2</h1>'
+    + '<p class="sub">الثلاثاء 10 نوفمبر · التوحيد والحديث والفقه · الدرجة من 15 <span class="badge' + (n >= 0 && n <= 1 ? " hot" : "") + '">' + when + '</span></p>'
+    + '<div class="stats"><div class="stat"><b>' + (S.best === null ? "–" : fmtScore(S.best)) + '</b><span>أفضل اختبار تجريبي /15</span></div><div class="stat"><b>' + S.mocks + '</b><span>اختبارات تجريبية</span></div><div class="stat"><b>' + S.xp + '</b><span>نقاط</span></div></div>'
+    + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="mock">ابدأ اختبارًا تجريبيًا</button><a class="btn" href="#lessons">راجع الدروس أولًا</a><a class="btn sm" href="../../review/quiz-2/index.html#isl">قائمة الاختبار القصير 2</a></div></section>';
+  h += '<section class="sec"><div class="sec-head"><h2>شكل الاختبار</h2><p>مثل نموذج المعلم: أربعة أسئلة، والدرجة من 15.</p></div><div class="format">'
+    + '<div><b>اختيار من متعدد</b><span>8 أسئلة · 6 درجات</span></div><div><b>صح أو خطأ</b><span>8 عبارات · 6 درجات</span></div><div><b>صِل</b><span>4 عبارات · 3 درجات</span></div><div><b>أكمل</b><span>سؤال إضافي</span></div></div></section>';
+  h += '<section class="sec"><div class="sec-head"><h2>تدرّب</h2><p>الأسئلة تتغيّر في كل جولة، ومع كل إجابة سببها.</p></div><div class="modes">'
+    + [["mc", "اختيار من متعدد", "8 أسئلة من الدروس التسعة"], ["tf", "صح أو خطأ", "8 عبارات: ✔ أو ✖"], ["match", "صِل", "مجموعتان، 4 عبارات في كل واحدة"], ["fill", "أكمل", "3 أسئلة تكتب إجابتها"]]
+      .map(m => '<button class="mode" type="button" data-act="start" data-m="' + m[0] + '"><b>' + m[1] + '</b><span>' + m[2] + '</span></button>').join("")
+    + '<button class="mode mock" type="button" data-act="start" data-m="mock"><b>اختبار تجريبي كامل /15</b><span>8 اختيار، 8 صح وخطأ، 4 صِل، وسؤالان إضافيان، ثم الدرجة وتصحيح الأخطاء.</span></button></div></section>';
+  h += '<section class="sec" id="lessons"><div class="sec-head"><h2>الدروس</h2><p>ملخص الدروس التسعة في الملف الرسمي للاختبار، مع الصفحات.</p></div>';
+  UNITS.forEach(u => {
+    h += '<h3 class="unit-title u-' + u.u + '">' + u.name + '</h3><div class="lessons">';
+    LESSONS.filter(l => l.u === u.u).forEach(l => {
+      h += '<article class="lesson panel u-' + l.u + '" id="l-' + l.id + '"><h3>' + esc(l.t) + ' <small>ص ' + l.pg + '</small></h3>' + lessonBody(l) + '</article>';
+    });
+    h += '</div>';
+  });
+  h += '</section><footer class="foot"><p>الصفحات والنطاق من ملف التقييم الرسمي للاختبار القصير 2، والأسئلة مكتوبة لهذه الصفحة من الدروس. إذا اختلف شيء عن الكتاب، المعتمد كلام المعلم والكتاب.</p></footer>';
+  $("#main").innerHTML = h;
+}
+
+/* ---------- PRINT ---------- */
+function renderPrint(){
+  /* one question per lesson where it fits, chosen so that no question gives away another's answer */
+  const pick = (a, ix) => ix.map(i => a[i]);
+  const mc = pick(MC, [0, 5, 7, 9, 15, 18, 22, 30]), tf = pick(TF, [1, 5, 9, 12, 15, 18, 22, 26]);
+  const pairs = pick(MATCH, [1, 2, 8, 10]), fills = pick(FILL, [1, 3]);
+  const pos = [1, 2, 0, 2, 1, 0, 2, 1];   /* where each right answer is printed: ب ج أ ج ب أ ج ب */
+  const opts = (q, p) => { const o = [q.o[1], q.o[2]]; o.splice(p, 0, q.o[0]); return o; };
+  const right = [2, 0, 3, 1];   /* the order the (ب) column is printed in */
+  $("#printSheet").innerHTML = '<header class="ps-head"><h1>الدراسات الإسلامية: ملخص الاختبار القصير 2</h1><p>الصف السادس · الثلاثاء 10/11/2026</p></header><div class="ps-cols">'
+    + LESSONS.map(l => '<div class="ps-l"><h3>' + esc(l.t) + ' · ص ' + l.pg + '</h3>' + (l.def ? '<p><b>' + l.def + '</b></p>' : "") + (l.hadith ? '<p>' + l.hadith.t + ' (' + l.hadith.s + ')</p>' : "")
+      + '<ul>' + l.pts.map(p => '<li>' + p + '</li>').join("") + '</ul></div>').join("") + '</div>'
+    + '<section class="ps-page2"><header class="ps-head"><h1>اختبار تجريبي · الدرجة من 15</h1><p>الاسم: ……………………</p></header>'
+    + '<div class="ps-q"><h2>السؤال الأول (6 درجات): ضع دائرة حول الإجابة الصحيحة</h2><ol>' + mc.map((q, i) => '<li>' + esc(q.q) + '<br>' + opts(q, pos[i]).map((o, j) => '<span class="o">' + "أبج"[j] + ') ' + esc(o) + '</span>').join("") + '</li>').join("") + '</ol></div>'
+    + '<div class="ps-q"><h2>السؤال الثاني (6 درجات): ضع ✔ أو ✖</h2><ol>' + tf.map(q => '<li>' + esc(q.q) + ' (   )</li>').join("") + '</ol></div>'
+    + '<div class="ps-q"><h2>السؤال الثالث (3 درجات): صِل من (أ) ما يناسبه من (ب)</h2><table class="ps-match"><tr><td><b>أ</b></td><td><b>ب</b></td></tr>'
+    + pairs.map((p, i) => '<tr><td>' + (i + 1) + ') ' + esc(p.a) + '</td><td>' + esc(pairs[right[i]].b) + '</td></tr>').join("") + '</table></div>'
+    + '<div class="ps-q"><h2>السؤال الإضافي: أكمل</h2><ol>' + fills.map(q => '<li>' + esc(q.q) + ' ………………………………</li>').join("") + '</ol></div>'
+    + '<div class="ps-key"><h3>الإجابات</h3><p><b>الأول:</b> ' + mc.map((q, i) => (i + 1) + ') ' + "أبج"[pos[i]] + ' ' + esc(q.o[0])).join(" · ") + '</p>'
+    + '<p><b>الثاني:</b> ' + tf.map((q, i) => (i + 1) + ') ' + (q.a ? "✔" : "✖")).join(" · ") + '</p>'
+    + '<p><b>الثالث:</b> ' + pairs.map((p, i) => (i + 1) + ') ' + esc(p.b)).join(" · ") + '</p>'
+    + '<p><b>الإضافي:</b> ' + fills.map((q, i) => (i + 1) + ') ' + esc(q.ans.join(" أو "))).join(" · ") + '</p></div></section>';
+}
+
+/* ---------- EVENTS ---------- */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b || b.disabled) return;
+  const a = b.dataset.act;
+  if (a === "start") start(b.dataset.m);
+  else if (a === "mc") answerMC(+b.dataset.k);
+  else if (a === "tf") answerTF(b.dataset.v === "1");
+  else if (a === "checkmatch") checkMatch();
+  else if (a === "checkfill") checkFill();
+  else if (a === "next") next();
+  else if (a === "home"){ R = null; renderHome(); window.scrollTo(0, 0); }
+  else if (a === "lesson"){ e.preventDefault(); R = null; renderHome(); const t = document.getElementById("l-" + b.dataset.l); if (t) t.scrollIntoView(); }
+});
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.id === "fillIn" && R && !R.locked){ e.preventDefault(); checkFill(); } });
+$("#printBtn").addEventListener("click", () => window.print());
+/* another device's progress arrived: refresh the numbers on the home view */
+window.addEventListener("monmon-sync", e => {
+  try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v) S = Object.assign(fresh(), v); } catch (err) {}
+  $("#xpVal").textContent = S.xp; if (!R) renderHome(); e.preventDefault();
+});
+
+$("#xpVal").textContent = S.xp;
+renderHome();
+renderPrint();
+if (location.hash.startsWith("#l-")){ const t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
+</script>
+</body>
+</html>
