@@ -970,7 +970,7 @@ const PRACTICE_BY_ID = {
   "quiz2-eng": ["english/quiz-2/index.html", "راجع الأجزاء الخمسة واختبر نفسك"],
   "quiz2-sci": ["review/quiz-2/index.html#sci", "راجع دروسه درسًا درسًا"],
   "quiz2-soc": ["review/quiz-2/index.html#soc", "راجع دروسه درسًا درسًا"],
-  "quiz2-ar": ["review/quiz-2/index.html#ar", "راجع دروسه درسًا درسًا"],
+  "quiz2-ar": ["arabic/quiz-2/index.html", "راجع الدروس وتدرّب على الإملاء"],
   "quiz2-quran": ["review/quiz-2/index.html#quran", "راجع الآيات"],
   "quiz2-ict": ["review/quiz-2/index.html#ict", "صفحة المراجعة"]
 };
@@ -1053,7 +1053,7 @@ const NOTICES = [
 /* Study pages by group. The weekly plans come from WEEK_PAGES: this week's plan goes first (then next week's, once it is ready), the older ones last. */
 const WEEK_TEXT = {8:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", 9:"إجازة الأحد، ثم جدول الاثنين للخميس والواجبات وخطة المذاكرة لكل يوم.",
   10:"عرض Be Well يوم الأحد، ورحلة الأربعاء، والجدول اليومي والواجبات وخطة المذاكرة لكل يوم."};
-const PRACTICE_GROUPS = [["now","ابدأ من هنا"], ["math","الرياضيات"], ["isl","الدراسات الإسلامية"], ["sci","العلوم"], ["eng","الإنجليزي"], ["ict","الحاسب"], ["old","خطط الأسابيع السابقة"]];
+const PRACTICE_GROUPS = [["now","ابدأ من هنا"], ["math","الرياضيات"], ["isl","الدراسات الإسلامية"], ["ar","لغتي"], ["sci","العلوم"], ["eng","الإنجليزي"], ["ict","الحاسب"], ["old","خطط الأسابيع السابقة"]];
 const PRACTICE_PAGES = [
   {group:"now", kind:"مراجعة", href:"review/quiz-2/index.html", title:"مراجعة الاختبار القصير 2", text:"مواعيد اختبارات 8–19 نوفمبر ونطاق كل مادة درسًا درسًا، وعلامة على كل درس يراجعه.", cls:"s-quiz"},
   {group:"now", kind:"مكافأة", href:"arcade/index.html", title:"صالة الألعاب", text:"كل جزء يتقنه في صفحات المذاكرة يفتح 5 دقائق لعب، ومع كل جزء تنفتح لعبة جديدة. حد اليوم 20 دقيقة.", cls:"s-arcade"},
@@ -1065,6 +1065,7 @@ const PRACTICE_PAGES = [
   {group:"math", kind:"درس تفاعلي", href:"math/exponents/index.html", title:"الأسس", text:"الدرس 3-1: كتابة القوى وحسابها، والكسور والأعداد العشرية، وقوى العدد 10.", cls:"s-math"},
   {group:"math", kind:"درس تفاعلي", href:"math/coordinate-plane/index.html", title:"المستوى الإحداثي", text:"الدرسان 2-4 و2-5: تمثيل النقاط وإيجاد المسافة.", cls:"s-math"},
   {group:"isl", kind:"مراجعة واختبار", href:"islamic/quiz-2/index.html", title:"الاختبار القصير 2: الدروس التسعة", text:"الشرك وأنواعه ومظاهره، وأحاديث صلة الرحم وتواضعه ﷺ وآداب المجلس، وصلاة العيدين وسننهما والاستسقاء: ملخص، وتدريب بأسئلة الاختبار، واختبار تجريبي من 15.", cls:"s-isl"},
+  {group:"ar", kind:"مراجعة واختبار", href:"arabic/quiz-2/index.html", title:"الاختبار القصير 2: الهمزات وكان وأخواتها", text:"همزتا الوصل والقطع وابن وابنة، والهمزة المتوسطة والمتطرفة، وكان وأخواتها: ملخص وتدريب، ومدرّب إملاء لقطعة الاختبار، واختبار تجريبي من 20 سؤالًا.", cls:"s-ar"},
   {group:"sci", kind:"درس تفاعلي", href:"science/control-information/index.html", title:"التحكم والحواس", text:"الجهاز العصبي والدماغ، وكيف توصل الحواس الخمس المعلومات للدماغ.", cls:"s-sci"},
   {group:"sci", kind:"درس تفاعلي", href:"science/moving-material/index.html", title:"نقل المواد", text:"كيف تنقل النباتات والإنسان الماء والأكسجين والدم، ومختبر الخلية.", cls:"s-sci"},
   {group:"eng", kind:"مراجعة واختبار", href:"english/quiz-2/index.html", title:"الاختبار القصير 2: الأجزاء الخمسة", text:"قصة Individual Twin، والفكرة الرئيسية، ومفردات الوحدة 4، والقواعد 7.1–7.3، والرسالة الودية مع فاحص يراجع رسالته، واختبار تجريبي من 30 سؤال.", cls:"s-eng"},
