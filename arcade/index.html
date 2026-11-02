@@ -51,6 +51,8 @@ p{margin:0}
 .bank::after{content:"";position:absolute;inset-block:0;inset-inline-end:-40px;width:180px;background:repeating-linear-gradient(60deg,rgba(255,255,255,.25) 0 10px,transparent 10px 22px)}
 .bank-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;position:relative;z-index:1}
 .bank h1{font-size:30px}
+.bank.free{background:linear-gradient(120deg,#7CF0FF 0,#4FA7FF 55%,#9A4FE0 100%)}
+.bank.free .sub + .sub{margin-top:6px;font-weight:700}
 .bank .clock{font-family:var(--digits);font-size:56px;line-height:1;letter-spacing:.02em;direction:ltr;color:#fff;-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink)}
 .bank .sub{font-weight:800;position:relative;z-index:1}
 .meter{position:relative;z-index:1;margin-top:10px;height:16px;border:3px solid var(--ink);border-radius:999px;background:rgba(255,255,255,.55);overflow:hidden}
@@ -157,8 +159,14 @@ details.parents summary{font-weight:800;cursor:pointer;min-height:44px;padding-b
 "use strict";
 /* The arcade: four short games, opened and timed by the ledger in assets/arcade.js. Time is spent only while a
    game is running and in front; it is saved every second, so leaving, going back or reloading never gives it back.
-   One window plays at a time (monmon-arcade-live, kept on this device only). The games are written for this page. */
+   One window plays at a time (monmon-arcade-live, kept on this device only). The games are written for this page.
+   A parent's free-play link (arcade/#free=<key>, kept by the parent) opens every game with no clock and no daily limit.
+   It spends nothing and saves nothing: the boy's balance, play time, best scores and the one-window lock are untouched.
+   Only the key's SHA-256 is in this page, so reading the page does not give the link. */
 const A = window.MonmonArcade;
+const FREE_HASH = "636be1c69814e656acb9ac3aa3f255c2d172f683baa2a72a5c3ce92eedd0f0a6";
+let FREE = false;
+const FREE_BEST = {};   /* best scores of this free-play visit only */
 const $ = (s, r = document) => r.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const LIVE = "monmon-arcade-live", TAB = Math.random().toString(36).slice(2, 10);
@@ -483,6 +491,19 @@ function makeTarget(fx){
 }
 const MAKERS = {drop:makeDrop, stack:makeStack, storm:makeStorm, target:makeTarget};
 
+/* ---------- the parent's free-play link ---------- */
+async function checkFree(first){
+  const m = /(?:^|[#&])free=([A-Za-z0-9]{6,40})(?:&|$)/.exec(location.hash);
+  let ok = false;
+  if (m && window.crypto && crypto.subtle && window.TextEncoder){
+    try { const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(m[1])); ok = [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, "0")).join("") === FREE_HASH; } catch (e) {}
+  }
+  const changed = ok !== FREE;
+  FREE = ok; document.body.classList.toggle("free", FREE);
+  if (changed && G) exitGame();
+  else if (changed || first) renderLobby();
+}
+
 /* ---------- one window plays at a time ---------- */
 function liveOther(){ try { const v = JSON.parse(localStorage.getItem(LIVE) || "null"); return v && v.tab !== TAB && Date.now() - v.t < 4000; } catch (e) { return false; } }
 let lastHold = 0;
@@ -493,18 +514,20 @@ function dropLive(){ try { const v = JSON.parse(localStorage.getItem(LIVE) || "n
 let G = null;   /* {gi, game, inst, fx, state:"ready"|"run"|"pause"|"over"|"timeup", last, pend, raf, inp} */
 const cv = $("#cv"), g2 = cv.getContext("2d");
 function fit(){ const d = Math.min(2, window.devicePixelRatio || 1), w = cv.clientWidth || W; cv.width = Math.round(w * d); cv.height = Math.round(w * 4 / 3 * d); }
-function canPlay(){ return A.totals().can - (G ? G.pend : 0); }
-function flush(){ if (G && G.pend > 0){ A.spend(G.pend); G.pend = 0; } }
+function canPlay(){ return FREE ? Infinity : A.totals().can - (G ? G.pend : 0); }
+function flush(){ if (G && G.pend > 0){ if (!FREE) A.spend(G.pend); G.pend = 0; } }
 function openGame(gi){
   const t = A.totals();
-  if (gi >= t.open) return;
-  if (t.can <= 0){ renderLobby(); announce("خلص رصيد اللعب."); return; }
-  if (liveOther()){ alertBox("في لعبة شغالة في نافذة ثانية. أكمل هناك أو سكّرها أولاً."); return; }
+  if (!FREE){
+    if (gi >= t.open) return;
+    if (t.can <= 0){ renderLobby(); announce("خلص رصيد اللعب."); return; }
+    if (liveOther()){ alertBox("في لعبة شغالة في نافذة ثانية. أكمل هناك أو سكّرها أولاً."); return; }
+  }
   const game = A.games[gi];
   G = {gi, game, inst:null, fx:FX(), state:"ready", last:0, pend:0, raf:0, inp:{dir:0, px:null, keys:{}}};
   $("#lobby").hidden = true; $("#play").hidden = false;
   $("#gName").textContent = game.name; $("#howto").textContent = HOW[game.id];
-  window.scrollTo(0, 0); fit(); holdLive(true);
+  window.scrollTo(0, 0); fit(); if (!FREE) holdLive(true);
   newRound();
   overlay("ready");
   G.raf = requestAnimationFrame(loop);
@@ -512,22 +535,28 @@ function openGame(gi){
 function newRound(){ G.fx = FX(); G.inst = MAKERS[G.game.id](G.fx); $("#pad").hidden = G.inst.controls !== "lr"; $("#gScore").textContent = "0"; }
 function begin(){
   if (!G) return;
-  if (canPlay() <= 0){ return timeUp(); }
-  if (liveOther()){ const ov = $("#ov"); ov.hidden = false; ov.innerHTML = '<h2>لحظة</h2><p>في لعبة شغالة في نافذة ثانية. سكّرها أولاً.</p><div class="row"><button class="btn ghost" type="button" data-act="exit"><span>الصالة</span></button></div>'; return; }
-  holdLive(true); SND.unlock(); SND.start();
+  if (!FREE){
+    if (canPlay() <= 0){ return timeUp(); }
+    if (liveOther()){ const ov = $("#ov"); ov.hidden = false; ov.innerHTML = '<h2>لحظة</h2><p>في لعبة شغالة في نافذة ثانية. سكّرها أولاً.</p><div class="row"><button class="btn ghost" type="button" data-act="exit"><span>الصالة</span></button></div>'; return; }
+    holdLive(true);
+  }
+  SND.unlock(); SND.start();
   if (G.state === "over") newRound();
   G.state = "run"; G.last = 0; overlay(null); cv.focus({preventScroll:true});
 }
 function pause(){ if (G && G.state === "run"){ G.state = "pause"; flush(); overlay("pause"); } }
 function exitGame(){
   if (!G) return;
-  flush(); cancelAnimationFrame(G.raf); G = null; dropLive();
+  flush(); cancelAnimationFrame(G.raf); G = null; if (!FREE) dropLive();
   $("#play").hidden = true; $("#lobby").hidden = false; renderLobby(); window.scrollTo(0, 0);
 }
 function timeUp(){ if (!G) return; flush(); G.state = "timeup"; overlay("timeup"); SND.over(); announce("انتهى وقت اللعب."); }
 function gameOver(){
   flush(); G.state = "over";
-  const sc = Math.round(G.inst.S.score), before = A.best(G.game.id), now = A.best(G.game.id, sc);
+  const sc = Math.round(G.inst.S.score), id = G.game.id;
+  let before, now;
+  if (FREE){ before = FREE_BEST[id] || 0; now = FREE_BEST[id] = Math.max(before, sc); }
+  else { before = A.best(id); now = A.best(id, sc); }
   G.record = sc > before && sc > 0; G.lastScore = sc; G.bestNow = now;
   overlay("over"); G.record ? SND.record() : SND.over();
   announce("انتهت الجولة: " + sc + " نقطة.");
@@ -537,15 +566,17 @@ function loop(ts){
   const dt = G.last ? Math.min(.05, (ts - G.last) / 1000) : 0; G.last = ts;
   if (G.state === "run" && document.visibilityState === "visible"){
     G.inst.update(dt, G.inp); G.fx.update(dt);
-    G.pend += dt * 1000; holdLive();
-    if (G.pend >= 1000){ const left = A.spend(G.pend); G.pend = 0; if (left <= 0) timeUp(); }
-    else if (canPlay() <= 0) timeUp();
+    if (!FREE){
+      G.pend += dt * 1000; holdLive();
+      if (G.pend >= 1000){ const left = A.spend(G.pend); G.pend = 0; if (left <= 0) timeUp(); }
+      else if (canPlay() <= 0) timeUp();
+    }
     if (G && G.state === "run" && G.inst.S.over) gameOver();
-  } else if (G.state !== "run") { G.fx.update(dt); if (G.state !== "timeup") holdLive(); }
+  } else if (G.state !== "run") { G.fx.update(dt); if (G.state !== "timeup" && !FREE) holdLive(); }
   if (!G) return;
   draw();
   const left = canPlay();
-  $("#gTime").textContent = fmt(left); $("#gTimePill").classList.toggle("low", left < 30000);
+  $("#gTime").textContent = FREE ? "∞" : fmt(left); $("#gTimePill").classList.toggle("low", !FREE && left < 30000);
   $("#gScore").textContent = Math.round(G.inst.S.score);
   G.raf = requestAnimationFrame(loop);
 }
@@ -559,11 +590,11 @@ function overlay(kind){
   const ov = $("#ov");
   if (!kind){ ov.hidden = true; ov.innerHTML = ""; return; }
   ov.hidden = false; ov.className = "ov pop";
-  const t = A.totals();
-  if (kind === "ready") ov.innerHTML = '<h2>' + esc(G.game.name) + '</h2><p>' + esc(HOW[G.game.id]) + '</p><p>رصيدك: <b>' + fmt(t.can) + '</b></p><div class="row"><button class="btn" type="button" data-act="begin"><span>ابدأ ▶</span></button></div>';
-  else if (kind === "pause") ov.innerHTML = '<h2>استراحة</h2><p>الوقت واقف. رصيدك: <b>' + fmt(t.can) + '</b></p><div class="row"><button class="btn" type="button" data-act="begin"><span>كمّل ▶</span></button><button class="btn ghost" type="button" data-act="exit"><span>الصالة</span></button></div>';
+  const t = A.totals(), bal = FREE ? '<p>لعب حر: بلا وقت ولا حد.</p>' : '<p>رصيدك: <b>' + fmt(t.can) + '</b></p>';
+  if (kind === "ready") ov.innerHTML = '<h2>' + esc(G.game.name) + '</h2><p>' + esc(HOW[G.game.id]) + '</p>' + bal + '<div class="row"><button class="btn" type="button" data-act="begin"><span>ابدأ ▶</span></button></div>';
+  else if (kind === "pause") ov.innerHTML = '<h2>استراحة</h2>' + (FREE ? bal : '<p>الوقت واقف. رصيدك: <b>' + fmt(t.can) + '</b></p>') + '<div class="row"><button class="btn" type="button" data-act="begin"><span>كمّل ▶</span></button><button class="btn ghost" type="button" data-act="exit"><span>الصالة</span></button></div>';
   else if (kind === "over") ov.innerHTML = '<h2>' + (G.record ? "رقم قياسي!" : "انتهت الجولة") + '</h2><div class="big">' + G.lastScore + '</div><p>أفضل نتيجة: <b>' + G.bestNow + '</b></p>'
-    + (t.can > 0 ? '<div class="row"><button class="btn" type="button" data-act="begin"><span>العب مرة ثانية</span></button><button class="btn ghost" type="button" data-act="exit"><span>الصالة</span></button></div><p>رصيدك: <b>' + fmt(t.can) + '</b></p>'
+    + (FREE || t.can > 0 ? '<div class="row"><button class="btn" type="button" data-act="begin"><span>العب مرة ثانية</span></button><button class="btn ghost" type="button" data-act="exit"><span>الصالة</span></button></div>' + bal
       : '<p>خلص رصيد اللعب.</p><div class="row"><button class="btn ghost" type="button" data-act="exit"><span>الصالة</span></button></div>');
   else if (kind === "timeup") ov.innerHTML = '<h2>انتهى الوقت ⏱</h2><p>' + (t.left > 0 && t.todayLeft <= 0 ? "خلصت دقائق اليوم (" + A.daily + " دقيقة). رصيدك محفوظ لبكرة." : "أتقن جزءاً جديداً في صفحات المذاكرة، وينفتح لك " + A.perPart + " دقائق.") + '</p><div class="row"><button class="btn" type="button" data-act="exit"><span>الصالة</span></button></div>';
   const b = ov.querySelector("button"); if (b) b.focus({preventScroll:true});
@@ -582,18 +613,21 @@ function renderLobby(){
   if (!A){ $("#lobby").innerHTML = '<p class="next">ما قدرنا نحمّل صالة الألعاب.</p>'; return; }
   const t = A.totals(), cat = A.catalog(), mins = Math.round(A.daily - t.usedToday / 60000);
   let h = '<p class="next" id="notice" hidden></p>';
-  h += '<section class="bank"><div class="bank-top"><h1>رصيد اللعب</h1><span class="clock" id="bankClock">' + fmt(t.can) + '</span></div>'
+  if (FREE) h += '<section class="bank free"><div class="bank-top"><h1>لعب حر</h1><span class="clock" id="bankClock">∞</span></div>'
+    + '<p class="sub">وضع وليّ الأمر: كل الألعاب مفتوحة، بلا رصيد ولا حد يومي. ما ينحسب من وقت الولد ولا من أرقامه، ولا يغيّر شيئاً في صالته.</p>'
+    + '<p class="sub">حال الولد الآن: رصيده ' + fmt(t.can) + '، ولعب اليوم ' + Math.round(t.usedToday / 60000) + ' من ' + A.daily + ' دقيقة، والمفتوح له ' + t.open + ' من ' + A.games.length + ' ألعاب.</p></section>';
+  else h += '<section class="bank"><div class="bank-top"><h1>رصيد اللعب</h1><span class="clock" id="bankClock">' + fmt(t.can) + '</span></div>'
     + '<p class="sub">' + (t.left > t.todayLeft ? "رصيدك كله " + fmt(t.left) + "، والمسموح اليوم " + fmt(t.todayLeft) + "." : t.can > 0 ? "جاهز تلعب!" : "خلص الرصيد: أتقن جزءاً جديداً وينفتح لك وقت.") + '</p>'
     + '<div class="meter" title="دقائق اليوم"><i style="width:' + Math.round(clamp(t.usedToday / (A.daily * 60000), 0, 1) * 100) + '%"></i></div>'
     + '<p class="sub">لعبت اليوم ' + Math.round(t.usedToday / 60000) + ' من ' + A.daily + ' دقيقة</p>'
     + '<div class="rules"><span>كل جزء تتقنه = ' + A.perPart + ' دقائق، مرة وحدة</span><span>حد اليوم ' + A.daily + ' دقيقة</span><span>الوقت يمشي بس وأنت تلعب</span></div></section>';
-  h += '<p class="next">' + (t.next ? '🔓 أتقن جزءاً واحداً وتنفتح: <b>' + esc(t.next.name) + '</b>' : "🏆 كل الألعاب مفتوحة! كل جزء جديد يزيد رصيدك " + A.perPart + " دقائق.") + '</p>';
-  h += '<section class="sec"><div class="sec-head"><h2>الألعاب</h2><p>' + t.open + ' من ' + A.games.length + ' مفتوحة</p></div><div class="games">'
+  if (!FREE) h += '<p class="next">' + (t.next ? '🔓 أتقن جزءاً واحداً وتنفتح: <b>' + esc(t.next.name) + '</b>' : "🏆 كل الألعاب مفتوحة! كل جزء جديد يزيد رصيدك " + A.perPart + " دقائق.") + '</p>';
+  h += '<section class="sec"><div class="sec-head"><h2>الألعاب</h2><p>' + (FREE ? A.games.length : t.open) + ' من ' + A.games.length + ' مفتوحة</p></div><div class="games">'
     + A.games.map((gm, i) => {
-      const open = i < t.open, best = A.best(gm.id);
+      const open = FREE || i < t.open, best = FREE ? FREE_BEST[gm.id] || 0 : A.best(gm.id), can = FREE || t.can > 0;
       return '<article class="game r' + gm.rarity + (open ? "" : " locked") + '"><div class="art"><canvas width="300" height="220" data-prev="' + i + '" aria-hidden="true"></canvas></div>'
-        + '<div class="info"><span class="rar">' + RAR[gm.rarity] + '</span><h3>' + esc(gm.name) + '</h3><span class="en">' + gm.en + '</span><span class="best">' + (best ? "أفضل نتيجة: " + best : "ما لعبتها للحين") + '</span></div>'
-        + '<div class="go"><button class="btn" type="button" data-act="open" data-g="' + i + '"' + (open && t.can > 0 ? "" : " disabled") + '><span>' + (open ? (t.can > 0 ? "العب ▶" : "خلص الرصيد") : "مقفلة") + '</span></button></div>'
+        + '<div class="info"><span class="rar">' + RAR[gm.rarity] + '</span><h3>' + esc(gm.name) + '</h3><span class="en">' + gm.en + '</span><span class="best">' + (best ? "أفضل نتيجة" + (FREE ? " في هذي الزيارة" : "") + ": " + best : FREE ? "لعب حر: النتائج ما تنحفظ" : "ما لعبتها للحين") + '</span></div>'
+        + '<div class="go"><button class="btn" type="button" data-act="open" data-g="' + i + '"' + (open && can ? "" : " disabled") + '><span>' + (open ? (can ? "العب ▶" : "خلص الرصيد") : "مقفلة") + '</span></button></div>'
         + (open ? "" : '<div class="lock"><span class="pad">🔒</span><span>تنفتح بعد إتقان ' + (i === 1 ? "جزء واحد" : i === 2 ? "جزأين" : i + " أجزاء") + '</span></div>') + '</article>';
     }).join("") + '</div></section>';
   h += '<section class="sec"><div class="sec-head"><h2>اكسب وقت</h2><p>أتقن أي جزء من هذي الصفحات، وكل جزء يعطيك ' + A.perPart + ' دقائق مرة وحدة.</p></div><div class="earn">'
@@ -604,7 +638,7 @@ function renderLobby(){
   h += '<footer class="foot"><p>الألعاب مكتوبة لهذا الموقع. الوقت يُحسب ثانية بثانية وهو يلعب فقط، ويتزامن بين الأجهزة.</p></footer>';
   $("#lobby").innerHTML = h;
   document.querySelectorAll("canvas[data-prev]").forEach(c => preview(+c.dataset.prev, c));
-  $("#topClock").textContent = fmt(t.can);
+  $("#topClock").textContent = FREE ? "∞" : fmt(t.can);
 }
 function parents(t, cat){
   let L = {}; try { L = JSON.parse(localStorage.getItem(A.key) || "{}") || {}; } catch (e) {}
@@ -656,9 +690,10 @@ window.addEventListener("pageshow", e => { if (e.persisted){ if (G){ G.state = G
 window.addEventListener("resize", () => { if (G) fit(); });
 window.addEventListener("monmon-sync", e => { if (!G) renderLobby(); e.preventDefault(); });
 window.addEventListener("monmon-arcade", () => { if (!G) renderLobby(); });
-setInterval(() => { if (!G){ const t = A.totals(); const c = $("#bankClock"); if (c) c.textContent = fmt(t.can); $("#topClock").textContent = fmt(t.can); } }, 5000);
+setInterval(() => { if (!G){ const t = A.totals(), v = FREE ? "∞" : fmt(t.can); const c = $("#bankClock"); if (c) c.textContent = v; $("#topClock").textContent = v; } }, 5000);
 
-renderLobby();
+if (/free=/.test(location.hash)) checkFree(true); else renderLobby();
+window.addEventListener("hashchange", () => checkFree(false));
 </script>
 </body>
 </html>
