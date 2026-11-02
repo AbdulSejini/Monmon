@@ -63,6 +63,12 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 | Module 2: Body Systems, L4 Moving Material | [`science/moving-material/index.html`](science/moving-material/index.html) | Eight parts following the week's lesson questions (the phenomenon, transport in plants, the human circulatory system, the lungs and gas exchange, the heart's two loops, how other animals breathe, open and closed circulatory systems, the cardiovascular technologist and blood cells), each with an animated diagram and a quick check; a Cell Lab for the IXL animal-cell labeling homework; a 20-question Lesson Review with a weak-spot report; and a 37-word word bank. |
 | Module 2: Body Systems, L5 Control and Information Processing | [`science/control-information/index.html`](science/control-information/index.html) | Signal Lab: eight parts following the week's lesson questions (the surfer phenomenon and "when do we use our brains?", the nervous system and the brain, neurons, synapses and reflexes, taste, smell, touch, hearing and balance, sight), each with an animated diagram and a quick check; a reaction-time test and a blind-spot test; a Label Lab for the eye, ear, brain and neuron; a 20-question Lesson Review drawn from 53 with a weak-spot report; a 38-word word bank; and the week's science homework (Worksheet 6, and the IXL cell skill with its link mismatch). |
 
+## Social Studies
+
+| Lessons | Page | What's inside |
+| --- | --- | --- |
+| Grade 6 Social Studies, Term 1, Unit 2 «الدولة السعودية الأولى», Lessons 3–5 of Quiz 2 (Tuesday 17 Nov 2026), pp. 26–29, 30–39, 40–45 | [`social/quiz-2/index.html`](social/quiz-2/index.html) | In Arabic, right to left. **Summaries:** each lesson topic by topic, from the current student book (1447): the Arabian Peninsula before the state (political, economic, religious and scientific), Banu Hanifa and Mani' al-Muraydi, the emirs of ad-Diriyah, Wadi Hanifa, نخوة العوجا, the founding in 1139هـ (1727م) and the Imam's efforts, the reform call of 1157هـ, Founding Day and its logo, and a card for each of the four imams (years, qualities, deeds, how his rule ended). The review page links each lesson here (`#l-so1` … `#l-so3`). **Timelines:** the stages of the Saudi state and the events of the First State. **Practice:** a round for each lesson (6 choose, 3 true or false, 1 complete, then a match or a put-in-order); the mock mixes all three (10 choose, 6 true or false, a match, an order, 2 complete) and shows each lesson's result; the outline gives no marks, so it is counted out of its questions. Typed answers are checked by keywords, with the letters normalised and Arabic-Indic digits read as 0–9. The questions are written for the page from the lessons. **Progress** (xp, best mock, lessons mastered) is saved in `social-g6-quiz2-v1`, synced, counts towards the rewards, and opens the arcade. |
+
 ## ICT
 
 | Book | Page | What's inside |
@@ -128,7 +134,7 @@ Every study page also loads `assets/site-nav.js`, which puts the same navigation
 
 ## Arcade (a reward for mastering parts)
 
-[`arcade/index.html`](arcade/index.html) is a games room opened by study. Its ledger is `assets/arcade.js`, loaded on the pages that have parts: the Islamic, English, Arabic and science Quiz 2 reviews, the four math labs and the IXL Coach.
+[`arcade/index.html`](arcade/index.html) is a games room opened by study. Its ledger is `assets/arcade.js`, loaded on the pages that have parts: the Islamic, English, Arabic, science and social studies Quiz 2 reviews, the four math labs and the IXL Coach.
 
 - **Earning:** each part mastered gives 5 minutes of play, once. A part is a review mode at 80% or more of a full round (or 12/15 in the Islamic mock, 16/20 in the Arabic mock, 24/30 in the English and science tests), a lab zone at 3 stars, a lab final at 80% or more, or an IXL Coach ready check. The first game is open from the start with 5 minutes, and each part mastered opens the next of the five games (Sky Drop, Build Rush, Storm Run, Target Rush and Fruit Rain, written for the site).
 - **Fruit Rain** (the fifth, rarity «خارقة»): fruit falls from the sky and a swipe slices it; the halves show the fruit inside, with juice and splashes. A bomb sliced costs one of three hearts; a golden date is worth 50; an ice crystal slows time for 4 seconds; three or more fruit in one swipe is a combo. A round is 60 seconds and speeds up, with a fast wave every 15 seconds. The art (fruit, halves, the desert sky at dusk) is drawn by code into small canvases once, then reused.
@@ -138,13 +144,13 @@ Every study page also loads `assets/site-nav.js`, which puts the same navigation
 
 ## Game feel
 
-`assets/fx.js` is loaded on the study pages: the Islamic, English, Arabic and science reviews, the math, science, vocabulary and ICT pages.
+`assets/fx.js` is loaded on the study pages: the Islamic, English, Arabic, science and social studies reviews, the math, science, vocabulary and ICT pages.
 
 - **Right answer:** the answer pops with sparks, and the points fly to the page's ⭐ chip.
 - **Wrong answer:** the answer shakes and the screen flashes red.
 - **Combos:** 3, 5, 8, 12 and 20 right answers in a row show a tilted combo banner in rarity colours.
 - **How it hooks in:** it watches the feedback box every page already shows (`.fb.ok` / `.fb.no`) and the ⭐ chip going up, so no page has to call it.
-- **Sounds and slide-in:** `data-sound="1"` adds short sounds and `data-enter=".run"` slides questions in. Only the four Quiz 2 reviews use them; the labs keep their own sounds and transitions.
+- **Sounds and slide-in:** `data-sound="1"` adds short sounds and `data-enter=".run"` slides questions in. Only the five Quiz 2 reviews use them; the labs keep their own sounds and transitions.
 - **Reduced motion:** with "reduce motion" on, nothing moves.
 
 ## Progress sync between devices
@@ -156,7 +162,7 @@ Progress is saved in each browser's localStorage. Every page (the dashboard incl
 - **Receiving:**
   - While a page is in front, the database streams the time of each change to it.
   - Pages that are not open fetch the changes when they open or come back to the front.
-  - The dashboard, the IXL plan, the practice sheet, the arcade and the Islamic Studies, English, Arabic and science reviews redraw in place. Other pages reload if nobody has touched them yet, and otherwise show a banner.
+  - The dashboard, the IXL plan, the practice sheet, the arcade and the Islamic Studies, English, Arabic, science and social studies reviews redraw in place. Other pages reload if nobody has touched them yet, and otherwise show a banner.
 - **No undoing other devices' changes:** each save is turned into just the changes the page made since it last read the value. So a page still showing older progress never undoes another device's change. A device that already has progress when it first syncs adds what only it has; where both have a value, the family's wins.
 - **Storage:** the family's node is `/f/<CODE>`, with `CODE` from `assets/sync.js`. Inside it:
   - `d` holds one entry per value, keyed by its path, for example `monmon-done-v1|done|<item id>`. Each segment is %-escaped for Firebase, and each value is stored as JSON text, so arrays and empty objects come back exactly as saved.
@@ -185,6 +191,7 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 | Math, integers and absolute value | 2 pages: study sheet with a number line, the words to know, rules and one example per zone, and the Quiz 2 math checklist; then 10 practice questions (one on a blank number line) with an answer key |
 | Math, GCF, LCM and expressions | 2 pages: study sheet with a factor tree, rules and one example per zone, then 10 practice questions with an answer key |
 | Islamic Studies, Quiz 2 | 2 pages: the nine lessons summarised in two columns; then a mock test out of 15 in the model's four parts (one question per lesson where it fits, none giving away another's answer) with an answer key |
+| Social Studies, Quiz 2 | 2 pages: the three lessons in short (two columns) with the four imams in a table; then the two timelines side by side and a practice test (choose, true or false, match years and events, order the imams, complete) with an answer key |
 | Science, Quiz 2 | 3 pages: Lessons 2 and 3 in two columns with the skeleton and the digestive system named; Lessons 4 and 5 with the Lesson 2–3 words in a table; then a practice test (choose, true or false, a word box, label the digestive system, the stages of digestion in order) with an answer key |
 | Science | 3 pages: key ideas and word bank, then a label-the-cell sheet with an answer key |
 | Science, control and information | 3 pages: homework and key ideas, the rest of the key ideas and the word bank, then a label-the-eye-and-ear sheet with an answer key |

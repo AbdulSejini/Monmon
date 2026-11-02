@@ -969,7 +969,7 @@ const PRACTICE_BY_ID = {
   "quiz2-isl": ["islamic/quiz-2/index.html", "راجع الدروس واختبر نفسك من 15"],
   "quiz2-eng": ["english/quiz-2/index.html", "راجع الأجزاء الخمسة واختبر نفسك"],
   "quiz2-sci": ["science/quiz-2/index.html", "راجع الدروس الأربعة واختبر نفسك"],
-  "quiz2-soc": ["review/quiz-2/index.html#soc", "راجع دروسه درسًا درسًا"],
+  "quiz2-soc": ["social/quiz-2/index.html", "راجع الدروس الثلاثة واختبر نفسك"],
   "quiz2-ar": ["arabic/quiz-2/index.html", "راجع الدروس وتدرّب على الإملاء"],
   "quiz2-quran": ["review/quiz-2/index.html#quran", "راجع الآيات"],
   "quiz2-ict": ["review/quiz-2/index.html#ict", "صفحة المراجعة"]
@@ -1053,7 +1053,7 @@ const NOTICES = [
 /* Study pages by group. The weekly plans come from WEEK_PAGES: this week's plan goes first (then next week's, once it is ready), the older ones last. */
 const WEEK_TEXT = {8:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", 9:"إجازة الأحد، ثم جدول الاثنين للخميس والواجبات وخطة المذاكرة لكل يوم.",
   10:"عرض Be Well يوم الأحد، ورحلة الأربعاء، والجدول اليومي والواجبات وخطة المذاكرة لكل يوم."};
-const PRACTICE_GROUPS = [["now","ابدأ من هنا"], ["math","الرياضيات"], ["isl","الدراسات الإسلامية"], ["ar","لغتي"], ["sci","العلوم"], ["eng","الإنجليزي"], ["ict","الحاسب"], ["old","خطط الأسابيع السابقة"]];
+const PRACTICE_GROUPS = [["now","ابدأ من هنا"], ["math","الرياضيات"], ["isl","الدراسات الإسلامية"], ["ar","لغتي"], ["sci","العلوم"], ["soc","الاجتماعيات"], ["eng","الإنجليزي"], ["ict","الحاسب"], ["old","خطط الأسابيع السابقة"]];
 const PRACTICE_PAGES = [
   {group:"now", kind:"مراجعة", href:"review/quiz-2/index.html", title:"مراجعة الاختبار القصير 2", text:"مواعيد اختبارات 8–19 نوفمبر ونطاق كل مادة درسًا درسًا، وعلامة على كل درس يراجعه.", cls:"s-quiz"},
   {group:"now", kind:"مكافأة", href:"arcade/index.html", title:"صالة الألعاب", text:"كل جزء يتقنه في صفحات المذاكرة يفتح 5 دقائق لعب، ومع كل جزء تنفتح لعبة جديدة. حد اليوم 20 دقيقة.", cls:"s-arcade"},
@@ -1069,6 +1069,7 @@ const PRACTICE_PAGES = [
   {group:"sci", kind:"مراجعة واختبار", href:"science/quiz-2/index.html", title:"الاختبار القصير 2: الدروس 2–5", text:"العضلات والمفاصل والهيكل ودعم النبات، والهضم والإخراج والبناء الضوئي مع رسوم للتسمية، وملخص الدرسين 4 و5 مع أسئلة Lesson Check، واختبار تجريبي من 30 سؤالًا.", cls:"s-sci"},
   {group:"sci", kind:"درس تفاعلي", href:"science/control-information/index.html", title:"التحكم والحواس", text:"الجهاز العصبي والدماغ، وكيف توصل الحواس الخمس المعلومات للدماغ.", cls:"s-sci"},
   {group:"sci", kind:"درس تفاعلي", href:"science/moving-material/index.html", title:"نقل المواد", text:"كيف تنقل النباتات والإنسان الماء والأكسجين والدم، ومختبر الخلية.", cls:"s-sci"},
+  {group:"soc", kind:"مراجعة واختبار", href:"social/quiz-2/index.html", title:"الاختبار القصير 2: الدولة السعودية الأولى", text:"شبه الجزيرة قبل الدولة، وتأسيس الدولة السعودية الأولى، وأئمتها الأربعة: ملخص وخط زمن وبطاقات الأئمة، وتدريب لكل درس (اختيار، صح وخطأ، أكمل، صِل، رتّب)، واختبار تجريبي.", cls:"s-soc"},
   {group:"eng", kind:"مراجعة واختبار", href:"english/quiz-2/index.html", title:"الاختبار القصير 2: الأجزاء الخمسة", text:"قصة Individual Twin، والفكرة الرئيسية، ومفردات الوحدة 4، والقواعد 7.1–7.3، والرسالة الودية مع فاحص يراجع رسالته، واختبار تجريبي من 30 سؤال.", cls:"s-eng"},
   {group:"eng", kind:"مفردات", href:"vocabulary/review-units-1-3/index.html", title:"مراجعة الوحدات 1-3", text:"Vocabulary Workshop، صفحات 42-49.", cls:"s-eng"},
   {group:"eng", kind:"مفردات", href:"vocabulary/unit-02/index.html", title:"الوحدة 2", text:"رحلة الكلمات العشرين للوحدة الثانية.", cls:"s-eng"},
