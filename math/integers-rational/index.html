@@ -1,0 +1,1337 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Number Line Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23FFD23F%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M21 21l22 22M43 21L21 43%22 stroke=%22%2314163A%22 stroke-width=%227%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn:#C77700; --warn-bg:#FFF0D1;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --c5:#E23F66; --c5t:#FFDDE6;
+  --col:var(--c1); --tint:var(--c1t);
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--c1);font-weight:700;overflow-wrap:anywhere}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.land-c1{--col:var(--c1);--tint:var(--c1t)} .land-c2{--col:var(--c2);--tint:var(--c2t)} .land-c3{--col:var(--c3);--tint:var(--c3t)}
+.land-c4{--col:var(--c4);--tint:var(--c4t)} .land-c5{--col:var(--c5);--tint:var(--c5t)}
+
+/* math type: powers and stacked fractions */
+sup{font-size:.62em;line-height:0;position:relative;vertical-align:baseline;top:-.62em;font-weight:inherit}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.8em;line-height:1.08;margin:0 .1em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fr .nu{border-bottom:.1em solid currentColor;padding:0 .14em}
+.fr .de{padding:0 .14em}
+.fr .sl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.fp{font-size:1.3em;line-height:1;font-weight:400;vertical-align:-.1em}
+sup.qm{display:inline-block;font-size:.8em;min-width:1.2em;padding:0 .12em;border:2px dashed var(--ink-2);border-radius:5px;text-align:center;line-height:1.2;top:-.45em;color:var(--ink-2);margin-left:.14em}
+.t,.nw{white-space:nowrap}
+.slot{display:inline-grid;place-items:center;width:1.5em;height:1.5em;margin:0 .15em;border:2px dashed var(--ink-2);border-radius:50%;vertical-align:middle;font-size:.9em;font-weight:800;color:var(--ink-2);line-height:1}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:900px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.xp{display:flex;align-items:center;gap:6px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;white-space:nowrap}
+.xp svg{width:20px;height:20px}
+.xp.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{50%{transform:scale(1.18)}}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);padding:0}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:520px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+@media (max-width:400px){.topbar-in{gap:8px}.logo-mark{font-size:22px}.xp{padding:3px 9px 3px 5px}}
+/* phones: the site strip above has the way home, so this bar keeps its room for the XP */
+@media (max-width:400px){.topbar a.icon-btn{display:none}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:16px;line-height:1.2;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn-go{background:var(--sun)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+.btn-sm{min-height:38px;padding:6px 12px;font-size:14px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:var(--shadow-sm)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.screen{animation:enter .35s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* home */
+.hero{margin-top:20px;padding:20px;display:grid;grid-template-columns:1.35fr 1fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(42px,7vw,66px)}
+.hero h1 span{color:var(--c1);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero p{margin-top:10px;max-width:50ch;color:var(--ink-2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;background:var(--page);text-align:center}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+@media (max-width:680px){.hero{grid-template-columns:1fr}}
+.banner{margin-top:16px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--sun-2)}
+.banner.alert{background:var(--bad-bg)}
+.banner p{flex:1 1 260px}
+.sec-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:34px 0 14px}
+.sec-title h2{font-size:36px}
+.sec-title p{color:var(--ink-2);font-size:14px}
+
+/* quest trail */
+.trail{position:relative;display:grid;gap:20px;padding-block:4px}
+.trail::before{content:"";position:absolute;top:0;bottom:-20px;left:50%;border-left:4px dashed var(--ink-3);transform:translateX(-2px)}
+.land{position:relative;width:calc(50% - 26px);display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px;text-align:left;background:var(--tint);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);transition:transform .12s}
+.land:nth-child(odd){justify-self:start}
+.land:nth-child(even){justify-self:end}
+.land:hover{transform:translateY(-3px) rotate(-.4deg)}
+.land::after{content:"";position:absolute;top:24px;width:22px;height:22px;border-radius:50%;background:var(--col);border:3px solid var(--ink)}
+.land:nth-child(odd)::after{right:-40px}
+.land:nth-child(even)::after{left:-40px}
+@media (max-width:680px){.trail::before{left:18px}.land{width:calc(100% - 44px);justify-self:end!important}.land::after{left:-40px!important;right:auto!important}}
+.badge{width:56px;height:56px;border-radius:50%;background:var(--col);border:3px solid var(--ink);display:grid;place-items:center;box-shadow:2px 2px 0 var(--ink)}
+.badge svg{width:32px;height:32px}
+.land-num{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.land h3{font-size:30px}
+.land .sub{font-size:14px;color:var(--ink-2)}
+.land-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.progress-note{font-size:13px;font-weight:700;color:var(--ink-2)}
+.stars{display:flex;gap:2px}
+.stars svg{width:24px;height:24px}
+.sticker{position:absolute;top:-19px;right:12px;font-family:var(--display);font-size:18px;letter-spacing:.05em;background:var(--bad);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 8px;transform:rotate(4deg);box-shadow:2px 2px 0 var(--ink)}
+.sticker.ok{background:var(--good)}
+.final{position:relative;margin:36px auto 0;max-width:560px;padding:18px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:var(--sun)}
+.final h3{font-size:34px}
+.final p{font-size:14px;color:var(--ink)}
+.final .row{grid-column:1 / -1}
+.final .badge{background:var(--ink)}
+
+/* homework */
+.hw{padding:16px;display:grid;gap:14px}
+.hw-item{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+.hw-item.done{background:var(--good-bg)}
+.hw-check{width:30px;height:30px;margin:2px 0 0;accent-color:var(--good);cursor:pointer}
+.hw-item h3{font-size:24px}
+.hw-item .due{font-size:13px;font-weight:800;color:var(--bad);text-transform:uppercase;letter-spacing:.06em}
+.hw-item ul{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}
+.hw-body{grid-column:2;display:grid;gap:8px;min-width:0}
+.hw-note{font-size:13px;color:var(--ink-2)}
+.foot-note{margin-top:28px;text-align:center;font-size:13px;color:var(--ink-2)}
+.foot-links{justify-content:center;margin-top:28px}
+.link-btn{background:none;border:0;padding:0;color:var(--ink-2);text-decoration:underline;font-size:13px}
+
+/* lesson */
+.lesson-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.chip-land{font-family:var(--display);font-size:22px;letter-spacing:.04em;padding:3px 12px;border:3px solid var(--ink);border-radius:10px;background:var(--col);color:#fff;-webkit-text-stroke:.5px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.intro{margin-top:14px;padding:22px;display:grid;gap:14px;background:var(--tint)}
+.intro h2{font-size:clamp(40px,8vw,64px);color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink)}
+.intro p{font-size:18px;max-width:60ch}
+.lcards{display:grid;gap:18px;margin-top:18px}
+.lcard{padding:16px;display:grid;gap:14px}
+.lcard-num{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.lcard h3{font-size:32px;color:var(--col);-webkit-text-stroke:1px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.lgrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px 20px;align-items:center}
+.lgrid.solo{grid-template-columns:1fr}
+@media (max-width:720px){.lgrid{grid-template-columns:1fr}}
+.ltext{display:grid;gap:12px;min-width:0;font-size:17px;line-height:1.6}
+.ltext b{background:var(--sun-2);padding:0 4px;border-radius:4px}
+.trick-inline{display:block;padding:10px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--sun-2);transform:rotate(-.6deg);box-shadow:2px 2px 0 var(--ink);font-weight:500}
+.ex{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--page);padding:12px 14px}
+.ex h4{margin:0;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.ex .ex-q{margin-top:2px;font-weight:800;font-size:18px}
+.ex ol{margin:8px 0 0;padding-left:22px;display:grid;gap:4px}
+.note{font-size:15px;padding:10px 12px;border-left:6px solid var(--col);background:var(--tint);border-radius:0 10px 10px 0}
+.tscroll{overflow-x:auto;max-width:100%}
+.rtable{width:100%;border-collapse:separate;border-spacing:0;border:2px solid var(--ink);border-radius:10px;overflow:hidden;font-size:15px;background:var(--paper)}
+.rtable th,.rtable td{padding:7px 10px;text-align:left;border-bottom:2px solid var(--page)}
+.rtable th{background:var(--ink);color:#fff;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.rtable tr:last-child td{border-bottom:0}
+.rtable td:first-child{font-weight:800;white-space:nowrap}
+@media (max-width:420px){.rtable{font-size:14px}.rtable th,.rtable td{padding:6px 7px}}
+.lesson-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+/* lesson pictures */
+.viz{width:100%;max-width:440px;margin:0 auto;border:3px solid var(--ink);border-radius:var(--r-sm);background:#fff;overflow:hidden;box-shadow:var(--shadow-sm)}
+.viz svg{display:block;width:100%;height:auto}
+.viz .vt{font-family:var(--body);font-size:15px;font-weight:700;fill:var(--ink)}
+.viz .vs{font-family:var(--body);font-size:13px;font-weight:600;fill:var(--ink-2)}
+.viz .vb{font-family:var(--body);font-size:21px;font-weight:800;fill:var(--ink)}
+.viz .vd{font-family:var(--display);fill:var(--ink);letter-spacing:.02em}
+.viz .vcap{font-family:var(--body);font-size:12px;font-weight:800;letter-spacing:.08em;fill:var(--ink-2)}
+.viz .ln{stroke:var(--ink);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.viz .lt{stroke:var(--ink-3);stroke-width:1.2;fill:none}
+.viz .tile{fill:var(--tint);stroke:var(--ink);stroke-width:2.5}
+.viz .hot{fill:var(--col);stroke:var(--ink);stroke-width:2.5}
+.viz .sun{fill:var(--sun-2);stroke:var(--ink);stroke-width:2.5}
+.viz .wht{fill:#fff;stroke:var(--ink);stroke-width:2.5}
+
+/* questions */
+.test-top{display:grid;gap:10px;margin-top:16px}
+.test-top .row{justify-content:space-between}
+.round-name{font-family:var(--display);font-size:26px;letter-spacing:.04em}
+.counter{font-weight:800;font-variant-numeric:tabular-nums}
+.progress{height:16px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--sun);border-right:2px solid var(--ink);transition:width .4s}
+.q-card{margin-top:14px;padding:18px;display:grid;gap:14px;min-width:0}
+.q-kicker{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.q-text{font-size:20px;line-height:1.55;font-weight:500;overflow-wrap:anywhere}
+.q-text:focus,.q-text:focus-visible{outline:none}
+.q-text b{background:var(--sun-2);padding:0 5px;border-radius:5px;box-shadow:inset 0 -3px 0 var(--sun);white-space:nowrap}
+.qx{display:block;margin-top:8px;padding:8px 12px;border:2px dashed var(--ink-3);border-radius:10px;background:var(--page);font-size:22px;font-weight:700;line-height:1.7;font-variant-numeric:tabular-nums}
+@media (max-width:420px){.q-text{font-size:19px}.qx{font-size:20px;padding:6px 10px}}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opts.three{grid-template-columns:repeat(3,1fr)}
+.opts.four{grid-template-columns:repeat(4,1fr)}
+@media (max-width:420px){.opts.two{grid-template-columns:1fr}.opts.four{grid-template-columns:1fr 1fr}}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;min-height:56px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:600;font-size:18px;line-height:1.35;box-shadow:3px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s;font-variant-numeric:tabular-nums;min-width:0}
+.opt:hover:not([disabled]){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.opt:active:not([disabled]){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.opt .k{flex:none;width:30px;height:30px;border-radius:8px;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:14px;background:var(--page)}
+.opt.big{justify-content:center;font-family:var(--display);font-size:34px;font-weight:400;letter-spacing:.04em;min-height:64px;text-align:center}
+.opt.big .fr{font-size:.72em}
+.opt.big.sym{font-family:var(--body);font-weight:800;font-size:36px}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--good-bg);animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+.opt.right .k{background:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-bg);animation:shake .4s}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt.dim{opacity:.5}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes pop{50%{transform:scale(1.04)}}
+.ans-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.type-in{min-width:0;font:inherit;font-size:22px;font-weight:700;letter-spacing:.02em;padding:10px 12px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums}
+.type-in:focus{outline:none;box-shadow:0 0 0 4px var(--sun)}
+.type-in.ok{background:var(--good-bg)} .type-in.no{background:var(--bad-bg);animation:shake .4s}
+.type-in.num{width:10em;max-width:100%}
+.lbl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);display:block;text-align:center}
+.unit{font-weight:800;font-size:18px;color:var(--ink-2)}
+/* the power input: a big base box with a small raised exponent box */
+.pow-in{display:flex;align-items:flex-start;gap:4px}
+.pow-b{display:grid;justify-items:center;gap:2px;margin-top:30px}
+.pow-e{display:grid;justify-items:center;gap:2px}
+.type-in.base{width:5.4em;font-size:28px;text-align:center;padding:10px 8px}
+.type-in.exp{width:2.8em;font-size:18px;text-align:center;padding:6px 4px}
+.keys{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.keys span{font-size:12px;font-weight:700;color:var(--ink-2);margin-right:4px}
+.key{min-width:44px;height:40px;padding:0 10px;border:2px solid var(--ink);border-radius:9px;background:var(--page);font-weight:800;font-size:18px;box-shadow:2px 2px 0 var(--ink)}
+.key:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+.input-msg{font-size:14px;font-weight:700;color:var(--bad);min-height:0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.hint-box{padding:10px 14px;border:2px dashed var(--ink);border-radius:10px;background:var(--sun-2);font-size:16px;animation:slideUp .3s ease-out}
+.hint-box b.tag,.tip b.tag{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:#fff;padding:2px 7px;border-radius:5px;margin-right:6px}
+.fb{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:start;padding:12px 14px;border:3px solid var(--ink);border-radius:12px;animation:slideUp .3s ease-out}
+.fb.ok{background:var(--good-bg)} .fb.no{background:var(--bad-bg)}
+.fb .burst{font-family:var(--display);font-size:30px;line-height:1;transform:rotate(-4deg);-webkit-text-stroke:1px var(--ink);white-space:nowrap}
+.fb.ok .burst{color:var(--good)} .fb.no .burst{color:var(--bad)}
+.fb .fb-body{font-size:16px;display:grid;gap:8px;min-width:0;overflow-wrap:anywhere}
+.fb .row{grid-column:1 / -1;justify-content:flex-end}
+@media (max-width:480px){.fb{grid-template-columns:1fr}}
+.tip{padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.7);border:2px solid var(--ink);font-weight:600}
+.your{font-size:14px;color:var(--ink-2)}
+@keyframes slideUp{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+
+/* results */
+.splash{margin-top:16px;padding:28px 20px;text-align:center;display:grid;gap:14px;justify-items:center;background:var(--tint)}
+.splash .big{font-family:var(--display);font-size:clamp(46px,10vw,78px);line-height:1;color:var(--col);-webkit-text-stroke:2px var(--ink);text-shadow:5px 5px 0 var(--ink);animation:zoomIn .6s cubic-bezier(.3,1.6,.5,1)}
+.splash p{max-width:46ch;font-size:17px}
+@keyframes zoomIn{0%{transform:scale(.2) rotate(-12deg);opacity:0}100%{transform:none;opacity:1}}
+.result-stars{display:flex;gap:10px;justify-content:center}
+.result-stars span{display:inline-block;animation:starIn .6s cubic-bezier(.3,1.6,.5,1) both}
+.result-stars svg{width:64px;height:64px;display:block}
+@keyframes starIn{0%{transform:scale(0) rotate(-40deg)}100%{transform:none}}
+.miss-list{display:grid;gap:12px;margin-top:16px}
+.miss{padding:14px;display:grid;gap:6px;background:var(--paper);overflow-wrap:anywhere}
+.miss .q{font-weight:600}
+.miss .a{font-size:14px;color:var(--ink-2)}
+.miss .w{font-size:15px}
+.test-intro{margin-top:16px;padding:22px;display:grid;gap:16px}
+.test-intro h2{font-size:clamp(40px,8vw,60px)}
+.rounds{display:grid;gap:8px;margin:0;padding:0;list-style:none;counter-reset:r}
+.rounds li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:8px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--page);counter-increment:r}
+.rounds li::before{content:counter(r);width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800}
+.rounds small{color:var(--ink-2);font-size:13px}
+
+/* report */
+.report-head{margin-top:16px;padding:20px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+@media (max-width:600px){.report-head{grid-template-columns:1fr;justify-items:center;text-align:center}.report-head .row{justify-content:center}}
+.ring{width:156px;height:156px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:grid;place-items:center;align-content:center;font-family:var(--display);font-size:46px;line-height:1}
+.ring .num small{font-family:var(--body);font-size:12px;font-weight:800;color:var(--ink-2);letter-spacing:.06em}
+.rank{font-family:var(--display);font-size:clamp(36px,6vw,54px);line-height:1}
+.report-head p{margin-top:6px;color:var(--ink-2)}
+.bars{padding:16px;display:grid;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(130px,230px) 1fr auto;gap:10px 12px;align-items:center}
+.bar-label{font-weight:700;line-height:1.25}
+.bar-label small{display:block;font-weight:500;font-size:12px;color:var(--ink-2)}
+.bar{height:22px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--col);border-right:2px solid var(--ink);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar i.zero{border-right:0}
+.bar-end{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pct{font-weight:800;font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.status{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:999px;border:2px solid var(--ink);white-space:nowrap}
+.status.good{background:var(--good-bg)} .status.mid{background:var(--warn-bg)} .status.low{background:var(--bad-bg)}
+@media (max-width:600px){.bar-row{grid-template-columns:1fr auto}.bar-row .bar{grid-column:1 / -1;grid-row:2}}
+.plan{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:p}
+.plan li{counter-increment:p;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;padding:14px;background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+.plan li::before{content:counter(p);grid-row:span 3;width:40px;height:40px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:24px}
+.plan li > *{grid-column:2;min-width:0}
+.plan .row{margin-top:4px}
+.history{padding:16px;display:flex;align-items:flex-end;gap:10px;min-height:170px;overflow-x:auto}
+.hcol{flex:0 0 52px;display:grid;justify-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--ink-2)}
+.hbar{width:34px;background:var(--c1);border:2px solid var(--ink);border-radius:6px 6px 0 0}
+.hcol b{color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}
+.answers{padding:6px 16px 16px}
+.answers summary{cursor:pointer;font-weight:800;padding:10px 0}
+.ans{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 0;border-top:2px dashed var(--ink-3);font-size:14px}
+.ans > div{min-width:0;overflow-wrap:anywhere}
+.ans .mark{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-weight:800;color:#fff}
+.ans .mark.ok{background:var(--good)} .ans .mark.no{background:var(--bad)}
+.ans small{color:var(--ink-2)}
+
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.xp-float{position:fixed;z-index:60;font-family:var(--display);font-size:32px;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:2px 2px 0 var(--ink);pointer-events:none;animation:floatUp 1s ease-out forwards}
+@keyframes floatUp{0%{transform:translate(-50%,0) scale(.6);opacity:0}20%{opacity:1;transform:translate(-50%,-10px) scale(1.1)}100%{transform:translate(-50%,-72px) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  .screen,.splash .big,.result-stars span,.fb,.opt,.hint-box,.type-in,.xp.bump{animation:none!important}
+  .btn,.opt,.land,.bar i,.progress i{transition:none!important}
+  .land:hover{transform:none}
+}
+/* ---------- PRINT: an A4 study sheet replaces the interactive page ---------- */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important;background-image:none!important}
+  body > :not(.print-sheet){display:none!important}
+  .print-sheet{display:block;color:#111;font-family:var(--body);font-size:10pt;line-height:1.38}
+  .print-sheet *{animation:none!important;transition:none!important;box-shadow:none!important}
+  .print-sheet h1,.print-sheet h2,.print-sheet h3{font-family:var(--body);font-weight:800;letter-spacing:0;line-height:1.2;color:#111}
+  .print-sheet h1{font-size:16pt}
+  .print-sheet h2{font-size:13pt;margin:7pt 0 3pt;break-after:avoid}
+  .print-sheet h3{font-size:10.5pt;margin:0 0 2pt;break-after:avoid}
+  .print-sheet p{margin:0 0 3pt}
+  .print-sheet ul,.print-sheet ol{margin:0;padding-left:13pt}
+  .print-sheet li{margin:0 0 2pt}
+  .print-sheet b{font-weight:800}
+  .ps-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10pt;border-bottom:0.75pt solid #999;padding-bottom:4pt;margin-bottom:5pt}
+  .ps-sub{font-size:9.5pt;color:#333;margin:1pt 0 0}
+  .ps-meta{font-size:9.5pt;font-weight:700;white-space:nowrap;text-align:right;margin:0}
+  .ps-page2{break-before:page}
+  .ps-row{display:grid;grid-template-columns:72mm 1fr;gap:6mm;align-items:start}
+  .ps-fig{margin:0}
+  .ps-fig figcaption{font-size:8.5pt;color:#333;margin-top:2pt}
+  .ps-box{border:0.75pt solid #999;border-radius:3pt;padding:4pt 7pt;break-inside:avoid}
+  .ps-box p:last-child{margin-bottom:0}
+  .ps-table{width:100%;border-collapse:collapse;font-size:9.5pt;break-inside:avoid}
+  .ps-table th,.ps-table td{border:0.75pt solid #999;padding:2.5pt 5pt;text-align:left;vertical-align:middle}
+  .ps-two{display:grid;grid-template-columns:1fr 1fr;gap:3mm 5mm;margin:3pt 0}
+  .ps-check{display:grid;grid-template-columns:auto 1fr;gap:6pt;align-items:start;margin:0 0 4pt;break-inside:avoid}
+  .ps-check .box{width:10pt;height:10pt;border:1pt solid #333;margin-top:2pt}
+  .ps-traps{columns:2;column-gap:8mm}
+  .print-sheet .viz{max-width:none;border:0.75pt solid #999;border-radius:3pt}
+  .print-sheet .fr{font-size:.85em}
+  .print-sheet .slot{border:1pt solid #666;width:1.3em;height:1.3em;color:#666}
+  .ps-qs{columns:2;column-gap:8mm;padding-left:15pt}
+  .ps-qs li{break-inside:avoid;margin-bottom:6pt}
+  .ps-line{display:block;height:8.5mm;border-bottom:0.75pt solid #999}
+  .ps-fills{display:block;margin-top:3pt;line-height:2.6}
+  .ps-fill{display:inline-block;white-space:nowrap;margin-right:4mm}
+  .print-sheet sup.qm{display:inline;border:0;min-width:0;padding:0;margin:0;color:inherit;font-size:.62em;line-height:0;top:-.62em}
+  .ps-blank{display:inline-block;width:20mm;border-bottom:0.75pt solid #999;margin:0 3mm 0 1mm;vertical-align:baseline}
+  .ps-blank.w{width:30mm}
+  .ps-key{margin-top:6pt;border-top:0.75pt dashed #999;padding-top:3pt;font-size:8.5pt;line-height:1.4;color:#333;break-inside:avoid}
+  .ps-key h3{font-size:9.5pt}
+  .ps-key ol{columns:2;column-gap:8mm}
+}
+/* absolute value bars stay with their number; a question's number line or table sits under its text */
+.abs{white-space:nowrap}
+.q-card > .viz{max-width:460px;margin:0}
+.q-table{margin:0}
+.ps-nl{display:block;margin-top:4pt}
+.ps-nl .viz{max-width:110mm}
+</style>
+</head><body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+<script src="../../assets/rewards.js" data-root="../../"></script>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="logo" data-act="home" aria-label="Back to the lab map">
+      <span class="logo-mark">NUMBER LINE LAB</span>
+      <span class="unit-chip">enVision · 2-1 to 2-3</span>
+    </button>
+    <span class="spacer"></span>
+    <span class="xp" id="xpBox" title="Your XP points"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="#FFD23F" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/></svg><b id="xpVal">0</b> XP</span>
+    <a class="icon-btn" href="../../index.html" aria-label="Home: homework dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+    </a>
+    <button class="icon-btn" id="soundBtn" data-act="sound" aria-label="Turn sound off"></button>
+  </div>
+</header>
+<main class="wrap">
+  <section id="scr-home" class="screen"></section>
+  <section id="scr-zone" class="screen" hidden></section>
+  <section id="scr-quiz" class="screen" hidden></section>
+  <section id="scr-result" class="screen" hidden></section>
+  <section id="scr-final" class="screen" hidden></section>
+  <section id="scr-report" class="screen" hidden></section>
+</main>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<div class="print-sheet" id="printSheet" aria-hidden="true"></div>
+<script>
+"use strict";
+
+/* ---------- CORE HELPERS ---------- */
+const INK = "#14163A";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const reduceMotion = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+const finePointer = !!(window.matchMedia && matchMedia("(pointer: fine)").matches);
+const pctOf = (a, b) => b ? Math.round(a / b * 100) : 0;
+const fmtDate = t => { try { return new Date(t).toLocaleString("en-GB", {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"}); } catch (e) { return ""; } };
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* ---------- NUMBERS ---------- */
+const near = (a, b) => Math.abs(a - b) < 1e-9;
+const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const isWhole = v => near(v, Math.round(v));
+const gcd = (a, b) => b ? gcd(b, a % b) : a;
+/* exact whole-number power (all values here stay far below 2^53) */
+const ipow = (b, e) => { let v = 1; for (let i = 0; i < e; i++) v *= b; return v; };
+/* 1234567 → "1,234,567" */
+const fmtInt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+/* Reads 81, 0.09, 4/9, 2 1/2, 1,000,000, "36 cm²" … and returns NaN if it can't.
+   A comma between groups of three digits is a thousands separator (1,000,000);
+   any other comma between digits is a decimal comma (0,09). */
+function parseNum(raw){
+  let s = String(raw == null ? "" : raw).trim().toLowerCase();
+  s = s.replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 0x660)).replace(/[۰-۹]/g, d => String(d.charCodeAt(0) - 0x6F0));
+  s = s.replace(/٬/g, ",").replace(/٫/g, ".");
+  s = s.replace(/[−‒–—﹣－]/g, "-").replace(/[⁄∕÷]/g, "/").replace(/[()]/g, " ");
+  s = s.replace(/½/g, " 1/2").replace(/¼/g, " 1/4").replace(/¾/g, " 3/4");
+  s = s.replace(/([a-z])[²³]/g, "$1");
+  s = s.replace(/[a-z]+\.?/g, " ").replace(/\s+/g, " ").trim().replace(/^\+\s*/, "").replace(/^-\s+/, "-");
+  s = s.replace(/(^|[^\d.,])([1-9]\d{0,2}(?:,\d{3})+)(?![\d,])/g, (m, a, n) => a + n.replace(/,/g, ""));
+  if (/^-?[1-9]\d{0,2}( \d{3})+$/.test(s)) s = s.replace(/ /g, "");
+  s = s.replace(/(\d),(\d)/g, "$1.$2");
+  let m;
+  if ((m = s.match(/^(-?)(\d+\.?\d*|\.\d+)$/))) return (m[1] ? -1 : 1) * parseFloat(m[2]);
+  if ((m = s.match(/^(-?)(\d+) (\d+) ?\/ ?(\d+)$/)) && +m[4]) return (m[1] ? -1 : 1) * (+m[2] + +m[3] / +m[4]);
+  if ((m = s.match(/^(-?)(\d+) ?\/ ?(\d+)$/)) && +m[3]) return (m[1] ? -1 : 1) * (+m[2] / +m[3]);
+  return NaN;
+}
+
+/* ---------- MATH TEXT ----------
+   A tiny markup for maths: "6^4", "(2/3)^2", "1/16".
+   M() turns it into HTML (raised exponents, stacked fractions); T() into plain text ("6⁴", "(2/3)²"). */
+const SUPC = {"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","n":"ⁿ"};
+const supT = e => { const s = String(e); return s.split("").every(c => SUPC[c]) ? s.split("").map(c => SUPC[c]).join("") : "^" + s; };
+const sup = e => e === "?" ? '<sup class="qm">?</sup>' : "<sup>" + e + "</sup>";
+/* a stacked fraction; the hidden slash (and hidden brackets around a product) keep the plain text right: "(2 × 2)/(3 × 3)" */
+const hp = x => /\s/.test(String(x)) ? '<span class="sl">(</span>' + x + '<span class="sl">)</span>' : x;
+const fr = (n, d) => '<span class="fr"><span class="nu">' + hp(n) + '</span><span class="sl">/</span><span class="de">' + hp(d) + '</span></span>';
+const FPO = '<span class="fp">(</span>', FPC = '<span class="fp">)</span>';
+function M(s){
+  return String(s).replace(/\(([\d ×]+)\)\/\(([\d ×]+)\)/g, (m, a, b) => fr(a.trim(), b.trim()))
+    .replace(/\((\d+)\/(\d+)\)/g, (m, a, b) => FPO + fr(a, b) + FPC)
+    .replace(/(\d+)\/(\d+)/g, (m, a, b) => fr(a, b))
+    .replace(/\^(\d+|\?|n)/g, (m, e) => sup(e));
+}
+const T = s => String(s).replace(/\^(\d+|\?|n)/g, (m, e) => supT(e));
+/* HTML → plain text for the answer lists and the screen-reader announcements */
+const strip = h => String(h).replace(/<sup[^>]*>(.*?)<\/sup>/g, (m, e) => supT(e.replace(/<[^>]*>/g, "")))
+  .replace(/<br\s*\/?>/g, " ").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+  .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+/* Line breaks: keep "(5 × 10³)" terms and "fraction + full stop" together. Applied to each screen's HTML. */
+const NW_FR = /<b><span class="fr">(?:(?!<\/span><\/span>).)*<\/span><\/span><\/b>[.,;:?!]|<span class="fr">(?:(?!<\/span><\/span>).)*<\/span><\/span>[.,;:?!]/g;
+const TERM10 = /\(?\d[\d,]* × 10<sup[^>]*>[^<]*<\/sup>\)?/g;
+const keep = h => String(h).replace(NW_FR, m => '<span class="nw">' + m + '</span>').replace(TERM10, m => '<span class="t">' + m + '</span>');
+const NAMES = ["Sami", "Lina", "Omar", "Huda", "Yousef", "Reem", "Faisal", "Noura", "Ziad", "Dana"];
+
+/* multiple choice: items[0] is the right answer; each wrong item can carry a tip for that slip */
+function mcQ(o, items, layout){
+  const order = shuffle(items.map((it, i) => i));
+  return Object.assign({kind:"mc", layout:layout || "list", opts:order.map(i => items[i].h), optTips:order.map(i => items[i].tip || ""), ans:order.indexOf(0)}, o);
+}
+
+/* ---------- RATIONAL NUMBERS ----------
+   Values are plain numbers. fmtDec() writes one with a real minus sign (−2.25); mixed() writes a fraction value as a
+   mixed number for M() ("−1 2/5"), which stacks the fraction. */
+const MINUS = "−";
+const fmtDec = v => (v < 0 ? MINUS : "") + String(+Math.abs(v).toFixed(4));
+function mixed(v, d){
+  const neg = v < 0, a = Math.abs(v), w = Math.floor(a + 1e-9), n = Math.round((a - w) * d);
+  if (!n) return (neg ? MINUS : "") + w;
+  const g = gcd(n, d);
+  return (neg ? MINUS : "") + (w ? w + " " : "") + n / g + "/" + d / g;
+}
+/* a value as the lesson writes it: a fraction value keeps its fraction, anything else is a decimal */
+const numH = (v, d) => d ? M(mixed(v, d)) : fmtDec(v);
+const numT = (v, d) => d ? strip(M(mixed(v, d))) : fmtDec(v);
+const absBars = h => '<span class="abs">|' + h + '|</span>';
+
+/* ---------- PICTURES (SVG) ---------- */
+const svgBox = (w, h, body, label) => '<div class="viz"><svg viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + esc(label) + '">' + body + '</svg></div>';
+const tx = (x, y, s, cls, anchor, extra) => '<text class="' + cls + '" x="' + x + '" y="' + y + '"' + (anchor ? ' text-anchor="' + anchor + '"' : "") + (extra || "") + '>' + s + '</text>';
+const numLabel = v => (v < 0 ? MINUS : "") + String(+Math.abs(v).toFixed(2));
+/* A number line from lo to hi: a tick every `step`, a longer labelled tick every `every` (1 by default),
+   lettered points, and arcs from 0 (for opposites and absolute value). */
+function nline(o){
+  const W = 420, x0 = 28, x1 = 392, top = (o.pts || []).some(p => p.name) || o.arcs ? (o.arcs ? 74 : 54) : 34, y = top, H = y + 40;
+  const X = v => x0 + (v - o.lo) / (o.hi - o.lo) * (x1 - x0), f = v => X(v).toFixed(1);
+  let s = '<path class="ln" d="M' + (x0 - 16) + ' ' + y + ' H' + (x1 + 16) + '"/>'
+    + '<path class="ln" d="M' + (x0 - 8) + ' ' + (y - 6) + ' L' + (x0 - 16) + ' ' + y + ' L' + (x0 - 8) + ' ' + (y + 6) + '"/>'
+    + '<path class="ln" d="M' + (x1 + 8) + ' ' + (y - 6) + ' L' + (x1 + 16) + ' ' + y + ' L' + (x1 + 8) + ' ' + (y + 6) + '"/>';
+  const every = o.every || 1, n = Math.round((o.hi - o.lo) / o.step);
+  for (let k = 0; k <= n; k++){
+    const v = o.lo + k * o.step, big = isWhole(v / every);
+    s += '<path class="' + (big ? "ln" : "lt") + '" d="M' + f(v) + ' ' + (y - (big ? 9 : 6)) + ' V' + (y + (big ? 9 : 6)) + '"/>';
+    if (big) s += tx(f(v), y + 29, numLabel(v), "vt", "middle");
+  }
+  (o.arcs || []).forEach(a => {
+    s += '<path class="ln" d="M' + f(0) + ' ' + (y - 5) + ' Q' + f(a.v / 2) + ' ' + (y - 50) + ' ' + f(a.v) + ' ' + (y - 5) + '" style="stroke-dasharray:6 5"/>'
+      + tx(f(a.v / 2), y - 34, a.label, "vs", "middle");
+  });
+  (o.pts || []).forEach(p => {
+    s += '<circle class="' + (p.cls || "hot") + '" cx="' + f(p.v) + '" cy="' + y + '" r="7"/>';
+    if (p.name) s += tx(f(p.v), y - 16, p.name, "vb", "middle", ' font-size="19"');
+  });
+  (o.notes || []).forEach(t => { s += tx(f(t.v), t.y || y - 20, t.s, t.cls || "vs", "middle"); });
+  return svgBox(W, H, s, o.label);
+}
+/* the lesson pictures */
+const vizSigns = () => nline({lo:-5, hi:5, step:1, pts:[{v:0, cls:"wht"}],
+  notes:[{v:-2.5, s:"negative ← smaller", y:16, cls:"vt"}, {v:2.5, s:"bigger → positive", y:16, cls:"vt"}],
+  label:"A number line from −5 to 5. Numbers left of 0 are negative, numbers right of 0 are positive; 0 is neither."});
+const vizOpposites = () => nline({lo:-5, hi:5, step:1, pts:[{v:-4, name:""}, {v:4, name:""}], arcs:[{v:-4, label:"4 units"}, {v:4, label:"4 units"}],
+  label:"−4 and 4 are both 4 units from 0, on opposite sides, so they are opposites."});
+const vizQuarters = () => nline({lo:-3, hi:-1, step:0.25, pts:[{v:-2.25, name:"B"}],
+  notes:[{v:-2.5, s:"4 spaces from −3 to −2: each is 0.25", y:16, cls:"vs"}],
+  label:"A number line from −3 to −1 with a tick every 0.25. Point B is one tick left of −2, at −2.25."});
+const vizCompare = () => nline({lo:-1, hi:1, step:0.25, pts:[{v:-0.75, name:"−0.75"}, {v:-0.5, name:"−0.5"}],
+  notes:[{v:0.5, s:"right = greater", y:16, cls:"vt"}],
+  label:"−0.5 is to the right of −0.75 on the number line, so −0.5 is greater than −0.75."});
+const vizAbs = () => nline({lo:-4, hi:4, step:1, pts:[{v:-3, name:""}, {v:3, name:""}], arcs:[{v:-3, label:"|−3| = 3"}, {v:3, label:"|3| = 3"}],
+  label:"−3 and 3 are both 3 units from 0, so the absolute value of each is 3."});
+
+/* ---------- QUESTIONS ----------
+   A generator returns a question: kind "num" (typed: num is the answer, diag(g) a tip for a wrong value) or "mc"
+   (from mcQ: the first item is right, a wrong item can carry a tip for that slip). viz is shown under the question. */
+const LETTERS = ["A", "B", "C", "D"];
+/* "Which point shows …?": four values on one number line, lettered A–D from left to right; the first value is right */
+function letterQ(o, line, target, wrongs){
+  const vals = [target].concat(wrongs.map(w => w[0]));
+  const order = vals.map((v, i) => ({v, i})).sort((a, b) => a.v - b.v), name = [];
+  order.forEach((p, k) => { name[p.i] = LETTERS[k]; });
+  const viz = nline(Object.assign({}, line, {pts:order.map((p, k) => ({v:p.v, name:LETTERS[k]})),
+    label:"A number line from " + numLabel(line.lo) + " to " + numLabel(line.hi) + " with points A, B, C and D."}));
+  const optTips = LETTERS.map(L => { const i = name.indexOf(L); return i > 0 ? wrongs[i - 1][1] : ""; });
+  return Object.assign({kind:"mc", layout:"four", opts:LETTERS.slice(), optTips, ans:LETTERS.indexOf(name[0]), viz, ansText:name[0] + " (" + numLabel(target) + ")"}, o);
+}
+/* four values that sit on ticks, all different and at least one tick apart */
+const spread = (vals, step) => vals.every((a, i) => vals.every((b, j) => i === j || Math.abs(a - b) >= step - 1e-9));
+/* <, >, = in a fixed order */
+function symQ(o, a, b, tipFor){
+  const ans = a < b - 1e-9 ? 0 : a > b + 1e-9 ? 1 : 2, opts = ["&lt;", "&gt;", "="];
+  return Object.assign({kind:"mc", layout:"three", opts, ans, optTips:opts.map((x, i) => i === ans ? "" : tipFor(i)), ansText:["<", ">", "="][ans]}, o);
+}
+const SYM = ["<", ">", "="];
+const tableViz = (head, rows) => '<div class="tscroll q-table"><table class="rtable"><thead><tr>' + head.map(h => '<th scope="col">' + h + '</th>').join("") + '</tr></thead><tbody>'
+  + rows.map(r => '<tr>' + r.map(c => '<td class="nw">' + c + '</td>').join("") + '</tr>').join("") + '</tbody></table></div>';
+
+const CONTEXTS = [
+  {s:"A diver swims 12 metres below sea level.", v:-12, sign:"below sea level is negative."},
+  {s:"Huda deposits 25 riyals in her bank account.", v:25, sign:"a deposit adds money, so it is positive."},
+  {s:"Sami withdraws 40 riyals from the bank.", v:-40, sign:"a withdrawal takes money out, so it is negative."},
+  {s:"At night the temperature is 6 degrees below zero.", v:-6, sign:"below zero is negative."},
+  {s:"A plane flies 900 metres above sea level.", v:900, sign:"above sea level is positive."},
+  {s:"A team loses 3 points.", v:-3, sign:"a loss is negative."},
+  {s:"Meghan earns 50 riyals of income from her shop.", v:50, sign:"income is money you receive, so it is positive."},
+  {s:"Omar pays 15 riyals in expenses for supplies.", v:-15, sign:"an expense is money you pay, so it is negative."},
+  {s:"A lift goes down 4 floors.", v:-4, sign:"going down is negative."},
+  {s:"A plant grows 7 centimetres.", v:7, sign:"growing adds height, so it is positive."}
+];
+
+const G = {
+  /* ===== Zone 1 · Integer Island (Lesson 2-1) ===== */
+  readInt(){
+    let v; do { v = rnd(-9, 9); } while (v === 0 || Math.abs(v) === 5 || (v > 0 && Math.random() < .65));
+    return {kind:"num", skill:"ints", text:"What integer does point <b>D</b> represent?",
+      viz:nline({lo:-10, hi:10, step:1, every:5, pts:[{v, name:"D"}], label:"A number line from −10 to 10 with a tick at every integer, labelled every 5, and point D."}),
+      num:v, ansText:fmtDec(v),
+      hint:"Each tick is 1. Start at 0 (or at the labelled 5 or −5) and count the ticks to D. Left of 0 is negative.",
+      why:"Each tick is 1, and D is " + Math.abs(v) + " " + (Math.abs(v) === 1 ? "tick" : "ticks") + " to the " + (v < 0 ? "left" : "right") + " of 0, so D is <b>" + fmtDec(v) + "</b>.",
+      diag:g => g === -v ? "Check the side: D is " + (v < 0 ? "left" : "right") + " of 0, so the integer is " + (v < 0 ? "negative" : "positive") + "."
+        : Math.abs(g - v) === 1 ? "Count the ticks again, one by one from 0. Every tick is 1." : ""};
+  },
+  pointInt(){
+    let v, nb, other;
+    do { v = -rnd(2, 9); nb = v + pick([-1, 1]); other = rnd(-9, 9); } while ([v, -v, nb, 0].includes(other) || !spread([v, -v, nb, other], 1) || Math.abs(nb) === Math.abs(v));
+    return letterQ({skill:"ints", text:"Which point shows <b>" + fmtDec(v) + "</b>?",
+      hint:"Negative numbers are to the left of 0. Count " + Math.abs(v) + " ticks to the left.",
+      why:fmtDec(v) + " is " + Math.abs(v) + " ticks to the left of 0."}, {lo:-10, hi:10, step:1, every:5}, v,
+      [[-v, "That point is " + fmtDec(-v) + ", the opposite: it's on the wrong side of 0."],
+       [nb, "That point is " + fmtDec(nb) + ". Count the ticks from 0 again."],
+       [other, "That point is " + fmtDec(other) + "."]]);
+  },
+  oppNum(){
+    const a = pick([1, -1, -1]) * rnd(2, 25);
+    return {kind:"num", skill:"opp", text:"Write the opposite of <b>" + fmtDec(a) + "</b>.", num:-a, ansText:fmtDec(-a),
+      hint:"The opposite is the same distance from 0, on the other side: change the sign.",
+      why:fmtDec(a) + " and " + fmtDec(-a) + " are both " + Math.abs(a) + " units from 0, on opposite sides. The opposite is <b>" + fmtDec(-a) + "</b>.",
+      diag:g => g === a ? "That's the same number. The opposite has the other sign." : Math.abs(g) !== Math.abs(a) ? "The opposite keeps the same digits, " + Math.abs(a) + ", and changes the sign." : ""};
+  },
+  oppDouble(){
+    const n = rnd(2, 20);
+    if (Math.random() < .5) return {kind:"num", skill:"opp", text:"What integer is <b>" + MINUS + "(" + MINUS + n + ")</b>?", num:n, ansText:String(n),
+      hint:"Read " + MINUS + "(" + MINUS + n + ") as “the opposite of negative " + n + "”.",
+      why:MINUS + "(" + MINUS + n + ") is the opposite of " + MINUS + n + ", which is <b>" + n + "</b>.",
+      diag:g => g === -n ? MINUS + "(" + MINUS + n + ") means the opposite of " + MINUS + n + ". The opposite of a negative number is positive." : ""};
+    return {kind:"num", skill:"opp", text:"What is the opposite of the opposite of <b>" + MINUS + n + "</b>?", num:-n, ansText:MINUS + n,
+      hint:"Take the opposite twice: " + MINUS + n + " → " + n + " → ?",
+      why:"The opposite of " + MINUS + n + " is " + n + ", and the opposite of " + n + " is <b>" + MINUS + n + "</b>: you're back where you started.",
+      diag:g => g === n ? "That's only one opposite. Take the opposite again: " + n + " → " + MINUS + n + "." : ""};
+  },
+  oppMC(){
+    const a = rnd(3, 15);
+    return mcQ({skill:"opp", text:"Which number is the same distance from 0 as <b>" + MINUS + a + "</b>, but on the other side?",
+      hint:"That's the opposite: the same distance from 0, on the other side.",
+      why:MINUS + a + " is " + a + " units left of 0 and <b>" + a + "</b> is " + a + " units right of 0, so they are opposites.", ansText:String(a)},
+      [{h:String(a)}, {h:MINUS + a, tip:"That's the same number, on the same side of 0."}, {h:"0", tip:"0 is in the middle, " + a + " units away from " + MINUS + a + "."},
+       {h:M("1/" + a), tip:"The opposite keeps the same digits and changes the sign. It isn't a fraction."}], "four");
+  },
+  contextNum(){
+    const c = pick(CONTEXTS);
+    return {kind:"num", skill:"context", text:"Write an integer for this: <span class=\"qx\">" + c.s + "</span>", num:c.v, ansText:fmtDec(c.v),
+      hint:"Up, above, gain, earn, deposit: positive. Down, below, lose, spend, withdraw: negative.",
+      why:"Here " + c.sign + " The integer is <b>" + fmtDec(c.v) + "</b>.",
+      diag:g => g === -c.v ? "Check the sign: " + c.sign : Math.abs(g) !== Math.abs(c.v) ? "Use the number in the sentence, " + Math.abs(c.v) + ", with the right sign." : ""};
+  },
+  contextMC(){
+    const c = pick(CONTEXTS);
+    return mcQ({skill:"context", text:"Which integer represents this? <span class=\"qx\">" + c.s + "</span>",
+      hint:"Up, above, gain, earn, deposit: positive. Down, below, lose, spend, withdraw: negative.",
+      why:"Here " + c.sign + " The integer is <b>" + fmtDec(c.v) + "</b>.", ansText:fmtDec(c.v)},
+      [{h:fmtDec(c.v)}, {h:fmtDec(-c.v), tip:"Check the sign: " + c.sign}, {h:"0", tip:"0 means no change, but here something changes by " + Math.abs(c.v) + "."}]);
+  },
+  lowestMC(){
+    const who = shuffle(NAMES.slice()).slice(0, 4);
+    let d; do { d = who.map(() => -rnd(5, 40)); } while (new Set(d).size < 4);
+    const deep = Math.random() < .6, best = deep ? Math.min(...d) : Math.max(...d), wi = d.indexOf(best);
+    return mcQ({skill:"ints", text:deep ? "Four divers are under the water. Which diver is the <b>deepest</b>?" : "Four divers are under the water. Which diver is <b>closest to the surface</b>?",
+      viz:tableViz(["Diver", "Depth"], who.map((w, i) => [w, fmtDec(d[i]) + " m"])),
+      hint:deep ? "The deepest diver has the lowest depth: the number farthest left on a number line." : "Sea level is 0. The diver closest to it has the depth closest to 0.",
+      why:(deep ? "The lowest number is the most negative: " : "The greatest number is the one closest to 0: ") + "<b>" + who[wi] + " (" + fmtDec(best) + " m)</b>. In order: " + d.slice().sort((a, b) => a - b).map(v => fmtDec(v)).join(" < ") + ".",
+      ansText:who[wi]},
+      [{h:who[wi]}].concat(who.map((w, i) => ({w, i})).filter(x => x.i !== wi).map(x => ({h:x.w,
+        tip:deep ? fmtDec(d[x.i]) + " m is higher than " + fmtDec(best) + " m: on a number line it's to the right." : fmtDec(d[x.i]) + " m is farther from 0 than " + fmtDec(best) + " m, so that diver is deeper."}))));
+  },
+  intOrNot(){
+    const ints = shuffle([-9, 0, 16, -4, 23, -15, 7]).slice(0, 3), non = pick(["4.5", MINUS + "2.5", "3/4", MINUS + "1 1/2", "0.8"]);
+    return mcQ({skill:"ints", text:"Which number is <b>not</b> an integer?",
+      hint:"Integers are the counting numbers (1, 2, 3 …), their opposites (−1, −2, −3 …) and 0. No fractions or decimals.",
+      why:"<b>" + M(non) + "</b> is between two integers, so it is not an integer. " + ints.map(fmtDec).join(", ") + " are integers.", ansText:strip(M(non))},
+      [{h:M(non)}].concat(ints.map(v => ({h:fmtDec(v), tip:v === 0 ? "0 is an integer: it is neither positive nor negative." : v < 0 ? "Negative whole numbers like " + fmtDec(v) + " are integers too." : fmtDec(v) + " is a counting number, so it's an integer."}))), "four");
+  },
+
+  /* ===== Zone 2 · Rational Road (Lesson 2-2) ===== */
+  readDec(){
+    const step = pick([0.25, 0.5, 0.2]), lo = -rnd(3, 5), hi = lo + 3, per = Math.round(1 / step);
+    let v; do { v = lo + rnd(1, 3 * per - 1) * step; } while (isWhole(v) || v >= 0);
+    const right = Math.ceil(v - 1e-9), k = Math.round((right - v) / step), mirror = Math.floor(v) + (right - v);
+    return {kind:"num", skill:"rat", text:"What decimal does point <b>B</b> represent?",
+      viz:nline({lo, hi, step, pts:[{v, name:"B"}], label:"A number line from " + lo + " to " + hi + " with " + per + " spaces between integers, and point B."}),
+      num:v, ansText:fmtDec(v),
+      hint:"Count the spaces between two labelled integers: " + per + " spaces, so each tick is " + step + ".",
+      why:per + " spaces make 1, so each tick is " + step + ". B is " + k + " " + (k === 1 ? "tick" : "ticks") + " left of " + fmtDec(right) + ": " + fmtDec(right) + " − " + fmtDec(k * step) + " = <b>" + fmtDec(v) + "</b>.",
+      diag:g => near(g, -v) ? "Check the sign: B is left of 0, so it's negative."
+        : near(g, mirror) ? "For negative numbers, count from the integer on the right: B is " + k + " " + (k === 1 ? "tick" : "ticks") + " left of " + fmtDec(right) + "."
+        : near(g, right - k * 0.1) ? "Each tick here is " + step + ", not 0.1: there are " + per + " spaces between integers." : ""};
+  },
+  readFrac(){
+    const d = pick([2, 4, 5]), a = -rnd(1, 3), k = rnd(1, d - 1), v = a - k / d, lo = a - 2, hi = a + 1;
+    const word = {2:"halves", 4:"fourths", 5:"fifths"}[d], mirror = a - 1 + k / d;
+    return {kind:"num", skill:"rat", text:"The ticks are in " + word + ". What number does point <b>P</b> represent? Type a fraction or a decimal.",
+      viz:nline({lo, hi, step:1 / d, pts:[{v, name:"P"}], label:"A number line from " + lo + " to " + hi + " with ticks in " + word + ", and point P."}),
+      num:v, ansText:numT(v, d) + " = " + fmtDec(v),
+      hint:"Each tick is " + M("1/" + d) + ". Start at " + fmtDec(a) + " and count the ticks to the left.",
+      why:"Each tick is " + M("1/" + d) + ". P is " + k + " " + (k === 1 ? "tick" : "ticks") + " left of " + fmtDec(a) + ", so P = <b>" + M(mixed(v, d)) + "</b> = " + fmtDec(v) + ".",
+      diag:g => near(g, -v) ? "Check the sign: P is left of 0, so it's negative."
+        : near(g, mirror) ? "Count from " + fmtDec(a) + " to the left: P is " + k + " " + (k === 1 ? "tick" : "ticks") + " past it, not before it."
+        : near(Math.abs(g), k / d) ? "Don't forget the whole part: P is past " + fmtDec(a) + "." : ""};
+  },
+  pointRat(){
+    /* not halves: there the mirror-image distractor would sit on the answer itself */
+    const step = pick([0.25, 0.2]), per = Math.round(1 / step), lo = -4, hi = step === 0.2 ? 1 : 2, frac = step === 0.25 && Math.random() < .5;
+    let v, mir, unit, op, vals;
+    do {
+      const a = -rnd(1, 3), k = rnd(1, per - 1);
+      v = a - k * step; mir = a - 1 + k * step; unit = v + pick([1, -1]); op = -v;
+      vals = [v, mir, unit, op <= hi - 1e-9 ? op : v + pick([2, -2])];
+    } while (vals.some(x => x < lo + step - 1e-9 || x > hi - 1e-9) || !spread(vals, step) || near(mir, v));
+    const d = frac ? per : 0;
+    return letterQ({skill:"rat", text:"Which point shows <b>" + numH(v, d) + "</b>?",
+      hint:"Each tick is " + (d ? M("1/" + d) : step) + ". " + numH(v, d) + " is between " + fmtDec(Math.ceil(v)) + " and " + fmtDec(Math.floor(v)) + ".",
+      why:numH(v, d) + " is between " + fmtDec(Math.floor(v)) + " and " + fmtDec(Math.ceil(v)) + ", " + Math.round((Math.ceil(v) - v) / step) + " " + (Math.round((Math.ceil(v) - v) / step) === 1 ? "tick" : "ticks") + " left of " + fmtDec(Math.ceil(v)) + "."},
+      {lo, hi, step}, v,
+      [[vals[1], "That point is " + numT(vals[1], d) + ". For negative numbers, count left from " + fmtDec(Math.ceil(v)) + "."],
+       [vals[2], "That point is " + numT(vals[2], d) + ", one whole unit away."],
+       [vals[3], vals[3] > 0 ? "That point is " + numT(vals[3], d) + ", on the positive side of 0." : "That point is " + numT(vals[3], d) + "."]]);
+  },
+  compareSym(){
+    const t = pick(["dec", "frac", "int", "eq"]);
+    let a, b, A, B;
+    if (t === "dec"){ const x = rnd(2, 9) / 10, y = x + pick([0.05, -0.05]); a = -x; b = -y; A = fmtDec(a); B = fmtDec(b); }
+    else if (t === "frac"){ const p = pick([[3, 4, 0.8], [2, 5, 0.45], [1, 2, 0.45], [3, 5, 0.65], [1, 4, 0.3]]); a = -p[0] / p[1]; b = -p[2]; A = M(MINUS + p[0] + "/" + p[1]); B = fmtDec(b); }
+    else if (t === "int"){ const x = rnd(2, 12), y = x + rnd(1, 6); a = -x; b = -y; A = fmtDec(a); B = fmtDec(b); }
+    else { const p = pick([[2, 5, 0.4], [1, 4, 0.25], [3, 4, 0.75], [1, 2, 0.5]]), w = rnd(0, 2); a = -(w + p[0] / p[1]); b = -(w + p[2]); A = M(MINUS + (w ? w + " " : "") + p[0] + "/" + p[1]); B = fmtDec(b); }
+    if (Math.random() < .5){ [a, b] = [b, a]; [A, B] = [B, A]; }
+    const ex = !near(a, b) ? (a > b ? A + " is to the right of " + B : B + " is to the right of " + A) + " on the number line." : "Write both as decimals: they are the same number.";
+    return symQ({skill:"compare", text:"Choose &lt;, &gt; or =: <span class=\"qx\">" + A + " &nbsp;☐&nbsp; " + B + "</span>",
+      hint:"Write both as decimals, then think of the number line: the number to the right is greater. With negatives, the one closer to 0 is greater.",
+      why:ex + " So <b>" + strip(A) + " " + SYM[a < b - 1e-9 ? 0 : a > b + 1e-9 ? 1 : 2] + " " + strip(B) + "</b>."}, a, b,
+      i => i === 2 ? "They aren't equal. Write both as decimals and compare." : near(a, b) ? "Write both as decimals: " + strip(A) + " = " + fmtDec(a) + ", so they are equal." : "With negative numbers, the one closer to 0 is greater: " + (a > b ? strip(A) : strip(B)) + " is to the right.");
+  },
+  compareSym2(){
+    const t = pick(["frac", "sign", "zero", "mix"]);
+    let a, b, A, B;
+    if (t === "frac"){ const p = pick([[7, 4, 1.7], [5, 4, 1.3], [10, 7, 1.4], [9, 5, 1.8], [3, 8, 0.4]]); a = p[0] / p[1]; b = p[2]; A = M(p[0] + "/" + p[1]); B = fmtDec(b); }
+    else if (t === "sign"){ a = -rnd(2, 9); b = rnd(1, 9) / 10; A = fmtDec(a); B = fmtDec(b); }
+    else if (t === "zero"){ a = 0; b = -rnd(1, 9) / 10; A = "0"; B = fmtDec(b); }
+    else { const w = rnd(1, 3), p = pick([[1, 2, 0.5], [1, 4, 0.25], [3, 4, 0.75]]); a = w + p[0] / p[1]; b = w + p[2]; A = M(w + " " + p[0] + "/" + p[1]); B = fmtDec(b); }
+    if (Math.random() < .5){ [a, b] = [b, a]; [A, B] = [B, A]; }
+    return symQ({skill:"compare", text:"Choose &lt;, &gt; or =: <span class=\"qx\">" + A + " &nbsp;☐&nbsp; " + B + "</span>",
+      hint:"Change the fraction to a decimal (divide the top by the bottom). Any positive number is greater than 0, and 0 is greater than any negative number.",
+      why:(near(a, b) ? strip(A) + " and " + strip(B) + " are the same number" : (a > b ? strip(A) + " is to the right of " + strip(B) : strip(B) + " is to the right of " + strip(A)) + " on the number line")
+        + ". So <b>" + strip(A) + " " + SYM[a < b - 1e-9 ? 0 : a > b + 1e-9 ? 1 : 2] + " " + strip(B) + "</b>."}, a, b,
+      i => i === 2 ? "They aren't equal: write the fraction as a decimal first." : near(a, b) ? "Write the fraction as a decimal: they're the same number." : "Picture the number line: " + (a > b ? strip(A) : strip(B)) + " is farther right, so it's greater.");
+  },
+  orderMC(){
+    const POOL = [[-2.5], [-3.5], [1.25, 4], [0.4], [-2], [-0.5, 2], [0.75, 4], [1.5], [-0.75], [-2.25, 4], [2], [-3], [-1.5], [0.25]];
+    let nums;
+    do { nums = shuffle(POOL.slice()).slice(0, 4); } while (nums.filter(n => n[0] < 0).length < 2 || nums.filter(n => n[0] > 0).length < 1);
+    const txt = n => numH(n[0], n[1]), list = a => a.map(txt).join(", ");
+    const asc = nums.slice().sort((x, y) => x[0] - y[0]), byAbs = nums.slice().sort((x, y) => Math.abs(x[0]) - Math.abs(y[0]) || x[0] - y[0]);
+    const neg = asc.filter(n => n[0] < 0), pos = asc.filter(n => n[0] >= 0), negRev = neg.slice().reverse().concat(pos);
+    const items = [{h:list(asc)}], used = new Set([list(asc)]);
+    [[byAbs, "That's ordered by distance from 0. The least number is the most negative one: farthest left on the number line."],
+     [asc.slice().reverse(), "That's greatest to least. Start with the most negative number."],
+     [negRev, "With negatives, a bigger-looking number is smaller: " + strip(txt(neg[neg.length - 1])) + " > " + strip(txt(neg[0])) + "."]]
+      .forEach(([l, tip]) => { const s = list(l); if (!used.has(s)){ used.add(s); items.push({h:s, tip}); } });
+    return mcQ({skill:"order", text:"Which list is ordered from <b>least to greatest</b>?",
+      hint:"Write each number as a decimal and picture the number line: least is farthest left.",
+      why:"As decimals: " + asc.map(n => fmtDec(n[0])).join(" < ") + ". From least to greatest: <b>" + list(asc) + "</b>.", ansText:strip(list(asc))}, items);
+  },
+  decimalOf(){
+    const p = pick([[-1.75, 4], [-0.15, 20], [2.4, 5], [-0.8, 5], [-2.5, 2], [0.375, 8], [-1.25, 4], [-0.6, 5]]), v = p[0], d = p[1];
+    const f = mixed(v, d), frac = Math.abs(v) - Math.floor(Math.abs(v) + 1e-9);
+    return {kind:"num", skill:"rat", text:"Write <b>" + M(f) + "</b> as a decimal.", num:v, ansText:fmtDec(v),
+      hint:"Divide the numerator by the denominator, then keep the whole part and the sign.",
+      why:M(f.replace(MINUS, "").replace(/^\d+ /, "")) + " = " + fmtDec(frac) + (Math.floor(Math.abs(v) + 1e-9) ? ", so " + M(f) + " = " : ", so " + M(f) + " = ") + "<b>" + fmtDec(v) + "</b>.",
+      diag:g => near(g, -v) ? "Keep the sign: " + M(f) + " is " + (v < 0 ? "negative" : "positive") + "." : near(Math.abs(g), frac) && Math.abs(v) >= 1 ? "Don't forget the whole number part." : ""};
+  },
+
+  /* ===== Zone 3 · Absolute Value Bridge (Lesson 2-3) ===== */
+  absNum(){
+    const p = pick([[-6.33], [-3.25], [-4.75], [-18], [-25], [4.75], [-0.625, 8], [-4.5, 2], [0], [-12.5]]), v = p[0], d = p[1];
+    return {kind:"num", skill:"abs", text:"Find " + absBars("<b>" + numH(v, d) + "</b>") + ".", num:Math.abs(v), ansText:numT(Math.abs(v), d),
+      hint:"Absolute value is the distance from 0. A distance is never negative.",
+      why:numH(v, d) + " is " + numT(Math.abs(v), d) + " units from 0, so " + absBars(numH(v, d)) + " = <b>" + numT(Math.abs(v), d) + "</b>.",
+      diag:g => v < 0 && near(g, v) ? "Absolute value is a distance, so it's never negative: drop the minus sign." : ""};
+  },
+  absNum2(){
+    if (Math.random() < .5){
+      const v = -(rnd(2, 15) + pick([0, 0.5, 0.25]));
+      return {kind:"num", skill:"abs", text:"How far is <b>" + fmtDec(v) + "</b> from 0 on the number line?", num:-v, ansText:fmtDec(-v),
+        hint:"The distance from 0 is the absolute value.", why:"The distance from 0 is " + absBars(fmtDec(v)) + " = <b>" + fmtDec(-v) + "</b>. Distance is never negative.",
+        diag:g => near(g, v) ? "A distance is never negative: it's " + fmtDec(-v) + " units." : ""};
+    }
+    const n = rnd(3, 15);
+    return mcQ({skill:"abs", text:"The absolute value of a number is <b>" + n + "</b>. What can the number be?",
+      hint:"Which numbers are " + n + " units from 0? Look on both sides.",
+      why:"Both " + n + " and " + MINUS + n + " are " + n + " units from 0, so the number can be <b>" + n + " or " + MINUS + n + "</b>.", ansText:n + " or " + MINUS + n},
+      [{h:n + " or " + MINUS + n}, {h:"only " + n, tip:MINUS + n + " is " + n + " units from 0 too."}, {h:"only " + MINUS + n, tip:n + " is " + n + " units from 0 too."},
+       {h:"0 or " + n, tip:"0 is 0 units from 0. The numbers " + n + " units away are " + n + " and " + MINUS + n + "."}]);
+  },
+  absCmp(){
+    const t = pick(["absabs", "numabs", "eq", "dec"]);
+    let a, b, A, B;
+    if (t === "absabs"){ const x = rnd(3, 12), y = rnd(1, x - 1); a = x; b = y; A = absBars(MINUS + x); B = absBars(String(y)); }
+    else if (t === "numabs"){ const x = rnd(3, 12), y = rnd(1, x - 1); a = -x; b = y; A = MINUS + x; B = absBars(String(y)); }
+    else if (t === "eq"){ const x = rnd(2, 9) + pick([0.25, 0.5, 0.75]); a = x; b = x; A = absBars(fmtDec(-x)); B = fmtDec(x); }
+    else { const x = rnd(2, 6) + 0.25, y = x + 1; a = y; b = x; A = absBars(fmtDec(-y)); B = absBars(fmtDec(-x)); }
+    if (Math.random() < .5){ [a, b] = [b, a]; [A, B] = [B, A]; }
+    return symQ({skill:"absCmp", text:"Choose &lt;, &gt; or =: <span class=\"qx\">" + A + " &nbsp;☐&nbsp; " + B + "</span>",
+      hint:"Work out each absolute value first (the distance from 0). A number without bars keeps its sign.",
+      why:strip(A) + " = " + fmtDec(a) + " and " + strip(B) + " = " + fmtDec(b) + ", so <b>" + strip(A) + " " + SYM[a < b - 1e-9 ? 0 : a > b + 1e-9 ? 1 : 2] + " " + strip(B) + "</b>."}, a, b,
+      i => i === 2 ? "They aren't equal. Work out each value first: " + strip(A) + " = " + fmtDec(a) + ", " + strip(B) + " = " + fmtDec(b) + "." : near(a, b) ? "The absolute value of " + fmtDec(-a) + " is " + fmtDec(a) + ": they're equal." : "Work out each value first: " + strip(A) + " = " + fmtDec(a) + " and " + strip(B) + " = " + fmtDec(b) + ".");
+  },
+  negX(){
+    return mcQ({skill:"absCmp", text:"Let <i>x</i> be any <b>negative</b> rational number. Which statement is true?",
+      hint:"Try a number: let x = −3. Then |x| = 3. Check each statement.",
+      why:"Try x = −3: |−3| = 3, and 3 > −3. For any negative x, |x| is positive, so <b>|x| is greater than x</b>.", ansText:"|x| is greater than x"},
+      [{h:"|<i>x</i>| is greater than <i>x</i>"}, {h:"|<i>x</i>| is a negative number", tip:"|x| is a distance from 0, so it is never negative."},
+       {h:"|<i>x</i>| is equal to <i>x</i>", tip:"That's only true for positive numbers and 0. For x = −3: |−3| = 3, not −3."},
+       {h:"|<i>x</i>| is less than <i>x</i>", tip:"x is negative and |x| is positive, so |x| is the bigger one."}]);
+  },
+  farthestMC(){
+    const who = shuffle(NAMES.slice()).slice(0, 4);
+    let c; do { c = [-rnd(3, 9), rnd(1, 8), -rnd(1, 8), rnd(1, 8)]; } while (new Set(c.map(Math.abs)).size < 4 || Math.max(...c.map(Math.abs)) !== -c[0]);
+    const order = shuffle([0, 1, 2, 3]), vals = order.map(i => c[i]), names = who, wi = vals.indexOf(c[0]), maxPos = vals.indexOf(Math.max(...vals));
+    return mcQ({skill:"absUse", text:"The table shows how much each student's test score changed. Which student had the <b>greatest change</b>?",
+      viz:tableViz(["Student", "Change"], names.map((w, i) => [w, (vals[i] > 0 ? "+" : "") + fmtDec(vals[i])])),
+      hint:"The greatest change is the one farthest from 0, up or down: compare the absolute values.",
+      why:"Compare the distances from 0: " + vals.map((v, i) => names[i] + " " + Math.abs(v)).join(", ") + ". The greatest is <b>" + names[wi] + "</b> (" + absBars(fmtDec(vals[wi])) + " = " + Math.abs(vals[wi]) + ").", ansText:names[wi]},
+      [{h:names[wi]}].concat(names.map((w, i) => ({w, i})).filter(x => x.i !== wi).map(x => ({h:x.w,
+        tip:x.i === maxPos ? "That's the greatest increase. The greatest change counts drops too: " + absBars(fmtDec(vals[wi])) + " = " + Math.abs(vals[wi]) + " is more than " + vals[x.i] + "." : names[x.i] + "'s change is " + Math.abs(vals[x.i]) + " away from 0; " + names[wi] + "'s is " + Math.abs(vals[wi]) + "."}))));
+  },
+  debtMC(){
+    const [p, q] = shuffle(NAMES.slice()).slice(0, 2);
+    let a, b; do { a = -rnd(10, 60); b = -rnd(10, 60); } while (Math.abs(a - b) < 5);
+    const more = a < b ? p : q, less = a < b ? q : p, hi = Math.min(a, b), lo2 = Math.max(a, b);
+    return mcQ({skill:"absUse", text:p + "'s account balance is <b>" + fmtDec(a) + " riyals</b> and " + q + "'s is <b>" + fmtDec(b) + " riyals</b>. Who owes more money?",
+      hint:"A balance below 0 is a debt. The size of the debt is the absolute value of the balance.",
+      why:"A balance of " + fmtDec(hi) + " riyals is a debt of " + Math.abs(hi) + " riyals, and " + fmtDec(lo2) + " riyals is a debt of " + Math.abs(lo2) + " riyals. <b>" + more + "</b> owes more.", ansText:more},
+      [{h:more}, {h:less, tip:"A balance of " + fmtDec(lo2) + " riyals is a debt of " + Math.abs(lo2) + " riyals; " + fmtDec(hi) + " riyals is a debt of " + Math.abs(hi) + " riyals, which is more."},
+       {h:"They owe the same", tip:"The debts are " + Math.abs(a) + " and " + Math.abs(b) + " riyals: not the same."}]);
+  },
+  seaNum(){
+    const d = rnd(3, 30) * 10, what = pick(["submarine", "diver", "fish"]);
+    return {kind:"num", skill:"absUse", text:"A " + what + " is at <b>" + fmtDec(-d) + " m</b>. How many metres below sea level is it?", num:d, ansText:d + " m", unit:"m",
+      hint:"Sea level is 0. “How many metres below” asks for a distance.",
+      why:"Its distance from sea level is " + absBars(fmtDec(-d)) + " = <b>" + d + " m</b>. The word “below” already tells the direction.",
+      diag:g => near(g, -d) ? "“How many metres below” is a distance, so it's positive: " + d + " m." : ""};
+  }
+};
+const gen = name => G[name.includes("|") ? pick(name.split("|")) : name]();
+
+/* ---------- SKILLS & ZONES ---------- */
+const SKILLS = {
+  ints:{name:"Integers on the number line", zone:0, tip:"Positive integers are right of 0, negative integers left of 0. Count the ticks from 0: three ticks left of 0 is −3. Integers have no fractions or decimals."},
+  opp:{name:"Opposites", zone:0, tip:"Opposites are the same distance from 0 on opposite sides: 4 and −4. The opposite of a negative number is positive: −(−7) = 7. 0 is its own opposite."},
+  context:{name:"Integers in the real world", zone:0, tip:"Above, gain, earn, deposit, warmer: positive. Below, loss, spend, withdraw, colder: negative. Sea level or no change: 0."},
+  rat:{name:"Rational numbers on the number line", zone:1, tip:"Find the size of one tick first: 4 spaces between integers make each tick 0.25. −2.25 is one tick left of −2."},
+  compare:{name:"Compare rational numbers", zone:1, tip:"On a number line, the number to the right is greater: −1 > −2 and −0.5 > −0.75. Write fractions as decimals to compare: −3/4 = −0.75 > −0.8."},
+  order:{name:"Order rational numbers", zone:1, tip:"Write every number as a decimal and place it on a number line. Least to greatest means left to right: the most negative first."},
+  abs:{name:"Absolute value", zone:2, tip:"Absolute value is the distance from 0, so it's never negative: |−6.33| = 6.33, |4| = 4, |0| = 0."},
+  absCmp:{name:"Compare with absolute value", zone:2, tip:"Work out the absolute values first: |−8| = 8 > |5| = 5, but −8 < 5. For a negative x, |x| is always greater than x."},
+  absUse:{name:"Absolute value in the real world", zone:2, tip:"Greatest change, farthest from sea level, biggest debt: compare absolute values. A balance of −35 riyals is a debt of 35 riyals."}
+};
+const SKILL_ORDER = Object.keys(SKILLS);
+
+const ZONES = [
+  {key:"z1", col:"c1", name:"Integer Island", tag:"Integers, opposites and integers in real life", icon:"island", lesson:"Lesson 2-1 · pp. 69–74",
+   intro:"Every integer has a place on the number line, and an opposite the same distance away on the other side of 0. Learn to read, plot and use them.",
+   set:["readInt", "pointInt", "oppNum", "oppDouble|oppMC", "contextMC|contextNum", "lowestMC|intOrNot"]},
+  {key:"z2", col:"c2", name:"Rational Road", tag:"Fractions and decimals on the number line · compare · order", icon:"road", lesson:"Lesson 2-2 · pp. 75–80",
+   intro:"Between the integers live fractions and decimals. Find them on the number line, compare them with <, > and =, and put them in order.",
+   set:["readDec", "readFrac|pointRat", "compareSym", "compareSym2", "orderMC", "decimalOf|pointRat"]},
+  {key:"z3", col:"c4", name:"Absolute Value Bridge", tag:"Distance from 0 · compare · real-world meaning", icon:"bridge", lesson:"Lesson 2-3 · pp. 81–86",
+   intro:"How far is a number from 0? That distance is its absolute value, and it is never negative. Use it to compare debts, depths and changes.",
+   set:["absNum", "absNum2", "absCmp", "negX", "farthestMC", "debtMC|seaNum"]}
+];
+const FINAL_SET = [["readInt|pointInt", "oppNum|oppDouble", "contextMC|contextNum", "lowestMC|intOrNot", "oppMC|intOrNot"],
+  ["readDec|readFrac", "pointRat", "compareSym", "compareSym2|orderMC", "orderMC|decimalOf"],
+  ["absNum", "absNum2|absCmp", "negX|absCmp", "farthestMC", "debtMC|seaNum"]];
+
+/* ---------- LESSON CARDS ---------- */
+const LESSONS = [
+  [
+    {t:"Positive, negative and zero", b:"On a number line, numbers to the right of 0 are <b>positive</b>. Numbers to the left are <b>negative</b> and have a minus sign: −3 is read “negative 3”. <b>0</b> is neither positive nor negative.",
+     note:"Numbers get bigger as you go right and smaller as you go left, so −5 < −2 even though 5 > 2.", viz:vizSigns},
+    {t:"Opposites", b:"Two numbers on opposite sides of 0, the same distance from 0, are <b>opposites</b>: 4 and −4. The opposite of a negative number is positive: −(−4) = 4. 0 is its own opposite.",
+     ex:{h:"Example", q:"Find the opposites of 9, −15 and −(−7)", steps:["The opposite of 9 is −9: the same distance from 0, on the left.", "The opposite of −15 is 15.", "−(−7) means the opposite of −7, so −(−7) = 7."]}, viz:vizOpposites},
+    {t:"What is an integer?", b:"The <b>integers</b> are the counting numbers (1, 2, 3 …), their opposites (−1, −2, −3 …) and 0.",
+     table:[["Number", "Integer?", "Why"], ["15", "yes", "a counting number"], ["−15", "yes", "the opposite of 15"], ["0", "yes", "neither positive nor negative"], ["4.5", "no", "between 4 and 5"], ["−" + M("3/4"), "no", "a fraction"]]},
+    {t:"Integers in real life", table:[["Words", "Sign", "Integer"], ["earn 50 riyals (income)", "+", "50"], ["spend 30 riyals (expense)", "−", "−30"], ["12 m below sea level", "−", "−12"], ["900 m above sea level", "+", "900"], ["6 degrees below zero", "−", "−6"], ["sea level, no change", "", "0"]],
+     note:"Ask: does it go up (gain, above, earn, deposit) or down (lose, below, spend, withdraw)? Lower elevation means a more negative number: −156 m is lower than −86 m."}
+  ],
+  [
+    {t:"Rational numbers", b:"A <b>rational number</b> can be written as a fraction " + M("a/b") + " of two integers, where b isn't 0. Integers, fractions, decimals and their opposites are all rational: 6, −1, " + M("4/5") + ", −" + M("3/20") + ", 0.5, −1.75.",
+     ex:{h:"Example", q:"Write 3.5 as a quotient of two integers", steps:["3.5 = 3 " + M("1/2"), "3 " + M("1/2") + " = " + M("7/2"), "So 3.5 = 7 ÷ 2: it is rational."]}},
+    {t:"Reading a number line between integers", b:"Count the spaces between two labelled integers to find the size of one tick: 4 spaces make each tick " + M("1/4") + " = 0.25; 5 spaces make each tick " + M("1/5") + " = 0.2.",
+     ex:{h:"Example", q:"What is point B?", steps:["From −3 to −2 there are 4 spaces, so each tick is 0.25.", "B is 1 tick to the left of −2.", "B = −2 − 0.25 = −2.25"]},
+     note:"For negative numbers, count left from the integer on the right: −2.25 is between −3 and −2, closer to −2.", viz:vizQuarters},
+    {t:"Compare: right is greater", b:"Numbers increase from left to right, so the number farther right is greater. Use &lt; (less than), &gt; (greater than) or =.",
+     table:[["Compare", "Because"], ["−1 &gt; −2", "−1 is to the right of −2"], ["−0.5 &gt; −0.75", "−0.5 is closer to 0"], ["−" + M("3/4") + " &gt; −0.8", "−" + M("3/4") + " = −0.75, to the right of −0.8"], ["2 " + M("1/2") + " = 2.5", "the same number"]],
+     note:"With negatives, the bigger-looking number is smaller: −8 &lt; −3.", viz:vizCompare},
+    {t:"Put rational numbers in order", ex:{h:"Example", q:"Order −2.5, 1 " + M("1/4") + ", −3.5 and 0.4 from least to greatest", steps:["Write them as decimals: −2.5, 1.25, −3.5, 0.4", "Place them on a number line: −3.5 is farthest left, then −2.5, then 0.4, then 1.25.", "Least to greatest: −3.5, −2.5, 0.4, 1 " + M("1/4")]},
+     note:"Greatest to least is the same list backwards."}
+  ],
+  [
+    {t:"Absolute value is a distance", b:"The <b>absolute value</b> of a number is its distance from 0 on the number line. Distance is never negative. |−3| = 3, |3| = 3 and |0| = 0.",
+     note:"Read |−5| as “the absolute value of negative 5”. It equals 5.", viz:vizAbs},
+    {t:"Find absolute values", table:[["Number", "Absolute value"], ["12", "|12| = 12"], ["−25", "|−25| = 25"], ["4.75", "|4.75| = 4.75"], ["−" + M("5/8"), "|−" + M("5/8") + "| = " + M("5/8")], ["−4 " + M("1/2"), "|−4 " + M("1/2") + "| = 4 " + M("1/2")], ["0", "|0| = 0"]]},
+    {t:"Compare numbers and their absolute values", table:[["Numbers", "Compare the numbers", "Compare the absolute values"], ["−8 and 5", "−8 &lt; 5", "|−8| = 8 &gt; |5| = 5"], ["−4.25 and −3.25", "−4.25 &lt; −3.25", "|−4.25| &gt; |−3.25|"], ["−6 and 6", "−6 &lt; 6", "|−6| = |6| = 6"]],
+     note:"For any negative number x, |x| is positive, so |x| &gt; x. Try x = −3: |−3| = 3 &gt; −3."},
+    {t:"Absolute value in real life", table:[["Situation", "Number", "What it means"], ["account balance", "−35 riyals", "a debt of |−35| = 35 riyals"], ["a submarine", "−140 m", "140 m below sea level"], ["a test score change", "−4", "a change of 4 points (down)"]],
+     note:"Greatest change, farthest from sea level, biggest debt: compare the absolute values. A balance of −40 riyals is a bigger debt than −25 riyals."}
+  ]
+];
+
+/* ---------- ICONS ---------- */
+const ICONS = {
+  island:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 25c4-3 8-3 13-3s9 0 13 3z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2.4" stroke-linejoin="round"/><path d="M16 22V10" stroke="' + INK + '" stroke-width="2.6" stroke-linecap="round"/><path d="M16 10c-3-4-8-4-10-1M16 10c3-4 8-4 10-1M16 10c-1-4 1-6 4-7" fill="none" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/><path d="M2 29h28" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/></svg>',
+  road:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 18h26" stroke="' + INK + '" stroke-width="2.6" stroke-linecap="round"/><path d="M6 14v8M11 15v6M16 13v10M21 15v6M26 14v8" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/><circle cx="13.5" cy="18" r="3.2" fill="#FFD23F" stroke="' + INK + '" stroke-width="2.2"/></svg>',
+  bridge:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 22h26" stroke="' + INK + '" stroke-width="2.6" stroke-linecap="round"/><path d="M5 22c3-10 19-10 22 0" fill="none" stroke="' + INK + '" stroke-width="2.4" stroke-dasharray="4 3"/><circle cx="5" cy="22" r="3" fill="#fff" stroke="' + INK + '" stroke-width="2.2"/><circle cx="27" cy="22" r="3" fill="#FFD23F" stroke="' + INK + '" stroke-width="2.2"/><path d="M16 9v4" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z" fill="#FFD23F" stroke="#fff" stroke-width="1.8"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M12 14v4M8 20h8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>'
+};
+const STAR = on => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="' + (on ? "#FFD23F" : "#fff") + '" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/></svg>';
+const ICON_SOUND = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#FFD23F" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9q2 3 0 6M18.5 6.5q4 5.5 0 11" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+const ICON_MUTE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#fff" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round"/></svg>';
+
+/* ---------- SAVED PROGRESS ---------- */
+const KEY = "numberline-envision-2-1-2-3-v1";
+const fresh = () => ({xp:0, zones:{}, skills:{}, attempts:[], last:null, sound:true});
+let S = (() => { try { const raw = localStorage.getItem(KEY); if (raw) return Object.assign(fresh(), JSON.parse(raw)); } catch (e) {} return fresh(); })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+const REVIEW = "../../review/quiz-2/index.html#math", GRID = "../coordinate-plane/index.html", POWER = "../exponents/index.html";
+
+/* ---------- SOUND (tiny synth, no files) ---------- */
+const Sound = {
+  ctx:null,
+  get(){ try { if (!this.ctx){ const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; this.ctx = new AC(); }
+    if (this.ctx.state === "suspended") this.ctx.resume(); return this.ctx; } catch (e) { return null; } },
+  tone(f, at, dur, type, vol){ const c = this.get(); if (!c) return; try {
+    const o = c.createOscillator(), g = c.createGain(), t = c.currentTime + at;
+    o.type = type || "triangle"; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.12, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05); } catch (e) {} },
+  good(){ if (!S.sound) return; this.tone(660, 0, .15); this.tone(990, .1, .25); },
+  bad(){ if (!S.sound) return; this.tone(196, 0, .28, "square", .05); this.tone(147, .12, .3, "square", .05); },
+  win(){ if (!S.sound) return; [523, 659, 784, 1047].forEach((f, i) => this.tone(f, i * .11, .3)); },
+  tap(){ if (!S.sound) return; this.tone(520, 0, .06, "sine", .05); }
+};
+
+/* ---------- CONFETTI ---------- */
+const FX = (() => {
+  const cv = $("#fx"), ctx = cv && cv.getContext ? cv.getContext("2d") : null;
+  let parts = [], raf = 0;
+  const COLS = ["#FFD23F", "#2F7DE1", "#F39200", "#9A4FE0", "#119C77", "#E23F66"];
+  function size(){ if (!cv) return; const d = window.devicePixelRatio || 1; cv.width = innerWidth * d; cv.height = innerHeight * d; }
+  size(); addEventListener("resize", size);
+  function tick(){
+    const d = window.devicePixelRatio || 1;
+    ctx.setTransform(d, 0, 0, d, 0, 0); ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => p.life < p.max);
+    parts.forEach(p => {
+      p.life++; p.vy += .25; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      ctx.save(); ctx.globalAlpha = Math.max(0, 1 - p.life / p.max); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.c;
+      if (p.sq) ctx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); else { ctx.beginPath(); ctx.arc(0, 0, p.r / 2.6, 0, Math.PI * 2); ctx.fill(); }
+      ctx.restore();
+    });
+    raf = parts.length ? requestAnimationFrame(tick) : 0;
+  }
+  function burstAt(x, y, n){
+    if (reduceMotion || !ctx) return;
+    for (let i = 0; i < (n || 36); i++){ const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
+      parts.push({x, y, vx:Math.cos(a) * v, vy:Math.sin(a) * v - 4, r:5 + Math.random() * 6, rot:Math.random() * 6, vr:(Math.random() - .5) * .4, c:COLS[i % COLS.length], life:0, max:55 + Math.random() * 40, sq:Math.random() < .55}); }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function burstEl(el, n){ if (!el) return; const r = el.getBoundingClientRect(); burstAt(r.left + r.width / 2, r.top + r.height / 2, n); }
+  function party(){ for (let k = 0; k < 5; k++) setTimeout(() => burstAt(innerWidth * (.15 + Math.random() * .7), innerHeight * (.2 + Math.random() * .25), 40), k * 170); }
+  return {burstEl, party};
+})();
+
+function floatXP(el, text){
+  if (!el || reduceMotion) return;
+  const r = el.getBoundingClientRect(), f = document.createElement("div");
+  f.className = "xp-float"; f.textContent = text; f.style.left = (r.left + r.width / 2) + "px"; f.style.top = (r.top - 6) + "px";
+  document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
+}
+function addXP(n, el){
+  S.xp += n; save();
+  const v = $("#xpVal"); if (v) v.textContent = S.xp;
+  const box = $("#xpBox"); if (box){ box.classList.remove("bump"); void box.offsetWidth; box.classList.add("bump"); }
+  if (el) floatXP(el, "+" + n);
+}
+function announce(t){ const l = $("#live"); if (l) l.textContent = t; }
+
+/* ---------- SCREENS & LINKS ----------
+   Hash routes (all optional): #/zone/1–3 opens a lesson, #/practice/1–3 starts a practice round,
+   #/final the Final Challenge, #/report the last report. */
+const SCREENS = ["home", "zone", "quiz", "result", "final", "report"];
+let current = "home";
+function show(name){
+  SCREENS.forEach(s => { $("#scr-" + s).hidden = s !== name; });
+  const el = $("#scr-" + name); el.classList.remove("screen"); void el.offsetWidth; el.classList.add("screen");
+  current = name; window.scrollTo(0, 0);
+}
+function setHash(h){ try { if ((location.hash || "") !== h) history.replaceState(null, "", h || location.pathname + location.search); } catch (e) {} }
+function renderSoundBtn(){
+  const b = $("#soundBtn"); b.innerHTML = S.sound ? ICON_SOUND : ICON_MUTE;
+  b.setAttribute("aria-label", S.sound ? "Turn sound off" : "Turn sound on");
+}
+const starRow = (n, label) => '<div class="stars" role="img" aria-label="' + (label || n + " of 3 stars") + '">' + [1, 2, 3].map(k => STAR(n >= k)).join("") + '</div>';
+const finals = () => S.attempts.filter(a => a.kind === "final");
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const stars = ZONES.reduce((m, z) => m + ((S.zones[z.key] || {}).stars || 0), 0);
+  const fs = finals(), best = fs.reduce((m, a) => Math.max(m, a.pct), 0);
+  let h = '<div class="panel hero"><div><h1>Number Line <span>Lab</span></h1>'
+    + '<p>Lessons 2-1, 2-2 and 2-3 of enVision Mathematics (Volume 1): Understand Integers, Represent Rational Numbers on the Number Line, and Absolute Values of Rational Numbers. Read and place numbers on the number line, compare and order them, and find absolute values. Learn each zone, win its 6-question practice, then take the Final Challenge.</p></div>'
+    + '<div class="stats"><div class="stat"><b>' + stars + '/9</b><span>Stars</span></div><div class="stat"><b>' + S.xp + '</b><span>XP</span></div><div class="stat"><b>' + (fs.length ? best + "%" : "–") + '</b><span>Best final</span></div></div></div>';
+  h += '<div class="panel banner' + (S.last && S.last.pct < 70 ? " alert" : "") + '"><p><b>Quiz 2 is on Sunday 8/11:</b> Lessons 2-1 to 2-6 and 3-1 (pp. 69–110 and 123–128). '
+    + 'This lab is 2-1 to 2-3. The coordinate plane lab has 2-4 to 2-6, and the exponents lab has 3-1.</p>'
+    + '<div class="row"><a class="btn btn-sm btn-go" href="' + REVIEW + '">Quiz 2 checklist</a><a class="btn btn-sm" href="' + GRID + '">Coordinate plane · 2-4 to 2-6</a><a class="btn btn-sm" href="' + POWER + '">Exponents · 3-1</a>'
+    + (S.last ? '<button class="btn btn-sm" data-act="lastreport">Last report (' + S.last.pct + '%)</button>' : "") + '</div></div>';
+  h += '<div class="sec-title"><h2>The Lab Map</h2><p>Three zones. Read the lesson, then win the practice.</p></div><div class="trail">';
+  ZONES.forEach((z, i) => {
+    const Z = S.zones[z.key] || {}, st = zoneStatus(i);
+    const sticker = st === "low" ? '<span class="sticker">Review me!</span>' : st === "good" ? '<span class="sticker ok">Mastered</span>' : "";
+    h += '<div class="land land-' + z.col + '">' + sticker + '<div class="badge">' + ICONS[z.icon] + '</div>'
+      + '<div><div class="land-num">Zone ' + (i + 1) + ' · ' + z.lesson.split(" · ")[0] + '</div><h3>' + z.name + '</h3><p class="sub">' + z.tag + '</p></div>'
+      + '<div class="land-foot">' + starRow(Z.stars || 0) + '<span class="progress-note">' + (Z.plays ? "Best: " + Z.best + "/6" : "Not started") + '</span>'
+      + '<div class="row"><button class="btn btn-sm" data-act="zone" data-z="' + i + '">Lesson</button><button class="btn btn-sm ' + (Z.stars ? "" : "btn-go") + '" data-act="practice" data-z="' + i + '">' + (Z.plays ? "Practice again" : "Practice") + '</button></div></div></div>';
+  });
+  h += '</div><div class="panel final"><div class="badge">' + ICONS.trophy + '</div><div><div class="land-num">The boss level</div><h3>Final Challenge</h3>'
+    + '<p>15 mixed questions from all three zones, no hints. At the end you get a skill-by-skill report and a study plan.</p></div>'
+    + '<div class="row"><button class="btn btn-ink" data-act="final">Start the Final Challenge</button>' + (S.last ? '<button class="btn btn-sm" data-act="lastreport">See my last report</button>' : "") + '</div></div>';
+  h += '<div class="row foot-links"><a class="btn btn-sm" href="../../index.html">← Dashboard</a><a class="btn btn-sm" href="' + REVIEW + '">Quiz 2 checklist</a></div>';
+  h += '<p class="foot-note">Progress is saved on this device, and on linked family devices. <button class="link-btn" data-act="reset">Reset progress</button></p>';
+  $("#scr-home").innerHTML = keep(h);
+}
+function zoneStatus(i){
+  const ks = Object.keys(SKILLS).filter(k => SKILLS[k].zone === i).map(k => S.skills[k]).filter(Boolean);
+  const n = ks.reduce((m, s) => m + s.n, 0), c = ks.reduce((m, s) => m + s.c, 0);
+  if (n < 4) return "";
+  const p = c / n; return p >= .85 ? "good" : p < .6 ? "low" : "";
+}
+/* the minus sign, the decimal point, the fraction slash and a space (for 1 2/5): not all on-screen number pads have them */
+function keysRow(){
+  return '<div class="keys" role="group" aria-label="Extra keys"><span>Keys:</span>' + [["−", "−", "minus sign"], [".", ".", "decimal point"], ["/", "/", "fraction slash"], ["space", " ", "space"]]
+    .map(k => '<button class="key" data-act="key" data-k="' + k[1] + '" aria-label="Type ' + k[2] + '">' + k[0] + '</button>').join("") + '</div>';
+}
+
+/* ---------- ZONE LESSON ---------- */
+let ZI = 0;
+function openZone(i){ ZI = i; renderZone(); show("zone"); setHash("#/zone/" + (i + 1)); }
+function renderZone(){
+  const z = ZONES[ZI], sec = $("#scr-zone");
+  let h = '<div class="land-' + z.col + '"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button><span class="chip-land">Zone ' + (ZI + 1) + '</span><span class="spacer"></span><button class="btn btn-sm btn-go" data-act="practice" data-z="' + ZI + '">Skip to practice →</button></div>'
+    + '<div class="panel intro"><div class="land-num">' + z.lesson + '</div><h2>' + z.name + '</h2><p>' + z.intro + '</p></div><div class="lcards">';
+  LESSONS[ZI].forEach((c, k) => {
+    let text = "";
+    if (c.b) text += '<p>' + c.b + '</p>';
+    if (c.table) text += '<div class="tscroll"><table class="rtable"><thead><tr>' + c.table[0].map(t => '<th scope="col">' + t + '</th>').join("") + '</tr></thead><tbody>' + c.table.slice(1).map(r => '<tr>' + r.map(t => '<td' + (strip(t).length <= 14 ? ' class="nw"' : "") + '>' + t + '</td>').join("") + '</tr>').join("") + '</tbody></table></div>';
+    if (c.ex) text += '<div class="ex"><h4>' + c.ex.h + '</h4><p class="ex-q">' + c.ex.q + '</p><ol>' + c.ex.steps.map(s => '<li>' + s + '</li>').join("") + '</ol></div>';
+    if (c.note) text += '<p class="note">' + c.note + '</p>';
+    h += '<article class="panel lcard"><div class="lcard-num">Card ' + (k + 1) + ' of ' + LESSONS[ZI].length + '</div><h3>' + c.t + '</h3>'
+      + '<div class="lgrid ' + (c.viz ? "" : "solo") + '"><div class="ltext">' + text + '</div>' + (c.viz ? c.viz() : "") + '</div></article>';
+  });
+  h += '</div><div class="lesson-nav">' + (ZI ? '<button class="btn" data-act="zone" data-z="' + (ZI - 1) + '">← ' + ZONES[ZI - 1].name + '</button>' : '<button class="btn" data-act="home">← Map</button>')
+    + '<button class="btn btn-go" data-act="practice" data-z="' + ZI + '">Start practice: 6 questions →</button></div></div>';
+  sec.innerHTML = keep(h);
+}
+
+/* ---------- RUNNING A ROUND ---------- */
+let R = null;
+function startPractice(i){
+  R = {mode:"practice", zi:i, qs:shuffle(ZONES[i].set.slice()).map(gen), i:0, res:[]};
+  show("quiz"); renderQ(); setHash("#/practice/" + (i + 1));
+}
+function startFinal(){
+  R = {mode:"final", qs:shuffle(FINAL_SET.flat()).map(gen), i:0, res:[]};
+  show("quiz"); renderQ(); setHash("#/final");
+}
+function qCol(q){ return R.mode === "practice" ? ZONES[R.zi].col : ZONES[SKILLS[q.skill].zone].col; }
+const KICK = {mc:"Choose one", num:"Type the answer"};
+const INPUT_ATTRS = ' autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="decimal"';
+
+function renderQ(){
+  const q = R.qs[R.i], n = R.qs.length, sec = $("#scr-quiz");
+  R.locked = false; R.hinted = false; R.lastInput = null;
+  const title = R.mode === "practice" ? "Zone " + (R.zi + 1) + " · " + ZONES[R.zi].name : "Final Challenge";
+  let h = '<div class="land-' + qCol(q) + '"><div class="test-top"><div class="row"><span class="round-name">' + title + '</span><span class="counter">' + (R.i + 1) + ' / ' + n + '</span></div>'
+    + '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + R.i + '" aria-label="Questions answered"><i style="width:' + pctOf(R.i, n) + '%"></i></div></div>'
+    + '<article class="panel q-card"><p class="q-kicker">' + (q.kick || SKILLS[q.skill].name) + ' · ' + KICK[q.kind] + '</p><p class="q-text" id="qtext" tabindex="-1">' + q.text + '</p>' + (q.viz || "");
+  if (q.kind === "mc"){
+    const big = q.layout === "four" || q.layout === "three";
+    h += '<div class="opts ' + (q.layout === "list" ? "" : q.layout) + '" role="group" aria-labelledby="qtext">' + q.opts.map((o, i) => big
+      ? '<button class="opt big' + (q.layout === "three" ? " sym" : "") + '" data-act="mc" data-i="' + i + '" aria-label="' + esc(optLabel(o)) + '">' + o + '</button>'
+      : '<button class="opt" data-act="mc" data-i="' + i + '"><span class="k" aria-hidden="true">' + "ABCDE"[i] + '</span><span>' + o + '</span></button>').join("") + '</div>';
+  } else {
+    h += '<div class="ans-row"><input class="type-in num" id="inN" aria-label="Your answer' + (q.unit ? " in " + esc(strip(q.unit)) : "") + '"' + INPUT_ATTRS + ' enterkeyhint="done">' + (q.unit ? '<span class="unit">' + q.unit + '</span>' : "") + '</div>' + keysRow();
+  }
+  h += '<p class="input-msg" id="imsg" aria-live="polite"></p>';
+  if (q.kind !== "mc") h += '<div class="actions">' + (R.mode === "practice" ? '<button class="btn btn-sm" data-act="hint" id="hintBtn">Hint</button>' : '<span class="your">No hints in the Final Challenge.</span>')
+    + '<button class="btn btn-go" data-act="check" id="checkBtn">Check</button></div>';
+  else if (R.mode === "practice") h += '<div class="actions"><button class="btn btn-sm" data-act="hint" id="hintBtn">Hint</button></div>';
+  h += '<div id="hintBox"></div><div id="fbBox"></div></article></div>';
+  sec.innerHTML = keep(h);
+  const first = $("#inN");
+  $$(".type-in", sec).forEach(inp => inp.addEventListener("focus", () => { R.lastInput = inp; }));
+  if (first) R.lastInput = first;
+  /* desktop: straight into the answer box; otherwise put focus on the question so the keyboard and screen readers start there */
+  if (first && finePointer) first.focus({preventScroll:true});
+  else $("#qtext").focus({preventScroll:true});
+}
+/* spoken names for the big comparison buttons */
+const optLabel = o => ({"&lt;":"less than", "&gt;":"greater than", "=":"equal to"}[o] || strip(o));
+
+function showHint(){
+  const q = R.qs[R.i]; if (R.locked || R.hinted) return;
+  R.hinted = true;
+  $("#hintBox").innerHTML = keep('<div class="hint-box"><b class="tag">Hint</b>' + q.hint + '</div>');
+  const b = $("#hintBtn"); if (b) b.disabled = true;
+  announce("Hint: " + strip(q.hint));
+}
+
+function check(){
+  const q = R.qs[R.i]; if (R.locked) return;
+  const msg = $("#imsg"), inp = $("#inN"), raw = inp.value, g = parseNum(raw);
+  if (isNaN(g)){ msg.textContent = "Type a number, like −3, 2.25 or −1 2/5."; inp.focus(); return; }
+  const ok = near(g, q.num);
+  inp.classList.add(ok ? "ok" : "no");
+  finish(ok, raw.trim().replace(/\s+/g, " ") + (q.unit ? " " + strip(q.unit) : ""), ok ? "" : (q.diag ? q.diag(g) : ""));
+}
+function chooseMC(i){
+  const q = R.qs[R.i]; if (R.locked) return;
+  const ok = i === q.ans;
+  $$("#scr-quiz .opt").forEach((b, k) => { b.disabled = true; if (k === q.ans) b.classList.add("right"); else if (k === i) b.classList.add("wrong"); else b.classList.add("dim"); });
+  finish(ok, strip(q.opts[i]), ok ? "" : ((q.optTips && q.optTips[i]) || ""));
+}
+const YES = ["NAILED IT!", "BOOM!", "SPOT ON!", "YES!", "SHARP!"];
+function finish(ok, given, extra){
+  const q = R.qs[R.i];
+  R.locked = true;
+  /* no tip for this exact slip? fall back to the skill's own tip, so every wrong answer gets one */
+  if (!ok && !extra) extra = M(SKILLS[q.skill].tip);
+  R.res.push({ok, hinted:R.hinted, given, skill:q.skill, text:strip(q.text), correct:q.ansText, why:q.why});
+  const sk = S.skills[q.skill] || (S.skills[q.skill] = {c:0, n:0});
+  sk.n++; if (ok) sk.c++;
+  save();
+  $$("#scr-quiz .type-in").forEach(i => { i.readOnly = true; });
+  $$("#scr-quiz .key").forEach(b => { b.disabled = true; });
+  const cb = $("#checkBtn"); if (cb) cb.disabled = true;
+  const hb = $("#hintBtn"); if (hb) hb.disabled = true;
+  $("#imsg").textContent = "";
+  const burst = ok ? (R.hinted ? "GOT IT!" : pick(YES)) : "NOT QUITE";
+  const body = (ok ? "" : '<p class="your">Your answer: <b>' + esc(given) + '</b> · Correct: <b>' + esc(q.ansText) + '</b></p>')
+    + '<p>' + q.why + '</p>' + (extra ? '<p class="tip"><b class="tag">Tip</b>' + extra + '</p>' : "");
+  const last = R.i === R.qs.length - 1;
+  $("#fbBox").innerHTML = keep('<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + burst + '</span><div class="fb-body">' + body + '</div>'
+    + '<div class="row"><button class="btn btn-ink" data-act="next" id="nextBtn">' + (last ? "See results →" : "Next →") + '</button></div></div>');
+  if (ok){ Sound.good(); addXP(R.hinted ? 5 : 10, $("#nextBtn")); }
+  else Sound.bad();
+  announce((ok ? "Correct. " : "Not quite. The answer is " + q.ansText + ". ") + strip(q.why) + (extra ? " Tip: " + strip(extra) : ""));
+  $("#nextBtn").focus({preventScroll:true});
+  try { $("#fbBox").scrollIntoView({behavior:reduceMotion ? "auto" : "smooth", block:"nearest"}); } catch (e) {}
+}
+function next(){
+  if (!R) return;
+  if (R.i < R.qs.length - 1){ R.i++; renderQ(); window.scrollTo(0, 0); return; }
+  if (R.mode === "practice") zoneResult(); else finalReport();
+}
+
+/* ---------- PRACTICE RESULT ---------- */
+function zoneResult(){
+  const z = ZONES[R.zi], res = R.res, n = res.length;
+  const right = res.filter(r => r.ok).length, hinted = res.filter(r => r.ok && r.hinted).length;
+  const pts = right - hinted / 2, stars = pts >= 6 ? 3 : pts >= 4 ? 2 : pts >= 2 ? 1 : 0;
+  const Z = S.zones[z.key] || {};
+  S.zones[z.key] = {stars:Math.max(Z.stars || 0, stars), best:Math.max(Z.best || 0, right), plays:(Z.plays || 0) + 1};
+  S.attempts.push({kind:"practice", zone:R.zi, t:Date.now(), pct:pctOf(right, n)}); S.attempts = S.attempts.slice(-60);
+  save();
+  const big = stars === 3 ? "ZONE CLEAR!" : stars === 2 ? "GREAT WORK!" : stars === 1 ? "GOOD START!" : "KEEP GOING!";
+  const nextZ = R.zi < ZONES.length - 1 ? '<button class="btn btn-go" data-act="zone" data-z="' + (R.zi + 1) + '">Next: ' + ZONES[R.zi + 1].name + ' →</button>' : '<button class="btn btn-go" data-act="final">Final Challenge →</button>';
+  let h = '<div class="land-' + z.col + '"><div class="panel splash"><div class="land-num">Zone ' + (R.zi + 1) + ' · ' + z.name + '</div><div class="big">' + big + '</div>'
+    + '<div class="result-stars" role="img" aria-label="' + stars + ' of 3 stars">' + [1, 2, 3].map(k => '<span style="animation-delay:' + (k * .18) + 's">' + STAR(stars >= k) + '</span>').join("") + '</div>'
+    + '<p><b>' + right + ' of ' + n + '</b> correct' + (hinted ? " (" + hinted + " with a hint)" : "") + '. ' + (stars === 3 ? "Perfect round, no hints!" : "3 stars = all 6 right without hints.") + '</p>'
+    + '<div class="row" style="justify-content:center"><button class="btn" data-act="practice" data-z="' + R.zi + '">Practice again</button>' + nextZ + '<button class="btn btn-sm" data-act="home">Map</button></div></div>';
+  const miss = res.filter(r => !r.ok);
+  if (miss.length) h += '<div class="sec-title"><h2>Fix these</h2><p>Read why, then try a new round. The numbers change every time.</p></div><div class="miss-list">'
+    + miss.map(r => '<div class="panel miss"><p class="q">' + esc(r.text) + '</p><p class="a">You: <b>' + esc(r.given) + '</b> · Answer: <b>' + esc(r.correct) + '</b></p><p class="w">' + r.why + '</p></div>').join("") + '</div>';
+  else h += '<p class="foot-note">No mistakes this round. Want a different set of numbers? Practice again.</p>';
+  $("#scr-result").innerHTML = keep(h + '</div>');
+  show("result");
+  if (stars >= 2){ Sound.win(); FX.party(); }
+}
+
+/* ---------- FINAL CHALLENGE ---------- */
+function renderFinalIntro(){
+  $("#scr-final").innerHTML = '<div class="land-c1"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button></div><div class="panel test-intro"><h2>Final Challenge</h2>'
+    + '<p>15 questions from every zone, with new numbers each time. There are no hints, but every answer comes with an explanation. At the end you\'ll see which skills are strong and what to practice before Quiz 2.</p><ol class="rounds">'
+    + ZONES.map((z, i) => '<li><span><b>' + z.name + '</b><br><small>' + z.tag + '</small></span><small>' + FINAL_SET[i].length + ' Qs</small></li>').join("")
+    + '</ol><div class="row"><button class="btn btn-go" data-act="startfinal">Start →</button></div></div></div>';
+  show("final"); setHash("#/final");
+}
+function finalReport(){
+  const res = R.res, n = res.length, right = res.filter(r => r.ok).length, pct = pctOf(right, n);
+  const skills = {};
+  res.forEach(r => { const s = skills[r.skill] || (skills[r.skill] = [0, 0]); s[1]++; if (r.ok) s[0]++; });
+  const rep = {t:Date.now(), pct, right, n, skills, items:res.map(r => ({ok:r.ok, skill:r.skill, text:r.text, given:r.given, correct:r.correct, why:r.why}))};
+  S.last = rep;
+  S.attempts.push({kind:"final", t:rep.t, pct}); S.attempts = S.attempts.slice(-60);
+  addXP(20);
+  save();
+  renderReport(rep);
+  show("report"); setHash("#/report");
+  if (pct >= 75){ Sound.win(); FX.party(); }
+}
+function renderReport(rep){
+  const C = 2 * Math.PI * 64, rank = rep.pct >= 90 ? "Number Line Master" : rep.pct >= 75 ? "Integer Expert" : rep.pct >= 50 ? "Lab Assistant" : "Explorer in Training";
+  const low = Object.keys(rep.skills).some(k => rep.skills[k][0] / rep.skills[k][1] < .5);
+  const ready = rep.pct >= 80 && !low ? "You're ready for Lessons 2-1 to 2-3 on Quiz 2. Check 2-4 to 2-6 and 3-1 in the other two labs too."
+    : rep.pct >= 60 ? "Almost ready. Practice the skills marked below, then take the challenge again." : "Practice the zones in the study plan below, then take the challenge again before the quiz.";
+  let h = '<div class="land-c1"><div class="lesson-top"><button class="btn btn-sm" data-act="home">← Map</button><span class="your">' + fmtDate(rep.t) + '</span></div>'
+    + '<div class="panel report-head"><div class="ring"><svg viewBox="0 0 156 156" aria-hidden="true"><circle cx="78" cy="78" r="64" fill="none" stroke="#E4F2FF" stroke-width="16"/><circle cx="78" cy="78" r="64" fill="none" stroke="' + (rep.pct >= 75 ? "#12A15E" : rep.pct >= 50 ? "#F39200" : "#E23D45") + '" stroke-width="16" stroke-linecap="round" stroke-dasharray="' + (C * rep.pct / 100).toFixed(2) + ' ' + C.toFixed(2) + '"/></svg><div class="num">' + rep.pct + '%<small>' + rep.right + ' / ' + rep.n + '</small></div></div>'
+    + '<div><div class="land-num">Final Challenge result</div><div class="rank">' + rank + '</div><p>' + ready + '</p><div class="row" style="margin-top:12px"><button class="btn btn-go" data-act="startfinal">Try again</button><a class="btn btn-sm" href="' + REVIEW + '">Quiz 2 checklist</a></div></div></div>';
+  h += '<div class="sec-title"><h2>Skills</h2><p>Green 80%+ · Orange 50–79% · Red below 50%.</p></div><div class="panel bars">';
+  const order = SKILL_ORDER.filter(k => rep.skills[k]);
+  order.forEach(k => {
+    const [c, t] = rep.skills[k], p = pctOf(c, t), st = p >= 80 ? "good" : p >= 50 ? "mid" : "low";
+    h += '<div class="bar-row land-' + ZONES[SKILLS[k].zone].col + '"><div class="bar-label">' + SKILLS[k].name + '<small>' + ZONES[SKILLS[k].zone].name + ' · ' + c + '/' + t + '</small></div>'
+      + '<div class="bar" role="img" aria-label="' + p + ' percent"><i class="' + (p ? "" : "zero") + '" data-w="' + p + '"></i></div><div class="bar-end"><span class="pct">' + p + '%</span><span class="status ' + st + '">' + (st === "good" ? "Strong" : st === "mid" ? "Almost" : "Practice") + '</span></div></div>';
+  });
+  h += '</div>';
+  const weak = order.map(k => ({k, p:rep.skills[k][0] / rep.skills[k][1]})).filter(x => x.p < .8).sort((a, b) => a.p - b.p);
+  h += '<div class="sec-title"><h2>Study Plan</h2><p>' + (weak.length ? "Do these in order, weakest first. Each one takes about 5 minutes." : "No weak spots. Keep it fresh before Quiz 2.") + '</p></div>';
+  if (weak.length){
+    h += '<ol class="plan">' + weak.map(x => {
+      const zi = SKILLS[x.k].zone;
+      return '<li><b>' + SKILLS[x.k].name + '</b> <span class="your">(' + Math.round(x.p * 100) + '%) · Zone ' + (zi + 1) + ': ' + ZONES[zi].name + '</span><p>' + M(SKILLS[x.k].tip) + '</p><div class="row"><button class="btn btn-sm" data-act="zone" data-z="' + zi + '">Re-read ' + ZONES[zi].name + '</button><button class="btn btn-sm btn-go" data-act="practice" data-z="' + zi + '">Practice ' + ZONES[zi].name + '</button></div></li>';
+    }).join("") + '</ol>';
+  } else h += '<ol class="plan"><li><b>Finish the Quiz 2 checklist</b><p>Lessons 2-4 to 2-6 are in the coordinate plane lab, and Lesson 3-1 in the exponents lab.</p><div class="row"><a class="btn btn-sm btn-go" href="' + REVIEW + '">Quiz 2 checklist</a><a class="btn btn-sm" href="' + GRID + '">Coordinate plane</a><a class="btn btn-sm" href="' + POWER + '">Exponents</a></div></li></ol>';
+  const fs = finals().slice(-8);
+  if (fs.length > 1) h += '<div class="sec-title"><h2>Progress</h2><p>Your last ' + fs.length + ' Final Challenges.</p></div><div class="panel history">'
+    + fs.map(a => '<div class="hcol"><b>' + a.pct + '%</b><div class="hbar" style="height:' + Math.max(6, a.pct * 1.1) + 'px"></div><span>' + fmtDate(a.t).split(",")[0] + '</span></div>').join("") + '</div>';
+  h += '<div class="sec-title"><h2>Every Answer</h2></div><div class="panel answers"><details><summary>Show all ' + rep.n + ' questions with explanations</summary>'
+    + rep.items.map((r, i) => '<div class="ans"><span class="mark ' + (r.ok ? "ok" : "no") + '" aria-label="' + (r.ok ? "correct" : "wrong") + '">' + (r.ok ? "✓" : "✗") + '</span><div><b>' + (i + 1) + '. ' + esc(r.text) + '</b><br><small>You: ' + esc(r.given) + ' · Answer: ' + esc(r.correct) + '</small><p>' + r.why + '</p></div></div>').join("")
+    + '</details></div></div>';
+  $("#scr-report").innerHTML = keep(h);
+  requestAnimationFrame(() => requestAnimationFrame(() => $$("#scr-report .bar i").forEach(i => { i.style.width = i.dataset.w + "%"; })));
+}
+
+/* ---------- EVENTS ---------- */
+function goHome(){ renderHome(); show("home"); setHash(""); }
+const ACT = {
+  home(){ goHome(); },
+  zone(b){ openZone(+b.dataset.z); },
+  practice(b){ startPractice(+b.dataset.z); },
+  final(){ renderFinalIntro(); },
+  startfinal(){ startFinal(); },
+  mc(b){ chooseMC(+b.dataset.i); },
+  check(){ check(); },
+  hint(){ showHint(); },
+  next(){ next(); },
+  key(b){
+    const inp = R && R.lastInput; if (!inp || inp.readOnly) return;
+    const k = b.dataset.k, s = inp.selectionStart == null ? inp.value.length : inp.selectionStart, e = inp.selectionEnd == null ? s : inp.selectionEnd;
+    inp.value = inp.value.slice(0, s) + k + inp.value.slice(e);
+    inp.focus({preventScroll:true}); try { inp.setSelectionRange(s + k.length, s + k.length); } catch (err) {}
+  },
+  sound(){ S.sound = !S.sound; save(); renderSoundBtn(); if (S.sound) Sound.tap(); },
+  lastreport(){ if (S.last){ renderReport(S.last); show("report"); setHash("#/report"); } },
+  reset(){ if (confirm("Reset all Number Line Lab progress? On a linked device this resets it on the family's other devices too.")){ const snd = S.sound; S = fresh(); S.sound = snd; save(); $("#xpVal").textContent = 0; renderHome(); } }
+};
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b || b.disabled) return;
+  const f = ACT[b.dataset.act]; if (f) f(b, e);
+});
+document.addEventListener("keydown", e => {
+  if (e.key !== "Enter" || current !== "quiz" || !R) return;
+  const t = e.target;
+  if (t.id === "inN" && !R.locked){ e.preventDefault(); check(); }
+});
+document.addEventListener("mousedown", e => { if (e.target.closest(".key")) e.preventDefault(); });
+function route(){
+  const [a, b] = location.hash.replace(/^#\/?/, "").split("/"), z = parseInt(b, 10) - 1;
+  if (a === "zone" && ZONES[z]) openZone(z);
+  else if (a === "practice" && ZONES[z]) startPractice(z);
+  else if (a === "final") renderFinalIntro();
+  else if (a === "report" && S.last){ renderReport(S.last); show("report"); }
+  else goHome();
+}
+addEventListener("hashchange", route);
+
+/* ---------- PRINT SHEET (A4; only visible when printing) ---------- */
+/* fixed questions, so the printed answer key always matches */
+const PS_QS = [
+  {q:"Write an integer for each.", blanks:["a) 12 m below sea level", "b) a gain of 7 points", "c) 3 degrees below zero"], key:"a) −12 b) 7 c) −3"},
+  {q:"Write the opposite.", blanks:["a) 9", "b) −14", "c) 0", "d) −(−6) ="], key:"a) −9 b) 14 c) 0 d) 6"},
+  {q:"Circle the integers: −8, 2.5, 0, " + M("3/4") + ", 17, −1.5", key:"−8, 0 and 17"},
+  {q:"Mark and label each point on the number line: A = −3, B = 2.5, C = −1 " + M("1/2") + ", D = −(−4).", fig:true, key:"A at −3; B halfway between 2 and 3; C halfway between −2 and −1; D at 4"},
+  {q:"Use &lt;, &gt; or =.", blanks:["a) −7 ☐ −3", "b) −0.6 ☐ −0.65", "c) −" + M("3/4") + " ☐ −0.75", "d) 1.2 ☐ −5"], key:"a) &lt; b) &gt; c) = d) &gt;"},
+  {q:"Order from least to greatest: 1.5, −2 " + M("1/4") + ", −0.5, −2, " + M("3/4") + ".", line:true, key:"−2 " + M("1/4") + ", −2, −0.5, " + M("3/4") + ", 1.5"},
+  {q:"Find each absolute value.", blanks:["a) |−9|", "b) |4.5|", "c) |−2 " + M("1/3") + "|", "d) |0|"], key:"a) 9 b) 4.5 c) 2 " + M("1/3") + " d) 0"},
+  {q:"Use &lt;, &gt; or =.", blanks:["a) |−6| ☐ |4|", "b) −6 ☐ |4|", "c) |−2.5| ☐ 2.5"], key:"a) &gt; b) &lt; c) ="},
+  {q:"Test score changes: Ali −5, Badr +4, Saad −2, Tariq +3. a) Who had the greatest change? b) Who had the greatest increase?", line:true, key:"a) Ali: |−5| = 5 is the farthest from 0 b) Badr"},
+  {q:"Lina's balance is −25 riyals and Omar's is −40 riyals. a) How much does Omar owe? b) Who owes more? Explain with absolute value.", line:true, line2:true, key:"a) 40 riyals b) Omar, because |−40| = 40 &gt; |−25| = 25"}
+];
+function renderPrintSheet(){
+  const el = $("#printSheet"); if (!el) return;
+  const head = (title, sub) => '<header class="ps-head"><div><h1>' + title + '</h1><p class="ps-sub">' + sub + '</p></div><p class="ps-meta">Class 6.3 · Quiz 2 on Sunday 8/11/2026</p></header>';
+  const check = body => '<div class="ps-check"><span class="box"></span><div>' + body + '</div></div>';
+  const box = (title, body) => '<div class="ps-box"><h3>' + title + '</h3>' + body + '</div>';
+  const rules = [
+    ["Opposites", "the opposite of 7 is −7 &nbsp;·&nbsp; −(−7) = 7 &nbsp;·&nbsp; 0 is its own opposite"],
+    ["Right is greater", "−1 &gt; −2 &nbsp;·&nbsp; −0.5 &gt; −0.75 &nbsp;·&nbsp; −8 &lt; −3"],
+    ["Fractions as decimals", "−" + M("3/4") + " = −0.75 &nbsp;·&nbsp; −1 " + M("2/5") + " = −1.4 &nbsp;·&nbsp; 2 " + M("1/2") + " = 2.5"],
+    ["Order", "least to greatest = left to right: −3.5, −2.5, 0.4, 1.25"],
+    ["Absolute value", "distance from 0, never negative: |−6.33| = 6.33 &nbsp;·&nbsp; |4| = 4 &nbsp;·&nbsp; |0| = 0"],
+    ["Compare", "|−8| = 8 &gt; |5| = 5, but −8 &lt; 5 &nbsp;·&nbsp; for a negative x, |x| &gt; x"]
+  ];
+  el.innerHTML = keep(head("Integers, Rational Numbers and Absolute Value: Study Sheet", "enVision Mathematics, Volume 1 · Lessons 2-1 (pp. 69–74), 2-2 (pp. 75–80) and 2-3 (pp. 81–86)")
+    + '<div class="ps-row"><figure class="ps-fig">' + vizAbs() + '<figcaption>−3 and 3 are opposites: the same distance from 0. Their absolute value is 3.</figcaption></figure>'
+    + box("Words to know", '<ul><li><b>Integers:</b> the counting numbers, their opposites and 0: … −2, −1, 0, 1, 2 …</li>'
+      + '<li><b>Opposites:</b> the same distance from 0 on opposite sides: 4 and −4.</li>'
+      + '<li><b>Rational number:</b> can be written as a fraction of two integers: 6, −1, ' + M("4/5") + ', 0.5, −1.75.</li>'
+      + '<li><b>Absolute value:</b> the distance from 0: |−5| = 5. Read it “the absolute value of negative 5”.</li>'
+      + '<li><b>Positive</b> numbers are right of 0, <b>negative</b> ones left of 0. 0 is neither.</li></ul>') + '</div>'
+    + '<h2>Key rules</h2><table class="ps-table"><tr><th>Rule</th><th>Example</th></tr>' + rules.map(r => '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td></tr>').join("") + '</table>'
+    + '<h2>One worked example per zone</h2><div class="ps-two">'
+    + box("1 · Integer Island", '<p>Point D is 7 ticks left of 0, so D = <b>−7</b>. Its opposite is 7. “12 m below sea level” is <b>−12</b>.</p>')
+    + box("2 · Rational Road", '<p>4 spaces between −3 and −2 make each tick 0.25, and B is 1 tick left of −2: <b>B = −2.25</b>. −' + M("3/4") + ' = −0.75 &gt; −0.8.</p>')
+    + box("3 · Absolute Value Bridge", '<p>|−4| = 4 and |3| = 3, so a change of −4 is <b>greater</b> than +3. A balance of −35 riyals is a debt of <b>35 riyals</b>.</p>')
+    + box("Common traps", '<ul><li>−8 is less than −3, not more.</li><li>Absolute value is never negative.</li><li>Count the spaces between integers to find a tick\'s size.</li><li>−2.25 is left of −2, not between −2 and −1.</li><li>Least to greatest: the most negative first.</li></ul>')
+    + '</div>'
+    + '<h2>Quiz 2 · Sunday 8/11 · Math</h2>'
+    + check('<b>Lessons 2-1 to 2-3</b> (pp. 69–86): this lab.')
+    + check('<b>Lessons 2-4 to 2-6</b> (pp. 89–110): the coordinate plane lab.')
+    + check('<b>Lesson 3-1</b> (pp. 123–128): the exponents lab.')
+    + '<section class="ps-page2">' + head("Integers, Rational Numbers and Absolute Value: Practice", "Show your work. The answer key is at the bottom: cover it while you practice.")
+    + '<ol class="ps-qs">' + PS_QS.map(q => '<li>' + q.q
+      + (q.blanks ? '<span class="ps-fills">' + q.blanks.map(b => '<span class="ps-fill">' + b + '<span class="ps-blank"></span></span>').join(" ") + '</span>' : "")
+      + (q.fig ? '<span class="ps-nl">' + nline({lo:-5, hi:5, step:0.5, label:"A blank number line from −5 to 5 with a tick every half."}) + '</span>' : "")
+      + (q.line ? '<span class="ps-line"></span>' : "") + (q.line2 ? '<span class="ps-line"></span>' : "") + '</li>').join("") + '</ol>'
+    + '<div class="ps-key"><h3>Answer key</h3><ol>' + PS_QS.map(q => '<li>' + q.key + '</li>').join("") + '</ol></div></section>');
+}
+
+/* ---------- START ---------- */
+$("#xpVal").textContent = S.xp;
+renderSoundBtn();
+route();
+renderPrintSheet();
+</script>
+</body></html>
