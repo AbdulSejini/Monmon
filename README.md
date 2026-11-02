@@ -59,6 +59,7 @@ The homework and tests come from the school's public EduPage list for class 6.3 
 
 | Lesson | Page | What's inside |
 | --- | --- | --- |
+| Quiz 2 of Term 1 (Sunday 15 Nov 2026): Module 2, Body Systems, Lessons 2–5 (Structure and Support pp. 76–96; Obtaining Energy and Removing Waste pp. 98–114; Moving Materials; Control and Information Processing) | [`science/quiz-2/index.html`](science/quiz-2/index.html) | In English, like the book. Lessons 2 and 3 in full, topic by topic: muscles, joints and ligaments, the skeleton's jobs, the skeletons of other animals, the three muscle types, roots and stems, the handstand and the bionic arm; food and Calories, mechanical and chemical digestion, the digestive organs, the villi and celiac disease, the excretory system, photosynthesis. Five diagrams drawn for the page (the skeleton, three joint models, three kinds of muscle cells, the digestive system, a leaf in photosynthesis), each named on the page and asked as "label it" questions with only some numbers shown. Lessons 4 and 5 get their key ideas, the Lesson Check questions in new words, and a link to their labs. Each lesson has its own practice (9 questions over all its topics: choose, true or false, type the science word, then a diagram to label, a path to put in order or words to match), and a practice test of 30 (8 + 8 + 7 + 7) shows the result for each lesson. Typed words forgive capitals, a plural s and one slip in a long word, and show the spelling. The questions come from the lessons, the Lesson Checks, the class worksheets and the homework, written for the page. Progress (xp, best test, mastered lessons) is saved in `science-g6-quiz2-v1`, synced, counts towards the rewards, and opens the arcade. |
 | Module 2: Body Systems, L4 Moving Material | [`science/moving-material/index.html`](science/moving-material/index.html) | Eight parts following the week's lesson questions (the phenomenon, transport in plants, the human circulatory system, the lungs and gas exchange, the heart's two loops, how other animals breathe, open and closed circulatory systems, the cardiovascular technologist and blood cells), each with an animated diagram and a quick check; a Cell Lab for the IXL animal-cell labeling homework; a 20-question Lesson Review with a weak-spot report; and a 37-word word bank. |
 | Module 2: Body Systems, L5 Control and Information Processing | [`science/control-information/index.html`](science/control-information/index.html) | Signal Lab: eight parts following the week's lesson questions (the surfer phenomenon and "when do we use our brains?", the nervous system and the brain, neurons, synapses and reflexes, taste, smell, touch, hearing and balance, sight), each with an animated diagram and a quick check; a reaction-time test and a blind-spot test; a Label Lab for the eye, ear, brain and neuron; a 20-question Lesson Review drawn from 53 with a weak-spot report; a 38-word word bank; and the week's science homework (Worksheet 6, and the IXL cell skill with its link mismatch). |
 
@@ -127,21 +128,21 @@ Every study page also loads `assets/site-nav.js`, which puts the same navigation
 
 ## Arcade (a reward for mastering parts)
 
-[`arcade/index.html`](arcade/index.html) is a games room opened by study. Its ledger is `assets/arcade.js`, loaded on the pages that have parts: the Islamic, English and Arabic Quiz 2 reviews, the four math labs and the IXL Coach.
+[`arcade/index.html`](arcade/index.html) is a games room opened by study. Its ledger is `assets/arcade.js`, loaded on the pages that have parts: the Islamic, English, Arabic and science Quiz 2 reviews, the four math labs and the IXL Coach.
 
-- **Earning:** each part mastered gives 5 minutes of play, once. A part is a review mode at 80% or more of a full round (or 12/15 in the Islamic mock, 24/30 in the English test), a lab zone at 3 stars, a lab final at 80% or more, or an IXL Coach ready check. The first game is open from the start with 5 minutes, and each part mastered opens the next of the four games (Sky Drop, Build Rush, Storm Run, Target Rush, written for the site).
+- **Earning:** each part mastered gives 5 minutes of play, once. A part is a review mode at 80% or more of a full round (or 12/15 in the Islamic mock, 16/20 in the Arabic mock, 24/30 in the English and science tests), a lab zone at 3 stars, a lab final at 80% or more, or an IXL Coach ready check. The first game is open from the start with 5 minutes, and each part mastered opens the next of the four games (Sky Drop, Build Rush, Storm Run, Target Rush, written for the site).
 - **No tricks:** a part counts when a page saves it as newly mastered on that device (the `monmon-saved` event: before → after), so parts mastered before the arcade existed, or mastered again, give nothing, and each part id is earned once. Play time is a balance spent second by second only while a game runs in front, and saved every second: going back, reloading or leaving never gives it back, a hidden page pauses, one window plays at a time (`monmon-arcade-live`, on the device only), and a changed clock can only move the day limit, not create time. At most 20 minutes a day.
 - **Saved** in `monmon-arcade-v1` (synced): the parts earned with their time, the play time per day per device (each device adds only its own), and the best score per game. The lobby has a parents' log of the parts and the minutes per day.
 
 ## Game feel
 
-`assets/fx.js` is loaded on the study pages: the Islamic, English and Arabic reviews, the math, science, vocabulary and ICT pages.
+`assets/fx.js` is loaded on the study pages: the Islamic, English, Arabic and science reviews, the math, science, vocabulary and ICT pages.
 
 - **Right answer:** the answer pops with sparks, and the points fly to the page's ⭐ chip.
 - **Wrong answer:** the answer shakes and the screen flashes red.
 - **Combos:** 3, 5, 8, 12 and 20 right answers in a row show a tilted combo banner in rarity colours.
 - **How it hooks in:** it watches the feedback box every page already shows (`.fb.ok` / `.fb.no`) and the ⭐ chip going up, so no page has to call it.
-- **Sounds and slide-in:** `data-sound="1"` adds short sounds and `data-enter=".run"` slides questions in. Only the two reviews use them; the labs keep their own sounds and transitions.
+- **Sounds and slide-in:** `data-sound="1"` adds short sounds and `data-enter=".run"` slides questions in. Only the four Quiz 2 reviews use them; the labs keep their own sounds and transitions.
 - **Reduced motion:** with "reduce motion" on, nothing moves.
 
 ## Progress sync between devices
@@ -153,7 +154,7 @@ Progress is saved in each browser's localStorage. Every page (the dashboard incl
 - **Receiving:**
   - While a page is in front, the database streams the time of each change to it.
   - Pages that are not open fetch the changes when they open or come back to the front.
-  - The dashboard, the IXL plan, the practice sheet, the arcade and the Islamic Studies, English and Arabic reviews redraw in place. Other pages reload if nobody has touched them yet, and otherwise show a banner.
+  - The dashboard, the IXL plan, the practice sheet, the arcade and the Islamic Studies, English, Arabic and science reviews redraw in place. Other pages reload if nobody has touched them yet, and otherwise show a banner.
 - **No undoing other devices' changes:** each save is turned into just the changes the page made since it last read the value. So a page still showing older progress never undoes another device's change. A device that already has progress when it first syncs adds what only it has; where both have a value, the family's wins.
 - **Storage:** the family's node is `/f/<CODE>`, with `CODE` from `assets/sync.js`. Inside it:
   - `d` holds one entry per value, keyed by its path, for example `monmon-done-v1|done|<item id>`. Each segment is %-escaped for Firebase, and each value is stored as JSON text, so arrays and empty objects come back exactly as saved.
@@ -182,6 +183,7 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 | Math, integers and absolute value | 2 pages: study sheet with a number line, the words to know, rules and one example per zone, and the Quiz 2 math checklist; then 10 practice questions (one on a blank number line) with an answer key |
 | Math, GCF, LCM and expressions | 2 pages: study sheet with a factor tree, rules and one example per zone, then 10 practice questions with an answer key |
 | Islamic Studies, Quiz 2 | 2 pages: the nine lessons summarised in two columns; then a mock test out of 15 in the model's four parts (one question per lesson where it fits, none giving away another's answer) with an answer key |
+| Science, Quiz 2 | 3 pages: Lessons 2 and 3 in two columns with the skeleton and the digestive system named; Lessons 4 and 5 with the Lesson 2–3 words in a table; then a practice test (choose, true or false, a word box, label the digestive system, the stages of digestion in order) with an answer key |
 | Science | 3 pages: key ideas and word bank, then a label-the-cell sheet with an answer key |
 | Science, control and information | 3 pages: homework and key ideas, the rest of the key ideas and the word bank, then a label-the-eye-and-ear sheet with an answer key |
 | ICT, TechnoFuture | 2 pages: the PowerPoint window with its 9 parts labelled and a "How do I…?" table; then the three big procedures (link an action button, a picture on every slide, stop click-to-advance with Home and Return), futurist facts and a 10-question self-test with an answer key |
