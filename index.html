@@ -32,7 +32,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .s-math{--col:#2F7DE1;--tint:#DCEBFF} .s-ar{--col:#F39200;--tint:#FFE8C2} .s-isl{--col:#9A4FE0;--tint:#EEE0FF}
 .s-sci{--col:#119C77;--tint:#D2F4E8} .s-eng{--col:#E23F66;--tint:#FFDDE6} .s-soc{--col:#8C5A2B;--tint:#F5E6D6}
 .s-quran{--col:#1E7A46;--tint:#D9F0E2} .s-pe{--col:#0E8C9E;--tint:#D3F2F6} .s-art{--col:#B8559A;--tint:#F6E0F0}
-.s-ict{--col:#5B6270;--tint:#E7E9EE} .s-ixl{--col:#12A15E;--tint:#DCF7E9} .s-quiz{--col:#E23D45;--tint:#FFE1E2}
+.s-ict{--col:#5B6270;--tint:#E7E9EE} .s-ixl{--col:#12A15E;--tint:#DCF7E9} .s-quiz{--col:#E23D45;--tint:#FFE1E2} .s-arcade{--col:#5B2BB5;--tint:#EEE0FF}
 .panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
 
 /* top bar: scrolls away; the site strip above it (assets/site-nav.js) stays */
@@ -1056,6 +1056,7 @@ const WEEK_TEXT = {8:"الجدول اليومي والواجبات وخطة ال
 const PRACTICE_GROUPS = [["now","ابدأ من هنا"], ["math","الرياضيات"], ["isl","الدراسات الإسلامية"], ["sci","العلوم"], ["eng","الإنجليزي"], ["ict","الحاسب"], ["old","خطط الأسابيع السابقة"]];
 const PRACTICE_PAGES = [
   {group:"now", kind:"مراجعة", href:"review/quiz-2/index.html", title:"مراجعة الاختبار القصير 2", text:"مواعيد اختبارات 8–19 نوفمبر ونطاق كل مادة درسًا درسًا، وعلامة على كل درس يراجعه.", cls:"s-quiz"},
+  {group:"now", kind:"مكافأة", href:"arcade/index.html", title:"صالة الألعاب", text:"كل جزء يتقنه في صفحات المذاكرة يفتح 5 دقائق لعب، ومع كل جزء تنفتح لعبة جديدة. حد اليوم 20 دقيقة.", cls:"s-arcade"},
   {group:"now", kind:"خطة IXL", href:"ixl/index.html", title:"خطة IXL لاختبار MAP", text:"المواد الأربع في 16 أسبوع: مهارات كل يوم بروابطها، وهدف كل مهارة.", cls:"s-ixl"},
   {group:"now", kind:"عيادة", href:"ixl/coach/index.html", title:"عيادة IXL", text:"إذا علِقت مهارة في IXL: شكل السؤال، والفخاخ الشائعة، وتدريب بنفس شكل IXL، ثم اختبار جاهزية قبل ما يرجع. فيها B54 و42P وCQJ وPQQ وPF8.", cls:"s-ixl"},
   {group:"now", kind:"تدريب", href:"ixl/practice/index.html", title:"ورقة التدريب", text:"الأزمنة، صفات الشخصيات، المستوى الإحداثي، الكسور، الأسس، المفردات والعلوم، مع التصحيح.", cls:"s-ixl"},

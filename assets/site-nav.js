@@ -28,7 +28,8 @@
     week: '<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
     ixl: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
     coach: '<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/>',
-    all: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>'
+    all: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+    games: '<path d="M6.5 9h11a4 4 0 0 1 3.9 4.9l-.9 3.6a2.2 2.2 0 0 1-3.8.9L14.6 16H9.4l-2.1 2.4a2.2 2.2 0 0 1-3.8-.9l-.9-3.6A4 4 0 0 1 6.5 9z"/><path d="M8 11.5v3M6.5 13h3"/><circle cx="15.5" cy="12.3" r=".6"/><circle cx="17.3" cy="14" r=".6"/>'
   };
   /* icon, address, label, shorter label for phones */
   var LINKS = [
@@ -36,7 +37,8 @@
     ["week", weekHref, "خطة الأسبوع", "الأسبوع"],
     ["ixl", "ixl/index.html", "خطة IXL", "IXL"],
     ["coach", "ixl/coach/index.html", "عيادة IXL", "العيادة"],
-    ["all", "index.html#practice", "كل الصفحات", "الصفحات"]
+    ["all", "index.html#practice", "كل الصفحات", "الصفحات"],
+    ["games", "arcade/index.html", "صالة الألعاب", "ألعاب"]
   ];
   var path = location.pathname.replace(/\/index\.html$/, "/");
   function isCurrent(href) {
@@ -54,9 +56,10 @@
     '.site-nav a:focus-visible{outline:3px solid #FFD23F;outline-offset:2px}' +
     '.site-nav svg{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}' +
     '.site-nav .s{display:none}' +
-    '@media (max-width:640px){.site-nav .f{display:none}.site-nav .s{display:inline}.site-nav a{padding:5px 8px;gap:5px}.site-nav ul{gap:2px;padding-inline:6px;justify-content:space-between}}' +
-    '@media (max-width:440px){.site-nav li + li svg{display:none}}' +
-    '@media (max-width:370px){.site-nav svg{display:none}.site-nav a{font-size:13px;padding:5px 6px}}' +
+    '@media (max-width:919px){.site-nav .f{display:none}.site-nav .s{display:inline}.site-nav a{padding:5px 8px;gap:5px}.site-nav ul{gap:2px;padding-inline:6px;justify-content:space-between}}' +
+    '@media (max-width:440px){.site-nav li + li svg{display:none}.site-nav a{padding:5px 6px}.site-nav ul{gap:1px;padding-inline:4px}}' +
+    '@media (max-width:370px){.site-nav svg{display:none}.site-nav a{font-size:13px;padding:5px 5px}}' +
+    '@media (max-width:340px){.site-nav a{font-size:12px;padding:5px 3px}.site-nav ul{padding-inline:2px}}' +
     /* the page's own bar and in-page links land under the strip */
     '.topbar{top:calc(env(safe-area-inset-top,0px) + var(--site-nav-h,0px))!important}' +
     'html{scroll-padding-top:var(--site-nav-h,0px)}' +
@@ -80,6 +83,12 @@
     return '<li><a href="' + root + l[1] + '"' + (isCurrent(l[1]) ? ' aria-current="page"' : "") + '><svg viewBox="0 0 24 24" aria-hidden="true">' + ICON[l[0]] + "</svg>" + (l[2] === l[3] ? l[2] : '<span class="f">' + l[2] + '</span><span class="s">' + l[3] + "</span>") + "</a></li>";
   }).join("") + "</ul>";
   document.body.insertBefore(nav, document.body.firstChild);
+  /* on a narrow screen the strip scrolls sideways: keep this page's link in view */
+  var cur = nav.querySelector('a[aria-current="page"]'), list = nav.querySelector("ul");
+  function keep() { if (cur && list && list.scrollWidth > list.clientWidth + 1) { try { cur.scrollIntoView({block: "nearest", inline: "nearest"}); } catch (e) {} } }
+  keep();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(keep);
+  window.addEventListener("load", keep);
 
   /* the height changes when the web font arrives or the window is resized */
   function setHeight() { document.documentElement.style.setProperty("--site-nav-h", nav.offsetHeight + "px"); }

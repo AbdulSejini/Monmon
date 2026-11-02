@@ -169,6 +169,7 @@ ul,ol{margin:0;padding:0}
 <script src="../../assets/sync.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <script src="../../assets/rewards.js" data-root="../../"></script>
+<script src="../../assets/arcade.js" data-root="../../"></script>
 <header class="topbar">
   <div class="topbar-in">
     <span class="logo">إسلامية</span>
@@ -352,10 +353,12 @@ const lessonPeek = id => '<details class="peek u-' + LESSON[id].u + '"><summary>
 function announce(t){ const l = $("#live"); if (l){ l.textContent = ""; setTimeout(() => { l.textContent = t; }, 40); } }
 
 /* ---------- SAVED PROGRESS ---------- */
-const fresh = () => ({xp:0, best:null, mocks:0, rounds:0});
+const fresh = () => ({xp:0, best:null, mocks:0, rounds:0, mastered:{}});
 let S = (() => { try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v === "object") return Object.assign(fresh(), v); } catch (e) {} return fresh(); })();
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 function addXP(n){ S.xp += n; save(); $("#xpVal").textContent = S.xp; }
+/* a mode mastered (80% of a full round, or 12 of 15 in the mock): the arcade (assets/arcade.js) gives play time for it, once */
+function master(m){ if (!S.mastered || typeof S.mastered !== "object") S.mastered = {}; if (!S.mastered[m]) S.mastered[m] = Date.now(); }
 
 /* ---------- ROUNDS ----------
    A round is a list of steps: {type:"mc"|"tf"|"match"|"fill", …}. A practice round is one format; the mock test is
@@ -472,6 +475,7 @@ function result(){
     const part = t => res.filter(r => r.type === t), sc = t => part(t).filter(r => r.ok).length * 0.75;
     const score = sc("mc") + sc("tf") + sc("match"), bonus = part("fill").filter(r => r.ok).length;
     S.mocks++; if (S.best === null || score > S.best) S.best = score;
+    if (score >= 12) master("mock");
     say = fmtScore(score) + " من 15";
     addXP(20);
     h += '<p class="q-part">الاختبار التجريبي</p><div class="big">' + fmtScore(score) + ' <small>من 15</small></div>'
@@ -479,6 +483,7 @@ function result(){
       + '<p>' + (bonus ? "والسؤال الإضافي: " + bonus + " من 2 ✔. " : "") + (score >= 13.5 ? "ممتاز، أنت جاهز للاختبار! 🌟" : score >= 10.5 ? "جيد جدًا. راجع الأخطاء تحت ثم جرّب مرة ثانية." : "راجع الدروس المذكورة تحت، ثم جرّب اختبارًا جديدًا.") + '</p>';
   } else {
     S.rounds++;
+    if (right / res.length >= .8) master(R.mode);
     h += '<p class="q-part">' + esc(MODES[R.mode].name) + '</p><div class="big">' + right + ' <small>من ' + res.length + '</small></div>'
       + '<p>' + (right === res.length ? "كلها صحيحة! 🌟" : "راجع الأخطاء تحت، والأسئلة تتغيّر في كل جولة.") + '</p>';
   }

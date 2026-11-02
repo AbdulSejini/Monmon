@@ -110,11 +110,19 @@ Every study page also loads `assets/site-nav.js`, which puts the same navigation
   - Praising effort rather than intelligence helps children keep going after mistakes (Mueller and Dweck, 1998).
   - Points, badges and levels have a moderate positive effect on learning (Sailer and Homner, 2020).
 
+## Arcade (a reward for mastering parts)
+
+[`arcade/index.html`](arcade/index.html) is a games room opened by study. Its ledger is `assets/arcade.js`, loaded on the pages that have parts: the Islamic and English Quiz 2 reviews, the four math labs and the IXL Coach.
+
+- **Earning:** each part mastered gives 5 minutes of play, once. A part is a review mode at 80% or more of a full round (or 12/15 in the Islamic mock, 24/30 in the English test), a lab zone at 3 stars, a lab final at 80% or more, or an IXL Coach ready check. The first game is open from the start with 5 minutes, and each part mastered opens the next of the four games (Sky Drop, Build Rush, Storm Run, Target Rush, written for the site).
+- **No tricks:** a part counts when a page saves it as newly mastered on that device (the `monmon-saved` event: before → after), so parts mastered before the arcade existed, or mastered again, give nothing, and each part id is earned once. Play time is a balance spent second by second only while a game runs in front, and saved every second: going back, reloading or leaving never gives it back, a hidden page pauses, one window plays at a time (`monmon-arcade-live`, on the device only), and a changed clock can only move the day limit, not create time. At most 20 minutes a day.
+- **Saved** in `monmon-arcade-v1` (synced): the parts earned with their time, the play time per day per device (each device adds only its own), and the best score per game. The lobby has a parents' log of the parts and the minutes per day.
+
 ## Progress sync between devices
 
 Progress is saved in each browser's localStorage. Every page (the dashboard included) also loads `assets/sync.js` before its own script, which keeps that progress in step across the family's devices through a Firebase Realtime Database. Every device that opens the site syncs, with no link or sign-in: the family chose that over opening a link on each device, so the progress is open to anyone who opens the site. The page [`sync/index.html`](sync/index.html) shows whether this device syncs and when it last did, and can switch sync off (or back on) on this device. An older family link (`sync/#code=…`) still works and just switches sync on.
 
-- **What syncs:** the keys in `KEYS` in `assets/sync.js`. These are the homework ticks (`monmon-done-v1`), the IXL plan ticks, the practice sheet's best scores, the saved progress of each study page, the IXL Coach's ready checks (`monmon-ixl-coach-v1`), the lessons reviewed for Quiz 2 (`monmon-quiz2-v1`), and the rewards' log of points (`monmon-activity-v1`). When a new page saves progress, add its key there. Its `xp` then counts towards the rewards too.
+- **What syncs:** the keys in `KEYS` in `assets/sync.js`. These are the homework ticks (`monmon-done-v1`), the IXL plan ticks, the practice sheet's best scores, the saved progress of each study page, the IXL Coach's ready checks (`monmon-ixl-coach-v1`), the lessons reviewed for Quiz 2 (`monmon-quiz2-v1`), the arcade's parts and play time (`monmon-arcade-v1`), and the rewards' log of points (`monmon-activity-v1`). When a new page saves progress, add its key there. Its `xp` then counts towards the rewards too.
 - **Sending:** ticks and best scores are sent within seconds. Quiz progress is sent a minute after the last answer, and at most 5 minutes after the first. Anything left is sent when the page is hidden or closed.
 - **Receiving:**
   - While a page is in front, the database streams the time of each change to it.
@@ -155,6 +163,7 @@ Every page has its own A4 print layout. The screen view is hidden and a paper ve
 | Vocabulary Unit 2 | 2 pages: word list, then "Test yourself" with an answer key |
 | Vocabulary Review Units 1–3 | 3 pages: one per unit, with a word table and a short test |
 | Sticker album | No paper version: the screen as it is, about 3 pages, without the strip and the sound button |
+| Arcade | No paper version |
 | Quiz 2 review | 2 pages: every subject in two columns with its date, its lessons and pages with a box each (ticked ones crossed out), the letter's marking and the dictation passage |
 
 Progress is saved in the browser of the device being used (`localStorage`). Homework ticks are shared between the dashboard and the weekly plans, keyed by EduPage item id.
