@@ -828,7 +828,9 @@ function renderHome(){
   h += '<section class="sec part p-vocab" id="p-vocab"><div class="part-head"><h2>3. Vocabulary</h2><span>Vocabulary Workshop, Level A · Unit 4 · pp. 52–58</span></div>'
     + '<p style="margin-bottom:12px;color:var(--ink-2)">The 20 words, each with its meaning, synonyms, antonyms and a sentence. Tap 🔊 to hear a word.</p><div class="wgrid">'
     + WORDS.map(x => '<article class="word panel" id="w-' + x.w + '">' + wordCard(x).replace('</small></h3>', '</small><button class="say" type="button" data-act="say" data-w="' + x.w + '" aria-label="Say ' + x.w + '">' + ICON_SAY + '</button></h3>') + '</article>').join("")
-    + '</div><div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="vocab">Practice vocabulary (12)</button></div></section>';
+    + '</div><div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="vocab">Practice vocabulary (12)</button>'
+    + '<a class="btn" href="../../vocabulary/unit-04/index.html">Hard words? Unit 4 Word Quest →</a></div>'
+    + '<p style="margin-top:8px;color:var(--ink-2);font-size:14px">Word Quest teaches the same 20 words one by one: a cartoon, a memory trick, the meaning in Arabic, a move to act out, then challenges and a speed game.</p></section>';
   /* 4. grammar */
   h += '<section class="sec part p-gram" id="p-gram"><div class="part-head"><h2>4. Grammar</h2><span>Chapter 7: Nouns and Pronouns · Lessons 7.1–7.3 · pp. 141–146</span></div>'
     + GRAM.map(g => '<article class="card panel" id="' + g.id + '"><h3>' + g.t + ' <small style="font-family:var(--body);font-size:14px;color:var(--ink-2)">pp. ' + g.pg + '</small></h3>' + g.html + '</article>').join("")
