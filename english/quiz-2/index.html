@@ -46,6 +46,7 @@ ul,ol{margin:0;padding:0}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:800;text-decoration:none;box-shadow:var(--shadow-sm);text-align:center;line-height:1.25}
 .btn:active{transform:translate(3px,3px);box-shadow:none}
 .btn.go{background:var(--sun)}
+.tutor-cta{margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}.tutor-cta span{font-size:14px;color:var(--ink-2)}
 .btn.ink{background:var(--ink);color:#fff}
 .btn.sm{min-height:40px;padding:5px 12px;font-size:15px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
@@ -803,7 +804,8 @@ function renderHome(){
   let h = '<section class="hero panel p-read"><h1>English: Quiz 2 Review</h1>'
     + '<p class="sub">Thursday 12 November · reading, main idea, vocabulary, grammar and a friendly letter <span class="badge' + (n >= 0 && n <= 1 ? " hot" : "") + '">' + when + '</span></p>'
     + '<div class="stats"><div class="stat"><b>' + (S.best === null ? "–" : S.best + "/30") + '</b><span>Best practice test</span></div><div class="stat"><b>' + S.tests + '</b><span>Tests done</span></div><div class="stat"><b>' + S.xp + '</b><span>Points</span></div></div>'
-    + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="test">Start a practice test</button><a class="btn" href="#letter">Write a letter</a><a class="btn sm" href="../../review/quiz-2/index.html#eng">Quiz 2 checklist</a></div></section>';
+    + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="test">Start a practice test</button><a class="btn" href="#letter">Write a letter</a><a class="btn sm" href="../../review/quiz-2/index.html#eng">Quiz 2 checklist</a></div>'
+    + '<p class="tutor-cta"><a class="btn go" href="../tutor/index.html">Learn it step by step with the English Tutor →</a> <span>Every skill explained in English and Arabic, then new questions every time until you really understand.</span></p></section>';
   h += '<section class="sec"><div class="sec-head"><h2>What’s on the quiz</h2><p>Five parts, with the pages from the school’s assessment outline.</p></div><div class="tiles">'
     + PARTS.map(p => '<article class="tile p-' + p.id + '"><b>' + p.name + '</b><span>' + p.src + ' · pp. ' + p.pg + '</span><div class="row"><a class="btn sm" href="#p-' + p.id + '">Learn</a>'
       + '<button class="btn sm go" type="button" data-act="start" data-m="' + p.id + '">Practice</button></div></article>').join("") + '</div>'
@@ -828,7 +830,9 @@ function renderHome(){
   h += '<section class="sec part p-vocab" id="p-vocab"><div class="part-head"><h2>3. Vocabulary</h2><span>Vocabulary Workshop, Level A · Unit 4 · pp. 52–58</span></div>'
     + '<p style="margin-bottom:12px;color:var(--ink-2)">The 20 words, each with its meaning, synonyms, antonyms and a sentence. Tap 🔊 to hear a word.</p><div class="wgrid">'
     + WORDS.map(x => '<article class="word panel" id="w-' + x.w + '">' + wordCard(x).replace('</small></h3>', '</small><button class="say" type="button" data-act="say" data-w="' + x.w + '" aria-label="Say ' + x.w + '">' + ICON_SAY + '</button></h3>') + '</article>').join("")
-    + '</div><div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="vocab">Practice vocabulary (12)</button></div></section>';
+    + '</div><div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="vocab">Practice vocabulary (12)</button>'
+    + '<a class="btn" href="../../vocabulary/unit-04/index.html">Hard words? Unit 4 Word Quest →</a></div>'
+    + '<p style="margin-top:8px;color:var(--ink-2);font-size:14px">Word Quest teaches the same 20 words one by one: a cartoon, a memory trick, the meaning in Arabic, a move to act out, then challenges and a speed game.</p></section>';
   /* 4. grammar */
   h += '<section class="sec part p-gram" id="p-gram"><div class="part-head"><h2>4. Grammar</h2><span>Chapter 7: Nouns and Pronouns · Lessons 7.1–7.3 · pp. 141–146</span></div>'
     + GRAM.map(g => '<article class="card panel" id="' + g.id + '"><h3>' + g.t + ' <small style="font-family:var(--body);font-size:14px;color:var(--ink-2)">pp. ' + g.pg + '</small></h3>' + g.html + '</article>').join("")
