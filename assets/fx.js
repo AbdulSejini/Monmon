@@ -45,7 +45,7 @@
     css.textContent = '.fx-cv{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:64}' +
       '.fx-fly{position:fixed;z-index:65;pointer-events:none;font:900 22px/1 "Lilita One","Tajawal","Segoe UI",system-ui,sans-serif;color:#FFD23F;-webkit-text-stroke:1.5px #14163A;text-shadow:2px 2px 0 #14163A;white-space:nowrap;direction:ltr}' +
       '.fx-flash{position:fixed;inset:0;z-index:63;pointer-events:none;box-shadow:inset 0 0 0 0 rgba(226,61,69,0);border-radius:0}' +
-      '.fx-banner{position:fixed;z-index:66;left:50%;top:calc(var(--site-nav-h,0px) + 70px);pointer-events:none;padding:8px 22px 6px;border:3px solid #14163A;border-radius:12px;box-shadow:5px 5px 0 #14163A;' +
+      '.fx-banner{position:fixed;z-index:66;left:50%;top:calc(env(safe-area-inset-top,0px) + var(--site-nav-h,0px) + 70px);pointer-events:none;padding:8px 22px 6px;border:3px solid #14163A;border-radius:12px;box-shadow:5px 5px 0 #14163A;' +
       'font:400 30px/1.2 "Lalezar","Lilita One","Tajawal",sans-serif;color:#fff;-webkit-text-stroke:1px #14163A;text-shadow:2px 2px 0 #14163A;white-space:nowrap;transform:translateX(-50%) skewX(-10deg) rotate(-3deg)}' +
       '.fx-banner small{display:block;font:800 13px/1.2 "Tajawal","Segoe UI",sans-serif;-webkit-text-stroke:0;text-shadow:none;letter-spacing:.04em;text-align:center}' +
       '@media print{.fx-cv,.fx-fly,.fx-flash,.fx-banner{display:none!important}}';

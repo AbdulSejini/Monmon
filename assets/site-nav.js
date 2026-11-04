@@ -48,6 +48,10 @@
   }
 
   var css = '.site-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:#14163A;color:#fff;font-family:"Tajawal","Segoe UI",system-ui,sans-serif;direction:rtl}' +
+    /* with viewport-fit=cover, iPad and iPhone Safari run the page under the clock and the folded address bar,
+       and the strip stops below them (the top safe-area inset). Paint that part of the screen in the strip's
+       colour, so the page does not show through above the strip. Off screen when there is no inset. */
+    '.site-nav::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:#14163A}' +
     '.site-nav ul{max-width:960px;margin:0 auto;padding:6px 10px;display:flex;gap:6px;list-style:none;overflow-x:auto;scrollbar-width:none}' +
     '.site-nav ul::-webkit-scrollbar{display:none}' +
     '.site-nav a{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;color:#fff;text-decoration:none;font-size:14px;font-weight:700;line-height:1.2;white-space:nowrap;border:2px solid transparent}' +
