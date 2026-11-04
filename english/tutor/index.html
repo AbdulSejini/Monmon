@@ -1662,7 +1662,7 @@ function renderSound(){ const b = $("#soundBtn"); b.innerHTML = S.sound ? ICON_S
 function freshQ(skill, used){
   const seen = S.seen[skill] || (S.seen[skill] = []);
   let q = null;
-  for (let t = 0; t < 40; t++){ q = MAKE[skill](); q.h = hashS(q.sig); if (!seen.includes(q.h) && !(used && used.has(q.h))) break; }
+  for (let t = 0; t < 200; t++){ q = MAKE[skill](); q.h = hashS(q.sig); if (!seen.includes(q.h) && !(used && used.has(q.h))) break; }   /* small banks have rare forms: try hard for one not seen lately */
   seen.push(q.h); if (seen.length > SEEN) seen.splice(0, seen.length - SEEN);
   if (used) used.add(q.h);
   q.skill = skill;
