@@ -41,6 +41,7 @@
   var AR = {a1: "همزتا الوصل والقطع", a2: "الهمزة المتوسطة", a3: "الهمزة المتطرفة", a4: "كان وأخواتها", dict: "قطعة الإملاء", mock: "الاختبار التجريبي"};
   var SCI = {l2: "Structure and Support", l3: "Energy and Waste", l4: "Moving Materials", l5: "Control and Information", test: "Practice test"};
   var SOC = {so1: "قبل الدولة السعودية الأولى", so2: "تأسيس الدولة", so3: "أئمة الدولة", mock: "الاختبار التجريبي"};
+  var TUT = {read: "Reading", idea: "Main idea", vocab: "Vocabulary", gram: "Grammar", write: "Letter", test: "Practice test"};   /* english/tutor: units understood, a test at 80% */
   var WQ4 = ["Courtroom", "Fan Stage", "Storm Coast", "Castle of Kings", "Explorer Lab"];   /* the lands of vocabulary/unit-04, saved by index */
   function wq4(v) {
     var out = [];
@@ -55,6 +56,9 @@
     {key: "english-g6-quiz2-v1", page: "english/quiz-2/index.html", title: "الإنجليزي: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة، أو 24 من 30 في الاختبار التجريبي",
      all: Object.keys(ENG).map(function (m) { return ["eng-" + m, "الإنجليزي: " + ENG[m]]; }),
      parts: function (v) { return keys(v && v.mastered).filter(function (m) { return ENG[m]; }).map(function (m) { return ["eng-" + m, "الإنجليزي: " + ENG[m]]; }); }},
+    {key: "english-g6-tutor-v1", page: "english/tutor/index.html", title: "معلّم الإنجليزي", rule: "كل مهارات الجزء مفهومة (5 صح ورا بعض)، أو 80% في الاختبار التجريبي",
+     all: Object.keys(TUT).map(function (m) { return ["tut-" + m, "معلّم الإنجليزي: " + TUT[m]]; }),
+     parts: function (v) { return keys(v && v.mastered).filter(function (m) { return TUT[m]; }).map(function (m) { return ["tut-" + m, "معلّم الإنجليزي: " + TUT[m]]; }); }},
     {key: "wordquest-sadlier-unit4-v1", page: "vocabulary/unit-04/index.html", title: "الإنجليزي: كلمات الوحدة 4", rule: "3 نجوم في تحدي الأرض، أو 80% في التحدي النهائي",
      all: WQ4.map(function (n, i) { return ["wq4-c" + (i + 1), "كلمات الوحدة 4: " + n]; }).concat([["wq4-final", "كلمات الوحدة 4: التحدي النهائي"]]),
      parts: wq4},

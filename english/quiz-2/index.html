@@ -46,6 +46,7 @@ ul,ol{margin:0;padding:0}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:800;text-decoration:none;box-shadow:var(--shadow-sm);text-align:center;line-height:1.25}
 .btn:active{transform:translate(3px,3px);box-shadow:none}
 .btn.go{background:var(--sun)}
+.tutor-cta{margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}.tutor-cta span{font-size:14px;color:var(--ink-2)}
 .btn.ink{background:var(--ink);color:#fff}
 .btn.sm{min-height:40px;padding:5px 12px;font-size:15px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
@@ -803,7 +804,8 @@ function renderHome(){
   let h = '<section class="hero panel p-read"><h1>English: Quiz 2 Review</h1>'
     + '<p class="sub">Thursday 12 November · reading, main idea, vocabulary, grammar and a friendly letter <span class="badge' + (n >= 0 && n <= 1 ? " hot" : "") + '">' + when + '</span></p>'
     + '<div class="stats"><div class="stat"><b>' + (S.best === null ? "–" : S.best + "/30") + '</b><span>Best practice test</span></div><div class="stat"><b>' + S.tests + '</b><span>Tests done</span></div><div class="stat"><b>' + S.xp + '</b><span>Points</span></div></div>'
-    + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="test">Start a practice test</button><a class="btn" href="#letter">Write a letter</a><a class="btn sm" href="../../review/quiz-2/index.html#eng">Quiz 2 checklist</a></div></section>';
+    + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="test">Start a practice test</button><a class="btn" href="#letter">Write a letter</a><a class="btn sm" href="../../review/quiz-2/index.html#eng">Quiz 2 checklist</a></div>'
+    + '<p class="tutor-cta"><a class="btn go" href="../tutor/index.html">Learn it step by step with the English Tutor →</a> <span>Every skill explained in English and Arabic, then new questions every time until you really understand.</span></p></section>';
   h += '<section class="sec"><div class="sec-head"><h2>What’s on the quiz</h2><p>Five parts, with the pages from the school’s assessment outline.</p></div><div class="tiles">'
     + PARTS.map(p => '<article class="tile p-' + p.id + '"><b>' + p.name + '</b><span>' + p.src + ' · pp. ' + p.pg + '</span><div class="row"><a class="btn sm" href="#p-' + p.id + '">Learn</a>'
       + '<button class="btn sm go" type="button" data-act="start" data-m="' + p.id + '">Practice</button></div></article>').join("") + '</div>'

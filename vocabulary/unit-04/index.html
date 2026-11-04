@@ -1244,7 +1244,7 @@ function lev(a, b){
 
 /* ---------- SAVED PROGRESS (this device only) ---------- */
 const KEY = "wordquest-sadlier-unit4-v1";
-const fresh = () => ({xp:0, seen:{}, lands:{}, mastery:{}, attempts:[], run:null, sound:true, speed:{best:0, plays:0}});
+const fresh = () => ({xp:0, seen:{}, lands:{}, mastery:{}, attempts:[], run:null, sound:true, speed:{best:0, plays:0}, recent:[]});
 let S = (() => { try { const raw = localStorage.getItem(KEY); if (raw) return Object.assign(fresh(), JSON.parse(raw)); } catch (e) {} return fresh(); })();
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 
@@ -1344,6 +1344,22 @@ R3.forEach((r, i) => POOL.ant.push({id:"a" + i, type:"ant", word:r[1], prompt:r[
 R4.forEach((r, i) => POOL.type.push({id:"t" + i, type:"type", word:r[2], prompt:r[0], answer:r[1], accept:r[3] || [r[1]]}));
 STORY.forEach((r, i) => POOL.story.push({id:"w" + i, type:"story", word:r[3], quote:r[0], prompt:r[1], opts:r[2], ans:0}));
 Object.keys(USAGE).forEach(w => POOL.usage.push({id:"u-" + w, type:"usage", word:w, sents:USAGE[w]}));
+/* more questions made from each word's own synonyms, antonyms and sentences, so a second try is a different test */
+const WQFORMS = {acquit:["acquitted", "acquits"], deem:["deemed", "deems"], devastate:["devastated", "devastates"], discredit:["discredited", "discredits"], generate:["generated", "generates"],
+  idolize:["idolized", "idolizes"], repent:["repented", "repents"], scan:["scanned", "scans"], strand:["stranded", "strands"], topple:["toppled", "topples"]};
+function sameForm(w, f, other){ if (f === w) return other; const F = WQFORMS[w], k = F ? F.indexOf(f) : -1; return k >= 0 && WQFORMS[other] ? WQFORMS[other][k] : null; }
+ALL.forEach(w => {
+  const W = WORDS[w], p = POS[w].charAt(0), near = CLOSE[w] || [];
+  W.syn.forEach((x, k) => POOL.syn.push({id:"gs-" + w + k, type:"syn", word:w, prompt:"**" + x + "**", pos:p}));
+  W.ant.forEach((x, k) => POOL.ant.push({id:"ga-" + w + k, type:"ant", word:w, prompt:"**" + x + "**", pos:p}));
+  W.sents.forEach((s, k) => {
+    POOL.type.push({id:"gt-" + w + k, type:"type", word:w, prompt:s[1], answer:s[2], accept:[s[2]]});
+    const sp = s[0] ? s[0].charAt(0) : p, cands = ALL.filter(o => o !== w && !near.includes(o) && POS[o].includes(sp) && sameForm(w, s[2], o));
+    if (!cands.length) return;
+    const other = sameForm(w, s[2], cands[Math.floor(Math.random() * cands.length)]), first = Math.random() < .5;
+    POOL.choose.push({id:"gc-" + w + k, type:"choose", word:w, prompt:s[1], opts:first ? [s[2], other] : [other, s[2]], ans:first ? 0 : 1});
+  });
+});
 const ROUND_OF = {choose:0, syn:1, ant:2, type:3, story:4, usage:4};
 
 /* make a playable copy: shuffles options and picks fair wrong answers */
@@ -1372,12 +1388,12 @@ function plainPrompt(q){
   return q.prompt.replace(/\*\*/g, "");
 }
 
-/* pick n questions, always preferring words that have been asked the least */
+/* pick n questions, always preferring words that have been asked the least, then questions not asked lately (S.recent) */
 function pickGreedy(pool, n, cov){
-  const items = shuffle(pool.slice()), out = [], used = new Set();
+  const items = shuffle(pool.slice()), out = [], used = new Set(), rec = new Set(S.recent || []);
   for (let k = 0; k < n && items.length; k++){
     let best = 0, score = Infinity;
-    items.forEach((it, i) => { const s = cov[it.word] * 10 + (used.has(it.word) ? 5 : 0); if (s < score){ score = s; best = i; } });
+    items.forEach((it, i) => { const s = cov[it.word] * 10 + (used.has(it.word) ? 5 : 0) + (rec.has(it.id) ? 3 : 0); if (s < score){ score = s; best = i; } });
     const it = items.splice(best, 1)[0]; out.push(it); used.add(it.word); cov[it.word]++;
   }
   return out;
@@ -1395,7 +1411,7 @@ function buildPractice(words, spellWords){
   words.forEach(w => {
     const picked = [], types = new Set();
     if ((spellWords || []).includes(w)){ const t = POOL.type.find(q => q.word === w); if (t){ picked.push(t); types.add("type"); } }
-    const avail = shuffle(["syn", "ant", "usage", "choose", "type", "story"].flatMap(p => POOL[p].filter(q => q.word === w)));
+    const rec = new Set(S.recent || []), avail = shuffle(["syn", "ant", "usage", "choose", "type", "story"].flatMap(p => POOL[p].filter(q => q.word === w))).sort((a, b) => rec.has(a.id) - rec.has(b.id));
     for (const q of avail){ if (picked.length >= 2) break; if (!types.has(q.type)){ picked.push(q); types.add(q.type); } }
     picked.forEach(q => qs.push(inst(q)));
   });
@@ -1673,6 +1689,7 @@ function renderTest(){
   }
 }
 function record(q, ok, slip, given){
+  S.recent = (S.recent || []).concat(q.id).slice(-150);
   S.run.res.push({id:q.id, t:q.type, r:q.round, w:q.word, ok, slip, g:String(given || "").slice(0, 40), c:correctText(q), p:plainPrompt(q).slice(0, 170)});
   save();
 }
