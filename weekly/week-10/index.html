@@ -439,7 +439,7 @@ const PERIOD_NAMES = ["P1","P2","P3","P4","P5U","P6","P7","P8"];
 const TESTS = [
   {id:"bewell", s:"well", day:"sun", per:"P7", title:"Be Well presentation", flag:"Presentation", ps:"TALK", kind:"Project",
    en:["The Values That Define Me: three minutes about one value, then one question from the class.", "Counts for 15 marks and replaces the first test."],
-   page:"talk", pageLabel:"Plan the talk", tag:"Project"},
+   page:"talk", pageLabel:"Plan the talk", tag:"Project", moved:"Moved to Sunday 8/11, period 7 (EduPage, 4/11): see the Week 11 plan."},
   {id:"kahf", s:"quran", day:"wed", per:"P8", title:"Qur'an recitation check", flag:"Recitation check", ps:"CHECK", kind:"Recitation check",
    ar:"تقييم تلاوة", lines:["سورة الكهف 23-27"], tag:"Check", soft:true},
   {id:"qalam", s:"quran", day:"thu", per:"P8", title:"Qur'an memorisation check", flag:"Memorisation check", ps:"CHECK", kind:"Memorisation check",
@@ -452,7 +452,7 @@ const HW = [
   {id:"bewell", ep:"2026-11-01-C2D1CC524AB448DF", s:"well", code:"Project · 15 marks", day:null, when:"P7 talk", due:"2026-11-01",
    title:"Presentation: The Values That Define Me",
    detail:"Choose one value, such as honesty, respect, responsibility, fairness or trustworthiness. Define it, give a real-life example, and explain the consequences of ignoring it. Speak for 3 minutes, clearly and confidently; a poster or cue cards can help. Keep eye contact and be ready to answer one question.",
-   helper:"talk"},
+   warn:"Postponed: the presentation moved to Sunday 8/11, period 7 (EduPage, 4/11). The Week 11 plan has it.", helper:"talk"},
   {id:"ar", ep:"2026-11-01-EC17C537A58189A69936", s:"ar", code:"Week 10", day:"sun", due:"2026-11-07", title:"Homework on page 98",
    ar:"واجب الأسبوع العاشر: حل الواجب المنزلي صـ 98"},
   {id:"math101", ep:"2026-11-02-AF0E0C5514DF10DC0F24", s:"math", code:"HW 10.1", day:"mon", due:"2026-11-07",
@@ -571,7 +571,8 @@ function renderTests(){
     const [, m, dd] = d.date.split("-").map(Number);
     const diff = dayDiff(TODAY, d.date);
     let sticker = t.tag, cls = t.soft ? "soft" : "";
-    if (diff < 0) { sticker = "Done"; cls = "past"; }
+    if (t.moved) { sticker = "Moved"; cls = "soft"; }
+    else if (diff < 0) { sticker = "Done"; cls = "past"; }
     else if (diff === 0) sticker = "Today";
     else if (diff === 1) sticker = "Tomorrow";
     return '<article class="test panel ' + SUBJ[t.s].cls + '">' +
@@ -580,6 +581,7 @@ function renderTests(){
       '<div><h3>' + esc(t.title) + '</h3><p class="per">' + esc(d.name) + ' ' + dd + '/' + m + ' · ' + esc(t.per) + ' · ' + esc(SUBJ[t.s].label) + '</p></div></div>' +
       (t.ar ? '<p class="ar" lang="ar"><b>' + esc(t.ar) + '</b><br>' + t.lines.map(esc).join("<br>") + '</p>'
             : '<p class="test-lines">' + t.en.map(esc).join("<br>") + '</p>') +
+      (t.moved ? '<p class="hw-warn">' + esc(t.moved) + '</p>' : "") +
       (t.page ? '<div class="hw-actions"><a class="btn btn-sm btn-col" href="' + PAGES[t.page].href + '">' + esc(t.pageLabel || PAGES[t.page].label) + ' →</a></div>' : "") +
       '</article>';
   }).join("");

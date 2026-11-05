@@ -288,9 +288,9 @@ details.helper[open] summary::before{content:"−"}
     </div>
     <div class="stats">
       <div class="stat"><b id="statHw">3</b><span>Homework</span></div>
-      <div class="stat"><b id="statTests">5</b><span>Tests</span></div>
+      <div class="stat"><b id="statTests">7</b><span>Tests</span></div>
       <div class="stat"><b id="statLeft">3</b><span>To do</span></div>
-      <p class="stats-note"><b>Three Quiz 2 tests this week:</b> Math on Sunday 8/11, Islamic Studies on Tuesday 10/11 and English on Thursday 12/11, with Qur'an memorisation checks on Wednesday and Thursday. Science Worksheet 7 is due Sunday and the Islamic Studies questions Monday. Science Quiz 2 is next Sunday, 15/11.</p>
+      <p class="stats-note"><b>A busy week:</b> Sunday has Math Quiz 2 and the Be Well presentation (P7, moved from 1/11), Tuesday Islamic Studies Quiz 2, and Thursday English Quiz 2 and an Arabic dictation test (P6), with Qur'an memorisation checks on Wednesday and Thursday. The school says tests are in period 2 when school is in person. Science Quiz 2 is next Sunday, 15/11.</p>
     </div>
   </section>
 
@@ -359,6 +359,7 @@ const PAGES = {
   sciq:{href:"../../science/quiz-2/index.html", label:"Science Quiz 2 review"},
   socq:{href:"../../social/quiz-2/index.html", label:"Social Studies Quiz 2 review"},
   arq:{href:"../../arabic/quiz-2/index.html", label:"Arabic Quiz 2 review"},
+  dict:{href:"../../arabic/quiz-2/index.html#dict", label:"Dictation practice"},
   int:{href:"../../math/integers-rational/index.html", label:"Rational Road (Lessons 2-1 to 2-3)"},
   grid:{href:"../../math/coordinate-plane/index.html", label:"Grid Quest (Lessons 2-4 to 2-6)"},
   exp:{href:"../../math/exponents/index.html", label:"Power Lab (Lesson 3-1)"},
@@ -383,12 +384,12 @@ const DERIV = "المشتقات (اسم الفاعل واسم المفعول) ";
 const TIMETABLE = {
   sun:[
     {s:"isl", topic:{ar:"الحديث / نهي النبي ﷺ عن منع الأجير أجرته"}},
-    {s:"sci", topic:SCI_L1 + "How can you predict what offspring will look like?", paper:"L1 Inheritance: predicting what offspring look like"},
+    {s:"sci", topic:SCI_L1 + "How can you predict what offspring will look like?", test:"math", paper:"L1 Inheritance: predicting what offspring look like"},
     {s:"sci", topic:SCI_L1 + "How can you model a family's phenotypes? STEM Careers: A Day in the Life of a Genetic Counselor.", paper:"L1: modelling a family's phenotypes; genetic counselor"},
     {s:"soc", topic:{ar:"تأسيس الدولة السعودية الثانية"}},
-    {s:"math", topic:L33 + " (Part 1)", test:"math", page:"florder"},
+    {s:"math", topic:L33 + " (Part 1)", page:"florder"},
     {s:"ar", topic:{ar:INNA + "ص 94 - 95"}},
-    {s:"well", topic:"Project: The Values That Define Me. A 3-minute individual presentation about one value.", hw:["bewell"], paper:"Values presentation, 3 minutes"},
+    {s:"well", topic:"Project: The Values That Define Me. A 3-minute individual presentation about one value.", test:"bewell", hw:["bewell"], paper:"Values presentation, 3 minutes"},
     {s:"eng", topic:G74}
   ],
   mon:[
@@ -402,8 +403,8 @@ const TIMETABLE = {
     {s:"sci", topic:SCI_L1 + "Lesson Review.", paper:"L1 Inheritance: Lesson Review"}
   ],
   tue:[
-    {s:"isl", topic:{ar:"التوحيد / مظاهر الشرك"}, test:"isl"},
-    {s:"eng", topic:SS},
+    {s:"isl", topic:{ar:"التوحيد / مظاهر الشرك"}},
+    {s:"eng", topic:SS, test:"isl"},
     {s:"math", topic:L33 + " (Part 3)", page:"flexpr"},
     {s:"quran", topic:{ar:"تلاوة سورة الكهف 28-29"}},
     {s:"art", topic:{ar:"تطبيق عملي لطباعة الاستنسل"}},
@@ -428,7 +429,7 @@ const TIMETABLE = {
     {s:"ict", topic:"ICT Session 5"},
     {s:"ict", topic:"Plan the Future"},
     {s:"ar", topic:{ar:"التعبير: اكتب أربع جمل اسمية من إنشائك دخلت عليها الحروف الناسخة التالية (إن - كأن - ليت - لعل)، مع استخدام كل الحروف الناسخة في الجمل، وضبط حركة اسم الحرف الناسخ وخبره في كل جملة"},
-     paper:{ar:"التعبير: 4 جمل اسمية مع إن وكأن وليت ولعل، مع الضبط"}},
+     paper:{ar:"التعبير: 4 جمل اسمية مع إن وكأن وليت ولعل، مع الضبط"}, test:"imla"},
     {s:"pe", topic:{ar:"أن يتعلم الطالب قوانين كرة القدم"}},
     {s:"quran", topic:{ar:"تسميع سورة القلم 40-43"}, test:"qalam2"}
   ]
@@ -436,19 +437,25 @@ const TIMETABLE = {
 const PERIOD_NAMES = ["P1","P2","P3","P4","P5U","P6","P7","P8"];
 
 /* ar + lines: Arabic card text. en: English card lines. flag: label in the timetable; ps: tag on paper.
-   The assessment outline gives each quiz's day; the period is the subject's only lesson that day. */
+   The outline gives each quiz's day, and the school said on 5/11 that tests are in period 2 when school is in person.
+   The Be Well talk moved to Sunday 8/11, P7, and the Arabic dictation test is Thursday P6 (EduPage, 4/11). */
 const TESTS = [
-  {id:"math", s:"math", day:"sun", per:"P5U", title:"Math Quiz 2", flag:"Quiz 2", ps:"QUIZ", kind:"Small exam",
+  {id:"math", s:"math", day:"sun", per:"P2", title:"Math Quiz 2", flag:"Math Quiz 2", ps:"QUIZ", kind:"Small exam",
    en:["Topic 2, Lessons 2-1 to 2-6 (pp. 69–110): integers, rational numbers on the number line, absolute value, the coordinate plane, distances and polygons.", "Topic 3, Lesson 3-1: exponents (pp. 123–128)."],
    page:"mathq", pageLabel:"Review lesson by lesson", tag:"Quiz"},
-  {id:"isl", s:"isl", day:"tue", per:"P1", title:"Islamic Studies Quiz 2", flag:"Quiz 2", ps:"QUIZ", kind:"Small exam",
+  {id:"bewell", s:"well", day:"sun", per:"P7", title:"Be Well presentation", flag:"Presentation", ps:"TALK", kind:"Project",
+   en:["Moved from Sunday 1/11. The Values That Define Me: three minutes about one value, then one question from the class.", "Counts for 15 marks and replaces the first test."],
+   page:"talk", pageLabel:"Plan the talk", tag:"Project"},
+  {id:"isl", s:"isl", day:"tue", per:"P2", title:"Islamic Studies Quiz 2", flag:"Islamic Studies Quiz 2", ps:"QUIZ", kind:"Small exam",
    ar:"الاختبار القصير 2", lines:["التوحيد: الشرك، أنواع الشرك، مظاهر الشرك", "الحديث: من فضائل صلة الرحم، تواضعه ﷺ وبشاشته مع جلسائه، من آداب المجلس", "الفقه: صلاة العيدين، سنن العيدين، الاستسقاء"],
    page:"islq", pageLabel:"Review and the mock test out of 15", tag:"Quiz"},
   {id:"qalam1", s:"quran", day:"wed", per:"P8", title:"Qur'an memorisation check", flag:"Memorisation check", ps:"CHECK", kind:"Memorisation check",
    ar:"تسميع", lines:["سورة القلم 40-43"], tag:"Check", soft:true},
-  {id:"eng", s:"eng", day:"thu", per:"P2", title:"English Quiz 2", flag:"Quiz 2", ps:"QUIZ", kind:"Small exam",
+  {id:"eng", s:"eng", day:"thu", per:"P2", title:"English Quiz 2", flag:"English Quiz 2", ps:"QUIZ", kind:"Small exam",
    en:["Reading: Individual Twin (pp. 42–44) and Central or Main Idea (pp. 45–46).", "Vocabulary Unit 4 (pp. 52–58) and Grammar 7.1–7.3 (pp. 141–146).", "A friendly letter (pp. 46–49): six complete sentences with the date, a greeting, a friendly closing and his name, out of 3.5."],
    page:"tutor", pageLabel:"Learn it with the English Tutor", tag:"Quiz"},
+  {id:"imla", s:"ar", day:"thu", per:"P6", title:"Arabic dictation test", flag:"Dictation test", ps:"DICT", kind:"Dictation",
+   ar:"إملاء اختباري", lines:["القطعة غير مذكورة في الخطة الأسبوعية، فاسألوا المعلم عنها"], page:"dict", pageLabel:"Practise dictation", tag:"Test"},
   {id:"qalam2", s:"quran", day:"thu", per:"P8", title:"Qur'an memorisation check", flag:"Memorisation check", ps:"CHECK", kind:"Memorisation check",
    ar:"تسميع", lines:["سورة القلم 40-43"], tag:"Check", soft:true}
 ];
@@ -457,37 +464,37 @@ const TESTS = [
    helper: extra panel under the item. */
 const HW = [
   {id:"sci", ep:"2026-11-03-E7C58A2AA576FF157AF3", s:"sci", code:"HW 10.2", day:null, when:"from Week 10", due:"2026-11-08", title:"Solve Worksheet 7 – Term 1",
-   detail:"Set last week. Bring the completed worksheet to school on Sunday 8/11."},
+   detail:"Set last week. The school said on 3/11 that last week's homework is only the IXL practice in Math, English and Science, so this worksheet won't be marked. It is still good practice for Science Quiz 2 on Sunday 15/11."},
   {id:"isl", ep:"2026-11-03-0528903340A92661A251", s:"isl", code:"Week 10", day:null, when:"from Week 10", due:"2026-11-09", title:"Answer the questions on EduPage",
    ar:"واجب الأسبوع العاشر: أجب عن الأسئلة الموجودة على منصة الإيديوبيدج", detail:"Set last week, due Monday 9/11."},
-  {id:"bewell", ep:"2026-11-08-F7382D493DE77AF0", s:"well", code:"Project · 15 marks", day:"sun", due:"2026-11-14",
+  {id:"bewell", ep:"2026-11-08-F7382D493DE77AF0", s:"well", code:"Project · 15 marks", day:null, when:"P7 talk", due:"2026-11-08",
    title:"Presentation: The Values That Define Me",
-   detail:"On EduPage again for this week, due Saturday 14/11, and the plan has it in Sunday's Be Well lesson (P7). Choose one value, such as honesty, respect, responsibility, fairness or trustworthiness. Define it, give a real-life example, and explain the consequences of ignoring it. Speak for 3 minutes, clearly and confidently; a poster or cue cards can help. Keep eye contact and be ready to answer one question.",
+   detail:"Moved from Sunday 1/11 to Sunday 8/11, period 7 (EduPage, 4/11). Choose one value, such as honesty, respect, responsibility, fairness or trustworthiness. Define it, give a real-life example, and explain the consequences of ignoring it. Speak for 3 minutes, clearly and confidently; a poster or cue cards can help. Keep eye contact and be ready to answer one question.",
    helper:"talk"}
 ];
 
 /* evening plan: items are [text, link key or null, isKey]. pre: the days before the week starts. */
 const PLAN = {
-  pre:[["Math Quiz 2 on Sunday (P5U): go through Topic 2 lesson by lesson on the review page, with each lesson's practice, then Lesson 3-1 (exponents).", "mathq", true],
-       ["Most Week 10 homework is due Saturday 7/11: Arabic p. 98, Math HW 10.1 and 10.2, Science HW 10.1, English HWK 10.1 and 10.2.", "w10"],
-       ["Science Worksheet 7 goes in the bag for Sunday.", null],
+  pre:[["Math Quiz 2 on Sunday (P2): go through Topic 2 lesson by lesson on the review page, with each lesson's practice, then Lesson 3-1 (exponents).", "mathq", true],
+       ["Be Well presentation on Sunday (P7), moved from 1/11: practise the 3 minutes out loud with a timer, using cue cards or a poster.", "talk", true],
+       ["Week 10 homework due Saturday 7/11: the school said only the IXL practice in Math, English and Science is marked this time.", "w10"],
        ["Islamic Studies Quiz 2 is on Tuesday: start with the first lessons on its review page.", "islq"]],
-  sun:[["Islamic Studies Quiz 2 on Tuesday (P1): review the nine lessons, then try the mock test out of 15.", "islq", true],
+  sun:[["Islamic Studies Quiz 2 on Tuesday (P2): review the nine lessons, then try the mock test out of 15.", "islq", true],
        ["Finish the Islamic Studies questions on EduPage: due tomorrow, Monday 9/11.", null],
        ["Read Al-Qalam 40–43 five times: tomorrow's Qur'an lesson (P4) memorises it, and Wednesday and Thursday (P8) are the memorisation checks.", null],
        ["English Quiz 2 on Thursday: one skill on the English Tutor, up to Prove it.", "tutor"]],
-  mon:[["Islamic Studies Quiz 2 tomorrow (P1): the mock test again, then reread the lessons it shows are weak.", "islq", true],
+  mon:[["Islamic Studies Quiz 2 tomorrow (P2): the mock test again, then reread the lessons it shows are weak.", "islq", true],
        ["Read Al-Kahf 28–29 aloud for tomorrow's recitation lesson (P4), then say Al-Qalam 40–43 from memory.", null],
        ["English Tutor: two more skills, each to 5 right in a row.", "tutor"]],
   tue:[["English Quiz 2 on Thursday (P2): the English Tutor's practice test (30 questions), then the weak skills it lists.", "tutor", true],
        ["Al-Qalam 40–43 from memory: memorisation check tomorrow (P8).", null],
+       ["Arabic dictation test on Thursday (P6): one dictation round on the Arabic page.", "dict"],
        ["The 20 Unit 4 words: one land in the Word Quest.", "wq4"]],
   wed:[["English Quiz 2 tomorrow (P2): another practice test on the tutor, aiming for 80% or more, and write one friendly letter of six sentences.", "tutor", true],
-       ["Arabic writing tomorrow (P6): four nominal sentences, one each with إن، كأن، ليت، لعل, with the vowel marks on the noun and the predicate.", null],
+       ["Arabic dictation test tomorrow (P6): another dictation round, with the hamza rules from the Arabic page.", "dict"],
        ["Al-Qalam 40–43 once more for tomorrow's check (P8).", null]],
   thu:[["Science Quiz 2 on Sunday 15/11: start the Science review page this weekend.", "sciq", true],
        ["Next: Social Studies Quiz 2 on Tuesday 17/11 and Arabic Quiz 2 on Thursday 19/11, then the Autumn Break (22–26/11).", "socq"],
-       ["Be Well: the presentation task is due Saturday 14/11 on EduPage.", "talk"],
        ["Catch up on the week's IXL plan skills.", "ixl"]]
 };
 
@@ -534,7 +541,7 @@ function renderTonight(){
   const el = document.getElementById("tonight");
   let items, head, when;
   if (dayIndex >= 0) { items = PLAN[DAYS[dayIndex].key]; head = "Tonight's jobs"; when = DAYS[dayIndex].name + " evening"; }
-  else if (beforeWeek) { items = PLAN.pre; head = "Before Sunday 8/11"; when = "Math Quiz 2 on Sunday"; }
+  else if (beforeWeek) { items = PLAN.pre; head = "Before Sunday 8/11"; when = "Math Quiz 2 and the Be Well talk on Sunday"; }
   else {
     /* after the week: what is still open, soonest first */
     const left = HW.filter(h => !S.done[h.ep] && dayDiff(TODAY, h.due) >= 0).sort((a, b) => a.due.localeCompare(b.due));
@@ -555,7 +562,8 @@ function renderTests(){
     const [, m, dd] = d.date.split("-").map(Number);
     const diff = dayDiff(TODAY, d.date);
     let sticker = t.tag, cls = t.soft ? "soft" : "";
-    if (diff < 0) { sticker = "Done"; cls = "past"; }
+    if (t.moved) { sticker = "Moved"; cls = "soft"; }
+    else if (diff < 0) { sticker = "Done"; cls = "past"; }
     else if (diff === 0) sticker = "Today";
     else if (diff === 1) sticker = "Tomorrow";
     return '<article class="test panel ' + SUBJ[t.s].cls + '">' +
@@ -564,6 +572,7 @@ function renderTests(){
       '<div><h3>' + esc(t.title) + '</h3><p class="per">' + esc(d.name) + ' ' + dd + '/' + m + ' · ' + esc(t.per) + ' · ' + esc(SUBJ[t.s].label) + '</p></div></div>' +
       (t.ar ? '<p class="ar" lang="ar"><b>' + esc(t.ar) + '</b><br>' + t.lines.map(esc).join("<br>") + '</p>'
             : '<p class="test-lines">' + t.en.map(esc).join("<br>") + '</p>') +
+      (t.moved ? '<p class="hw-warn">' + esc(t.moved) + '</p>' : "") +
       (t.page ? '<div class="hw-actions"><a class="btn btn-sm btn-col" href="' + PAGES[t.page].href + '">' + esc(t.pageLabel || PAGES[t.page].label) + ' →</a></div>' : "") +
       '</article>';
   }).join("");
@@ -785,7 +794,7 @@ function renderPrint(){
     '<thead><tr><th>Done</th><th>Subject</th><th>Task</th><th>Due</th></tr></thead><tbody>' + hw + '</tbody></table>' +
     '<p class="ps-foot">Source: the school\'s Week 11 Weekly Study Plan and the Quiz 2 outline. The timetable and the evening plan are on page 2.</p>' +
     '<div class="ps-break">' + head("Timetable and evening plan") + grid +
-    '<p class="ps-foot">HW = homework set in that period · QUIZ = Quiz 2 · CHECK = Qur\'an memorisation check.</p>' +
+    '<p class="ps-foot">HW = homework set in that period · QUIZ = Quiz 2 · TALK = Be Well presentation · DICT = Arabic dictation test · CHECK = Qur\'an memorisation check.</p>' +
     '<h2 class="ps-sec">Evening plan <small>Bold job = the most important one that evening</small></h2>' +
     '<table class="ps-table ps-plan"><colgroup><col style="width:12%"><col></colgroup><tbody>' + plan + '</tbody></table></div>';
 }
