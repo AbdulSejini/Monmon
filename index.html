@@ -49,6 +49,20 @@ ul,ol{margin:0;padding:0;list-style:none}
 .hello{margin-top:20px;padding:18px;display:grid;gap:14px}
 .hello h1{font-size:clamp(30px,6vw,42px)}
 .hello .today{color:var(--ink-2);font-weight:700}
+.cal-next{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.cal-next span{font-size:14px;font-weight:800;padding:3px 12px;border:2px solid var(--ink);border-radius:999px;background:var(--good-bg)}
+.cal-next span.exam{background:var(--warn-bg)}
+.cal-next span.now{background:var(--sun)}
+.year-cal{margin-top:14px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);padding:10px 14px;box-shadow:var(--shadow-sm)}
+.year-cal summary{font-weight:800;cursor:pointer}
+.year-cal table{width:100%;border-collapse:collapse;margin:10px 0 8px;font-size:14px}
+.year-cal th{text-align:start;background:var(--tint);padding:6px 8px;font-size:13px}
+.year-cal td{padding:6px 8px;border-top:1px solid var(--tint);vertical-align:top}
+.year-cal td:first-child{white-space:nowrap;font-weight:700;border-inline-start:5px solid transparent}
+.year-cal tr.k-break td:first-child{border-inline-start-color:var(--good)}
+.year-cal tr.k-exam td:first-child{border-inline-start-color:var(--bad)}
+.year-cal tr.past td{color:var(--ink-3)}
+.year-cal tr.term td{background:var(--sun-2);font-weight:800;border-inline-start:0}
 .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .tile{border:2px solid var(--ink);border-radius:var(--r-sm);padding:10px 8px;background:var(--page);text-align:center;display:grid;gap:2px;align-content:center}
 .tile b{font-size:30px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
@@ -214,6 +228,7 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
     <div>
       <h1 id="helloTitle">ايش المطلوب؟</h1>
       <p class="today" id="today"></p>
+      <p class="cal-next" id="calNext" hidden></p>
       <p class="note" id="stale" hidden></p>
     </div>
     <div class="alert" id="todayBox" role="region" aria-labelledby="todayTitle"></div>
@@ -247,6 +262,8 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
     <div class="sec-head"><h2 id="datesTitle">مواعيد وتنبيهات</h2>
       <p>من تقويم المدرسة ورسائل EduPage للصف.</p></div>
     <ul class="list" id="dates"></ul>
+    <details class="year-cal"><summary>التقويم الدراسي كاملًا 2026/2027: الإجازات والاختبارات</summary><div id="yearCal"></div>
+      <p class="meta-note">من تقويم المدرسة، وتقول المدرسة إن كل التواريخ قابلة للتغيير.</p></details>
     <ul class="notices" id="notices"></ul>
   </section>
 
@@ -960,6 +977,9 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
 const KEY = "monmon-done-v1";
 const TZ = "Asia/Riyadh";
 const TERM_START = "2026-08-30"; /* Sunday of school week 1 */
+/* Whole school weeks off in the school calendar (their Sundays). The school does not count them, so the week after
+   the autumn break is week 13 (the Qur'an quiz of week 13 cannot fall in the break). Keep in step with assets/site-nav.js. */
+const BREAK_WEEKS = ["2026-11-22", "2027-01-10", "2027-02-28", "2027-03-07", "2027-05-02", "2027-05-09", "2027-05-16"];
 
 /* School weeks that have a detailed plan page. */
 const WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html", 10: "weekly/week-10/index.html"};
@@ -1058,20 +1078,34 @@ const EXTRA = [
    text:"الاختبار القصير 2: شبه الجزيرة العربية قبل قيام الدولة السعودية الأولى (ص 26–29)، تأسيس الدولة السعودية الأولى (ص 30–39)، أئمة الدولة السعودية الأولى (ص 40–45)."},
   {id:"quiz2-ar", date:"2026-11-19", kind:"test", type:"Small exam", subject:"Arabic", due:"2026-11-19", fromOutline:true,
    text:"الاختبار القصير 2: همزتا الوصل والقطع (ابن – ابنة) ص 65–68، الهمزة المتوسطة ص 73–76، الهمزة المتطرفة ص 78–83، الأفعال الناسخة (كان وأخواتها) ص 85–90. وقطعة الإملاء: «كل شيء في قرب الأم جميل، فهي شاطئ الأمان، الذي ننشأ في أحضانه.»"},
-  {id:"quiz2-quran", date:"2026-11-22", kind:"test", type:"Oral exam", subject:"Qur'an", due:"2026-11-22", fromOutline:true,
-   text:"في الأسبوع 13 (الأحد 22 – الخميس 26 نوفمبر)، والمعلم يحدد اليوم: تلاوة سورة الكهف الآيات 21–34، وحفظ سورة القلم الآيات 31–47."},
-  {id:"quiz2-ict", date:"2026-11-29", kind:"test", type:"Small exam", subject:"ICT/MECHA", due:"2026-11-29", fromOutline:true,
-   text:"في الأسبوع 14 (29 نوفمبر – 3 ديسمبر)، ونطاقه في الخطة الأسبوعية لذاك الأسبوع."}
+  {id:"quiz2-quran", date:"2026-11-29", kind:"test", type:"Oral exam", subject:"Qur'an", due:"2026-11-29", fromOutline:true,
+   text:"في الأسبوع 13، أول أسبوع بعد إجازة الخريف (الأحد 29 نوفمبر – الخميس 3 ديسمبر)، والمعلم يحدد اليوم: تلاوة سورة الكهف الآيات 21–34، وحفظ سورة القلم الآيات 31–47."},
+  {id:"quiz2-ict", date:"2026-12-06", kind:"test", type:"Small exam", subject:"ICT/MECHA", due:"2026-12-06", fromOutline:true,
+   text:"في الأسبوع 14 (الأحد 6 – الخميس 10 ديسمبر)، ونطاقه في الخطة الأسبوعية لذاك الأسبوع."}
 ];
 
-/* School calendar entries and class notices from EduPage messages. */
+/* The school calendar 2026/2027 (date to end; off: the school days off; back: the first school day after a break),
+   and dates from EduPage messages (kind "msg"). The calendar says all dates are subject to change. */
 const SCHOOL_DATES = [
-  {date:"2026-10-19", title:"يوم دوام مختصر", en:"Shortened Schedule"},
-  {date:"2026-10-25", title:"إجازة نهاية أسبوع طويلة", en:"Long Weekend"},
-  {date:"2026-11-02", title:"تعليم عن بُعد هذا الأسبوع على Microsoft Teams، من 8:00 إلى 12:50", en:"Emergency Online Learning"},
-  {date:"2026-11-04", title:"رحلة ترفيهية من الحصة الثالثة إلى السابعة (تأكدوا من المدرسة هل تُقام والدراسة عن بُعد)", en:"Recreational Trip"},
-  {date:"2026-11-22", title:"إجازة الخريف", en:"Autumn Break"},
-  {date:"2027-01-10", title:"إجازة منتصف العام", en:"Mid-Year Break"}
+  {date:"2026-08-30", title:"بداية السنة الدراسية", en:"Start of Academic Year", kind:"start"},
+  {date:"2026-09-06", end:"2026-09-17", title:"اختبار MAP", en:"MAP Test", kind:"exam"},
+  {date:"2026-09-23", end:"2026-09-26", off:["2026-09-23", "2026-09-24"], back:"2026-09-27", title:"إجازة اليوم الوطني", en:"Saudi National Day Break", kind:"break"},
+  {date:"2026-10-18", end:"2026-10-22", title:"اجتماع أولياء الأمور", en:"Parents Conference Meeting", kind:"parents"},
+  {date:"2026-10-19", title:"يوم دوام مختصر", en:"Shortened Schedule", kind:"msg"},
+  {date:"2026-10-25", title:"إجازة نهاية أسبوع طويلة", en:"Long Weekend", kind:"msg"},
+  {date:"2026-11-02", title:"تعليم عن بُعد هذا الأسبوع على Microsoft Teams، من 8:00 إلى 12:50", en:"Emergency Online Learning", kind:"msg"},
+  {date:"2026-11-04", title:"رحلة ترفيهية من الحصة الثالثة إلى السابعة (تأكدوا من المدرسة هل تُقام والدراسة عن بُعد)", en:"Recreational Trip", kind:"msg"},
+  {date:"2026-11-20", end:"2026-11-28", off:["2026-11-22", "2026-11-26"], back:"2026-11-29", title:"إجازة الخريف", en:"Autumn Break", kind:"break"},
+  {date:"2026-12-27", end:"2027-01-07", title:"اختبارات نهاية الفصل الأول", en:"Term 1 Final Exams", kind:"exam"},
+  {date:"2027-01-08", end:"2027-01-16", off:["2027-01-10", "2027-01-14"], back:"2027-01-17", title:"إجازة منتصف العام", en:"Mid-Year Break", kind:"break"},
+  {date:"2027-02-07", title:"أول أيام رمضان (حسب التقويم)", en:"First Day of Ramadan", kind:"note"},
+  {date:"2027-02-19", end:"2027-02-22", off:["2027-02-21", "2027-02-22"], back:"2027-02-23", title:"إجازة يوم التأسيس", en:"Founding Day", kind:"break"},
+  {date:"2027-02-26", end:"2027-03-13", off:["2027-02-28", "2027-03-11"], back:"2027-03-14", title:"إجازة عيد الفطر", en:"Eid Al-Fitr Break", kind:"break"},
+  {date:"2027-03-21", end:"2027-03-25", title:"اجتماع أولياء الأمور", en:"Parents Conference Meeting", kind:"parents"},
+  {date:"2027-04-30", end:"2027-05-22", off:["2027-05-02", "2027-05-20"], back:"2027-05-23", title:"إجازة عيد الأضحى", en:"Eid Al-Adha Break", kind:"break"},
+  {date:"2027-05-30", end:"2027-06-10", title:"اختبار MAP", en:"MAP Test", kind:"exam"},
+  {date:"2027-06-20", end:"2027-07-01", title:"اختبارات نهاية الفصل الثاني", en:"Term 2 Final Exams", kind:"exam"},
+  {date:"2027-07-01", title:"آخر يوم في السنة الدراسية", en:"End of Academic Year", kind:"end"}
 ];
 const NOTICES = [
   {date:"2026-11-02", subject:"المدرسة", text:"الحصص هذا الأسبوع عن بُعد على Microsoft Teams، من 8:00 إلى 12:50: ثماني حصص، كل حصة 30 دقيقة (8:00، 8:35، 9:10، 9:45، ثم استراحة 10:15–10:35، ثم 10:35، 11:10، 11:45، 12:20). يفتح الرابط قبل 8:00 بعشر دقائق، ويكتب اسمه والصف (6.3) ثم Join now، وينتظر المعلم يدخّله، والمايكروفون مقفول إلا إذا طلب المعلم. رابط الحصة ورقم الاجتماع في رسالة الإدارة على EduPage يوم الاثنين 2/11، وما نحطها هنا لأن الموقع عام."},
@@ -1185,7 +1219,14 @@ function dayDiff(a, b){ const t = s => { const p = parts(s); return Date.UTC(p.y
 function addDays(iso, n){ const p = parts(iso); const d = new Date(Date.UTC(p.y, p.m-1, p.d + n)); return d.toISOString().slice(0,10); }
 function shortDate(iso){ const p = parts(iso); return WD[p.wd] + " " + p.d + "/" + p.m; }
 function longDate(iso){ const p = parts(iso); return WD[p.wd] + " " + p.d + " " + MONTHS[p.m-1] + " " + p.y; }
-function weekNo(iso){ return Math.floor(dayDiff(TERM_START, iso) / 7) + 1; }
+/* School weeks count from TERM_START without the whole weeks off (BREAK_WEEKS); a day in a week off gets the
+   number of the school week after it. */
+function weekSun(iso){ return addDays(TERM_START, Math.floor(dayDiff(TERM_START, iso) / 7) * 7); }
+function weekNo(iso){ const sun = weekSun(iso); return dayDiff(TERM_START, sun) / 7 + 1 - BREAK_WEEKS.filter(d => d < sun).length; }
+function weekStart(w){ let sun = TERM_START, n = 0; for (let k = 0; k < 80; k++, sun = addDays(sun, 7)) if (!BREAK_WEEKS.includes(sun) && ++n === w) return sun; return sun; }
+/* the break that covers a day (with the Friday and Saturday at its edges), and whether a day is a school day */
+function breakOn(iso){ return SCHOOL_DATES.find(d => d.kind === "break" && d.date <= iso && iso <= d.end) || null; }
+function isSchoolDay(iso){ const wd = parts(iso).wd; return wd !== 5 && wd !== 6 && !SCHOOL_DATES.some(d => d.off && d.off[0] <= iso && iso <= d.off[1]); }
 /* Arabic counted nouns: 1, 2, 3-10, 11+ */
 function count(n, one, two, few, many){ return n === 1 ? one : n === 2 ? two : n <= 10 ? n + " " + few : n + " " + many; }
 function days(n){ return count(n, "يوم واحد", "يومين", "أيام", "يومًا"); }
@@ -1205,9 +1246,11 @@ const past = ITEMS.filter(i => !todo.includes(i) && !tests.includes(i));
 
 /* On Friday and Saturday the coming school week is the one that matters. */
 function weekInfo(){
-  const p = parts(TODAY), n = weekNo(TODAY);
-  if (p.wd === 5 || p.wd === 6) return {week:n + 1, text:"إجازة نهاية الأسبوع، والأسبوع " + (n + 1) + " يبدأ " + (p.wd === 6 ? "غدًا" : "بعد غد")};
-  return {week:n, text:"الأسبوع " + n};
+  const p = parts(TODAY), brk = breakOn(TODAY);
+  if (brk) return {week:weekNo(brk.back), brk, text:brk.title + "، والدراسة ترجع " + dayWord(brk.back)};
+  if (p.wd === 5 || p.wd === 6){ const n = weekNo(nextSchoolDay(TODAY)); return {week:n, text:"إجازة نهاية الأسبوع، والأسبوع " + n + " يبدأ " + (p.wd === 6 ? "غدًا" : "بعد غد")}; }
+  const n = weekNo(TODAY), exam = SCHOOL_DATES.find(d => d.kind === "exam" && d.date <= TODAY && TODAY <= d.end);
+  return {week:n, text:"الأسبوع " + n + (exam ? " · " + exam.title : "")};
 }
 
 function renderHello(){
@@ -1220,6 +1263,12 @@ function renderHello(){
   document.getElementById("tNext").textContent = next ? shortDate(next) : "—";
   const btn = document.getElementById("weekBtn");
   if (WEEK_PAGES[schoolWeek]) { btn.href = WEEK_PAGES[schoolWeek]; btn.textContent = "خطة الأسبوع " + schoolWeek + " بالتفصيل ←"; btn.hidden = false; }
+  /* the next (or this) break and the next exams, from the school calendar */
+  const upNext = kind => SCHOOL_DATES.filter(d => d.kind === kind && d.end >= TODAY).sort((a, b) => a.date.localeCompare(b.date))[0];
+  const brk = upNext("break"), exam = upNext("exam"), chips = [];
+  if (brk) chips.push(brk.date <= TODAY ? '<span class="now">الدراسة ترجع ' + esc(dayWord(brk.back)) + '</span>' : '<span>' + esc(brk.title) + " " + esc(whenLabel(dayDiff(TODAY, brk.date))) + '</span>');
+  if (exam) chips.push('<span class="exam' + (exam.date <= TODAY ? " now" : "") + '">' + esc(exam.title) + " " + esc(exam.date <= TODAY ? "الحين، حتى " + shortDate(exam.end) : whenLabel(dayDiff(TODAY, exam.date))) + '</span>');
+  const cn = document.getElementById("calNext"); cn.innerHTML = chips.join(""); cn.hidden = !chips.length;
 }
 
 /* ---------- IXL plan progress ---------- */
@@ -1259,7 +1308,7 @@ function hourNow(){
   catch (e) { return new Date().getHours(); }
 }
 /* the next day with school: Sunday after Thursday, Friday and Saturday */
-function nextSchoolDay(iso){ const wd = parts(iso).wd; return addDays(iso, wd === 4 ? 3 : wd === 5 ? 2 : 1); }
+function nextSchoolDay(iso){ let d = addDays(iso, 1); for (let k = 0; k < 40 && !isSchoolDay(d); k++) d = addDays(d, 1); return d; }
 function dayWord(iso){ const n = dayDiff(TODAY, iso); return n === 0 ? "اليوم" : n === 1 ? "غدًا" : shortDate(iso); }
 /* the first line of an item's text, without links, cut at a word */
 function brief(s, n){
@@ -1350,14 +1399,28 @@ function renderTests(){
   }).join("");
 }
 
+/* how a calendar entry reads under its title */
+function calLine(d){
+  if (d.kind === "break") return "من " + shortDate(d.date) + " إلى " + shortDate(d.end) + "، والدراسة ترجع " + shortDate(d.back);
+  if (d.kind === "parents") return "في يوم من " + shortDate(d.date) + " إلى " + shortDate(d.end) + " تحدده المدرسة";
+  return d.end ? "من " + shortDate(d.date) + " إلى " + shortDate(d.end) : "";
+}
+function yearTable(){
+  const row = d => '<tr class="k-' + d.kind + ((d.end || d.date) < TODAY ? " past" : "") + '"><td>' + esc(d.end ? shortDate(d.date) + " – " + shortDate(d.end) : shortDate(d.date)) + '</td><td>' + esc(d.title) +
+    (d.back ? '<br><span class="meta-note">الدراسة ترجع ' + esc(shortDate(d.back)) + '</span>' : "") + '</td></tr>';
+  const all = SCHOOL_DATES.filter(d => d.kind !== "msg"), term = (t, list) => '<tr class="term"><td colspan="2">' + t + '</td></tr>' + list.map(row).join("");
+  return '<table><thead><tr><th>التاريخ</th><th>في التقويم</th></tr></thead><tbody>' + term("الفصل الأول", all.filter(d => d.date < "2027-01-17")) + term("الفصل الثاني", all.filter(d => d.date >= "2027-01-17")) + '</tbody></table>';
+}
 function renderDates(){
-  const dates = SCHOOL_DATES.filter(d => d.date >= TODAY);
+  /* what is on now or coming: the next three, and anything in the next 75 days */
+  const dates = SCHOOL_DATES.filter(d => (d.end || d.date) >= TODAY).sort((a, b) => a.date.localeCompare(b.date)).filter((d, i) => i < 3 || dayDiff(TODAY, d.date) <= 75);
   document.getElementById("dates").innerHTML = dates.map(d => {
-    const p = parts(d.date), n = dayDiff(TODAY, d.date);
+    const p = parts(d.date), n = dayDiff(TODAY, d.date), line = calLine(d);
     return '<li class="test panel"><div class="cal"><small>' + WD[p.wd] + '</small><b>' + p.d + '</b><span>' + MONTHS[p.m-1] + '</span></div>' +
-      '<div class="item-body"><div class="item-meta"><span class="subj">تقويم المدرسة</span><span class="badge' + (n <= 1 ? " hot" : "") + '">' + whenLabel(n) + '</span></div>' +
-      '<p class="item-text">' + esc(d.title) + ' <span class="meta-note" dir="ltr" style="white-space:nowrap">(' + esc(d.en) + ')</span></p></div></li>';
+      '<div class="item-body"><div class="item-meta"><span class="subj">تقويم المدرسة</span><span class="badge' + (n <= 1 ? " hot" : "") + '">' + (n > 0 ? whenLabel(n) : n === 0 ? "اليوم" : "الحين") + '</span></div>' +
+      '<p class="item-text">' + esc(d.title) + ' <span class="meta-note" dir="ltr" style="white-space:nowrap">(' + esc(d.en) + ')</span></p>' + (line ? '<p class="meta-note">' + esc(line) + '</p>' : "") + '</div></li>';
   }).join("");
+  document.getElementById("yearCal").innerHTML = yearTable();
   document.getElementById("notices").innerHTML = NOTICES.map(t => {
     const [sName, sCls] = subj(t.subject);
     return '<li class="row ' + sCls + '"><div class="item-meta"><span class="subj">' + esc(sName) + '</span><span class="meta-note">رسالة ' + shortDate(t.date) + '</span></div>' +
@@ -1388,7 +1451,7 @@ function renderHistory(){
   const weeks = [...new Set(past.map(i => weekNo(i.date)))].sort((a, b) => b - a);
   if (!weeks.length) { el.innerHTML = '<p class="empty panel">ما فيه شيء سابق.</p>'; return; }
   el.innerHTML = weeks.map(w => {
-    const start = addDays(TERM_START, (w - 1) * 7), end = addDays(start, 6);
+    const start = weekStart(w), end = addDays(start, 6);
     const ps = parts(start), pe = parts(end);
     const range = ps.m === pe.m ? ps.d + "–" + pe.d + " " + MONTHS[pe.m-1] : ps.d + " " + MONTHS[ps.m-1] + " – " + pe.d + " " + MONTHS[pe.m-1];
     const items = past.filter(i => weekNo(i.date) === w).sort((a, b) => a.date.localeCompare(b.date));

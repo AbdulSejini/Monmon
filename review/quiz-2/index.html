@@ -213,11 +213,11 @@ const SUBJECTS = [
     {id:"a4", t:"الأفعال الناسخة (كان وأخواتها)", pg:"85–90", go:["../../arabic/quiz-2/index.html#l-a4", "راجعه وتدرّب"]},
     {id:"a5", t:"الإملاء: قطعة «كل شيء في قرب الأم جميل…»", go:["../../arabic/quiz-2/index.html#dict", "تدرّب على الإملاء"]}],
    note:'<b>قطعة الإملاء:</b><p class="dict">كل شيء في قرب الأم جميل، فهي شاطئ الأمان، الذي ننشأ في أحضانه.</p>'},
-  {id:"quran", name:"قرآن كريم", cls:"s-quran", date:"2026-11-22", to:"2026-11-26", week:13, lessons:[
+  {id:"quran", name:"قرآن كريم", cls:"s-quran", date:"2026-11-29", to:"2026-12-03", week:13, lessons:[
     {id:"q1", t:"تلاوة: سورة الكهف، الآيات 21–34"},
     {id:"q2", t:"حفظ: سورة القلم، الآيات 31–47"}],
-   note:'الاختبار في يوم يحدده المعلم خلال الأسبوع 13، فالأفضل يكون جاهز من الأحد.'},
-  {id:"ict", name:"حاسب آلي", cls:"s-ict", date:"2026-11-29", to:"2026-12-03", week:14, lessons:[],
+   note:'الأسبوع 13 هو أول أسبوع بعد إجازة الخريف (22–26 نوفمبر)، والمعلم يحدد يوم الاختبار فيه، فالأفضل يكون جاهز من الأحد 29 نوفمبر.'},
+  {id:"ict", name:"حاسب آلي", cls:"s-ict", date:"2026-12-06", to:"2026-12-10", week:14, lessons:[],
    note:'نطاقه في الخطة الأسبوعية للأسبوع 14.'}
 ];
 const WD = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
@@ -246,7 +246,7 @@ function status(s){
   const end = s.to || s.date, n = dayDiff(TODAY, s.date);
   if (TODAY > end) return {past:true, label:"خلص", cls:"done"};
   if (s.to) {
-    const when = "الأسبوع " + s.week + " · " + parts(s.date).d + "–" + parts(s.to).d + " " + MONTHS[parts(s.to).m - 1];
+    const a = parts(s.date), b = parts(s.to), when = "الأسبوع " + s.week + " · " + (a.m === b.m ? a.d + "–" + b.d + " " + MONTHS[b.m - 1] : a.d + " " + MONTHS[a.m - 1] + " – " + b.d + " " + MONTHS[b.m - 1]);
     return n > 0 ? {when, label:"يبدأ بعد " + days(n), cls:n <= 1 ? "hot" : "", n} : {when, label:"هذا الأسبوع", cls:"hot", n:0};
   }
   return {when:longDate(s.date), label:n === 0 ? "اليوم" : n === 1 ? "غدًا" : "بعد " + days(n), cls:n <= 1 ? "hot" : "", n};
