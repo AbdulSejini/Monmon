@@ -8,6 +8,8 @@
   var me = document.currentScript || document.querySelector('script[src*="site-nav.js"]');
   var root = (me && me.getAttribute("data-root")) || "";
   var TZ = "Asia/Riyadh", TERM_START = "2026-08-30";
+  /* whole school weeks off (their Sundays): the school does not count them, as BREAK_WEEKS in index.html */
+  var BREAK_WEEKS = ["2026-11-22", "2027-01-10", "2027-02-28", "2027-03-07", "2027-05-02", "2027-05-09", "2027-05-16"];
   var WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html", 10: "weekly/week-10/index.html"};
 
   function today() {
@@ -15,10 +17,11 @@
     catch (e) { return new Date().toISOString().slice(0, 10); }
   }
   function utc(iso) { var p = iso.split("-").map(Number); return Date.UTC(p[0], p[1] - 1, p[2]); }
-  /* the school week of today; on Friday and Saturday, the coming week */
+  /* the school week of today; on Friday and Saturday, the coming week; in a week off, the week after it */
   function schoolWeek() {
-    var t = today(), n = Math.floor((utc(t) - utc(TERM_START)) / 864e5 / 7) + 1, wd = new Date(utc(t)).getUTCDay();
-    return wd === 5 || wd === 6 ? n + 1 : n;
+    var t = today(), wd = new Date(utc(t)).getUTCDay(), k = Math.floor((utc(t) - utc(TERM_START)) / 864e5 / 7) + (wd === 5 || wd === 6 ? 1 : 0);
+    var sun = new Date(utc(TERM_START) + k * 7 * 864e5).toISOString().slice(0, 10);
+    return k + 1 - BREAK_WEEKS.filter(function (d) { return d < sun; }).length;
   }
   var weeks = Object.keys(WEEK_PAGES).map(Number).sort(function (a, b) { return a - b; });
   var wk = schoolWeek(), weekHref = WEEK_PAGES[wk] || WEEK_PAGES[weeks.filter(function (n) { return n <= wk; }).pop() || weeks[weeks.length - 1]];
