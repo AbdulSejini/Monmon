@@ -972,7 +972,7 @@ const TERM_START = "2026-08-30"; /* Sunday of school week 1 */
 const BREAK_WEEKS = ["2026-11-22", "2027-01-10", "2027-02-28", "2027-03-07", "2027-05-02", "2027-05-09", "2027-05-16"];
 
 /* School weeks that have a detailed plan page. */
-const WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html", 10: "weekly/week-10/index.html"};
+const WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html", 10: "weekly/week-10/index.html", 11: "weekly/week-11/index.html"};
 
 /* Practice pages for particular homework items and tests (by EduPage id). */
 const PRACTICE_BY_ID = {
@@ -1107,7 +1107,8 @@ const NOTICES = [
 
 /* Study pages by group. The weekly plans come from WEEK_PAGES: this week's plan goes first (then next week's, once it is ready), the older ones last. */
 const WEEK_TEXT = {8:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", 9:"إجازة الأحد، ثم جدول الاثنين للخميس والواجبات وخطة المذاكرة لكل يوم.",
-  10:"عرض Be Well يوم الأحد، ورحلة الأربعاء، والجدول اليومي والواجبات وخطة المذاكرة لكل يوم."};
+  10:"عرض Be Well يوم الأحد، ورحلة الأربعاء، والجدول اليومي والواجبات وخطة المذاكرة لكل يوم.",
+  11:"اختبارات قصيرة: الرياضيات الأحد، والإسلامية الثلاثاء، والإنجليزي الخميس، مع تسميع القرآن، والجدول اليومي وخطة المذاكرة لكل يوم."};
 const PRACTICE_GROUPS = [["now","ابدأ من هنا"], ["math","الرياضيات"], ["isl","الدراسات الإسلامية"], ["ar","لغتي"], ["sci","العلوم"], ["soc","الاجتماعيات"], ["eng","الإنجليزي"], ["ict","الحاسب"], ["old","خطط الأسابيع السابقة"]];
 const PRACTICE_PAGES = [
   {group:"now", kind:"مراجعة", href:"review/quiz-2/index.html", title:"مراجعة الاختبار القصير 2", text:"مواعيد اختبارات 8–19 نوفمبر ونطاق كل مادة درسًا درسًا، وعلامة على كل درس يراجعه.", cls:"s-quiz"},

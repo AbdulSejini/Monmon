@@ -10,7 +10,7 @@
   var TZ = "Asia/Riyadh", TERM_START = "2026-08-30";
   /* whole school weeks off (their Sundays): the school does not count them, as BREAK_WEEKS in index.html */
   var BREAK_WEEKS = ["2026-11-22", "2027-01-10", "2027-02-28", "2027-03-07", "2027-05-02", "2027-05-09", "2027-05-16"];
-  var WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html", 10: "weekly/week-10/index.html"};
+  var WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html", 10: "weekly/week-10/index.html", 11: "weekly/week-11/index.html"};
 
   function today() {
     try { return new Intl.DateTimeFormat("en-CA", {timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit"}).format(new Date()); }
