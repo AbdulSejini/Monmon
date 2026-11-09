@@ -287,9 +287,9 @@ details.helper[open] summary::before{content:"−"}
       </div>
     </div>
     <div class="stats">
-      <div class="stat"><b id="statHw">3</b><span>Homework</span></div>
+      <div class="stat"><b id="statHw">5</b><span>Homework</span></div>
       <div class="stat"><b id="statTests">7</b><span>Tests</span></div>
-      <div class="stat"><b id="statLeft">3</b><span>To do</span></div>
+      <div class="stat"><b id="statLeft">5</b><span>To do</span></div>
       <p class="stats-note"><b>A busy week:</b> Sunday has Math Quiz 2 and the Be Well presentation (P7, moved from 1/11; its teacher is absent on 8/11, so it will likely move again), Tuesday Islamic Studies Quiz 2, and Thursday English Quiz 2 and an Arabic dictation test (P6), with Qur'an memorisation checks on Wednesday and Thursday. The school says tests are in period 2 when school is in person. Science Quiz 2 is next Sunday, 15/11.</p>
     </div>
   </section>
@@ -343,7 +343,7 @@ const SUBJ = {
   math:{label:"Math", cls:"s-math"}, eng:{label:"English", cls:"s-eng"}, sci:{label:"Science", cls:"s-sci"},
   ar:{label:"Arabic", cls:"s-ar"}, isl:{label:"Islamic Studies", cls:"s-isl"}, quran:{label:"Qur'an", cls:"s-quran"},
   soc:{label:"Social Studies", cls:"s-soc"}, well:{label:"Be Well", cls:"s-well"}, pe:{label:"PE", cls:"s-pe"},
-  art:{label:"Art", cls:"s-art"}, ict:{label:"ICT / MECHA", cls:"s-ict"}
+  art:{label:"Art", cls:"s-art"}, ict:{label:"ICT / MECHA", cls:"s-ict"}, ixl:{label:"IXL", cls:"s-ixl"}
 };
 /* the site does not show teachers' names */
 const T = {};
@@ -471,10 +471,15 @@ const HW = [
    title:"Presentation: The Values That Define Me",
    detail:"Moved from Sunday 1/11 to Sunday 8/11, period 7 (EduPage, 4/11). Choose one value, such as honesty, respect, responsibility, fairness or trustworthiness. Define it, give a real-life example, and explain the consequences of ignoring it. Speak for 3 minutes, clearly and confidently; a poster or cue cards can help. Keep eye contact and be ready to answer one question.",
    warn:"Sunday 8/11: the Be Well teacher is absent and period 7 has a substitute, so the talk will likely move again. Keep it ready and ask the teacher for the new date.",
-   helper:"talk"}
+   helper:"talk"},
+  {id:"notebook", ep:"msg-2026-11-10-eng-notebook", s:"eng", code:"Bring", day:"mon", due:"2026-11-10", title:"Bring the English notebook",
+   detail:"The teacher checks Homework 10.1 in class on Tuesday, so it should be complete and neatly written (EduPage, 9/11)."},
+  {id:"device", ep:"msg-2026-11-10-device", s:"ixl", code:"Bring · optional", day:"sun", due:"2026-11-10", title:"A laptop, iPad or tablet for the IXL session",
+   detail:"Optional, for the IXL practice session on Tuesday. No phones. The device stays in the bag at break and between lessons, and comes out only in the IXL session with the teacher's permission (EduPage, 8/11)."}
 ];
 
-/* evening plan: items are [text, link key or null, isKey]. pre: the days before the week starts. */
+/* evening plan: items are [text, link key or null, isKey, screenOnly]; a screenOnly job is left off the printed sheet.
+   pre: the days before the week starts. */
 const PLAN = {
   pre:[["Math Quiz 2 on Sunday (P2): go through Topic 2 lesson by lesson on the review page, with each lesson's practice, then Lesson 3-1 (exponents).", "mathq", true],
        ["Be Well presentation on Sunday (P7), moved from 1/11: practise the 3 minutes out loud with a timer, using cue cards or a poster.", "talk", true],
@@ -486,7 +491,8 @@ const PLAN = {
        ["English Quiz 2 on Thursday: one skill on the English Tutor, up to Prove it.", "tutor"]],
   mon:[["Islamic Studies Quiz 2 tomorrow (P2): the mock test again, then reread the lessons it shows are weak.", "islq", true],
        ["Read Al-Kahf 28–29 aloud for tomorrow's recitation lesson (P4), then say Al-Qalam 40–43 from memory.", null],
-       ["English Tutor: two more skills, each to 5 right in a row.", "tutor"]],
+       ["English Tutor: two more skills, each to 5 right in a row.", "tutor"],
+       ["Pack for tomorrow: the English notebook for the Homework 10.1 check and, if you like, a laptop or iPad for the IXL session. No phones.", null, false, true]],
   tue:[["English Quiz 2 on Thursday (P2): the English Tutor's practice test (30 questions), then the weak skills it lists.", "tutor", true],
        ["Al-Qalam 40–43 from memory: memorisation check tomorrow (P8).", null],
        ["Arabic dictation test on Thursday (P6): one dictation round on the Arabic page.", "dict"],
@@ -772,7 +778,7 @@ function renderPrint(){
       '<td class="ps-when">' + fmtDate(h.due) + '<small>' + (h.day ? "set " + dayOf(h.day).short : esc(h.when || "")) + '</small></td></tr>';
   }).join("");
   const planRow = (when, key) => '<tr><td class="ps-when">' + when + '</td><td>' +
-    PLAN[key].map(([text, , k], n) => '<span class="ps-job' + (k ? " key" : "") + '">' + (n + 1) + '. ' + esc(text) + '</span>').join(" ") + '</td></tr>';
+    PLAN[key].filter(j => !j[3]).map(([text, , k], n) => '<span class="ps-job' + (k ? " key" : "") + '">' + (n + 1) + '. ' + esc(text) + '</span>').join(" ") + '</td></tr>';
   const plan = planRow('Before<small>Thu–Sat</small>', "pre") + DAYS.map(d => planRow(d.short + ' ' + dm(d.date), d.key)).join("");
   /* rows covered by a period above them (the trip) get no cell */
   const cells = DAYS.map(d => { const c = {}; slots(d.key).forEach(s => { c[s.row] = s; for (let k = 1; k < s.n; k++) c[s.row + k] = "covered"; }); return c; });
