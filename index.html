@@ -82,6 +82,16 @@ ul,ol{margin:0;padding:0;list-style:none}
 .alert .what{min-width:0;overflow-wrap:anywhere}
 .alert li a,.alert .more a{font-weight:800;color:#1F5FB8}
 .alert .more{font-size:15px;font-weight:700}
+/* easier to tap on a phone or an iPad: the links in the today box get a taller hit area without moving */
+.alert li a,.alert .more a{display:inline-block;padding:9px 6px;margin:-9px -6px;border-radius:8px}
+.top-link{min-width:40px;min-height:40px}
+/* quick jumps to the sections below */
+.jump{display:flex;flex-wrap:wrap;gap:8px}
+.jump a{display:inline-flex;align-items:center;min-height:40px;padding:6px 14px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:800;text-decoration:none;box-shadow:2px 2px 0 var(--ink)}
+.jump a:hover{background:var(--sun-2)}
+@media print{.jump{display:none!important}}
+/* a link's short name moves to the next line as one piece instead of splitting */
+.ext{display:inline-block;max-width:100%;overflow-wrap:anywhere}
 .alert .more b{font-weight:800}
 .week-btn{justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--sun);font-weight:800;text-decoration:none;box-shadow:var(--shadow-sm)}
 .week-btn:active{transform:translate(3px,3px);box-shadow:none}
@@ -238,6 +248,7 @@ details.week summary span{font-size:14px;color:var(--ink-2);font-weight:700}
       <div class="tile"><b class="small" id="tNext">—</b><span>أقرب موعد</span></div>
     </div>
     <a class="week-btn" id="weekBtn" hidden></a>
+    <nav class="jump" aria-label="أقسام الصفحة"><a href="#todoTitle">الواجبات</a><a href="#testsTitle">الاختبارات</a><a href="#datesTitle">التنبيهات</a><a href="#practiceTitle">الصفحات</a><a href="#historyTitle">اللي فات</a></nav>
   </section>
 
   <!-- points, the daily goal, the streak and the latest stickers: filled by assets/rewards.js -->
@@ -1243,7 +1254,26 @@ function days(n){ return count(n, "يوم واحد", "يومين", "أيام", "
 function dueLabel(n){ return n < 0 ? "فات الموعد" : n === 0 ? "اليوم" : n === 1 ? "غدًا" : "باقي " + days(n); }
 function whenLabel(n){ return n === 0 ? "اليوم" : n === 1 ? "غدًا" : "بعد " + days(n); }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
-function textHTML(s){ return esc(s).replace(/https?:\/\/[^\s<]+/g, u => '<a href="' + u + '" target="_blank" rel="noopener" dir="ltr">' + u + '</a>'); }
+/* a link in a notice or a homework shows a short name instead of the whole address (the address is its title),
+   and punctuation right after it stays outside the link */
+function linkLabel(url){
+  let u; try { u = new URL(url); } catch (e) { return url; }
+  const host = u.hostname.replace(/^www\./, ""), seg = u.pathname.split("/").filter(Boolean);
+  let last = ""; try { last = seg.length ? decodeURIComponent(seg[seg.length - 1]).replace(/\.(php|html?)$/, "") : ""; } catch (e) {}
+  if (/(^|\.)ixl\.com$/.test(host) && last) return "IXL: " + last.replace(/-/g, " ");
+  if (host === "vocabtest.com" && last) return "vocabtest: " + last.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase();
+  if (host === "drive.google.com") return "Google Drive";
+  if (host === "docs.google.com") return "Google Docs";
+  if (/(^|\.)edupage\.org$/.test(host)) return "EduPage";
+  if (/(^|\.)(youtube\.com|youtu\.be)$/.test(host)) return "YouTube";
+  return host + (seg.length ? "/…" : "");
+}
+function textHTML(s){
+  return esc(s).replace(/https?:\/\/[^\s<]+/g, m => {
+    const [, u, tail] = m.match(/^(.*?)((?:[.,،؛;:!?)]|&quot;|&#39;)*)$/);
+    return '<a class="ext" href="' + u + '" target="_blank" rel="noopener" dir="ltr" title="' + u + '">' + esc(linkLabel(u.replace(/&amp;/g, "&"))) + '</a>' + tail;
+  });
+}
 function subj(name){ return SUBJ[name] || [name || "أخرى", ""]; }
 function typeAr(t){ return TYPE_AR[t] || t || ""; }
 /* when it was set; an item dated on its own due day (the Be Well presentation) has no separate request date */

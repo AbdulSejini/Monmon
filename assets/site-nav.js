@@ -70,7 +70,13 @@
     /* the page's own bar and in-page links land under the strip */
     '.topbar{top:calc(env(safe-area-inset-top,0px) + var(--site-nav-h,0px))!important}' +
     'html{scroll-padding-top:var(--site-nav-h,0px)}' +
-    '@media print{.site-nav{display:none!important}}';
+    '@media print{.site-nav{display:none!important}}' +
+    /* long pages: a round button back to the top, bottom left, above the iPhone's home bar */
+    '.site-top{position:fixed;z-index:50;left:max(14px,env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));width:48px;height:48px;padding:0;border-radius:50%;border:3px solid #FFD23F;background:#14163A;color:#FFD23F;display:grid;place-items:center;box-shadow:0 4px 12px rgba(20,22,58,.35);cursor:pointer}' +
+    '.site-top[hidden]{display:none}' +
+    '.site-top svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}' +
+    '.site-top:focus-visible{outline:3px solid #FFD23F;outline-offset:3px}' +
+    '@media print{.site-top{display:none!important}}';
   var style = document.createElement("style");
   style.textContent = css;
   document.head.appendChild(style);
@@ -102,4 +108,25 @@
   setHeight();
   if (window.ResizeObserver) new ResizeObserver(setHeight).observe(nav);
   else window.addEventListener("resize", setHeight);
+
+  /* on a long page (over three screens), once you are a screen and a half down, a button takes you back to the top.
+     A page that has its own controls at the bottom (the arcade) opts out with data-top="0". */
+  if (!(me && me.getAttribute("data-top") === "0")) {
+    var up = document.createElement("button");
+    up.type = "button"; up.className = "site-top"; up.hidden = true;
+    up.setAttribute("lang", "ar"); up.setAttribute("aria-label", "إلى أعلى الصفحة"); up.title = "إلى أعلى الصفحة";
+    up.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+    document.body.appendChild(up);
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var showUp = function () { var h = window.innerHeight || 600; up.hidden = !(document.documentElement.scrollHeight > h * 3 && (window.scrollY || window.pageYOffset) > h * 1.5); };
+    window.addEventListener("scroll", showUp, {passive: true});
+    window.addEventListener("resize", showUp);
+    showUp();
+    up.addEventListener("click", function () {
+      try { window.scrollTo({top: 0, behavior: reduce ? "auto" : "smooth"}); } catch (e) { window.scrollTo(0, 0); }
+      /* keyboard users land on the strip, not on a button that just disappeared */
+      var first = nav.querySelector('a[aria-current="page"]') || nav.querySelector("a");
+      if (first) try { first.focus({preventScroll: true}); } catch (e) {}
+    });
+  }
 })();
