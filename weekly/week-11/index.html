@@ -97,7 +97,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .tonight li::before{content:counter(t);width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
 .tonight li b{display:block}
 .tonight li span{font-size:14px;color:var(--ink-2)}
-.tonight li a{font-weight:700}
+.tonight li a{font-weight:700;display:inline-block;padding:9px 4px;margin:-9px -4px}
 
 .sec-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:34px 0 14px}
 .sec-title h2{font-size:36px}
@@ -157,6 +157,8 @@ details.helper[open] summary::before{content:"−"}
 .kind b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
 .kind p{margin-top:4px}
 .math{font-variant-numeric:tabular-nums;white-space:nowrap}
+/* a long worked example wraps between its steps on a narrow phone instead of pushing the page sideways */
+@media (max-width:420px){.math{white-space:normal}}
 
 /* timetable */
 .tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
@@ -181,7 +183,7 @@ details.helper[open] summary::before{content:"−"}
 .p-teacher{font-size:13px;color:var(--ink-2)}
 .p-topic{font-size:15px}
 .p-flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
-.flag-pill{font-size:12px;font-weight:800;padding:1px 8px;border:2px solid var(--ink);border-radius:999px;background:var(--warn-bg)}
+.flag-pill{font-size:12px;font-weight:800;padding:5px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--warn-bg)}
 .flag-pill.test{background:var(--bad);color:#fff}
 .flag-pill.link{background:var(--tint);text-decoration:none}
 
