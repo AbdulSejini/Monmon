@@ -174,7 +174,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .mini-t{min-width:0;display:grid;justify-items:start}
 .mini a.mini-clinic,.mini.is-done a.mini-clinic{font-size:12px;font-weight:800;text-decoration:underline;color:var(--good)}
 .code{font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ink-2);white-space:nowrap}
-details.wk-more summary{cursor:pointer;font-size:13px;font-weight:800;list-style:none}
+details.wk-more summary{cursor:pointer;font-size:14px;font-weight:800;list-style:none;display:flex;align-items:center;min-height:40px;padding:6px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--paper)}
 details.wk-more summary::-webkit-details-marker{display:none}
 details.wk-more summary::before{content:"+ "} details.wk-more[open] summary::before{content:"− "}
 details.wk-more .minis{margin-top:6px}
@@ -503,7 +503,9 @@ function renderWeeks(st){
         const list = '<ul class="minis">' + w.codes.map(miniHTML).join("") + '</ul>';
         return '<article class="wk panel' + (now ? " is-now" : "") + (all ? " is-done" : "") + '">' + (now ? '<span class="sticker">' + (st.mode === "before" ? "Next" : "Now") + '</span>' : "") +
           '<div class="wk-head"><h3>' + (w.n === 0 ? "Getting started" : "Week " + w.n) + '</h3><span class="wk-dates">' + range(w) + '</span></div>' + count +
-          (now || !past || !all ? list : '<details class="wk-more"><summary>Show the skills</summary>' + list + '</details>') + '</article>';
+          /* the week's skills are folded: this week's and the ones left from past weeks are all in «This week» above, so the
+             list is an overview. Once the 16 weeks are over, the weeks with skills left stay open. */
+          (st.mode === "after" && !all ? list : '<details class="wk-more"><summary>' + (all ? "Show the skills" : "Show the " + w.codes.length + " skills") + '</summary>' + list + '</details>') + '</article>';
       }).join("") + '</div>';
   }).join("");
 }
@@ -511,7 +513,8 @@ function renderWeeks(st){
 function renderBonus(){
   const groups = ["geo", "data", "earth", "life"];
   document.getElementById("bonus").innerHTML = '<p>' + BONUS.length + ' skills. Target 80. They don\'t count in the 210.</p>' +
-    groups.map(g => { const codes = BONUS.filter(c => SKILLS[c][2] === g); return '<h3>' + esc(SUBJ[STRANDS[g].subj].name + " · " + STRANDS[g].label) + ' (' + codes.length + ')</h3><ul class="minis">' + codes.map(miniHTML).join("") + '</ul>'; }).join("");
+    '<details class="wk-more"><summary>Show the ' + BONUS.length + ' bonus skills</summary>' +
+    groups.map(g => { const codes = BONUS.filter(c => SKILLS[c][2] === g); return '<h3>' + esc(SUBJ[STRANDS[g].subj].name + " · " + STRANDS[g].label) + ' (' + codes.length + ')</h3><ul class="minis">' + codes.map(miniHTML).join("") + '</ul>'; }).join("") + '</details>';
 }
 
 function renderPrint(){
