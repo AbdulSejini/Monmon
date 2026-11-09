@@ -167,6 +167,15 @@ Every study page also loads `assets/site-nav.js`, which puts the same navigation
 - **Sounds and slide-in:** `data-sound="1"` adds short sounds and `data-enter=".run"` slides questions in. Only the five Quiz 2 reviews use them; the labs keep their own sounds and transitions.
 - **Reduced motion:** with "reduce motion" on, nothing moves.
 
+## Reading voice
+
+`assets/voice.js` reads aloud on the six pages that speak: the Word Quests (Units 2 and 4, the Units 1–3 review), the English Tutor, the English Quiz 2 review, and the Arabic dictation trainer. It uses the device's own voices (the Web Speech API).
+
+- **The clearest voice:** downloaded Premium or Enhanced voices on iPad, iPhone and Mac, Natural voices in Edge, Google voices in Chrome; never the novelty voices (Bad News, Bubbles, Grandpa…).
+- **Voice panel:** the person button in the top bar (or «صوت القراءة» in the dictation box) lists the voices best first, sets the speed (أبطأ / عادي / أسرع) and remembers both on this device (`monmon-voice-v1`). When the device has only the old voices, it gives the steps to download a clearer one (on iPad: الإعدادات ← تسهيلات الاستخدام ← المحتوى المنطوق ← الأصوات).
+- **Sentence by sentence:** long text is read one sentence at a time. It sounds more natural, and Chrome stops one long utterance after about 15 seconds.
+- **Dictation like a teacher:** «أملِ عليّ» reads the whole sentence, then each short phrase twice with time to write, then the whole sentence again. A phrase never ends on a joining word (في، من، عن…), and «إيقاف» stops it at once.
+
 ## Progress sync between devices
 
 Progress is saved in each browser's localStorage. Every page (the dashboard included) also loads `assets/sync.js` before its own script, which keeps that progress in step across the family's devices through a Firebase Realtime Database. Every device that opens the site syncs, with no link or sign-in: the family chose that over opening a link on each device, so the progress is open to anyone who opens the site. The page [`sync/index.html`](sync/index.html) shows whether this device syncs and when it last did, and can switch sync off (or back on) on this device. An older family link (`sync/#code=…`) still works and just switches sync on.

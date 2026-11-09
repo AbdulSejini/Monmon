@@ -51,6 +51,8 @@ p{margin:0}
 .icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink)}
 .icon-btn svg{width:22px;height:22px}
 @media (max-width:520px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+/* narrow phones: the top bar keeps its buttons on one line (the voice button joined the sound button) */
+@media (max-width:374px){.topbar-in{padding:8px 10px;gap:6px}.logo-mark{font-size:20px}.xp{padding:3px 8px 3px 4px;gap:4px}.icon-btn{width:40px;height:40px}}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:16px;line-height:1.2;box-shadow:var(--shadow-sm);transition:transform .08s,box-shadow .08s;text-align:center}
@@ -432,6 +434,7 @@ button.blank{font-size:inherit;line-height:1.3}
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <script src="../../assets/rewards.js" data-root="../../"></script>
 <script src="../../assets/fx.js"></script>
+<script src="../../assets/voice.js"></script>
 
 <header class="topbar">
   <div class="topbar-in">
@@ -442,6 +445,7 @@ button.blank{font-size:inherit;line-height:1.3}
     <span class="spacer"></span>
     <span class="xp" id="xpBox" title="Your XP points"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="#FFD23F" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/></svg><b id="xpVal">0</b> XP</span>
     <button class="icon-btn" id="soundBtn" data-act="sound" aria-label="Turn sound off"></button>
+    <button class="icon-btn" type="button" data-voice-panel="en" aria-label="Reading voice" title="Reading voice"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.6" fill="#FFD23F" stroke="#14163A" stroke-width="2"/><path d="M2.8 20c.9-3.4 3.3-5.3 6.2-5.3s5.3 1.9 6.2 5.3" fill="#FFD23F" stroke="#14163A" stroke-width="2" stroke-linejoin="round"/><path d="M17 6.8q2 2.7 0 5.4M19.6 4.6q3.8 4.9 0 9.8" fill="none" stroke="#14163A" stroke-width="2" stroke-linecap="round"/></svg></button>
   </div>
 </header>
 <main class="wrap">
@@ -1135,15 +1139,11 @@ const Sound = {
 
 /* ---------- SPEECH ---------- */
 const canSpeak = "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
+/* the reading voice (assets/voice.js): the clearest English voice on this device, sentence by sentence */
 function speak(text){
   if (!canSpeak) return;
-  try {
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = .88;
-    const vs = speechSynthesis.getVoices().filter(v => /^en[-_]/i.test(v.lang));
-    const v = vs.find(v => /en[-_]US/i.test(v.lang)) || vs[0]; if (v) u.voice = v;
-    speechSynthesis.speak(u);
-  } catch (e) {}
+  if (window.MonmonVoice) { MonmonVoice.speak(text, {lang: "en", rate: .88}); return; }
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = .88; speechSynthesis.speak(u); } catch (e) {}
 }
 
 /* ---------- CONFETTI ---------- */
