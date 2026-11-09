@@ -177,6 +177,7 @@ ul,ol{margin:0;padding:0}
 <script src="../../assets/rewards.js" data-root="../../"></script>
 <script src="../../assets/arcade.js" data-root="../../"></script>
 <script src="../../assets/fx.js" data-sound="1" data-enter=".run"></script>
+<script src="../../assets/voice.js"></script>
 <header class="topbar">
   <div class="topbar-in">
     <span class="logo">لغتي</span>
@@ -518,8 +519,10 @@ function result(){
 
 /* ---------- DICTATION ---------- */
 let D = {i:0, timer:0};
-const voice = () => { try { return (speechSynthesis.getVoices() || []).find(v => /^ar/i.test(v.lang)) || null; } catch (e) { return null; } };
+/* the reading voice (assets/voice.js): the clearest Arabic voice on this device; dictation reads like a teacher */
+const voice = () => { if (window.MonmonVoice) return MonmonVoice.pick("ar"); try { return (speechSynthesis.getVoices() || []).find(v => /^ar/i.test(v.lang)) || null; } catch (e) { return null; } };
 function speak(text, rate){
+  if (window.MonmonVoice) return voice() ? MonmonVoice.speak(text, {lang: "ar", rate: rate || .8}) : false;
   try { const v = voice(); if (!v) return false; const u = new SpeechSynthesisUtterance(text); u.voice = v; u.lang = v.lang; u.rate = rate || .75; speechSynthesis.cancel(); speechSynthesis.speak(u); return true; } catch (e) { return false; }
 }
 /* compare word by word with the longest common run, so a missing or extra word does not shift the rest */
@@ -540,9 +543,10 @@ function renderDict(){
   const s = DICT[D.i], hasVoice = !!voice();
   const done = (S.dict || {})[s.id];
   $("#dictBox").innerHTML = '<div class="row"><label for="dictSel" class="sr-only">اختر الجملة</label><select id="dictSel">' + DICT.map((d, i) => '<option value="' + i + '"' + (i === D.i ? " selected" : "") + '>' + (S.dict && S.dict[d.id] ? "✓ " : "") + esc(d.name) + '</option>').join("") + '</select>'
-    + (hasVoice ? '<button class="btn go sm" type="button" data-act="say">🔊 استمع</button><button class="btn sm" type="button" data-act="sayslow">جزءًا جزءًا</button>' : "")
+    + (hasVoice ? '<button class="btn go sm" type="button" data-act="say">🔊 استمع</button><button class="btn sm" type="button" data-act="sayslow" title="الجملة كاملة، ثم كل جزء مرتين مع وقت للكتابة، ثم الجملة كاملة">✍️ أملِ عليّ</button><button class="btn sm" type="button" data-act="saystop">⏹ إيقاف</button>' : "")
+    + '<button class="btn sm" type="button" data-voice-panel="ar">🗣️ صوت القراءة</button>'
     + '<button class="btn sm" type="button" data-act="flash">اعرضها 5 ثوانٍ</button></div>'
-    + (hasVoice ? "" : '<p class="tip">جهازك ما فيه صوت عربي للقراءة. استخدم «اعرضها 5 ثوانٍ» واكتبها من ذاكرتك، أو خلّ أحدًا يقرأها لك.</p>')
+    + (hasVoice ? "" : '<p class="tip">جهازك ما فيه صوت عربي للقراءة. استخدم «اعرضها 5 ثوانٍ» واكتبها من ذاكرتك، أو خلّ أحدًا يقرأها لك. وزر «صوت القراءة» يشرح كيف تضيف صوتًا عربيًا للجهاز.</p>')
     + '<div class="flashbox" id="flash" aria-live="polite">' + (done ? "✓ كتبتها صحيحة من قبل" : "اسمع الجملة أو اعرضها، ثم اكتبها") + '</div>'
     + '<label for="dictIn" class="sr-only">اكتب الجملة</label><textarea id="dictIn" spellcheck="false" placeholder="اكتب الجملة هنا مع علامات الترقيم"></textarea>'
     + '<div class="row"><button class="btn go" type="button" data-act="dictcheck">صحّح</button><button class="btn sm" type="button" data-act="dictshow">اعرض الجملة</button></div><div id="dictRes" aria-live="polite"></div>';
@@ -619,7 +623,9 @@ document.addEventListener("click", e => {
   else if (a === "next") next();
   else if (a === "home"){ R = null; renderHome(); window.scrollTo(0, 0); }
   else if (a === "lesson"){ e.preventDefault(); R = null; renderHome(); const t = document.getElementById("l-" + b.dataset.l); if (t) t.scrollIntoView(); }
-  else if (a === "say") speak(DICT[D.i].t, .75);
+  else if (a === "say") speak(DICT[D.i].t, .8);
+  else if (a === "saystop"){ if (window.MonmonVoice) MonmonVoice.stop(); else try { speechSynthesis.cancel(); } catch (err) {} }
+  else if (a === "sayslow" && window.MonmonVoice) MonmonVoice.dictate(DICT[D.i].t, {lang: "ar"});
   else if (a === "sayslow"){ const parts = (DICT[D.i].t.match(/[^،.]+[،.]?/g) || []).map(x => x.trim()).filter(Boolean); let k = 0; const go = () => { if (k < parts.length){ const t = parts[k++]; try { const v = voice(); const u = new SpeechSynthesisUtterance(t); u.voice = v; u.lang = v.lang; u.rate = .65; u.onend = () => setTimeout(go, 1600); speechSynthesis.speak(u); } catch (err) {} } }; try { speechSynthesis.cancel(); } catch (err) {} go(); }
   else if (a === "flash"){ const f = $("#flash"); f.textContent = DICT[D.i].t; clearTimeout(D.timer); D.timer = setTimeout(() => { f.textContent = "اكتبها الحين من ذاكرتك"; $("#dictIn").focus(); }, 5000); }
   else if (a === "dictshow"){ $("#flash").textContent = DICT[D.i].t; }
