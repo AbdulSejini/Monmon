@@ -49,6 +49,12 @@
     if (v && Array.isArray(v.attempts) && v.attempts.some(function (a) { return a && a.kind === "final" && a.pct >= 80; })) out.push(["wq4-final", "كلمات الوحدة 4: التحدي النهائي"]);
     return out;
   }
+  var VQ4 = {m1: "Meanings", m2: "Right Word", m3: "Synonyms & Antonyms", m4: "Completing the Sentence", boss: "Final Boss"};   /* vocabulary/unit-04-missions */
+  function vq4(v) {   /* nothing counts until missions 1, 2 and 3 are all passed; then each passed mission is a part */
+    var m = v && v.missions, ok = function (id) { return !!(m && m[id] && m[id].passed); };
+    if (!(ok("m1") && ok("m2") && ok("m3"))) return [];
+    return Object.keys(VQ4).filter(ok).map(function (id) { return ["vq4-" + id, "مهمات الوحدة 4: " + VQ4[id]]; });
+  }
   var SOURCES = [
     {key: "islamic-g6-quiz2-v1", page: "islamic/quiz-2/index.html", title: "الإسلامية: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة، أو 12 من 15 في الاختبار التجريبي",
      all: Object.keys(ISL).map(function (m) { return ["isl-" + m, "الإسلامية: " + ISL[m]]; }),
@@ -62,6 +68,9 @@
     {key: "wordquest-sadlier-unit4-v1", page: "vocabulary/unit-04/index.html", title: "الإنجليزي: كلمات الوحدة 4", rule: "3 نجوم في تحدي الأرض، أو 80% في التحدي النهائي",
      all: WQ4.map(function (n, i) { return ["wq4-c" + (i + 1), "كلمات الوحدة 4: " + n]; }).concat([["wq4-final", "كلمات الوحدة 4: التحدي النهائي"]]),
      parts: wq4},
+    {key: "vocabquest-sadlier-unit4-v1", page: "vocabulary/unit-04-missions/index.html", title: "الإنجليزي: مهمات كلمات الوحدة 4", rule: "ما يُحسب شيء قبل اجتياز المهمات 1 و2 و3 (80%)، بعدها كل مهمة مجتازة جزء (والزعيم الأخير 85%)",
+     all: Object.keys(VQ4).map(function (id) { return ["vq4-" + id, "مهمات الوحدة 4: " + VQ4[id]]; }),
+     parts: vq4},
     {key: "arabic-g6-quiz2-v1", page: "arabic/quiz-2/index.html", title: "لغتي: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة، أو 16 من 20 في الاختبار التجريبي، أو قطعة الإملاء بلا خطأ",
      all: Object.keys(AR).map(function (m) { return ["ar-" + m, "لغتي: " + AR[m]]; }),
      parts: function (v) { return keys(v && v.mastered).filter(function (m) { return AR[m]; }).map(function (m) { return ["ar-" + m, "لغتي: " + AR[m]]; }); }},
