@@ -388,10 +388,12 @@ const count = (n, one, two, few, many) => n === 1 ? one : n === 2 ? two : n <= 1
 function announce(t){ const l = $("#live"); if (l){ l.textContent = ""; setTimeout(() => { l.textContent = t; }, 40); } }
 
 /* ---------- SAVED PROGRESS ---------- */
-const fresh = () => ({xp:0, best:null, mocks:0, rounds:0, mastered:{}, dict:{}});
+const fresh = () => ({xp:0, xq:{}, best:null, mocks:0, rounds:0, mastered:{}, dict:{}});
 let S = (() => { try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v === "object") return Object.assign(fresh(), v); } catch (e) {} return fresh(); })();
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 function addXP(n){ S.xp += n; save(); $("#xpVal").textContent = S.xp; }
+/* points once per question: a right answer to a question already rewarded (same kind, text and answer) gives no new xp */
+function xqKey(){ const s = Array.prototype.join.call(arguments, "|"); let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
 /* a part mastered: the arcade (assets/arcade.js) gives play time for it, once */
 function master(m){ if (!S.mastered || typeof S.mastered !== "object") S.mastered = {}; if (!S.mastered[m]) S.mastered[m] = Date.now(); }
 
@@ -443,12 +445,17 @@ const lessonLink = id => '<a href="#l-' + id + '" data-act="lesson" data-l="' + 
 /* ---------- ANSWERS ---------- */
 function record(ok, given, right, why, l, text){
   R.res.push({ok, given, right, why, l, text, type:R.steps[R.i].type});
-  if (ok) addXP(10);
+  R.rep = false;
+  if (ok){
+    if (!S.xq || typeof S.xq !== "object") S.xq = {};
+    const k = xqKey(R.steps[R.i].type, text, right);
+    if (S.xq[k]) R.rep = true; else { S.xq[k] = 1; addXP(10); }
+  }
 }
 function feedback(ok, why, l, extra){
   R.locked = true;
   const last = R.i === R.steps.length - 1;
-  $("#fbBox").innerHTML = '<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + (ok ? "أحسنت! ✔" : "انتبه ✖") + '</span>' + (extra || "")
+  $("#fbBox").innerHTML = '<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + (ok ? "أحسنت! ✔" : "انتبه ✖") + '</span>' + (ok && R.rep ? '<p class="why">⭐ هذا السؤال أخذت نقاطه من قبل، فما فيه نقاط جديدة. النقاط الجديدة من أسئلة ما جاوبتها صح قبل.</p>' : "") + (extra || "")
     + '<p class="why">' + esc(why) + '</p>' + (ok ? "" : lessonPeek(l)) + '</div>'
     + '<div class="actions"><button class="btn ink" type="button" data-act="next" id="nextBtn">' + (last ? "النتيجة ←" : "التالي ←") + '</button></div>';
   announce((ok ? "صحيح. " : "خطأ. ") + why);
@@ -494,9 +501,9 @@ function result(){
   const res = R.res, right = res.filter(r => r.ok).length;
   let h = '<section class="result panel">', say = right + " من " + res.length;
   if (R.mode === "mock"){
-    S.mocks++; if (S.best === null || right > S.best) S.best = right;
+    const nb = S.best === null || right > S.best; S.mocks++; if (nb) S.best = right;
     if (right >= 16) master("mock");
-    addXP(20);
+    if (nb) addXP(20);   /* only a new best score earns the test bonus */
     h += '<p class="q-part">الاختبار التجريبي</p><div class="big">' + right + ' <small>من ' + res.length + '</small></div><div class="parts">'
       + LESSONS.map(l => { const mine = res.filter(r => r.l === l.id); return '<div class="stat"><b>' + mine.filter(r => r.ok).length + '/' + mine.length + '</b><span>' + esc(l.t.split(" (")[0]) + '</span></div>'; }).join("") + '</div>'
       + '<p>' + (right >= 18 ? "ممتاز، أنت جاهز! 🌟 جرّب الإملاء تحت." : right >= 14 ? "جيد جدًا. صحّح الأخطاء تحت، ثم جرّب مرة ثانية." : "راجع الدروس المذكورة تحت، ثم جرّب اختبارًا جديدًا.") + '</p>';

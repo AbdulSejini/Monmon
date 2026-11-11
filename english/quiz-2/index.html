@@ -527,10 +527,12 @@ const ICON_SAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l
 function speak(w){ if (window.MonmonVoice) { MonmonVoice.speak(w, {lang: "en", rate: .85}); return; } try { const u = new SpeechSynthesisUtterance(w); u.lang = "en-US"; u.rate = .85; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {} }
 
 /* ---------- SAVED PROGRESS ---------- */
-const fresh = () => ({xp:0, best:null, tests:0, rounds:0, letters:0, lh:"", mastered:{}});
+const fresh = () => ({xp:0, xq:{}, best:null, tests:0, rounds:0, letters:0, lh:"", mastered:{}});
 let S = (() => { try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v === "object") return Object.assign(fresh(), v); } catch (e) {} return fresh(); })();
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 function addXP(n){ S.xp += n; save(); $("#xpVal").textContent = S.xp; }
+/* points once per question: a right answer to a question already rewarded (same kind, text and answer) gives no new xp */
+function xqKey(){ const s = Array.prototype.join.call(arguments, "|"); let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
 /* a part mastered (80% of a full round, or 24 of 30 in the test): the arcade (assets/arcade.js) gives play time for it, once */
 function master(m){ if (!S.mastered || typeof S.mastered !== "object") S.mastered = {}; if (!S.mastered[m]) S.mastered[m] = Date.now(); }
 
@@ -625,12 +627,17 @@ const lessonLink = l => '<a href="#' + anchor(l) + '" data-act="lesson" data-l="
 /* ---------- ANSWERS ---------- */
 function record(ok, given, right, why, l, text, p){
   R.res.push({ok, given, right, why, l, text, p, type:R.steps[R.i].type});
-  if (ok) addXP(10);
+  R.rep = false;
+  if (ok){
+    if (!S.xq || typeof S.xq !== "object") S.xq = {};
+    const k = xqKey(R.steps[R.i].type, text, right);
+    if (S.xq[k]) R.rep = true; else { S.xq[k] = 1; addXP(10); }
+  }
 }
 function feedback(ok, why, l, extra){
   R.locked = true;
   const last = R.i === R.steps.length - 1;
-  $("#fbBox").innerHTML = '<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + (ok ? "Nice! ✔" : "Not quite ✖") + '</span>' + (extra || "")
+  $("#fbBox").innerHTML = '<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + (ok ? "Nice! ✔" : "Not quite ✖") + '</span>' + (ok && R.rep ? '<p class="why">⭐ You already got points for this question, so no new points this time. New points come from questions you haven’t answered right before.</p>' : "") + (extra || "")
     + '<p class="why">' + esc(why) + '</p>' + (ok ? "" : lessonPeek(l)) + '</div>'
     + '<div class="actions"><button class="btn ink" type="button" data-act="next" id="nextBtn">' + (last ? "See my result →" : "Next →") + '</button></div>';
   announce((ok ? "Correct. " : "Not quite. ") + why);
@@ -681,9 +688,9 @@ function result(){
   const res = R.res, right = res.filter(r => r.ok).length;
   let h = '<section class="result panel p-' + MODES[R.mode].p + '">';
   if (R.mode === "test"){
-    S.tests++; if (S.best === null || right > S.best) S.best = right;
+    const nb = S.best === null || right > S.best; S.tests++; if (nb) S.best = right;
     if (right >= 24) master("test");
-    addXP(20);
+    if (nb) addXP(20);   /* only a new best score earns the test bonus */
     h += '<p class="q-part">Practice test</p><div class="big">' + right + ' <small>of ' + res.length + '</small></div><div class="parts5">'
       + PARTS.map(p => { const mine = res.filter(r => r.p === p.id); return '<div class="stat"><b>' + mine.filter(r => r.ok).length + '/' + mine.length + '</b><span>' + p.short + '</span></div>'; }).join("") + '</div>'
       + '<p>' + (right >= 27 ? "Excellent: you are ready! 🌟 Now write one letter below and check it." : right >= 21 ? "Good work. Fix the questions below, then try a new test." : "Review the parts below, then try a new test: the questions change every time.") + '</p>';
@@ -796,7 +803,7 @@ function renderReport(text){
   if (r.pass && isModel(text)) verdict = '<p class="verdict no">That is the model letter. Write your own letter to earn ⭐.</p>';
   else if (r.pass){
     const hsh = hashText(text);
-    if (hsh !== S.lh){ S.lh = hsh; S.letters++; addXP(30); verdict = '<p class="verdict ok">Everything the quiz asks for is there! ⭐ +30</p>'; }
+    if (hsh !== S.lh){ S.lh = hsh; S.letters++; const pay = S.ld !== todayISO(); if (pay){ S.ld = todayISO(); addXP(30); } else save(); verdict = '<p class="verdict ok">Everything the quiz asks for is there!' + (pay ? ' ⭐ +30' : '') + '</p>' + (pay ? '' : '<p class="verdict">The ⭐ +30 for a letter comes once a day.</p>'); }
     else verdict = '<p class="verdict ok">Everything the quiz asks for is there!</p>';
   } else verdict = '<p class="verdict no">Almost: fix the ✖ items, then check again.</p>';
   $("#report").innerHTML = verdict + h;

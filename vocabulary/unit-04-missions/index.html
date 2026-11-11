@@ -524,7 +524,7 @@ const SECTIONS = {def:'Meanings',word:'Meanings',ar:'Meanings',right:'Right Word
 
 /* ================= state ================= */
 function freshState(){
-  return { v:1, updatedAt:0, xp:0, ws:{}, sec:{}, missions:{}, log:[], games:{matchBest:0, speedBest:0}, sound:true };
+  return { v:1, updatedAt:0, xp:0, xq:{}, ws:{}, sec:{}, missions:{}, log:[], games:{matchBest:0, speedBest:0}, sound:true };
 }
 let S = freshState();
 try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(freshState(), JSON.parse(raw)); } catch (e) { /* storage unavailable */ }
@@ -570,7 +570,14 @@ function record(word, type, score){
   const sec = SECTIONS[type] || 'Other';
   const ss = S.sec[sec] || (S.sec[sec] = {c:0, t:0});
   ss.t++; ss.c += score;
-  S.xp = (S.xp || 0) + Math.round(score * 10);   /* 10 per right answer, 5 with a hint: counts towards the site's rewards */
+}
+/* xp (counts towards the site's rewards) once per question: a question already rewarded gives no new points */
+function xpOnce(key, n){
+  if (!S.xq || typeof S.xq !== 'object') S.xq = {};
+  let hs = 5381; for (let i = 0; i < key.length; i++) hs = ((hs << 5) + hs + key.charCodeAt(i)) | 0;
+  const k = (hs >>> 0).toString(36);
+  if (S.xq[k]) return false;
+  S.xq[k] = 1; S.xp = (S.xp || 0) + n; return true;
 }
 function weightedWords(n, filter){
   let pool = W.filter(filter || (() => true));
@@ -888,7 +895,7 @@ function match(){
   const tryPair = (a, b) => {
     if (a.dataset.w === b.dataset.w) {
       a.classList.add('gone'); b.classList.add('gone'); a.classList.remove('sel'); b.classList.remove('sel'); sfx.ok(); done++;
-      record(a.dataset.w, 'def', 1);
+      record(a.dataset.w, 'def', 1); xpOnce('match|' + a.dataset.w, 10);
       if (done === 6) {
         clearInterval(iv);
         const sec = Math.round((Date.now() - t0) / 1000);
@@ -963,7 +970,7 @@ function speed(){
       const b = h('button', {class:'opt', type:'button'}, h('span', {class:'k'}, 'ABC'[k]), h('span', {html:o.html}));
       b.addEventListener('click', () => {
         [...opts.children].forEach((c) => c.disabled = true);
-        if (o.ok) { score++; streak++; b.classList.add('ok'); sfx.ok(); record(x.w, 'speed', 1); setTimeout(next, 280); }
+        if (o.ok) { score++; streak++; b.classList.add('ok'); sfx.ok(); record(x.w, 'speed', 1); xpOnce('speed|' + x.w, 10); setTimeout(next, 280); }
         else { streak = 0; b.classList.add('no'); end -= 3000; sfx.no(); record(x.w, 'speed', 0);
           [...opts.children].forEach((c, j) => { if (q.opts[j].ok) c.classList.add('ok'); }); setTimeout(next, 900); }
       });
@@ -999,6 +1006,7 @@ function showQ(){
     z.score += score; z.streak = score === 1 ? z.streak + 1 : 0;
     z.answers.push({q, score, yours});
     record(q.word, q.type, score);
+    const rep = score > 0 && !xpOnce(['quiz', q.type, q.word, q.sentence || q.cue || q.filled || q.prompt].join('|'), Math.round(score * 10));
     save();
     if (score === 1) sfx.ok(); else sfx.no();
     const right = q.kind === 'mcq' ? q.opts.find((o) => o.ok).html : q.accept[0];
@@ -1006,7 +1014,8 @@ function showQ(){
       h('span', {class:'fi', 'aria-hidden':'true'}, score === 1 ? (z.streak >= 3 ? '🔥' : '✅') : score > 0 ? '🟡' : '❌'),
       h('div', null, h('b', {class:'t'}, score === 1 ? pick(['Correct!', 'Nice!', 'Yes!', 'Spot on!']) + (z.streak >= 3 ? ' ' + z.streak + ' in a row!' : '') : score > 0 ? 'Right word — but you used a hint.' : 'Not quite.'),
         score < 1 && q.kind === 'mcq' ? h('div', {html:'Answer: <b>' + right + '</b>'}) : null,
-        h('div', {html:q.why}))));
+        h('div', {html:q.why}),
+        rep ? h('div', {class:'muted', style:'margin-top:4px;font-size:14.5px'}, '⭐ Already counted: you got points for this question before.') : null)));
     foot.append(nextBtn); setTimeout(() => nextBtn.focus(), 50);
     const st = $('#streak'); if (st) st.textContent = z.streak >= 2 ? '🔥 ' + z.streak : '';
   };
