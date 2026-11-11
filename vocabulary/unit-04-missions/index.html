@@ -753,6 +753,7 @@ function paintFoot(){
   const f = $('#foot'); if (!f) return;
   f.innerHTML = '';
   f.append(h('span', null, '☁️ Progress syncs across the family’s devices'),
+           h('a', {class:'back', href:'../../english/missions/index.html'}, '✏️ Grammar & reading missions'),
            h('a', {class:'back', href:ARCADE}, '🎮 Arcade'));
 }
 function backBtn(){ return h('button', {class:'back', type:'button', onclick:home}, '← Back to base'); }

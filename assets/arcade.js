@@ -55,6 +55,18 @@
     if (!(ok("m1") && ok("m2") && ok("m3"))) return [];
     return Object.keys(VQ4).filter(ok).map(function (id) { return ["vq4-" + id, "مهمات الوحدة 4: " + VQ4[id]]; });
   }
+  var EMQ2 = {g: {m1: "Nouns", m2: "Pronouns", m3: "Subject & Object Pronouns", m4: "Fix the Errors", boss: "Final Boss"},
+              r: {m1: "Key Details", m2: "Words from the Text", m3: "Central & Main Idea", m4: "Main Idea Practice", boss: "Final Boss"}};   /* english/missions */
+  var EMQ2_T = {g: "مهمات القواعد: ", r: "مهمات القراءة: "};
+  function emq2(v) {   /* per track: nothing counts until its missions 1, 2 and 3 are all passed; then each passed mission is a part */
+    var out = [];
+    ["g", "r"].forEach(function (t) {
+      var m = v && v.missions && v.missions[t], ok = function (id) { return !!(m && m[id] && m[id].passed); };
+      if (!(ok("m1") && ok("m2") && ok("m3"))) return;
+      Object.keys(EMQ2[t]).filter(ok).forEach(function (id) { out.push(["em-" + t + "-" + id, EMQ2_T[t] + EMQ2[t][id]]); });
+    });
+    return out;
+  }
   var SOURCES = [
     {key: "islamic-g6-quiz2-v1", page: "islamic/quiz-2/index.html", title: "الإسلامية: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة، أو 12 من 15 في الاختبار التجريبي",
      all: Object.keys(ISL).map(function (m) { return ["isl-" + m, "الإسلامية: " + ISL[m]]; }),
@@ -71,6 +83,9 @@
     {key: "vocabquest-sadlier-unit4-v1", page: "vocabulary/unit-04-missions/index.html", title: "الإنجليزي: مهمات كلمات الوحدة 4", rule: "ما يُحسب شيء قبل اجتياز المهمات 1 و2 و3 (80%)، بعدها كل مهمة مجتازة جزء (والزعيم الأخير 85%)",
      all: Object.keys(VQ4).map(function (id) { return ["vq4-" + id, "مهمات الوحدة 4: " + VQ4[id]]; }),
      parts: vq4},
+    {key: "english-missions-quiz2-v1", page: "english/missions/index.html", title: "الإنجليزي: مهمات القواعد والقراءة", rule: "لكل قسم: ما يُحسب شيء قبل اجتياز المهمات 1 و2 و3 (80%)، بعدها كل مهمة مجتازة جزء (والزعيم الأخير 85%)",
+     all: ["g", "r"].reduce(function (a, t) { return a.concat(Object.keys(EMQ2[t]).map(function (id) { return ["em-" + t + "-" + id, EMQ2_T[t] + EMQ2[t][id]]; })); }, []),
+     parts: emq2},
     {key: "arabic-g6-quiz2-v1", page: "arabic/quiz-2/index.html", title: "لغتي: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة، أو 16 من 20 في الاختبار التجريبي، أو قطعة الإملاء بلا خطأ",
      all: Object.keys(AR).map(function (m) { return ["ar-" + m, "لغتي: " + AR[m]]; }),
      parts: function (v) { return keys(v && v.mastered).filter(function (m) { return AR[m]; }).map(function (m) { return ["ar-" + m, "لغتي: " + AR[m]]; }); }},

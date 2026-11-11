@@ -1,0 +1,1260 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Grammar &amp; Reading Missions</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23FFC93C%22 stroke=%22%23141B33%22 stroke-width=%225%22/%3E%3Ctext x=%2232%22 y=%2242%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-weight=%22900%22 font-size=%2224%22 fill=%22%23141B33%22%3EQ2%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@500;700;800;900&family=Tajawal:wght@500;700;800&display=swap">
+<style>
+/* Grammar & Reading Missions (english/missions): English Quiz 2's grammar (Chapter 7, Lessons 7.1–7.3) and reading
+   ("Personal Statement: Individual Twin" and central or main idea) in the style of Unit 4 Missions: lessons, a speed round,
+   five missions per track with questions made fresh every time, and a report by skill.
+   Progress is saved in english-missions-quiz2-v1 (synced by assets/sync.js; xp once per question counts towards the rewards).
+   Arcade time (assets/arcade.js, emq2): nothing from a track counts until its Missions 1, 2 and 3 are passed; then those
+   three count together, and Mission 4 and the Final Boss one part each. */
+
+:root{
+  --bg:#EEF2FA; --surface:#FFFFFF; --surface-2:#F3F6FC; --ink:#131A31; --muted:#58627F; --line:#D8DEEC;
+  --banana:#FFC93C; --banana-deep:#D99B00; --banana-ink:#2A1E00;
+  --blue:#2D5BFF; --blue-soft:#E3EAFF;
+  --good:#0F8F55; --good-soft:#DDF4E8; --bad:#D23F35; --bad-soft:#FCE5E3; --warn:#A86400; --warn-soft:#FFF1D6;
+  --vault:#141B33; --vault-2:#1F2849; --vault-ink:#F3F5FF; --vault-muted:#A9B3D6;
+  --shadow:0 1px 2px rgba(19,26,49,.06),0 12px 30px -16px rgba(19,26,49,.30);
+  --f-display:'Bungee','Nunito',system-ui,sans-serif;
+  --f-body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-ar:'Tajawal','Geeza Pro','Noto Sans Arabic',system-ui,sans-serif;
+  --r:16px; --r-l:22px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1326; --surface:#151D37; --surface-2:#1B2546; --ink:#EBEFFF; --muted:#A2ACCA; --line:#2A355A;
+    --banana:#FFCD47; --banana-deep:#FFB703; --banana-ink:#241A00;
+    --blue:#7A9BFF; --blue-soft:rgba(122,155,255,.16);
+    --good:#3DD68C; --good-soft:rgba(61,214,140,.15); --bad:#FF7B70; --bad-soft:rgba(255,123,112,.15); --warn:#FFB547; --warn-soft:rgba(255,181,71,.14);
+    --vault:#080D1D; --vault-2:#141C38; --vault-ink:#F3F5FF; --vault-muted:#A9B3D6;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 32px -16px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1326; --surface:#151D37; --surface-2:#1B2546; --ink:#EBEFFF; --muted:#A2ACCA; --line:#2A355A;
+  --banana:#FFCD47; --banana-deep:#FFB703; --banana-ink:#241A00;
+  --blue:#7A9BFF; --blue-soft:rgba(122,155,255,.16);
+  --good:#3DD68C; --good-soft:rgba(61,214,140,.15); --bad:#FF7B70; --bad-soft:rgba(255,123,112,.15); --warn:#FFB547; --warn-soft:rgba(255,181,71,.14);
+  --vault:#080D1D; --vault-2:#141C38; --vault-ink:#F3F5FF; --vault-muted:#A9B3D6;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 32px -16px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:10px}
+[lang="ar"]{font-family:var(--f-ar);direction:rtl;unicode-bidi:isolate}
+.ar-line{display:block;font-family:var(--f-ar);direction:rtl;text-align:right;color:var(--muted);font-size:15px;line-height:1.6}
+h1,h2,h3{margin:0;line-height:1.2;text-wrap:balance}
+p{margin:0}
+.muted{color:var(--muted)}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:10px;min-height:58px;padding-block:6px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:2px;margin-right:auto;text-align:left}
+.brand-badge{width:40px;height:40px;border-radius:12px;background:var(--banana);color:var(--banana-ink);display:grid;place-items:center;font-family:var(--f-display);font-size:16px;box-shadow:0 3px 0 var(--banana-deep)}
+.brand b{display:block;font-family:var(--f-display);font-weight:400;font-size:17px;letter-spacing:.02em}
+.brand small{display:block;color:var(--muted);font-size:12.5px;font-weight:700}
+.chip{text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-weight:800;font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.chip.lock{color:var(--muted)}
+.chip.open{background:var(--good-soft);border-color:transparent;color:var(--good)}
+.chip.run{background:var(--banana);color:var(--banana-ink);border-color:transparent;animation:pulse 1.4s ease-in-out infinite}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;font-size:17px}
+
+main{padding-block:18px 90px}
+.stack{display:flex;flex-direction:column;gap:18px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 18px;border-radius:14px;border:2px solid transparent;font-weight:900;font-size:16px;line-height:1.2;transition:transform .1s ease,opacity .2s}
+.btn:active{transform:translateY(2px)}
+.btn-main{background:var(--banana);color:var(--banana-ink);box-shadow:0 4px 0 var(--banana-deep)}
+.btn-main:active{box-shadow:0 2px 0 var(--banana-deep)}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 4px 0 color-mix(in srgb,var(--blue) 60%,#000 40%)}
+.btn-ghost{background:var(--surface);border-color:var(--line)}
+.btn-sm{min-height:38px;padding:6px 14px;font-size:14.5px;border-radius:12px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:stretch}
+.hello{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;min-width:0}
+.eyebrow{font-size:12.5px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:var(--blue)}
+.hello h1{font-family:var(--f-display);font-weight:400;font-size:clamp(26px,4.6vw,38px);letter-spacing:.01em}
+.hello h1 em{font-style:normal;color:var(--banana-deep)}
+.facts{display:flex;gap:8px;flex-wrap:wrap}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:6px 12px;font-weight:800;font-size:14.5px}
+.fact b{font-variant-numeric:tabular-nums}
+.ready{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin-top:auto}
+.ring{width:74px;height:74px}
+.ring circle{fill:none;stroke-width:8}
+.ring .bg{stroke:var(--surface-2)}
+.ring .fg{stroke:var(--good);stroke-linecap:round;transition:stroke-dashoffset 1s ease}
+.ring text{font-family:var(--f-display);font-size:17px;fill:var(--ink)}
+
+/* vault */
+.vault{position:relative;background:var(--vault);color:var(--vault-ink);border-radius:var(--r-l);padding:20px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;min-width:0}
+.vault::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:22px 22px;pointer-events:none}
+.vault > *{position:relative}
+.vault .vt{display:flex;align-items:center;gap:10px}
+.vault .vt b{font-family:var(--f-display);font-weight:400;font-size:18px;letter-spacing:.03em}
+.vault .state{margin-left:auto;font-size:12.5px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--vault-2);color:var(--vault-muted)}
+.vault .state.on{background:var(--banana);color:var(--banana-ink)}
+.clock{font-family:var(--f-display);font-size:clamp(46px,9vw,64px);line-height:1;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:var(--banana)}
+.clock.dim{color:var(--vault-muted);opacity:.55}
+.vault .msg{color:var(--vault-muted);font-weight:700;font-size:15px}
+.vault .msg b{color:var(--vault-ink)}
+.vault .ar-line{color:var(--vault-muted);margin-top:4px}
+.locks{display:flex;gap:8px;flex-wrap:wrap}
+.lockpill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--vault-2);font-weight:800;font-size:13.5px;color:var(--vault-muted)}
+.lockpill.done{background:color-mix(in srgb,var(--good) 25%,var(--vault-2));color:#CFF7E2}
+.vault .btn-ghost{background:var(--vault-2);border-color:transparent;color:var(--vault-ink)}
+.shake-lock{display:inline-block;animation:wob 2.8s ease-in-out infinite}
+
+/* sections */
+.sec-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sec-h h2{font-family:var(--f-display);font-weight:400;font-size:21px;letter-spacing:.02em}
+.tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tool{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);transition:transform .15s}
+.tool:hover{transform:translateY(-2px)}
+.tool .ti{font-size:28px;line-height:1}
+.tool b{font-weight:900;font-size:16.5px}
+.tool span{font-size:14px;color:var(--muted);line-height:1.4}
+.tool .best{font-size:12.5px;font-weight:900;color:var(--blue)}
+
+/* mission track */
+.track{display:flex;flex-direction:column;gap:12px}
+.mission{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.mission .tier{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-family:var(--f-display);font-size:20px;background:var(--surface-2);border:2px solid var(--line)}
+.mission.passed .tier{background:var(--good);border-color:var(--good);color:#fff}
+.mission.boss{border:2px solid var(--banana-deep)}
+.mission.boss .tier{background:var(--banana);border-color:var(--banana-deep);color:var(--banana-ink)}
+.mission h3{font-size:18px;font-weight:900}
+.mission .sub{font-size:14.5px;color:var(--muted);line-height:1.4}
+.mission .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:900;padding:3px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted)}
+.tag.min{background:var(--banana);color:var(--banana-ink)}
+.tag.ok{background:var(--good-soft);color:var(--good)}
+.tag.mid{background:var(--warn-soft);color:var(--warn)}
+.tag.low{background:var(--bad-soft);color:var(--bad)}
+
+/* panels */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:18px;box-shadow:var(--shadow)}
+.back{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--muted);font-weight:900;padding:4px 0}
+.back:hover{color:var(--ink)}
+
+/* word cards */
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-weight:800;font-size:14px}
+.filters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.wcard{position:relative;display:flex;flex-direction:column;gap:2px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;min-height:92px;box-shadow:var(--shadow)}
+.wcard .n{position:absolute;top:10px;right:12px;font-size:12px;font-weight:900;color:var(--muted);font-variant-numeric:tabular-nums}
+.wcard b{font-size:18.5px;font-weight:900}
+.wcard i{font-style:normal;font-size:13px;color:var(--muted);font-weight:700}
+.wcard .ar{font-family:var(--f-ar);direction:rtl;text-align:right;font-size:14.5px;color:var(--muted);margin-top:auto}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--line);vertical-align:middle}
+.dot.ok{background:var(--good)}.dot.mid{background:var(--warn)}.dot.low{background:var(--bad)}
+
+/* word detail */
+.detail{display:flex;flex-direction:column;gap:14px}
+.dh{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dh h2{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,44px);letter-spacing:.01em}
+.pron{font-weight:800;color:var(--muted)}
+.posb{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;padding:4px 10px;border-radius:999px;background:var(--blue-soft);color:var(--blue)}
+.meaning{font-size:20px;font-weight:800;line-height:1.45}
+.ar-big{font-family:var(--f-ar);direction:rtl;text-align:right;font-size:21px;font-weight:800;color:var(--banana-deep)}
+.trick{display:flex;gap:10px;background:var(--warn-soft);border-radius:14px;padding:12px 14px;font-weight:700}
+.trick .ti{font-size:22px;line-height:1.2}
+.ex{background:var(--surface-2);border-left:5px solid var(--blue);border-radius:10px;padding:10px 14px;font-size:17px}
+.ex mark{background:var(--banana);color:var(--banana-ink);border-radius:5px;padding:0 4px;font-weight:900}
+.sa{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sa > div{background:var(--surface-2);border-radius:12px;padding:10px 12px;min-width:0}
+.sa small{display:block;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sa .s{color:var(--good);font-weight:800}
+.sa .a{color:var(--bad);font-weight:800}
+.note{font-size:15px;color:var(--muted)}
+
+/* flashcards */
+.flash{perspective:1000px;width:100%;max-width:520px;margin:0 auto;min-height:260px;background:none;border:0;padding:0;display:block}
+.flash .in{position:relative;display:block;min-height:260px;transition:transform .5s cubic-bezier(.3,1.3,.5,1);transform-style:preserve-3d}
+.flash.on .in{transform:rotateY(180deg)}
+.flash .f,.flash .bk{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px;border-radius:var(--r-l);backface-visibility:hidden;-webkit-backface-visibility:hidden;text-align:center}
+.flash .f{background:var(--vault);color:var(--vault-ink);box-shadow:var(--shadow)}
+.flash .f b{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,7vw,46px);color:var(--banana)}
+.flash .f small{color:var(--vault-muted);font-weight:800}
+.flash .bk{background:var(--surface);border:3px solid var(--banana);transform:rotateY(180deg);font-size:17.5px}
+.flash .bk .m{font-weight:900;font-size:19px}
+.flash .bk .arx{font-family:var(--f-ar);direction:rtl;font-size:19px;color:var(--banana-deep);font-weight:800}
+
+/* match game */
+.mgrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:10px}
+.mcol{display:flex;flex-direction:column;gap:8px}
+.mt{min-height:52px;padding:8px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface);text-align:left;font-weight:800;font-size:15.5px;line-height:1.3;transition:transform .12s,border-color .15s,background .15s}
+.mt.word{font-size:17px;font-weight:900}
+.mt.sel{border-color:var(--blue);background:var(--blue-soft);transform:translateY(-2px)}
+.mt.gone{border-color:var(--good);background:var(--good-soft);color:var(--good);opacity:.55;pointer-events:none}
+.mt.no{border-color:var(--bad);background:var(--bad-soft);animation:shake .4s ease}
+
+/* quiz */
+.qhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.qhead .qn{font-family:var(--f-display);font-size:16px;font-variant-numeric:tabular-nums}
+.bar{flex:1;min-width:120px;height:12px;border-radius:99px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;background:var(--banana);border-radius:99px;transition:width .35s ease}
+.streak{font-weight:900;color:var(--banana-deep);white-space:nowrap}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;animation:slide .3s ease}
+.qsec{font-size:12.5px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:var(--blue)}
+.qp{font-size:19px;font-weight:800;line-height:1.5}
+.qp q{quotes:"“" "”"}
+.qs{font-size:19px;line-height:1.7;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.qs b{background:var(--banana);color:var(--banana-ink);padding:0 4px;border-radius:5px}
+.blank{display:inline-block;min-width:90px;border-bottom:3px solid var(--blue);text-align:center;font-weight:900;color:var(--blue)}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{display:flex;align-items:center;gap:12px;width:100%;min-height:54px;padding:10px 14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);text-align:left;font-size:17px;font-weight:700;line-height:1.4;transition:border-color .15s,background .15s}
+.opt:hover:not([disabled]){border-color:var(--blue)}
+.opt .k{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--surface-2);font-weight:900;font-size:14px}
+.opt.ok{border-color:var(--good);background:var(--good-soft)}
+.opt.ok .k{background:var(--good);color:#fff}
+.opt.no{border-color:var(--bad);background:var(--bad-soft)}
+.opt.no .k{background:var(--bad);color:#fff}
+.opt[disabled]{cursor:default}
+.opt.dim{opacity:.5}
+.opts.two .opt{justify-content:center;font-size:19px;font-weight:900}
+.typerow{display:flex;gap:10px;flex-wrap:wrap}
+.inp{flex:1 1 200px;min-width:0;height:54px;padding:0 14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-size:20px;font-weight:800}
+.inp:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
+.inp.ok{border-color:var(--good);background:var(--good-soft)}
+.inp.no{border-color:var(--bad);background:var(--bad-soft)}
+.hintline{font-size:15px;font-weight:800;color:var(--warn)}
+.fb{border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;animation:fadeUp .25s ease}
+.fb .fi{font-size:22px;line-height:1.2}
+.fb b.t{display:block;font-weight:900;font-size:17.5px}
+.fb.ok{background:var(--good-soft)}
+.fb.no{background:var(--bad-soft)}
+.fb.mid{background:var(--warn-soft)}
+.qfoot{display:flex;justify-content:flex-end;gap:10px}
+
+/* results */
+.result{text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.big-score{font-family:var(--f-display);font-size:clamp(46px,10vw,70px);line-height:1;font-variant-numeric:tabular-nums}
+.big-score.pass{color:var(--good)}
+.big-score.fail{color:var(--bad)}
+.earn{display:inline-flex;align-items:center;gap:8px;background:var(--vault);color:var(--banana);font-family:var(--f-display);font-size:20px;padding:10px 18px;border-radius:14px;animation:pop .6s cubic-bezier(.3,1.6,.5,1)}
+.mistakes{display:flex;flex-direction:column;gap:10px;text-align:left;width:100%}
+.mist{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:15.5px}
+.mist .y{color:var(--bad);font-weight:800}
+.mist .r{color:var(--good);font-weight:900}
+
+/* report */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.rw{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-weight:800;font-size:15px}
+.rw.ok{background:var(--good-soft);border-color:transparent}
+.rw.mid{background:var(--warn-soft);border-color:transparent}
+.rw.low{background:var(--bad-soft);border-color:transparent}
+.rw span{font-variant-numeric:tabular-nums;font-size:13.5px}
+.skill{display:grid;grid-template-columns:minmax(0,1fr) 120px 48px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line)}
+.skill:last-child{border-bottom:0}
+.skill .br{height:10px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.skill .br i{display:block;height:100%;border-radius:99px}
+.skill .pc{font-weight:900;font-size:14px;text-align:right;font-variant-numeric:tabular-nums}
+table.log{width:100%;border-collapse:collapse;font-size:14.5px;font-variant-numeric:tabular-nums}
+table.log th,table.log td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.log th{color:var(--muted);font-size:12.5px;text-transform:uppercase;letter-spacing:.06em}
+.tbl{overflow-x:auto}
+.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+
+/* pin pad */
+.pin{display:flex;flex-direction:column;align-items:center;gap:14px}
+.pin-dots{display:flex;gap:12px}
+.pin-dots i{width:16px;height:16px;border-radius:50%;border:2px solid var(--muted)}
+.pin-dots i.f{background:var(--ink);border-color:var(--ink)}
+.pad{display:grid;grid-template-columns:repeat(3,72px);gap:10px}
+.pad button{height:60px;border-radius:14px;border:1px solid var(--line);background:var(--surface);font-weight:900;font-size:22px}
+
+/* overlays */
+.modal-bg{position:fixed;inset:0;z-index:60;background:rgba(8,12,24,.6);display:grid;place-items:center;padding:16px;animation:fade .2s ease}
+.modal{background:var(--surface);border-radius:var(--r-l);padding:22px;max-width:420px;width:100%;text-align:center;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.modal .em{font-size:56px;line-height:1}
+.modal h3{font-family:var(--f-display);font-weight:400;font-size:24px}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:70;max-width:min(520px,calc(100vw - 32px));background:var(--vault);color:var(--vault-ink);border-radius:16px;padding:12px 16px;font-weight:800;box-shadow:var(--shadow);animation:toastIn .3s ease}
+.fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80}
+.foot{margin-top:8px;font-size:13.5px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+@keyframes wob{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(-12deg)}93%{transform:rotate(10deg)}97%{transform:rotate(-5deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+@keyframes slide{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.1);opacity:1}100%{transform:scale(1)}}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,16px)}to{opacity:1;transform:translate(-50%,0)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr}
+  .tools{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .two-col{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  body{font-size:16px}
+  .brand small{display:none}
+  .brand b{font-size:14.5px}
+  .brand-badge{width:34px;height:34px;font-size:14px}
+  .chip{padding:5px 9px;font-size:13px}
+  .icon-btn{width:36px;height:36px}
+  .topbar .wrap{flex-wrap:nowrap;gap:6px}
+  .mission{grid-template-columns:auto minmax(0,1fr)}
+  .mission .go{grid-column:1 / -1}
+  .mission .go .btn{width:100%}
+  .opts.two{grid-template-columns:1fr}
+  .sa{grid-template-columns:1fr}
+  .mgrid{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:6px}
+  .mt{font-size:14px;padding:8px}
+  .skill{grid-template-columns:minmax(0,1fr) 70px 44px}
+  .qcard{padding:16px}
+}
+
+/* grammar & reading extras */
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tabs button{display:flex;gap:8px;align-items:center;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 16px;font-weight:900;font-size:16px}
+.tabs button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lesson{display:flex;flex-direction:column;gap:12px}
+.lesson h3{font-size:20px;font-weight:900}
+.rule{background:var(--surface-2);border-left:5px solid var(--blue);border-radius:10px;padding:10px 14px;font-size:17px}
+.ex-list{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+table.chart{width:100%;border-collapse:collapse;font-size:15.5px}
+table.chart th,table.chart td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+table.chart th{background:var(--surface-2)}
+.toks{display:flex;flex-wrap:wrap;gap:6px;font-size:18px;line-height:1.4}
+.tok{border:2px solid var(--line);background:var(--surface);border-radius:10px;padding:6px 10px;font-weight:800;min-height:44px}
+.tok.sel{border-color:var(--blue);background:var(--blue-soft)}
+.tok.ok{border-color:var(--good);background:var(--good-soft)}
+.tok.no{border-color:var(--bad);background:var(--bad-soft)}
+.tok.miss{border-color:var(--good);border-style:dashed}
+.passage{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:17px;line-height:1.7;display:flex;flex-direction:column;gap:4px}
+.passage b{font-weight:900}
+</style>
+</head><body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+<script src="../../assets/rewards.js" data-root="../../"></script>
+<script src="../../assets/arcade.js" data-root="../../"></script>
+<script src="../../assets/fx.js"></script>
+
+<header class="topbar">
+  <div class="wrap">
+    <button class="brand" id="homeBtn" type="button" aria-label="Back to base">
+      <span class="brand-badge" aria-hidden="true">Q2</span>
+      <span><b>Quiz 2 Missions</b><small>English · Grammar and Reading</small></span>
+    </button>
+    <a class="chip lock" id="vaultChip" href="../../arcade/index.html">🔒 Arcade time locked</a>
+    <button class="icon-btn" id="soundBtn" type="button" aria-label="Sound on or off">🔊</button>
+  </div>
+</header>
+
+<main class="wrap" id="app" aria-live="polite"></main>
+
+<script>
+(function(){
+'use strict';
+/* ================= people and places for the templates ================= */
+const BOYS = ['Omar', 'Faisal', 'Khalid', 'Yousef', 'Ali', 'Saad', 'Hamza', 'Majed'];
+const GIRLS = ['Sara', 'Lina', 'Noura', 'Huda', 'Reem', 'Maha', 'Jana', 'Dana'];
+const ANY = BOYS.concat(GIRLS);
+
+/* ================= GRAMMAR: Chapter 7, Lessons 7.1–7.3 ================= */
+const PAIRS = [ /* [common noun, proper noun] */
+  ['city', 'Riyadh'], ['city', 'Jeddah'], ['river', 'the Nile River'], ['country', 'Kenya'], ['country', 'Japan'],
+  ['holiday', 'Eid al-Fitr'], ['language', 'Arabic'], ['language', 'Spanish'], ['team', 'Al Hilal'],
+  ['bridge', 'the Golden Gate Bridge'], ['mountain', 'Mount Everest'], ['sea', 'the Red Sea'], ['month', 'Ramadan'],
+  ['day', 'Friday'], ['planet', 'Mars'], ['street', 'King Fahd Road'], ['university', 'King Saud University'],
+  ['ocean', 'the Pacific Ocean'], ['character', 'Harry Potter']
+];
+const CAPS = [ /* [correct, wrong versions]; {n} is a name */
+  ['{n} swam in the Red Sea during Eid al-Fitr.', ['{n} swam in the red sea during Eid al-Fitr.', '{n} swam in the Red Sea during eid al-fitr.', '{n} Swam in the Red Sea during Eid al-Fitr.']],
+  ['My cousin studies at King Saud University in Riyadh.', ['My cousin studies at king saud university in Riyadh.', 'My Cousin studies at King Saud University in Riyadh.', 'My cousin studies at King Saud University in riyadh.']],
+  ['On Friday, {n} watched Al Hilal play in Jeddah.', ['On friday, {n} watched Al Hilal play in Jeddah.', 'On Friday, {n} watched al hilal play in jeddah.', 'On Friday, {n} Watched Al Hilal play in Jeddah.']],
+  ['{n} read a book about Mount Everest in Nepal.', ['{n} read a book about mount everest in Nepal.', '{n} read a Book about Mount Everest in Nepal.', '{n} read a book about Mount Everest in nepal.']],
+  ['We drove along King Fahd Road during Ramadan.', ['We drove along king fahd road during Ramadan.', 'We drove along King Fahd Road during ramadan.', 'We Drove along King Fahd Road during Ramadan.']],
+  ['{n} speaks Arabic, English and a little Spanish.', ['{n} speaks arabic, english and a little spanish.', '{n} speaks Arabic, English and a little spanish.', '{n} Speaks Arabic, English and a little Spanish.']]
+];
+const IDEAS = ['courage', 'honesty', 'kindness', 'friendship', 'patience', 'freedom', 'honor', 'happiness'];
+const POS = [ /* the same word as a noun or a verb */
+  ['We will <b>park</b> the car near the gate.', 'verb'], ['The <b>park</b> was full of families.', 'noun'],
+  ['Please <b>answer</b> the question in full.', 'verb'], ['Her <b>answer</b> was correct.', 'noun'],
+  ['I <b>play</b> football after school.', 'verb'], ['The school <b>play</b> starts at six.', 'noun'],
+  ['Birds <b>fly</b> south in winter.', 'verb'], ['A <b>fly</b> landed on my sandwich.', 'noun'],
+  ['We <b>watch</b> the stars from the roof.', 'verb'], ['My new <b>watch</b> is silver.', 'noun'],
+  ['They <b>race</b> to the door every day.', 'verb'], ['Who won the <b>race</b>?', 'noun'],
+  ['Please <b>help</b> your little brother.', 'verb'], ['Thanks for your <b>help</b>.', 'noun'],
+  ['Leaves <b>fall</b> from the trees.', 'verb'], ['<b>Fall</b> is my favorite season.', 'noun']
+];
+const TAP_PROPER = [ /* * marks the words to tap; {x} fills in names and places */
+  '*{a} and *{b} flew from *{c1} to *{c2} on *{day}.',
+  'Last *{month}, *{a} visited the *Nile *River with *{b}.',
+  '*{a} told *{b} that *Al *Hilal won the match in *{c1}.',
+  'On *{day}, *{a} read a book about *Mount *Everest.'
+];
+const TAP_COMMON = [
+  'The *boys carried their *bags to the *bus.',
+  'My *grandmother keeps old *photos in a wooden *box.',
+  'A strong *storm knocked the *tree onto the *road.',
+  'The *teacher gave every *student a new *pencil.',
+  'Our *team won the *trophy after a long *match.',
+  'The *falcon caught a *mouse near the *farm.'
+];
+const PRON = {
+  personal: ['I', 'me', 'we', 'us', 'he', 'him', 'she', 'they', 'them'],
+  possessive: ['mine', 'ours', 'yours', 'hers', 'theirs', 'my', 'our', 'your', 'their'],
+  indefinite: ['anybody', 'everyone', 'nobody', 'several', 'both', 'each', 'few', 'many', 'someone', 'neither']
+};
+const SO = [ /* subject or object pronoun; role decides the rule */
+  {s:'{n} and ___ went to the market.', a:'I', w:'me', role:'subject'},
+  {s:'The teacher gave {n} and ___ a prize.', a:'me', w:'I', role:'object'},
+  {s:'___ and {n} are best friends.', a:'She', w:'Her', role:'subject'},
+  {s:'Between you and ___, the test was easy.', a:'me', w:'I', role:'prep'},
+  {s:'The winners are {n} and ___.', a:'he', w:'him', role:'pn'},
+  {s:'Coach {n} encouraged ___ before the match.', a:'us', w:'we', role:'object'},
+  {s:'___ students cleaned the classroom.', a:'We', w:'Us', role:'weus'},
+  {s:'Success is up to ___ students.', a:'us', w:'we', role:'weus'},
+  {s:'{n} sat next to ___ at lunch.', a:'them', w:'they', role:'prep'},
+  {s:'___ played chess after dinner.', a:'He and I', w:'Him and me', role:'subject'},
+  {s:'Grandma baked cookies for my sister and ___.', a:'me', w:'I', role:'prep'},
+  {s:'It was ___ who called last night.', a:'she', w:'her', role:'pn'},
+  {s:'My parents trust ___ with the house keys.', a:'him', w:'he', role:'object'},
+  {s:'{n} and ___ walked home together.', a:'they', w:'them', role:'subject'},
+  {s:'The coach glanced at ___ during the race.', a:'us', w:'we', role:'prep'},
+  {s:'The best players on the team are {n} and ___.', a:'I', w:'me', role:'pn'},
+  {s:'Please send the photos to {n} and ___.', a:'her', w:'she', role:'prep'},
+  {s:'___ and her brother built a sand castle.', a:'She', w:'Her', role:'subject'}
+];
+const ROLE_WHY = {
+  subject:'The pronoun is the <b>subject</b> (who does the action), so use a subject pronoun: I, we, he, she, they. Trick: cover the other person and listen — “___ went to the market” → <i>I went</i>.',
+  object:'The pronoun receives the action (a <b>direct object</b>), so use an object pronoun: me, us, him, her, them. Trick: cover the other person — “gave ___ a prize” → <i>gave me</i>.',
+  prep:'The pronoun comes after a <b>preposition</b> (to, for, with, at, between, next to), so use an object pronoun: me, us, him, her, them.',
+  pn:'The pronoun comes after a linking verb (is, are, was) and renames the subject. That is a <b>predicate nominative</b>, so use a subject pronoun: I, he, she, we, they.',
+  weus:'Drop the noun and listen: “We cleaned the classroom” (subject → <b>We</b>), “Success is up to us” (object → <b>us</b>).'
+};
+const ROLE_SKILL = {subject:'g-so', object:'g-so', prep:'g-prep', pn:'g-pn', weus:'g-weus'};
+const ROLES = [
+  ['<b>She</b> is the fastest runner in our class.', 'subject'],
+  ['Coach Ali encouraged <b>her</b> before the race.', 'direct object'],
+  ['My classmates were cheering for <b>me</b>.', 'object of a preposition'],
+  ['The winners are Katie and <b>she</b>.', 'predicate nominative'],
+  ['<b>We</b> visited the museum on Sunday.', 'subject'],
+  ['The puppy followed <b>us</b> all the way home.', 'direct object'],
+  ['Mom made sandwiches for <b>them</b>.', 'object of a preposition'],
+  ['The captain of the team is <b>he</b>.', 'predicate nominative'],
+  ['Grandpa called <b>him</b> on Friday.', 'direct object'],
+  ['The secret is between you and <b>me</b>.', 'object of a preposition']
+];
+
+/* ================= READING: “Personal Statement: Individual Twin” + central or main idea ================= */
+/* The essay is in his book (Reading & Writing Companion, pp. 42–44); everything here is written for the page. */
+const DETAILS = [ /* [question, right, wrongs, why (paragraph)] */
+  ['Who is Rachel?', 'The author’s twin sister', ['His best friend', 'His teacher', 'His cousin'], 'Paragraph 1: Rachel is his twin sister.'],
+  ['How were the twins raised when they were small?', 'To be inseparable — they even wore matching clothes', ['In two different cities', 'To compete with each other in sports', 'By their grandparents in another country'], 'Paragraph 1: they were raised to be inseparable and wore matching clothes.'],
+  ['Why did the twins start to split apart?', 'Their personalities and interests were growing different', ['They were angry with each other', 'Their parents told them to', 'They moved to different countries'], 'Paragraph 1: the split was not from anger; their personalities and interests were diverging.'],
+  ['What instrument did Rachel play?', 'The violin', ['The trumpet', 'The guitar', 'The drums'], 'Paragraph 3: he learned the trumpet and guitar instead of Rachel’s violin.'],
+  ['Which instruments did the author learn?', 'The trumpet and the guitar', ['The violin and the piano', 'Only the drums', 'The flute'], 'Paragraph 3: trumpet and guitar.'],
+  ['Which choice did the author make to be different from his sister?', 'He went to a separate high school', ['He joined her violin lessons', 'He kept wearing matching clothes', 'He gave up all his hobbies'], 'Paragraph 3: he chose to attend a separate high school.'],
+  ['Which activities kept him disciplined?', 'Landscape photography, fashion and fitness', ['Painting, cooking and chess', 'Gaming and football', 'Swimming and karate'], 'Paragraph 3 lists landscape photography, fashion and fitness.'],
+  ['Where did he look for leadership positions?', 'In clubs like NHS and UNICEF', ['In the school drama club', 'On the football team', 'At the science fair'], 'Paragraph 3: clubs like NHS (National Honor Society) and UNICEF.'],
+  ['How did building his own identity start?', 'As a necessity — a defense against not caring about anything', ['As a school project', 'As a joke with his friends', 'As his parents’ idea'], 'Paragraph 5: it started as a necessity and a defense against apathy (not caring).'],
+  ['What did building his identity grow into?', 'A passion that fuels all his other passions', ['A fight with his sister', 'A summer job', 'A book he is writing'], 'Paragraph 5: it became a passion that fueled all his other passions.'],
+  ['What “gift” does he say his twin gave him?', 'Individuality — being his own person', ['A guitar', 'A camera', 'Twin telepathy'], 'Paragraph 5: his twin gave him the permanent gift of individuality.'],
+  ['What does he say about “twin telepathy”?', 'It never worked for them', ['It helped them read each other’s minds', 'It made them think the same', 'It is the main topic of the essay'], 'Paragraph 1: their twin telepathy never came to be, so he can’t speak for her.'],
+  ['What pushed him into a mindset of strong individuality?', 'The fear of being a “double” — a copy of his twin', ['His teacher’s advice', 'A sports injury', 'Moving to a new city'], 'Paragraph 6: the threat of existing as a double of sorts pushed him.'],
+  ['Where were Zachary and his twin born?', 'San Antonio', ['Riyadh', 'New York', 'London'], 'The introduction: born in San Antonio, where they have always lived.'],
+  ['What kind of text is “Individual Twin”?', 'A personal statement — an essay for college applications', ['A short story', 'A news report', 'A poem'], 'The introduction: students write personal statements to show colleges who they are.']
+];
+const TF = [ /* [statement, true?, why] */
+  ['When they were young, the twins wore matching clothes.', true, 'Paragraph 1 says they wore matching clothes.'],
+  ['The author learned to play the trumpet.', true, 'Paragraph 3: trumpet and guitar.'],
+  ['The author went to a different high school from his sister.', true, 'Paragraph 3: he chose a separate high school.'],
+  ['The author believes his twin helped him become his own person.', true, 'Paragraphs 5–6: she gave him the gift of individuality.'],
+  ['The twins split apart because they hated each other.', false, 'Paragraph 1 says it was not caused by anger or contempt.'],
+  ['The author played the violin like his sister.', false, 'He learned the trumpet and guitar instead of Rachel’s violin.'],
+  ['The author thinks twins should always do the same things.', false, 'He worked hard to be different from his twin.'],
+  ['Twin telepathy helped the author understand how his sister felt.', false, 'He says their twin telepathy never came to be.']
+];
+const RWORDS = [ /* [word, forms accepted, meaning, Arabic, sentence (my own) with the word, clue note] */
+  ['diverging', ['diverging', 'diverge'], 'becoming more and more different; moving apart', 'يتباعد / يختلف تدريجياً', 'As the twins grew older, their interests kept <b>diverging</b>: one loved music, the other loved sports.', 'one loved music, the other loved sports'],
+  ['subvert', ['subvert'], 'to go against or overturn what people expect', 'يقلب التوقعات / يخالفها', 'He wanted to <b>subvert</b> the idea that twins must be exactly alike.', 'the idea that twins must be exactly alike'],
+  ['vehemently', ['vehemently'], 'with strong force and feeling', 'بقوة وحماس شديد', 'She fought <b>vehemently</b> against the unfair rule and refused to give up.', 'fought … refused to give up'],
+  ['merit', ['merit'], 'worth or value', 'قيمة / جدارة', 'We talked about the <b>merit</b> of each idea before choosing the best one.', 'before choosing the best one'],
+  ['sundry', ['sundry'], 'many different; various', 'متنوّع / شتّى', 'His backpack held <b>sundry</b> things: pens, snacks, a ball and a map.', 'pens, snacks, a ball and a map'],
+  ['attributes', ['attributes', 'attribute'], 'qualities or features of a person or thing', 'صفات / سمات', 'Patience and kindness are two of her best <b>attributes</b>.', 'patience and kindness'],
+  ['conformity', ['conformity'], 'acting the same as everyone else; following the crowd', 'مجاراة الآخرين / الامتثال', 'He fought against <b>conformity</b> by choosing his own hobbies instead of copying others.', 'instead of copying others'],
+  ['apathy', ['apathy'], 'not caring about anything', 'اللامبالاة', 'His <b>apathy</b> showed when he skipped practice and said, “Who cares?”', '“Who cares?”'],
+  ['inseparable', ['inseparable'], 'always together; impossible to separate', 'لا يفترقان', 'The two cousins were <b>inseparable</b>; you never saw one without the other.', 'never saw one without the other'],
+  ['individuality', ['individuality'], 'the qualities that make a person different from everyone else', 'التفرّد / الشخصية المستقلة', 'Wearing his own style was his way of showing his <b>individuality</b>.', 'his own style'],
+  ['urgency', ['urgency'], 'a strong need to act quickly', 'الإلحاح / العَجَلة', 'The storm warning gave our packing a sense of <b>urgency</b>.', 'storm warning'],
+  ['fulfillment', ['fulfillment', 'fulfilment'], 'a happy feeling that comes from doing something meaningful', 'الرضا / تحقيق الذات', 'Helping at the food bank gives him a deep feeling of <b>fulfillment</b>.', 'helping … a deep feeling'],
+  ['cherish', ['cherish', 'cherishes'], 'to love and value something very much', 'يعتزّ بـ', 'I <b>cherish</b> the watch my grandfather gave me before he died.', 'the watch my grandfather gave me'],
+  ['contempt', ['contempt'], 'a feeling that someone or something is worthless; strong dislike', 'الازدراء / الاحتقار', 'He looked at the cheaters with <b>contempt</b> and walked away.', 'the cheaters … walked away']
+];
+const PARAS = [ /* the main idea of each paragraph, in my words */
+  'The twins were raised to be alike, but they split apart as their personalities grew different.',
+  'His wish to be a unique twin drives his self-improvement and his fight against being like everyone else.',
+  'Examples of choices that made him different: his music, his school, his subjects, his hobbies and his clubs.',
+  'He spends his free time building a meaningful identity that he is proud of.',
+  'Building his identity began as a necessity but became a passion, and his twin made it feel urgent.',
+  'Without his twin, he would not have discovered many of his best qualities; not wanting to be a copy made him strong.'
+];
+const PARA_AR = [
+  'كانا متلازمين، ثم افترقا لأن شخصيتيهما واهتماماتهما صارت مختلفة.',
+  'رغبته أن يكون توأماً مختلفاً هي سبب كل جهوده، ويقاوم أن يكون نسخة من غيره.',
+  'أمثلة: آلات موسيقية مختلفة، مدرسة مختلفة، مواد وهوايات ونوادٍ اختارها بنفسه.',
+  'يقضي وقته في بناء هوية لها معنى ويفتخر بها.',
+  'بدأ بناء هويته كضرورة ثم صار شغفاً، وأخته جعلت الأمر عاجلاً.',
+  'بدون أخته ما كان اكتشف أجمل صفاته؛ الخوف من أن يكون نسخة جعله متفرّداً.'
+];
+const CENTRAL = 'Being a twin pushed the author to work hard at becoming his own unique person, and that individuality is what he values most.';
+const ESSAY = [ /* [skill, question, right, wrongs, why] */
+  ['r-central', 'Which statement best gives the CENTRAL idea of the essay?', 'Not wanting to be a copy of his twin pushed the author to build a strong identity of his own, which he values most.', ['The author is sad that he and his sister stopped wearing matching clothes.', 'Twins should always share the same hobbies.', 'Landscape photography is the author’s favorite activity.'], 'Every paragraph supports one big idea: being a twin made him work to become an individual. The other choices are a small detail, the opposite of his view, or one example.'],
+  ['r-support', 'Which detail BEST supports the central idea?', 'He learned the trumpet and guitar instead of the violin his sister played.', ['He and his sister were born in San Antonio.', 'He was interviewed for a podcast.', 'The essay was written in 2018.'], 'A supporting detail is an example of the central idea: choosing different instruments shows him making himself different.'],
+  ['r-support', 'Which statement gives EXAMPLES as evidence for the central idea?', 'Without his sister he might never have found his love of outdoor exploration, music or Ultimate Frisbee.', ['He chooses to spend his free time building a vision of meaning.', 'He has found an identity he is finally proud of.', 'He tries to take control of his future himself.'], 'Only this choice lists specific examples (outdoor exploration, music, Ultimate Frisbee). The others are general statements.'],
+  ['r-summary', 'Which is the best SUMMARY of the essay?', 'Zachary was raised as an inseparable twin, but he chose his own music, school and hobbies to become his own person. Being a twin pushed him to build an identity he is proud of.', ['Zachary plays the trumpet and the guitar, and he likes fashion and fitness. He is in two clubs.', 'Twins are the best siblings, and everyone should want to be a twin.', 'Zachary’s sister Rachel plays the violin very well and wants to be a musician.'], 'A summary gives the key ideas in your own words, without small details or your opinion.'],
+  ['r-purpose', 'Why did the author write this personal statement?', 'To show colleges who he is: his identity, values and traits', ['To teach readers how to play the trumpet', 'To complain about his sister', 'To persuade readers to have twins'], 'Personal statements are written for college applications to show who the student is.'],
+  ['r-central', 'What is the author AGAINST?', 'Conformity — just following others and being a copy', ['Music and sports', 'His sister’s success', 'Going to college'], 'Paragraph 2: he worked to combat the prospect of conformity in his life.'],
+  ['r-support', 'Why does the author list hobbies like landscape photography, fashion and fitness?', 'To give examples of how he made himself different', ['To show how busy he is', 'To teach the reader photography', 'To compare prices of hobbies'], 'These examples support his main point about building his own identity.'],
+  ['r-central', 'A longer text has one central idea. What do its paragraphs do?', 'Each paragraph has its own main idea that supports the central idea.', ['Each paragraph has a different central idea.', 'Only the first paragraph has an idea.', 'Paragraphs only repeat the title.'], 'Paragraph main ideas are the building blocks of the central idea.'],
+  ['r-central', 'Which question helps you find the central idea of a text?', 'What bigger idea do all the paragraphs support?', ['How many words are in the text?', 'Who printed the book?', 'Which paragraph is the longest?'], 'From the checklist: look for the bigger idea that all the paragraphs support.'],
+  ['r-summary', 'What should you include in a summary?', 'The key ideas, in your own words', ['Every small detail', 'Your opinion about the text', 'A quotation from each paragraph'], 'A summary is short: key ideas only, in your own words, no opinion.']
+];
+const PASSAGES = [ /* short passages written for the page */
+  {t:'A Proud Desert Tradition', text:'For centuries, falconry has been an important tradition in Saudi Arabia. Falconers train their birds with patience, starting when the falcon is young. A trained falcon can dive at more than 300 kilometers an hour to catch its prey. Today, falcon festivals celebrate the skill of both the birds and their trainers.',
+   main:'Falconry is an important tradition in Saudi Arabia.', mainW:['A falcon can dive at more than 300 kilometers an hour.', 'Birds are animals with feathers.', 'Camels are used for racing in the desert.'],
+   sup:'Festivals celebrate the skill of falcons and their trainers.', supW:['Falcons are afraid of the desert wind.', 'Falconers never train young birds.', 'Falconry started last year.'],
+   out:'My cousin’s favorite food is pizza.', outIn:['Falconers often cover the bird’s head with a small hood to keep it calm.', 'Young people learn falconry from their grandparents.', 'A well-trained falcon returns to its trainer’s glove.'],
+   title:'A Proud Desert Tradition', titleW:['How to Cook Rice', 'Fast Cars of the Future', 'My Pet Cat'], stated:true},
+  {t:'Teamwork in the Hive', text:'A honey bee may visit a hundred flowers on a single trip. Inside the hive, other bees turn the nectar into honey and fan it with their wings until it thickens. Some bees guard the door, while others clean the hive or feed the young. Even the queen has one job: laying eggs.',
+   main:'Every bee in a hive has a job, and they all work together.', mainW:['A honey bee may visit a hundred flowers on one trip.', 'Insects live all over the world.', 'Honey tastes good on bread.'],
+   sup:'Some bees guard the door of the hive.', supW:['Bees sleep all summer long.', 'The queen collects nectar all day.', 'Bees make honey from sand.'],
+   out:'My uncle bought a new car yesterday.', outIn:['Worker bees build the wax rooms of the hive.', 'Some bees carry water to cool the hive on hot days.', 'Scout bees search for new patches of flowers.'],
+   title:'Teamwork in the Hive', titleW:['The Biggest Animals on Earth', 'A Trip to the Mall', 'Learning to Bake'], stated:false},
+  {t:'Omar Beats His Fear', text:'At first, Omar was afraid to put his face in the water. His coach showed him how to blow bubbles and float on his back. Every Saturday he practised a little longer, even when he swallowed water. By the end of the summer, Omar swam the whole length of the pool without stopping.',
+   main:'By practising with patience, Omar overcame his fear and learned to swim.', mainW:['Omar swallowed some water.', 'Sports are fun for everyone.', 'Omar likes chocolate ice cream.'],
+   sup:'He practised every Saturday, even when it was hard.', supW:['He gave up after one lesson.', 'His coach pushed him into the deep end.', 'He learned to swim in a single day.'],
+   out:'Omar’s sister plays the piano.', outIn:['His coach cheered when he floated for ten seconds.', 'Omar wore goggles to keep the water out of his eyes.', 'Each week Omar felt a little braver.'],
+   title:'Omar Beats His Fear', titleW:['The History of Pools', 'Why Fish Can Breathe', 'A Rainy Day'], stated:false},
+  {t:'The Most Useful Tree', text:'The date palm is one of the most useful trees in the desert. Its fruit is sweet and full of energy. People once used its leaves to weave baskets and mats, and its trunk to build roofs. Even the seeds can be roasted and ground to make a drink.',
+   main:'The date palm is one of the most useful trees in the desert.', mainW:['Dates are sweet.', 'Plants need water to grow.', 'Baskets are hard to weave.'],
+   sup:'People used its leaves to weave baskets and mats.', supW:['Its trunk is too weak for building.', 'Nobody eats its fruit.', 'It only grows in snowy places.'],
+   out:'Football is the most popular sport in my school.', outIn:['Its shade helps other plants grow under it.', 'A single tree can give many kilograms of dates a year.', 'Its fibers were twisted into strong ropes.'],
+   title:'The Most Useful Tree', titleW:['Snow in the Mountains', 'My Favorite Video Game', 'How Cars Work'], stated:true},
+  {t:'Bottles to Trees', text:'Last year our class collected plastic bottles every Thursday. We sorted them into big blue bins near the school gate. A recycling company paid the school for every kilo we collected. With the money, we planted ten trees in the playground.',
+   main:'Our class’s recycling project helped the environment and paid for new trees.', mainW:['We sorted bottles into blue bins.', 'Plastic is made in factories.', 'Our playground has a slide.'],
+   sup:'A recycling company paid for every kilo collected.', supW:['The class threw the bottles in the sea.', 'Nobody wanted to help.', 'The trees were bought before the project.'],
+   out:'My brother is learning to drive.', outIn:['Students made posters to remind everyone to bring bottles.', 'Each Thursday the bins filled up faster.', 'The principal thanked the class at assembly.'],
+   title:'Bottles to Trees', titleW:['The Moon at Night', 'A Visit to the Dentist', 'Cooking With Grandma'], stated:false},
+  {t:'Colors Under the Sea', text:'The Red Sea is home to some of the most colorful coral reefs in the world. More than a thousand kinds of fish swim among its corals. Scientists study these reefs because they survive in unusually warm water. Keeping trash and careless boats away helps the reefs stay healthy.',
+   main:'The Red Sea’s coral reefs are colorful, full of life and worth protecting.', mainW:['More than a thousand kinds of fish live there.', 'The ocean is very big.', 'Boats need fuel to move.'],
+   sup:'Scientists study the reefs because they survive in warm water.', supW:['The reefs have no fish at all.', 'Trash makes the reefs healthier.', 'Corals only live in ice-cold water.'],
+   out:'My favorite color is green.', outIn:['Divers come from many countries to see the reefs.', 'Some corals grow only a few centimeters a year.', 'Turtles and rays also live near the reefs.'],
+   title:'Colors Under the Sea', titleW:['Building a Tree House', 'The Fastest Trains', 'My First Day at School'], stated:null}
+];
+
+/* ================= settings ================= */
+const KEY = 'english-missions-quiz2-v1';
+const TAB_KEY = 'english-missions-tab';   /* this device only */
+const ARCADE = '../../arcade/index.html';
+const TEST_DATE = new Date(2026, 10, 12);
+const UNLOCK = ['m1', 'm2', 'm3'];        /* arcade time from a track counts only after these (assets/arcade.js, emq2) */
+
+/* ================= helpers ================= */
+const $ = (s, r) => (r || document).querySelector(s);
+function h(tag, attrs, ...kids){
+  const el = document.createElement(tag);
+  if (attrs) for (const k in attrs) {
+    const v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'html') el.innerHTML = v;
+    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  kids.flat().forEach((c) => { if (c == null || c === false) return; el.append(c.nodeType ? c : document.createTextNode(String(c))); });
+  return el;
+}
+const rnd = (n) => Math.floor(Math.random() * n);
+const pick = (a) => a[rnd(a.length)];
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const pickN = (a, n) => shuffle(a).slice(0, n);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[c]));
+const pct = (x) => Math.round(x * 100);
+const norm = (s) => String(s).toLowerCase().replace(/[’']/g, "'").replace(/[^a-z' -]/g, '').trim().replace(/\s+/g, ' ');
+const plain = (html) => { const d = document.createElement('div'); d.innerHTML = html; return d.textContent; };
+const blank = (s) => esc(s).replace('___', '<span class="blank">?</span>');
+function fmtTime(sec){ sec = Math.max(0, Math.ceil(sec)); return String(Math.floor(sec / 60)).padStart(2, '0') + ':' + String(sec % 60).padStart(2, '0'); }
+function daysToTest(){ const t = new Date(); t.setHours(0, 0, 0, 0); return Math.round((TEST_DATE - t) / 86400000); }
+function xqKey(){ const s = Array.prototype.join.call(arguments, '|'); let x = 5381; for (let i = 0; i < s.length; i++) x = ((x << 5) + x + s.charCodeAt(i)) | 0; return (x >>> 0).toString(36); }
+
+/* ================= question builders ================= */
+function mc(skill, prompt, right, wrongs, why, extra){
+  const opts = shuffle([{html:right, ok:true}].concat(wrongs.map((w) => ({html:w, ok:false}))));
+  return Object.assign({kind:'mcq', skill, prompt, opts, why, right}, extra || {});
+}
+function typeQ(skill, prompt, accept, why, extra){ return Object.assign({kind:'type', skill, prompt, accept, why, right:accept[0]}, extra || {}); }
+/* tap: words marked with * are the ones to tap */
+function tapQ(skill, prompt, marked, why, extra){
+  const toks = marked.split(' ').map((w) => ({t:w.replace(/^\*/, ''), on:w.startsWith('*')}));
+  return Object.assign({kind:'tap', skill, prompt, toks, why, right:toks.filter((t) => t.on).map((t) => t.t.replace(/[.,!?;:]+$/, '')).join(', ')}, extra || {});
+}
+function fillMarked(tpl, vals){
+  return tpl.split(' ').map((tok) => {
+    const m = tok.match(/^(\*?)(.*)\{(\w+)\}(.*)$/);
+    if (!m) return tok;
+    const words = (m[2] + vals[m[3]] + m[4]).split(' ');
+    return words.map((w) => (m[1] && /^[A-Z]/.test(w) ? '*' : '') + w).join(' ');
+  }).join(' ');
+}
+
+const GG = { /* grammar */
+  nounKind(){
+    const p = pick(PAIRS), proper = Math.random() < .5, w = proper ? p[1] : p[0];
+    return mc('g-kind', `Is <b>${w}</b> a common noun or a proper noun?`, proper ? 'proper noun' : 'common noun', [proper ? 'common noun' : 'proper noun'],
+      proper ? `<b>${w}</b> names one <i>specific</i> ${p[0]}, so it is a proper noun and its important words start with capital letters.` : `<b>${w}</b> names <i>any</i> ${p[0]}, not a specific one, so it is a common noun. A proper noun would be ${p[1]}.`, {two:true});
+  },
+  properPick(){
+    const ps = pickN(PAIRS, 4).filter((p, i, a) => a.findIndex((q) => q[0] === p[0]) === i);
+    while (ps.length < 4) { const q = pick(PAIRS); if (!ps.some((p) => p[0] === q[0])) ps.push(q); }
+    return mc('g-kind', 'Which one is a <b>proper</b> noun?', ps[0][1], ps.slice(1).map((p) => p[0]), `<b>${ps[0][1]}</b> is the name of a specific ${ps[0][0]}, so it is proper. The others are common nouns: they name any ${ps.slice(1).map((p) => p[0]).join(', ')}.`);
+  },
+  commonPick(){
+    const ps = [];
+    while (ps.length < 4) { const q = pick(PAIRS); if (!ps.some((p) => p[0] === q[0])) ps.push(q); }
+    return mc('g-kind', 'Which one is a <b>common</b> noun?', ps[0][0], ps.slice(1).map((p) => p[1]), `<b>${ps[0][0]}</b> names any ${ps[0][0]}, so it is common. The others name specific ones, so they are proper nouns.`);
+  },
+  caps(){
+    const c = pick(CAPS), n = pick(ANY);
+    return mc('g-caps', 'Which sentence uses capital letters correctly?', c[0].replace('{n}', n), c[1].map((s) => s.replace('{n}', n)),
+      'Proper nouns — names of specific people, places, teams, days, months, holidays and languages — start with a capital letter, every important word. Common nouns and verbs don’t (except at the start of a sentence).');
+  },
+  ppit(){
+    const p = pick(ANY), idea = pick(IDEAS), thing = pick(['book', 'poem', 'story', 'song', 'video']), place = pick(['Riyadh', 'Japan', 'Kenya', 'Jeddah', 'Egypt', 'AlUla']);
+    const V = {person:p, place, thing, idea}, ask = pick(Object.keys(V));
+    return mc('g-ppit', `In this sentence, which noun names a <b>${ask.toUpperCase()}</b>?`, V[ask], Object.keys(V).filter((k) => k !== ask).map((k) => V[k]),
+      `A noun names a person (${p}), a place (${place}), a thing (${thing}) or an idea (${idea}). An idea is something you can’t touch, like ${idea}.`, {ctx:esc(`${p} wrote a ${thing} about ${idea} in ${place}.`)});
+  },
+  pos(){
+    const t = pick(POS), w = plain(t[0].match(/<b>(.*?)<\/b>/)[1]).toLowerCase();
+    return mc('g-pos', `In this sentence, <b>${w}</b> is used as a…`, t[1], [t[1] === 'noun' ? 'verb' : 'noun'],
+      t[1] === 'noun' ? `Here <b>${w}</b> names a thing (you could put “the” or “a” before it), so it is a noun. The same word can be a verb in another sentence.` : `Here <b>${w}</b> is an action, so it is a verb. In another sentence the same word can be a noun.`, {ctx:t[0], two:true});
+  },
+  tapProper(){
+    const c = pickN(['Riyadh', 'Jeddah', 'Cairo', 'Dubai', 'Tokyo', 'London'], 2), a = pick(BOYS), b = pick(GIRLS);
+    const s = fillMarked(pick(TAP_PROPER), {a, b, c1:c[0], c2:c[1], day:pick(['Friday', 'Sunday', 'Monday']), month:pick(['Ramadan', 'January', 'March'])});
+    return tapQ('g-kind', 'Tap every word that is part of a <b>proper</b> noun.', s, 'Names of specific people, places, days, months and teams are proper nouns. Each important word in them starts with a capital letter.');
+  },
+  tapCommon(){
+    return tapQ('g-kind', 'Tap every <b>common</b> noun (person, place, thing or idea — not a specific name).', pick(TAP_COMMON), 'Common nouns name any person, place, thing or idea: they are not specific names, so they have no capital letter.');
+  },
+  antecedent(){
+    const b = pick(BOYS), g = pick(GIRLS), g2 = pick(GIRLS.filter((x) => x !== g)), th = pick(['pencil case', 'water bottle', 'football', 'notebook', 'jacket']);
+    const T = [
+      [`${b} lost his ${th} at school, but ${g} found <b>it</b> in the library.`, 'it', `his ${th}`, [b, g, 'the library']],
+      [`${g} and ${g2} love science, so <b>they</b> joined the robot club.`, 'they', `${g} and ${g2}`, [g, 'science', 'the robot club']],
+      ['The goats were hungry, so the farmer fed <b>them</b> some hay.', 'them', 'the goats', ['the farmer', 'some hay', 'hungry']],
+      [`${b} called his grandmother because <b>she</b> was sick.`, 'she', 'his grandmother', [b, 'sick', 'called']],
+      ['The team played well, and the fans cheered for <b>it</b> after the match.', 'it', 'the team', ['the fans', 'the match', 'well']],
+      [`${g} thanked ${b} because <b>he</b> carried her heavy bag.`, 'he', b, [g, 'her heavy bag', 'thanked']]
+    ];
+    const t = pick(T);
+    return mc('g-ante', `What is the <b>antecedent</b> of <b>${t[1]}</b> — the word it stands for?`, t[2], t[3],
+      `<b>${t[1]}</b> stands for <b>${t[2]}</b>. The antecedent is the noun a pronoun replaces, and the pronoun must agree with it (one or many; he, she or it).`, {ctx:t[0]});
+  },
+  ptype(){
+    const kind = pick(Object.keys(PRON)), w = pick(PRON[kind]);
+    const why = {personal:'Personal pronouns stand for people or things: I, me, we, us, you, he, him, she, her, it, they, them.',
+      possessive:'Possessive pronouns show who owns something: my, mine, our, ours, your, yours, his, her, hers, its, their, theirs — never with an apostrophe.',
+      indefinite:'Indefinite pronouns don’t point to a specific person or thing: anybody, everyone, nobody, both, each, few, many, several, someone…'}[kind];
+    return mc('g-ptype', `What kind of pronoun is <b>${w}</b>?`, kind, Object.keys(PRON).filter((k) => k !== kind), why);
+  },
+  poss(){
+    const T = [
+      ['The cat licked ___ paw.', 'its', ['it’s', 'its’'], '<b>its</b> shows ownership (the paw belongs to the cat). <b>it’s</b> means “it is”. Possessive pronouns never use an apostrophe.'],
+      ['___ going to rain this afternoon.', 'It’s', ['Its', 'Its’'], '<b>It’s</b> = “It is going to rain.” Without the apostrophe, <b>its</b> means “belonging to it”.'],
+      ['This blue jacket is ___.', 'hers', ['her’s', 'hers’'], '<b>hers</b> is a possessive pronoun, and possessive pronouns never have an apostrophe.'],
+      ['Is this water bottle ___?', 'yours', ['your’s', 'you’re'], '<b>yours</b> shows ownership. <b>you’re</b> means “you are”. No apostrophe in possessive pronouns.'],
+      ['The idea for the poster was ___.', 'theirs', ['their’s', 'there’s'], '<b>theirs</b> has no apostrophe. <b>there’s</b> means “there is”.'],
+      ['The team lost ___ first match.', 'its', ['it’s', 'their’s'], 'A team is one group, so we use <b>its</b> (belonging to it), with no apostrophe.'],
+      ['That seat by the window is ___.', 'ours', ['our’s', 'ours’'], '<b>ours</b>: possessive pronouns never have an apostrophe.']
+    ];
+    const t = pick(T);
+    return mc('g-poss', 'Choose the word that correctly completes the sentence.', t[1], t[2], t[3], {ctx:blank(t[0])});
+  },
+  agree(){
+    const b = pick(BOYS), g = pick(GIRLS);
+    const T = [[`${b} forgot ___ lunch at home.`, 'his'], [`${g} packed ___ bag before school.`, 'her'], ['The students finished ___ project early.', 'their'],
+      ['The bird built ___ nest in the palm tree.', 'its'], ['My brother and I cleaned ___ room together.', 'our'], [`${b} and ${g} shared ___ snacks.`, 'their']];
+    const t = pick(T), why = {his:'One boy → <b>his</b>.', her:'One girl → <b>her</b>.', its:'One animal or thing → <b>its</b>.', their:'More than one person → <b>their</b>.', our:'A group that includes me (I) → <b>our</b>.'}[t[1]];
+    return mc('g-agree', 'Which pronoun agrees with its antecedent?', t[1], pickN(['his', 'her', 'its', 'their', 'our'].filter((x) => x !== t[1]), 3),
+      'A pronoun must agree with its antecedent in number (one or more) and person. ' + why, {ctx:blank(t[0])});
+  },
+  so(){
+    const t = pick(SO), s = t.s.replace('{n}', pick(ANY));
+    return mc(ROLE_SKILL[t.role], 'Choose the correct pronoun.', t.a, [t.w], ROLE_WHY[t.role], {ctx:blank(s), two:true});
+  },
+  role(){
+    const t = pick(ROLES), all = ['subject', 'direct object', 'object of a preposition', 'predicate nominative'];
+    const why = {'subject':'It does the action, so it is the subject (a subject pronoun).', 'direct object':'It receives the action of the verb, so it is a direct object (an object pronoun).',
+      'object of a preposition':'It comes after a preposition (for, to, with, between…), so it is the object of the preposition (an object pronoun).',
+      'predicate nominative':'It comes after a linking verb (is, are, was) and renames the subject, so it is a predicate nominative (a subject pronoun).'}[t[1]];
+    return mc('g-role', 'What job does the bold pronoun do in this sentence?', t[1], all.filter((x) => x !== t[1]), why, {ctx:t[0]});
+  },
+  lists(){
+    const T = [
+      ['Which list has ONLY <b>object</b> pronouns?', 'me, us, him, her, them', ['I, we, he, she, they', 'my, our, his, their', 'anyone, each, few, many']],
+      ['Which list has ONLY <b>subject</b> pronouns?', 'I, we, he, she, they', ['me, us, him, her, them', 'mine, ours, yours, theirs', 'both, several, nobody, someone']],
+      ['Which list has ONLY <b>possessive</b> pronouns?', 'mine, ours, yours, theirs', ['me, us, him, them', 'I, we, she, they', 'everyone, anybody, many, few']],
+      ['How can you check “Kyle and (I / me)”?', 'Cover “Kyle and” and try each pronoun alone', ['Always choose “I” because it sounds smart', 'Choose the longer word', 'Choose the word that comes first in the alphabet']]
+    ];
+    const t = pick(T);
+    return mc('g-role', t[0], t[1], t[2], 'Subject pronouns: I, we, you, he, she, it, they. Object pronouns: me, us, you, him, her, it, them. For two people, try each part alone: “Pablo is going with me” → “with Kyle and me”.');
+  },
+  errSentence(){
+    const items = pickN(SO, 4), names = pickN(ANY, 4);
+    const wrong = items[0].s.replace('{n}', names[0]).replace('___', items[0].w);
+    const rights = items.slice(1).map((t, i) => t.s.replace('{n}', names[i + 1]).replace('___', t.a));
+    return mc('g-edit', 'Which sentence has a pronoun <b>mistake</b>?', esc(wrong), rights.map(esc),
+      `It should be “${esc(items[0].s.replace('{n}', names[0]).replace('___', items[0].a))}” ${ROLE_WHY[items[0].role]}`);
+  },
+  typeFix(){
+    const t = pick(SO), s = t.s.replace('{n}', pick(ANY)).replace('___', `<b>${t.w}</b>`);
+    return typeQ('g-edit', 'The bold pronoun is wrong. Type the correct pronoun.', [t.a], `Correct: <b>${t.a}</b>. ${ROLE_WHY[t.role]}`, {ctx:s, hint:`Starts with “${t.a[0]}”`});
+  },
+  tapErrors(){
+    const items = pickN(SO.filter((t) => !t.a.includes(' ')), 4), wrongAt = pickN([0, 1, 2, 3], 2), names = pickN(ANY, 4);
+    const marked = items.map((t, i) => {
+      const bad = wrongAt.includes(i);
+      return t.s.replace('{n}', names[i]).split(' ').map((w) => (w.startsWith('___') ? (bad ? '*' : '') + w.replace('___', bad ? t.w : t.a) : w)).join(' ');
+    }).join(' ');
+    const fixes = wrongAt.sort().map((i) => `“${items[i].w}” → “${items[i].a}”`).join(', ');
+    return tapQ('g-edit', 'This paragraph has <b>2</b> pronoun mistakes. Tap them.', marked, `The mistakes: ${fixes}. Subject pronouns (I, we, he, she, they) for subjects and after “is/are/was”; object pronouns (me, us, him, her, them) after verbs and prepositions.`);
+  },
+  capsTap(){
+    const n = pick(ANY), place = pick(['riyadh', 'jeddah', 'kenya', 'japan', 'egypt', 'london']);
+    const T = [`${n} visited *${place} last summer.`, `My uncle works in *${place} near the sea.`, `*${n.toLowerCase()} wants to visit Japan in March.`];
+    const s = pick(T);
+    return tapQ('g-caps', 'One word should start with a <b>capital letter</b>. Tap it.', s, 'Names of specific people and places are proper nouns, so they start with a capital letter.');
+  }
+};
+
+const RR = { /* reading */
+  detail(){ const d = pick(DETAILS); return mc('r-detail', d[0], d[1], d[2], d[3]); },
+  tf(){ const t = pick(TF); return mc('r-detail', 'True or false?', t[1] ? 'True' : 'False', [t[1] ? 'False' : 'True'], t[2], {ctx:esc(t[0]), two:true}); },
+  wordCtx(){
+    const w = pick(RWORDS);
+    return mc('r-word', `In this sentence, <b>${w[0]}</b> means…`, w[2], pickN(RWORDS.filter((x) => x !== w), 3).map((x) => x[2]),
+      `<b>${w[0]}</b> = ${w[2]} <span lang="ar">(${w[3]})</span>. Clue: “${esc(w[5])}”.`, {ctx:w[4]});
+  },
+  wordPick(){
+    const w = pick(RWORDS);
+    return mc('r-word', `Which word from the essay means <q>${w[2]}</q>?`, w[0], pickN(RWORDS.filter((x) => x !== w), 3).map((x) => x[0]), `<b>${w[0]}</b> = ${w[2]} <span lang="ar">(${w[3]})</span>.`);
+  },
+  wordClue(){
+    const w = pick(RWORDS);
+    return mc('r-word', `Which part of the sentence is the best <b>context clue</b> for <b>${w[0]}</b>?`, esc(w[5]), pickN(RWORDS.filter((x) => x !== w), 3).map((x) => esc(x[5])),
+      `Context clues are the words around a hard word that help you guess its meaning. Here, “${esc(w[5])}” shows that ${w[0]} means ${w[2]}.`, {ctx:w[4]});
+  },
+  wordType(){
+    const w = pick(RWORDS);
+    return typeQ('r-spell', `Type the word from the essay that means: <q>${w[2]}</q>`, w[1], `<b>${w[0]}</b> <span lang="ar">(${w[3]})</span>.`, {hint:`Starts with “${w[0][0]}” · ${w[0].length} letters`});
+  },
+  essay(){ const e = pick(ESSAY); return mc(e[0], e[1], e[2], e[3], e[4]); },
+  para(){
+    const i = rnd(6);
+    return mc('r-para', `What is the main idea of <b>paragraph ${i + 1}</b>?`, PARAS[i], pickN(PARAS.filter((_, k) => k !== i), 3),
+      `Paragraph ${i + 1}: ${PARAS[i]} <span lang="ar">${PARA_AR[i]}</span>`);
+  },
+  pMain(){ const p = pick(PASSAGES); return mc('r-pmain', 'What is the MAIN idea of the passage?', p.main, p.mainW, 'The main idea covers the whole passage. The wrong choices are one small detail, an idea too big for the passage, or something the passage never talks about.', {passage:p}); },
+  pSup(){ const p = pick(PASSAGES); return mc('r-psupport', 'Which detail from the passage SUPPORTS the main idea?', p.sup, p.supW, `A supporting detail is in the passage and helps explain the main idea: “${esc(p.main)}”`, {passage:p}); },
+  pOut(){ const p = pick(PASSAGES); return mc('r-pbelong', 'Which sentence would NOT belong if you added it to this passage?', p.out, p.outIn, 'Every sentence in a paragraph should support its main idea. This one is about something else.', {passage:p}); },
+  pTitle(){ const p = pick(PASSAGES); return mc('r-ptitle', 'Which is the best TITLE for this passage?', p.title, p.titleW, 'A good title matches the main idea of the whole passage.', {passage:Object.assign({}, p, {t:''})}); },
+  pStated(){
+    const p = pick(PASSAGES.filter((x) => x.stated !== null));
+    return mc('r-stated', `The main idea is: <q>${esc(p.main)}</q> Is it stated in the passage, or implied?`, p.stated ? 'Stated — it is a sentence in the passage' : 'Implied — you put it together from the details', [p.stated ? 'Implied — you put it together from the details' : 'Stated — it is a sentence in the passage'],
+      p.stated ? 'The first sentence says it directly, so the main idea is stated.' : 'No single sentence says it; you add up the details to find it, so it is implied.', {passage:p, two:true});
+  }
+};
+
+/* ================= tracks and missions ================= */
+const TRACKS = {
+  g:{id:'g', name:'Grammar', ar:'القواعد', sub:'Chapter 7 · Nouns and Pronouns (Lessons 7.1–7.3, pp. 141–146)', gens:GG, missions:[
+    {id:'m1', name:'Nouns', ar:'الأسماء', sub:'Common and proper nouns, capital letters, person/place/thing/idea, noun or verb.', n:10, mix:['nounKind', 'properPick', 'commonPick', 'caps', 'ppit', 'pos', 'tapProper', 'tapCommon', 'capsTap']},
+    {id:'m2', name:'Pronouns', ar:'الضمائر', sub:'Antecedents, kinds of pronouns, its or it’s, agreement.', n:10, mix:['antecedent', 'antecedent', 'ptype', 'poss', 'poss', 'agree', 'agree']},
+    {id:'m3', name:'Subject & Object Pronouns', ar:'ضمائر الفاعل والمفعول', sub:'I or me, he or him, we or us: after verbs, prepositions and “is”.', n:10, mix:['so', 'so', 'so', 'so', 'role', 'lists']},
+    {id:'m4', name:'Fix the Errors', ar:'صحّح الأخطاء', sub:'Find the mistakes, tap them, type the fix.', n:8, mix:['errSentence', 'typeFix', 'tapErrors', 'capsTap', 'typeFix']},
+    {id:'boss', name:'Final Boss: Grammar Mock Test', ar:'اختبار القواعد التجريبي', sub:'20 mixed questions from 7.1–7.3. Score 85% to beat the boss.', n:20, pass:.85, boss:true,
+      mix:['nounKind', 'caps', 'ppit', 'pos', 'tapProper', 'antecedent', 'ptype', 'poss', 'agree', 'so', 'so', 'so', 'role', 'errSentence', 'typeFix', 'tapErrors']}]},
+  r:{id:'r', name:'Reading', ar:'القراءة', sub:'“Personal Statement: Individual Twin” (pp. 42–44) · Central or main idea (pp. 45–46)', gens:RR, missions:[
+    {id:'m1', name:'Key Details', ar:'تفاصيل النص', sub:'What happens in the essay, and what is true or false.', n:10, mix:['detail', 'detail', 'detail', 'tf']},
+    {id:'m2', name:'Words from the Text', ar:'كلمات النص', sub:'Meanings, context clues and spelling of the essay’s hard words.', n:10, mix:['wordCtx', 'wordCtx', 'wordPick', 'wordClue', 'wordType']},
+    {id:'m3', name:'Central & Main Idea', ar:'الفكرة الرئيسية', sub:'The central idea, each paragraph’s main idea, supporting details and summaries.', n:10, mix:['essay', 'essay', 'para', 'para']},
+    {id:'m4', name:'Main Idea Practice', ar:'تدريب على نصوص جديدة', sub:'New short passages: main idea, details, title, stated or implied.', n:10, mix:['pMain', 'pMain', 'pSup', 'pOut', 'pTitle', 'pStated']},
+    {id:'boss', name:'Final Boss: Reading Mock Test', ar:'اختبار القراءة التجريبي', sub:'20 mixed questions. Score 85% to beat the boss.', n:20, pass:.85, boss:true,
+      mix:['detail', 'detail', 'tf', 'wordCtx', 'wordPick', 'wordType', 'essay', 'essay', 'para', 'pMain', 'pSup', 'pOut', 'pTitle', 'pStated']}]}
+};
+const SKILLS = {
+  g:{'g-kind':'Common and proper nouns', 'g-caps':'Capital letters', 'g-ppit':'Person, place, thing or idea', 'g-pos':'Noun or verb?', 'g-ante':'Antecedents',
+    'g-ptype':'Kinds of pronouns', 'g-poss':'Possessive pronouns (no apostrophe)', 'g-agree':'Pronoun agreement', 'g-so':'Subject or object pronoun',
+    'g-prep':'Pronoun after a preposition', 'g-pn':'After “is / are / was”', 'g-weus':'We or us + noun', 'g-role':'A pronoun’s job', 'g-edit':'Finding pronoun errors'},
+  r:{'r-detail':'Key details', 'r-word':'Words in context', 'r-spell':'Spelling the words', 'r-central':'Central idea', 'r-para':'Paragraph main ideas',
+    'r-support':'Supporting details', 'r-summary':'Summaries', 'r-purpose':'Author’s purpose', 'r-pmain':'Main idea of a new passage',
+    'r-psupport':'Details in a new passage', 'r-pbelong':'Does it belong?', 'r-ptitle':'Best title', 'r-stated':'Stated or implied'}
+};
+const SKILL_GENS = {'g-kind':['nounKind', 'properPick', 'commonPick', 'tapProper', 'tapCommon'], 'g-caps':['caps', 'capsTap'], 'g-ppit':['ppit'], 'g-pos':['pos'], 'g-ante':['antecedent'],
+  'g-ptype':['ptype'], 'g-poss':['poss'], 'g-agree':['agree'], 'g-so':['so'], 'g-prep':['so'], 'g-pn':['so'], 'g-weus':['so'], 'g-role':['role', 'lists'], 'g-edit':['errSentence', 'typeFix', 'tapErrors'],
+  'r-detail':['detail', 'tf'], 'r-word':['wordCtx', 'wordPick', 'wordClue'], 'r-spell':['wordType'], 'r-central':['essay'], 'r-para':['para'], 'r-support':['essay'], 'r-summary':['essay'], 'r-purpose':['essay'],
+  'r-pmain':['pMain'], 'r-psupport':['pSup'], 'r-pbelong':['pOut'], 'r-ptitle':['pTitle'], 'r-stated':['pStated']};
+
+/* ================= state (synced by assets/sync.js) ================= */
+function freshState(){ return {v:1, xp:0, xq:{}, sk:{}, missions:{g:{}, r:{}}, log:[], speed:{g:0, r:0}}; }
+let S = freshState();
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(freshState(), JSON.parse(raw)); } catch (e) { /* storage unavailable */ }
+S.missions = Object.assign({g:{}, r:{}}, S.missions || {});
+S.speed = Object.assign({g:0, r:0}, S.speed || {});
+let soundOn = true;
+try { soundOn = localStorage.getItem('english-missions-sound') !== '0'; } catch (e) { /* ignore */ }
+function save(){ S.updatedAt = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* ignore */ } }
+function record(skill, score){ const st = S.sk[skill] || (S.sk[skill] = {h:[]}); st.h.push(score); if (st.h.length > 12) st.h = st.h.slice(-12); }
+function xpOnce(key, n){ if (!S.xq || typeof S.xq !== 'object') S.xq = {}; if (S.xq[key]) return false; S.xq[key] = 1; S.xp = (S.xp || 0) + n; return true; }
+function mastery(skill){ const st = S.sk[skill]; if (!st || !st.h || !st.h.length) return null; const a = st.h.slice(-6); return a.reduce((p, c) => p + c, 0) / a.length; }
+const lvl = (m) => m == null ? '' : m >= .8 ? 'ok' : m >= .5 ? 'mid' : 'low';
+function readiness(t){ const ks = Object.keys(SKILLS[t]); return ks.reduce((p, k) => p + (mastery(k) || 0), 0) / ks.length; }
+const mst = (t, id) => (S.missions[t] && S.missions[t][id]) || {};
+const passed = (t, id) => !!mst(t, id).passed;
+const open = (t) => UNLOCK.every((id) => passed(t, id));
+function myParts(t){ return open(t) ? TRACKS[t].missions.filter((m) => passed(t, m.id)).length : 0; }
+const perPart = () => (window.MonmonArcade && window.MonmonArcade.perPart) || 5;
+function arcadeTotals(){ try { return window.MonmonArcade ? window.MonmonArcade.totals() : null; } catch (e) { return null; } }
+
+/* ================= sound and fx ================= */
+let AC = null;
+function tone(f, t, d, type, vol){
+  if (!soundOn) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume();
+    const o = AC.createOscillator(), g = AC.createGain(); o.type = type || 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(.0001, AC.currentTime + t); g.gain.exponentialRampToValueAtTime(vol || .18, AC.currentTime + t + .02); g.gain.exponentialRampToValueAtTime(.0001, AC.currentTime + t + d);
+    o.connect(g); g.connect(AC.destination); o.start(AC.currentTime + t); o.stop(AC.currentTime + t + d + .05);
+  } catch (e) { /* no audio */ }
+}
+const sfx = {ok(){ tone(660, 0, .12); tone(990, .09, .18); }, no(){ tone(180, 0, .25, 'square', .08); }, win(){ [523, 659, 784, 1047].forEach((f, i) => tone(f, i * .11, .25, 'triangle')); }};
+function confetti(){
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = h('canvas', {class:'fx'}); document.body.append(c);
+  const x = c.getContext('2d'), dpr = window.devicePixelRatio || 1; c.width = innerWidth * dpr; c.height = innerHeight * dpr; x.scale(dpr, dpr);
+  const cols = ['#FFC93C', '#2D5BFF', '#0F8F55', '#D23F35', '#FFFFFF'];
+  const P = Array.from({length:140}, () => ({x:innerWidth / 2, y:innerHeight * .35, vx:(Math.random() - .5) * 14, vy:Math.random() * -13 - 3, s:4 + Math.random() * 6, c:pick(cols), r:Math.random() * 6}));
+  let n = 0;
+  (function f(){ x.clearRect(0, 0, innerWidth, innerHeight); P.forEach((p) => { p.vy += .38; p.x += p.vx; p.y += p.vy; p.r += .2; x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.fillStyle = p.c; x.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); x.restore(); }); if (++n < 110) requestAnimationFrame(f); else c.remove(); })();
+}
+function showModal(em, title, text, buttons){
+  const bg = h('div', {class:'modal-bg', role:'dialog', 'aria-modal':'true'}), close = () => bg.remove();
+  bg.append(h('div', {class:'modal'}, h('div', {class:'em', 'aria-hidden':'true'}, em), h('h3', null, title), h('p', {class:'muted'}, text),
+    h('div', {class:'row', style:'justify-content:center'}, buttons.map(([label, fn], i) => h('button', {class:'btn ' + (i === buttons.length - 1 ? 'btn-main' : 'btn-ghost'), type:'button', onclick:() => { close(); if (fn) fn(); }}, label)))));
+  document.body.append(bg);
+}
+const canSpeak = (() => { try { return 'speechSynthesis' in window; } catch (e) { return false; } })();
+function speak(text){ try { const u = new SpeechSynthesisUtterance(text); u.lang = 'en-US'; u.rate = .9; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) { /* no voice */ } }
+
+/* ================= views ================= */
+let view = 'home', quiz = null;
+let tab = 'g';
+try { const v = localStorage.getItem(TAB_KEY); if (v === 'g' || v === 'r') tab = v; } catch (e) { /* ignore */ }
+function mount(...nodes){
+  const app = $('#app'); app.innerHTML = '';
+  app.append(...nodes, h('div', {class:'foot'}, h('span', null, '☁️ Progress syncs across the family’s devices'),
+    h('a', {class:'back', href:'../../vocabulary/unit-04-missions/index.html'}, '📘 Vocab missions'), h('a', {class:'back', href:ARCADE}, '🎮 Arcade')));
+  paintChip(); window.scrollTo(0, 0);
+}
+function backBtn(){ return h('button', {class:'back', type:'button', onclick:home}, '← Back to base'); }
+function paintChip(){
+  const c = $('#vaultChip'); if (!c) return;
+  const t = arcadeTotals(), any = open('g') || open('r');
+  if (!any) { c.className = 'chip lock'; c.textContent = '🔒 Arcade: pass M1–M3'; return; }
+  c.className = 'chip open'; c.textContent = t ? '🎮 ' + Math.floor(t.left / 60000) + ' min in the arcade' : '🎮 Open the arcade';
+}
+window.addEventListener('monmon-arcade', () => { paintChip(); if (view === 'home') home(); });
+
+function home(){
+  view = 'home'; quiz = null;
+  try { localStorage.setItem(TAB_KEY, tab); } catch (e) { /* ignore */ }
+  const T = TRACKS[tab], days = daysToTest(), r = readiness(tab);
+  const dayTxt = days === 1 ? 'Test is tomorrow' : days === 0 ? 'Test is today — you got this!' : days > 1 ? `Test in ${days} days` : 'Keep it fresh';
+  const C = 2 * Math.PI * 30;
+  const tabs = h('div', {class:'tabs', role:'tablist'}, ['g', 'r'].map((k) => h('button', {type:'button', role:'tab', 'aria-selected':String(k === tab), class:k === tab ? 'on' : '', onclick:() => { tab = k; home(); }},
+    k === 'g' ? '✏️ ' : '📖 ', TRACKS[k].name, h('span', {lang:'ar', style:'font-size:14px;opacity:.8'}, TRACKS[k].ar))));
+  const hello = h('section', {class:'hello'},
+    h('span', {class:'eyebrow'}, dayTxt + ' · English Quiz 2'),
+    h('h1', {html:T.name + ' <em>Missions</em>'}),
+    h('p', {class:'muted'}, T.sub),
+    h('span', {class:'ar-line', lang:'ar'}, tab === 'g' ? 'الأسماء والضمائر: اقرأ الدروس، ثم اجتز المهمات. الأسئلة تتغيّر كل مرة.' : 'اقرأ النص من كتابك أولاً، ثم راجع خريطة النص، ثم اجتز المهمات.'),
+    h('div', {class:'facts'}, h('span', {class:'fact'}, h('b', null, T.missions.filter((m) => passed(tab, m.id)).length), ' / 5 missions'),
+      h('span', {class:'fact'}, h('b', null, Object.keys(SKILLS[tab]).filter((k) => (mastery(k) || 0) >= .8).length), ' / ' + Object.keys(SKILLS[tab]).length + ' skills strong')),
+    h('div', {class:'ready'}, h('div', {html:`<svg class="ring" viewBox="0 0 74 74" role="img" aria-label="Readiness ${pct(r)} percent"><circle class="bg" cx="37" cy="37" r="30"/><circle class="fg" cx="37" cy="37" r="30" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - r)}" transform="rotate(-90 37 37)"/><text x="37" y="43" text-anchor="middle">${pct(r)}%</text></svg>`}),
+      h('div', null, h('b', null, T.name + ' readiness'), h('p', {class:'muted', style:'font-size:14.5px'}, r >= .85 ? 'Excellent — beat the Final Boss to be sure.' : r >= .6 ? 'Getting there. Check your report for weak skills.' : 'Start with the lessons, then Mission 1.'))));
+  const tools = tab === 'g' ? h('div', {class:'tools'},
+      tool('📗', 'Lesson 7.1: Nouns', 'Common and proper nouns, capitals, noun or verb.', () => lesson('g1')),
+      tool('📘', 'Lesson 7.2: Pronouns', 'Antecedents, personal, possessive and indefinite.', () => lesson('g2')),
+      tool('📙', 'Lesson 7.3: Subject & Object', 'I or me? The cover-up trick.', () => lesson('g3')),
+      tool('⚡', 'Pronoun Speed Round', '60 seconds of I/me, he/him, we/us.', () => speed('g'), S.speed.g ? 'Best: ' + S.speed.g : null))
+    : h('div', {class:'tools'},
+      tool('🗺️', 'Essay Map', 'Every paragraph’s main idea, and the central idea.', () => lesson('r1')),
+      tool('🔤', 'Words from the Text', '14 hard words with meaning, Arabic and a sentence.', () => lesson('r2')),
+      tool('🎯', 'Main Idea Toolkit', 'Topic, main idea, details, stated or implied, summary.', () => lesson('r3')),
+      tool('⚡', 'Word Speed Round', '60 seconds: word → meaning.', () => speed('r'), S.speed.r ? 'Best: ' + S.speed.r : null));
+  mount(h('div', {class:'stack'}, tabs,
+    h('div', {class:'hero'}, hello, arcadeEl(tab)),
+    h('div', {class:'sec-h'}, h('h2', null, 'Study'), h('span', {class:'muted'}, 'Learn first, then take the missions.')), tools,
+    h('div', {class:'sec-h'}, h('h2', null, 'Missions'), h('span', {class:'muted'}, 'Questions change every time. Pass mark: 80%.')),
+    h('div', {class:'track'}, T.missions.map((m, i) => missionEl(tab, m, i))),
+    h('div', {class:'row'}, h('button', {class:'btn btn-ghost', type:'button', onclick:() => report(tab)}, '📊 ' + T.name + ' report — which skills are strong?'))));
+}
+function tool(icon, title, text, fn, best){
+  return h('button', {class:'tool', type:'button', onclick:fn}, h('span', {class:'ti', 'aria-hidden':'true'}, icon), h('b', null, title), h('span', null, text), best ? h('span', {class:'best'}, best) : null);
+}
+function arcadeEl(t){
+  const o = open(t), tot = arcadeTotals(), mine = myParts(t) * perPart();
+  const el = h('section', {class:'vault', 'aria-label':'Arcade time'},
+    h('div', {class:'vt'}, h('span', {class:'shake-lock', 'aria-hidden':'true'}, '🎮'), h('b', null, 'Arcade Time'), h('span', {class:'state' + (o ? ' on' : '')}, o ? 'Unlocked' : 'Locked')));
+  if (!o) {
+    el.append(h('div', {class:'clock dim'}, '+' + (UNLOCK.length * perPart()) + ' min'),
+      h('p', {class:'msg', html:`Pass ${TRACKS[t].name} Missions 1, 2 and 3 and this page sends <b>${UNLOCK.length * perPart()} minutes</b> to the arcade. Mission 4 and the Final Boss add ${perPart()} more each.<span class="ar-line" lang="ar">وقت الألعاب من هذا القسم مقفول: اجتز المهمات ١ و٢ و٣ لتنزل ${UNLOCK.length * perPart()} دقيقة في صالة الألعاب.</span>`}),
+      h('div', {class:'locks'}, UNLOCK.map((id, i) => h('span', {class:'lockpill' + (passed(t, id) ? ' done' : '')}, (passed(t, id) ? '✅ ' : '🔒 ') + 'Mission ' + (i + 1)))));
+  } else {
+    el.append(h('div', {class:'clock' + (tot && tot.left <= 0 ? ' dim' : '')}, tot ? fmtTime(tot.left / 1000) : '+' + mine + ' min'),
+      h('p', {class:'msg', html:`${TRACKS[t].name} missions have given <b>${mine} minutes</b> of arcade time.` + (tot ? ` Arcade balance: <b>${Math.floor(tot.left / 60000)} min</b>.` : '') + `<span class="ar-line" lang="ar">الدقائق تنصرف في صالة الألعاب، وأقصى لعب في اليوم ${(window.MonmonArcade && window.MonmonArcade.daily) || 20} دقيقة.</span>`}),
+      h('div', {class:'row vact'}, h('a', {class:'btn btn-main', href:ARCADE}, '🎮 Open the arcade')));
+  }
+  return el;
+}
+function missionEl(t, m, i){
+  const st = mst(t, m.id), best = st.best != null ? st.best : null;
+  const pc = (x) => x >= .8 ? 'ok' : x >= .5 ? 'mid' : 'low';
+  return h('div', {class:'mission' + (st.passed ? ' passed' : '') + (m.boss ? ' boss' : '')},
+    h('div', {class:'tier', 'aria-hidden':'true'}, st.passed ? '✓' : m.boss ? '★' : String(i + 1)),
+    h('div', null,
+      h('h3', null, (m.boss ? '' : 'Mission ' + (i + 1) + ' · ') + m.name),
+      h('p', {class:'sub'}, m.sub),
+      h('span', {class:'ar-line', lang:'ar', style:'display:inline'}, m.ar),
+      h('div', {class:'meta'},
+        h('span', {class:'tag min'}, UNLOCK.includes(m.id) ? (st.passed ? '✔ part of the arcade unlock' : '🔑 needed for arcade time') : '🎮 +' + perPart() + ' min after M3'),
+        h('span', {class:'tag'}, m.n + ' questions'),
+        best != null ? h('span', {class:'tag ' + pc(best)}, 'Best ' + pct(best) + '%') : null)),
+    h('div', {class:'go'}, h('button', {class:'btn ' + (st.passed ? 'btn-ghost' : 'btn-main'), type:'button', onclick:() => startQuiz(t, m)}, st.passed ? 'Play again' : 'Start')));
+}
+
+/* ---------- lessons ---------- */
+const card = (title, ...kids) => h('section', {class:'panel lesson'}, h('h3', null, title), kids);
+const rule = (html) => h('div', {class:'rule', html});
+const arNote = (txt) => h('p', {class:'ar-line', lang:'ar'}, txt);
+const list = (items) => h('ul', {class:'ex-list'}, items.map((x) => h('li', {html:x})));
+function lesson(id){
+  view = 'lesson';
+  let body = [];
+  if (id === 'g1') body = [
+    card('Lesson 7.1 · Nouns', rule('A <b>noun</b> names a <b>person</b>, <b>place</b>, <b>thing</b> or <b>idea</b>.'),
+      list(['<b>Omar</b> (person) read a <b>book</b> (thing) about <b>courage</b> (idea) in <b>Jeddah</b> (place).', 'A noun can be one word or several: <b>King Saud University</b> is one noun.']),
+      arNote('الاسم يدل على شخص أو مكان أو شيء أو فكرة (مثل الشجاعة والصدق).')),
+    card('Common or proper?', rule('A <b>common noun</b> names <i>any</i> person, place, thing or idea. A <b>proper noun</b> names a <i>specific</i> one and starts with a <b>capital letter</b> — every important word.'),
+      h('div', {class:'tbl'}, h('table', {class:'chart'}, h('thead', null, h('tr', null, h('th', null, 'Common'), h('th', null, 'Proper'))),
+        h('tbody', null, [['city', 'Riyadh'], ['river', 'the Nile River'], ['team', 'Al Hilal'], ['holiday', 'Eid al-Fitr'], ['language', 'Arabic'], ['bridge', 'the Golden Gate Bridge'], ['day', 'Friday']].map((p) => h('tr', null, h('td', null, p[0]), h('td', null, p[1])))))),
+      h('p', {class:'note'}, 'Small words like “the”, “of” and “al-” inside a name usually stay small: the Nile River, University of Washington, Eid al-Fitr.'),
+      arNote('اسم العَلَم (Proper) يبدأ بحرف كبير: أسماء الناس والمدن والفرق والأيام والشهور واللغات.')),
+    card('Same word, different job', rule('A word can be a <b>noun</b> in one sentence and a <b>verb</b> in another.'),
+      list(['The <b>park</b> looks beautiful. → noun (a place)', 'Let’s <b>park</b> near the gate. → verb (an action)', '<b>Fall</b> is my favorite season. → noun · Leaves <b>fall</b> from trees. → verb']),
+      h('p', {class:'note'}, 'Writing hint: proper nouns make writing specific. “Sam and Patrick went to Denver” is clearer than “the boys went to the city”.'))];
+  else if (id === 'g2') body = [
+    card('Lesson 7.2 · Pronouns', rule('A <b>pronoun</b> takes the place of a noun. The noun it replaces is its <b>antecedent</b>.'),
+      list(['The <u>concert</u> was great, but <b>it</b> was too short. (it → the concert)', '<u>Maha</u> and <u>Lina</u> love jazz, so <b>they</b> go to concerts. (they → Maha and Lina)']),
+      rule('A pronoun must <b>agree</b> with its antecedent: one or many, he / she / it.'),
+      arNote('الضمير يحل محل الاسم، والاسم الذي يعود عليه اسمه antecedent، ولازم يتطابقان في العدد والجنس.')),
+    card('Three kinds to know',
+      h('div', {class:'tbl'}, h('table', {class:'chart'}, h('thead', null, h('tr', null, h('th', null, 'Kind'), h('th', null, 'Examples'), h('th', null, 'Use'))),
+        h('tbody', null,
+          h('tr', null, h('td', null, 'Personal'), h('td', null, 'I, me, we, us, you, he, him, she, her, it, they, them'), h('td', null, 'stand for people and things')),
+          h('tr', null, h('td', null, 'Possessive'), h('td', null, 'my, mine, our, ours, your, yours, his, her, hers, its, their, theirs'), h('td', null, 'show who owns something')),
+          h('tr', null, h('td', null, 'Indefinite'), h('td', null, 'anybody, anyone, both, each, everyone, few, many, neither, nobody, several, someone'), h('td', null, 'no specific person or thing'))))),
+      rule('Possessive pronouns <b>never</b> have an apostrophe: <b>its</b>, hers, yours, ours, theirs. <b>it’s</b> means “it is”.'),
+      list(['The band played <b>its</b> best song. (belongs to the band)', '<b>It’s</b> raining. (= it is)']),
+      arNote('انتبه: its بدون فاصلة علوية = "له/لها"، و it’s = it is.'))];
+  else if (id === 'g3') body = [
+    card('Lesson 7.3 · Subject or object?',
+      h('div', {class:'tbl'}, h('table', {class:'chart'}, h('thead', null, h('tr', null, h('th', null, 'Subject pronouns'), h('th', null, 'Object pronouns'))),
+        h('tbody', null, h('tr', null, h('td', null, 'I, we, you, he, she, it, they'), h('td', null, 'me, us, you, him, her, it, them'))))),
+      rule('Use a <b>subject pronoun</b> as the subject, and after <b>is / are / was</b> when it renames the subject (a predicate nominative).'),
+      list(['<b>She</b> is the finest diver. (not Her)', 'The winners are Katie and <b>she</b>. (not her)']),
+      rule('Use an <b>object pronoun</b> after an action verb (direct object) and after a preposition: to, for, with, at, between, next to.'),
+      list(['Coach Ramos encouraged <b>her</b>. (not she)', 'My classmates cheered for <b>me</b>. (not I)', 'Between you and <b>me</b>… (not I)']),
+      arNote('ضمائر الفاعل: I, we, he, she, they. ضمائر المفعول: me, us, him, her, them — بعد الفعل وبعد حروف الجر.')),
+    card('The cover-up trick', rule('With two people, cover the other one and listen to each part alone.'),
+      list(['(My mom and) <s>him</s> → <b>he</b> burst out in applause. (“Him burst out” sounds wrong)', 'Pablo is going with (Kyle and) <s>I</s> → <b>me</b>. (“going with I” sounds wrong)', '<b>We</b> students try hard. → drop “students”: “We try hard.”', 'Success is up to <b>us</b> students. → “up to us”.']),
+      arNote('الحيلة: غطِّ الاسم الثاني وجرّب الضمير وحده، وشوف أيهما صحيح.'))];
+  else if (id === 'r1') body = [
+    card('The essay in one breath', rule('<b>Central idea:</b> ' + esc(CENTRAL)),
+      arNote('الفكرة المحورية: كونه توأماً دفعه ليبني شخصية مستقلة، وهذا التفرّد أغلى شيء عنده.'),
+      h('p', {class:'note'}, 'Read the essay in your book (Reading & Writing Companion, pp. 42–44) first. Zachary Walsdorf wrote it in 2018 as a personal statement: a college essay that shows who the student is.')),
+    ...PARAS.map((p, i) => card('Paragraph ' + (i + 1), rule('<b>Main idea:</b> ' + esc(p)), arNote(PARA_AR[i]))),
+    card('How the paragraphs build the central idea', list(['1 → the problem: twins raised to be alike', '2 → his goal: to be a unique twin, against conformity', '3 → examples: different music, school, subjects, hobbies, clubs', '4–5 → how it grew: from a necessity to a passion', '6 → the payoff: his best qualities and his individuality'])) ];
+  else if (id === 'r2') body = [card('Words from “Individual Twin”', h('p', {class:'note'}, 'Each sentence is written for this page and uses the word the way the essay does.'),
+    h('div', {class:'wgrid'}, RWORDS.map((w) => h('div', {class:'wcard', style:'min-height:150px'},
+      h('b', null, w[0]), h('i', null, w[2]), h('span', {class:'ar'}, w[3]), h('span', {class:'note', html:w[4]}),
+      canSpeak ? h('button', {class:'icon-btn', type:'button', 'aria-label':'Hear ' + w[0], onclick:() => speak(w[0] + '. ' + plain(w[4]))}, '🔊') : null))))];
+  else if (id === 'r3') body = [
+    card('Topic, main idea, details', list(['<b>Topic:</b> what the text is about, in a word or two (twins, falconry).', '<b>Main idea:</b> the most important point about the topic, in a sentence.', '<b>Supporting details:</b> facts and examples that explain the main idea.']),
+      arNote('الموضوع كلمة، والفكرة الرئيسية جملة، والتفاصيل أمثلة تدعمها.')),
+    card('Central idea vs. paragraph main ideas', rule('A longer text has <b>one central idea</b>. Each paragraph has its own <b>main idea</b> that supports it.'),
+      h('p', {class:'note'}, 'Ask yourself: Is the most important point stated, or do I need to infer it? What main idea do the details in each paragraph explain? What bigger idea do all the paragraphs support?')),
+    card('Stated or implied?', list(['<b>Stated:</b> one sentence (often the first) says it directly.', '<b>Implied:</b> no sentence says it; you add up the details to find it.']),
+      arNote('Stated = مكتوبة صراحة في جملة. Implied = تستنتجها من التفاصيل.')),
+    card('Writing a summary', list(['Key ideas only, in your own words.', 'No small details, no opinion, no long quotes.', 'Usually 2–3 sentences for a short text.']))];
+  const back = id[0] === 'g' ? 'g' : 'r';
+  mount(h('div', {class:'stack'}, h('button', {class:'back', type:'button', onclick:() => { tab = back; home(); }}, '← Back to ' + TRACKS[back].name), ...body,
+    h('div', {class:'row'}, h('button', {class:'btn btn-main', type:'button', onclick:() => startQuiz(back, TRACKS[back].missions[0])}, 'Start Mission 1 →'))));
+}
+
+/* ---------- quiz engine ---------- */
+function buildQuiz(t, m, onlySkills){
+  const G = TRACKS[t].gens, qs = [], seen = {};
+  let mix = m.mix;
+  if (onlySkills) mix = onlySkills.flatMap((s) => SKILL_GENS[s] || []);
+  let tries = 0, order = [];
+  while (qs.length < m.n && tries < m.n * 12) {
+    tries++;
+    if (!order.length) order = shuffle(mix);   /* go round the whole mix before repeating a kind */
+    const q = G[order.pop()]();
+    q.key = xqKey(t, q.skill, q.prompt, q.ctx || '', q.passage ? q.passage.t + q.passage.text.length : '', q.right);
+    if (seen[q.key]) continue;
+    seen[q.key] = 1; qs.push(q);
+  }
+  return shuffle(qs);
+}
+function startQuiz(t, m, onlySkills){
+  view = 'quiz';
+  quiz = {t, m, qs:buildQuiz(t, m, onlySkills), i:0, score:0, answers:[], streak:0, practice:!!onlySkills};
+  showQ();
+}
+function showQ(){
+  const z = quiz, q = z.qs[z.i];
+  const title = z.practice ? TRACKS[z.t].name + ' practice: weak skills' : (z.m.boss ? z.m.name : TRACKS[z.t].name + ' · Mission ' + (TRACKS[z.t].missions.indexOf(z.m) + 1) + ': ' + z.m.name);
+  const cardEl = h('section', {class:'qcard'});
+  cardEl.append(h('p', {class:'qsec'}, SKILLS[z.t][q.skill] || ''));
+  if (q.passage) cardEl.append(h('div', {class:'passage'}, q.passage.t ? h('b', null, q.passage.t) : null, h('p', null, q.passage.text)));
+  cardEl.append(h('p', {class:'qp', html:q.prompt}));
+  if (q.ctx) cardEl.append(h('div', {class:'qs', html:q.ctx}));
+  const foot = h('div', {class:'qfoot'}), fbBox = h('div');
+  const nextBtn = h('button', {class:'btn btn-main', type:'button', onclick:() => { z.i++; z.i < z.qs.length ? showQ() : finishQuiz(); }}, z.i < z.qs.length - 1 ? 'Next →' : 'See my score');
+  const done = (score, yours) => {
+    z.score += score; z.streak = score === 1 ? z.streak + 1 : 0;
+    z.answers.push({q, score, yours});
+    record(q.skill, score);
+    const rep = score > 0 && !xpOnce(q.key, Math.round(score * 10));
+    save();
+    if (score === 1) sfx.ok(); else sfx.no();
+    fbBox.append(h('div', {class:'fb ' + (score === 1 ? 'ok' : score > 0 ? 'mid' : 'no')},
+      h('span', {class:'fi', 'aria-hidden':'true'}, score === 1 ? (z.streak >= 3 ? '🔥' : '✅') : score > 0 ? '🟡' : '❌'),
+      h('div', null, h('b', {class:'t'}, score === 1 ? pick(['Correct!', 'Nice!', 'Yes!', 'Spot on!']) + (z.streak >= 3 ? ' ' + z.streak + ' in a row!' : '') : score > 0 ? 'Right — with a hint.' : 'Not quite.'),
+        score < 1 ? h('div', {html:'Answer: <b>' + q.right + '</b>'}) : null,
+        h('div', {html:q.why}),
+        rep ? h('div', {class:'muted', style:'margin-top:4px;font-size:14.5px'}, '⭐ Already counted: you got points for this question before.') : null)));
+    foot.append(nextBtn); setTimeout(() => nextBtn.focus(), 50);
+    const st = $('#streak'); if (st) st.textContent = z.streak >= 2 ? '🔥 ' + z.streak : '';
+  };
+  if (q.kind === 'mcq') {
+    const opts = h('div', {class:'opts' + (q.two ? ' two' : '')});
+    q.opts.forEach((o, k) => {
+      const b = h('button', {class:'opt', type:'button'}, q.two ? null : h('span', {class:'k'}, 'ABCD'[k]), h('span', {html:o.html}));
+      b.addEventListener('click', () => {
+        if (b.disabled) return;
+        [...opts.children].forEach((c, j) => { c.disabled = true; if (q.opts[j].ok) c.classList.add('ok'); else if (c !== b) c.classList.add('dim'); });
+        if (!o.ok) b.classList.add('no');
+        done(o.ok ? 1 : 0, o.html);
+      });
+      opts.append(b);
+    });
+    cardEl.append(opts);
+  } else if (q.kind === 'tap') {
+    const sel = new Set();
+    const toks = h('div', {class:'toks'});
+    q.toks.forEach((tk, k) => { const b = h('button', {class:'tok', type:'button'}, tk.t); b.addEventListener('click', () => { if (b.disabled) return; if (sel.has(k)) { sel.delete(k); b.classList.remove('sel'); } else { sel.add(k); b.classList.add('sel'); } }); toks.append(b); });
+    const check = h('button', {class:'btn btn-blue', type:'button'}, 'Check');
+    check.addEventListener('click', () => {
+      check.disabled = true;
+      let ok = true;
+      [...toks.children].forEach((b, k) => { b.disabled = true; const want = q.toks[k].on, got = sel.has(k); if (want && got) b.classList.add('ok'); else if (want) { b.classList.add('miss'); ok = false; } else if (got) { b.classList.add('no'); ok = false; } b.classList.remove('sel'); });
+      done(ok ? 1 : 0, [...sel].map((k) => q.toks[k].t).join(', ') || 'nothing');
+    });
+    cardEl.append(toks, h('div', {class:'row'}, check, h('span', {class:'note'}, 'Tap a word again to unselect it.')));
+  } else {
+    let hinted = false;
+    const inp = h('input', {class:'inp', id:'typeAns', type:'text', autocomplete:'off', autocapitalize:'off', spellcheck:'false', placeholder:'Type here…', 'aria-label':'Your answer'});
+    const hintLine = h('p', {class:'hintline'});
+    const check = h('button', {class:'btn btn-blue', type:'button'}, 'Check');
+    const hintBtn = h('button', {class:'btn btn-ghost btn-sm', type:'button', onclick:() => { hinted = true; hintLine.textContent = '💡 ' + q.hint; hintBtn.disabled = true; inp.focus(); }}, '💡 Hint');
+    const submit = () => {
+      const v = norm(inp.value); if (!v || inp.disabled) { inp.focus(); return; }
+      inp.disabled = true; check.disabled = true; hintBtn.disabled = true;
+      const ok = q.accept.some((a) => norm(a) === v);
+      inp.classList.add(ok ? 'ok' : 'no');
+      done(ok ? (hinted ? .5 : 1) : 0, inp.value);
+    };
+    check.addEventListener('click', submit);
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
+    cardEl.append(h('div', {class:'typerow'}, inp, check), q.hint ? h('div', {class:'row'}, hintBtn, hintLine) : null);
+    setTimeout(() => inp.focus(), 60);
+  }
+  cardEl.append(fbBox, foot);
+  mount(h('div', {class:'stack'},
+    h('button', {class:'back', type:'button', onclick:confirmLeave}, '← Quit mission'),
+    h('div', {class:'sec-h'}, h('h2', {style:'font-size:18px'}, title)),
+    h('div', {class:'qhead'}, h('span', {class:'qn'}, (z.i + 1) + ' / ' + z.qs.length), h('div', {class:'bar'}, h('i', {style:'width:' + (z.i / z.qs.length * 100) + '%'})), h('span', {class:'streak', id:'streak'}, z.streak >= 2 ? '🔥 ' + z.streak : '')),
+    cardEl));
+}
+function confirmLeave(){
+  if (!quiz || quiz.i === 0) return home();
+  showModal('🚪', 'Quit this mission?', 'Your answers so far count for your report, but the mission won’t be passed.', [['Keep going', null], ['Quit', home]]);
+}
+function finishQuiz(){
+  const z = quiz, m = z.m, t = z.t, n = z.qs.length, sc = z.score / n, passMark = m.pass || .8, ok = sc >= passMark - 1e-9;
+  let earned = 0;
+  if (!z.practice) {
+    const all = S.missions[t] || (S.missions[t] = {});
+    const st = all[m.id] || (all[m.id] = {best:null, passed:false, tries:0});
+    st.tries++; st.best = Math.max(st.best || 0, sc);
+    const wasOpen = open(t), before = myParts(t);
+    if (ok && !st.passed) st.passed = true;
+    earned = (myParts(t) - before) * perPart();
+    S.log.unshift({t, m:m.id, s:Math.round(z.score * 10) / 10, n, at:Date.now()}); S.log = S.log.slice(0, 40);
+    save();
+    if (!wasOpen && open(t)) setTimeout(() => showModal('🔓', 'ARCADE TIME UNLOCKED!', `You passed ${TRACKS[t].name} Missions 1, 2 and 3, so ${earned} minutes went to the arcade. Mission 4 and the Final Boss add more.`, [['Later', null], ['Open the arcade', () => { location.href = ARCADE; }]]), 900);
+  }
+  if (ok) { sfx.win(); confetti(); } else sfx.no();
+  quiz = null; view = 'result';
+  const wrong = z.answers.filter((a) => a.score < 1), nice = z.score % 1 ? z.score.toFixed(1) : z.score;
+  mount(h('div', {class:'stack'}, h('button', {class:'back', type:'button', onclick:() => { tab = t; home(); }}, '← Back to ' + TRACKS[t].name),
+    h('section', {class:'panel result'},
+      h('div', {class:'big-score ' + (ok ? 'pass' : 'fail')}, nice + '/' + n),
+      h('h3', null, z.practice ? 'Practice done!' : ok ? (m.boss ? 'BOSS DEFEATED! 🏆' : 'Mission passed! 🎉') : 'So close — try again!'),
+      h('p', {class:'muted'}, z.practice ? 'Practice helps your report but doesn’t earn arcade time.' : ok ? (earned ? 'Great work — minutes added to the arcade.' : UNLOCK.includes(m.id) && !open(t) ? 'Passed! Arcade time opens once Missions 1, 2 and 3 are all passed.' : 'Already counted — this run makes your skills stronger.') : `You need ${Math.ceil(passMark * n)} correct to pass. Read your mistakes below, then try again — the questions will be different.`),
+      earned ? h('div', {class:'earn'}, '🎮 +' + earned + ' min in the arcade') : null,
+      h('div', {class:'row', style:'justify-content:center'},
+        z.practice ? null : h('button', {class:'btn btn-main', type:'button', onclick:() => startQuiz(t, m)}, ok ? 'Play again' : 'Try again (new questions)'),
+        h('button', {class:'btn btn-ghost', type:'button', onclick:() => { tab = t; home(); }}, 'Back to base'))),
+    wrong.length ? h('section', {class:'panel'}, h('div', {class:'sec-h', style:'margin-bottom:10px'}, h('h2', {style:'font-size:18px'}, 'Learn from these (' + wrong.length + ')')),
+      h('div', {class:'mistakes'}, wrong.map((a) => h('div', {class:'mist'},
+        h('div', {html:'<b>' + (SKILLS[t][a.q.skill] || '') + ':</b> ' + a.q.prompt + (a.q.ctx ? '<br>' + a.q.ctx : '')}),
+        h('div', {html:'Your answer: <span class="y">' + (a.q.kind === 'type' ? esc(a.yours || '—') : (a.yours || '—')) + '</span> · Right: <span class="r">' + a.q.right + '</span>'}),
+        h('div', {class:'muted', html:a.q.why}))))) : null));
+}
+
+/* ---------- speed rounds ---------- */
+function speed(t){
+  view = 'speed';
+  let score = 0, streak = 0, end = 0, iv = null, over = true;
+  const box = h('div', {class:'stack'});
+  const intro = () => {
+    box.innerHTML = '';
+    box.append(h('section', {class:'panel result'}, h('div', {class:'big-score'}, '⚡ 60s'), h('h3', null, t === 'g' ? 'Pronoun Speed Round' : 'Word Speed Round'),
+      h('p', {class:'muted'}, t === 'g' ? 'Pick the right pronoun as fast as you can. Wrong answers cost 3 seconds.' : 'A word appears — tap its meaning. Wrong answers cost 3 seconds.'),
+      h('button', {class:'btn btn-main', type:'button', onclick:go}, 'Go!')));
+  };
+  const go = () => { score = 0; streak = 0; over = false; end = Date.now() + 60000; next(); clearInterval(iv); iv = setInterval(tick, 200); };
+  const tick = () => {
+    if (view !== 'speed') return clearInterval(iv);
+    const left = (end - Date.now()) / 1000;
+    const tEl = $('#spT'); if (tEl) tEl.textContent = Math.max(0, Math.ceil(left)) + 's';
+    const bar = $('#spB'); if (bar) bar.style.width = Math.max(0, left / 60 * 100) + '%';
+    if (left <= 0) finish();
+  };
+  const finish = () => {
+    clearInterval(iv); if (over) return; over = true;
+    const old = S.speed[t] || 0, best = score > old;
+    if (best) { S.speed[t] = score; xpOnce(xqKey('speed', t, score), (score - old) * 2); }
+    save(); if (score) sfx.win(); if (best && score) confetti();
+    box.innerHTML = '';
+    box.append(h('section', {class:'panel result'}, h('div', {class:'big-score pass'}, String(score)), h('h3', null, best && score ? 'New record!' : 'Time!'),
+      h('p', {class:'muted'}, 'Best: ' + S.speed[t]), h('div', {class:'row', style:'justify-content:center'},
+        h('button', {class:'btn btn-main', type:'button', onclick:go}, 'Again'), h('button', {class:'btn btn-ghost', type:'button', onclick:() => { tab = t; home(); }}, 'Back to base'))));
+  };
+  const next = () => {
+    if (over || view !== 'speed') return;
+    if (Date.now() >= end) { finish(); return; }
+    let q;
+    if (t === 'g') q = GG.so();
+    else { const w = pick(RWORDS); q = mc('r-word', '', w[2], pickN(RWORDS.filter((x) => x !== w), 2).map((x) => x[2]), ''); q.big = w[0]; }
+    box.innerHTML = '';
+    const opts = h('div', {class:'opts' + (q.two ? ' two' : '')});
+    q.opts.forEach((o) => {
+      const b = h('button', {class:'opt', type:'button'}, h('span', {html:o.html}));
+      b.addEventListener('click', () => {
+        if (b.disabled) return;
+        [...opts.children].forEach((c) => { c.disabled = true; });
+        if (o.ok) { score++; streak++; b.classList.add('ok'); sfx.ok(); record(q.skill, 1); setTimeout(next, 280); }
+        else { streak = 0; b.classList.add('no'); end -= 3000; sfx.no(); record(q.skill, 0); [...opts.children].forEach((c, j) => { if (q.opts[j].ok) c.classList.add('ok'); }); setTimeout(next, 900); }
+      });
+      opts.append(b);
+    });
+    box.append(h('div', {class:'qhead'}, h('span', {class:'qn', id:'spT'}, Math.ceil((end - Date.now()) / 1000) + 's'), h('div', {class:'bar'}, h('i', {id:'spB', style:'width:100%'})), h('span', {class:'streak'}, '⚡ ' + score + (streak > 2 ? ' · 🔥' + streak : ''))),
+      h('section', {class:'qcard'}, h('p', {class:'qsec'}, t === 'g' ? 'Choose the pronoun' : 'What does it mean?'),
+        q.big ? h('h2', {style:'font-family:var(--f-display);font-weight:400;font-size:clamp(28px,7vw,40px)'}, q.big) : h('div', {class:'qs', html:q.ctx}), opts));
+  };
+  intro();
+  mount(h('div', {class:'stack'}, h('button', {class:'back', type:'button', onclick:() => { tab = t; home(); }}, '← Back to ' + TRACKS[t].name), box));
+}
+
+/* ---------- report ---------- */
+function report(t){
+  view = 'report';
+  const ks = Object.keys(SKILLS[t]), r = readiness(t);
+  const color = (m) => m >= .8 ? 'var(--good)' : m >= .5 ? 'var(--warn)' : 'var(--bad)';
+  const weak = ks.map((k) => ({k, m:mastery(k)})).filter((o) => o.m == null || o.m < .8).sort((a, b) => (a.m == null ? -1 : a.m) - (b.m == null ? -1 : b.m));
+  mount(h('div', {class:'stack'}, h('button', {class:'back', type:'button', onclick:() => { tab = t; home(); }}, '← Back to ' + TRACKS[t].name),
+    h('section', {class:'panel'},
+      h('div', {class:'sec-h'}, h('h2', null, TRACKS[t].name + ' Report'), h('span', {class:'muted'}, 'Based on the last 6 answers for each skill')),
+      h('span', {class:'ar-line', lang:'ar'}, 'تقرير الفهم: لكل مهارة نسبة من آخر ٦ إجابات'),
+      h('div', {class:'facts', style:'margin-top:12px'},
+        h('span', {class:'fact'}, 'Readiness ', h('b', null, pct(r) + '%')),
+        h('span', {class:'fact'}, h('b', null, ks.filter((k) => (mastery(k) || 0) >= .8).length), ' strong'),
+        h('span', {class:'fact'}, h('b', null, ks.filter((k) => mastery(k) != null && mastery(k) < .5).length), ' weak'),
+        h('span', {class:'fact'}, h('b', null, ks.filter((k) => mastery(k) == null).length), ' not practised'))),
+    h('div', {class:'two-col'},
+      h('section', {class:'panel'}, h('div', {class:'sec-h', style:'margin-bottom:6px'}, h('h2', {style:'font-size:18px'}, 'Skills')),
+        ks.map((k) => { const m = mastery(k); return h('div', {class:'skill'}, h('span', null, SKILLS[t][k]), h('div', {class:'br'}, h('i', {style:'width:' + (m == null ? 0 : pct(m)) + '%;background:' + color(m || 0)})), h('span', {class:'pc'}, m == null ? '—' : pct(m) + '%')); })),
+      h('section', {class:'panel'}, h('div', {class:'sec-h', style:'margin-bottom:6px'}, h('h2', {style:'font-size:18px'}, 'Missions')),
+        TRACKS[t].missions.map((m, i) => { const st = mst(t, m.id), b = st.best;
+          return h('div', {class:'skill'}, h('span', null, (m.boss ? '★ ' : (i + 1) + '. ') + m.name + (st.passed ? ' ✓' : '')), h('div', {class:'br'}, h('i', {style:'width:' + (b == null ? 0 : pct(b)) + '%;background:' + color(b || 0)})), h('span', {class:'pc'}, b == null ? '—' : pct(b) + '%')); }))),
+    weak.length ? h('section', {class:'panel'},
+      h('div', {class:'sec-h', style:'margin-bottom:8px'}, h('h2', {style:'font-size:18px'}, 'Focus skills'), h('span', {class:'muted'}, 'Practise these before the test')),
+      h('div', {class:'row'}, weak.slice(0, 6).map((o) => h('span', {class:'tag ' + lvl(o.m)}, SKILLS[t][o.k] + (o.m == null ? '' : ' ' + pct(o.m) + '%')))),
+      h('div', {class:'row', style:'margin-top:12px'}, h('button', {class:'btn btn-main', type:'button', onclick:() => startQuiz(t, {id:'practice', name:'Practice', n:10, mix:[]}, weak.slice(0, 4).map((o) => o.k))}, 'Practise weak skills (10 questions)'))) : null,
+    S.log.some((l) => l.t === t) ? h('section', {class:'panel'}, h('div', {class:'sec-h', style:'margin-bottom:6px'}, h('h2', {style:'font-size:18px'}, 'Recent attempts')),
+      h('div', {class:'tbl'}, h('table', {class:'log'}, h('thead', null, h('tr', null, h('th', null, 'When'), h('th', null, 'Mission'), h('th', null, 'Score'))),
+        h('tbody', null, S.log.filter((l) => l.t === t).slice(0, 12).map((l) => { const m = TRACKS[t].missions.find((x) => x.id === l.m);
+          return h('tr', null, h('td', null, new Date(l.at).toLocaleString('en-GB', {weekday:'short', hour:'2-digit', minute:'2-digit'})), h('td', null, m ? m.name : l.m), h('td', null, l.s + '/' + l.n + ' (' + pct(l.s / l.n) + '%)')); }))))) : null));
+}
+
+/* ---------- boot ---------- */
+$('#homeBtn').addEventListener('click', () => { if (view === 'quiz' && quiz) confirmLeave(); else home(); });
+const sb = $('#soundBtn');
+const paintSound = () => { sb.textContent = soundOn ? '🔊' : '🔇'; sb.setAttribute('aria-pressed', String(soundOn)); };
+sb.addEventListener('click', () => { soundOn = !soundOn; try { localStorage.setItem('english-missions-sound', soundOn ? '1' : '0'); } catch (e) { /* ignore */ } paintSound(); });
+paintSound();
+home();
+setTimeout(paintChip, 400);
+
+})();
+</script>
+</body></html>
