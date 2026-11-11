@@ -1252,6 +1252,24 @@ function floatXP(el, text){
   f.className = "xp-float"; f.textContent = text; f.style.left = (r.left + r.width / 2) + "px"; f.style.top = (r.top - 6) + "px";
   document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
 }
+/* points once per question: a right answer to a question already rewarded gives no new xp, so answering the same
+   questions again can't farm points. S.xq keeps short hashes of the questions already rewarded (synced with the page). */
+function xqKey(){ const s = Array.prototype.join.call(arguments, "|"); let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
+function xpOnce(key, n, el){
+  if (!S.xq || typeof S.xq !== "object") S.xq = {};
+  if (S.xq[key]){ xqNote(); return false; }
+  S.xq[key] = 1; addXP(n, el); return true;
+}
+function xqNote(){
+  let t = document.getElementById("xqNote");
+  if (!t){
+    t = document.createElement("div"); t.id = "xqNote"; t.setAttribute("role", "status");
+    t.style.cssText = "position:fixed;z-index:66;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 32px);padding:8px 14px;border-radius:999px;background:#14163A;color:#fff;font:700 14px/1.4 system-ui,sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none;transition:opacity .3s;text-align:center";
+    document.body.appendChild(t);
+  }
+  t.textContent = "⭐ Already counted: no new points for a question you got right before · محسوبة من قبل";
+  t.style.opacity = "1"; clearTimeout(xqNote.t); xqNote.t = setTimeout(() => { t.style.opacity = "0"; }, 2600);
+}
 function addXP(n, el){
   S.xp += n; save();
   const v = $("#xpVal"); if (v) v.textContent = S.xp;
@@ -1444,7 +1462,7 @@ function finish(ok, given, extra){
   const last = R.i === R.qs.length - 1;
   $("#fbBox").innerHTML = keep('<div class="fb ' + (ok ? "ok" : "no") + '"><span class="burst">' + burst + '</span><div class="fb-body">' + body + '</div>'
     + '<div class="row"><button class="btn btn-ink" data-act="next" id="nextBtn">' + (last ? "See results →" : "Next →") + '</button></div></div>');
-  if (ok){ Sound.good(); addXP(R.hinted ? 5 : 10, $("#nextBtn")); }
+  if (ok){ Sound.good(); xpOnce(xqKey("q", q.skill, strip(q.text), q.ansText), R.hinted ? 5 : 10, $("#nextBtn")); }
   else Sound.bad();
   announce((ok ? "Correct. " : "Not quite. The answer is " + q.ansText + ". ") + strip(q.why) + (extra ? " Tip: " + strip(extra) : ""));
   $("#nextBtn").focus({preventScroll:true});
@@ -1494,8 +1512,9 @@ function finalReport(){
   res.forEach(r => { const s = skills[r.skill] || (skills[r.skill] = [0, 0]); s[1]++; if (r.ok) s[0]++; });
   const rep = {t:Date.now(), pct, right, n, skills, items:res.map(r => ({ok:r.ok, skill:r.skill, text:r.text, given:r.given, correct:r.correct, why:r.why}))};
   S.last = rep;
+  const prevFinal = S.attempts.filter(a => a && a.kind === "final").reduce((m, a) => Math.max(m, a.pct || 0), -1);
   S.attempts.push({kind:"final", t:rep.t, pct}); S.attempts = S.attempts.slice(-60);
-  addXP(20);
+  if (pct > prevFinal) addXP(20);   /* the final's +20 only with a new best */
   save();
   renderReport(rep);
   show("report"); setHash("#/report");

@@ -647,6 +647,24 @@ function floatXP(el, text){
   f.className = "xp-float"; f.textContent = text; f.style.left = (r.left + r.width/2) + "px"; f.style.top = (r.top - 6) + "px";
   document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
 }
+/* points once per question: a right answer to a question already rewarded gives no new xp, so answering the same
+   questions again can't farm points. S.xq keeps short hashes of the questions already rewarded (synced with the page). */
+function xqKey(){ const s = Array.prototype.join.call(arguments, "|"); let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
+function xpOnce(key, n, el){
+  if (!S.xq || typeof S.xq !== "object") S.xq = {};
+  if (S.xq[key]){ xqNote(); return false; }
+  S.xq[key] = 1; addXP(n, el); return true;
+}
+function xqNote(){
+  let t = document.getElementById("xqNote");
+  if (!t){
+    t = document.createElement("div"); t.id = "xqNote"; t.setAttribute("role", "status");
+    t.style.cssText = "position:fixed;z-index:66;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 32px);padding:8px 14px;border-radius:999px;background:#14163A;color:#fff;font:700 14px/1.4 system-ui,sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none;transition:opacity .3s;text-align:center";
+    document.body.appendChild(t);
+  }
+  t.textContent = "⭐ Already counted: no new points for a question you got right before · محسوبة من قبل";
+  t.style.opacity = "1"; clearTimeout(xqNote.t); xqNote.t = setTimeout(() => { t.style.opacity = "0"; }, 2600);
+}
 function addXP(n, el){
   S.xp += n; save();
   const v = $("#xpVal"); if (v) v.textContent = S.xp;
@@ -1950,7 +1968,7 @@ function mountQ(host, q, cfg){
   let done = false;
   function finish(ok, extra, detail, el){
     if (done) return; done = true;
-    if (ok){ Sound.good(); addXP(cfg.xp || 10, el); FX.burstEl(el, 26); } else Sound.bad();
+    if (ok){ Sound.good(); xpOnce(xqKey("q", q.t, q.q, JSON.stringify(q.o || q.items || q.pins || "")), cfg.xp || 10, el); FX.burstEl(el, 26); } else Sound.bad();
     if (cfg.onAnswer) cfg.onAnswer(ok, detail || {});
     slot.innerHTML = `<div class="fb ${ok ? "ok" : "no"}"><span class="burst">${ok ? pick(PRAISE) : "NOT QUITE"}</span><div class="fb-body">${extra || ""}${q.why ? `<p>${q.why}</p>` : ""}</div><div class="row"><button class="btn btn-go" data-next>${cfg.nextLabel || "Next"} ${ARROW}</button></div></div>`;
     announce((ok ? "Correct! " : "Not quite. ") + strip(extra) + " " + strip(q.why));
@@ -2225,7 +2243,7 @@ const RT = (() => {
     S.react.runs.push({t:Date.now(), best}); if (S.react.runs.length > 12) S.react.runs = S.react.runs.slice(-12);
     save();
     set("done", best + " ms", "Your best of 5. Tap to play again.");
-    addXP(10, pad); Sound.win();
+    if (prev === null || best < prev) addXP(10, pad); Sound.win();   /* +10 only for a new best time */
     info(`<h4>Best of 5: ${best} ms (${(best / 1000).toFixed(2)} s)</h4>
       <p>Average: ${avg} ms. ${prev !== null && best < prev ? "That's a new personal best! " : ""}A typical reaction to something you see takes about <b>0.2–0.3 seconds</b> (200–300 ms).</p>
       <p><b>Why can't it be 0?</b> Your eyes have to <b>sense</b> the green, the signal travels to your brain, your brain <b>processes</b> it and decides to tap, and a signal travels along motor neurons to your finger muscles, which <b>move</b>. Sense → process → move. The signals themselves are fast, so most of the time goes on sensing and deciding.</p>

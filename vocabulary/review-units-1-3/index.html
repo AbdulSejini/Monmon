@@ -1199,6 +1199,24 @@ function floatXP(el, text){
   f.className = "xp-float"; f.textContent = text; f.style.left = (r.left + r.width/2) + "px"; f.style.top = (r.top - 6) + "px";
   document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
 }
+/* points once per question: a right answer to a question already rewarded gives no new xp, so answering the same
+   questions again can't farm points. S.xq keeps short hashes of the questions already rewarded (synced with the page). */
+function xqKey(){ const s = Array.prototype.join.call(arguments, "|"); let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
+function xpOnce(key, n, el){
+  if (!S.xq || typeof S.xq !== "object") S.xq = {};
+  if (S.xq[key]){ xqNote(); return false; }
+  S.xq[key] = 1; addXP(n, el); return true;
+}
+function xqNote(){
+  let t = document.getElementById("xqNote");
+  if (!t){
+    t = document.createElement("div"); t.id = "xqNote"; t.setAttribute("role", "status");
+    t.style.cssText = "position:fixed;z-index:66;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 32px);padding:8px 14px;border-radius:999px;background:#14163A;color:#fff;font:700 14px/1.4 system-ui,sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none;transition:opacity .3s;text-align:center";
+    document.body.appendChild(t);
+  }
+  t.textContent = "⭐ Already counted: no new points for a question you got right before · محسوبة من قبل";
+  t.style.opacity = "1"; clearTimeout(xqNote.t); xqNote.t = setTimeout(() => { t.style.opacity = "0"; }, 2600);
+}
 function addXP(n, el){
   S.xp += n; save();
   const v = $("#xpVal"); if (v) v.textContent = S.xp;
@@ -1446,7 +1464,7 @@ function knowCard(k, btn){
   if (!FC || FC.i >= FC.list.length) return;
   const w = FC.list[FC.i];
   S.known[w] = !!k; (k ? FC.got : FC.miss).push(w);
-  if (k){ Sound.good(); addXP(2, btn); } else Sound.tap();
+  if (k){ Sound.good(); xpOnce(xqKey("fc", w), 2, btn); } else Sound.tap();
   save(); FC.i++; FC.flip = false; renderCards(false);
   announce(k ? "Marked as known." : "Marked as not yet.");
   const fc = $("#flashCard"); if (fc) try { fc.focus({preventScroll:true}); } catch (e) {}
@@ -1529,7 +1547,7 @@ function answerOpt(i, btn){
   const R = S.run; if (!R || R.locked) return; R.locked = true;
   const q = R.qs[R.i], ok = i === q.ans, sec = $("#scr-test");
   markOptions(sec, q, i); record(q, ok, false, q.opts[i]);
-  if (ok){ Sound.good(); FX.burstEl(btn, 24); addXP(10, btn); } else Sound.bad();
+  if (ok){ Sound.good(); FX.burstEl(btn, 24); xpOnce(xqKey("t", q.id || "", q.word || "", q.prompt || q.q || "", (q.opts || []).slice().sort().join("~")), 10, btn); } else Sound.bad();
   sec.querySelector(".fb-slot").innerHTML = fbHTML(ok ? "ok" : "no", q, "", nextLabel());
   announce(ok ? "Correct!" : "Not correct. The answer is " + correctText(q));
   const nb = $("#nextQ"); if (nb) try { nb.focus({preventScroll:true}); } catch (e) {}
@@ -1552,10 +1570,10 @@ function submitTyped(){
   record(q, kind === "ok", kind === "slip", given);
   const slot = $("#scr-test .fb-slot");
   if (kind === "ok"){
-    Sound.good(); FX.burstEl(inp, 24); addXP(10, inp);
+    Sound.good(); FX.burstEl(inp, 24); xpOnce(xqKey("t", q.id || "", q.word || "", q.answer || ""), 10, inp);
     slot.innerHTML = fbHTML("ok", q, t !== norm(q.answer) ? `<br>This sentence needs the form <b>${q.answer}</b>.` : "", nextLabel());
   } else if (kind === "slip"){
-    Sound.tap(); addXP(5, inp);
+    Sound.tap(); xpOnce(xqKey("t", q.id || "", q.word || "", q.answer || ""), 5, inp);
     slot.innerHTML = `<div class="fb slip"><span class="burst">SO CLOSE!</span><div class="fb-body">Right word, but check the spelling. You wrote <s>${esc(given)}</s>. It's spelled <b class="spell">${q.answer.toUpperCase().split("").join(" ")}</b>.</div>
       <div class="row"><button class="btn btn-go" data-act="tnext" id="nextQ">${nextLabel()}</button></div></div>`;
   } else {
@@ -1589,7 +1607,7 @@ function finishRun(){
   if (R.kind === "warm"){
     const stars = att.pct >= 90 ? 3 : att.pct >= 70 ? 2 : 1, prev = S.units[R.u] || {};
     S.units[R.u] = {stars:Math.max(prev.stars || 0, stars), best:Math.max(prev.best || 0, att.pct), last:att.pct, at:Date.now()};
-    att.stars = stars; S.xp += stars * 10;
+    att.stars = stars; S.xp += Math.max(0, stars - (prev.stars || 0)) * 10;   /* only new stars earn points */
   }
   S.attempts.push(att); if (S.attempts.length > 40) S.attempts.splice(0, S.attempts.length - 40);
   Object.keys(att.words).forEach(w => {
