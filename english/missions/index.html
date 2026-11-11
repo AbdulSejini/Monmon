@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Grammar &amp; Reading Missions</title>
+<title>English Quiz 2 Missions</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23FFC93C%22 stroke=%22%23141B33%22 stroke-width=%225%22/%3E%3Ctext x=%2232%22 y=%2242%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-weight=%22900%22 font-size=%2224%22 fill=%22%23141B33%22%3EQ2%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@500;700;800;900&family=Tajawal:wght@500;700;800&display=swap">
 <style>
-/* Grammar & Reading Missions (english/missions): English Quiz 2's grammar (Chapter 7, Lessons 7.1–7.3) and reading
-   ("Personal Statement: Individual Twin" and central or main idea) in the style of Unit 4 Missions: lessons, a speed round,
-   five missions per track with questions made fresh every time, and a report by skill.
+/* English Quiz 2 Missions (english/missions): the quiz's grammar (Chapter 7, Lessons 7.1–7.3), reading ("Personal
+   Statement: Individual Twin" and central or main idea) and writing (the friendly letter) in the style of Unit 4 Missions:
+   lessons, a speed round, five missions per track with questions made fresh every time, and a report by skill. The
+   Writing Final Boss is a letter workshop with the checklist of english/quiz-2 (the draft stays on the device).
    Progress is saved in english-missions-quiz2-v1 (synced by assets/sync.js; xp once per question counts towards the rewards).
    Arcade time (assets/arcade.js, emq2): nothing from a track counts until its Missions 1, 2 and 3 are passed; then those
    three count together, and Mission 4 and the Final Boss one part each. */
@@ -342,6 +343,23 @@ table.chart th{background:var(--surface-2)}
 .tok.miss{border-color:var(--good);border-style:dashed}
 .passage{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:17px;line-height:1.7;display:flex;flex-direction:column;gap:4px}
 .passage b{font-weight:900}
+.letter-model{display:flex;flex-direction:column;gap:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px}
+.lrow{display:grid;grid-template-columns:130px minmax(0,1fr);gap:10px;align-items:start}
+.ltag{display:flex;flex-direction:column;font-weight:900;font-size:14px;color:var(--blue)}
+.ltag small{font-weight:700;color:var(--muted);font-size:12.5px}
+.ltext{font-size:16.5px;line-height:1.6}
+.ltext.right{text-align:right}
+.ltext.para{text-indent:1.5em}
+.letter-in{width:100%;min-height:340px;padding:14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font:500 17px/1.6 var(--f-body);resize:vertical}
+.letter-in:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
+.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px}
+.checklist h4{margin:0 0 6px;font-size:15px;font-weight:900}
+.checklist ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.checklist li.no{color:var(--bad);font-weight:700}
+ol.ord{margin:0;padding:10px 10px 10px 34px;min-height:52px;border:2px dashed var(--line);border-radius:12px;display:flex;flex-direction:column;gap:4px;font-weight:800}
+ol.ord.ok{border-color:var(--good);background:var(--good-soft)}
+ol.ord.no{border-color:var(--bad);background:var(--bad-soft)}
+@media (max-width:480px){.lrow{grid-template-columns:1fr;gap:2px}.ltext.right{text-align:left}}
 </style>
 </head><body>
 <script src="../../assets/sync.js"></script>
@@ -354,7 +372,7 @@ table.chart th{background:var(--surface-2)}
   <div class="wrap">
     <button class="brand" id="homeBtn" type="button" aria-label="Back to base">
       <span class="brand-badge" aria-hidden="true">Q2</span>
-      <span><b>Quiz 2 Missions</b><small>English · Grammar and Reading</small></span>
+      <span><b>Quiz 2 Missions</b><small>English · Grammar, Reading, Writing</small></span>
     </button>
     <a class="chip lock" id="vaultChip" href="../../arcade/index.html">🔒 Arcade time locked</a>
     <button class="icon-btn" id="soundBtn" type="button" aria-label="Sound on or off">🔊</button>
@@ -564,6 +582,63 @@ const PASSAGES = [ /* short passages written for the page */
    out:'My favorite color is green.', outIn:['Divers come from many countries to see the reefs.', 'Some corals grow only a few centimeters a year.', 'Turtles and rays also live near the reefs.'],
    title:'Colors Under the Sea', titleW:['Building a Tree House', 'The Fastest Trains', 'My First Day at School'], stated:null}
 ];
+
+/* ================= WRITING: the friendly letter (Chapter 2, Writing Application, pp. 46–49) ================= */
+/* Quiz 2 marks the letter out of 3.5: Ideas and content 1, Organization 1, Language accuracy 1, Presentation 0.5.
+   The outline asks for the date, a greeting, six complete sentences, a friendly closing and the name. */
+const W_MODEL = {
+  heading:['14 Tahlia Street', 'Jeddah, Saudi Arabia', 'November 12, 2026'], greeting:'Dear Aunt Huda,',
+  body:['Thanks so much for the falcon book you sent me! The cover is shiny gold, and the pictures are so clear that I can see every feather. I read it in one night under my blanket with a flashlight.',
+    'I was so excited when I opened the box that I shouted and ran to show Dad. Now I know how falconers train young birds, and I can’t wait to visit the falcon festival with you. You always know what I love!'],
+  closing:'Your nephew,', signature:'Sami'
+};
+const W_PROMPTS = [
+  {p:'Thank a relative for a gift you love.', ar:'اشكر قريباً على هدية أعجبتك.'},
+  {p:'Thank a friend who helped you with something hard.', ar:'اشكر صديقاً ساعدك في شيء صعب.'},
+  {p:'Tell a friend about the best day of your holiday.', ar:'احكِ لصديق عن أجمل يوم في إجازتك.'},
+  {p:'Invite a cousin to visit, and tell him what you will do together.', ar:'ادعُ ابن عمك لزيارتك، وقل له ماذا ستفعلان.'},
+  {p:'Thank your teacher for something special he did for the class.', ar:'اشكر معلمك على شيء مميز فعله للفصل.'},
+  {p:'Write to a friend who moved away, and share your news.', ar:'اكتب لصديق انتقل لمكان بعيد وأخبره بأخبارك.'}
+];
+const W_RELS = ['Uncle Khalid', 'Aunt Huda', 'Grandma', 'Grandpa', 'Cousin Faisal', 'Aunt Noura'];
+const W_GIFTS = [ /* [gift, details that belong] */
+  ['a football shirt', ['It fits perfectly, and the cloth feels soft and cool.', 'I wore it to the match on Friday.', 'Everyone asked me where I got it.']],
+  ['a set of paints', ['The colors are so bright that my pictures glow.', 'I painted the sunset from our roof.', 'I keep the box on my desk.']],
+  ['a science kit', ['The volcano fizzed and bubbled all over the table.', 'Dad and I built the circuit together.', 'I can’t wait to try the crystal experiment.']],
+  ['a book about space', ['The pictures of Saturn’s rings are amazing.', 'I read two chapters every night.', 'Now I know why the Moon changes shape.']],
+  ['a warm jacket', ['It’s soft and fuzzy on the inside.', 'I wore it on our trip to the mountains.', 'It kept me warm when the wind was icy.']]
+];
+const W_OFF = ['My sister got a new phone last week.', 'Our neighbor’s car is red.', 'I don’t like rainy days.', 'The supermarket closes at midnight.', 'My cousin is learning to swim.'];
+const W_FORMAL = [ /* [formal, friendly] */
+  ['I am writing to inform you that…', 'I’m dropping a note to say…'], ['It gave me great pleasure.', 'I was psyched!'], ['Thank you kindly.', 'Thanks so much!'],
+  ['I would like to express my gratitude.', 'I just had to say thanks!'], ['I hope this letter finds you well.', 'How’s it going?'],
+  ['Please accept my apologies.', 'Sorry about that!'], ['Yours faithfully,', 'Your friend,'], ['I look forward to your reply.', 'Write back soon!']
+];
+const W_CLOSINGS = ['Your friend', 'Talk to you soon', 'See you soon', 'Your nephew', 'Love', 'Your cousin'];
+const W_SENSES = [
+  ['The warm bread smelled of butter and honey.', 'smell'], ['The crowd’s roar shook the stands.', 'sound'], ['The mango tasted sweet and juicy.', 'taste'],
+  ['The kitten’s fur was soft and warm.', 'touch'], ['The stadium lights glowed bright white.', 'sight'], ['The sand was rough and hot under my feet.', 'touch'],
+  ['Fireworks popped and crackled above us.', 'sound'], ['The sunset painted the sky orange and pink.', 'sight'], ['The coffee smelled of cardamom.', 'smell'], ['The lemonade was sour and icy.', 'taste']
+];
+const W_VAGUE = [ /* [specific, vague versions] */
+  ['When I opened the box, the soft blue jersey smelled brand new, and I yelled “Yes!”', ['I was happy to get the gift.', 'The gift was nice.', 'Thanks for the thing you gave me.']],
+  ['The roller coaster dropped so fast that my stomach flipped and I screamed with laughter.', ['The ride was fun.', 'We went on a ride.', 'It was a good day.']],
+  ['Grandma’s kitchen smelled of cardamom, and the warm dates melted in my mouth.', ['The food was good.', 'We ate at Grandma’s.', 'I liked it there.']]
+];
+const W_MARKS = [
+  ['Clear, neat handwriting is marked under…', 'Presentation (0.5)'], ['Correct grammar, spelling and punctuation are marked under…', 'Language accuracy (1)'],
+  ['Putting the parts and ideas in a logical order is marked under…', 'Organization (1)'], ['Interesting, on-topic ideas with details are marked under…', 'Ideas and content (1)']
+];
+const W_TF = [
+  ['A friendly letter needs a comma after the greeting.', true, 'Yes: Dear Lina,'],
+  ['The signature comes before the closing.', false, 'The closing comes first, then your name on the line under it.'],
+  ['Contractions such as I’m and can’t are fine in a friendly letter.', true, 'Yes, they make the letter sound friendly and natural.'],
+  ['The date goes at the very end of the letter.', false, 'The date is in the heading, at the top.'],
+  ['Only the first word of a closing needs a capital letter.', true, 'Yes: “Talk to you soon,” not “Talk To You Soon,”.'],
+  ['A friendly letter should sound stiff and formal.', false, 'No: write the way you talk to someone you care about.'],
+  ['The Quiz 2 letter needs at least six complete sentences.', true, 'Yes, the outline asks for six complete sentences.']
+];
+const UNIT4_WORDS = ['acquit', 'deem', 'devastate', 'discredit', 'elusive', 'generate', 'idolize', 'ingratitude', 'keepsake', 'mortal', 'ovation', 'petty', 'plight', 'repent', 'reverie', 'revocation', 'scan', 'strand', 'strife', 'topple'];
 
 /* ================= settings ================= */
 const KEY = 'english-missions-quiz2-v1';
@@ -789,6 +864,99 @@ const RR = { /* reading */
   }
 };
 
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const CITIES = [['Riyadh', 'Saudi Arabia'], ['Jeddah', 'Saudi Arabia'], ['Dammam', 'Saudi Arabia'], ['Cairo', 'Egypt'], ['Dubai', 'United Arab Emirates']];
+const randDate = () => ({m:pick(MONTHS), d:1 + rnd(28), y:2026 + rnd(2)});
+const WW = { /* writing: the friendly letter */
+  partOf(){
+    const n = pick(ANY), c = pick(CITIES), dt = randDate(), g = pick(W_GIFTS);
+    const P = [
+      ['Heading', `${1 + rnd(90)} ${pick(['Olaya', 'Tahlia', 'Palm', 'Corniche'])} Street<br>${c[0]}, ${c[1]}<br>${dt.m} ${dt.d}, ${dt.y}`],
+      ['Greeting', `Dear ${n},`], ['Body', `Thanks so much for ${g[0]}! ${g[1][0]}`], ['Closing', pick(W_CLOSINGS) + ','], ['Signature', pick(ANY)]
+    ];
+    const t = pick(P);
+    const why = {Heading:'The heading is at the top: your address and the date.', Greeting:'The greeting starts the letter: “Dear” + name + comma.', Body:'The body is the main message, in one or more paragraphs.',
+      Closing:'The closing is a short friendly phrase that ends the letter, with a comma.', Signature:'The signature is your name, on the line under the closing.'}[t[0]];
+    return mc('w-parts', 'Which part of a friendly letter is this?', t[0], ['Heading', 'Greeting', 'Body', 'Closing', 'Signature'].filter((x) => x !== t[0]).slice(0, 3), why, {ctx:t[1]});
+  },
+  order(){ return {kind:'order', skill:'w-parts', prompt:'Put the five parts of a friendly letter in order, from top to bottom.', items:['Heading', 'Greeting', 'Body', 'Closing', 'Signature'], right:'Heading → Greeting → Body → Closing → Signature', why:'Heading (address and date) → Greeting (Dear …,) → Body (your message) → Closing (Your friend,) → Signature (your name).'}; },
+  whatGoes(){
+    const T = [['What goes in the heading?', 'Your address and the date', ['Your name', 'A goodbye phrase', 'The main message']],
+      ['What goes in the body?', 'Your message, in paragraphs', ['Only the date', 'Only your name', 'The greeting']],
+      ['What comes right after the closing?', 'The signature: your name', ['The greeting', 'The heading', 'Another paragraph']],
+      ['Which is NOT one of the five parts of a friendly letter?', 'A title', ['The greeting', 'The signature', 'The closing']]];
+    const t = pick(T); return mc('w-parts', t[0], t[1], t[2], 'The five parts, in order: heading, greeting, body, closing, signature.');
+  },
+  tf(){ const t = pick(W_TF); return mc('w-parts', 'True or false?', t[1] ? 'True' : 'False', [t[1] ? 'False' : 'True'], t[2], {ctx:esc(t[0]), two:true}); },
+  greet(){
+    const n = pick(ANY);
+    return mc('w-punct', 'Which greeting is written correctly?', `Dear ${n},`, [`Dear ${n}`, `dear ${n.toLowerCase()},`, `Dear, ${n}`], 'A capital letter for “Dear” and the name, and a comma after the greeting: Dear Lina,');
+  },
+  closeQ(){
+    const c = pick(W_CLOSINGS), titled = c.split(' ').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+    const wrongs = [c, c.toLowerCase() + ',', (titled !== c ? titled + ',' : c + '.')];
+    return mc('w-punct', 'Which closing is written correctly?', c + ',', wrongs, 'Only the first word of the closing gets a capital letter, and a comma comes after it: Talk to you soon,');
+  },
+  dateQ(){
+    const d = randDate();
+    return mc('w-punct', 'Which date is written correctly?', `${d.m} ${d.d}, ${d.y}`, [`${d.m}, ${d.d} ${d.y}`, `${d.m.toLowerCase()} ${d.d} ${d.y}`, `${d.m} ${d.d} ${d.y}`], 'A capital letter for the month, and a comma between the day and the year: November 12, 2026.');
+  },
+  cityQ(){
+    const c = pick(CITIES);
+    return mc('w-punct', 'Which address line is written correctly?', `${c[0]}, ${c[1]}`, [`${c[0]} ${c[1]}`, `${c[0]}; ${c[1]}`, `${c[0].toLowerCase()}, ${c[1].toLowerCase()}`], 'Put a comma after the city, and capital letters for the city and the country: Jeddah, Saudi Arabia.');
+  },
+  tapComma(){
+    const n = pick(ANY), c = pick(CITIES), d = randDate();
+    const T = [`*${c[0]} ${c[1]}`, `${d.m} *${d.d} ${d.y}`, `Dear *${n}`, `Talk to you *soon`, `See you *soon`, `Your *friend`];
+    return tapQ('w-punct', 'A comma is missing. Tap the word that should have a comma right after it.', pick(T), 'Commas in a friendly letter: after the city, between the day and the year, after the greeting and after the closing.');
+  },
+  tapCap(){
+    const n = pick(ANY), g = pick(W_GIFTS);
+    const T = [`*dear ${n},`, `Thanks so much for ${g[0]}! *i love it.`, `I wore it on *friday with my cousin.`, `*your friend,`, `My aunt lives in *jeddah near the sea.`];
+    return tapQ('w-caps', 'One word needs a capital letter. Tap it.', pick(T), 'Capital letters: “Dear”, the first word of the closing, every sentence, the word I, names, cities and days.');
+  },
+  fixGreeting(){
+    const n = pick(ANY), bad = pick([`dear ${n.toLowerCase()}`, `Dear ${n}`, `dear ${n},`]);
+    return typeQ('w-punct', 'Fix this greeting. Type it correctly, with capitals and the comma.', [`Dear ${n},`], `Correct: <b>Dear ${n},</b> — capital D, capital name, comma after.`, {ctx:esc(bad), exact:true, hint:'Dear + name + ,'});
+  },
+  friendly(){
+    const t = pick(W_FORMAL), others = pickN(W_FORMAL.filter((x) => x !== t), 3);
+    return pick([
+      mc('w-tone', 'Which sounds right in a FRIENDLY letter?', esc(t[1]), others.map((x) => esc(x[0])), 'Friendly letters are informal: write the way you talk, with contractions and short sentences.'),
+      mc('w-tone', `What is the friendly way to say <q>${esc(t[0])}</q>?`, esc(t[1]), others.map((x) => esc(x[1])), `“${esc(t[0])}” is formal. In a friendly letter you could write “${esc(t[1])}”`)
+    ]);
+  },
+  sense(){
+    const t = pick(W_SENSES);
+    return mc('w-senses', 'Which sense does this detail appeal to?', t[1], ['sight', 'sound', 'smell', 'taste', 'touch'].filter((x) => x !== t[1]).slice(0, 3),
+      'Sensory details tell what you saw, heard, smelled, tasted or felt. They make a letter come alive.', {ctx:esc(t[0])});
+  },
+  specific(){
+    const t = pick(W_VAGUE);
+    return mc('w-senses', 'Which sentence uses the most SPECIFIC, sensory details?', esc(t[0]), t[1].map(esc), 'Specific details (what you saw, heard, smelled, tasted, felt, and what you did) are more interesting than vague words like “nice” or “good”.');
+  },
+  unity(){
+    const r = pick(W_RELS), g = pick(W_GIFTS);
+    return mc('w-plan', `You are thanking ${r} for ${g[0]}. Which detail does NOT belong in your letter?`, esc(pick(W_OFF)), g[1].map(esc), 'Stay on topic: cross out details that don’t stick to what the person did for you.');
+  },
+  opener(){
+    const r = pick(W_RELS), g = pick(W_GIFTS);
+    return mc('w-plan', `Which is the best first sentence of a letter thanking ${r} for ${g[0]}?`, esc(`Thanks so much for ${g[0]} — I love it!`),
+      ['I am writing to inform you that the item arrived.', 'The weather was very hot yesterday.', 'Goodbye, and see you later.'], 'Start by saying why you are writing, in a friendly voice.');
+  },
+  paraPlan(){
+    return pick([
+      mc('w-plan', 'In a thank-you letter, what does body paragraph 1 usually tell?', 'What the person did for you', ['How to bake a cake', 'Your address', 'Goodbye'], 'Paragraph 1: what the person did. Paragraph 2: how it made you feel.'),
+      mc('w-plan', 'In a thank-you letter, what does body paragraph 2 usually tell?', 'How it made you feel', ['The date', 'Your address', 'The greeting'], 'Paragraph 1: what the person did. Paragraph 2: how it made you feel (thrilled, surprised, relieved…).'),
+      mc('w-plan', 'How many complete sentences does the Quiz 2 letter need?', 'At least six', ['Exactly two', 'One long sentence', 'Twenty'], 'The outline asks for the date, a greeting, six complete sentences, a friendly closing and your name.')
+    ]);
+  },
+  marks(){
+    const t = pick(W_MARKS), all = W_MARKS.map((x) => x[1]);
+    return mc('w-marks', t[0], t[1], all.filter((x) => x !== t[1]), 'The Quiz 2 letter is out of 3.5: Ideas and content 1 + Organization 1 + Language accuracy 1 + Presentation 0.5.');
+  }
+};
+
 /* ================= tracks and missions ================= */
 const TRACKS = {
   g:{id:'g', name:'Grammar', ar:'القواعد', sub:'Chapter 7 · Nouns and Pronouns (Lessons 7.1–7.3, pp. 141–146)', gens:GG, missions:[
@@ -804,7 +972,13 @@ const TRACKS = {
     {id:'m3', name:'Central & Main Idea', ar:'الفكرة الرئيسية', sub:'The central idea, each paragraph’s main idea, supporting details and summaries.', n:10, mix:['essay', 'essay', 'para', 'para']},
     {id:'m4', name:'Main Idea Practice', ar:'تدريب على نصوص جديدة', sub:'New short passages: main idea, details, title, stated or implied.', n:10, mix:['pMain', 'pMain', 'pSup', 'pOut', 'pTitle', 'pStated']},
     {id:'boss', name:'Final Boss: Reading Mock Test', ar:'اختبار القراءة التجريبي', sub:'20 mixed questions. Score 85% to beat the boss.', n:20, pass:.85, boss:true,
-      mix:['detail', 'detail', 'tf', 'wordCtx', 'wordPick', 'wordType', 'essay', 'essay', 'para', 'pMain', 'pSup', 'pOut', 'pTitle', 'pStated']}]}
+      mix:['detail', 'detail', 'tf', 'wordCtx', 'wordPick', 'wordType', 'essay', 'essay', 'para', 'pMain', 'pSup', 'pOut', 'pTitle', 'pStated']}]},
+  w:{id:'w', name:'Writing', ar:'التعبير الكتابي', sub:'The friendly letter (Writing Application, pp. 46–49) · marked out of 3.5 in Quiz 2', gens:WW, missions:[
+    {id:'m1', name:'Parts of a Letter', ar:'أجزاء الرسالة', sub:'Heading, greeting, body, closing and signature — what goes where, and in what order.', n:10, mix:['partOf', 'partOf', 'order', 'whatGoes', 'tf']},
+    {id:'m2', name:'Commas & Capitals', ar:'الفواصل والحروف الكبيرة', sub:'The date, the address, the greeting and the closing — written correctly.', n:10, mix:['greet', 'closeQ', 'dateQ', 'cityQ', 'tapComma', 'tapCap', 'fixGreeting']},
+    {id:'m3', name:'Friendly Language & Details', ar:'لغة ودية وتفاصيل حسية', sub:'Friendly or formal? The five senses, and specific details.', n:10, mix:['friendly', 'friendly', 'sense', 'sense', 'specific']},
+    {id:'m4', name:'Plan & Organize', ar:'التخطيط والتنظيم', sub:'Two body paragraphs, staying on topic, a good opening, and how the letter is marked.', n:8, mix:['unity', 'unity', 'opener', 'paraPlan', 'marks']},
+    {id:'boss', name:'Final Boss: Letter Workshop', ar:'ورشة الرسالة', sub:'Write your own letter. The checklist checks what Quiz 2 asks for; tick everything to beat the boss.', n:1, workshop:true}]}
 };
 const SKILLS = {
   g:{'g-kind':'Common and proper nouns', 'g-caps':'Capital letters', 'g-ppit':'Person, place, thing or idea', 'g-pos':'Noun or verb?', 'g-ante':'Antecedents',
@@ -812,19 +986,23 @@ const SKILLS = {
     'g-prep':'Pronoun after a preposition', 'g-pn':'After “is / are / was”', 'g-weus':'We or us + noun', 'g-role':'A pronoun’s job', 'g-edit':'Finding pronoun errors'},
   r:{'r-detail':'Key details', 'r-word':'Words in context', 'r-spell':'Spelling the words', 'r-central':'Central idea', 'r-para':'Paragraph main ideas',
     'r-support':'Supporting details', 'r-summary':'Summaries', 'r-purpose':'Author’s purpose', 'r-pmain':'Main idea of a new passage',
-    'r-psupport':'Details in a new passage', 'r-pbelong':'Does it belong?', 'r-ptitle':'Best title', 'r-stated':'Stated or implied'}
+    'r-psupport':'Details in a new passage', 'r-pbelong':'Does it belong?', 'r-ptitle':'Best title', 'r-stated':'Stated or implied'},
+  w:{'w-parts':'The five parts', 'w-punct':'Commas in a letter', 'w-caps':'Capital letters', 'w-tone':'Friendly, not formal', 'w-senses':'Sensory and specific details',
+    'w-plan':'Planning and staying on topic', 'w-marks':'How the letter is marked', 'w-letter':'Writing a whole letter'}
 };
 const SKILL_GENS = {'g-kind':['nounKind', 'properPick', 'commonPick', 'tapProper', 'tapCommon'], 'g-caps':['caps', 'capsTap'], 'g-ppit':['ppit'], 'g-pos':['pos'], 'g-ante':['antecedent'],
   'g-ptype':['ptype'], 'g-poss':['poss'], 'g-agree':['agree'], 'g-so':['so'], 'g-prep':['so'], 'g-pn':['so'], 'g-weus':['so'], 'g-role':['role', 'lists'], 'g-edit':['errSentence', 'typeFix', 'tapErrors'],
   'r-detail':['detail', 'tf'], 'r-word':['wordCtx', 'wordPick', 'wordClue'], 'r-spell':['wordType'], 'r-central':['essay'], 'r-para':['para'], 'r-support':['essay'], 'r-summary':['essay'], 'r-purpose':['essay'],
-  'r-pmain':['pMain'], 'r-psupport':['pSup'], 'r-pbelong':['pOut'], 'r-ptitle':['pTitle'], 'r-stated':['pStated']};
+  'r-pmain':['pMain'], 'r-psupport':['pSup'], 'r-pbelong':['pOut'], 'r-ptitle':['pTitle'], 'r-stated':['pStated'],
+  'w-parts':['partOf', 'order', 'whatGoes', 'tf'], 'w-punct':['greet', 'closeQ', 'dateQ', 'cityQ', 'tapComma', 'fixGreeting'], 'w-caps':['tapCap'], 'w-tone':['friendly'],
+  'w-senses':['sense', 'specific'], 'w-plan':['unity', 'opener', 'paraPlan'], 'w-marks':['marks'], 'w-letter':['paraPlan']};
 
 /* ================= state (synced by assets/sync.js) ================= */
-function freshState(){ return {v:1, xp:0, xq:{}, sk:{}, missions:{g:{}, r:{}}, log:[], speed:{g:0, r:0}}; }
+function freshState(){ return {v:1, xp:0, xq:{}, sk:{}, missions:{g:{}, r:{}, w:{}}, log:[], speed:{g:0, r:0, w:0}, letters:0}; }
 let S = freshState();
 try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(freshState(), JSON.parse(raw)); } catch (e) { /* storage unavailable */ }
-S.missions = Object.assign({g:{}, r:{}}, S.missions || {});
-S.speed = Object.assign({g:0, r:0}, S.speed || {});
+S.missions = Object.assign({g:{}, r:{}, w:{}}, S.missions || {});
+S.speed = Object.assign({g:0, r:0, w:0}, S.speed || {});
 let soundOn = true;
 try { soundOn = localStorage.getItem('english-missions-sound') !== '0'; } catch (e) { /* ignore */ }
 function save(){ S.updatedAt = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* ignore */ } }
@@ -873,7 +1051,7 @@ function speak(text){ try { const u = new SpeechSynthesisUtterance(text); u.lang
 /* ================= views ================= */
 let view = 'home', quiz = null;
 let tab = 'g';
-try { const v = localStorage.getItem(TAB_KEY); if (v === 'g' || v === 'r') tab = v; } catch (e) { /* ignore */ }
+try { const v = localStorage.getItem(TAB_KEY); if (v === 'g' || v === 'r' || v === 'w') tab = v; } catch (e) { /* ignore */ }
 function mount(...nodes){
   const app = $('#app'); app.innerHTML = '';
   app.append(...nodes, h('div', {class:'foot'}, h('span', null, '☁️ Progress syncs across the family’s devices'),
@@ -883,7 +1061,7 @@ function mount(...nodes){
 function backBtn(){ return h('button', {class:'back', type:'button', onclick:home}, '← Back to base'); }
 function paintChip(){
   const c = $('#vaultChip'); if (!c) return;
-  const t = arcadeTotals(), any = open('g') || open('r');
+  const t = arcadeTotals(), any = open('g') || open('r') || open('w');
   if (!any) { c.className = 'chip lock'; c.textContent = '🔒 Arcade: pass M1–M3'; return; }
   c.className = 'chip open'; c.textContent = t ? '🎮 ' + Math.floor(t.left / 60000) + ' min in the arcade' : '🎮 Open the arcade';
 }
@@ -895,18 +1073,23 @@ function home(){
   const T = TRACKS[tab], days = daysToTest(), r = readiness(tab);
   const dayTxt = days === 1 ? 'Test is tomorrow' : days === 0 ? 'Test is today — you got this!' : days > 1 ? `Test in ${days} days` : 'Keep it fresh';
   const C = 2 * Math.PI * 30;
-  const tabs = h('div', {class:'tabs', role:'tablist'}, ['g', 'r'].map((k) => h('button', {type:'button', role:'tab', 'aria-selected':String(k === tab), class:k === tab ? 'on' : '', onclick:() => { tab = k; home(); }},
-    k === 'g' ? '✏️ ' : '📖 ', TRACKS[k].name, h('span', {lang:'ar', style:'font-size:14px;opacity:.8'}, TRACKS[k].ar))));
+  const tabs = h('div', {class:'tabs', role:'tablist'}, ['g', 'r', 'w'].map((k) => h('button', {type:'button', role:'tab', 'aria-selected':String(k === tab), class:k === tab ? 'on' : '', onclick:() => { tab = k; home(); }},
+    {g:'✏️ ', r:'📖 ', w:'💌 '}[k], TRACKS[k].name, h('span', {lang:'ar', style:'font-size:14px;opacity:.8'}, TRACKS[k].ar))));
   const hello = h('section', {class:'hello'},
     h('span', {class:'eyebrow'}, dayTxt + ' · English Quiz 2'),
     h('h1', {html:T.name + ' <em>Missions</em>'}),
     h('p', {class:'muted'}, T.sub),
-    h('span', {class:'ar-line', lang:'ar'}, tab === 'g' ? 'الأسماء والضمائر: اقرأ الدروس، ثم اجتز المهمات. الأسئلة تتغيّر كل مرة.' : 'اقرأ النص من كتابك أولاً، ثم راجع خريطة النص، ثم اجتز المهمات.'),
+    h('span', {class:'ar-line', lang:'ar'}, {g:'الأسماء والضمائر: اقرأ الدروس، ثم اجتز المهمات. الأسئلة تتغيّر كل مرة.', r:'اقرأ النص من كتابك أولاً، ثم راجع خريطة النص، ثم اجتز المهمات.', w:'الرسالة الودية: تعلّم الأجزاء الخمسة والفواصل واللغة الودية، ثم اكتب رسالتك في الورشة.'}[tab]),
     h('div', {class:'facts'}, h('span', {class:'fact'}, h('b', null, T.missions.filter((m) => passed(tab, m.id)).length), ' / 5 missions'),
       h('span', {class:'fact'}, h('b', null, Object.keys(SKILLS[tab]).filter((k) => (mastery(k) || 0) >= .8).length), ' / ' + Object.keys(SKILLS[tab]).length + ' skills strong')),
     h('div', {class:'ready'}, h('div', {html:`<svg class="ring" viewBox="0 0 74 74" role="img" aria-label="Readiness ${pct(r)} percent"><circle class="bg" cx="37" cy="37" r="30"/><circle class="fg" cx="37" cy="37" r="30" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - r)}" transform="rotate(-90 37 37)"/><text x="37" y="43" text-anchor="middle">${pct(r)}%</text></svg>`}),
       h('div', null, h('b', null, T.name + ' readiness'), h('p', {class:'muted', style:'font-size:14.5px'}, r >= .85 ? 'Excellent — beat the Final Boss to be sure.' : r >= .6 ? 'Getting there. Check your report for weak skills.' : 'Start with the lessons, then Mission 1.'))));
-  const tools = tab === 'g' ? h('div', {class:'tools'},
+  const tools = tab === 'w' ? h('div', {class:'tools'},
+      tool('💌', 'The Five Parts', 'A model letter with every part labeled.', () => lesson('w1')),
+      tool('✒️', 'Commas & Capitals', 'Exactly where the commas and capitals go.', () => lesson('w2')),
+      tool('😊', 'Friendly Words & Plan', 'Friendly vs formal, the five senses, two paragraphs, the marks.', () => lesson('w3')),
+      tool('⚡', 'Friendly or Formal?', '60 seconds: is it friendly or formal?', () => speed('w'), S.speed.w ? 'Best: ' + S.speed.w : null))
+    : tab === 'g' ? h('div', {class:'tools'},
       tool('📗', 'Lesson 7.1: Nouns', 'Common and proper nouns, capitals, noun or verb.', () => lesson('g1')),
       tool('📘', 'Lesson 7.2: Pronouns', 'Antecedents, personal, possessive and indefinite.', () => lesson('g2')),
       tool('📙', 'Lesson 7.3: Subject & Object', 'I or me? The cover-up trick.', () => lesson('g3')),
@@ -952,9 +1135,9 @@ function missionEl(t, m, i){
       h('span', {class:'ar-line', lang:'ar', style:'display:inline'}, m.ar),
       h('div', {class:'meta'},
         h('span', {class:'tag min'}, UNLOCK.includes(m.id) ? (st.passed ? '✔ part of the arcade unlock' : '🔑 needed for arcade time') : '🎮 +' + perPart() + ' min after M3'),
-        h('span', {class:'tag'}, m.n + ' questions'),
+        h('span', {class:'tag'}, m.workshop ? 'write a letter' : m.n + ' questions'),
         best != null ? h('span', {class:'tag ' + pc(best)}, 'Best ' + pct(best) + '%') : null)),
-    h('div', {class:'go'}, h('button', {class:'btn ' + (st.passed ? 'btn-ghost' : 'btn-main'), type:'button', onclick:() => startQuiz(t, m)}, st.passed ? 'Play again' : 'Start')));
+    h('div', {class:'go'}, h('button', {class:'btn ' + (st.passed ? 'btn-ghost' : 'btn-main'), type:'button', onclick:() => (m.workshop ? workshop() : startQuiz(t, m))}, m.workshop ? (st.passed ? 'Write another' : 'Write my letter') : st.passed ? 'Play again' : 'Start')));
 }
 
 /* ---------- lessons ---------- */
@@ -962,6 +1145,7 @@ const card = (title, ...kids) => h('section', {class:'panel lesson'}, h('h3', nu
 const rule = (html) => h('div', {class:'rule', html});
 const arNote = (txt) => h('p', {class:'ar-line', lang:'ar'}, txt);
 const list = (items) => h('ul', {class:'ex-list'}, items.map((x) => h('li', {html:x})));
+const partRow = (label, what, html, cls) => h('div', {class:'lrow'}, h('span', {class:'ltag'}, label, h('small', null, what)), h('div', {class:'ltext' + (cls ? ' ' + cls : ''), html}));
 function lesson(id){
   view = 'lesson';
   let body = [];
@@ -1021,7 +1205,39 @@ function lesson(id){
     card('Stated or implied?', list(['<b>Stated:</b> one sentence (often the first) says it directly.', '<b>Implied:</b> no sentence says it; you add up the details to find it.']),
       arNote('Stated = مكتوبة صراحة في جملة. Implied = تستنتجها من التفاصيل.')),
     card('Writing a summary', list(['Key ideas only, in your own words.', 'No small details, no opinion, no long quotes.', 'Usually 2–3 sentences for a short text.']))];
-  const back = id[0] === 'g' ? 'g' : 'r';
+  else if (id === 'w1') body = [
+    card('The five parts of a friendly letter', rule('A friendly letter has five parts, in this order: <b>heading</b>, <b>greeting</b>, <b>body</b>, <b>closing</b> and <b>signature</b>.'),
+      h('div', {class:'letter-model'},
+        partRow('Heading', 'your address and the date', W_MODEL.heading.join('<br>'), 'right'),
+        partRow('Greeting', '“Dear” + name + comma', W_MODEL.greeting),
+        partRow('Body ¶1', 'what the person did', W_MODEL.body[0], 'para'),
+        partRow('Body ¶2', 'how it made you feel', W_MODEL.body[1], 'para'),
+        partRow('Closing', 'a friendly phrase + comma', W_MODEL.closing, 'right'),
+        partRow('Signature', 'your name', W_MODEL.signature, 'right')),
+      arNote('الترتيب: العنوان والتاريخ ← التحية ← النص (فقرتان) ← الختام ← الاسم.')),
+    card('Why people write friendly letters', list(['to thank someone', 'to invite someone', 'to share news or feelings', 'to stay in touch']),
+      rule('Quiz 2 asks for <b>the date</b>, <b>a greeting</b>, <b>six complete sentences</b>, <b>a friendly closing</b> and <b>your name</b>.'),
+      arNote('الاختبار يطلب: التاريخ، التحية، ست جمل كاملة، ختام ودّي، واسمك.'))];
+  else if (id === 'w2') body = [
+    card('Commas: four places', list(['After the city: <b>Jeddah, Saudi Arabia</b>', 'Between the day and the year: <b>November 12, 2026</b>', 'After the greeting: <b>Dear Aunt Huda,</b>', 'After the closing: <b>Your nephew,</b>']),
+      arNote('الفاصلة في أربعة أماكن: بعد المدينة، بين اليوم والسنة، بعد التحية، وبعد الختام.')),
+    card('Capital letters', list(['The month: <b>N</b>ovember 12, 2026', '“Dear” and the name: <b>D</b>ear <b>H</b>uda,', 'Only the first word of the closing: <b>T</b>alk to you soon,', 'The first word of every sentence, and the word <b>I</b>', 'Names of people, cities, countries and days: <b>J</b>eddah, <b>F</b>riday']),
+      rule('Common slips: <s>dear huda</s> → Dear Huda, · <s>Talk To You Soon</s> → Talk to you soon, · <s>November 12 2026</s> → November 12, 2026'),
+      arNote('الحرف الكبير: الشهر، Dear والاسم، أول كلمة في الختام فقط، أول كل جملة، وكلمة I.'))];
+  else if (id === 'w3') body = [
+    card('Friendly, not formal', rule('Write the way you talk to someone you care about: contractions (I’m, can’t), friendly words, short sentences.'),
+      h('div', {class:'tbl'}, h('table', {class:'chart'}, h('thead', null, h('tr', null, h('th', null, 'Formal (avoid)'), h('th', null, 'Friendly (use)'))),
+        h('tbody', null, W_FORMAL.map((f) => h('tr', null, h('td', null, f[0]), h('td', null, f[1])))))),
+      h('p', {class:'note'}, 'Friendly closings: Your friend, · Talk to you soon, · See you soon, · Love,  — too formal: Yours faithfully, · Sincerely,')),
+    card('Details that come alive', rule('Use the five senses: <b>sight, sound, smell, taste, touch</b>.'),
+      list(['Vague: <i>I was excited to get the gift.</i>', 'Specific: <i>When I opened the box, the soft blue jersey smelled brand new, and I yelled “Yes!”</i>']),
+      arNote('التفاصيل الحسية: ماذا رأيت، سمعت، شممت، تذوقت، لمست.')),
+    card('Plan it', list(['Who are you writing to, and why?', 'Paragraph 1: what the person did (3–4 details).', 'Paragraph 2: how it made you feel (thrilled, surprised, relieved…).', 'Cross out any detail that doesn’t stick to the topic.']),
+      arNote('الفقرة الأولى: ماذا فعل الشخص. الثانية: كيف شعرت. واحذف أي تفصيل خارج الموضوع.')),
+    card('How Quiz 2 marks the letter (3.5)', h('div', {class:'tbl'}, h('table', {class:'chart'}, h('tbody', null,
+      [['Ideas and content', '1', 'on-topic ideas with details'], ['Organization', '1', 'the five parts in order, clear paragraphs'], ['Language accuracy', '1', 'grammar, spelling, commas and capitals'], ['Presentation', '0.5', 'neat, clear handwriting']]
+        .map((r) => h('tr', null, h('td', null, h('b', null, r[0])), h('td', null, r[1]), h('td', null, r[2])))))))];
+  const back = id[0];
   mount(h('div', {class:'stack'}, h('button', {class:'back', type:'button', onclick:() => { tab = back; home(); }}, '← Back to ' + TRACKS[back].name), ...body,
     h('div', {class:'row'}, h('button', {class:'btn btn-main', type:'button', onclick:() => startQuiz(back, TRACKS[back].missions[0])}, 'Start Mission 1 →'))));
 }
@@ -1098,6 +1314,25 @@ function showQ(){
       done(ok ? 1 : 0, [...sel].map((k) => q.toks[k].t).join(', ') || 'nothing');
     });
     cardEl.append(toks, h('div', {class:'row'}, check, h('span', {class:'note'}, 'Tap a word again to unselect it.')));
+  } else if (q.kind === 'order') {
+    const seq = [], pool = h('div', {class:'toks'}), line = h('ol', {class:'ord'});
+    const check = h('button', {class:'btn btn-blue', type:'button', disabled:true}, 'Check my order');
+    const undo = h('button', {class:'btn btn-ghost btn-sm', type:'button'}, 'Undo');
+    const paintLine = () => { line.innerHTML = ''; seq.forEach((i) => line.append(h('li', null, q.items[i]))); check.disabled = seq.length !== q.items.length; };
+    shuffle(q.items.map((_, i) => i)).forEach((i) => {
+      const b = h('button', {class:'tok', type:'button', 'data-i':String(i)}, q.items[i]);
+      b.addEventListener('click', () => { if (b.disabled) return; seq.push(i); b.disabled = true; b.classList.add('sel'); paintLine(); });
+      pool.append(b);
+    });
+    undo.addEventListener('click', () => { const i = seq.pop(); if (i == null) return; const b = pool.querySelector(`[data-i="${i}"]`); if (b) { b.disabled = false; b.classList.remove('sel'); } paintLine(); });
+    check.addEventListener('click', () => {
+      if (check.disabled) return;
+      check.disabled = true; undo.disabled = true; [...pool.children].forEach((b) => { b.disabled = true; });
+      const ok = seq.every((x, k) => x === k);
+      line.classList.add(ok ? 'ok' : 'no');
+      done(ok ? 1 : 0, seq.map((i) => q.items[i]).join(' → '));
+    });
+    cardEl.append(h('p', {class:'note'}, 'Tap the parts from top to bottom. Undo takes back the last one.'), line, pool, h('div', {class:'row'}, undo, check));
   } else {
     let hinted = false;
     const inp = h('input', {class:'inp', id:'typeAns', type:'text', autocomplete:'off', autocapitalize:'off', spellcheck:'false', placeholder:'Type here…', 'aria-label':'Your answer'});
@@ -1107,7 +1342,8 @@ function showQ(){
     const submit = () => {
       const v = norm(inp.value); if (!v || inp.disabled) { inp.focus(); return; }
       inp.disabled = true; check.disabled = true; hintBtn.disabled = true;
-      const ok = q.accept.some((a) => norm(a) === v);
+      const tidy = (s) => String(s).replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
+      const ok = q.exact ? q.accept.some((a) => tidy(a) === tidy(inp.value)) : q.accept.some((a) => norm(a) === v);
       inp.classList.add(ok ? 'ok' : 'no');
       done(ok ? (hinted ? .5 : 1) : 0, inp.value);
     };
@@ -1167,8 +1403,8 @@ function speed(t){
   const box = h('div', {class:'stack'});
   const intro = () => {
     box.innerHTML = '';
-    box.append(h('section', {class:'panel result'}, h('div', {class:'big-score'}, '⚡ 60s'), h('h3', null, t === 'g' ? 'Pronoun Speed Round' : 'Word Speed Round'),
-      h('p', {class:'muted'}, t === 'g' ? 'Pick the right pronoun as fast as you can. Wrong answers cost 3 seconds.' : 'A word appears — tap its meaning. Wrong answers cost 3 seconds.'),
+    box.append(h('section', {class:'panel result'}, h('div', {class:'big-score'}, '⚡ 60s'), h('h3', null, {g:'Pronoun Speed Round', r:'Word Speed Round', w:'Friendly or Formal?'}[t]),
+      h('p', {class:'muted'}, {g:'Pick the right pronoun as fast as you can.', r:'A word appears — tap its meaning.', w:'Is the phrase friendly (for a friendly letter) or formal?'}[t] + ' Wrong answers cost 3 seconds.'),
       h('button', {class:'btn btn-main', type:'button', onclick:go}, 'Go!')));
   };
   const go = () => { score = 0; streak = 0; over = false; end = Date.now() + 60000; next(); clearInterval(iv); iv = setInterval(tick, 200); };
@@ -1194,6 +1430,7 @@ function speed(t){
     if (Date.now() >= end) { finish(); return; }
     let q;
     if (t === 'g') q = GG.so();
+    else if (t === 'w') { const f = pick(W_FORMAL), formal = Math.random() < .5; q = mc('w-tone', '', formal ? 'Formal 🎩' : 'Friendly 😊', [formal ? 'Friendly 😊' : 'Formal 🎩'], ''); q.two = true; q.ctx = esc(formal ? f[0] : f[1]); }
     else { const w = pick(RWORDS); q = mc('r-word', '', w[2], pickN(RWORDS.filter((x) => x !== w), 2).map((x) => x[2]), ''); q.big = w[0]; }
     box.innerHTML = '';
     const opts = h('div', {class:'opts' + (q.two ? ' two' : '')});
@@ -1208,11 +1445,146 @@ function speed(t){
       opts.append(b);
     });
     box.append(h('div', {class:'qhead'}, h('span', {class:'qn', id:'spT'}, Math.ceil((end - Date.now()) / 1000) + 's'), h('div', {class:'bar'}, h('i', {id:'spB', style:'width:100%'})), h('span', {class:'streak'}, '⚡ ' + score + (streak > 2 ? ' · 🔥' + streak : ''))),
-      h('section', {class:'qcard'}, h('p', {class:'qsec'}, t === 'g' ? 'Choose the pronoun' : 'What does it mean?'),
+      h('section', {class:'qcard'}, h('p', {class:'qsec'}, {g:'Choose the pronoun', r:'What does it mean?', w:'Friendly or formal?'}[t]),
         q.big ? h('h2', {style:'font-family:var(--f-display);font-weight:400;font-size:clamp(28px,7vw,40px)'}, q.big) : h('div', {class:'qs', html:q.ctx}), opts));
   };
   intro();
   mount(h('div', {class:'stack'}, h('button', {class:'back', type:'button', onclick:() => { tab = t; home(); }}, '← Back to ' + TRACKS[t].name), box));
+}
+
+/* ---------- the letter workshop (the Writing Final Boss) ----------
+   Checks what the Quiz 2 outline asks for (the date, a greeting, six complete sentences, a friendly closing, the name),
+   the two body paragraphs of the lesson, and the commas and capitals. It is a checklist, not a mark: the teacher marks
+   the ideas and the handwriting. Same rules as the letter checker of english/quiz-2. */
+const LMONTHS = '(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sept?|oct|nov|dec)';
+const DATE_MDY = new RegExp('\\b' + LMONTHS + '\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?(\\s*,)?\\s*(\\d{4})\\b', 'i');
+const DATE_DMY = new RegExp('\\b(\\d{1,2})(?:st|nd|rd|th)?\\s+' + LMONTHS + '\\.?,?\\s*(\\d{4})\\b', 'i');
+const DATE_NUM = /\b\d{1,2}\s*[\/.-]\s*\d{1,2}\s*[\/.-]\s*\d{2,4}\b/;
+const GREET = /^(dear|hi|hello|hey)\b/i;
+const CLOSE = /^(your\s+(?:loving\s+|best\s+|good\s+|dear\s+)?(?:friend|pal|buddy|cousin|nephew|niece|brother|sister|son|daughter|grandson|granddaughter|student|classmate|neighbor|neighbour)|yours(?:\s+truly|\s+sincerely|\s+faithfully)?|love|lots of love|with love|best wishes|warm wishes|best|take care|talk to you soon|talk soon|see you soon|see you|bye for now|bye|all the best|cheers|hugs|miss you|regards|kind regards|best regards|sincerely|thanks again|thank you again)\b/i;
+const FORMAL_CLOSE = /^(yours\s+sincerely|yours\s+faithfully|yours\s+truly|sincerely|regards|kind regards|best regards)\b/i;
+const FRIENDLY = /\b(\w+['’](m|re|s|ve|ll|d|t)|thanks|awesome|amazing|cool|fun|wow|psyched|thrilled|excited|hilarious|can['’]t wait)\b/i;
+const STIFF = /(i am writing to inform|thank you kindly|it gave me great pleasure|to whom it may concern)/i;
+const SENSORY = /\b(saw|see|seen|looked|bright|shiny|colou?rful|glow\w*|sparkl\w*|heard|hear|loud|quiet|roar\w*|crunch\w*|pop\w*|smell\w*|smelt|scent|tast\w*|sweet|sour|salty|delicious|juicy|soft|smooth|rough|warm|cold|icy|fuzzy|sticky|felt|feel)\b/i;
+const UNIT4_RE = new RegExp('\\b(' + UNIT4_WORDS.join('|') + ')(s|es|d|ed|ing|ted|led)?\\b', 'gi');
+function sentencesOf(text){ return (text.match(/[^.!?]+[.!?]+["”’)]*|[^.!?]+$/g) || []).map((s) => s.trim()).filter((s) => /[A-Za-z]/.test(s)); }
+function letterCheck(raw){
+  const L = String(raw || '').replace(/\r\n?/g, '\n').split('\n').map((s) => s.replace(/\s+$/, '')), T = L.map((s) => s.trim());
+  const idx = T.map((s, i) => (s ? i : -1)).filter((i) => i >= 0);
+  const items = [], add = (g, ok, tx) => items.push({g, ok, t:tx});
+  if (idx.length < 3) return {items:[{g:'org', ok:'no', t:'Write your letter first: the date, a greeting, at least six sentences in two paragraphs, a closing and your name.'}], pass:false, ratio:0};
+  let dateAt = -1;
+  for (const i of idx.slice(0, 3)) {
+    const s = T[i], m = s.match(DATE_MDY);
+    if (m) { dateAt = i; add('org', 'ok', 'Date: ' + s);
+      if (!m[3]) add('lang', 'no', 'Put a comma between the day and the year: ' + m[1][0].toUpperCase() + m[1].slice(1).toLowerCase() + ' ' + m[2] + ', ' + m[4] + '.');
+      if (m[1][0] !== m[1][0].toUpperCase()) add('lang', 'no', 'Begin the month with a capital letter: ' + m[1][0].toUpperCase() + m[1].slice(1) + '.');
+      break; }
+    if (DATE_DMY.test(s) || DATE_NUM.test(s)) { dateAt = i; add('org', 'ok', 'Date: ' + s); add('lang', 'tip', 'In English letters the date is usually written like this: November 12, 2026.'); break; }
+  }
+  if (dateAt < 0) add('org', 'no', 'Add the date at the top, for example: November 12, 2026.');
+  const gi = idx.find((i) => i > dateAt && GREET.test(T[i]));
+  if (gi === undefined) add('org', 'no', 'Start with a greeting, for example: Dear Ali,');
+  else {
+    add('org', 'ok', 'Greeting: ' + T[gi]);
+    if (!/,$/.test(T[gi])) add('lang', 'no', 'Put a comma after the greeting: ' + T[gi].replace(/[.!:;]+$/, '') + ',');
+    if (!/^[A-Z]/.test(T[gi])) add('lang', 'no', 'Begin the greeting with a capital letter: ' + T[gi][0].toUpperCase() + T[gi].slice(1));
+  }
+  const after = gi === undefined ? dateAt : gi;
+  const ci = idx.slice().reverse().find((i) => i > after && CLOSE.test(T[i]) && T[i].split(/\s+/).length <= 6);
+  if (ci === undefined) add('org', 'no', 'End with a friendly closing, for example: Your friend, or Talk to you soon,');
+  else {
+    const close = T[ci].split(',')[0];
+    add('org', 'ok', 'Closing: ' + T[ci]);
+    if (!/,/.test(T[ci])) add('lang', 'no', 'Put a comma after the closing: ' + T[ci].replace(/[.!:;]+$/, '') + ',');
+    if (!/^[A-Z]/.test(T[ci])) add('lang', 'no', 'Begin the closing with a capital letter.');
+    else if (/\s[A-Z]/.test(close) && !/\bI\b/.test(close)) add('lang', 'tip', 'Only the first word of the closing needs a capital letter: ' + close[0] + close.slice(1).toLowerCase() + ',');
+    if (FORMAL_CLOSE.test(T[ci])) add('org', 'tip', 'That closing sounds formal. A friendly letter uses closings like Your friend, Talk to you soon, See you soon.');
+    const si = idx.find((i) => i > ci), sameLine = T[ci].split(',').slice(1).join(',').trim();
+    if (si !== undefined && T[si].split(/\s+/).length <= 4) add('org', 'ok', 'Signature: ' + T[si]);
+    else if (sameLine) { add('org', 'ok', 'Signature: ' + sameLine); add('org', 'tip', 'Write your name on its own line, under the closing.'); }
+    else add('org', 'no', 'Sign your name on the line under the closing.');
+  }
+  const from = gi !== undefined ? gi + 1 : dateAt + 1, to = ci !== undefined ? ci : idx[idx.length - 1] + 1;
+  const bodyLines = L.slice(from, to), bodyText = bodyLines.map((s) => s.trim()).join(' ').replace(/\s+/g, ' ').trim();
+  const paras = bodyLines.join('\n').split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean).length;
+  const sents = sentencesOf(bodyText);
+  const complete = sents.filter((s) => s.split(/\s+/).filter((w) => /[A-Za-z]/.test(w)).length >= 3 && /[.!?]["”’)]*$/.test(s) && /^["“‘(]*[A-Z]/.test(s));
+  const lower = sents.filter((s) => /^["“‘(]*[a-z]/.test(s)), unended = sents.filter((s) => !/[.!?]["”’)]*$/.test(s));
+  if (complete.length >= 6) add('ideas', 'ok', complete.length + ' complete sentences (the quiz asks for six).');
+  else add('ideas', 'no', complete.length + ' complete sentence' + (complete.length === 1 ? '' : 's') + ' so far. The quiz asks for at least six.');
+  if (lower.length) add('lang', 'no', 'Begin every sentence with a capital letter: “' + lower[0].slice(0, 40) + (lower[0].length > 40 ? '…' : '') + '”');
+  if (unended.length) add('lang', 'no', 'End every sentence with . ! or ?: “' + unended[0].slice(-40) + '”');
+  if (/(^|[^A-Za-z'’])i(?=[^A-Za-z]|$)/.test(bodyText)) add('lang', 'no', 'Write the word I as a capital letter: I, I’m, I’ve.');
+  if (paras >= 2) add('org', 'ok', paras + ' paragraphs in the body.');
+  else add('org', 'no', 'Write two body paragraphs: what happened (or what the person did), then how you felt. Leave an empty line between them.');
+  if (STIFF.test(bodyText)) add('ideas', 'tip', 'Some words sound formal. In a friendly letter, write the way you talk: “Thanks so much!”, “I’m dropping a note to say…”');
+  else if (FRIENDLY.test(bodyText)) add('ideas', 'ok', 'Friendly, informal tone.');
+  if (SENSORY.test(bodyText)) add('ideas', 'ok', 'Sensory details: you tell what you saw, heard, smelled, tasted or felt.');
+  else add('ideas', 'tip', 'Add a sensory detail: what did you see, hear, smell, taste or feel?');
+  const unit4 = [...new Set((bodyText.match(UNIT4_RE) || []).map((w) => w.toLowerCase()))];
+  if (unit4.length) add('ideas', 'ok', 'Unit 4 words used: ' + unit4.join(', ') + '. Great!');
+  const model = /falcon book you sent me/i.test(bodyText);
+  if (model) add('ideas', 'no', 'That is the model letter. Write your own letter to beat the boss.');
+  const need = items.filter((x) => x.ok === 'no').length, okN = items.filter((x) => x.ok === 'ok').length;
+  return {items, pass:need === 0, ratio:okN / Math.max(1, okN + need)};
+}
+const LETTER_KEY = 'english-missions-letter';   /* the draft stays on this device only */
+const FRAME = 'November 12, 2026\n\nDear ,\n\n\n\n\n\nYour friend,\n';
+function workshop(){
+  view = 'workshop';
+  let draft = '', pi = 0;
+  try { draft = localStorage.getItem(LETTER_KEY) || ''; pi = (+localStorage.getItem(LETTER_KEY + '-p') || 0) % W_PROMPTS.length; } catch (e) { /* ignore */ }
+  const promptEl = h('div', {class:'rule'});
+  const paintPrompt = () => { promptEl.innerHTML = '<b>Your task:</b> ' + esc(W_PROMPTS[pi].p) + `<span class="ar-line" lang="ar">${W_PROMPTS[pi].ar}</span>`; };
+  paintPrompt();
+  const ta = h('textarea', {class:'letter-in', id:'letterIn', rows:'16', spellcheck:'true', 'aria-label':'Your letter', placeholder:'November 12, 2026\n\nDear …,\n\n(paragraph 1: what happened, or what the person did)\n\n(paragraph 2: how you felt)\n\nYour friend,\n(your name)'});
+  ta.value = draft;
+  const keep = () => { try { localStorage.setItem(LETTER_KEY, ta.value); } catch (e) { /* ignore */ } };
+  ta.addEventListener('input', keep);
+  const res = h('div', {'aria-live':'polite'});
+  const frameBtn = h('button', {class:'btn btn-ghost btn-sm', type:'button'}, '🧩 Start with the frame');
+  frameBtn.addEventListener('click', () => {
+    if (ta.value.trim() && !frameBtn.dataset.arm) { frameBtn.dataset.arm = '1'; frameBtn.textContent = 'Tap again to replace your text'; return; }
+    delete frameBtn.dataset.arm; frameBtn.textContent = '🧩 Start with the frame';
+    ta.value = FRAME; keep(); ta.focus(); ta.setSelectionRange(FRAME.indexOf(',') , FRAME.indexOf(','));
+  });
+  const topicBtn = h('button', {class:'btn btn-ghost btn-sm', type:'button', onclick:() => { pi = (pi + 1) % W_PROMPTS.length; try { localStorage.setItem(LETTER_KEY + '-p', String(pi)); } catch (e) { /* ignore */ } paintPrompt(); }}, '🔄 Another task');
+  const check = h('button', {class:'btn btn-main', type:'button'}, '✔ Check my letter');
+  check.addEventListener('click', () => {
+    const r = letterCheck(ta.value);
+    const all = S.missions.w || (S.missions.w = {}), st = all.boss || (all.boss = {best:null, passed:false, tries:0});
+    st.tries++; st.best = Math.max(st.best || 0, r.ratio); S.letters = (S.letters || 0) + 1;
+    record('w-letter', r.pass ? 1 : 0);
+    let earned = 0, gotXp = false;
+    if (r.pass) {
+      const before = myParts('w');
+      st.passed = true;
+      earned = (myParts('w') - before) * perPart();
+      const d = new Date(); gotXp = xpOnce(xqKey('letter', d.getFullYear(), d.getMonth(), d.getDate()), 30);
+      S.log.unshift({t:'w', m:'boss', s:1, n:1, at:Date.now()}); S.log = S.log.slice(0, 40);
+    }
+    save();
+    const groups = [['ideas', 'Ideas and content (1)'], ['org', 'Organization (1)'], ['lang', 'Language accuracy (1)']];
+    res.innerHTML = '';
+    res.append(h('section', {class:'panel'},
+      h('div', {class:'fb ' + (r.pass ? 'ok' : 'no')}, h('span', {class:'fi', 'aria-hidden':'true'}, r.pass ? '🏆' : '✍️'),
+        h('div', null, h('b', {class:'t'}, r.pass ? 'Everything the quiz asks for is there!' : 'Almost: fix the ✗ items, then check again.'),
+          r.pass ? h('div', null, (gotXp ? '⭐ +30 points. ' : '⭐ The +30 for a letter comes once a day. ') + (earned ? '🎮 +' + earned + ' min in the arcade.' : open('w') ? '' : 'Arcade time from Writing opens after Missions 1, 2 and 3.')) : null)),
+      h('div', {class:'checklist'}, groups.map(([g, title]) => {
+        const its = r.items.filter((x) => x.g === g);
+        return its.length ? h('div', null, h('h4', null, title), h('ul', null, its.map((x) => h('li', {class:x.ok}, h('span', {'aria-hidden':'true'}, x.ok === 'ok' ? '✅' : x.ok === 'no' ? '❌' : '💡'), ' ' + x.t)))) : null;
+      })),
+      h('p', {class:'note'}, 'The teacher also marks Presentation (0.5): neat, clear handwriting on paper.')));
+    if (r.pass) { sfx.win(); confetti(); } else sfx.no();
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  mount(h('div', {class:'stack'}, h('button', {class:'back', type:'button', onclick:() => { tab = 'w'; home(); }}, '← Back to Writing'),
+    h('section', {class:'panel lesson'}, h('h3', null, 'Final Boss: Letter Workshop'), promptEl,
+      h('p', {class:'note'}, 'Write a whole friendly letter: the date, a greeting, two paragraphs with at least six complete sentences, a friendly closing and your name. Leave an empty line between paragraphs.'),
+      h('div', {class:'row'}, frameBtn, topicBtn, h('button', {class:'btn btn-ghost btn-sm', type:'button', onclick:() => lesson('w1')}, '💌 See the model')),
+      ta, h('div', {class:'row'}, check)),
+    res));
 }
 
 /* ---------- report ---------- */

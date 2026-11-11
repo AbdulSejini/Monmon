@@ -753,7 +753,7 @@ function paintFoot(){
   const f = $('#foot'); if (!f) return;
   f.innerHTML = '';
   f.append(h('span', null, '☁️ Progress syncs across the family’s devices'),
-           h('a', {class:'back', href:'../../english/missions/index.html'}, '✏️ Grammar & reading missions'),
+           h('a', {class:'back', href:'../../english/missions/index.html'}, '✏️ Grammar, reading & writing missions'),
            h('a', {class:'back', href:ARCADE}, '🎮 Arcade'));
 }
 function backBtn(){ return h('button', {class:'back', type:'button', onclick:home}, '← Back to base'); }
@@ -767,7 +767,7 @@ function home(){
   const mastered = W.filter((x) => (mastery(x.w) || 0) >= .8).length;
   const hello = h('section', {class:'hello'},
     h('span', {class:'eyebrow'}, dayTxt),
-    h('h1', {html:'Ready, <em>Mohammed?</em>'}),
+    h('h1', {html:'Ready for <em>Unit 4?</em>'}),
     h('p', {class:'muted'}, '20 words. 5 missions. Pass Missions 1–3 to open arcade time from this page.'),
     h('span', {class:'ar-line', lang:'ar'}, 'ذاكر الكلمات، اجتز المهمات ١ و٢ و٣، وينفتح لك وقت الألعاب 🎮'),
     h('div', {class:'facts'}, h('span', {class:'fact'}, h('b', null, mastered), ' / 20 words mastered'), h('span', {class:'fact'}, h('b', null, MISSIONS.filter((m) => passed(m.id)).length), ' / 5 missions')),
