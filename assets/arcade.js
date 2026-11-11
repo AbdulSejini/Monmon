@@ -68,6 +68,12 @@
     });
     return out;
   }
+  var SCQ2 = {m1: "Lesson 2: Structure and Support", m2: "Lesson 3: Energy and Waste", m3: "Lesson 4: Moving Materials", m4: "Lesson 5: Control and Information", boss: "Final Boss"};   /* science/missions */
+  function scq2(v) {   /* nothing counts until missions 1, 2 and 3 are all passed; then each passed mission is a part */
+    var m = v && v.missions && v.missions.s, ok = function (id) { return !!(m && m[id] && m[id].passed); };
+    if (!(ok("m1") && ok("m2") && ok("m3"))) return [];
+    return Object.keys(SCQ2).filter(ok).map(function (id) { return ["scm-" + id, "مهمات العلوم: " + SCQ2[id]]; });
+  }
   var SOURCES = [
     {key: "islamic-g6-quiz2-v1", page: "islamic/quiz-2/index.html", title: "الإسلامية: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة، أو 12 من 15 في الاختبار التجريبي",
      all: Object.keys(ISL).map(function (m) { return ["isl-" + m, "الإسلامية: " + ISL[m]]; }),
@@ -87,6 +93,9 @@
     {key: "english-missions-quiz2-v1", page: "english/missions/index.html", title: "الإنجليزي: مهمات القواعد والقراءة والرسالة", rule: "لكل قسم: ما يُحسب شيء قبل اجتياز المهمات 1 و2 و3 (80%)، بعدها كل مهمة مجتازة جزء (والزعيم الأخير 85%)",
      all: ["g", "r", "w"].reduce(function (a, t) { return a.concat(Object.keys(EMQ2[t]).map(function (id) { return ["em-" + t + "-" + id, EMQ2_T[t] + EMQ2[t][id]]; })); }, []),
      parts: emq2},
+    {key: "science-missions-quiz2-v1", page: "science/missions/index.html", title: "العلوم: مهمات الاختبار القصير 2", rule: "ما يُحسب شيء قبل اجتياز المهمات 1 و2 و3 (80%)، بعدها كل مهمة مجتازة جزء (والزعيم الأخير 85%)",
+     all: Object.keys(SCQ2).map(function (id) { return ["scm-" + id, "مهمات العلوم: " + SCQ2[id]]; }),
+     parts: scq2},
     {key: "arabic-g6-quiz2-v1", page: "arabic/quiz-2/index.html", title: "لغتي: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة، أو 16 من 20 في الاختبار التجريبي، أو قطعة الإملاء بلا خطأ",
      all: Object.keys(AR).map(function (m) { return ["ar-" + m, "لغتي: " + AR[m]]; }),
      parts: function (v) { return keys(v && v.mastered).filter(function (m) { return AR[m]; }).map(function (m) { return ["ar-" + m, "لغتي: " + AR[m]]; }); }},
