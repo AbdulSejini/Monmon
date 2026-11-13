@@ -1653,6 +1653,24 @@ const FX = (() => {
   return {burstEl(el, n){ if (!el) return; const r = el.getBoundingClientRect(); burstAt(r.left + r.width / 2, r.top + r.height / 2, n); },
     party(){ for (let k = 0; k < 5; k++) setTimeout(() => burstAt(innerWidth * (.15 + Math.random() * .7), innerHeight * (.2 + Math.random() * .25), 40), k * 170); }};
 })();
+/* points once per question: a right answer to a question already rewarded gives no new xp, so answering the same
+   questions again can't farm points. S.xq keeps short hashes of the questions already rewarded (synced with the page). */
+function xqKey(){ const s = Array.prototype.join.call(arguments, "|"); let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
+function xpOnce(key, n, el){
+  if (!S.xq || typeof S.xq !== "object") S.xq = {};
+  if (S.xq[key]){ xqNote(); return false; }
+  S.xq[key] = 1; addXP(n, el); return true;
+}
+function xqNote(){
+  let t = document.getElementById("xqNote");
+  if (!t){
+    t = document.createElement("div"); t.id = "xqNote"; t.setAttribute("role", "status");
+    t.style.cssText = "position:fixed;z-index:66;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 32px);padding:8px 14px;border-radius:999px;background:#14163A;color:#fff;font:700 14px/1.4 system-ui,sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none;transition:opacity .3s;text-align:center";
+    document.body.appendChild(t);
+  }
+  t.textContent = "⭐ Already counted: no new points for a question you got right before · محسوبة من قبل";
+  t.style.opacity = "1"; clearTimeout(xqNote.t); xqNote.t = setTimeout(() => { t.style.opacity = "0"; }, 2600);
+}
 function addXP(n, el){
   S.xp += n; save();
   $("#xpVal").textContent = S.xp;
@@ -1841,7 +1859,7 @@ function ordCheck(btn){
 }
 function settle(ok, given, el){
   const R = RUN, q = R.q, k = SK(q.skill);
-  if (ok){ k.ok++; R.streak++; Sound.good(); FX.burstEl(el, 16); addXP(5, el); }
+  if (ok){ k.ok++; R.streak++; Sound.good(); FX.burstEl(el, 16); xpOnce(xqKey("tu", q.skill, q.prompt || "", q.ctx || "", (q.opts || q.toks || q.items || []).slice().sort().join("~")), 5, el); }
   else { k.bad++; R.streak = 0; R.wrong++; Sound.bad(); if (R.list && k.done) k.review = 1; }
   R.res.push({s:q.skill, ok, g:String(given).slice(0, 90), c:answerPlain(q).slice(0, 120), p:plain(q.prompt + (q.ctx && q.kind !== "tap" ? " " + q.ctx : "")).slice(0, 220)});
   save();
@@ -1866,7 +1884,7 @@ function understood(){
   const id = RUN.skill, k = SK(id), first = !k.done, need = RUN.need;
   k.done = k.done || Date.now(); k.review = 0; k.best = Math.max(k.best || 0, RUN.streak);
   UNITS.forEach(u => { if (unitSkills(u.id).every(s => S.sk[s.id] && S.sk[s.id].done)) S.mastered[u.id] = 1; });
-  save(); addXP(first ? 20 : 5);
+  save(); if (first) addXP(20);   /* a skill understood again earns no new points */
   RUN = null;
   const nx = nextSkill();
   $("#runSlot").innerHTML = `<div class="panel celebrate"><div class="big">UNDERSTOOD!</div><p class="ar" lang="ar">أحسنت! فهمت هذي المهارة، و${need} إجابات صح ورا بعض على أسئلة جديدة تثبت هذا.</p>
@@ -1884,8 +1902,8 @@ function finishRun(){
   LAST = {kind:R.mode, at:Date.now(), n, right, pct, by, weak, res:R.res};
   if (R.mode === "test"){
     S.tests.push({at:LAST.at, n, right, pct, by, weak}); if (S.tests.length > 12) S.tests.splice(0, S.tests.length - 12);
-    S.best = Math.max(S.best || 0, pct); if (pct >= 80) S.mastered.test = 1;
-    save(); addXP(Math.round(pct / 5));
+    const prevBest = S.best || 0; S.best = Math.max(prevBest, pct); if (pct >= 80) S.mastered.test = 1;
+    save(); if (pct > prevBest) addXP(Math.round((pct - prevBest) / 5));   /* points only for beating the best */
   } else save();
   RUN = null; renderResult(LAST); show("result"); Sound.win(); if (pct >= 60) FX.party();
 }

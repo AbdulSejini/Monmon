@@ -1,0 +1,1359 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Science Quiz 2 Missions</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23FFC93C%22 stroke=%22%23141B33%22 stroke-width=%225%22/%3E%3Ctext x=%2232%22 y=%2241%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-weight=%22900%22 font-size=%2220%22 fill=%22%23141B33%22%3ESCI%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@500;700;800;900&family=Tajawal:wght@500;700;800&display=swap">
+<style>
+/* Science Quiz 2 Missions (science/missions): Module 2, Body Systems, Lessons 2–5, in the style of the English missions:
+   lesson notes, a word bank, a speed round, one mission for each lesson and a Final Boss, with questions drawn fresh
+   every time from the banks of science/quiz-2 (copied below, so keep them in step), and a report by topic.
+   Progress is saved in science-missions-quiz2-v1 (synced by assets/sync.js; xp once per question counts towards the rewards).
+   Arcade time (assets/arcade.js, scq2): nothing counts until Missions 1, 2 and 3 are passed; then those three count
+   together, and Mission 4 and the Final Boss one part each. */
+
+
+:root{
+  --bg:#EEF2FA; --surface:#FFFFFF; --surface-2:#F3F6FC; --ink:#131A31; --muted:#58627F; --line:#D8DEEC;
+  --banana:#FFC93C; --banana-deep:#D99B00; --banana-ink:#2A1E00;
+  --blue:#2D5BFF; --blue-soft:#E3EAFF;
+  --good:#0F8F55; --good-soft:#DDF4E8; --bad:#D23F35; --bad-soft:#FCE5E3; --warn:#A86400; --warn-soft:#FFF1D6;
+  --vault:#141B33; --vault-2:#1F2849; --vault-ink:#F3F5FF; --vault-muted:#A9B3D6;
+  --shadow:0 1px 2px rgba(19,26,49,.06),0 12px 30px -16px rgba(19,26,49,.30);
+  --f-display:'Bungee','Nunito',system-ui,sans-serif;
+  --f-body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-ar:'Tajawal','Geeza Pro','Noto Sans Arabic',system-ui,sans-serif;
+  --r:16px; --r-l:22px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1326; --surface:#151D37; --surface-2:#1B2546; --ink:#EBEFFF; --muted:#A2ACCA; --line:#2A355A;
+    --banana:#FFCD47; --banana-deep:#FFB703; --banana-ink:#241A00;
+    --blue:#7A9BFF; --blue-soft:rgba(122,155,255,.16);
+    --good:#3DD68C; --good-soft:rgba(61,214,140,.15); --bad:#FF7B70; --bad-soft:rgba(255,123,112,.15); --warn:#FFB547; --warn-soft:rgba(255,181,71,.14);
+    --vault:#080D1D; --vault-2:#141C38; --vault-ink:#F3F5FF; --vault-muted:#A9B3D6;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 32px -16px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1326; --surface:#151D37; --surface-2:#1B2546; --ink:#EBEFFF; --muted:#A2ACCA; --line:#2A355A;
+  --banana:#FFCD47; --banana-deep:#FFB703; --banana-ink:#241A00;
+  --blue:#7A9BFF; --blue-soft:rgba(122,155,255,.16);
+  --good:#3DD68C; --good-soft:rgba(61,214,140,.15); --bad:#FF7B70; --bad-soft:rgba(255,123,112,.15); --warn:#FFB547; --warn-soft:rgba(255,181,71,.14);
+  --vault:#080D1D; --vault-2:#141C38; --vault-ink:#F3F5FF; --vault-muted:#A9B3D6;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 32px -16px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:10px}
+[lang="ar"]{font-family:var(--f-ar);direction:rtl;unicode-bidi:isolate}
+.ar-line{display:block;font-family:var(--f-ar);direction:rtl;text-align:right;color:var(--muted);font-size:15px;line-height:1.6}
+h1,h2,h3{margin:0;line-height:1.2;text-wrap:balance}
+p{margin:0}
+.muted{color:var(--muted)}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:10px;min-height:58px;padding-block:6px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:2px;margin-right:auto;text-align:left}
+.brand-badge{width:40px;height:40px;border-radius:12px;background:var(--banana);color:var(--banana-ink);display:grid;place-items:center;font-family:var(--f-display);font-size:16px;box-shadow:0 3px 0 var(--banana-deep)}
+.brand b{display:block;font-family:var(--f-display);font-weight:400;font-size:17px;letter-spacing:.02em}
+.brand small{display:block;color:var(--muted);font-size:12.5px;font-weight:700}
+.chip{text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-weight:800;font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.chip.lock{color:var(--muted)}
+.chip.open{background:var(--good-soft);border-color:transparent;color:var(--good)}
+.chip.run{background:var(--banana);color:var(--banana-ink);border-color:transparent;animation:pulse 1.4s ease-in-out infinite}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;font-size:17px}
+
+main{padding-block:18px 90px}
+.stack{display:flex;flex-direction:column;gap:18px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 18px;border-radius:14px;border:2px solid transparent;font-weight:900;font-size:16px;line-height:1.2;transition:transform .1s ease,opacity .2s}
+.btn:active{transform:translateY(2px)}
+.btn-main{background:var(--banana);color:var(--banana-ink);box-shadow:0 4px 0 var(--banana-deep)}
+.btn-main:active{box-shadow:0 2px 0 var(--banana-deep)}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 4px 0 color-mix(in srgb,var(--blue) 60%,#000 40%)}
+.btn-ghost{background:var(--surface);border-color:var(--line)}
+.btn-sm{min-height:38px;padding:6px 14px;font-size:14.5px;border-radius:12px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:stretch}
+.hello{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;min-width:0}
+.eyebrow{font-size:12.5px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:var(--blue)}
+.hello h1{font-family:var(--f-display);font-weight:400;font-size:clamp(26px,4.6vw,38px);letter-spacing:.01em}
+.hello h1 em{font-style:normal;color:var(--banana-deep)}
+.facts{display:flex;gap:8px;flex-wrap:wrap}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:6px 12px;font-weight:800;font-size:14.5px}
+.fact b{font-variant-numeric:tabular-nums}
+.ready{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin-top:auto}
+.ring{width:74px;height:74px}
+.ring circle{fill:none;stroke-width:8}
+.ring .bg{stroke:var(--surface-2)}
+.ring .fg{stroke:var(--good);stroke-linecap:round;transition:stroke-dashoffset 1s ease}
+.ring text{font-family:var(--f-display);font-size:17px;fill:var(--ink)}
+
+/* vault */
+.vault{position:relative;background:var(--vault);color:var(--vault-ink);border-radius:var(--r-l);padding:20px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;min-width:0}
+.vault::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:22px 22px;pointer-events:none}
+.vault > *{position:relative}
+.vault .vt{display:flex;align-items:center;gap:10px}
+.vault .vt b{font-family:var(--f-display);font-weight:400;font-size:18px;letter-spacing:.03em}
+.vault .state{margin-left:auto;font-size:12.5px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--vault-2);color:var(--vault-muted)}
+.vault .state.on{background:var(--banana);color:var(--banana-ink)}
+.clock{font-family:var(--f-display);font-size:clamp(46px,9vw,64px);line-height:1;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:var(--banana)}
+.clock.dim{color:var(--vault-muted);opacity:.55}
+.vault .msg{color:var(--vault-muted);font-weight:700;font-size:15px}
+.vault .msg b{color:var(--vault-ink)}
+.vault .ar-line{color:var(--vault-muted);margin-top:4px}
+.locks{display:flex;gap:8px;flex-wrap:wrap}
+.lockpill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--vault-2);font-weight:800;font-size:13.5px;color:var(--vault-muted)}
+.lockpill.done{background:color-mix(in srgb,var(--good) 25%,var(--vault-2));color:#CFF7E2}
+.vault .btn-ghost{background:var(--vault-2);border-color:transparent;color:var(--vault-ink)}
+.shake-lock{display:inline-block;animation:wob 2.8s ease-in-out infinite}
+
+/* sections */
+.sec-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sec-h h2{font-family:var(--f-display);font-weight:400;font-size:21px;letter-spacing:.02em}
+.tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tool{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);transition:transform .15s}
+.tool:hover{transform:translateY(-2px)}
+.tool .ti{font-size:28px;line-height:1}
+.tool b{font-weight:900;font-size:16.5px}
+.tool span{font-size:14px;color:var(--muted);line-height:1.4}
+.tool .best{font-size:12.5px;font-weight:900;color:var(--blue)}
+
+/* mission track */
+.track{display:flex;flex-direction:column;gap:12px}
+.mission{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.mission .tier{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-family:var(--f-display);font-size:20px;background:var(--surface-2);border:2px solid var(--line)}
+.mission.passed .tier{background:var(--good);border-color:var(--good);color:#fff}
+.mission.boss{border:2px solid var(--banana-deep)}
+.mission.boss .tier{background:var(--banana);border-color:var(--banana-deep);color:var(--banana-ink)}
+.mission h3{font-size:18px;font-weight:900}
+.mission .sub{font-size:14.5px;color:var(--muted);line-height:1.4}
+.mission .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:900;padding:3px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted)}
+.tag.min{background:var(--banana);color:var(--banana-ink)}
+.tag.ok{background:var(--good-soft);color:var(--good)}
+.tag.mid{background:var(--warn-soft);color:var(--warn)}
+.tag.low{background:var(--bad-soft);color:var(--bad)}
+
+/* panels */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:18px;box-shadow:var(--shadow)}
+.back{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--muted);font-weight:900;padding:4px 0}
+.back:hover{color:var(--ink)}
+
+/* word cards */
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-weight:800;font-size:14px}
+.filters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.wcard{position:relative;display:flex;flex-direction:column;gap:2px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;min-height:92px;box-shadow:var(--shadow)}
+.wcard .n{position:absolute;top:10px;right:12px;font-size:12px;font-weight:900;color:var(--muted);font-variant-numeric:tabular-nums}
+.wcard b{font-size:18.5px;font-weight:900}
+.wcard i{font-style:normal;font-size:13px;color:var(--muted);font-weight:700}
+.wcard .ar{font-family:var(--f-ar);direction:rtl;text-align:right;font-size:14.5px;color:var(--muted);margin-top:auto}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--line);vertical-align:middle}
+.dot.ok{background:var(--good)}.dot.mid{background:var(--warn)}.dot.low{background:var(--bad)}
+
+/* word detail */
+.detail{display:flex;flex-direction:column;gap:14px}
+.dh{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dh h2{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,44px);letter-spacing:.01em}
+.pron{font-weight:800;color:var(--muted)}
+.posb{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;padding:4px 10px;border-radius:999px;background:var(--blue-soft);color:var(--blue)}
+.meaning{font-size:20px;font-weight:800;line-height:1.45}
+.ar-big{font-family:var(--f-ar);direction:rtl;text-align:right;font-size:21px;font-weight:800;color:var(--banana-deep)}
+.trick{display:flex;gap:10px;background:var(--warn-soft);border-radius:14px;padding:12px 14px;font-weight:700}
+.trick .ti{font-size:22px;line-height:1.2}
+.ex{background:var(--surface-2);border-left:5px solid var(--blue);border-radius:10px;padding:10px 14px;font-size:17px}
+.ex mark{background:var(--banana);color:var(--banana-ink);border-radius:5px;padding:0 4px;font-weight:900}
+.sa{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sa > div{background:var(--surface-2);border-radius:12px;padding:10px 12px;min-width:0}
+.sa small{display:block;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sa .s{color:var(--good);font-weight:800}
+.sa .a{color:var(--bad);font-weight:800}
+.note{font-size:15px;color:var(--muted)}
+
+/* flashcards */
+.flash{perspective:1000px;width:100%;max-width:520px;margin:0 auto;min-height:260px;background:none;border:0;padding:0;display:block}
+.flash .in{position:relative;display:block;min-height:260px;transition:transform .5s cubic-bezier(.3,1.3,.5,1);transform-style:preserve-3d}
+.flash.on .in{transform:rotateY(180deg)}
+.flash .f,.flash .bk{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px;border-radius:var(--r-l);backface-visibility:hidden;-webkit-backface-visibility:hidden;text-align:center}
+.flash .f{background:var(--vault);color:var(--vault-ink);box-shadow:var(--shadow)}
+.flash .f b{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,7vw,46px);color:var(--banana)}
+.flash .f small{color:var(--vault-muted);font-weight:800}
+.flash .bk{background:var(--surface);border:3px solid var(--banana);transform:rotateY(180deg);font-size:17.5px}
+.flash .bk .m{font-weight:900;font-size:19px}
+.flash .bk .arx{font-family:var(--f-ar);direction:rtl;font-size:19px;color:var(--banana-deep);font-weight:800}
+
+/* match game */
+.mgrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:10px}
+.mcol{display:flex;flex-direction:column;gap:8px}
+.mt{min-height:52px;padding:8px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface);text-align:left;font-weight:800;font-size:15.5px;line-height:1.3;transition:transform .12s,border-color .15s,background .15s}
+.mt.word{font-size:17px;font-weight:900}
+.mt.sel{border-color:var(--blue);background:var(--blue-soft);transform:translateY(-2px)}
+.mt.gone{border-color:var(--good);background:var(--good-soft);color:var(--good);opacity:.55;pointer-events:none}
+.mt.no{border-color:var(--bad);background:var(--bad-soft);animation:shake .4s ease}
+
+/* quiz */
+.qhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.qhead .qn{font-family:var(--f-display);font-size:16px;font-variant-numeric:tabular-nums}
+.bar{flex:1;min-width:120px;height:12px;border-radius:99px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;background:var(--banana);border-radius:99px;transition:width .35s ease}
+.streak{font-weight:900;color:var(--banana-deep);white-space:nowrap}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;animation:slide .3s ease}
+.qsec{font-size:12.5px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:var(--blue)}
+.qp{font-size:19px;font-weight:800;line-height:1.5}
+.qp q{quotes:"“" "”"}
+.qs{font-size:19px;line-height:1.7;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.qs b{background:var(--banana);color:var(--banana-ink);padding:0 4px;border-radius:5px}
+.blank{display:inline-block;min-width:90px;border-bottom:3px solid var(--blue);text-align:center;font-weight:900;color:var(--blue)}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{display:flex;align-items:center;gap:12px;width:100%;min-height:54px;padding:10px 14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);text-align:left;font-size:17px;font-weight:700;line-height:1.4;transition:border-color .15s,background .15s}
+.opt:hover:not([disabled]){border-color:var(--blue)}
+.opt .k{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--surface-2);font-weight:900;font-size:14px}
+.opt.ok{border-color:var(--good);background:var(--good-soft)}
+.opt.ok .k{background:var(--good);color:#fff}
+.opt.no{border-color:var(--bad);background:var(--bad-soft)}
+.opt.no .k{background:var(--bad);color:#fff}
+.opt[disabled]{cursor:default}
+.opt.dim{opacity:.5}
+.opts.two .opt{justify-content:center;font-size:19px;font-weight:900}
+.typerow{display:flex;gap:10px;flex-wrap:wrap}
+.inp{flex:1 1 200px;min-width:0;height:54px;padding:0 14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-size:20px;font-weight:800}
+.inp:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
+.inp.ok{border-color:var(--good);background:var(--good-soft)}
+.inp.no{border-color:var(--bad);background:var(--bad-soft)}
+.hintline{font-size:15px;font-weight:800;color:var(--warn)}
+.fb{border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;animation:fadeUp .25s ease}
+.fb .fi{font-size:22px;line-height:1.2}
+.fb b.t{display:block;font-weight:900;font-size:17.5px}
+.fb.ok{background:var(--good-soft)}
+.fb.no{background:var(--bad-soft)}
+.fb.mid{background:var(--warn-soft)}
+.qfoot{display:flex;justify-content:flex-end;gap:10px}
+
+/* results */
+.result{text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.big-score{font-family:var(--f-display);font-size:clamp(46px,10vw,70px);line-height:1;font-variant-numeric:tabular-nums}
+.big-score.pass{color:var(--good)}
+.big-score.fail{color:var(--bad)}
+.earn{display:inline-flex;align-items:center;gap:8px;background:var(--vault);color:var(--banana);font-family:var(--f-display);font-size:20px;padding:10px 18px;border-radius:14px;animation:pop .6s cubic-bezier(.3,1.6,.5,1)}
+.mistakes{display:flex;flex-direction:column;gap:10px;text-align:left;width:100%}
+.mist{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:15.5px}
+.mist .y{color:var(--bad);font-weight:800}
+.mist .r{color:var(--good);font-weight:900}
+
+/* report */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.rw{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-weight:800;font-size:15px}
+.rw.ok{background:var(--good-soft);border-color:transparent}
+.rw.mid{background:var(--warn-soft);border-color:transparent}
+.rw.low{background:var(--bad-soft);border-color:transparent}
+.rw span{font-variant-numeric:tabular-nums;font-size:13.5px}
+.skill{display:grid;grid-template-columns:minmax(0,1fr) 120px 48px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line)}
+.skill:last-child{border-bottom:0}
+.skill .br{height:10px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.skill .br i{display:block;height:100%;border-radius:99px}
+.skill .pc{font-weight:900;font-size:14px;text-align:right;font-variant-numeric:tabular-nums}
+table.log{width:100%;border-collapse:collapse;font-size:14.5px;font-variant-numeric:tabular-nums}
+table.log th,table.log td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.log th{color:var(--muted);font-size:12.5px;text-transform:uppercase;letter-spacing:.06em}
+.tbl{overflow-x:auto}
+.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+
+/* pin pad */
+.pin{display:flex;flex-direction:column;align-items:center;gap:14px}
+.pin-dots{display:flex;gap:12px}
+.pin-dots i{width:16px;height:16px;border-radius:50%;border:2px solid var(--muted)}
+.pin-dots i.f{background:var(--ink);border-color:var(--ink)}
+.pad{display:grid;grid-template-columns:repeat(3,72px);gap:10px}
+.pad button{height:60px;border-radius:14px;border:1px solid var(--line);background:var(--surface);font-weight:900;font-size:22px}
+
+/* overlays */
+.modal-bg{position:fixed;inset:0;z-index:60;background:rgba(8,12,24,.6);display:grid;place-items:center;padding:16px;animation:fade .2s ease}
+.modal{background:var(--surface);border-radius:var(--r-l);padding:22px;max-width:420px;width:100%;text-align:center;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.modal .em{font-size:56px;line-height:1}
+.modal h3{font-family:var(--f-display);font-weight:400;font-size:24px}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:70;max-width:min(520px,calc(100vw - 32px));background:var(--vault);color:var(--vault-ink);border-radius:16px;padding:12px 16px;font-weight:800;box-shadow:var(--shadow);animation:toastIn .3s ease}
+.fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80}
+.foot{margin-top:8px;font-size:13.5px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+@keyframes wob{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(-12deg)}93%{transform:rotate(10deg)}97%{transform:rotate(-5deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+@keyframes slide{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.1);opacity:1}100%{transform:scale(1)}}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,16px)}to{opacity:1;transform:translate(-50%,0)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr}
+  .tools{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .two-col{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  body{font-size:16px}
+  .brand small{display:none}
+  .brand b{font-size:14.5px}
+  .brand-badge{width:34px;height:34px;font-size:14px}
+  .chip{padding:5px 9px;font-size:13px}
+  .icon-btn{width:36px;height:36px}
+  .topbar .wrap{flex-wrap:nowrap;gap:6px}
+  .mission{grid-template-columns:auto minmax(0,1fr)}
+  .mission .go{grid-column:1 / -1}
+  .mission .go .btn{width:100%}
+  .opts.two{grid-template-columns:1fr}
+  .sa{grid-template-columns:1fr}
+  .mgrid{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:6px}
+  .mt{font-size:14px;padding:8px}
+  .skill{grid-template-columns:minmax(0,1fr) 70px 44px}
+  .qcard{padding:16px}
+}
+
+/* grammar & reading extras */
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tabs button{display:flex;gap:8px;align-items:center;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 16px;font-weight:900;font-size:16px}
+.tabs button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lesson{display:flex;flex-direction:column;gap:12px}
+.lesson h3{font-size:20px;font-weight:900}
+.rule{background:var(--surface-2);border-left:5px solid var(--blue);border-radius:10px;padding:10px 14px;font-size:17px}
+.ex-list{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+table.chart{width:100%;border-collapse:collapse;font-size:15.5px}
+table.chart th,table.chart td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+table.chart th{background:var(--surface-2)}
+.toks{display:flex;flex-wrap:wrap;gap:6px;font-size:18px;line-height:1.4}
+.tok{border:2px solid var(--line);background:var(--surface);border-radius:10px;padding:6px 10px;font-weight:800;min-height:44px}
+.tok.sel{border-color:var(--blue);background:var(--blue-soft)}
+.tok.ok{border-color:var(--good);background:var(--good-soft)}
+.tok.no{border-color:var(--bad);background:var(--bad-soft)}
+.tok.miss{border-color:var(--good);border-style:dashed}
+.passage{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:17px;line-height:1.7;display:flex;flex-direction:column;gap:4px}
+.passage b{font-weight:900}
+.letter-model{display:flex;flex-direction:column;gap:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px}
+.lrow{display:grid;grid-template-columns:130px minmax(0,1fr);gap:10px;align-items:start}
+.ltag{display:flex;flex-direction:column;font-weight:900;font-size:14px;color:var(--blue)}
+.ltag small{font-weight:700;color:var(--muted);font-size:12.5px}
+.ltext{font-size:16.5px;line-height:1.6}
+.ltext.right{text-align:right}
+.ltext.para{text-indent:1.5em}
+.letter-in{width:100%;min-height:340px;padding:14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font:500 17px/1.6 var(--f-body);resize:vertical}
+.letter-in:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
+.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px}
+.checklist h4{margin:0 0 6px;font-size:15px;font-weight:900}
+.checklist ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.checklist li.no{color:var(--bad);font-weight:700}
+ol.ord{margin:0;padding:10px 10px 10px 34px;min-height:52px;border:2px dashed var(--line);border-radius:12px;display:flex;flex-direction:column;gap:4px;font-weight:800}
+ol.ord.ok{border-color:var(--good);background:var(--good-soft)}
+ol.ord.no{border-color:var(--bad);background:var(--bad-soft)}
+@media (max-width:480px){.lrow{grid-template-columns:1fr;gap:2px}.ltext.right{text-align:left}}
+</style>
+</head><body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+<script src="../../assets/rewards.js" data-root="../../"></script>
+<script src="../../assets/arcade.js" data-root="../../"></script>
+<script src="../../assets/fx.js"></script>
+
+<header class="topbar">
+  <div class="wrap">
+    <button class="brand" id="homeBtn" type="button" aria-label="Back to base">
+      <span class="brand-badge" aria-hidden="true">SCI</span>
+      <span><b>Science Missions</b><small>Quiz 2 · Body Systems, Lessons 2–5</small></span>
+    </button>
+    <a class="chip lock" id="vaultChip" href="../../arcade/index.html">🔒 Arcade time locked</a>
+    <button class="icon-btn" id="soundBtn" type="button" aria-label="Sound on or off">🔊</button>
+  </div>
+</header>
+
+<main class="wrap" id="app" aria-live="polite"></main>
+
+<script>
+(function(){
+'use strict';
+/* ================= the science banks, copied from science/quiz-2 (lessons, topics, words and questions) ================= */
+const LESSONS = [
+  {id:"l2", n:2, name:"Structure and Support", src:"Module 2: Body Systems · book pp. 76–96", blurb:"Muscles, joints and bones; the skeletons of other animals; three types of muscle; roots and stems."},
+  {id:"l3", n:3, name:"Obtaining Energy and Removing Waste", src:"Module 2: Body Systems · book pp. 98–114", blurb:"Food and energy; digestion from the mouth to the large intestine; the villi; removing waste; photosynthesis."},
+  {id:"l4", n:4, name:"Moving Materials", src:"Module 2: Body Systems · the Flow Lab", blurb:"Xylem and phloem; the heart, blood and blood vessels; breathing and gas exchange; other animals.", lab:["../moving-material/index.html", "Flow Lab"]},
+  {id:"l5", n:5, name:"Control and Information Processing", src:"Module 2: Body Systems · the Signal Lab", blurb:"The brain and nerves; neurons and reflexes; the senses; keeping body temperature steady.", lab:["../control-information/index.html", "Signal Lab"]}
+];
+const LESSON = Object.fromEntries(LESSONS.map(x => [x.id, x]));
+
+/* ---------- LESSON 2: STRUCTURE AND SUPPORT (book pp. 76–96) ---------- */
+const T2 = [
+  {id:"l2-musc", t:"Muscles and movement", pts:[
+    "A <b>muscle</b> is strong tissue that contracts in an orderly way to make the body move.",
+    "When a muscle <b>contracts</b>, its cells get <b>shorter</b> (and thicker). When it <b>relaxes</b>, they go back to their <b>original length</b>.",
+    "Muscle cells are packed with <b>mitochondria</b>, the cell parts that produce energy, because muscles use a lot of energy.",
+    "Muscles can only <b>pull</b>, not push. Bones move when the muscles attached to them contract, so the <b>skeletal and muscular systems work together</b>.",
+    "Bones and muscles work like a <b>lever</b> (a simple machine): the bone turns around a fixed point, which is the <b>joint</b>."]},
+  {id:"l2-joint", t:"Joints and ligaments", pts:[
+    "A <b>joint</b> is a place where two or more bones meet. Joints make the skeleton flexible.",
+    "<b>Ligaments</b> connect bone to bone at a joint. They stretch when the joint moves and keep the bones from shifting apart."],
+    fig:"joints",
+    more:'<div class="tscroll"><table class="gtable"><tr><th>Movable joint</th><th>How it moves</th><th>Examples</th></tr>'
+      + '<tr><td><b>Ball-and-socket</b></td><td>Moves and rotates in nearly all directions</td><td>Hips, shoulders</td></tr>'
+      + '<tr><td><b>Hinge</b></td><td>Moves back and forth in one direction</td><td>Elbows, knees, fingers</td></tr>'
+      + '<tr><td><b>Pivot</b></td><td>Lets one bone turn on another</td><td>Neck; below the elbow (turning the lower arm)</td></tr></table></div>'},
+  {id:"l2-skel", t:"What the skeleton does", pts:[
+    "<b>Support and shape:</b> it holds the body up, so you can sit, stand and raise your arm.",
+    "<b>Movement:</b> together with the muscles that pull on the bones.",
+    "<b>Protection:</b> the <b>skull</b> protects the brain, the <b>rib cage</b> protects the heart and lungs, and the backbone protects the spinal cord.",
+    "<b>Production:</b> <b>red blood cells</b> are made inside the bones, in the marrow.",
+    "<b>Storage:</b> bones store <b>calcium</b> (for strong bones and many cell processes) and <b>fat</b>.",
+    "Without a skeleton the body would flop like gelatin, the organs would have no protection and the muscles would have nothing to pull on. (Making vitamin D is <b>not</b> a job of the skeleton.)"],
+    fig:"skeleton"},
+  {id:"l2-anim", t:"How other animals are supported", pts:[
+    "<b>Endoskeleton:</b> a skeleton of bones <b>inside</b> the body, as in humans.",
+    "<b>Exoskeleton:</b> a thick, hard <b>outer covering</b> that supports and protects the animal, sometimes called a shell: <b>crabs, snails, scorpions</b>.",
+    "<b>Hydrostatic skeleton:</b> a <b>fluid-filled cavity surrounded by muscle</b>: <b>earthworms</b>, flatworms, sea anemones. The muscles push on the fluid, so an earthworm stretches long and thin, then pulls up short and thick.",
+    "Both a hydrostatic skeleton and an exoskeleton give support, but the first is fluid inside the body (mainly for moving) and the second is a hard covering outside (mainly for protection).",
+    "<b>Jet propulsion</b> of a squid: water fills the <b>mantle</b>, the mantle contracts and shoots a jet of water out of the funnel, and the squid moves the opposite way, like a balloon you let go of. Its fins are only for slow swimming."]},
+  {id:"l2-mtype", t:"Three types of muscle", pts:[
+    "<b>Voluntary</b> muscles are the ones you control by thinking (shaking hands, pointing, chewing). <b>Involuntary</b> muscles work without you thinking (your pulse, digestion).",
+    "There are three types of muscle: <b>skeletal</b>, <b>cardiac</b> and <b>smooth</b>. (“Striated”, striped, describes how skeletal muscle looks; it is not a fourth type.)"],
+    fig:"muscles",
+    more:'<div class="tscroll"><table class="gtable"><tr><th>Muscle</th><th>Where</th><th>Control</th><th>Job</th></tr>'
+      + '<tr><td><b>Skeletal</b></td><td>Attached to bones</td><td>Voluntary</td><td>Moves the body; quick, powerful contractions, as in running</td></tr>'
+      + '<tr><td><b>Cardiac</b></td><td>Only in the heart</td><td>Involuntary</td><td>Pumps blood through the heart and blood vessels</td></tr>'
+      + '<tr><td><b>Smooth</b></td><td>Lines blood vessels and organs such as the stomach</td><td>Involuntary</td><td>Moves food through the digestive tract</td></tr></table></div>'},
+  {id:"l2-plant", t:"How plants are supported: roots and stems", pts:[
+    "<b>Roots</b> anchor the plant in the soil and keep it upright, and they absorb water and minerals. Some, like carrots and radishes, store food.",
+    "<b>Taproot:</b> one large main root with small roots branching off (carrot, dandelion). <b>Fibrous roots:</b> many small branching roots in a dense network. <b>Prop roots:</b> extra roots above the ground that help hold the plant up.",
+    "<b>Stems</b> work like the plant’s skeleton: they hold up the branches and leaves, carry water, minerals and sugar, and make new cells for growth. Some stems grow underground, like a potato.",
+    "<b>Woody</b> stems are stiff and usually not green (a tree trunk). <b>Herbaceous</b> stems are soft and green (a vine).",
+    "Plants and animals both have structures for support and are made of cells and tissues. Plants use roots and stems; animals use bones and muscles, which also let them move from place to place."]},
+  {id:"l2-phen", t:"Explain the phenomenon: a handstand", pts:[
+    "The <b>nervous system</b> sends signals from the brain along nerves, telling the <b>muscles</b> when to contract. The arm, shoulder, leg and core muscles hold the body steady and straight.",
+    "The strong, rigid <b>bones</b> of the arms carry the body’s weight, and the <b>joints</b> (shoulders, elbows, wrists) hold the arms in position.",
+    "A <b>bionic arm</b> uses the same teamwork: surgeons connect the arm’s nerves to chest muscles, the brain signals those muscles, electrodes sense them moving and a computer moves the arm and hand."]}
+];
+const V2 = [
+  ["muscle", "Strong tissue that contracts in an orderly way to make the body move.", "l2-musc"],
+  ["mitochondria", "Cell parts that produce energy; muscle cells have many.", "l2-musc"],
+  ["joint", "A place where two or more bones meet.", "l2-joint"],
+  ["ligament", "Tissue that connects bone to bone at a joint.", "l2-joint"],
+  ["skull", "The bones that protect the brain.", "l2-skel"],
+  ["endoskeleton", "A skeleton of bones inside the body.", "l2-anim"],
+  ["exoskeleton", "A thick, hard outer covering that supports and protects an animal.", "l2-anim"],
+  ["hydrostatic skeleton", "A fluid-filled cavity surrounded by muscle, as in an earthworm.", "l2-anim"],
+  ["skeletal muscle", "Muscle attached to bones; voluntary.", "l2-mtype"],
+  ["cardiac muscle", "Involuntary muscle found only in the heart.", "l2-mtype"],
+  ["smooth muscle", "Involuntary muscle that lines blood vessels and organs.", "l2-mtype"],
+  ["voluntary muscle", "A muscle you can control by thinking.", "l2-mtype"],
+  ["involuntary muscle", "A muscle that works without you thinking about it.", "l2-mtype"],
+  ["taproot", "One large main root with smaller roots branching off.", "l2-plant"],
+  ["fibrous roots", "Many small branching roots in a dense network.", "l2-plant"],
+  ["prop roots", "Extra roots above the ground that help hold a plant up.", "l2-plant"],
+  ["woody stem", "A stiff stem that is usually not green, like a tree trunk.", "l2-plant"],
+  ["herbaceous stem", "A soft, green stem, like a vine’s.", "l2-plant"]
+];
+const MC2 = [
+  {l:"l2-musc", q:"What happens to the muscle cells when a muscle contracts?", o:["They get shorter", "They get longer", "They push on the bone", "They stop using energy"], w:"When a muscle contracts its cells get shorter (and thicker), pulling on the bone."},
+  {l:"l2-musc", q:"What happens to a muscle cell when the muscle relaxes?", o:["It goes back to its original length", "It gets shorter", "It pushes on a nearby bone", "It makes red blood cells"], w:"Contract = shorter; relax = back to the original length."},
+  {l:"l2-musc", q:"Why do muscle cells have so many mitochondria?", o:["Muscles need a lot of energy, and mitochondria produce it", "Mitochondria make the cells bigger", "Mitochondria store calcium", "Mitochondria join muscles to bones"], w:"Mitochondria produce the energy a cell uses, and muscles use a lot of energy."},
+  {l:"l2-musc", q:"Which two body systems work most closely together to move the body?", o:["Muscular and skeletal", "Digestive and respiratory", "Excretory and digestive", "Circulatory and digestive"], w:"Muscles pull on bones: bones can't move by themselves, and muscles need bones to pull on."},
+  {l:"l2-musc", q:"How do muscles move bones?", o:["They contract and pull on the bones", "They push the bones away", "They turn into bone", "The bones pull on the muscles"], w:"Muscles can only pull. When a muscle attached to a bone contracts, it pulls the bone."},
+  {l:"l2-musc", q:"Bones and muscles work like a lever. What is the fixed point that a bone turns around?", o:["A joint", "A muscle", "The skull", "A blood vessel"], w:"A lever turns around a fixed point; in the body that point is a joint."},
+  {l:"l2-musc", q:"Which statement best describes what muscles do?", o:["They control both voluntary and involuntary actions", "They only make voluntary movements", "They only control breathing", "They only work with bones"], w:"Skeletal muscle makes voluntary movements; cardiac and smooth muscle work involuntarily."},
+  {l:"l2-joint", q:"What is a joint?", o:["A place where two or more bones meet", "Tissue that joins muscle to bone", "A bone that protects the brain", "A muscle in the heart"], w:"Joints are where bones meet; they let the skeleton bend and turn."},
+  {l:"l2-joint", q:"Which kind of joint is in your elbow?", o:["Hinge joint", "Ball-and-socket joint", "Pivot joint", "Fixed joint"], w:"Elbows, knees and fingers have hinge joints: they move back and forth in one direction."},
+  {l:"l2-joint", q:"Which joint moves and rotates in nearly all directions?", o:["Ball-and-socket joint", "Hinge joint", "Pivot joint", "Fixed joint"], w:"Ball-and-socket joints are in the hips and shoulders."},
+  {l:"l2-joint", q:"Which joint lets you turn your head left and right?", o:["Pivot joint", "Hinge joint", "Ball-and-socket joint", "Fixed joint"], w:"A pivot joint lets one bone turn on another, as in the neck."},
+  {l:"l2-joint", q:"What is the main job of ligaments?", o:["To connect bone to bone and keep them from shifting apart", "To connect muscle to bone", "To make red blood cells", "To store calcium"], w:"Ligaments stretch when a joint moves but keep the bones in place."},
+  {l:"l2-joint", q:"Your knee bends back and forth in one direction. What kind of joint is it?", o:["Hinge", "Pivot", "Ball-and-socket", "Hydrostatic"], w:"Knees and elbows are hinge joints."},
+  {l:"l2-joint", q:"Which two parts of the body both have ball-and-socket joints?", o:["Hips and shoulders", "Knees and elbows", "Neck and fingers", "Fingers and knees"], w:"Hips and shoulders can swing and rotate in nearly every direction."},
+  {l:"l2-skel", q:"What is the main job of the skull?", o:["To protect the brain", "To store calcium", "To make blood cells", "To move the head"], w:"The skull protects the brain. The rib cage protects the heart and lungs."},
+  {l:"l2-skel", q:"Which bones mainly protect the heart and lungs?", o:["The rib cage", "The skull", "The thigh bones", "The finger bones"], w:"The rib cage wraps around the heart and lungs."},
+  {l:"l2-skel", q:"Where are red blood cells made?", o:["Inside the bones", "In the ligaments", "In the joints", "In the muscles"], w:"Red blood cells are made inside bones, in the marrow."},
+  {l:"l2-skel", q:"Which of these is stored in the skeletal system?", o:["Calcium", "Potassium", "Sodium", "Water"], w:"Bones store calcium and fat."},
+  {l:"l2-skel", q:"Which is NOT a job of the skeletal system?", o:["Making vitamin D", "Protecting the organs inside", "Giving the body shape and support", "Storing minerals"], w:"The skeleton supports, moves (with muscles), protects, makes red blood cells and stores calcium and fat."},
+  {l:"l2-skel", q:"What would happen if a person had no skeleton?", o:["The body would have no support or protection", "They would move much faster", "Their muscles would get stronger", "They would not need to eat"], w:"The body would flop like gelatin, the organs would be unprotected and the muscles would have nothing to pull on."},
+  {l:"l2-skel", q:"What is the main job of the skeletal system?", o:["To give the body structure and support", "Only to store calcium", "Only to make blood cells", "Only to protect organs"], w:"It does all of these, but above all it gives the body its structure and support."},
+  {l:"l2-skel", q:"Which is NOT a job of the muscular system?", o:["Storing calcium", "Moving the body", "Holding the body steady", "Helping control body temperature"], w:"Muscles move the body, keep it stable and help control its temperature. Bones store calcium."},
+  {l:"l2-anim", q:"What supports and protects a crab or a scorpion?", o:["An exoskeleton", "A hydrostatic skeleton", "An endoskeleton", "Only its muscles"], w:"An exoskeleton is a thick, hard outer covering."},
+  {l:"l2-anim", q:"Which animal does NOT have an exoskeleton?", o:["Earthworm", "Crab", "Snail", "Scorpion"], w:"An earthworm has a hydrostatic skeleton: fluid surrounded by muscle."},
+  {l:"l2-anim", q:"What is an earthworm’s hydrostatic skeleton?", o:["A fluid-filled cavity surrounded by muscles", "A hard outer shell", "A frame of bones inside its body", "A set of levers and pulleys"], w:"The muscles push on the fluid to change the worm's shape."},
+  {l:"l2-anim", q:"How does an earthworm move?", o:["Its muscles push on the fluid inside, so it gets long and thin, then short and thick", "A hard shell pushes on the soil", "Tiny bones pull on its muscles", "It shoots out jets of water"], w:"The front stretches forward (long and thin), then the back pulls up (short and thick)."},
+  {l:"l2-anim", q:"What kind of skeleton do humans have?", o:["An endoskeleton", "An exoskeleton", "A hydrostatic skeleton", "No skeleton"], w:"An endoskeleton is a skeleton of bones inside the body."},
+  {l:"l2-anim", q:"How does a squid swim fast?", o:["It squeezes water out of its mantle, and the jet pushes it the opposite way", "It flaps its fins very fast", "It pushes on the water with its shell", "It walks along the seafloor"], w:"Jet propulsion, like letting go of a balloon. The fins are only for slow swimming."},
+  {l:"l2-anim", q:"How are a hydrostatic skeleton and an exoskeleton alike?", o:["Both give the animal support", "Both are made of bone", "Both are hard coverings outside the body", "Both are filled with fluid"], w:"Both support the body; one is fluid inside the body, the other a hard covering outside."},
+  {l:"l2-mtype", q:"Which type of muscle is found only in the heart?", o:["Cardiac muscle", "Smooth muscle", "Skeletal muscle", "Striated muscle"], w:"Cardiac muscle pumps blood. It is involuntary."},
+  {l:"l2-mtype", q:"Which type of muscle lines blood vessels and organs such as the stomach?", o:["Smooth muscle", "Cardiac muscle", "Skeletal muscle", "Voluntary muscle"], w:"Smooth muscle moves food through the digestive tract. It is involuntary."},
+  {l:"l2-mtype", q:"Which type of muscle is attached to bones and is voluntary?", o:["Skeletal muscle", "Smooth muscle", "Cardiac muscle", "Involuntary muscle"], w:"Skeletal muscle moves the body when you decide to move."},
+  {l:"l2-mtype", q:"Which of these happens only when you choose to do it?", o:["Pointing", "Blinking", "Breathing", "Digesting food"], w:"Pointing is voluntary. Blinking and breathing can happen without thinking, and digestion always does."},
+  {l:"l2-mtype", q:"Why are the muscles that move food through the digestive tract called involuntary?", o:["You can't control them by thinking", "They are attached to bones", "They only work while you sleep", "They are found only in the heart"], w:"Involuntary muscles work without you having to think about them."},
+  {l:"l2-mtype", q:"Which is NOT one of the three types of muscle?", o:["Striated", "Cardiac", "Skeletal", "Smooth"], w:"The three types are skeletal, cardiac and smooth. Striated (striped) describes how skeletal muscle looks."},
+  {l:"l2-mtype", q:"What is the key difference between voluntary and involuntary muscles?", o:["You control voluntary muscles by thinking, but not involuntary ones", "Voluntary muscles are only in the heart", "Voluntary muscles are always smooth", "Involuntary muscles are attached to bones"], w:"Voluntary = you control it (skeletal). Involuntary = it works on its own (cardiac, smooth)."},
+  {l:"l2-mtype", q:"Under a microscope, which muscle cells are long and striped, with many nuclei?", o:["Skeletal muscle", "Smooth muscle", "Cardiac muscle", "Bone cells"], w:"Skeletal: long, striped, many nuclei. Smooth: thin, one nucleus in the middle. Cardiac: branched cells, nuclei in the middle."},
+  {l:"l2-plant", q:"Which plant part works like a skeleton, holding the plant up and carrying materials?", o:["The stem", "The flower", "The seed", "The leaf"], w:"The stem holds up the branches and leaves and carries water, minerals and sugar."},
+  {l:"l2-plant", q:"A carrot has one large main root that stores food. What is it called?", o:["A taproot", "Fibrous roots", "Prop roots", "A woody root"], w:"A taproot is one large main root with smaller roots branching off."},
+  {l:"l2-plant", q:"Which roots form a dense network of many small roots?", o:["Fibrous roots", "A taproot", "Prop roots", "Woody roots"], w:"Fibrous roots are many small branching roots."},
+  {l:"l2-plant", q:"What is the job of prop roots?", o:["To give extra support above the ground", "To attract insects", "To make food by photosynthesis", "To store water underground"], w:"Prop roots grow above the ground and help hold the plant up."},
+  {l:"l2-plant", q:"A tree trunk is which type of stem?", o:["Woody", "Herbaceous", "Fibrous", "Prop"], w:"Woody stems are stiff and usually not green; herbaceous stems are soft and green."},
+  {l:"l2-plant", q:"What are the main jobs of roots?", o:["To anchor the plant and absorb water and minerals", "Only to make food", "Only to store food", "Only to make new cells"], w:"Roots hold the plant in place and take in water and minerals; some also store food."},
+  {l:"l2-plant", q:"How do plants keep their structure and support?", o:["With their stems and roots", "With muscles and bones", "With joints and ligaments", "With blood vessels"], w:"Plants have no bones or muscles: roots and stems support them."},
+  {l:"l2-plant", q:"A potato grows underground, but it is not a root. What is it?", o:["An underground stem", "A taproot", "A prop root", "A seed"], w:"Some stems grow underground, like a potato, and are mistaken for roots."},
+  {l:"l2-plant", q:"Which is true of BOTH plants and animals?", o:["They have structures that support them", "They have bones", "They have roots", "They move from place to place"], w:"Both have support structures made of cells and tissues."},
+  {l:"l2-phen", q:"How does a bionic arm get the signal to move?", o:["Sensors detect the chest muscles moving", "Wireless signals from a phone", "Finger movements of the other hand", "Artificial nerves made of plastic"], w:"The arm's nerves are connected to chest muscles; electrodes sense those muscles and a computer moves the arm."},
+  {l:"l2-phen", q:"A gymnast holds a handstand. Which systems work together?", o:["Nervous, muscular and skeletal", "Only the skeletal system", "Only the muscular system", "Digestive and excretory"], w:"Nerves carry the signals, muscles contract, bones carry the weight and joints hold the arms in place."}
+];
+const TF2 = [
+  {l:"l2-musc", q:"Muscles can push bones as well as pull them.", a:false, w:"False: muscles can only pull. They contract and pull on the bones."},
+  {l:"l2-joint", q:"Ligaments connect bone to bone.", a:true, w:"True: they keep the bones of a joint from shifting apart."},
+  {l:"l2-joint", q:"A hinge joint moves in nearly all directions.", a:false, w:"False: that is a ball-and-socket joint. A hinge moves back and forth in one direction."},
+  {l:"l2-skel", q:"Red blood cells are made inside bones.", a:true, w:"True: they are made in the marrow inside bones."},
+  {l:"l2-skel", q:"Making vitamin D is a job of the skeletal system.", a:false, w:"False: the skeleton supports, moves, protects, makes red blood cells and stores calcium and fat."},
+  {l:"l2-skel", q:"Bones store calcium and fat.", a:true, w:"True: calcium keeps bones strong and is needed for many cell processes."},
+  {l:"l2-anim", q:"An earthworm has an exoskeleton.", a:false, w:"False: an earthworm has a hydrostatic skeleton."},
+  {l:"l2-mtype", q:"Cardiac muscle is voluntary.", a:false, w:"False: cardiac muscle works on its own; it is involuntary."},
+  {l:"l2-mtype", q:"Smooth muscle lines blood vessels and organs such as the stomach.", a:true, w:"True: it moves food through the digestive tract."},
+  {l:"l2-plant", q:"Herbaceous stems are soft and green.", a:true, w:"True: woody stems are the stiff ones."},
+  {l:"l2-plant", q:"Fibrous roots are one large main root.", a:false, w:"False: that is a taproot. Fibrous roots are many small roots."}
+];
+const TY2 = [
+  {l:"l2-joint", q:"A place where two or more bones meet is called a ______.", a:"joint", w:"Joints make the skeleton flexible."},
+  {l:"l2-joint", q:"At a joint, bones are connected to each other by ______.", a:"ligaments", alt:["ligament"], w:"Ligaments connect bone to bone."},
+  {l:"l2-skel", q:"The bones that protect the brain are called the ______.", a:"skull", w:"The skull protects the brain; the rib cage protects the heart and lungs."},
+  {l:"l2-mtype", q:"The type of muscle found only in the heart is ______ muscle.", a:"cardiac", w:"Cardiac muscle is involuntary and pumps blood."},
+  {l:"l2-anim", q:"A thick, hard outer covering that supports and protects a crab is an ______.", a:"exoskeleton", w:"Crabs, snails and scorpions have exoskeletons."},
+  {l:"l2-anim", q:"A fluid-filled cavity surrounded by muscle is a ______ skeleton.", a:"hydrostatic", w:"Earthworms have a hydrostatic skeleton."},
+  {l:"l2-musc", q:"Muscle cells have many ______, which produce the energy they need.", a:"mitochondria", alt:["mitochondrion"], w:"Mitochondria produce energy for the cell."},
+  {l:"l2-plant", q:"One large main root, like a carrot, is called a ______.", a:"taproot", alt:["tap root"], w:"A taproot has smaller roots branching off it."}
+];
+const OR2 = [
+  {l:"l2-anim", q:"Put the steps of a squid’s jet propulsion in order.", items:["Water flows in and the mantle expands", "The mantle valves close", "The mantle contracts", "A jet of water shoots out of the funnel", "The squid moves the opposite way"], w:"Fill, close, squeeze, jet: the squid shoots off in the opposite direction."},
+  {l:"l2-anim", q:"Put the steps of an earthworm’s movement in order.", items:["Its body is short and thick", "The front stretches forward: long and thin", "The back pulls up: short and thick again"], w:"The muscles push on the fluid inside, so the body lengthens and then shortens."},
+  {l:"l2-phen", q:"Put the steps of a bionic arm in order.", items:["Surgeons connect the arm’s nerves to chest muscles", "The brain sends signals to those chest muscles", "Electrodes sense the chest muscles moving", "A computer moves the arm and hand"], w:"Nerves → chest muscles → electrodes → computer → the arm moves."}
+];
+const LB2 = [
+  {l:"l2-skel", fig:"skeleton", q:"Label the skeleton.", n:5},
+  {l:"l2-joint", fig:"joints", q:"Name each joint model.", n:3, w:"Ball-and-socket: nearly all directions. Hinge: back and forth. Pivot: turning."},
+  {l:"l2-mtype", fig:"muscles", q:"Name each type of muscle from its cells.", n:3, w:"Skeletal: long and striped. Smooth: thin, one nucleus in the middle. Cardiac: branched, only in the heart."}
+];
+
+/* ---------- LESSON 3: OBTAINING ENERGY AND REMOVING WASTE (book pp. 98–114) ---------- */
+const T3 = [
+  {id:"l3-energy", t:"Why organisms eat", pts:[
+    "Food gives the body <b>energy</b> and <b>nutrients</b>, the parts of food the body uses to grow and survive. Hunger is the body’s signal that it needs food.",
+    "The energy in food is measured in <b>Calories</b>: 1 Calorie is the energy needed to warm 1 kg of water by 1 °C. A grape has about 2 Calories; a slice of cheese pizza about 220, which is 110 times as much.",
+    "Every activity uses energy, even sleeping. Swimming uses more than walking, and walking more than painting. How much energy a person needs depends on their <b>weight, age, activity and gender</b>.",
+    "Each nutrient has a job: <b>protein</b> builds muscle and <b>calcium</b> builds strong bones and teeth. Too little vitamin D can lead to <b>osteoporosis</b> (weak, brittle bones)."]},
+  {id:"l3-digest", t:"Digestion: mechanical and chemical", pts:[
+    "<b>Digestion</b> breaks food down into pieces and molecules small enough for the body to absorb and use.",
+    "<b>Mechanical digestion</b> breaks food into smaller pieces physically: chewing, mashing and grinding with the teeth, tongue and jaw muscles. Small pieces are easier to swallow and have more surface area.",
+    "<b>Chemical digestion</b> uses chemical reactions to break the pieces into small molecules, like the chemicals in saliva and the acid in the stomach.",
+    "Both are needed: mechanical digestion makes the small pieces that chemical digestion can then break down.",
+    "The order: food is <b>ingested</b> (taken in) → <b>digested</b> → nutrients and water are <b>absorbed</b> → undigested food is <b>eliminated</b>."]},
+  {id:"l3-organs", t:"The digestive system, step by step", pts:[
+    "<b>Mouth:</b> digestion begins here. The teeth chew (mechanical) and <b>saliva</b> starts breaking down <b>carbohydrates</b> (chemical), which is why a cracker turns sweet. Saliva also neutralizes acidic foods.",
+    "<b>Esophagus:</b> a muscular tube from the mouth to the stomach. <b>Peristalsis</b>, waves of muscle contractions, pushes the food along, like squeezing a tube of toothpaste. Peristalsis moves food through the whole digestive tract.",
+    "<b>Stomach:</b> a large, hollow organ that stores food for a while and churns it with acidic <b>gastric juice</b>.",
+    "<b>Small intestine:</b> the long tube after the stomach, where <b>most chemical digestion</b> and the <b>absorption</b> of nutrients happen. Most of the water is absorbed here too.",
+    "<b>Large intestine:</b> absorbs more water. What is left becomes solid waste and is eliminated.",
+    "From the class worksheet: the <b>liver</b> makes <b>bile</b>, which breaks up fat, and the <b>pancreas</b> sends juices into the small intestine to break down starches, proteins and fats. Food does not pass through them, so they are called accessory organs. Proteins are digested in the stomach and small intestine."],
+    fig:"digestive"},
+  {id:"l3-villi", t:"Absorption: the villi", pts:[
+    "The folds of the small intestine are covered with <b>villi</b> (one is a villus), tiny finger-like projections. Each villus has small blood vessels, and nutrients pass through its thin wall into the <b>blood</b>.",
+    "Villi are good at absorbing: thin walls, a huge surface area and many blood vessels. The <b>circulatory system</b> then carries the nutrients to every cell, and the muscular system powers peristalsis.",
+    "Don’t mix them up: <b>villi</b> are in the small intestine, <b>alveoli</b> are in the lungs.",
+    "<b>Celiac disease:</b> eating <b>gluten</b>, a protein in wheat, rye and barley, damages the small intestine, so it can’t absorb nutrients well (<b>malabsorption</b>). This can cause weight loss and tiredness, anemia (too little iron) and osteoporosis (too little calcium and vitamin D). The treatment is a gluten-free diet."]},
+  {id:"l3-waste", t:"Removing waste: the excretory system", pts:[
+    "The <b>excretory system</b> collects and gets rid of wastes and controls the amount of fluid in the body. Several systems work together on this one job:",
+    "the <b>digestive system</b> gets rid of solid waste (undigested food); the <b>urinary system</b> gets rid of liquid waste; the <b>respiratory system</b> breathes out <b>carbon dioxide</b>; the <b>skin</b> removes extra <b>salt and water</b> through <b>sweat glands</b>.",
+    "The two bean-shaped <b>kidneys</b>, one on each side of the body, <b>filter waste out of the blood</b>. Waste left in the blood would become toxic and harm the whole body. If the kidneys fail, a <b>dialysis</b> machine filters the blood.",
+    "In the filtering lab, a screen caught the big particles and filter paper the small ones, a model of the kidneys."]},
+  {id:"l3-plant", t:"How plants get energy and remove waste", pts:[
+    "Most plants make their own food. <b>Photosynthesis</b> in the leaves uses <b>light energy, water and carbon dioxide</b> to make <b>glucose</b> (a sugar) and give off <b>oxygen</b>.",
+    "Glucose travels through the <b>phloem</b> to all the plant’s cells, which break the sugar down to release energy. Water enters the roots and travels through the <b>xylem</b> to every part of the plant.",
+    "Carbon dioxide, oxygen and water vapor pass in and out through tiny openings in the leaves. Plants give off <b>water vapor</b> as waste.",
+    "You don’t get energy the way a plant does: plants make food by photosynthesis, but you get energy by eating and digesting food."],
+    fig:"leaf"}
+];
+const V3 = [
+  ["Calorie", "The unit for the energy in food.", "l3-energy"],
+  ["nutrients", "The parts of food the body uses to grow and survive.", "l3-energy"],
+  ["digestion", "Breaking food down, mechanically and chemically, so the body can absorb it.", "l3-digest"],
+  ["mechanical digestion", "Breaking food into smaller pieces physically, as in chewing.", "l3-digest"],
+  ["chemical digestion", "Using chemical reactions to break food into small molecules.", "l3-digest"],
+  ["elimination", "Getting rid of undigested food at the end of the digestive tract.", "l3-digest"],
+  ["saliva", "Mouth fluid that starts breaking down carbohydrates.", "l3-organs"],
+  ["esophagus", "The muscular tube that carries food from the mouth to the stomach.", "l3-organs"],
+  ["peristalsis", "Waves of muscle contractions that push food through the digestive tract.", "l3-organs"],
+  ["villi", "Tiny finger-like projections in the small intestine that absorb nutrients.", "l3-villi"],
+  ["gluten", "A protein in wheat, rye and barley.", "l3-villi"],
+  ["excretory system", "Collects and gets rid of wastes and controls the body’s fluid level.", "l3-waste"],
+  ["kidneys", "Two bean-shaped organs that filter waste out of the blood.", "l3-waste"],
+  ["sweat glands", "Skin structures that remove extra salt and water.", "l3-waste"],
+  ["photosynthesis", "How leaves use light, water and carbon dioxide to make glucose and oxygen.", "l3-plant"],
+  ["glucose", "The sugar that plants make by photosynthesis.", "l3-plant"]
+];
+const MC3 = [
+  {l:"l3-energy", q:"Why do organisms need to eat?", o:["To get energy and nutrients", "Only to grow taller", "Only to get water", "To make oxygen"], w:"Food gives the energy (measured in Calories) and the nutrients the body needs."},
+  {l:"l3-energy", q:"What does a Calorie measure?", o:["The energy in food", "The weight of food", "The water in food", "The vitamins in food"], w:"1 Calorie is the energy needed to warm 1 kg of water by 1 °C."},
+  {l:"l3-energy", q:"A grape has 2 Calories and a slice of cheese pizza has 220. About how many times more energy does the pizza have?", o:["110 times", "22 times", "218 times", "2 times"], w:"220 ÷ 2 = 110."},
+  {l:"l3-energy", q:"Which of these activities uses the most energy?", o:["Swimming", "Walking", "Painting", "Sleeping"], w:"Every activity uses energy, even sleeping, but hard exercise uses the most."},
+  {l:"l3-energy", q:"Which nutrient builds strong bones and teeth?", o:["Calcium", "Gluten", "Carbon dioxide", "Bile"], w:"Calcium builds bones and teeth; protein builds muscle."},
+  {l:"l3-energy", q:"Which of these does NOT change how much energy a person needs?", o:["Their eye color", "Their age", "How active they are", "Their weight"], w:"Energy needs depend on weight, age, activity and gender."},
+  {l:"l3-energy", q:"What can happen if a person gets too little vitamin D?", o:["Their bones can become weak and brittle", "Their eyes change color", "They grow much taller", "Their kidneys get bigger"], w:"Too little vitamin D can lead to osteoporosis: porous, brittle bones."},
+  {l:"l3-digest", q:"What is digestion?", o:["Breaking food down into pieces and molecules small enough to absorb", "Taking food into the mouth", "Getting rid of waste", "Making food in the leaves"], w:"The body can only absorb nutrients once food is broken into small molecules."},
+  {l:"l3-digest", q:"Chewing is which kind of digestion?", o:["Mechanical digestion", "Chemical digestion", "Absorption", "Elimination"], w:"Chewing, mashing and grinding break food physically: mechanical digestion."},
+  {l:"l3-digest", q:"Which is an example of CHEMICAL digestion?", o:["Chemicals in saliva breaking down the carbohydrates in a cracker", "Teeth grinding a cracker into crumbs", "The tongue mashing food", "Muscles pushing food to the stomach"], w:"Grinding and mashing are mechanical; chemicals breaking food into molecules is chemical digestion."},
+  {l:"l3-digest", q:"Why does the body need both mechanical and chemical digestion?", o:["Mechanical digestion makes small pieces that chemical digestion then breaks into molecules", "They do the same job twice, to be safe", "Chemical digestion only happens in the mouth", "Mechanical digestion makes food taste better"], w:"Small pieces have more surface area for the chemicals to work on."},
+  {l:"l3-digest", q:"When does the first step of digestion usually happen?", o:["When the food is chewed", "When you first see the food", "When the food is swallowed", "When the nutrients are absorbed"], w:"Digestion begins in the mouth, with chewing and saliva."},
+  {l:"l3-digest", q:"Which order is correct?", o:["Ingest, digest, absorb, eliminate", "Ingest, absorb, digest, eliminate", "Absorb, ingest, digest, eliminate", "Digest, ingest, eliminate, absorb"], w:"Food is taken in, broken down, its nutrients and water are absorbed, and what is left is eliminated."},
+  {l:"l3-digest", q:"Getting rid of undigested food and other wastes from the body is called…", o:["elimination", "digestion", "absorption", "ingestion"], w:"Ingestion = taking food in; elimination = getting rid of what is left."},
+  {l:"l3-organs", q:"Food enters the human body through the…", o:["mouth", "esophagus", "intestine", "liver"], w:"The mouth takes food in, and digestion begins there."},
+  {l:"l3-organs", q:"Which part of the mouth does mechanical digestion?", o:["The teeth", "Saliva", "Gastric juice", "The villi"], w:"Teeth chew and grind; saliva does chemical digestion."},
+  {l:"l3-organs", q:"Which part of the mouth starts chemical digestion?", o:["Saliva", "The teeth", "The esophagus", "Gastric juice"], w:"Chemicals in saliva start breaking down carbohydrates."},
+  {l:"l3-organs", q:"Which nutrient does saliva start to break down?", o:["Carbohydrates", "Proteins", "Fats", "Minerals"], w:"That is why a cracker held in your mouth starts to taste sweet."},
+  {l:"l3-organs", q:"Which organ connects the mouth to the stomach?", o:["Esophagus", "Small intestine", "Trachea", "Large intestine"], w:"The esophagus carries food; the trachea carries air."},
+  {l:"l3-organs", q:"What is the job of peristalsis?", o:["To move food through the digestive system", "To remove extra liquid from the body", "To absorb nutrients into the blood", "To digest food with chemicals"], w:"Peristalsis is waves of muscle contractions that push food along."},
+  {l:"l3-organs", q:"What causes peristalsis?", o:["Waves of muscle contractions push the food along", "The skeleton presses on the esophagus", "The lungs push on the esophagus", "Gravity, and nothing else"], w:"Muscles squeeze behind the food, like squeezing a tube of toothpaste."},
+  {l:"l3-organs", q:"What does the stomach do?", o:["Stores food for a while and churns it with acidic gastric juice", "Absorbs most of the nutrients", "Filters waste out of the blood", "Makes saliva"], w:"The stomach stores food and helps chemical digestion."},
+  {l:"l3-organs", q:"Where do MOST chemical digestion and the absorption of nutrients happen?", o:["In the small intestine", "In the stomach", "In the large intestine", "In the esophagus"], w:"The small intestine's villi absorb the nutrients into the blood."},
+  {l:"l3-organs", q:"What is the main job of the large intestine?", o:["To absorb extra water and form solid waste", "To make saliva", "To absorb most nutrients", "To break food down with acid"], w:"The large intestine absorbs more water; what is left is eliminated."},
+  {l:"l3-organs", q:"Which organ makes bile, which breaks up fat?", o:["Liver", "Pancreas", "Stomach", "Large intestine"], w:"The liver makes bile; the pancreas makes juices for the small intestine."},
+  {l:"l3-organs", q:"Which organ sends juices into the small intestine to break down starches, proteins and fats?", o:["Pancreas", "Liver", "Large intestine", "Esophagus"], w:"The pancreas releases its juice into the small intestine."},
+  {l:"l3-organs", q:"Which is an accessory organ: it helps digestion, but food does not pass through it?", o:["Liver", "Stomach", "Small intestine", "Large intestine"], w:"The liver and pancreas help digestion from the side."},
+  {l:"l3-organs", q:"Where are proteins digested?", o:["In the stomach and small intestine", "In the mouth only", "In the large intestine", "In the esophagus"], w:"Saliva works on carbohydrates; proteins are digested in the stomach and small intestine."},
+  {l:"l3-villi", q:"How do nutrients get from the small intestine into the blood?", o:["Through the villi, which have tiny blood vessels", "Through the stomach acid", "Through the esophagus", "Through the kidneys"], w:"Nutrients pass through the thin walls of the villi into their blood vessels."},
+  {l:"l3-villi", q:"What are villi?", o:["Tiny finger-like projections in the small intestine", "Tiny air sacs in the lungs", "Teeth at the back of the mouth", "Tubes in the kidneys"], w:"Villi are in the small intestine; alveoli are in the lungs."},
+  {l:"l3-villi", q:"Why are the villi so good at absorbing nutrients?", o:["Thin walls, a huge surface area and many blood vessels", "They are hard and strong", "They make saliva", "They push food with muscles"], w:"More surface and thin walls let more nutrients pass into the blood."},
+  {l:"l3-villi", q:"Which body system carries nutrients from the small intestine to the rest of the body?", o:["Circulatory system", "Skeletal system", "Excretory system", "Nervous system"], w:"The blood carries the nutrients to every cell."},
+  {l:"l3-villi", q:"In celiac disease, eating gluten damages the…", o:["small intestine", "lungs", "kidneys", "skull"], w:"The damaged small intestine can't absorb nutrients well (malabsorption)."},
+  {l:"l3-villi", q:"Gluten is a protein found in…", o:["wheat, rye and barley", "milk and cheese", "apples and grapes", "water"], w:"People with celiac disease eat a gluten-free diet."},
+  {l:"l3-villi", q:"Why can celiac disease lead to weak bones?", o:["The damaged small intestine can't absorb enough calcium and vitamin D", "Gluten dissolves bones", "The kidneys stop working", "The stomach makes too much acid"], w:"Malabsorption of calcium and vitamin D can lead to osteoporosis."},
+  {l:"l3-waste", q:"What are the jobs of the excretory system?", o:["To collect and get rid of wastes and control the body's fluid level", "To break food into molecules", "To carry oxygen to the cells", "To send signals to the brain"], w:"Several systems work together to remove wastes."},
+  {l:"l3-waste", q:"Which organs filter waste out of the blood?", o:["Kidneys", "Villi", "Stomach", "Large intestine"], w:"The two bean-shaped kidneys filter the blood."},
+  {l:"l3-waste", q:"What would happen to your body if you had no kidneys?", o:["Waste would collect in the blood and become toxic", "You could not absorb nutrients", "You could not eat gluten", "You could not make saliva"], w:"Without filtering, waste builds up in the blood and harms the whole body."},
+  {l:"l3-waste", q:"How does the skin help get rid of waste?", o:["Sweat glands remove extra salt and water", "It filters the blood", "It breathes out carbon dioxide", "It absorbs nutrients"], w:"Sweat carries extra salt and water out of the body."},
+  {l:"l3-waste", q:"Which waste does the respiratory system get rid of?", o:["Carbon dioxide", "Salt", "Undigested food", "Liquid waste"], w:"You breathe out carbon dioxide."},
+  {l:"l3-waste", q:"Which system gets rid of solid waste (undigested food)?", o:["Digestive system", "Urinary system", "Respiratory system", "Nervous system"], w:"The urinary system handles liquid waste; the digestive system solid waste."},
+  {l:"l3-waste", q:"Why does a person whose kidneys don't work need dialysis?", o:["A machine has to filter the waste out of their blood", "It helps them digest food", "It makes more saliva", "It grows new kidneys"], w:"Dialysis does the kidneys' job and keeps the blood free of toxic waste."},
+  {l:"l3-waste", q:"In the filtering lab, a screen caught big particles and filter paper caught small ones. Which organs does this model?", o:["The kidneys", "The stomach", "The lungs", "The villi"], w:"Like the filters, the kidneys take waste out of the blood."},
+  {l:"l3-plant", q:"Which three things does a leaf take in for photosynthesis?", o:["Light energy, water and carbon dioxide", "Oxygen, water and sugar", "Light energy, oxygen and sugar", "Carbon dioxide, oxygen and sugar"], w:"Light, water and carbon dioxide go in; glucose is made and oxygen is given off."},
+  {l:"l3-plant", q:"What does photosynthesis make?", o:["Glucose (sugar) and oxygen", "Carbon dioxide and water", "Salt and water", "Protein and fat"], w:"Glucose is the plant's food; oxygen is given off."},
+  {l:"l3-plant", q:"How does the glucose made in the leaves reach the rest of the plant?", o:["Through the phloem", "Through the xylem", "Through the soil", "Through the roots only"], w:"Phloem carries sugar; xylem carries water."},
+  {l:"l3-plant", q:"How do plant cells get energy from glucose?", o:["They break the sugar down to release energy", "They store it forever", "They turn it into soil", "They send it out of the leaves"], w:"Like your cells, plant cells break down sugar to release energy."},
+  {l:"l3-plant", q:"Which waste do plants give off through the tiny openings in their leaves?", o:["Water vapor", "Glucose", "Soil", "Minerals"], w:"Water vapor, oxygen and carbon dioxide pass through tiny openings in the leaves."},
+  {l:"l3-plant", q:"Do you get energy in the same way a plant does?", o:["No: a plant makes its own food, but you eat and digest food", "Yes: you both make food from sunlight", "Yes: you both use xylem", "No: plants don't need energy"], w:"Plants make glucose by photosynthesis; animals get energy from the food they eat."}
+];
+const TF3 = [
+  {l:"l3-digest", q:"Mechanical digestion uses chemical reactions to break down food.", a:false, w:"False: mechanical digestion is physical (chewing, mashing). Chemical digestion uses chemical reactions."},
+  {l:"l3-energy", q:"Your body uses energy even while you sleep.", a:true, w:"True: every activity uses energy, even sleeping."},
+  {l:"l3-organs", q:"Saliva starts breaking down carbohydrates.", a:true, w:"True: that is why a cracker turns sweet in your mouth."},
+  {l:"l3-organs", q:"Most nutrients are absorbed in the large intestine.", a:false, w:"False: most are absorbed in the small intestine, through the villi."},
+  {l:"l3-organs", q:"Peristalsis moves food through the whole digestive tract, not only the esophagus.", a:true, w:"True: waves of muscle contractions push food all the way along."},
+  {l:"l3-organs", q:"Food passes through the liver.", a:false, w:"False: the liver is an accessory organ. It makes bile, but food does not pass through it."},
+  {l:"l3-villi", q:"Villi are found in the lungs.", a:false, w:"False: villi are in the small intestine; alveoli are in the lungs."},
+  {l:"l3-waste", q:"The kidneys filter waste out of the blood.", a:true, w:"True: without them, waste would build up and become toxic."},
+  {l:"l3-waste", q:"The skin removes extra salt and water through sweat glands.", a:true, w:"True: the skin is part of the team that removes wastes."},
+  {l:"l3-plant", q:"Photosynthesis takes in oxygen and gives off carbon dioxide.", a:false, w:"False: it takes in carbon dioxide and gives off oxygen."}
+];
+const TY3 = [
+  {l:"l3-organs", q:"Digestion begins in the mouth with chewing and ______ starting to break down food.", a:"saliva", w:"Saliva starts the chemical digestion of carbohydrates."},
+  {l:"l3-villi", q:"In the small intestine, nutrients are absorbed through tiny finger-like projections called ______.", a:"villi", alt:["villus"], w:"Each villus has small blood vessels."},
+  {l:"l3-organs", q:"Waves of muscle contractions that push food along are called ______.", a:"peristalsis", w:"Peristalsis moves food through the whole digestive tract."},
+  {l:"l3-organs", q:"The muscular tube that carries food from the mouth to the stomach is the ______.", a:"esophagus", alt:["oesophagus"], w:"The esophagus uses peristalsis to move food down."},
+  {l:"l3-waste", q:"The two bean-shaped organs that filter waste out of the blood are the ______.", a:"kidneys", alt:["kidney"], w:"If they fail, a dialysis machine filters the blood."},
+  {l:"l3-plant", q:"Leaves make glucose and oxygen by ______.", a:"photosynthesis", w:"Light, water and carbon dioxide go in."},
+  {l:"l3-digest", q:"Chewing is ______ digestion.", a:"mechanical", w:"Chewing breaks food physically: mechanical digestion."},
+  {l:"l3-energy", q:"The energy in food is measured in ______.", a:"calories", alt:["calorie", "cal"], w:"1 Calorie warms 1 kg of water by 1 °C."}
+];
+const OR3 = [
+  {l:"l3-digest", q:"Put the stages of digestion in order.", items:["Food is taken in (ingested)", "Food is digested", "Nutrients and water are absorbed", "Undigested food is eliminated"], w:"Ingest → digest → absorb → eliminate."},
+  {l:"l3-organs", q:"Put the path of food in order.", items:["Mouth", "Esophagus", "Stomach", "Small intestine", "Large intestine"], w:"Mouth → esophagus → stomach → small intestine → large intestine."},
+  {l:"l3-plant", q:"Put the steps in order, from the soil to the plant's cells.", items:["Water enters the roots", "Water travels up the xylem to the leaves", "The leaves make glucose by photosynthesis", "Glucose travels through the phloem to all the cells"], w:"Water goes up the xylem; the glucose made in the leaves goes out through the phloem."}
+];
+const LB3 = [
+  {l:"l3-organs", fig:"digestive", q:"Label the digestive system.", n:5},
+  {l:"l3-plant", fig:"leaf", q:"Label what goes into and out of the leaf in photosynthesis.", n:5, w:"In: light energy, water, carbon dioxide. Made: glucose. Out: oxygen."}
+];
+
+/* ---------- LESSON 4: MOVING MATERIALS (the Flow Lab has the full lesson) ---------- */
+const T45 = [
+  {id:"l4-plant", t:"Plants: roots, xylem and phloem", pts:[
+    "<b>Root hairs</b> give the roots a huge surface to take in water and minerals.",
+    "<b>Xylem</b> carries water and minerals <b>up</b> from the roots to the leaves.",
+    "<b>Phloem</b> carries the sugar made in the leaves to the rest of the plant, up or down.",
+    "<b>Transpiration:</b> water vapor leaves through the <b>stomata</b> (opened and closed by guard cells) and pulls more water up the xylem, like sipping through a straw.",
+    "Mosses are <b>nonvascular</b> (no xylem or phloem): water moves from cell to cell by osmosis and diffusion, so they stay small."]},
+  {id:"l4-circ", t:"The circulatory system", pts:[
+    "The <b>heart</b> (the pump), <b>blood</b> (the carrier) and <b>blood vessels</b> (the roads) deliver oxygen and nutrients to every cell and carry wastes such as carbon dioxide away.",
+    "Two <b>atria</b> (top) receive blood and two <b>ventricles</b> (bottom) pump it out. The <b>septum</b> keeps the two sides apart and <b>valves</b> keep blood flowing one way. The left ventricle has the thickest wall.",
+    "<b>Pulmonary loop:</b> heart → lungs → heart (the blood picks up oxygen). <b>Systemic loop:</b> heart → body → heart (it delivers oxygen).",
+    "<b>Arteries</b> carry blood away from the heart, <b>veins</b> carry it back, and <b>capillaries</b> (walls one cell thick) are where materials pass between the blood and the cells.",
+    "Blood is <b>plasma</b> (about 55%, mostly water) with <b>red blood cells</b> (carry oxygen with hemoglobin), <b>white blood cells</b> (fight infection) and <b>platelets</b> (help blood clot)."]},
+  {id:"l4-resp", t:"Breathing: the respiratory system", pts:[
+    "Air path: nose or mouth → <b>pharynx</b> (throat) → <b>trachea</b> (the windpipe, which joins the pharynx to the bronchi) → <b>bronchi</b> → <b>bronchioles</b> → <b>alveoli</b>.",
+    "The <b>diaphragm</b>, a muscle under the lungs, changes the air pressure inside the chest: it moves down to pull air in and up to push it out.",
+    "The lungs hold millions of <b>alveoli</b>, tiny air sacs with walls one cell thick, wrapped in capillaries.",
+    "<b>Gas exchange</b> by diffusion: oxygen moves from the alveoli (more) into the capillaries (less); carbon dioxide moves from the blood into the alveoli and is breathed out."]},
+  {id:"l4-anim", t:"Other animals", pts:[
+    "Fish take oxygen from water with <b>gills</b>. Insects take in air through <b>spiracles</b> and <b>tracheae</b>. Earthworms breathe through moist skin. Frogs use lungs and skin (tadpoles use gills). Reptiles, birds and mammals, even whales, use <b>lungs</b>.",
+    "<b>Open circulatory system:</b> the blood-like hemolymph leaves the vessels and bathes the organs (insects, spiders, crabs, most mollusks). <b>Closed:</b> blood always stays inside vessels (earthworms, octopuses, squid, all vertebrates).",
+    "Heart chambers: fish 2, frogs and most reptiles 3, birds and mammals 4."]},
+  /* ---------- LESSON 5: CONTROL AND INFORMATION PROCESSING (the Signal Lab has the full lesson) ---------- */
+  {id:"l5-ns", t:"The nervous system and the brain", pts:[
+    "The <b>nervous system</b> controls the body: the senses take in information, the brain <b>processes</b> it and the muscles <b>respond</b>.",
+    "<b>Central nervous system (CNS)</b> = brain + spinal cord. <b>Peripheral nervous system (PNS)</b> = the nerves that branch through the body.",
+    "<b>Cerebrum</b> (largest): thinking, memory, the senses, voluntary movement. <b>Cerebellum</b>: balance and coordination. <b>Brain stem</b>: breathing and heartbeat (involuntary).",
+    "The <b>spinal cord</b> is the main pathway for messages, and it handles reflexes.",
+    "<b>Voluntary</b> actions are chosen (raising your hand); <b>involuntary</b> ones happen automatically (your heartbeat)."]},
+  {id:"l5-neuron", t:"Neurons, stimulus and response", pts:[
+    "A <b>neuron</b> is a nerve cell: <b>dendrites</b> receive a signal → the <b>cell body</b> (with the nucleus) → the <b>axon</b> carries it away → the axon terminals pass it across the <b>synapse</b> (a tiny gap) with chemical messengers.",
+    "<b>Sensory neurons</b>: senses → brain and spinal cord. <b>Interneurons</b>: inside the brain and spinal cord, they connect and process. <b>Motor neurons</b>: brain and spinal cord → muscles and glands.",
+    "<b>Stimulus</b> (a change) → <b>receptor</b> → sensory neuron → brain or spinal cord → motor neuron → muscle → <b>response</b>.",
+    "A <b>reflex</b> is fast and automatic and goes through the spinal cord. Touch a hot pot: receptors in the hand → spinal cord → arm muscles pull the hand away, and only <b>then</b> does the signal reach the brain and you feel the pain.",
+    "Animals respond to signals the same way: when a dolphin hears a whistle it knows, receptors send a signal to the brain, which processes it and sends signals that control what the dolphin does."]},
+  {id:"l5-chem", t:"Taste, smell and touch", pts:[
+    "Every sense works with <b>receptors</b>, special nerve cells that detect a stimulus. The intestine is not a sense organ; the eyes, ears, tongue, nose and skin are.",
+    "Taste and smell receptors are <b>chemoreceptors</b>: they detect chemicals.",
+    "<b>Taste buds</b>, in and around the bumps (papillae) on the tongue, detect chemicals dissolved in saliva. Five tastes: sweet, salty, sour, bitter and <b>umami</b> (savory). Every part of the tongue detects every taste.",
+    "Odor molecules dissolve in the mucus of the nose → <b>olfactory receptors</b> → <b>olfactory bulb</b> → brain. <b>Flavor</b> = taste + smell, so food tastes bland with a blocked nose.",
+    "The <b>skin</b> (the largest organ) has receptors for touch, pressure, vibration, heat, cold and pain. Fingertips, lips and the tongue are the most sensitive."]},
+  {id:"l5-ear", t:"Hearing and balance", pts:[
+    "Sound is vibrations. <b>Pinna</b> → <b>ear canal</b> → the <b>eardrum</b> vibrates → the <b>hammer, anvil and stirrup</b> pass the vibrations on and make them stronger → the <b>cochlea</b> (hair cells make nerve signals) → the <b>auditory nerve</b> → brain.",
+    "The <b>semicircular canals</b> in the inner ear sense head movement; with the eyes, the <b>cerebellum</b> keeps you balanced. Very loud sounds can damage the hair cells."]},
+  {id:"l5-temp", t:"Keeping body temperature steady", pts:[
+    "The body stays at about <b>37 °C</b>. Special nerve cells in the skin and some organs sense a change and send a message to the brain.",
+    "<b>Too hot:</b> the brain tells the body to sweat more and send more blood to the body’s surface, so heat escapes.",
+    "<b>Too cold:</b> the brain tells the body to shiver (muscles contract fast to make heat) and send more blood to the body’s core.",
+    "So it is not only the muscular system: the <b>nervous system</b> senses and decides, and the <b>circulatory system</b> moves the blood."]},
+  {id:"l5-eye", t:"Sight", pts:[
+    "Light → <b>cornea</b> (bends light) → <b>pupil</b> → <b>lens</b> (focuses) → <b>retina</b> (rods and cones) → <b>optic nerve</b> → brain, which makes sense of the upside-down image.",
+    "The <b>iris</b> makes the pupil smaller in bright light and bigger in dim light.",
+    "<b>Rods</b> work in dim light (black, white, gray); <b>cones</b> see color. The <b>blind spot</b> has no rods or cones: it is where the optic nerve leaves the eye."]}
+];
+const V45 = [
+  ["xylem", "Plant tubes that carry water and minerals up from the roots.", "l4-plant"],
+  ["phloem", "Plant tubes that carry sugar from the leaves to the rest of the plant.", "l4-plant"],
+  ["stomata", "Tiny openings on leaves that let gases and water vapor in and out.", "l4-plant"],
+  ["transpiration", "The loss of water vapor from the leaves, which pulls water up the xylem.", "l4-plant"],
+  ["atrium", "An upper chamber of the heart that receives blood (plural: atria).", "l4-circ"],
+  ["ventricle", "A lower chamber of the heart that pumps blood out.", "l4-circ"],
+  ["artery", "A blood vessel that carries blood away from the heart.", "l4-circ"],
+  ["vein", "A blood vessel that carries blood back to the heart.", "l4-circ"],
+  ["capillary", "The tiniest blood vessel, where materials pass between the blood and the cells.", "l4-circ"],
+  ["plasma", "The yellowish liquid part of blood.", "l4-circ"],
+  ["alveoli", "Tiny air sacs in the lungs where oxygen and carbon dioxide are swapped.", "l4-resp"],
+  ["trachea", "The windpipe: it carries air from the pharynx to the bronchi.", "l4-resp"],
+  ["diaphragm", "The muscle under the lungs that changes the air pressure in the chest.", "l4-resp"],
+  ["diffusion", "Particles moving from where there are more of them to where there are fewer.", "l4-resp"],
+  ["gills", "Organs that take oxygen out of water.", "l4-anim"],
+  ["spiracles", "Openings on an insect's body that let air in.", "l4-anim"],
+  ["central nervous system", "The brain and the spinal cord.", "l5-ns"],
+  ["cerebrum", "The largest part of the brain: thinking, memory, the senses, voluntary movement.", "l5-ns"],
+  ["cerebellum", "The part of the brain for balance and coordination.", "l5-ns"],
+  ["brain stem", "Joins the brain to the spinal cord; controls breathing and heartbeat.", "l5-ns"],
+  ["neuron", "A nerve cell, which carries signals.", "l5-neuron"],
+  ["synapse", "The tiny gap between two neurons.", "l5-neuron"],
+  ["stimulus", "A change in the surroundings that the body detects.", "l5-neuron"],
+  ["reflex", "A fast, automatic response that goes through the spinal cord.", "l5-neuron"],
+  ["taste buds", "Clusters of taste receptors on the tongue.", "l5-chem"],
+  ["receptor", "A special nerve cell that detects a stimulus.", "l5-chem"],
+  ["cochlea", "The snail-shaped part of the inner ear where hair cells make nerve signals.", "l5-ear"],
+  ["retina", "The layer at the back of the eye, with rods and cones.", "l5-eye"],
+  ["optic nerve", "Carries signals from the retina to the brain.", "l5-eye"]
+];
+const MC45 = [
+  {l:"l4-plant", q:"Which plant tissue carries water and minerals up from the roots?", o:["Xylem", "Phloem", "Stomata", "Root cap"], w:"Xylem carries water and minerals up. Phloem carries sugar from the leaves to the rest of the plant."},
+  {l:"l4-plant", q:"Which plant tissue carries sugar from the leaves to the roots and fruits?", o:["Phloem", "Xylem", "Stomata", "Root hairs"], w:"Phloem carries the sugar made in the leaves, up or down, to wherever it is needed."},
+  {l:"l4-plant", q:"How does transpiration help move water up a plant?", o:["Water evaporating from the leaves pulls more water up the xylem", "It pushes sugar down the phloem", "It makes the roots grow longer", "It lets the roots take in carbon dioxide"], w:"As water vapor leaves through the stomata, it tugs the water behind it up the xylem, like sipping through a straw."},
+  {l:"l4-plant", q:"Why do root hairs help a plant?", o:["They give the roots a much bigger surface to take in water", "They make sugar for the plant", "They hold the leaves up", "They let out water vapor"], w:"Thousands of tiny root hairs give a huge surface area for taking in water and minerals."},
+  {l:"l4-plant", q:"Which plant has no xylem or phloem?", o:["Moss", "Fern", "Pine tree", "Sunflower"], w:"Mosses are nonvascular, so water moves from cell to cell and they stay small."},
+  {l:"l4-circ", q:"Which blood vessels carry blood away from the heart?", o:["Arteries", "Veins", "Capillaries", "Bronchi"], w:"Arteries carry blood away from the heart. Veins carry it back."},
+  {l:"l4-circ", q:"Where do oxygen and nutrients pass from the blood into the body's cells?", o:["In the capillaries", "In the arteries", "In the veins", "In the heart's atria"], w:"Capillary walls are one cell thick, so materials pass through them easily."},
+  {l:"l4-circ", q:"Which chamber of the heart pumps oxygen-rich blood to the whole body?", o:["Left ventricle", "Right ventricle", "Left atrium", "Right atrium"], w:"The left ventricle has the thickest, strongest wall because it pumps blood all around the body."},
+  {l:"l4-circ", q:"In the pulmonary loop, blood travels from the heart to…", o:["the lungs and back", "the brain and back", "the legs and back", "the stomach and back"], w:"Pulmonary loop: heart → lungs → heart. The blood drops off carbon dioxide and picks up oxygen."},
+  {l:"l4-circ", q:"What do valves in the heart and veins do?", o:["Keep blood flowing in one direction", "Make red blood cells", "Take oxygen out of the air", "Filter wastes out of the blood"], w:"Valves are flaps that stop blood flowing backward."},
+  {l:"l4-circ", q:"Which part of the blood carries oxygen?", o:["Red blood cells", "White blood cells", "Platelets", "Plasma only"], w:"Red blood cells carry oxygen with a protein called hemoglobin."},
+  {l:"l4-circ", q:"Which part of the blood helps a cut stop bleeding?", o:["Platelets", "Red blood cells", "Plasma", "White blood cells"], w:"Platelets are tiny cell pieces that help blood clot."},
+  {l:"l4-resp", q:"What are alveoli?", o:["Tiny air sacs in the lungs", "Tubes that carry blood to the heart", "The two branches of the trachea", "Cells that fight germs"], w:"Alveoli are tiny air sacs wrapped in capillaries, where gases are swapped."},
+  {l:"l4-resp", q:"When blood reaches the alveoli, which way does carbon dioxide move?", o:["From the blood into the alveoli", "From the alveoli into the blood", "From the trachea into the heart", "It stays in the blood"], w:"There is more carbon dioxide in the blood, so it diffuses into the alveoli and is breathed out."},
+  {l:"l4-resp", q:"Which system works with the circulatory system to bring in oxygen and get rid of carbon dioxide?", o:["Respiratory system", "Digestive system", "Skeletal system", "Muscular system"], w:"The respiratory system swaps the gases; the circulatory system carries them to and from the cells."},
+  {l:"l4-resp", q:"Which of these is NOT part of the respiratory system?", o:["Ventricle", "Trachea", "Bronchus", "Pharynx"], w:"A ventricle is a chamber of the heart, part of the circulatory system."},
+  {l:"l4-resp", q:"Oxygen passes from the respiratory system to the circulatory system when it moves from the…", o:["alveoli into the capillaries", "bronchi into the trachea", "capillaries into the veins", "bronchi into the capillaries"], w:"Oxygen diffuses from the alveoli into the capillaries around them."},
+  {l:"l4-resp", q:"The lungs contain millions of…", o:["alveoli", "villi", "valves", "ventricles"], w:"Alveoli are in the lungs; villi are in the small intestine."},
+  {l:"l4-resp", q:"What is the job of the trachea?", o:["It is the windpipe, carrying air from the pharynx to the bronchi", "It carries food to the stomach", "It pumps blood to the lungs", "It is where gases are exchanged"], w:"The trachea joins the pharynx (throat) to the bronchi."},
+  {l:"l4-resp", q:"Which best describes the job of the diaphragm?", o:["It changes the air pressure inside the chest", "It is where oxygen enters the capillaries", "It takes in food and drinks from the mouth", "It vibrates to make sounds"], w:"When the diaphragm moves down, air rushes into the lungs; when it moves up, air is pushed out."},
+  {l:"l4-resp", q:"Where are the alveoli?", o:["Inside the lungs", "In the trachea", "Inside the mouth", "In the heart"], w:"The alveoli are at the ends of the bronchioles, inside the lungs."},
+  {l:"l4-resp", q:"Which process is possible because capillaries wrap around the alveoli?", o:["Gas exchange", "Digestion", "Peristalsis", "Filtering wastes"], w:"Oxygen and carbon dioxide pass between the alveoli and the blood."},
+  {l:"l4-circ", q:"Which part of the circulatory system brings blood from the body back to the heart?", o:["Veins", "Arteries", "Capillaries", "Valves"], w:"Veins carry blood to the heart; arteries carry it away."},
+  {l:"l4-circ", q:"Why would a disease of the capillaries affect the whole body?", o:["Cells could not get the materials they need or get rid of their wastes", "The bones would stop growing", "The heart would lose its valves", "Food could not be swallowed"], w:"Materials pass between the blood and every cell in the capillaries."},
+  {l:"l4-anim", q:"How does a fish get oxygen?", o:["Water flows over its gills and oxygen diffuses into its blood", "It gulps air into lungs", "Air enters through spiracles", "It soaks oxygen in through its scales"], w:"Gills are packed with capillaries; oxygen dissolved in the water diffuses into the blood."},
+  {l:"l4-anim", q:"In a closed circulatory system…", o:["blood always stays inside blood vessels", "blood washes freely over the organs", "there is no heart", "only insects have one"], w:"Earthworms and all vertebrates have a closed system. Insects have an open one."},
+  {l:"l4-anim", q:"Which animal has a heart with four chambers?", o:["Pigeon", "Frog", "Tuna", "Grasshopper"], w:"Birds and mammals have 4 chambers, frogs 3, fish 2."},
+  {l:"l5-ns", q:"The central nervous system is made of…", o:["the brain and the spinal cord", "the nerves in the arms and legs", "the eyes and the ears", "the heart and the blood vessels"], w:"CNS = brain + spinal cord. The nerves that branch through the body are the PNS."},
+  {l:"l5-ns", q:"Which part of the brain controls balance and coordination?", o:["Cerebellum", "Cerebrum", "Brain stem", "Spinal cord"], w:"The cerebellum keeps you balanced and makes your movements smooth."},
+  {l:"l5-ns", q:"Which part of the brain controls breathing and heartbeat?", o:["Brain stem", "Cerebrum", "Cerebellum", "Olfactory bulb"], w:"The brain stem joins the brain to the spinal cord and runs involuntary actions."},
+  {l:"l5-ns", q:"You decide to wave to a friend. Which part of the brain controls this voluntary movement?", o:["Cerebrum", "Brain stem", "Cerebellum", "Cochlea"], w:"The cerebrum controls thinking and voluntary movement."},
+  {l:"l5-ns", q:"Which of these is an involuntary action?", o:["Your heart beating", "Raising your hand", "Kicking a ball", "Writing your name"], w:"Involuntary actions happen automatically, without you choosing them."},
+  {l:"l5-neuron", q:"What is a synapse?", o:["The tiny gap between two neurons", "The long fiber of a neuron", "A receptor in the skin", "The largest part of the brain"], w:"Chemical messengers carry the signal across the synapse to the next neuron."},
+  {l:"l5-neuron", q:"Which neurons carry signals from the brain and spinal cord to the muscles?", o:["Motor neurons", "Sensory neurons", "Interneurons", "Receptors"], w:"Motor neurons carry commands out to muscles and glands."},
+  {l:"l5-neuron", q:"Which part of a neuron carries the signal away from the cell body?", o:["Axon", "Dendrite", "Nucleus", "Synapse"], w:"Dendrites receive signals; the axon carries the signal away."},
+  {l:"l5-neuron", q:"The doctor taps your knee and your leg kicks before you think. What is this?", o:["A reflex", "A voluntary action", "A synapse", "A stimulus"], w:"A reflex is fast and automatic: the signal goes through the spinal cord."},
+  {l:"l5-neuron", q:"What is a stimulus?", o:["A change in the surroundings that the body detects", "A muscle that moves the body", "The gap between two neurons", "A part of the brain"], w:"A sound, a light or a hot pan is a stimulus. Receptors detect it and the body responds."},
+  {l:"l5-chem", q:"You feel the prick of a pin because nerve cells in your skin send information to your…", o:["brain", "finger", "eyes", "stomach"], w:"Receptors in the skin send signals along nerves to the brain."},
+  {l:"l5-chem", q:"What do chemoreceptors detect?", o:["Tastes and odors", "Sounds", "Light", "Pressure"], w:"Taste and smell receptors detect chemicals."},
+  {l:"l5-chem", q:"What do all parts of the sensory system use?", o:["Receptors", "Cone cells", "Hair cells", "Chemoreceptors"], w:"Every sense has receptors; cones, hair cells and chemoreceptors belong to only some senses."},
+  {l:"l5-chem", q:"Which of these is NOT a sense organ?", o:["Intestine", "Eyes", "Ears", "Tongue"], w:"The intestine digests food; it is not a sense organ."},
+  {l:"l5-neuron", q:"You touch a hot pot. Which happens first?", o:["You pull your hand away", "You feel the pain", "Your brain decides to move", "You see the pot"], w:"The reflex goes through the spinal cord, so the hand moves before the signal reaches the brain and you feel pain."},
+  {l:"l5-neuron", q:"A dolphin hears the whistle of a dolphin it knows and swims to it. What happens inside the dolphin?", o:["Receptors send a signal to the brain, which sends signals that control what it does", "The sound moves its fins directly", "Its muscles hear the sound", "Nothing happens inside it"], w:"Stimulus → receptors → brain → response."},
+  {l:"l5-temp", q:"Your body gets too hot. What does the brain tell it to do?", o:["Sweat more and send more blood to the skin", "Shiver more", "Send more blood to the core", "Stop breathing"], w:"Sweating and blood near the surface let heat escape."},
+  {l:"l5-temp", q:"Your body gets too cold. What does the brain tell it to do?", o:["Shiver and send more blood to the body's core", "Sweat more", "Send more blood to the skin's surface", "Breathe faster"], w:"Shivering makes heat, and keeping blood in the core holds it in."},
+  {l:"l5-temp", q:"A student says only the muscular system works when you get cold, because shivering is muscles. Why is that wrong?", o:["Nerve cells sense the cold, the brain decides, and blood flow changes too", "Only the skeletal system is involved", "Shivering has nothing to do with muscles", "The digestive system warms the body"], w:"The nervous and circulatory systems work with the muscles to keep you at about 37 °C."},
+  {l:"l5-chem", q:"Which of these is NOT one of the five basic tastes?", o:["Spicy", "Umami", "Bitter", "Sour"], w:"The five tastes are sweet, salty, sour, bitter and umami. Chili heat sets off heat and pain receptors."},
+  {l:"l5-chem", q:"Why does food taste bland when your nose is blocked?", o:["Flavor is taste and smell working together", "The tongue stops working", "Saliva dries up", "The olfactory bulb makes taste buds"], w:"The brain mixes taste and smell into flavor."},
+  {l:"l5-chem", q:"Which parts of the body are the most sensitive to touch?", o:["Fingertips, lips and tongue", "The back and shoulders", "The elbows", "The knees"], w:"They have many touch receptors close together."},
+  {l:"l5-ear", q:"What turns vibrations into nerve signals in the ear?", o:["Hair cells in the cochlea", "The eardrum", "The pinna", "The ear canal"], w:"The cochlea is fluid-filled; its hair cells make the signals that the auditory nerve carries to the brain."},
+  {l:"l5-ear", q:"What do the semicircular canals sense?", o:["Head movement, for balance", "Loud sounds", "Light", "Smells"], w:"The fluid in the canals moves when your head moves, and the cerebellum uses this to keep you balanced."},
+  {l:"l5-eye", q:"What happens to your pupils in bright light?", o:["They get smaller", "They get bigger", "They stay the same", "They turn red"], w:"The iris makes the pupil smaller in bright light to let in less light."},
+  {l:"l5-eye", q:"Which part of the eye focuses light onto the retina?", o:["Lens", "Iris", "Optic nerve", "Pupil"], w:"The lens focuses the light. The cornea bends it first."},
+  {l:"l5-eye", q:"Which receptors in the retina let you see color?", o:["Cones", "Rods", "Taste buds", "Hair cells"], w:"Cones see color in bright light; rods work in dim light."}
+];
+const TF45 = [
+  {l:"l4-plant", q:"Phloem carries water up from the roots.", a:false, w:"False: xylem carries water up; phloem carries sugar."},
+  {l:"l4-circ", q:"Veins carry blood back to the heart.", a:true, w:"True: arteries carry blood away, veins bring it back."},
+  {l:"l4-circ", q:"The walls of capillaries are one cell thick.", a:true, w:"True: that is why materials pass through them so easily."},
+  {l:"l4-resp", q:"Oxygen moves from the alveoli into the blood by diffusion.", a:true, w:"True: there is more oxygen in the alveoli than in the blood."},
+  {l:"l4-anim", q:"Insects have a closed circulatory system.", a:false, w:"False: insects have an open system; their hemolymph bathes the organs."},
+  {l:"l5-ns", q:"The spinal cord is part of the peripheral nervous system.", a:false, w:"False: the brain and spinal cord make up the central nervous system."},
+  {l:"l5-neuron", q:"Sensory neurons carry signals from the sense organs to the brain and spinal cord.", a:true, w:"True: motor neurons carry signals the other way, out to the muscles."},
+  {l:"l5-neuron", q:"A reflex has to be planned by the cerebrum first.", a:false, w:"False: a reflex is automatic and goes through the spinal cord."},
+  {l:"l5-chem", q:"The tip of the tongue is the only part that tastes sweet.", a:false, w:"False: the tongue map is a myth; every part detects every taste."},
+  {l:"l5-eye", q:"Rods work best in dim light.", a:true, w:"True: rods see black, white and gray in dim light."},
+  {l:"l5-ear", q:"Auditory receptors detect light.", a:false, w:"False: auditory receptors are in the ear and detect sound. Light is detected by the rods and cones of the eye."},
+  {l:"l5-ear", q:"Fluid moving in the inner ear helps the brain control balance.", a:true, w:"True: the fluid in the semicircular canals moves when your head moves."},
+  {l:"l4-resp", q:"During gas exchange, oxygen moves into the blood and carbon dioxide moves into the alveoli.", a:true, w:"True: each gas moves from where there is more of it to where there is less."},
+  {l:"l5-temp", q:"When you are too cold, the brain sends more blood to the skin's surface.", a:false, w:"False: it sends more blood to the body's core and makes you shiver."}
+];
+const TY45 = [
+  {l:"l4-plant", q:"The tiny openings on a leaf that let water vapor out are called ______.", a:"stomata", alt:["stoma", "stomates"], w:"Stomata (one is a stoma) are opened and closed by guard cells."},
+  {l:"l4-circ", q:"The tiniest blood vessels, where materials are swapped with the cells, are ______.", a:"capillaries", alt:["capillary"], w:"Capillaries connect the arteries to the veins."},
+  {l:"l4-resp", q:"The tiny air sacs at the ends of the bronchioles are the ______.", a:"alveoli", alt:["alveolus"], w:"Alveoli are wrapped in capillaries."},
+  {l:"l5-neuron", q:"A nerve cell is called a ______.", a:"neuron", alt:["neurons", "neurone", "nerve cell"], w:"Neurons carry signals around the body."},
+  {l:"l5-ns", q:"The largest part of the brain, used for thinking and memory, is the ______.", a:"cerebrum", w:"The cerebrum also handles the senses and voluntary movement."},
+  {l:"l5-eye", q:"The nerve that carries signals from the eye to the brain is the ______ nerve.", a:"optic", alt:["optic nerve"], w:"The optic nerve; the auditory nerve does the same job for the ear."}
+];
+const OR45 = [
+  {l:"l4-resp", q:"Put the path of air in order, from the nose to the blood.", items:["Nose or mouth", "Trachea", "Bronchi", "Bronchioles", "Alveoli", "Capillaries (blood)"], w:"Nose → trachea → bronchi → bronchioles → alveoli, where oxygen diffuses into the capillaries."},
+  {l:"l4-circ", q:"Put the path of blood in order, starting in the right atrium.", items:["Right atrium", "Right ventricle", "Lungs", "Left atrium", "Left ventricle", "Body"], w:"Right side → lungs (pulmonary loop) → left side → body (systemic loop) → back to the right atrium."},
+  {l:"l5-neuron", q:"You touch a hot pot. Put what happens in order.", items:["Receptors in the hand detect the heat", "Signals go to the spinal cord", "Signals go to the arm muscles and the hand pulls away", "Signals go up to the brain", "You feel the pain"], w:"It's a reflex: the hand pulls away before the signal reaches the brain and you feel pain."},
+  {l:"l5-temp", q:"Your body gets too hot. Put what happens in order.", items:["Body temperature rises", "Nerve cells in the skin sense the change", "They send a message to the brain", "The brain tells the body to sweat and send blood to the skin", "Body temperature falls back to about 37 °C"], w:"Sense → brain → response → back to normal."},
+  {l:"l5-neuron", q:"Put the steps of a response in order.", items:["Stimulus", "Receptor", "Sensory neuron", "Brain or spinal cord", "Motor neuron", "Muscle responds"], w:"Stimulus → receptor → sensory neuron → brain or spinal cord → motor neuron → muscle."},
+  {l:"l5-ear", q:"Put the path of sound in order.", items:["Pinna", "Ear canal", "Eardrum", "Hammer, anvil, stirrup", "Cochlea", "Auditory nerve"], w:"Pinna → ear canal → eardrum → the three tiny bones → cochlea → auditory nerve → brain."},
+  {l:"l5-eye", q:"Put the path of light in order.", items:["Cornea", "Pupil", "Lens", "Retina", "Optic nerve", "Brain"], w:"Cornea → pupil → lens → retina → optic nerve → brain."}
+];
+
+const T23 = T2.concat(T3), V23 = V2.concat(V3), MC23 = MC2.concat(MC3), TF23 = TF2.concat(TF3), TY23 = TY2.concat(TY3), OR23 = OR2.concat(OR3), LB23 = LB2.concat(LB3);
+/* ================= the banks, joined (the data above is copied from science/quiz-2) ================= */
+const TOPICS = T2.concat(T3, T45), TOPIC = Object.fromEntries(TOPICS.map((t) => [t.id, t]));
+const VOC = V2.concat(V3, V45).map((v) => ({w:v[0], d:v[1], tp:v[2], les:v[2].slice(0, 2)}));
+const BANK = {mc:MC2.concat(MC3, MC45), tf:TF2.concat(TF3, TF45), type:TY2.concat(TY3, TY45), order:OR2.concat(OR3, OR45)};
+const CLASH = [['voluntary muscle', 'skeletal muscle'], ['involuntary muscle', 'cardiac muscle'], ['involuntary muscle', 'smooth muscle'],
+  ['digestion', 'mechanical digestion'], ['digestion', 'chemical digestion'], ['elimination', 'excretory system'], ['receptor', 'taste buds']];
+const clash = (a, b) => CLASH.some((c) => c.includes(a) && c.includes(b));
+const LES_AR = {l2:'التركيب والدعم: العضلات والمفاصل والهيكل', l3:'الحصول على الطاقة والتخلّص من الفضلات: الهضم والإخراج والبناء الضوئي', l4:'نقل المواد: الدم والقلب والتنفّس والنبات', l5:'التحكّم ومعالجة المعلومات: الدماغ والأعصاب والحواس'};
+
+/* ================= settings ================= */
+const KEY = 'science-missions-quiz2-v1';
+const ARCADE = '../../arcade/index.html';
+const TEST_DATE = new Date(2026, 10, 15);   /* Science Quiz 2: Sunday 15 Nov 2026 */
+const UNLOCK = ['m1', 'm2', 'm3'];          /* arcade time from this page counts only after these (assets/arcade.js, scq2) */
+
+/* ================= helpers ================= */
+const $ = (s, r) => (r || document).querySelector(s);
+function h(tag, attrs, ...kids){
+  const el = document.createElement(tag);
+  if (attrs) for (const k in attrs) {
+    const v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'html') el.innerHTML = v;
+    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  kids.flat().forEach((c) => { if (c == null || c === false) return; el.append(c.nodeType ? c : document.createTextNode(String(c))); });
+  return el;
+}
+const rnd = (n) => Math.floor(Math.random() * n);
+const pick = (a) => a[rnd(a.length)];
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const pickN = (a, n) => shuffle(a).slice(0, n);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[c]));
+const pct = (x) => Math.round(x * 100);
+const plain = (html) => { const d = document.createElement('div'); d.innerHTML = html; return d.textContent; };
+function fmtTime(sec){ sec = Math.max(0, Math.ceil(sec)); return String(Math.floor(sec / 60)).padStart(2, '0') + ':' + String(sec % 60).padStart(2, '0'); }
+function daysToTest(){ const t = new Date(); t.setHours(0, 0, 0, 0); return Math.round((TEST_DATE - t) / 86400000); }
+function xqKey(){ const s = Array.prototype.join.call(arguments, '|'); let x = 5381; for (let i = 0; i < s.length; i++) x = ((x << 5) + x + s.charCodeAt(i)) | 0; return (x >>> 0).toString(36); }
+/* typed words, the science page's rule: capitals, spaces and a plural s don't matter; one slip in a long word counts */
+const tnorm = (s) => String(s).toLowerCase().replace(/[^a-z]+/g, ' ').trim();
+const sing = (s) => s.replace(/(ies)$/, 'y').replace(/(s)$/, '');
+function lev(a, b){
+  const d = Array.from({length:a.length + 1}, (x, i) => [i].concat(Array(b.length).fill(0)));
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+function typeOK(forms, typed){
+  const t = tnorm(typed), F = forms.map(tnorm);
+  if (!t) return '';
+  if (F.some((f) => f === t || sing(f) === sing(t))) return 'ok';
+  if (t.length >= 4 && F.some((f) => f.length >= 6 && lev(f, t) <= 1)) return 'spell';
+  return '';
+}
+
+/* ================= question builders, from the banks ================= */
+const blankHTML = (s) => esc(s).replace(/_{3,}/, '<span class="blank">?</span>');
+const ofLes = (arr, les) => arr.filter((x) => (x.l || '').startsWith(les));
+function mcQ(skill, prompt, right, wrongs, why, extra){
+  const opts = shuffle([{html:right, ok:true}].concat(wrongs.map((w) => ({html:w, ok:false}))));
+  return Object.assign({kind:'mcq', skill, prompt, opts, why, right}, extra || {});
+}
+const SG = {
+  mc(les){ const q = pick(ofLes(BANK.mc, les)); return mcQ(q.l, q.q, q.o[0], q.o.slice(1), q.w || ''); },
+  tf(les){ const q = pick(ofLes(BANK.tf, les)); return mcQ(q.l, 'True or false?', q.a ? 'True' : 'False', [q.a ? 'False' : 'True'], q.w || '', {ctx:esc(q.q), two:true}); },
+  type(les){
+    const q = pick(ofLes(BANK.type, les));
+    return {kind:'type', skill:q.l, prompt:'Type the science word.', ctx:blankHTML(q.q), accept:[q.a].concat(q.alt || []), right:q.a, why:q.w || '', hint:`Starts with “${q.a[0]}” · ${q.a.length} letters`};
+  },
+  order(les){ const q = pick(ofLes(BANK.order, les)); return {kind:'order', skill:q.l, prompt:q.q, items:q.items, right:q.items.join(' → '), why:q.w || ''}; },
+  word(les){
+    const v = pick(VOC.filter((x) => x.les === les));
+    const others = pickN(VOC.filter((x) => x.les === les && x.w !== v.w && !clash(x.w, v.w) && x.d !== v.d), 3);
+    return mcQ(v.tp, `What does <b>${esc(v.w)}</b> mean?`, esc(v.d), others.map((x) => esc(x.d)), `<b>${esc(v.w)}</b>: ${esc(v.d)}`);
+  },
+  term(les){
+    const v = pick(VOC.filter((x) => x.les === les));
+    const others = pickN(VOC.filter((x) => x.les === les && x.w !== v.w && !clash(x.w, v.w)), 3);
+    return mcQ(v.tp, `Which science word means <q>${esc(v.d)}</q>`, esc(v.w), others.map((x) => esc(x.w)), `<b>${esc(v.w)}</b>: ${esc(v.d)}`);
+  }
+};
+const LESSON_MIX = ['mc', 'mc', 'mc', 'mc', 'tf', 'type', 'word', 'term', 'order'];
+const TRACK = {id:'s', name:'Science', missions:[
+  {id:'m1', les:['l2'], name:'Lesson 2: Structure and Support', ar:'الدرس ٢: التركيب والدعم', sub:'Muscles, joints and bones; skeletons of other animals; three types of muscle; roots and stems.', n:10, mix:LESSON_MIX},
+  {id:'m2', les:['l3'], name:'Lesson 3: Energy and Waste', ar:'الدرس ٣: الطاقة والفضلات', sub:'Food and Calories; digestion from mouth to large intestine; villi; the excretory system; photosynthesis.', n:10, mix:LESSON_MIX},
+  {id:'m3', les:['l4'], name:'Lesson 4: Moving Materials', ar:'الدرس ٤: نقل المواد', sub:'Xylem and phloem; heart, blood and blood vessels; breathing and gas exchange; other animals.', n:10, mix:LESSON_MIX},
+  {id:'m4', les:['l5'], name:'Lesson 5: Control and Information', ar:'الدرس ٥: التحكّم والمعلومات', sub:'The brain and nerves; neurons and reflexes; the senses; body temperature.', n:10, mix:LESSON_MIX},
+  {id:'boss', les:['l2', 'l3', 'l4', 'l5'], name:'Final Boss: Science Mock Test', ar:'اختبار العلوم التجريبي', sub:'24 mixed questions, 6 from each lesson. Score 85% to beat the boss.', n:24, pass:.85, boss:true, mix:LESSON_MIX}
+]};
+const MBY = Object.fromEntries(TRACK.missions.map((m, i) => [m.id, Object.assign(m, {i})]));
+const KIND_NAME = {mcq:'Choose', type:'Type the word', order:'Put in order'};
+
+/* ================= state (synced by assets/sync.js) ================= */
+function freshState(){ return {v:1, xp:0, xq:{}, sk:{}, kinds:{}, missions:{s:{}}, log:[], speed:0}; }
+let S = freshState();
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(freshState(), JSON.parse(raw)); } catch (e) { /* storage unavailable */ }
+S.missions = Object.assign({s:{}}, S.missions || {});
+let soundOn = true;
+try { soundOn = localStorage.getItem('science-missions-sound') !== '0'; } catch (e) { /* ignore */ }
+function save(){ S.updatedAt = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* ignore */ } }
+function record(skill, kind, score){
+  const st = S.sk[skill] || (S.sk[skill] = {h:[]}); st.h.push(score); if (st.h.length > 12) st.h = st.h.slice(-12);
+  const k = S.kinds[kind] || (S.kinds[kind] = {c:0, t:0}); k.t++; k.c += score;
+}
+function xpOnce(key, n){ if (!S.xq || typeof S.xq !== 'object') S.xq = {}; if (S.xq[key]) return false; S.xq[key] = 1; S.xp = (S.xp || 0) + n; return true; }
+function mastery(skill){ const st = S.sk[skill]; if (!st || !st.h || !st.h.length) return null; const a = st.h.slice(-6); return a.reduce((p, c) => p + c, 0) / a.length; }
+const lvl = (m) => m == null ? '' : m >= .8 ? 'ok' : m >= .5 ? 'mid' : 'low';
+function readiness(les){ const ts = TOPICS.filter((t) => !les || t.id.startsWith(les)); return ts.reduce((p, t) => p + (mastery(t.id) || 0), 0) / ts.length; }
+const mst = (id) => S.missions.s[id] || {};
+const passed = (id) => !!mst(id).passed;
+const open = () => UNLOCK.every(passed);
+function myParts(){ return open() ? TRACK.missions.filter((m) => passed(m.id)).length : 0; }
+const perPart = () => (window.MonmonArcade && window.MonmonArcade.perPart) || 5;
+function arcadeTotals(){ try { return window.MonmonArcade ? window.MonmonArcade.totals() : null; } catch (e) { return null; } }
+
+/* ================= sound and fx ================= */
+let AC = null;
+function tone(f, t, d, type, vol){
+  if (!soundOn) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume();
+    const o = AC.createOscillator(), g = AC.createGain(); o.type = type || 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(.0001, AC.currentTime + t); g.gain.exponentialRampToValueAtTime(vol || .18, AC.currentTime + t + .02); g.gain.exponentialRampToValueAtTime(.0001, AC.currentTime + t + d);
+    o.connect(g); g.connect(AC.destination); o.start(AC.currentTime + t); o.stop(AC.currentTime + t + d + .05);
+  } catch (e) { /* no audio */ }
+}
+const sfx = {ok(){ tone(660, 0, .12); tone(990, .09, .18); }, no(){ tone(180, 0, .25, 'square', .08); }, win(){ [523, 659, 784, 1047].forEach((f, i) => tone(f, i * .11, .25, 'triangle')); }};
+function confetti(){
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = h('canvas', {class:'fx'}); document.body.append(c);
+  const x = c.getContext('2d'), dpr = window.devicePixelRatio || 1; c.width = innerWidth * dpr; c.height = innerHeight * dpr; x.scale(dpr, dpr);
+  const cols = ['#FFC93C', '#2D5BFF', '#0F8F55', '#D23F35', '#FFFFFF'];
+  const P = Array.from({length:140}, () => ({x:innerWidth / 2, y:innerHeight * .35, vx:(Math.random() - .5) * 14, vy:Math.random() * -13 - 3, s:4 + Math.random() * 6, c:pick(cols), r:Math.random() * 6}));
+  let n = 0;
+  (function f(){ x.clearRect(0, 0, innerWidth, innerHeight); P.forEach((p) => { p.vy += .38; p.x += p.vx; p.y += p.vy; p.r += .2; x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.fillStyle = p.c; x.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); x.restore(); }); if (++n < 110) requestAnimationFrame(f); else c.remove(); })();
+}
+function showModal(em, title, text, buttons){
+  const bg = h('div', {class:'modal-bg', role:'dialog', 'aria-modal':'true'}), close = () => bg.remove();
+  bg.append(h('div', {class:'modal'}, h('div', {class:'em', 'aria-hidden':'true'}, em), h('h3', null, title), h('p', {class:'muted'}, text),
+    h('div', {class:'row', style:'justify-content:center'}, buttons.map(([label, fn], i) => h('button', {class:'btn ' + (i === buttons.length - 1 ? 'btn-main' : 'btn-ghost'), type:'button', onclick:() => { close(); if (fn) fn(); }}, label)))));
+  document.body.append(bg);
+}
+const canSpeak = (() => { try { return 'speechSynthesis' in window; } catch (e) { return false; } })();
+function speak(text){ try { const u = new SpeechSynthesisUtterance(text); u.lang = 'en-US'; u.rate = .9; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) { /* no voice */ } }
+
+/* ================= views ================= */
+let view = 'home', quiz = null;
+function mount(...nodes){
+  const app = $('#app'); app.innerHTML = '';
+  app.append(...nodes, h('div', {class:'foot'}, h('span', null, '☁️ Progress syncs across the family’s devices'),
+    h('a', {class:'back', href:'../quiz-2/index.html'}, '🔬 Quiz 2 review'), h('a', {class:'back', href:ARCADE}, '🎮 Arcade')));
+  paintChip(); window.scrollTo(0, 0);
+}
+function backBtn(){ return h('button', {class:'back', type:'button', onclick:home}, '← Back to base'); }
+function paintChip(){
+  const c = $('#vaultChip'); if (!c) return;
+  const t = arcadeTotals();
+  if (!open()) { c.className = 'chip lock'; c.textContent = '🔒 Arcade: pass M1–M3'; return; }
+  c.className = 'chip open'; c.textContent = t ? '🎮 ' + Math.floor(t.left / 60000) + ' min in the arcade' : '🎮 Open the arcade';
+}
+window.addEventListener('monmon-arcade', () => { paintChip(); if (view === 'home') home(); });
+
+function home(){
+  view = 'home'; quiz = null;
+  const days = daysToTest(), r = readiness();
+  const dayTxt = days === 1 ? 'Quiz is tomorrow' : days === 0 ? 'Quiz is today — you got this!' : days > 1 ? `Science Quiz 2 in ${days} days` : 'Keep it fresh';
+  const C = 2 * Math.PI * 30;
+  const hello = h('section', {class:'hello'},
+    h('span', {class:'eyebrow'}, dayTxt + ' · Sunday 15 November'),
+    h('h1', {html:'Science <em>Missions</em>'}),
+    h('p', {class:'muted'}, 'Module 2: Body Systems, Lessons 2–5. One mission for each lesson, then the Final Boss.'),
+    h('span', {class:'ar-line', lang:'ar'}, 'اقرأ ملاحظات الدرس، ثم اجتز مهمته. الأسئلة تتغيّر كل مرة.'),
+    h('div', {class:'facts'}, h('span', {class:'fact'}, h('b', null, TRACK.missions.filter((m) => passed(m.id)).length), ' / 5 missions'),
+      h('span', {class:'fact'}, h('b', null, TOPICS.filter((t) => (mastery(t.id) || 0) >= .8).length), ' / ' + TOPICS.length + ' topics strong')),
+    h('div', {class:'ready'}, h('div', {html:`<svg class="ring" viewBox="0 0 74 74" role="img" aria-label="Readiness ${pct(r)} percent"><circle class="bg" cx="37" cy="37" r="30"/><circle class="fg" cx="37" cy="37" r="30" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - r)}" transform="rotate(-90 37 37)"/><text x="37" y="43" text-anchor="middle">${pct(r)}%</text></svg>`}),
+      h('div', null, h('b', null, 'Quiz readiness'), h('p', {class:'muted', style:'font-size:14.5px'}, r >= .85 ? 'Excellent — beat the Final Boss to be sure.' : r >= .6 ? 'Getting there. Check your report for weak topics.' : 'Start with Lesson 2 notes, then Mission 1.'))));
+  const tools = h('div', {class:'tools'},
+    LESSONS.map((L) => tool(['🦴', '🍎', '🫀', '🧠'][L.n - 2], 'Lesson ' + L.n + ' notes', L.name + ': the key ideas and words.', () => lessonView(L.id))),
+    tool('🔤', 'Word Bank', VOC.length + ' science words with meanings, by lesson.', words),
+    tool('⚡', 'Word Speed Round', '60 seconds: word → meaning.', speed, S.speed ? 'Best: ' + S.speed : null));
+  mount(h('div', {class:'stack'},
+    h('div', {class:'hero'}, hello, arcadeEl()),
+    h('div', {class:'sec-h'}, h('h2', null, 'Study'), h('span', {class:'muted'}, 'Read a lesson’s notes, then take its mission.')), tools,
+    h('div', {class:'sec-h'}, h('h2', null, 'Missions'), h('span', {class:'muted'}, 'Questions change every time. Pass mark: 80%.')),
+    h('div', {class:'track'}, TRACK.missions.map(missionEl)),
+    h('div', {class:'row'}, h('button', {class:'btn btn-ghost', type:'button', onclick:report}, '📊 Science report — which topics are strong?'))));
+}
+function tool(icon, title, text, fn, best){
+  return h('button', {class:'tool', type:'button', onclick:fn}, h('span', {class:'ti', 'aria-hidden':'true'}, icon), h('b', null, title), h('span', null, text), best ? h('span', {class:'best'}, best) : null);
+}
+function arcadeEl(){
+  const o = open(), tot = arcadeTotals(), mine = myParts() * perPart();
+  const el = h('section', {class:'vault', 'aria-label':'Arcade time'},
+    h('div', {class:'vt'}, h('span', {class:'shake-lock', 'aria-hidden':'true'}, '🎮'), h('b', null, 'Arcade Time'), h('span', {class:'state' + (o ? ' on' : '')}, o ? 'Unlocked' : 'Locked')));
+  if (!o) {
+    el.append(h('div', {class:'clock dim'}, '+' + (UNLOCK.length * perPart()) + ' min'),
+      h('p', {class:'msg', html:`Pass Missions 1, 2 and 3 (Lessons 2, 3 and 4) and this page sends <b>${UNLOCK.length * perPart()} minutes</b> to the arcade. Mission 4 and the Final Boss add ${perPart()} more each.<span class="ar-line" lang="ar">وقت الألعاب من هذه الصفحة مقفول: اجتز المهمات ١ و٢ و٣ لتنزل ${UNLOCK.length * perPart()} دقيقة في صالة الألعاب.</span>`}),
+      h('div', {class:'locks'}, UNLOCK.map((id, i) => h('span', {class:'lockpill' + (passed(id) ? ' done' : '')}, (passed(id) ? '✅ ' : '🔒 ') + 'Mission ' + (i + 1)))));
+  } else {
+    el.append(h('div', {class:'clock' + (tot && tot.left <= 0 ? ' dim' : '')}, tot ? fmtTime(tot.left / 1000) : '+' + mine + ' min'),
+      h('p', {class:'msg', html:`Science missions have given <b>${mine} minutes</b> of arcade time.` + (tot ? ` Arcade balance: <b>${Math.floor(tot.left / 60000)} min</b>.` : '') + `<span class="ar-line" lang="ar">الدقائق تنصرف في صالة الألعاب، وأقصى لعب في اليوم ${(window.MonmonArcade && window.MonmonArcade.daily) || 20} دقيقة.</span>`}),
+      h('div', {class:'row vact'}, h('a', {class:'btn btn-main', href:ARCADE}, '🎮 Open the arcade')));
+  }
+  return el;
+}
+function missionEl(m, i){
+  const st = mst(m.id), best = st.best != null ? st.best : null;
+  const pc = (x) => x >= .8 ? 'ok' : x >= .5 ? 'mid' : 'low';
+  return h('div', {class:'mission' + (st.passed ? ' passed' : '') + (m.boss ? ' boss' : '')},
+    h('div', {class:'tier', 'aria-hidden':'true'}, st.passed ? '✓' : m.boss ? '★' : String(i + 1)),
+    h('div', null,
+      h('h3', null, (m.boss ? '' : 'Mission ' + (i + 1) + ' · ') + m.name),
+      h('p', {class:'sub'}, m.sub),
+      h('span', {class:'ar-line', lang:'ar', style:'display:inline'}, m.ar),
+      h('div', {class:'meta'},
+        h('span', {class:'tag min'}, UNLOCK.includes(m.id) ? (st.passed ? '✔ part of the arcade unlock' : '🔑 needed for arcade time') : '🎮 +' + perPart() + ' min after M3'),
+        h('span', {class:'tag'}, m.n + ' questions'),
+        best != null ? h('span', {class:'tag ' + pc(best)}, 'Best ' + pct(best) + '%') : null)),
+    h('div', {class:'go'}, h('button', {class:'btn ' + (st.passed ? 'btn-ghost' : 'btn-main'), type:'button', onclick:() => startQuiz(m)}, st.passed ? 'Play again' : 'Start')));
+}
+
+/* ---------- lesson notes and the word bank ---------- */
+function lessonView(les){
+  view = 'lesson';
+  const L = LESSONS.find((x) => x.id === les), i = L.n - 2, m = TRACK.missions[i];
+  const cards = TOPICS.filter((t) => t.id.startsWith(les)).map((t) => {
+    const ms = mastery(t.id);
+    return h('section', {class:'panel lesson'}, h('h3', null, t.t, ms != null ? h('span', {class:'tag ' + lvl(ms), style:'margin-left:8px'}, pct(ms) + '%') : null),
+      h('ul', {class:'ex-list'}, (t.pts || []).map((p) => h('li', {html:p}))),
+      h('p', {class:'note'}, 'Words: ' + VOC.filter((v) => v.tp === t.id).map((v) => v.w).join(', ')));
+  });
+  mount(h('div', {class:'stack'}, backBtn(),
+    h('section', {class:'panel lesson'}, h('h3', null, 'Lesson ' + L.n + ': ' + L.name), h('p', {class:'note'}, L.src + ' · ' + L.blurb), h('p', {class:'ar-line', lang:'ar'}, LES_AR[les]),
+      L.lab ? h('p', null, h('a', {href:L.lab[0]}, 'Open the ' + L.lab[1] + ' for animated diagrams →')) : null),
+    cards,
+    h('div', {class:'row'}, h('button', {class:'btn btn-main', type:'button', onclick:() => startQuiz(m)}, 'Start Mission ' + (i + 1) + ' →'))));
+}
+function words(){
+  view = 'words';
+  mount(h('div', {class:'stack'}, backBtn(),
+    LESSONS.map((L) => h('section', {class:'panel lesson'}, h('h3', null, 'Lesson ' + L.n + ': ' + L.name),
+      h('div', {class:'wgrid'}, VOC.filter((v) => v.les === L.id).map((v) => h('div', {class:'wcard', style:'min-height:110px'},
+        h('b', null, v.w), h('i', null, v.d),
+        canSpeak ? h('button', {class:'icon-btn', type:'button', 'aria-label':'Hear ' + v.w, onclick:() => speak(v.w)}, '🔊') : null)))))));
+}
+
+/* ---------- quiz engine ---------- */
+function buildQuiz(m, onlyTopics){
+  const qs = [], seen = {};
+  /* each lesson gets its share: the boss has exactly 6 from each of the four lessons */
+  m.les.forEach((les, li) => {
+    const quota = Math.floor(m.n / m.les.length) + (li < m.n % m.les.length ? 1 : 0);
+    let got = 0, tries = 0, order = [];
+    while (got < quota && tries < quota * 20) {
+      tries++;
+      if (!order.length) order = shuffle(m.mix);
+      const g = order.pop();
+      let q;
+      try { q = SG[g](les); } catch (e) { continue; }
+      if (onlyTopics && !onlyTopics.includes(q.skill)) continue;
+      q.key = xqKey('sci', q.kind, q.skill, q.prompt, q.ctx || '', q.right);
+      if (seen[q.key]) continue;
+      seen[q.key] = 1; qs.push(q); got++;
+    }
+  });
+  return shuffle(qs);
+}
+function startQuiz(m, onlyTopics){
+  view = 'quiz';
+  quiz = {m, qs:buildQuiz(m, onlyTopics), i:0, score:0, answers:[], streak:0, practice:!!onlyTopics};
+  if (!quiz.qs.length) { quiz = null; home(); return; }
+  showQ();
+}
+function showQ(){
+  const z = quiz, q = z.qs[z.i];
+  const title = z.practice ? 'Science practice: weak topics' : (z.m.boss ? z.m.name : 'Mission ' + (z.m.i + 1) + ': ' + z.m.name);
+  const cardEl = h('section', {class:'qcard'});
+  cardEl.append(h('p', {class:'qsec'}, (TOPIC[q.skill] ? TOPIC[q.skill].t : '') + ' · ' + KIND_NAME[q.kind]));
+  cardEl.append(h('p', {class:'qp', html:q.prompt}));
+  if (q.ctx) cardEl.append(h('div', {class:'qs', html:q.ctx}));
+  const foot = h('div', {class:'qfoot'}), fbBox = h('div');
+  const nextBtn = h('button', {class:'btn btn-main', type:'button', onclick:() => { z.i++; z.i < z.qs.length ? showQ() : finishQuiz(); }}, z.i < z.qs.length - 1 ? 'Next →' : 'See my score');
+  const done = (score, yours, note) => {
+    z.score += score; z.streak = score === 1 ? z.streak + 1 : 0;
+    z.answers.push({q, score, yours});
+    record(q.skill, q.kind, score);
+    const rep = score > 0 && !xpOnce(q.key, Math.round(score * 10));
+    save();
+    if (score === 1) sfx.ok(); else sfx.no();
+    fbBox.append(h('div', {class:'fb ' + (score === 1 ? 'ok' : score > 0 ? 'mid' : 'no')},
+      h('span', {class:'fi', 'aria-hidden':'true'}, score === 1 ? (z.streak >= 3 ? '🔥' : '✅') : score > 0 ? '🟡' : '❌'),
+      h('div', null, h('b', {class:'t'}, score === 1 ? pick(['Correct!', 'Nice!', 'Yes!', 'Spot on!']) + (z.streak >= 3 ? ' ' + z.streak + ' in a row!' : '') : score > 0 ? 'Right — with a hint.' : 'Not quite.'),
+        note ? h('div', {html:note}) : null,
+        score < 1 ? h('div', {html:'Answer: <b>' + q.right + '</b>'}) : null,
+        q.why ? h('div', {html:q.why}) : null,
+        rep ? h('div', {class:'muted', style:'margin-top:4px;font-size:14.5px'}, '⭐ Already counted: you got points for this question before.') : null)));
+    foot.append(nextBtn); setTimeout(() => nextBtn.focus(), 50);
+    const st = $('#streak'); if (st) st.textContent = z.streak >= 2 ? '🔥 ' + z.streak : '';
+  };
+  if (q.kind === 'mcq') {
+    const opts = h('div', {class:'opts' + (q.two ? ' two' : '')});
+    q.opts.forEach((o, k) => {
+      const b = h('button', {class:'opt', type:'button'}, q.two ? null : h('span', {class:'k'}, 'ABCD'[k]), h('span', {html:o.html}));
+      b.addEventListener('click', () => {
+        if (b.disabled) return;
+        [...opts.children].forEach((c, j) => { c.disabled = true; if (q.opts[j].ok) c.classList.add('ok'); else if (c !== b) c.classList.add('dim'); });
+        if (!o.ok) b.classList.add('no');
+        done(o.ok ? 1 : 0, o.html);
+      });
+      opts.append(b);
+    });
+    cardEl.append(opts);
+  } else if (q.kind === 'order') {
+    const seq = [], pool = h('div', {class:'toks'}), line = h('ol', {class:'ord'});
+    const check = h('button', {class:'btn btn-blue', type:'button', disabled:true}, 'Check my order');
+    const undo = h('button', {class:'btn btn-ghost btn-sm', type:'button'}, 'Undo');
+    const paintLine = () => { line.innerHTML = ''; seq.forEach((i) => line.append(h('li', null, q.items[i]))); check.disabled = seq.length !== q.items.length; };
+    shuffle(q.items.map((_, i) => i)).forEach((i) => {
+      const b = h('button', {class:'tok', type:'button', 'data-i':String(i)}, q.items[i]);
+      b.addEventListener('click', () => { if (b.disabled) return; seq.push(i); b.disabled = true; b.classList.add('sel'); paintLine(); });
+      pool.append(b);
+    });
+    undo.addEventListener('click', () => { const i = seq.pop(); if (i == null) return; const b = pool.querySelector(`[data-i="${i}"]`); if (b) { b.disabled = false; b.classList.remove('sel'); } paintLine(); });
+    check.addEventListener('click', () => {
+      if (check.disabled) return;
+      check.disabled = true; undo.disabled = true; [...pool.children].forEach((b) => { b.disabled = true; });
+      const ok = seq.every((x, k) => x === k);
+      line.classList.add(ok ? 'ok' : 'no');
+      done(ok ? 1 : 0, seq.map((i) => q.items[i]).join(' → '));
+    });
+    cardEl.append(h('p', {class:'note'}, 'Tap the steps in order. Undo takes back the last one.'), line, pool, h('div', {class:'row'}, undo, check));
+  } else {
+    let hinted = false;
+    const inp = h('input', {class:'inp', id:'typeAns', type:'text', autocomplete:'off', autocapitalize:'off', spellcheck:'false', placeholder:'Type the word…', 'aria-label':'Your answer'});
+    const hintLine = h('p', {class:'hintline'});
+    const check = h('button', {class:'btn btn-blue', type:'button'}, 'Check');
+    const hintBtn = h('button', {class:'btn btn-ghost btn-sm', type:'button', onclick:() => { hinted = true; hintLine.textContent = '💡 ' + q.hint; hintBtn.disabled = true; inp.focus(); }}, '💡 Hint');
+    const submit = () => {
+      if (inp.disabled || !tnorm(inp.value)) { inp.focus(); return; }
+      inp.disabled = true; check.disabled = true; hintBtn.disabled = true;
+      const r = typeOK(q.accept, inp.value);
+      inp.classList.add(r ? 'ok' : 'no');
+      done(r ? (hinted ? .5 : 1) : 0, inp.value, r === 'spell' ? `Counted — but check the spelling: <b>${esc(q.right)}</b>.` : '');
+    };
+    check.addEventListener('click', submit);
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
+    cardEl.append(h('div', {class:'typerow'}, inp, check), h('div', {class:'row'}, hintBtn, hintLine));
+    setTimeout(() => inp.focus(), 60);
+  }
+  cardEl.append(fbBox, foot);
+  mount(h('div', {class:'stack'},
+    h('button', {class:'back', type:'button', onclick:confirmLeave}, '← Quit mission'),
+    h('div', {class:'sec-h'}, h('h2', {style:'font-size:18px'}, title)),
+    h('div', {class:'qhead'}, h('span', {class:'qn'}, (z.i + 1) + ' / ' + z.qs.length), h('div', {class:'bar'}, h('i', {style:'width:' + (z.i / z.qs.length * 100) + '%'})), h('span', {class:'streak', id:'streak'}, z.streak >= 2 ? '🔥 ' + z.streak : '')),
+    cardEl));
+}
+function confirmLeave(){
+  if (!quiz || quiz.i === 0) return home();
+  showModal('🚪', 'Quit this mission?', 'Your answers so far count for your report, but the mission won’t be passed.', [['Keep going', null], ['Quit', home]]);
+}
+function finishQuiz(){
+  const z = quiz, m = z.m, n = z.qs.length, sc = z.score / n, passMark = m.pass || .8, ok = sc >= passMark - 1e-9;
+  let earned = 0;
+  if (!z.practice) {
+    const st = S.missions.s[m.id] || (S.missions.s[m.id] = {best:null, passed:false, tries:0});
+    st.tries++; st.best = Math.max(st.best || 0, sc);
+    const wasOpen = open(), before = myParts();
+    if (ok && !st.passed) st.passed = true;
+    earned = (myParts() - before) * perPart();
+    S.log.unshift({m:m.id, s:Math.round(z.score * 10) / 10, n, at:Date.now()}); S.log = S.log.slice(0, 40);
+    save();
+    if (!wasOpen && open()) setTimeout(() => showModal('🔓', 'ARCADE TIME UNLOCKED!', `You passed Missions 1, 2 and 3, so ${earned} minutes went to the arcade. Mission 4 and the Final Boss add more.`, [['Later', null], ['Open the arcade', () => { location.href = ARCADE; }]]), 900);
+  }
+  if (ok) { sfx.win(); confetti(); } else sfx.no();
+  quiz = null; view = 'result';
+  const wrong = z.answers.filter((a) => a.score < 1), nice = z.score % 1 ? z.score.toFixed(1) : z.score;
+  const byLes = m.boss ? LESSONS.map((L) => { const a = z.answers.filter((x) => x.q.skill.startsWith(L.id)); return h('span', {class:'fact'}, 'Lesson ' + L.n + ' ', h('b', null, a.reduce((p, x) => p + x.score, 0) + '/' + a.length)); }) : null;
+  mount(h('div', {class:'stack'}, backBtn(),
+    h('section', {class:'panel result'},
+      h('div', {class:'big-score ' + (ok ? 'pass' : 'fail')}, nice + '/' + n),
+      h('h3', null, z.practice ? 'Practice done!' : ok ? (m.boss ? 'BOSS DEFEATED! 🏆' : 'Mission passed! 🎉') : 'So close — try again!'),
+      byLes ? h('div', {class:'facts', style:'justify-content:center'}, byLes) : null,
+      h('p', {class:'muted'}, z.practice ? 'Practice helps your report but doesn’t earn arcade time.' : ok ? (earned ? 'Great work — minutes added to the arcade.' : UNLOCK.includes(m.id) && !open() ? 'Passed! Arcade time opens once Missions 1, 2 and 3 are all passed.' : 'Already counted — this run makes your science stronger.') : `You need ${Math.ceil(passMark * n)} correct to pass. Read your mistakes below, then try again — the questions will be different.`),
+      earned ? h('div', {class:'earn'}, '🎮 +' + earned + ' min in the arcade') : null,
+      h('div', {class:'row', style:'justify-content:center'},
+        z.practice ? null : h('button', {class:'btn btn-main', type:'button', onclick:() => startQuiz(m)}, ok ? 'Play again' : 'Try again (new questions)'),
+        h('button', {class:'btn btn-ghost', type:'button', onclick:home}, 'Back to base'))),
+    wrong.length ? h('section', {class:'panel'}, h('div', {class:'sec-h', style:'margin-bottom:10px'}, h('h2', {style:'font-size:18px'}, 'Learn from these (' + wrong.length + ')')),
+      h('div', {class:'mistakes'}, wrong.map((a) => h('div', {class:'mist'},
+        h('div', {html:'<b>' + (TOPIC[a.q.skill] ? esc(TOPIC[a.q.skill].t) : '') + ':</b> ' + a.q.prompt + (a.q.ctx ? '<br>' + a.q.ctx : '')}),
+        h('div', {html:'Your answer: <span class="y">' + (a.q.kind === 'type' ? esc(a.yours || '—') : (a.yours || '—')) + '</span> · Right: <span class="r">' + a.q.right + '</span>'}),
+        a.q.why ? h('div', {class:'muted', html:a.q.why}) : null)))) : null));
+}
+
+/* ---------- speed round: word → meaning ---------- */
+function speed(){
+  view = 'speed';
+  let score = 0, streak = 0, end = 0, iv = null, over = true;
+  const box = h('div', {class:'stack'});
+  const intro = () => {
+    box.innerHTML = '';
+    box.append(h('section', {class:'panel result'}, h('div', {class:'big-score'}, '⚡ 60s'), h('h3', null, 'Word Speed Round'),
+      h('p', {class:'muted'}, 'A science word appears — tap its meaning. Wrong answers cost 3 seconds.'),
+      h('button', {class:'btn btn-main', type:'button', onclick:go}, 'Go!')));
+  };
+  const go = () => { score = 0; streak = 0; over = false; end = Date.now() + 60000; next(); clearInterval(iv); iv = setInterval(tick, 200); };
+  const tick = () => {
+    if (view !== 'speed') return clearInterval(iv);
+    const left = (end - Date.now()) / 1000;
+    const tEl = $('#spT'); if (tEl) tEl.textContent = Math.max(0, Math.ceil(left)) + 's';
+    const bar = $('#spB'); if (bar) bar.style.width = Math.max(0, left / 60 * 100) + '%';
+    if (left <= 0) finish();
+  };
+  const finish = () => {
+    clearInterval(iv); if (over) return; over = true;
+    const old = S.speed || 0, best = score > old;
+    if (best) { S.speed = score; xpOnce(xqKey('speed', score), (score - old) * 2); }
+    save(); if (score) sfx.win(); if (best && score) confetti();
+    box.innerHTML = '';
+    box.append(h('section', {class:'panel result'}, h('div', {class:'big-score pass'}, String(score)), h('h3', null, best && score ? 'New record!' : 'Time!'),
+      h('p', {class:'muted'}, 'Best: ' + S.speed), h('div', {class:'row', style:'justify-content:center'},
+        h('button', {class:'btn btn-main', type:'button', onclick:go}, 'Again'), h('button', {class:'btn btn-ghost', type:'button', onclick:home}, 'Back to base'))));
+  };
+  const next = () => {
+    if (over || view !== 'speed') return;
+    if (Date.now() >= end) { finish(); return; }
+    const v = pick(VOC), others = pickN(VOC.filter((x) => x.les === v.les && x.w !== v.w && !clash(x.w, v.w) && x.d !== v.d), 2);
+    const q = mcQ(v.tp, '', esc(v.d), others.map((x) => esc(x.d)), '');
+    box.innerHTML = '';
+    const opts = h('div', {class:'opts'});
+    q.opts.forEach((o) => {
+      const b = h('button', {class:'opt', type:'button'}, h('span', {html:o.html}));
+      b.addEventListener('click', () => {
+        if (b.disabled) return;
+        [...opts.children].forEach((c) => { c.disabled = true; });
+        if (o.ok) { score++; streak++; b.classList.add('ok'); sfx.ok(); record(q.skill, 'mcq', 1); setTimeout(next, 280); }
+        else { streak = 0; b.classList.add('no'); end -= 3000; sfx.no(); record(q.skill, 'mcq', 0); [...opts.children].forEach((c, j) => { if (q.opts[j].ok) c.classList.add('ok'); }); setTimeout(next, 900); }
+      });
+      opts.append(b);
+    });
+    box.append(h('div', {class:'qhead'}, h('span', {class:'qn', id:'spT'}, Math.ceil((end - Date.now()) / 1000) + 's'), h('div', {class:'bar'}, h('i', {id:'spB', style:'width:100%'})), h('span', {class:'streak'}, '⚡ ' + score + (streak > 2 ? ' · 🔥' + streak : ''))),
+      h('section', {class:'qcard'}, h('p', {class:'qsec'}, 'Lesson ' + v.les.slice(1) + ' · what does it mean?'), h('h2', {style:'font-family:var(--f-display);font-weight:400;font-size:clamp(26px,6vw,38px)'}, v.w), opts));
+  };
+  intro();
+  mount(h('div', {class:'stack'}, backBtn(), box));
+}
+
+/* ---------- report ---------- */
+function report(){
+  view = 'report';
+  const r = readiness();
+  const color = (m) => m >= .8 ? 'var(--good)' : m >= .5 ? 'var(--warn)' : 'var(--bad)';
+  const weak = TOPICS.map((t) => ({t, m:mastery(t.id)})).filter((o) => o.m == null || o.m < .8).sort((a, b) => (a.m == null ? -1 : a.m) - (b.m == null ? -1 : b.m));
+  const bar = (label, m) => h('div', {class:'skill'}, h('span', null, label), h('div', {class:'br'}, h('i', {style:'width:' + (m == null ? 0 : pct(m)) + '%;background:' + color(m || 0)})), h('span', {class:'pc'}, m == null ? '—' : pct(m) + '%'));
+  mount(h('div', {class:'stack'}, backBtn(),
+    h('section', {class:'panel'},
+      h('div', {class:'sec-h'}, h('h2', null, 'Science Report'), h('span', {class:'muted'}, 'Based on the last 6 answers for each topic')),
+      h('span', {class:'ar-line', lang:'ar'}, 'تقرير الفهم: لكل موضوع نسبة من آخر ٦ إجابات'),
+      h('div', {class:'facts', style:'margin-top:12px'},
+        h('span', {class:'fact'}, 'Readiness ', h('b', null, pct(r) + '%')),
+        LESSONS.map((L) => h('span', {class:'fact'}, 'Lesson ' + L.n + ' ', h('b', null, pct(readiness(L.id)) + '%'))))),
+    h('div', {class:'two-col'},
+      h('section', {class:'panel'}, h('div', {class:'sec-h', style:'margin-bottom:6px'}, h('h2', {style:'font-size:18px'}, 'Topics')),
+        LESSONS.map((L) => h('div', {class:'sk-group'}, h('p', {class:'note', style:'margin:8px 0 2px;font-weight:900'}, 'Lesson ' + L.n + ': ' + L.name),
+          TOPICS.filter((t) => t.id.startsWith(L.id)).map((t) => bar(t.t, mastery(t.id)))))),
+      h('section', {class:'panel'}, h('div', {class:'sec-h', style:'margin-bottom:6px'}, h('h2', {style:'font-size:18px'}, 'Missions')),
+        TRACK.missions.map((m, i) => { const st = mst(m.id); return bar((m.boss ? '★ ' : (i + 1) + '. ') + m.name + (st.passed ? ' ✓' : ''), st.best == null ? null : st.best); }),
+        h('div', {class:'sec-h', style:'margin:14px 0 6px'}, h('h2', {style:'font-size:18px'}, 'By question type')),
+        Object.keys(KIND_NAME).map((k) => { const v = S.kinds[k]; return bar(KIND_NAME[k], v && v.t ? v.c / v.t : null); }))),
+    weak.length ? h('section', {class:'panel'},
+      h('div', {class:'sec-h', style:'margin-bottom:8px'}, h('h2', {style:'font-size:18px'}, 'Focus topics'), h('span', {class:'muted'}, 'Practise these before the quiz')),
+      h('div', {class:'row'}, weak.slice(0, 6).map((o) => h('span', {class:'tag ' + lvl(o.m)}, o.t.t + (o.m == null ? '' : ' ' + pct(o.m) + '%')))),
+      h('div', {class:'row', style:'margin-top:12px'}, h('button', {class:'btn btn-main', type:'button', onclick:() => {
+        const tops = weak.slice(0, 4).map((o) => o.t.id), les = [...new Set(tops.map((x) => x.slice(0, 2)))];
+        startQuiz({id:'practice', name:'Practice', n:10, les, mix:LESSON_MIX}, tops);
+      }}, 'Practise weak topics (10 questions)'))) : null,
+    S.log.length ? h('section', {class:'panel'}, h('div', {class:'sec-h', style:'margin-bottom:6px'}, h('h2', {style:'font-size:18px'}, 'Recent attempts')),
+      h('div', {class:'tbl'}, h('table', {class:'log'}, h('thead', null, h('tr', null, h('th', null, 'When'), h('th', null, 'Mission'), h('th', null, 'Score'))),
+        h('tbody', null, S.log.slice(0, 12).map((l) => h('tr', null, h('td', null, new Date(l.at).toLocaleString('en-GB', {weekday:'short', hour:'2-digit', minute:'2-digit'})), h('td', null, MBY[l.m] ? MBY[l.m].name : l.m), h('td', null, l.s + '/' + l.n + ' (' + pct(l.s / l.n) + '%)'))))))) : null));
+}
+
+/* ---------- boot ---------- */
+$('#homeBtn').addEventListener('click', () => { if (view === 'quiz' && quiz) confirmLeave(); else home(); });
+const sb = $('#soundBtn');
+const paintSound = () => { sb.textContent = soundOn ? '🔊' : '🔇'; sb.setAttribute('aria-pressed', String(soundOn)); };
+sb.addEventListener('click', () => { soundOn = !soundOn; try { localStorage.setItem('science-missions-sound', soundOn ? '1' : '0'); } catch (e) { /* ignore */ } paintSound(); });
+paintSound();
+home();
+setTimeout(paintChip, 400);
+
+})();
+</script>
+</body></html>

@@ -1313,6 +1313,24 @@ function floatXP(el, text){
   f.className = "xp-float"; f.textContent = text; f.style.left = (r.left + r.width/2) + "px"; f.style.top = (r.top - 6) + "px";
   document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
 }
+/* points once per question: a right answer to a question already rewarded gives no new xp, so answering the same
+   questions again can't farm points. S.xq keeps short hashes of the questions already rewarded (synced with the page). */
+function xqKey(){ const s = Array.prototype.join.call(arguments, "|"); let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); }
+function xpOnce(key, n, el){
+  if (!S.xq || typeof S.xq !== "object") S.xq = {};
+  if (S.xq[key]){ xqNote(); return false; }
+  S.xq[key] = 1; addXP(n, el); return true;
+}
+function xqNote(){
+  let t = document.getElementById("xqNote");
+  if (!t){
+    t = document.createElement("div"); t.id = "xqNote"; t.setAttribute("role", "status");
+    t.style.cssText = "position:fixed;z-index:66;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 32px);padding:8px 14px;border-radius:999px;background:#14163A;color:#fff;font:700 14px/1.4 system-ui,sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none;transition:opacity .3s;text-align:center";
+    document.body.appendChild(t);
+  }
+  t.textContent = "⭐ Already counted: no new points for a question you got right before · محسوبة من قبل";
+  t.style.opacity = "1"; clearTimeout(xqNote.t); xqNote.t = setTimeout(() => { t.style.opacity = "0"; }, 2600);
+}
 function addXP(n, el){
   S.xp += n; save();
   const v = $("#xpVal"); if (v) v.textContent = S.xp;
@@ -1538,7 +1556,7 @@ function answerQC(i, btn){
   st.picked = i; const ok = i === 0, box = btn.closest(".box");
   box.querySelectorAll(".opt").forEach(b => { const oi = +b.dataset.i; b.disabled = true; b.classList.add(oi === 0 ? "right" : oi === i ? "wrong" : "dim"); });
   box.querySelector(".qc-fb").innerHTML = qcFeedback(w, ok);
-  if (ok){ Sound.good(); FX.burstEl(btn, 26); addXP(10, btn); } else Sound.bad();
+  if (ok){ Sound.good(); FX.burstEl(btn, 26); xpOnce(xqKey("qc", w), 10, btn); } else Sound.bad();
   const nb = $("#nextBtn"); if (nb) nb.disabled = false;
   const nh = $("#nextHint"); if (nh) nh.remove();
   announce(ok ? "Correct!" : "Not quite. " + WORDS[w].qc[2]);
@@ -1625,7 +1643,7 @@ function matchPick(kind, w, btn){
   if (CHG.selW === CHG.selD){
     CHG.done[CHG.selW] = true;
     [bw, bd].forEach(b => { b.classList.remove("sel"); b.classList.add("done"); b.disabled = true; });
-    Sound.good(); FX.burstEl(bd, 18); if (!CHG.miss[CHG.selW]) addXP(5, bd);
+    Sound.good(); FX.burstEl(bd, 18); if (!CHG.miss[CHG.selW]) xpOnce(xqKey("match", CHG.selW), 5, bd);
   } else {
     CHG.miss[CHG.selW] = (CHG.miss[CHG.selW] || 0) + 1;
     [bw, bd].forEach(b => { b.classList.remove("sel", "nope"); void b.offsetWidth; b.classList.add("nope"); });
@@ -1638,7 +1656,7 @@ function answerCQ(i, btn){
   if (!CHG || CHG.locked) return; CHG.locked = true;
   const q = CHG.mcq[CHG.mi], ok = i === q.ans, sec = $("#scr-challenge");
   markOptions(sec, q, i); CHG.mres.push({w:q.word, ok});
-  if (ok){ Sound.good(); FX.burstEl(btn, 24); addXP(10, btn); } else Sound.bad();
+  if (ok){ Sound.good(); FX.burstEl(btn, 24); xpOnce(xqKey("cq", q.id || "", q.word || "", q.prompt || q.q || "", (q.opts || []).slice().sort().join("~")), 10, btn); } else Sound.bad();
   sec.querySelector(".fb-slot").innerHTML = fbHTML(ok ? "ok" : "no", q, "", "cnext", CHG.mi < CHG.mcq.length - 1 ? "Next →" : "See my stars →");
   announce(ok ? "Correct!" : "Not correct. The answer is " + correctText(q));
 }
@@ -1655,7 +1673,7 @@ function nextCQ(){
     if (bad){ m.bad++; m.last = "bad"; } else { m.ok++; m.last = "ok"; }
   });
   CHG.phase = "done"; CHG.result = {stars, total, firstTry, mc};
-  addXP(stars * 10); save();
+  if (stars > (prev.stars || 0)) addXP((stars - (prev.stars || 0)) * 10); save();   /* only new stars earn points */
   renderChallenge(); window.scrollTo(0, 0); Sound.win(); FX.party();
 }
 /* ---------- FINAL CHALLENGE & PRACTICE ---------- */
@@ -1698,7 +1716,7 @@ function answerOpt(i, btn){
   const R = S.run; if (!R || R.locked) return; R.locked = true;
   const q = R.qs[R.i], ok = i === q.ans, sec = $("#scr-test");
   markOptions(sec, q, i); record(q, ok, false, q.opts[i]);
-  if (ok){ Sound.good(); FX.burstEl(btn, 24); addXP(10, btn); } else Sound.bad();
+  if (ok){ Sound.good(); FX.burstEl(btn, 24); xpOnce(xqKey("t", q.id || "", q.word || "", q.prompt || q.q || "", (q.opts || []).slice().sort().join("~")), 10, btn); } else Sound.bad();
   sec.querySelector(".fb-slot").innerHTML = fbHTML(ok ? "ok" : "no", q, "", "tnext", nextLabel());
   announce(ok ? "Correct!" : "Not correct. The answer is " + correctText(q));
 }
@@ -1720,10 +1738,10 @@ function submitTyped(){
   record(q, kind === "ok", kind === "slip", given);
   const slot = $("#scr-test .fb-slot");
   if (kind === "ok"){
-    Sound.good(); FX.burstEl(inp, 24); addXP(10, inp);
+    Sound.good(); FX.burstEl(inp, 24); xpOnce(xqKey("t", q.id || "", q.word || "", q.answer || ""), 10, inp);
     slot.innerHTML = fbHTML("ok", q, t !== norm(q.answer) ? ` This sentence needs the form <b>${q.answer}</b>.` : "", "tnext", nextLabel());
   } else if (kind === "slip"){
-    Sound.tap(); addXP(5, inp);
+    Sound.tap(); xpOnce(xqKey("t", q.id || "", q.word || "", q.answer || ""), 5, inp);
     slot.innerHTML = `<div class="fb slip"><span class="burst">SO CLOSE!</span><div class="fb-body">Right word, but check the spelling. You wrote <s>${esc(given)}</s>. It's spelled <b class="spell">${q.answer.toUpperCase().split("").join(" ")}</b>.</div>
       <div class="row"><button class="btn btn-go" data-act="tnext" id="nextQ">${nextLabel()}</button></div></div>`;
   } else {
@@ -1929,10 +1947,10 @@ function finishSpeed(){
   if (!SP || SP.done) return;
   SP.done = true; clearInterval(SP.timer); SP.timer = 0;
   const sp = S.speed || (S.speed = {best:0, plays:0});
-  SP.isBest = SP.score > (sp.best || 0);
+  const oldBest = sp.best || 0; SP.isBest = SP.score > oldBest;
   sp.plays = (sp.plays || 0) + 1; if (SP.isBest) sp.best = SP.score;
   save();
-  if (SP.score) addXP(SP.score * 2);
+  if (SP.isBest) addXP((SP.score - oldBest) * 2);   /* points only for beating the best */
   renderSpeed(); Sound.win(); if (SP.isBest && SP.score) FX.party();
 }
 
