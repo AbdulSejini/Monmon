@@ -81,6 +81,9 @@ ul,ol{margin:0;padding:0}
 .card h3{font-size:26px}
 .card h4{margin:0;font-size:16px;font-weight:800}
 .card ul,.card ol{padding-inline-start:22px;display:grid;gap:4px}
+.card ul.ixl-list{list-style:none;padding-inline-start:0;gap:12px}
+.ixl-list li{display:grid;gap:6px}
+.ixl-links{display:flex;flex-wrap:wrap;gap:8px}
 .big-idea{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--tint);padding:8px 12px;font-weight:700}
 .facts{display:grid;gap:6px}
 .facts div{display:grid;grid-template-columns:150px 1fr;gap:10px;padding-bottom:6px;border-bottom:1px dashed var(--ink-3)}
@@ -811,6 +814,20 @@ function renderReport(text){
 }
 
 /* ---------- HOME ---------- */
+/* the five IXL grammar skills the English Department sent for the quiz (its sheet of 11/11), by lesson (#ixl) */
+const IXL_ENG = "https://www.ixl.com/ela/grade-6/";
+const IXL_GRAM = [
+  ["7.1 Nouns", [["identify-common-and-proper-nouns", "Identify common and proper nouns"]]],
+  ["7.2 Pronouns", [["use-possessive-pronouns", "Use possessive pronouns"], ["use-the-pronoun-that-agrees-with-the-antecedent", "Use a pronoun that agrees with its antecedent"]]],
+  ["7.3 Subject and Object Pronouns", [["choose-between-subject-and-object-pronouns", "Choose between subject and object pronouns"], ["compound-subjects-and-objects-with-i-and-me", "Use I and me in compound subjects and objects"]]]
+];
+function ixlCard(){
+  const over = dayDiff(todayISO(), QUIZ_DAY) < 0;
+  return '<article class="card panel" id="ixl"><h3>IXL practice from the school</h3>'
+    + '<p>The English Department sent five IXL grammar skills for Quiz 2. ' + (over ? 'The quiz was on Thursday 12/11, so they are extra review now.' : 'Do them at home before the quiz.') + ' Sign in to IXL with the school account first.</p>'
+    + '<ul class="ixl-list">' + IXL_GRAM.map(([les, list]) => '<li><b>' + les + '</b><span class="ixl-links">'
+      + list.map(([k, label]) => '<a class="btn sm" href="' + IXL_ENG + k + '" target="_blank" rel="noopener">' + esc(label) + ' ↗</a>').join("") + '</span></li>').join("") + '</ul></article>';
+}
 function renderHome(){
   const n = dayDiff(todayISO(), QUIZ_DAY), when = n < 0 ? "Quiz is over" : n === 0 ? "Today" : n === 1 ? "Tomorrow" : "In " + n + " days";
   let h = '<section class="hero panel p-read"><h1>English: Quiz 2 Review</h1>'
@@ -848,6 +865,7 @@ function renderHome(){
   /* 4. grammar */
   h += '<section class="sec part p-gram" id="p-gram"><div class="part-head"><h2>4. Grammar</h2><span>Chapter 7: Nouns and Pronouns · Lessons 7.1–7.3 · pp. 141–146</span></div>'
     + GRAM.map(g => '<article class="card panel" id="' + g.id + '"><h3>' + g.t + ' <small style="font-family:var(--body);font-size:14px;color:var(--ink-2)">pp. ' + g.pg + '</small></h3>' + g.html + '</article>').join("")
+    + ixlCard()
     + '<div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="gram">Practice grammar (10)</button></div></section>';
   /* 5. writing */
   h += '<section class="sec part p-write" id="p-write"><div class="part-head"><h2>5. Writing: a friendly letter</h2><span>pp. 46–49</span></div>'
