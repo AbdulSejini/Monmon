@@ -983,7 +983,7 @@ const TERM_START = "2026-08-30"; /* Sunday of school week 1 */
 const BREAK_WEEKS = ["2026-11-22", "2027-01-10", "2027-02-28", "2027-03-07", "2027-05-02", "2027-05-09", "2027-05-16"];
 
 /* School weeks that have a detailed plan page. */
-const WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html", 10: "weekly/week-10/index.html", 11: "weekly/week-11/index.html"};
+const WEEK_PAGES = {8: "weekly/week-08/index.html", 9: "weekly/week-09/index.html", 10: "weekly/week-10/index.html", 11: "weekly/week-11/index.html", 12: "weekly/week-12/index.html"};
 
 /* Practice pages for particular homework items and tests (by EduPage id). */
 const PRACTICE_BY_ID = {
@@ -1124,6 +1124,8 @@ const SCHOOL_DATES = [
   {date:"2027-07-01", title:"آخر يوم في السنة الدراسية", en:"End of Academic Year", kind:"end"}
 ];
 const NOTICES = [
+  {date:"2026-11-11", subject:"English", text:"قسم الإنجليزي أرسل 5 مهارات IXL في القواعد (الأسماء والضمائر) للتدريب على الاختبار القصير 2 (الخميس 12/11)، وتنفع للمراجعة بعده: الدرس 7.1: https://www.ixl.com/ela/grade-6/identify-common-and-proper-nouns · الدرس 7.2: https://www.ixl.com/ela/grade-6/use-possessive-pronouns https://www.ixl.com/ela/grade-6/use-the-pronoun-that-agrees-with-the-antecedent · الدرس 7.3: https://www.ixl.com/ela/grade-6/choose-between-subject-and-object-pronouns https://www.ixl.com/ela/grade-6/compound-subjects-and-objects-with-i-and-me"},
+  {date:"2026-11-09", subject:"Science", text:"قسم العلوم أرسل مهارات IXL لدروس الاختبار القصير 2 (الأحد 15/11)، مهارة أو مهارتين لكل درس (ورقة القسم ترقّم الدروس من 1 إلى 4)، ويطلب التدرّب عليها في البيت: الدرس 2: https://www.ixl.com/science/grade-6/body-systems-perception-and-motion · الدرس 3: https://www.ixl.com/science/grade-6/body-systems-digestion https://www.ixl.com/science/grade-6/body-systems-removing-waste · الدرس 4: https://www.ixl.com/science/grade-6/body-systems-circulation-and-respiration · الدرس 5: https://www.ixl.com/science/grade-6/science-literacy-how-does-the-nervous-system-produce-phantom-pain · بيانات الدخول على IXL أُرسلت في EduPage، وملصقة داخل غلاف كتاب الرياضيات."},
   {date:"2026-11-09", subject:"English", text:"تدريب إضافي اختياري على مفردات الوحدة 4 (Vocabulary Workshop Level A) قبل الاختبار القصير 2 (الخميس 12/11): التعريفات https://www.vocabtest.com/definitions.php?book=vocabulary_workshop_level_a&unit=4 · التعريف العكسي https://www.vocabtest.com/reverseDefinitions.php?book=vocabulary_workshop_level_a&unit=4 · الجمل https://www.vocabtest.com/sentences.php?book=vocabulary_workshop_level_a&unit=4 · الأضداد https://www.vocabtest.com/antonyms.php?book=vocabulary_workshop_level_a&unit=4"},
   {date:"2026-11-09", subject:"English", text:"المعلم أرسل في EduPage (9/11) صورة بقواعد كتابة الرسالة الودية (How to Write a Friendly Letter)، واتباعها كلها يعطي الدرجة الكاملة في سؤال الكتابة. الرسالة الودية جزء من الاختبار القصير 2 يوم الخميس 12/11."},
   {date:"2026-11-08", subject:"Be Well", text:"معلم Be Well غائب اليوم الأحد 8/11، وحصة الصف 6.3 السابعة عليها معلم بديل، فعرض مشروع Be Well غالبًا يتأجّل. يبقى العرض جاهز، وتأكدوا من المعلم عن الموعد الجديد."},
@@ -1140,7 +1142,8 @@ const NOTICES = [
 /* Study pages by group. The weekly plans come from WEEK_PAGES: this week's plan goes first (then next week's, once it is ready), the older ones last. */
 const WEEK_TEXT = {8:"الجدول اليومي والواجبات وخطة المذاكرة لكل يوم.", 9:"إجازة الأحد، ثم جدول الاثنين للخميس والواجبات وخطة المذاكرة لكل يوم.",
   10:"عرض Be Well يوم الأحد، ورحلة الأربعاء، والجدول اليومي والواجبات وخطة المذاكرة لكل يوم.",
-  11:"اختبارات قصيرة: الرياضيات الأحد، والإسلامية الثلاثاء، والإنجليزي الخميس، مع تسميع القرآن، والجدول اليومي وخطة المذاكرة لكل يوم."};
+  11:"اختبارات قصيرة: الرياضيات الأحد، والإسلامية الثلاثاء، والإنجليزي الخميس، مع تسميع القرآن، والجدول اليومي وخطة المذاكرة لكل يوم.",
+  12:"اختبارات قصيرة: العلوم الأحد، والاجتماعيات الثلاثاء، ولغتي الخميس، مع تقييم التلاوة والتسميع، وأدوات الفنية للثلاثاء، والجدول اليومي وخطة المذاكرة لكل يوم."};
 const PRACTICE_GROUPS = [["now","ابدأ من هنا"], ["math","الرياضيات"], ["isl","الدراسات الإسلامية"], ["ar","لغتي"], ["sci","العلوم"], ["soc","الاجتماعيات"], ["eng","الإنجليزي"], ["ict","الحاسب"], ["old","خطط الأسابيع السابقة"]];
 const PRACTICE_PAGES = [
   {group:"now", kind:"مراجعة", href:"review/quiz-2/index.html", title:"مراجعة الاختبار القصير 2", text:"مواعيد اختبارات 8–19 نوفمبر ونطاق كل مادة درسًا درسًا، وعلامة على كل درس يراجعه.", cls:"s-quiz"},

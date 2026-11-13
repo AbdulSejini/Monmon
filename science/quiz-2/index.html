@@ -97,6 +97,14 @@ ul,ol{margin:0;padding:0}
 .words b{color:var(--ink)}
 .lab-cta{margin-top:12px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;background:var(--tint)}
 .lab-cta p{flex:1 1 240px;font-weight:600}
+.ixl-box{margin-top:14px;padding:14px 16px;display:grid;gap:10px;background:#DCF7E9;scroll-margin-top:12px}
+.ixl-box h3{font-size:24px}
+.ixl-box p{font-weight:600}
+.ixl-box ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.ixl-box li{display:grid;gap:6px}
+.ixl-box li b{font-size:16px}
+.ixl-links{display:flex;flex-wrap:wrap;gap:8px}
+.ixl-box .note{font-size:14px;font-weight:500;color:var(--ink-2)}
 
 /* practice */
 .run{margin-top:20px;padding:16px;display:grid;gap:14px;border-inline-start:10px solid var(--col)}
@@ -232,7 +240,9 @@ ul,ol{margin:0;padding:0}
    written for this page; the book's text is not copied.
    Progress (xp, the best practice test, the lessons mastered) is saved in science-g6-quiz2-v1, synced by assets/sync.js;
    its xp counts towards the rewards, and a lesson mastered (80% of a full round, or 24 of 30 in the test) opens arcade time
-   once (assets/arcade.js). review/quiz-2 links Lessons 2 and 3 here (#p-l2, #p-l3). */
+   once (assets/arcade.js). review/quiz-2 links Lessons 2 and 3 here (#p-l2, #p-l3).
+   The IXL skills the Science Department sent for the quiz (its sheet of 9/11) are under «What's on the quiz» (#ixl, linked
+   from the Week 12 plan) and at the end of each lesson. */
 const KEY = "science-g6-quiz2-v1", TZ = "Asia/Riyadh", QUIZ_DAY = "2026-11-15";
 const LESSONS = [
   {id:"l2", n:2, name:"Structure and Support", src:"Module 2: Body Systems · book pp. 76–96", blurb:"Muscles, joints and bones; the skeletons of other animals; three types of muscle; roots and stems."},
@@ -241,6 +251,14 @@ const LESSONS = [
   {id:"l5", n:5, name:"Control and Information Processing", src:"Module 2: Body Systems · the Signal Lab", blurb:"The brain and nerves; neurons and reflexes; the senses; keeping body temperature steady.", lab:["../control-information/index.html", "Signal Lab"]}
 ];
 const LESSON = Object.fromEntries(LESSONS.map(x => [x.id, x]));
+/* the school's sheet numbers these four lessons 1 to 4 */
+const IXL_SCI = "https://www.ixl.com/science/grade-6/";
+const IXL_SKILLS = {
+  l2:[["body-systems-perception-and-motion", "Body systems: perception and motion"]],
+  l3:[["body-systems-digestion", "Body systems: digestion"], ["body-systems-removing-waste", "Body systems: removing waste"]],
+  l4:[["body-systems-circulation-and-respiration", "Body systems: circulation and respiration"]],
+  l5:[["science-literacy-how-does-the-nervous-system-produce-phantom-pain", "Science literacy: how does the nervous system produce phantom pain?"]]
+};
 
 /* ---------- LESSON 2: STRUCTURE AND SUPPORT (book pp. 76–96) ---------- */
 const T2 = [
@@ -1172,8 +1190,17 @@ function lessonSection(x){
   h += mine.map(t => '<article class="card panel" id="' + t.id + '"><h3>' + t.t + '</h3>' + topicBody(t) + '</article>').join("");
   h += '<article class="card panel"><h3>Words to know</h3><div class="words">' + words.map(v => '<p><b>' + v[0] + ':</b> ' + esc(v[1]) + '</p>').join("") + '</div></article>';
   h += '<div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="' + x.id + '">Practice Lesson ' + x.n + '</button>'
-    + (x.lab ? '<a class="btn sm" href="' + x.lab[0] + '">' + x.lab[1] + '</a>' : "") + '</div></section>';
+    + (x.lab ? '<a class="btn sm" href="' + x.lab[0] + '">' + x.lab[1] + '</a>' : "")
+    + IXL_SKILLS[x.id].map(([k, label]) => ixlLink(k, "IXL: " + label.replace(/^(Body systems|Science literacy): /, ""))).join("") + '</div></section>';
   return h;
+}
+const ixlLink = (k, label) => '<a class="btn sm" href="' + IXL_SCI + k + '" target="_blank" rel="noopener">' + esc(label) + ' ↗</a>';
+/* the IXL skills the school sent, lesson by lesson */
+function ixlBox(){
+  return '<div class="ixl-box panel" id="ixl"><h3>IXL practice from the school</h3>'
+    + '<p>The Science Department asked for these IXL skills before the quiz, one or two for each lesson. Sign in to IXL with the school account first: the login details were sent on EduPage and are inside the cover of the Math book.</p>'
+    + '<ul>' + LESSONS.map(x => '<li><b>Lesson ' + x.n + ': ' + x.name + '</b><span class="ixl-links">' + IXL_SKILLS[x.id].map(([k, label]) => ixlLink(k, label)).join("") + '</span></li>').join("") + '</ul>'
+    + '<p class="note">The school’s sheet numbers these lessons 1 to 4: they are the same four lessons as Lessons 2 to 5 here.</p></div>';
 }
 function renderHome(){
   const n = dayDiff(todayISO(), QUIZ_DAY), when = n < 0 ? "Quiz is over" : n === 0 ? "Today" : n === 1 ? "Tomorrow" : "In " + n + " days";
@@ -1185,7 +1212,7 @@ function renderHome(){
     + LESSONS.map(x => '<article class="tile p-' + x.id + '"><b>Lesson ' + x.n + ': ' + x.name + '</b><span>' + x.blurb + '</span><div class="row"><a class="btn sm" href="#p-' + x.id + '">Learn</a>'
       + '<button class="btn sm go" type="button" data-act="start" data-m="' + x.id + '">Practice</button></div></article>').join("") + '</div>'
     + '<div class="test-cta panel"><p><b>Practice test:</b> 30 questions from all four lessons (8 from Lesson 2, 8 from Lesson 3, 7 from Lesson 4, 7 from Lesson 5), then your result for each lesson.</p>'
-    + '<button class="btn go" type="button" data-act="start" data-m="test">Start</button></div></section>';
+    + '<button class="btn go" type="button" data-act="start" data-m="test">Start</button></div>' + ixlBox() + '</section>';
   h += LESSONS.map(lessonSection).join("");
   h += '<footer class="foot"><p>Lessons from the school’s assessment outline for Quiz 2. The summaries and questions are written for this page from the lessons; the book’s text is not copied. If anything here differs from the book, follow the teacher and the book.</p></footer>';
   $("#main").innerHTML = h;

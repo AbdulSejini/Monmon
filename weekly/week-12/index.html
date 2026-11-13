@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Week 12 Planner</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%23FFD23F%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M18 33l9 9 19-20%22 fill=%22none%22 stroke=%22%2314163A%22 stroke-width=%227%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --warn:#C77700; --warn-bg:#FFF0D1;
+  --c1:#2F7DE1; --c1t:#DCEBFF;
+  --c2:#F39200; --c2t:#FFE8C2;
+  --c3:#9A4FE0; --c3t:#EEE0FF;
+  --c4:#119C77; --c4t:#D2F4E8;
+  --c5:#E23F66; --c5t:#FFDDE6;
+  --c6:#8C5A2B; --c6t:#F5E6D6;
+  --c7:#0E8C9E; --c7t:#D3F2F6;
+  --c8:#5B6270; --c8t:#E7E9EE;
+  --col:var(--c1); --tint:var(--c1t);
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  --arabic:"Tajawal","Segoe UI","Geeza Pro",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--c1);outline-offset:3px}
+.ar{font-family:var(--arabic);direction:rtl;text-align:right;font-size:1.08em;line-height:1.7}
+.wrap{max-width:960px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.s-math{--col:var(--c1);--tint:var(--c1t)} .s-ar{--col:var(--c2);--tint:var(--c2t)} .s-isl{--col:var(--c3);--tint:var(--c3t)}
+.s-sci{--col:var(--c4);--tint:var(--c4t)} .s-eng{--col:var(--c5);--tint:var(--c5t)} .s-soc{--col:var(--c6);--tint:var(--c6t)}
+.s-quran{--col:#1E7A46;--tint:#D9F0E2} .s-pe{--col:var(--c7);--tint:var(--c7t)} .s-ict,.s-art,.s-well{--col:var(--c8);--tint:var(--c8t)}
+.s-trip{--col:var(--sun);--tint:var(--sun-2)} .s-ixl{--col:#12A15E;--tint:#DCF7E9}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:960px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo-mark{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:var(--sun);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap}
+.unit-chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.meter{display:flex;align-items:center;gap:8px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--good-bg);border:2px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;white-space:nowrap}
+.meter svg{width:20px;height:20px}
+.meter.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{50%{transform:scale(1.15)}}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);padding:0}
+.icon-btn svg{width:22px;height:22px}
+@media (max-width:520px){.unit-chip{display:none}.logo-mark{font-size:24px}}
+@media (max-width:360px){.logo-mark{display:none}}
+
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-weight:800;font-size:15px;text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-sm{min-height:36px;padding:5px 11px;font-size:13px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn-col{background:var(--col);color:#fff;text-shadow:1px 1px 0 var(--ink)}
+
+/* hero */
+.hero{margin-top:20px;padding:20px;display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(44px,7vw,68px)}
+.hero h1 span{color:var(--c2);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+.hero .sub{margin-top:8px;color:var(--ink-2);font-size:15px}
+.value{margin-top:14px;padding:12px 14px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--sun-2);display:grid;gap:6px}
+.value-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.value-head small{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.value-head b{font-family:var(--display);font-weight:400;font-size:26px;letter-spacing:.04em}
+.value-head .ar{font-weight:800;font-size:20px;line-height:1.2}
+.value p{font-size:14px}
+.value p.ar{font-size:15px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;background:var(--page);text-align:center}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+.stats-note{grid-column:1 / -1;font-size:13px;color:var(--ink-2);text-align:center}
+@media (max-width:700px){.hero{grid-template-columns:1fr}}
+
+/* tonight banner */
+.tonight{margin-top:16px;padding:16px;background:var(--sun);display:grid;gap:10px}
+.tonight-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px}
+.tonight h2{font-size:30px}
+.tonight .when{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.tonight ol{display:grid;gap:8px;counter-reset:t}
+.tonight li{counter-increment:t;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-sm);padding:10px 12px}
+.tonight li::before{content:counter(t);width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+.tonight li b{display:block}
+.tonight li span{font-size:14px;color:var(--ink-2)}
+.tonight li a{font-weight:700;display:inline-block;padding:9px 4px;margin:-9px -4px}
+
+.sec-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:34px 0 14px}
+.sec-title h2{font-size:36px}
+.sec-title .ar{font-weight:800;font-size:22px;line-height:1.2}
+.sec-title p{flex-basis:100%;color:var(--ink-2);font-size:14px}
+
+/* tests */
+.tests{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.test{position:relative;padding:14px;background:var(--tint);display:grid;gap:8px;align-content:start}
+.test .date{display:flex;align-items:center;gap:10px}
+.cal{flex:none;width:54px;border:2px solid var(--ink);border-radius:10px;background:var(--paper);text-align:center;overflow:hidden;box-shadow:2px 2px 0 var(--ink)}
+.cal small{display:block;background:var(--col);color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 0}
+.cal b{display:block;font-family:var(--display);font-weight:400;font-size:28px;line-height:1.1}
+.test h3{font-size:24px}
+.test .per{font-size:13px;font-weight:700;color:var(--ink-2)}
+.test .ar{font-size:16px}
+.test-lines{font-size:15px}
+.sticker{position:absolute;top:-14px;right:12px;font-family:var(--display);font-size:17px;letter-spacing:.05em;background:var(--bad);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:1px 8px;transform:rotate(3deg)}
+.sticker.soft{background:var(--warn)}
+.sticker.past{background:var(--ink-3)}
+
+/* homework */
+.due-group + .due-group{margin-top:22px}
+.due-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:10px}
+.due-head h3{font-size:24px}
+.due-tag{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 9px;border:2px solid var(--ink);border-radius:999px;background:var(--warn-bg)}
+.due-tag.urgent{background:var(--bad);color:#fff}
+.due-tag.done{background:var(--good);color:#fff}
+.hw-list{display:grid;gap:12px}
+.hw{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:12px 14px;border-left:10px solid var(--col);scroll-margin-top:76px}
+.hw.is-done{background:var(--good-bg)}
+.hw.is-done .hw-title{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--good)}
+.check{width:44px;height:44px;border:3px solid var(--ink);border-radius:10px;background:var(--paper);display:grid;place-items:center;padding:0;box-shadow:2px 2px 0 var(--ink)}
+.check svg{width:26px;height:26px;opacity:0;transform:scale(.4);transition:transform .2s cubic-bezier(.3,1.6,.5,1),opacity .15s}
+.check[aria-checked="true"]{background:var(--good)}
+.check[aria-checked="true"] svg{opacity:1;transform:none}
+.hw-body{min-width:0;display:grid;gap:6px}
+.hw-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.subj{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border:2px solid var(--ink);border-radius:6px;background:var(--tint)}
+.hw-code{font-size:12px;font-weight:700;color:var(--ink-2)}
+.hw-title{font-weight:700;font-size:17px;line-height:1.4}
+.hw-detail{font-size:14px;color:var(--ink-2)}
+.hw-detail.ar{color:var(--ink);font-size:15px}
+.hw-warn{font-size:14px;font-weight:700;padding:7px 10px;border:2px dashed var(--ink);border-radius:8px;background:var(--warn-bg)}
+.hw-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+details.helper{margin-top:4px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+details.helper summary{cursor:pointer;padding:8px 12px;font-weight:800;font-size:14px;list-style:none;display:flex;align-items:center;gap:8px}
+details.helper summary::-webkit-details-marker{display:none}
+details.helper summary::before{content:"+";flex:none;width:22px;height:22px;border:2px solid var(--ink);border-radius:6px;display:grid;place-items:center;font-size:15px;line-height:1}
+details.helper[open] summary::before{content:"−"}
+.helper-in{padding:0 12px 12px;display:grid;gap:10px;font-size:14px}
+.helper-in ul{display:grid;gap:6px}
+.helper-in li{padding-left:16px;position:relative}
+.helper-in li::before{content:"";position:absolute;left:2px;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--col)}
+.kinds{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.kind{border:2px solid var(--ink);border-radius:8px;padding:8px 10px;background:var(--tint)}
+.kind b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.kind p{margin-top:4px}
+.math{font-variant-numeric:tabular-nums;white-space:nowrap}
+/* a long worked example wraps between its steps on a narrow phone instead of pushing the page sideways */
+@media (max-width:420px){.math{white-space:normal}}
+
+/* timetable */
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.tab{position:relative;padding:8px 4px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);text-align:center;box-shadow:var(--shadow-sm);display:grid;gap:0;line-height:1.15}
+.tab b{font-family:var(--display);font-weight:400;font-size:24px;letter-spacing:.04em}
+.tab span{font-size:12px;font-weight:700;color:var(--ink-2)}
+.tab[aria-selected="true"]{background:var(--ink);color:#fff;transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.tab[aria-selected="true"] span{color:#fff}
+.tab .today-dot{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--sun);color:var(--ink);border:2px solid var(--ink);border-radius:999px;padding:0 6px;white-space:nowrap}
+.tab .flag{position:absolute;top:-8px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--bad);border:2px solid var(--ink);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}
+@media (max-width:520px){.tab b{font-size:20px}.tab span{font-size:11px}}
+.day-panel{margin-top:16px}
+.day-title{display:none;font-size:28px;margin:18px 0 10px}
+.periods{display:grid;gap:10px}
+.period{display:grid;grid-template-columns:56px 1fr;gap:12px;padding:12px;align-items:start;border-left:10px solid var(--col)}
+.pno{width:52px;height:44px;border:2px solid var(--ink);border-radius:10px;background:var(--col);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;text-shadow:1px 1px 0 var(--ink)}
+.pno.span{font-size:12px}
+.s-trip .pno{color:var(--ink);text-shadow:none}
+.p-body{min-width:0;display:grid;gap:4px}
+.p-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px}
+.p-subj{font-weight:800;font-size:15px}
+.p-teacher{font-size:13px;color:var(--ink-2)}
+.p-topic{font-size:15px}
+.p-flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.flag-pill{font-size:12px;font-weight:800;padding:5px 10px;border:2px solid var(--ink);border-radius:999px;background:var(--warn-bg)}
+.flag-pill.test{background:var(--bad);color:#fff}
+.flag-pill.link{background:var(--tint);text-decoration:none}
+
+/* evening plan */
+.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.plan-day{padding:14px;display:grid;gap:8px;align-content:start}
+.plan-day.is-today{background:var(--sun-2);box-shadow:0 0 0 4px var(--sun),var(--shadow)}
+.plan-day h3{font-size:24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.plan-day h3 small{font-family:var(--body);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:#fff;padding:2px 7px;border-radius:6px}
+.plan-day li{font-size:14px;padding-left:18px;position:relative}
+.plan-day li::before{content:"";position:absolute;left:2px;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--ink)}
+.plan-day li.key::before{background:var(--bad);box-shadow:0 0 0 2px var(--ink)}
+.plan-day li a{font-weight:700}
+
+/* study pages */
+.study{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.study a{display:grid;gap:6px;padding:14px;text-decoration:none;background:var(--tint);transition:transform .12s}
+.study a:hover{transform:translateY(-3px) rotate(-.4deg)}
+.study h3{font-size:24px;color:var(--col);-webkit-text-stroke:1px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.study p{font-size:14px;color:var(--ink-2)}
+.study .go{font-weight:800;font-size:14px}
+
+.foot{margin-top:40px;font-size:13px;color:var(--ink-2);display:grid;gap:6px}
+.foot .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* print: two A4 pages built by renderPrint(): tests and homework, then the timetable grid and the evening plan */
+.print-sheet{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+  html,body{background:#fff!important}
+  body{background-image:none!important;color:#000;font-size:9pt;line-height:1.35}
+  .topbar,main{display:none!important}
+  .print-sheet{display:block}
+  .print-sheet .ar{font-size:1em;line-height:1.4}
+  .ps-break{break-before:page}
+  .ps-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2pt 12pt;border-bottom:1.5pt solid #000;padding-bottom:3pt}
+  .ps-head h1,.ps-sec{font-family:var(--body);font-weight:800;letter-spacing:0}
+  .ps-head h1{font-size:17pt}
+  .ps-head p{font-size:9pt;font-weight:700;color:#333}
+  .ps-value{margin-top:3pt;font-size:8.5pt;color:#333}
+  .ps-sec{font-size:12pt;margin:8pt 0 3pt}
+  .ps-table{width:100%;border-collapse:collapse}
+  .ps-table th{text-align:start;font-size:8pt;border-bottom:1pt solid #000;padding:2pt 4pt}
+  .ps-table td{vertical-align:top;border-bottom:.75pt solid #999;padding:2pt 4pt}
+  .ps-table tr{break-inside:avoid}
+  .ps-box{display:inline-block;width:12pt;height:12pt;border:1.2pt solid #000;border-radius:2pt;text-align:center;line-height:11pt;font-weight:800}
+  .ps-subj{font-weight:800}
+  .ps-subj small,.ps-when small{display:block;font-size:7.5pt;font-weight:500;color:#444}
+  .ps-when{font-weight:800;white-space:nowrap}
+  .ps-url{font-size:7pt;color:#333;overflow-wrap:anywhere}
+  .ps-warn{font-size:8pt;font-weight:700}
+  .ps-done .ps-text{text-decoration:line-through;color:#555}
+  .ps-sec small{font-size:8pt;font-weight:500;color:#444;margin-inline-start:6pt}
+  .ps-plan td{font-size:8.6pt}
+  .ps-job{margin-inline-end:6pt}
+  .ps-job.key{font-weight:800}
+  .ps-grid{width:100%;border-collapse:collapse;table-layout:fixed;font-size:7.8pt;line-height:1.3;margin-top:8pt}
+  .ps-grid th,.ps-grid td{border:.75pt solid #777;padding:3pt;vertical-align:top}
+  .ps-grid thead th{font-size:8.5pt;text-align:center}
+  .ps-grid tbody th{text-align:center;font-size:8pt}
+  .ps-grid td b{display:block;font-size:8.2pt}
+  .ps-grid .ar{font-size:8.4pt}
+  .ps-grid .ps-trip{text-align:center;vertical-align:middle;background:#f2f2f2}
+  .ps-tag{display:inline-block;border:.75pt solid #000;border-radius:3pt;padding:0 2pt;margin-inline-start:3pt;font-size:6.8pt;font-weight:800}
+  .ps-foot{margin-top:8pt;padding-top:3pt;border-top:.75pt solid #999;font-size:7.5pt;color:#444}
+}
+</style>
+</head>
+<body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+<script src="../../assets/rewards.js" data-root="../../"></script>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="logo-mark">WEEK 12</span>
+    <span class="unit-chip">Nov 15–19</span>
+    <span class="spacer"></span>
+    <span class="meter" id="meter" role="status" aria-live="polite">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12A15E" stroke="#14163A" stroke-width="2"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="meterText">0/1 done</span>
+    </span>
+    <a class="icon-btn" href="../../index.html" aria-label="Home: homework dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+    </a>
+    <button class="icon-btn" id="printBtn" type="button" aria-label="Print the week">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#14163A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero panel">
+    <div>
+      <h1>Week 12 <span>Plan</span></h1>
+      <p class="sub">Sunday 15 – Thursday 19 November 2026</p>
+      <div class="value">
+        <div class="value-head">
+          <small>Value of the week</small><b>Integrity</b><span class="ar" lang="ar">الاستقامة</span>
+        </div>
+        <p>We believe integrity means adhering to our principles and practicing noble ethics; it is the way we live and interact.</p>
+        <p class="ar" lang="ar">نؤمن بأن الاستقامة امتثال للثوابت وعمل بالأخلاق السامية، وهي منهجنا الذي نعيشه ونتعايش به.</p>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="statHw">1</b><span>Homework</span></div>
+      <div class="stat"><b id="statTests">5</b><span>Tests</span></div>
+      <div class="stat"><b id="statLeft">1</b><span>To do</span></div>
+      <p class="stats-note"><b>Three quizzes:</b> Science Quiz 2 on Sunday, Social Studies Quiz 2 on Tuesday and Arabic Quiz 2 on Thursday, with a Qur'an recitation check on Wednesday and a memorisation check on Thursday. The school says tests are in period 2 when school is in person. Thursday is the last school day before the Autumn Break (22–26/11).</p>
+    </div>
+  </section>
+
+  <section class="tonight panel" id="tonight" aria-labelledby="tonightTitle"></section>
+
+  <div class="sec-title"><h2>Tests this week</h2><span class="ar" lang="ar">الاختبارات</span></div>
+  <div class="tests" id="tests"></div>
+
+  <div class="sec-title"><h2>Homework</h2><span class="ar" lang="ar">الواجبات</span>
+    <p>Tick each one when it's finished. Ticks are shared with the dashboard and the family's other devices.</p></div>
+  <div id="homework"></div>
+
+  <div class="sec-title"><h2>Timetable</h2><span class="ar" lang="ar">الجدول اليومي</span>
+    <p>The periods for each day, from the school's Weekly Study Plan.</p></div>
+  <div class="tabs" role="tablist" aria-label="School days" id="tabs"></div>
+  <div id="days"></div>
+
+  <div class="sec-title"><h2>Evening plan</h2><span class="ar" lang="ar">خطة المذاكرة المسائية</span>
+    <p>A suggested order for each evening, so each quiz gets its revision nights before the Autumn Break. The red dot marks the most important job.</p></div>
+  <div class="plan" id="plan"></div>
+
+  <div class="sec-title"><h2>Practice pages</h2><span class="ar" lang="ar">صفحات التدريب</span>
+    <p>Interactive practice that fits this week's lessons and homework.</p></div>
+  <div class="study" id="study"></div>
+
+  <footer class="foot">
+    <p>Source: the school's Week 12 Weekly Study Plan, the Quiz 2 dates from its assessment outline, and the IXL practice sheets from the Science and English departments. If the school changes the plan, the school's version wins.</p>
+    <div class="row no-print">
+      <a class="btn btn-sm" href="../week-11/index.html">← Week 11 plan</a>
+      <button class="btn btn-sm" id="resetBtn" type="button">Clear this week's ticks</button>
+    </div>
+  </footer>
+</main>
+
+<section class="print-sheet" id="printSheet" aria-hidden="true"></section>
+
+<script>
+"use strict";
+/* Shared with the dashboard (index.html): ticks are keyed by EduPage item id (ep). */
+const KEY = "monmon-done-v1";
+const TZ = "Asia/Riyadh";
+const DAYS = [
+  {key:"sun", name:"Sunday", short:"Sun", date:"2026-11-15"},
+  {key:"mon", name:"Monday", short:"Mon", date:"2026-11-16"},
+  {key:"tue", name:"Tuesday", short:"Tue", date:"2026-11-17"},
+  {key:"wed", name:"Wednesday", short:"Wed", date:"2026-11-18"},
+  {key:"thu", name:"Thursday", short:"Thu", date:"2026-11-19"}
+];
+const SUBJ = {
+  math:{label:"Math", cls:"s-math"}, eng:{label:"English", cls:"s-eng"}, sci:{label:"Science", cls:"s-sci"},
+  ar:{label:"Arabic", cls:"s-ar"}, isl:{label:"Islamic Studies", cls:"s-isl"}, quran:{label:"Qur'an", cls:"s-quran"},
+  soc:{label:"Social Studies", cls:"s-soc"}, well:{label:"Be Well", cls:"s-well"}, pe:{label:"PE", cls:"s-pe"},
+  art:{label:"Art", cls:"s-art"}, ict:{label:"ICT / MECHA", cls:"s-ict"}, ixl:{label:"IXL", cls:"s-ixl"}
+};
+/* the site does not show teachers' names */
+const T = {};
+
+/* pages and the helpers in the homework list (#hw-...) */
+const PAGES = {
+  sciq:{href:"../../science/quiz-2/index.html", label:"Science Quiz 2 review"},
+  sciixl:{href:"../../science/quiz-2/index.html#ixl", label:"Science IXL skills"},
+  scim:{href:"../../science/missions/index.html", label:"Science Quiz 2 Missions"},
+  socq:{href:"../../social/quiz-2/index.html", label:"Social Studies Quiz 2 review"},
+  arq:{href:"../../arabic/quiz-2/index.html", label:"Arabic Quiz 2 review"},
+  dict:{href:"../../arabic/quiz-2/index.html#dict", label:"Dictation practice"},
+  quiz2:{href:"../../review/quiz-2/index.html", label:"All of Quiz 2"},
+  quranq:{href:"../../review/quiz-2/index.html#quran", label:"Qur'an Quiz 2 verses"},
+  florder:{href:"../../math/factors-expressions/index.html#/zone/4", label:"Factor Lab: order of operations"},
+  engixl:{href:"../../english/quiz-2/index.html#ixl", label:"English IXL grammar skills"},
+  ixl:{href:"../../ixl/index.html", label:"IXL plan"},
+  w11:{href:"../week-11/index.html", label:"Week 11 plan"}
+};
+const SCI_L2 = "Module 3: Reproduction of Organisms · L2: Types of Reproduction — ";
+const SCI_L3 = "Module 3: Reproduction of Organisms · L3: Reproduction and Growth of Animals — ";
+const L35 = "Lesson 3-5: Evaluate Algebraic Expressions, pp. 151–156";
+const L36 = "Lesson 3-6: Generate Equivalent Expressions, pp. 161–166";
+const G81 = "Grammar for Writing: Chapter 8, Lesson 8.1: Verbs, pp. 161–162";
+const VW5 = "Vocabulary Workshop, Unit 5: “Space Exploration, Now!”, pp. 60–69";
+const RUNON = "Review: Writing, Chapter 2, Lesson 2.2: Correcting Run-on Sentences, pp. 34–35";
+const ALA = "الصنف اللغوي: المشتقات (اسم الآلة)";
+const PE_SHOT = "أن يتعلم الطالب مهارة التصويب بوجه القدم الداخلي في لعبة كرة القدم";
+
+/* topic: English text, or {ar:"..."} for Arabic text. hw: homework ids set in that period. bring: homework ids to bring
+   for that lesson. test: test id. paper: a shorter topic for the printed grid. */
+const TIMETABLE = {
+  sun:[
+    {s:"isl", topic:{ar:"التوحيد / البدع"}},
+    {s:"sci", topic:SCI_L2 + "Why do some offspring have two parents? What are the advantages and disadvantages of sexual and asexual reproduction?", test:"sci",
+     paper:"L2: two parents; sexual and asexual reproduction, pros and cons"},
+    {s:"sci", topic:SCI_L2 + "A Closer Look: Cloning and the Future. Lesson Review.", paper:"L2: cloning and the future; Lesson Review"},
+    {s:"soc", topic:{ar:"أئمة الدولة السعودية الثانية"}},
+    {s:"math", topic:L35 + " (Part 1)", page:"florder"},
+    {s:"ar", topic:{ar:ALA + " ص 105"}},
+    {s:"well", topic:"Unit 2: My Inner Lens · Understanding and Managing My Emotions, pp. 28–29", paper:"Unit 2: managing my emotions, pp. 28–29"},
+    {s:"eng", topic:G81}
+  ],
+  mon:[
+    {s:"math", topic:L35 + " (Part 2)", page:"florder"},
+    {s:"isl", topic:{ar:"الفقه / الكسوف والخسوف"}},
+    {s:"pe", topic:{ar:PE_SHOT}, paper:{ar:"التصويب بوجه القدم الداخلي"}},
+    {s:"quran", topic:{ar:"حفظ سورة القلم 44-48"}},
+    {s:"eng", topic:G81},
+    {s:"ar", topic:{ar:ALA + " ص 106"}},
+    {s:"eng", topic:VW5},
+    {s:"sci", topic:SCI_L3 + "Science Probe: Growing Up. Encounter the Phenomenon: What strategies enable these birds of paradise to reproduce successfully, and what affects how they grow?",
+     paper:"L3: Growing Up; how birds of paradise reproduce and grow"}
+  ],
+  tue:[
+    {s:"isl", topic:{ar:"الفقه / صفة صلاة الكسوف والخسوف"}},
+    {s:"eng", topic:VW5, test:"soc"},
+    {s:"math", topic:L35 + " (Part 3)", page:"florder"},
+    {s:"quran", topic:{ar:"تلاوة سورة الكهف 30-34"}},
+    {s:"art", topic:{ar:"شرح نظري لكيفية رسم الكاريكاتير"}, bring:["art"]},
+    {s:"sci", topic:SCI_L3 + "Explain the Phenomenon.", paper:"L3: Explain the Phenomenon"},
+    {s:"eng", topic:VW5},
+    {s:"ar", topic:{ar:ALA + " ص 107"}}
+  ],
+  wed:[
+    {s:"ar", topic:{ar:ALA + " ص 108"}},
+    {s:"ar", topic:{ar:ALA}},
+    {s:"eng", topic:RUNON},
+    {s:"sci", topic:SCI_L3 + "How do animals find mates?", paper:"L3: how animals find mates"},
+    {s:"eng", topic:RUNON},
+    {s:"math", topic:L36 + " (Part 1)"},
+    {s:"math", topic:L36 + " (Part 2)"},
+    {s:"quran", topic:{ar:"تقييم تلاوة سورة الكهف 30-34"}, test:"kahf"}
+  ],
+  thu:[
+    {s:"math", topic:L36 + " (Part 3)"},
+    {s:"eng", topic:"Building Stronger Reading Skills: IXL", test:"ar"},
+    {s:"sci", topic:SCI_L3 + "Careers in Science: The Spider Mating Dance.", paper:"L3: Careers in Science, the spider mating dance"},
+    {s:"ict", topic:"MECHA 3"},
+    {s:"ict", topic:"Training Camp 3: Reacting to Lines"},
+    {s:"ar", topic:{ar:"الرسم الكتابي ص 109-110"}},
+    {s:"pe", topic:{ar:PE_SHOT}, paper:{ar:"التصويب بوجه القدم الداخلي"}},
+    {s:"quran", topic:{ar:"تسميع سورة القلم 44-48"}, test:"qalam"}
+  ]
+};
+const PERIOD_NAMES = ["P1","P2","P3","P4","P5U","P6","P7","P8"];
+
+/* ar + lines: Arabic card text. en: English card lines. flag: label in the timetable; ps: tag on paper.
+   page2: a second button on the card. The outline gives each quiz's day, and the school said on 5/11 that tests are in
+   period 2 when school is in person. */
+const TESTS = [
+  {id:"sci", s:"sci", day:"sun", per:"P2", title:"Science Quiz 2", flag:"Science Quiz 2", ps:"QUIZ", kind:"Small exam",
+   en:["Unit 1, Module 2 (Body Systems), Lessons 2–5: Structure and Support; Obtaining Energy and Removing Waste; Moving Materials; Control and Information Processing.",
+       "IXL practice from the Science Department, one or two skills for each lesson: perception and motion (L2), digestion and removing waste (L3), circulation and respiration (L4), and how the nervous system produces phantom pain (L5)."],
+   page:"sciq", pageLabel:"Review and the practice test", page2:"sciixl", page2Label:"The five IXL skills", tag:"Quiz"},
+  {id:"soc", s:"soc", day:"tue", per:"P2", title:"Social Studies Quiz 2", flag:"Social Studies Quiz 2", ps:"QUIZ", kind:"Small exam",
+   ar:"الاختبار القصير 2", lines:["شبه الجزيرة العربية قبل قيام الدولة السعودية الأولى (ص 26–29)", "تأسيس الدولة السعودية الأولى (ص 30–39)", "أئمة الدولة السعودية الأولى (ص 40–45)"],
+   page:"socq", pageLabel:"Review and the practice test", tag:"Quiz"},
+  {id:"kahf", s:"quran", day:"wed", per:"P8", title:"Qur'an recitation check", flag:"Recitation check", ps:"CHECK", kind:"Recitation check",
+   ar:"تقييم تلاوة", lines:["سورة الكهف 30-34"], tag:"Check", soft:true},
+  {id:"ar", s:"ar", day:"thu", per:"P2", title:"Arabic Quiz 2", flag:"Arabic Quiz 2", ps:"QUIZ", kind:"Small exam",
+   ar:"الاختبار القصير 2", lines:["همزتا الوصل والقطع (ابن – ابنة) ص 65–68", "الهمزة المتوسطة ص 73–76، والهمزة المتطرفة ص 78–83", "الأفعال الناسخة (كان وأخواتها) ص 85–90",
+     "قطعة الإملاء: «كل شيء في قرب الأم جميل، فهي شاطئ الأمان، الذي ننشأ في أحضانه.»"],
+   page:"arq", pageLabel:"Review and the mock test", page2:"dict", page2Label:"Practise the dictation passage", tag:"Quiz"},
+  {id:"qalam", s:"quran", day:"thu", per:"P8", title:"Qur'an memorisation check", flag:"Memorisation check", ps:"CHECK", kind:"Memorisation check",
+   ar:"تسميع", lines:["سورة القلم 44-48"], tag:"Check", soft:true}
+];
+
+/* ep: EduPage item id (shared ticks). day: the day it was set (none when it was set last week). links: [href, label] pairs.
+   short: what to bring, for the timetable. helper: extra panel under the item. */
+const HW = [
+  {id:"art", ep:"msg-2026-11-17-art", s:"art", code:"Bring", day:null, when:"from Week 11", due:"2026-11-17", title:"Bring the caricature drawing supplies",
+   ar:"كراسة الرسم، قلم رصاص، ممحاة", short:"sketchbook, pencil, eraser",
+   detail:"For Tuesday's Art lesson (P5U), the start of the caricature drawing lessons: a sketchbook, a pencil and an eraser. The caricature lesson runs over two school weeks, so they are needed again in the next Art lesson (EduPage, 10/11)."}
+];
+
+/* evening plan: items are [text, link key or null, isKey, screenOnly]; a screenOnly job is left off the printed sheet.
+   pre: the days before the week starts. */
+const PLAN = {
+  pre:[["Science Quiz 2 on Sunday (P2): go through the four lessons on the review page, then its practice test of 30 questions.", "sciq", true],
+       ["The five IXL skills the Science Department sent for the quiz, one lesson at a time.", "sciixl"],
+       ["Social Studies Quiz 2 is on Tuesday: start with the first lesson on its review page.", "socq"],
+       ["Be Well: if the values presentation hasn't been given yet, keep it ready for Sunday's lesson (P7) and ask the teacher for its new date.", null, false, true]],
+  sun:[["Social Studies Quiz 2 on Tuesday (P2): review the three lessons, the timeline and the four imams.", "socq", true],
+       ["Read Al-Qalam 44–48 five times: tomorrow's Qur'an lesson (P4) memorises it, and Thursday (P8) is the memorisation check.", null],
+       ["Arabic Quiz 2 on Thursday: one round of the quiz's dictation passage.", "dict"]],
+  mon:[["Social Studies Quiz 2 tomorrow (P2): the practice test on the review page, then reread the lessons it shows are weak.", "socq", true],
+       ["Read Al-Kahf 30–34 aloud for tomorrow's recitation lesson (P4): the recitation check is on Wednesday (P8).", null],
+       ["Arabic Quiz 2 on Thursday (P2): the hamza rules on the review page.", "arq"],
+       ["Pack for tomorrow: the sketchbook, a pencil and an eraser for Art (P5U).", null, false, true]],
+  tue:[["Arabic Quiz 2 on Thursday (P2): kana and her sisters on the review page, then the mock test.", "arq", true],
+       ["Recite Al-Kahf 30–34 aloud twice: the recitation check is tomorrow (P8).", null],
+       ["Al-Qalam 44–48 from memory once.", null]],
+  wed:[["Arabic Quiz 2 tomorrow (P2): the mock test again, and the dictation passage once more.", "dict", true],
+       ["Al-Qalam 44–48 from memory for tomorrow's check (P8).", null],
+       ["Catch up on this week's IXL plan skills.", "ixl"]],
+  thu:[["Today is the last school day before the Autumn Break (22–26/11). School starts again on Sunday 29/11.", null, true],
+       ["Qur'an Quiz 2 is in the first week back: recitation of Al-Kahf 21–34 and memorisation of Al-Qalam 31–47. A little each day keeps it fresh.", "quranq"],
+       ["Finish the week's IXL plan skills.", "ixl"]]
+};
+
+const ICON_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function load(){ try { const raw = localStorage.getItem(KEY); if (raw) { const v = JSON.parse(raw); if (v && typeof v.done === "object") return v; } } catch (e) {} return {done:{}}; }
+let S = load();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+function todayISO(){
+  try { return new Intl.DateTimeFormat("en-CA", {timeZone:TZ, year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date()); }
+  catch (e) { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
+}
+function dayDiff(a, b){ const p = s => { const [y,m,d] = s.split("-").map(Number); return Date.UTC(y, m-1, d); }; return Math.round((p(b) - p(a)) / 864e5); }
+function fmtDate(iso){
+  const [y,m,d] = iso.split("-").map(Number);
+  const wd = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(Date.UTC(y, m-1, d)).getUTCDay()];
+  return wd + " " + d + "/" + m;
+}
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function topicHTML(t){ return typeof t === "string" ? '<p class="p-topic">' + esc(t) + '</p>' : '<p class="p-topic ar" lang="ar">' + esc(t.ar) + '</p>'; }
+/* a day's periods with their names; a period with span covers that many rows */
+function slots(key){
+  let j = 0;
+  return TIMETABLE[key].map(p => {
+    const n = p.span || 1, s = {p, row:j, n, name:n > 1 ? PERIOD_NAMES[j] + "–" + PERIOD_NAMES[j + n - 1] : PERIOD_NAMES[j]};
+    j += n;
+    return s;
+  });
+}
+
+const TODAY = todayISO();
+const dayIndex = DAYS.findIndex(d => d.date === TODAY);
+const beforeWeek = dayDiff(TODAY, DAYS[0].date) > 0;
+const afterWeek = dayDiff(DAYS[DAYS.length-1].date, TODAY) > 0;
+
+/* ---------- tonight ---------- */
+function planItemHTML(it){
+  const [text, page, key] = it;
+  const link = page && PAGES[page] ? ' <a href="' + PAGES[page].href + '">' + esc(PAGES[page].label) + ' →</a>' : "";
+  return { text, link, key: !!key };
+}
+function renderTonight(){
+  const el = document.getElementById("tonight");
+  let items, head, when;
+  if (dayIndex >= 0) { items = PLAN[DAYS[dayIndex].key]; head = "Tonight's jobs"; when = DAYS[dayIndex].name + " evening"; }
+  else if (beforeWeek) { items = PLAN.pre; head = "Before Sunday 15/11"; when = "Science Quiz 2 on Sunday"; }
+  else {
+    /* after the week: what is still open, soonest first */
+    const left = HW.filter(h => !S.done[h.ep] && dayDiff(TODAY, h.due) >= 0).sort((a, b) => a.due.localeCompare(b.due));
+    if (!afterWeek || !left.length) { el.hidden = true; return; }
+    items = left.map(h => [SUBJ[h.s].label + ": " + h.title + " (due " + fmtDate(h.due) + ")", null, h.due === left[0].due]);
+    head = "Weekend finish line"; when = "Still to do";
+  }
+  el.hidden = false;
+  el.innerHTML = '<div class="tonight-head"><h2 id="tonightTitle">' + esc(head) + '</h2><span class="when">' + esc(when) + '</span></div>' +
+    '<ol>' + items.map(planItemHTML).map(i => '<li><div><b>' + esc(i.text) + '</b>' + (i.link ? '<span>' + i.link + '</span>' : "") + '</div></li>').join("") + '</ol>';
+}
+
+/* ---------- tests ---------- */
+function renderTests(){
+  document.getElementById("statTests").textContent = TESTS.length;
+  document.getElementById("tests").innerHTML = TESTS.map(t => {
+    const d = DAYS.find(x => x.key === t.day);
+    const [, m, dd] = d.date.split("-").map(Number);
+    const diff = dayDiff(TODAY, d.date);
+    let sticker = t.tag, cls = t.soft ? "soft" : "";
+    if (t.moved) { sticker = "Moved"; cls = "soft"; }
+    else if (diff < 0) { sticker = "Done"; cls = "past"; }
+    else if (diff === 0) sticker = "Today";
+    else if (diff === 1) sticker = "Tomorrow";
+    return '<article class="test panel ' + SUBJ[t.s].cls + '">' +
+      '<span class="sticker ' + cls + '">' + esc(sticker) + '</span>' +
+      '<div class="date"><div class="cal"><small>' + esc(d.short) + '</small><b>' + dd + '</b></div>' +
+      '<div><h3>' + esc(t.title) + '</h3><p class="per">' + esc(d.name) + ' ' + dd + '/' + m + ' · ' + esc(t.per) + ' · ' + esc(SUBJ[t.s].label) + '</p></div></div>' +
+      (t.ar ? '<p class="ar" lang="ar"><b>' + esc(t.ar) + '</b><br>' + t.lines.map(esc).join("<br>") + '</p>'
+            : '<p class="test-lines">' + t.en.map(esc).join("<br>") + '</p>') +
+      (t.moved ? '<p class="hw-warn">' + esc(t.moved) + '</p>' : "") +
+      (t.page ? '<div class="hw-actions"><a class="btn btn-sm btn-col" href="' + PAGES[t.page].href + '">' + esc(t.pageLabel || PAGES[t.page].label) + ' →</a>' +
+        (t.page2 ? '<a class="btn btn-sm" href="' + PAGES[t.page2].href + '">' + esc(t.page2Label || PAGES[t.page2].label) + ' →</a>' : "") + '</div>' : "") +
+      '</article>';
+  }).join("");
+}
+
+/* ---------- homework ---------- */
+const HELPERS = {};
+function dueLabel(due, done){
+  if (done) return {text:"Done", cls:"done"};
+  const n = dayDiff(TODAY, due);
+  if (n < 0) return {text:"Overdue", cls:"urgent"};
+  if (n === 0) return {text:"Due today", cls:"urgent"};
+  if (n === 1) return {text:"Due tomorrow", cls:"urgent"};
+  return {text:"Due in " + n + " days", cls:""};
+}
+function hwHTML(h){
+  const done = !!S.done[h.ep];
+  const actions = (h.links || []).map(([href, label]) => '<a class="btn btn-sm" href="' + href + '" target="_blank" rel="noopener">' + esc(label) + ' ↗</a>');
+  if (h.page) actions.push('<a class="btn btn-sm btn-col" href="' + PAGES[h.page].href + '">' + esc(h.pageLabel || PAGES[h.page].label) + ' →</a>');
+  return '<li class="hw panel ' + SUBJ[h.s].cls + (done ? " is-done" : "") + '" id="hw-' + h.id + '">' +
+    '<button class="check" type="button" role="checkbox" aria-checked="' + done + '" data-id="' + h.ep + '" aria-label="Mark done: ' + esc(SUBJ[h.s].label + " " + h.title) + '">' + ICON_CHECK + '</button>' +
+    '<div class="hw-body"><div class="hw-top"><span class="subj">' + esc(SUBJ[h.s].label) + '</span><span class="hw-code">' + esc(h.code) + (h.day ? ' · set ' + esc(DAYS.find(d => d.key === h.day).name) : "") + '</span></div>' +
+    '<p class="hw-title">' + esc(h.title) + '</p>' +
+    (h.ar ? '<p class="hw-detail ar" lang="ar">' + esc(h.ar) + '</p>' : "") +
+    (h.detail ? '<p class="hw-detail">' + esc(h.detail) + '</p>' : "") +
+    (h.warn ? '<p class="hw-warn">' + esc(h.warn) + '</p>' : "") +
+    (actions.length ? '<div class="hw-actions">' + actions.join("") + '</div>' : "") +
+    (h.helper ? HELPERS[h.helper]() : "") +
+    '</div></li>';
+}
+function renderHomework(){
+  /* keep open helpers open when the list is drawn again */
+  const open = [...document.querySelectorAll("#homework details.helper[open]")].map(d => d.closest(".hw").id);
+  const groups = [...new Set(HW.map(h => h.due))].sort();
+  document.getElementById("homework").innerHTML = groups.map(due => {
+    const items = HW.filter(h => h.due === due);
+    const allDone = items.every(h => S.done[h.ep]);
+    const lab = dueLabel(due, allDone);
+    const [y,m,d] = due.split("-").map(Number);
+    const wd = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][new Date(Date.UTC(y, m-1, d)).getUTCDay()];
+    return '<div class="due-group"><div class="due-head"><h3>Due ' + wd + ' ' + d + '/' + m + '</h3><span class="due-tag ' + lab.cls + '">' + esc(lab.text) + '</span></div>' +
+      '<ul class="hw-list">' + items.map(hwHTML).join("") + '</ul></div>';
+  }).join("");
+  open.forEach(id => { const d = document.querySelector("#" + id + " details.helper"); if (d) d.open = true; });
+}
+function updateMeter(bump){
+  const total = HW.length, n = HW.filter(h => S.done[h.ep]).length;
+  document.getElementById("meterText").textContent = n + "/" + total + " done";
+  document.getElementById("statHw").textContent = total;
+  document.getElementById("statLeft").textContent = total - n;
+  const m = document.getElementById("meter");
+  if (bump) { m.classList.remove("bump"); void m.offsetWidth; m.classList.add("bump"); }
+}
+document.getElementById("homework").addEventListener("click", e => {
+  const btn = e.target.closest(".check");
+  if (!btn) return;
+  const id = btn.dataset.id;
+  if (S.done[id]) delete S.done[id]; else S.done[id] = true;
+  save();
+  renderHomework();
+  updateMeter(true);
+  renderTonight();
+  renderPrint();
+  const again = document.querySelector('.check[data-id="' + id + '"]');
+  if (again) again.focus();
+});
+/* a link to one homework item (#hw-...) opens its helper; the list is drawn by this script, so the first scroll happens here */
+function showHash(scroll){
+  const el = /^#hw-[a-z0-9]+$/.test(location.hash) && document.getElementById(location.hash.slice(1));
+  if (!el) return;
+  const d = el.querySelector("details.helper");
+  if (d) d.open = true;
+  if (scroll) el.scrollIntoView();
+}
+window.addEventListener("hashchange", () => showHash(false));
+
+/* ---------- timetable ---------- */
+function renderTimetable(initial){
+  const tabs = document.getElementById("tabs"), days = document.getElementById("days");
+  tabs.innerHTML = DAYS.map((d, i) => {
+    const [, m, dd] = d.date.split("-").map(Number);
+    const hasTest = TIMETABLE[d.key].some(p => p.test);
+    return '<button class="tab" type="button" role="tab" id="tab-' + d.key + '" aria-controls="day-' + d.key + '" aria-selected="' + (i === initial) + '" tabindex="' + (i === initial ? 0 : -1) + '">' +
+      (i === dayIndex ? '<span class="today-dot">Today</span>' : "") +
+      (hasTest ? '<span class="flag" title="Test day" aria-label="Test day">!</span>' : "") +
+      '<b>' + d.short + '</b><span>' + dd + '/' + m + '</span></button>';
+  }).join("");
+  days.innerHTML = DAYS.map((d, i) => {
+    const [, m, dd] = d.date.split("-").map(Number);
+    const body = '<ol class="periods">' + slots(d.key).map(({p, n, name}) => {
+      const sj = SUBJ[p.s];
+      const flags = [];
+      if (p.test) flags.push('<span class="flag-pill test">' + esc(TESTS.find(t => t.id === p.test).flag) + '</span>');
+      (p.hw || []).forEach(id => { const h = HW.find(x => x.id === id); flags.push('<a class="flag-pill" href="#hw-' + id + '">Homework: ' + esc(h.code) + '</a>'); });
+      (p.bring || []).forEach(id => { const h = HW.find(x => x.id === id); flags.push('<a class="flag-pill" href="#hw-' + id + '">Bring: ' + esc(h.short || h.title) + '</a>'); });
+      if (p.page && PAGES[p.page]) flags.push('<a class="flag-pill link" href="' + PAGES[p.page].href + '">Practice →</a>');
+      return '<li class="period panel ' + sj.cls + '"><span class="pno' + (n > 1 ? " span" : "") + '">' + name + '</span><div class="p-body">' +
+        '<div class="p-top"><span class="p-subj">' + esc(sj.label) + '</span><span class="p-teacher">' + esc(T[p.s] || "") + '</span></div>' +
+        topicHTML(p.topic) + (flags.length ? '<div class="p-flags">' + flags.join("") + '</div>' : "") + '</div></li>';
+    }).join("") + '</ol>';
+    return '<section class="day-panel" role="tabpanel" id="day-' + d.key + '" aria-labelledby="tab-' + d.key + '"' + (i === initial ? "" : " hidden") + '>' +
+      '<h3 class="day-title">' + d.name + ' ' + dd + '/' + m + '</h3>' + body + '</section>';
+  }).join("");
+}
+function selectTab(i, focus){
+  DAYS.forEach((d, j) => {
+    const t = document.getElementById("tab-" + d.key), p = document.getElementById("day-" + d.key);
+    t.setAttribute("aria-selected", j === i); t.tabIndex = j === i ? 0 : -1; p.hidden = j !== i;
+  });
+  if (focus) document.getElementById("tab-" + DAYS[i].key).focus();
+}
+document.getElementById("tabs").addEventListener("click", e => {
+  const t = e.target.closest(".tab"); if (!t) return;
+  selectTab(DAYS.findIndex(d => "tab-" + d.key === t.id), false);
+});
+document.getElementById("tabs").addEventListener("keydown", e => {
+  const cur = DAYS.findIndex(d => document.getElementById("tab-" + d.key).getAttribute("aria-selected") === "true");
+  let n = null;
+  if (e.key === "ArrowRight") n = (cur + 1) % DAYS.length;
+  else if (e.key === "ArrowLeft") n = (cur - 1 + DAYS.length) % DAYS.length;
+  else if (e.key === "Home") n = 0;
+  else if (e.key === "End") n = DAYS.length - 1;
+  if (n !== null) { e.preventDefault(); selectTab(n, true); }
+});
+
+/* ---------- evening plan ---------- */
+const PRE = {key:"pre", title:"Before Sunday", tag:"This weekend"};
+function renderPlan(){
+  const card = (key, title, tags, isToday) => '<article class="plan-day panel' + (isToday ? " is-today" : "") + '"><h3>' + esc(title) + tags.map(t => ' <small>' + esc(t) + '</small>').join("") + '</h3><ul>' +
+    PLAN[key].map(planItemHTML).map(it => '<li' + (it.key ? ' class="key"' : "") + '>' + esc(it.text) + it.link + '</li>').join("") + '</ul></article>';
+  document.getElementById("plan").innerHTML = card(PRE.key, PRE.title, [PRE.tag].concat(beforeWeek ? ["Now"] : []), beforeWeek) +
+    DAYS.map((d, i) => card(d.key, d.name + " night", i === dayIndex ? ["Tonight"] : [], i === dayIndex)).join("");
+}
+
+/* ---------- study pages ---------- */
+function renderStudy(){
+  const cards = [
+    {cls:"s-sci", page:"sciq", title:"Science Quiz 2 review", text:"Sunday's quiz: Lessons 2–5 of Body Systems with diagrams to label, the school's IXL skills for each lesson, and a practice test of 30 questions."},
+    {cls:"s-sci", page:"scim", title:"Science Quiz 2 Missions", text:"A mission for each lesson, then a Final Boss of 24 questions, 6 from each lesson. The questions change every time, and the report shows each topic."},
+    {cls:"s-soc", page:"socq", title:"Social Studies Quiz 2 review", text:"Tuesday's quiz: the Arabian Peninsula before the first Saudi state, its founding and its four imams, with a timeline, practice for each lesson and a practice test."},
+    {cls:"s-ar", page:"arq", title:"Arabic Quiz 2 review", text:"Thursday's quiz: the hamza rules (with ibn and ibna) and kana and her sisters, with practice and a mock test of 20 questions."},
+    {cls:"s-ar", page:"dict", title:"Dictation trainer", text:"The quiz's dictation passage, read aloud phrase by phrase like a teacher, then checked word by word."},
+    {cls:"s-math", page:"florder", title:"Factor Lab", text:"Lesson 3-5 puts numbers into an expression and works it out in the right order: zone 4 practises the order of operations."},
+    {cls:"s-quran", page:"quranq", title:"Qur'an Quiz 2 verses", text:"Qur'an Quiz 2 is in the first week back: recitation of Al-Kahf 21–34 and memorisation of Al-Qalam 31–47."},
+    {cls:"s-eng", page:"engixl", title:"English IXL grammar", text:"The five IXL skills the English Department sent for Quiz 2 (nouns and pronouns), now extra review."},
+    {cls:"s-ixl", page:"ixl", title:"IXL plan", text:"Week 3 of the 16-week MAP plan runs from Sunday 15/11 to Saturday 21/11: the plan page shows each day's skills and their targets."}
+  ];
+  document.getElementById("study").innerHTML = cards.filter(c => PAGES[c.page]).map(c =>
+    '<a class="panel ' + c.cls + '" href="' + PAGES[c.page].href + '"><h3>' + esc(c.title) + '</h3><p>' + esc(c.text) + '</p><span class="go">Open →</span></a>').join("");
+}
+
+/* ---------- print ---------- */
+function dm(iso){ const [, m, d] = iso.split("-").map(Number); return d + "/" + m; }
+/* keep ranges such as 34-39 or 92 - 93 on one line */
+function arPrint(s){ return esc(s).replace(/\d+\s*-\s*\d+/g, m => '<span style="white-space:nowrap">' + m + '</span>'); }
+function gridTopic(p){
+  const t = p.paper || p.topic;
+  if (typeof t !== "string") return '<div class="ar" lang="ar">' + arPrint(t.ar.replace("الصنف اللغوي: ", "")) + '</div>';
+  return '<div>' + esc(t.replace(L35, "Lesson 3-5: Evaluate Expressions").replace(L36, "Lesson 3-6: Equivalent Expressions")
+    .replace(G81, "Grammar 8.1: Verbs").replace(VW5, "Vocabulary Unit 5, pp. 60–69")
+    .replace(RUNON, "Writing 2.2: Run-on Sentences")) + '</div>';
+}
+function renderPrint(){
+  const head = sub => '<div class="ps-head"><h1>Week 12 Plan</h1><p>Sun 15 – Thu 19 November 2026' + (sub ? " · " + sub : "") + '</p></div>';
+  const dayOf = key => DAYS.find(d => d.key === key);
+  const tests = TESTS.map(t => {
+    const d = dayOf(t.day);
+    return '<tr><td class="ps-when">' + d.short + ' ' + dm(d.date) + '<small>' + t.per + '</small></td>' +
+      '<td class="ps-subj">' + esc(SUBJ[t.s].label) + '<small>' + esc(t.kind) + '</small></td>' +
+      '<td><b>' + esc(t.title) + '</b>' + (t.ar ? '<div class="ar" lang="ar">' + esc(t.ar) + ': ' + t.lines.map(arPrint).join(" · ") + '</div>' : '<div>' + t.en.map(esc).join(" ") + '</div>') + '</td></tr>';
+  }).join("");
+  const order = key => DAYS.findIndex(d => d.key === key);
+  const hw = HW.slice().sort((a, b) => a.due.localeCompare(b.due) || order(a.day) - order(b.day)).map(h => {
+    const done = !!S.done[h.ep];
+    return '<tr' + (done ? ' class="ps-done"' : "") + '><td><span class="ps-box">' + (done ? "✓" : "") + '</span></td>' +
+      '<td class="ps-subj">' + esc(SUBJ[h.s].label) + '<small>' + esc(h.code) + '</small></td>' +
+      '<td class="ps-text"><b>' + esc(h.title) + '.</b>' + (h.detail ? " " + esc(h.detail) : "") +
+      (h.ar ? '<div class="ar" lang="ar">' + esc(h.ar) + '</div>' : "") +
+      (h.warn ? '<div class="ps-warn">' + esc(h.warn) + '</div>' : "") +
+      (h.links && h.links.length ? '<div class="ps-url">' + esc(h.links[0][0]) + '</div>' : "") + '</td>' +
+      '<td class="ps-when">' + fmtDate(h.due) + '<small>' + (h.day ? "set " + dayOf(h.day).short : esc(h.when || "")) + '</small></td></tr>';
+  }).join("");
+  const planRow = (when, key) => '<tr><td class="ps-when">' + when + '</td><td>' +
+    PLAN[key].filter(j => !j[3]).map(([text, , k], n) => '<span class="ps-job' + (k ? " key" : "") + '">' + (n + 1) + '. ' + esc(text) + '</span>').join(" ") + '</td></tr>';
+  const plan = planRow('Before<small>Thu–Sat</small>', "pre") + DAYS.map(d => planRow(d.short + ' ' + dm(d.date), d.key)).join("");
+  /* rows covered by a period above them (the trip) get no cell */
+  const cells = DAYS.map(d => { const c = {}; slots(d.key).forEach(s => { c[s.row] = s; for (let k = 1; k < s.n; k++) c[s.row + k] = "covered"; }); return c; });
+  const grid = '<table class="ps-grid"><colgroup><col style="width:9mm">' + DAYS.map(() => '<col>').join("") + '</colgroup><thead><tr><th></th>' + DAYS.map(d => '<th>' + d.name + ' ' + dm(d.date) + '</th>').join("") + '</tr></thead><tbody>' +
+    PERIOD_NAMES.map((pn, j) => '<tr><th>' + pn + '</th>' + DAYS.map((d, i) => {
+      const s = cells[i][j];
+      if (s === "covered") return "";
+      if (!s) return '<td></td>';
+      const p = s.p;
+      if (s.n > 1) return '<td rowspan="' + s.n + '" class="ps-trip"><b>' + esc(SUBJ[p.s].label) + '</b><div>' + esc(p.topic) + ', ' + esc(s.name) + '</div></td>';
+      const tags = (p.test ? '<span class="ps-tag">' + TESTS.find(t => t.id === p.test).ps + '</span>' : "") + (p.hw ? '<span class="ps-tag">HW</span>' : "") + (p.bring ? '<span class="ps-tag">BRING</span>' : "");
+      return '<td><b>' + esc(SUBJ[p.s].label) + tags + '</b>' + gridTopic(p) + '</td>';
+    }).join("") + '</tr>').join("") + '</tbody></table>';
+  document.getElementById("printSheet").innerHTML =
+    head("") +
+    '<p class="ps-value"><b>Value of the week:</b> Integrity · <span lang="ar">الاستقامة</span></p>' +
+    '<h2 class="ps-sec">Tests</h2><table class="ps-table"><colgroup><col style="width:15%"><col style="width:17%"><col></colgroup>' +
+    '<thead><tr><th>Day</th><th>Subject</th><th>What and what to study</th></tr></thead><tbody>' + tests + '</tbody></table>' +
+    '<h2 class="ps-sec">Homework</h2><table class="ps-table"><colgroup><col style="width:6%"><col style="width:17%"><col><col style="width:13%"></colgroup>' +
+    '<thead><tr><th>Done</th><th>Subject</th><th>Task</th><th>Due</th></tr></thead><tbody>' + hw + '</tbody></table>' +
+    '<p class="ps-foot">Source: the school\'s Week 12 Weekly Study Plan, the Quiz 2 outline and the departments\' IXL sheets. The timetable and the evening plan are on page 2.</p>' +
+    '<div class="ps-break">' + head("Timetable and evening plan") + grid +
+    '<p class="ps-foot">QUIZ = Quiz 2 · BRING = something to bring for that lesson · CHECK = Qur\'an recitation or memorisation check.</p>' +
+    '<h2 class="ps-sec">Evening plan <small>Bold job = the most important one that evening</small></h2>' +
+    '<table class="ps-table ps-plan"><colgroup><col style="width:12%"><col></colgroup><tbody>' + plan + '</tbody></table></div>';
+}
+
+document.getElementById("printBtn").addEventListener("click", () => { renderPrint(); window.print(); });
+window.addEventListener("beforeprint", renderPrint);
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (!confirm("Clear this week's homework ticks? On a linked device this clears them on the family's other devices too.")) return;
+  HW.forEach(h => delete S.done[h.ep]); save(); renderHomework(); updateMeter(false); renderTonight(); renderPrint();
+});
+/* another device's ticks arrived: show them here without reloading */
+window.addEventListener("monmon-sync", e => {
+  S = load(); renderHomework(); updateMeter(false); renderTonight(); renderPrint();
+  e.preventDefault();
+});
+
+/* before the week starts, open Sunday's timetable; after it, Thursday's */
+const firstTab = dayIndex >= 0 ? dayIndex : (afterWeek ? DAYS.length - 1 : 0);
+renderTonight();
+renderTests();
+renderHomework();
+renderTimetable(firstTab);
+renderPlan();
+renderStudy();
+updateMeter(false);
+renderPrint();
+showHash(true);
+</script>
+</body>
+</html>
