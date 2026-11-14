@@ -305,7 +305,7 @@ ul,ol{margin:0;padding:0}
    The IXL skills the Science Department sent for the quiz (its sheet of 9/11) are under «What's on the quiz» (#ixl, linked
    from the Week 12 plan) and at the end of each lesson.
    The lessons are lively (LIVELY LESSONS below): «Explain it» on every topic, moving diagrams with sounds, flip cards.
-   Ten topics link to their model in the 3D Body Lab (science/lab-3d, LAB3D below). */
+   Fourteen topics link to their model in the 3D Body Lab (science/lab-3d, LAB3D below). */
 const KEY = "science-g6-quiz2-v1", TZ = "Asia/Riyadh", QUIZ_DAY = "2026-11-15";
 const LESSONS = [
   {id:"l2", n:2, name:"Structure and Support", src:"Module 2: Body Systems · book pp. 76–96", blurb:"Muscles, joints and bones; the skeletons of other animals; three types of muscle; roots and stems."},
@@ -1353,7 +1353,8 @@ function renderHome(){
    light up one by one. Only one thing plays at a time; any other button stops it. */
 const LV_ICON = {l2:"🦴", l3:"🍎", l4:"❤️", l5:"🧠"};
 /* topics with a model in the 3D Body Lab (science/lab-3d): the topic → its scene there */
-const LAB3D = {"l2-musc":"arm", "l2-joint":"joints", "l2-skel":"skeleton", "l3-organs":"digest", "l3-villi":"villi", "l4-circ":"heart", "l4-resp":"lungs", "l5-ns":"reflex", "l5-neuron":"reflex", "l5-eye":"eye"};
+const LAB3D = {"l2-musc":"arm", "l2-joint":"joints", "l2-skel":"skeleton", "l3-organs":"digest", "l3-villi":"villi", "l4-circ":"heart", "l4-resp":"lungs", "l5-ns":"reflex", "l5-neuron":"reflex", "l5-eye":"eye",
+  "l2-plant":"plant", "l3-plant":"plant", "l4-plant":"plant", "l5-ear":"ear"};
 const lvStill = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 let lvMute = false;   /* only used if the rewards layer is missing */
 const lvSoundOn = () => window.MonmonRewards && MonmonRewards.sound ? !!MonmonRewards.sound() : !lvMute;

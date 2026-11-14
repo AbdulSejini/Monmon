@@ -300,8 +300,8 @@ Lab.scene({
     async function go(k){
       const my = ++running; job = k; jobT = 0; reset(); see = 0; c.info(JOBS[k]);
       Object.keys(JOBS).forEach((n, i) => btns[i].setAttribute("aria-pressed", n === k ? "true" : "false"));
-      await JOBS[k].run();
-      if (my === running){ job = null; reset(); btns.forEach(b => b.setAttribute("aria-pressed", "false")); }
+      try { await JOBS[k].run(); }
+      finally { if (my === running){ job = null; see = 0; reset(); btns.forEach(b => b.setAttribute("aria-pressed", "false")); } }
     }
     c.label("Skull", () => head.getWorldPosition(V()).add(V(0, .3, 0)), {pick:"skull", dx:50, dy:-6, show:() => job !== "protect"});
     c.label("Rib cage", V(.42, 2.9, .3), {pick:"ribs", dx:44, show:() => !job});
@@ -883,6 +883,217 @@ Lab.scene({
       status.textContent = light < 28 ? "🌙 ضوء خافت: البؤبؤ يكبر، والعصي (rods) تشتغل: أبيض وأسود" : light > 72 ? "☀️ ضوء قوي: البؤبؤ يصغر، والمخاريط (cones) تشوف الألوان" : "ضوء عادي: المخاريط (cones) تشوف الألوان";
     }};
     return api;
+  }
+});
+/* ---------- a plant: roots, stem and leaves; water up the xylem, sugar down the phloem, photosynthesis ---------- */
+Lab.scene({
+  id:"plant", les:4, icon:"🌱", title:"النبات من الجذر للورقة", en:"Plants: roots, stems and leaves", topic:"l4-plant",
+  cam:{target:[0, .8, 0], dist:9.6, theta:.45, phi:1.36}, floor:false,
+  intro:{t:"النبات من الجذر للورقة",
+    en:"<b>Xylem</b> carries water and minerals <b>up</b> from the roots to the leaves. <b>Phloem</b> carries the sugar made in the leaves to the rest of the plant.",
+    ar:"التربة هنا شفّافة عشان تشوف الجذور. الماء (النقاط الزرقاء) يدخل من الجذور ويطلع في الخشب (xylem) للأوراق، والسكر (النقاط الذهبية) ينزل من الأوراق في اللحاء (phloem). جرّب تطفّي الشمس أو تقطع الماء، وغيّر نوع الجذور."},
+  build(c){
+    const g = c.root, cyl = new THREE.CylinderGeometry(1, 1, 1, 8).translate(0, .5, 0);
+    const soil = K.mesh(new THREE.BoxGeometry(3.6, 1.75, 1.9), K.glass(0x8B5A2B, .3, {roughness:.9}), 0, -.9, 0); soil.renderOrder = 9; g.add(soil);
+    g.add(K.mesh(new THREE.BoxGeometry(3.6, .05, 1.9), K.flat(0x6DBE5A), 0, -.02, 0));
+    /* three kinds of roots */
+    const rootM = K.organ(0xE2C08A, {clearcoat:.1, roughness:.7}), rnd = K.rnd(5);
+    const R = {tap:{g:new THREE.Group(), cv:[], top:.05}, fib:{g:new THREE.Group(), cv:[], top:.05}, prop:{g:new THREE.Group(), cv:[], top:.6}};
+    const mk = (o, pts, r0, r1, flow) => { const cv = K.curve(pts); const m = K.mesh(K.tubeVar(cv, 18, 8, t => lerp(r0, r1, t)), rootM); o.g.add(m); if (flow !== false) o.cv.push(cv);
+      /* root hairs near the tip */
+      for (let k = 0; k < 5; k++){ const p = cv.getPoint(.72 + k * .06), a = rnd() * TAU, h = K.mesh(cyl, rootM); K.between(h, p, p.clone().add(V(Math.cos(a) * .09, -.03, Math.sin(a) * .09)), .006); o.g.add(h); }
+      return cv; };
+    mk(R.tap, [[0, .05, 0], [.02, -.5, 0], [-.03, -1.0, .02], [0, -1.55, 0]], .17, .025);
+    for (let i = 0; i < 8; i++){ const y = -.2 - i * .15, a = i * 2.3; mk(R.tap, [[0, y, 0], [Math.cos(a) * .3, y - .1, Math.sin(a) * .25], [Math.cos(a) * .62, y - .3, Math.sin(a) * .45]], .035, .012); }
+    for (let i = 0; i < 14; i++){ const a = i / 14 * TAU, d = .8 + rnd() * .55; mk(R.fib, [[0, .04, 0], [Math.cos(a) * .35, -.3, Math.sin(a) * .28], [Math.cos(a) * (.6 + rnd() * .5), -d, Math.sin(a) * .55]], .042, .012); }
+    for (let i = 0; i < 5; i++){ const a = i / 5 * TAU + .3; mk(R.prop, [[0, .6, 0], [Math.cos(a) * .42, .32, Math.sin(a) * .32], [Math.cos(a) * .78, -.05, Math.sin(a) * .5], [Math.cos(a) * .95, -.7, Math.sin(a) * .58]], .05, .018); }
+    for (let i = 0; i < 6; i++){ const a = i / 6 * TAU; mk(R.prop, [[0, .04, 0], [Math.cos(a) * .25, -.3, Math.sin(a) * .2], [Math.cos(a) * .4, -.75, Math.sin(a) * .32]], .03, .01, false); }
+    for (const k in R){ g.add(R[k].g); c.pick(R[k].g, "roots"); }
+    /* the stem is see-through, with the xylem (blue) and the phloem (orange) inside */
+    const stem = K.mesh(new THREE.CylinderGeometry(.13, .17, 2.8, 18), K.glass(0x4CAF50, .4, {side:THREE.FrontSide}), 0, 1.4, 0); stem.renderOrder = 9; g.add(stem); c.pick(stem, "stem");
+    const xyM = K.organ(0x4DA3FF, {emissive:0x2266FF, emissiveIntensity:0}), phM = K.organ(0xFFA53A, {emissive:0xFF7A00, emissiveIntensity:0});
+    g.add(K.mesh(new THREE.CylinderGeometry(.04, .04, 2.75, 10), xyM, -.05, 1.4, 0), K.mesh(new THREE.CylinderGeometry(.038, .038, 2.75, 10), phM, .05, 1.4, 0), K.blob(K.organ(0x8BD46B), 0, 2.88, 0, .13, .17, .13));
+    const leafM = K.organ(0x3FA85A, {roughness:.5, emissive:0x66FF88, emissiveIntensity:0}), LV = [];
+    [[1.2, -1], [1.7, 1], [2.15, -1], [2.6, 1]].forEach(([h, s], i) => { const lg = new THREE.Group(); lg.position.set(0, h, 0); lg.rotation.y = (s < 0 ? Math.PI : 0) + (i - 1.5) * .25;
+      const pet = K.mesh(cyl, leafM); K.between(pet, V(.08, 0, 0), V(.32, 0, 0), .02); const blade = K.blob(leafM, .82, 0, 0, .58, .04, .34, 24), rib = K.mesh(cyl, K.flat(0xBFE8A8)); K.between(rib, V(.3, .045, 0), V(1.36, .045, 0), .012);
+      lg.add(pet, blade, rib); lg.rotation.x = -.45; g.add(lg); c.pick(lg, "leaf"); LV.push({g:lg, h, s}); });
+    /* the sun and its rays */
+    const sunP = V(-2.5, 3.3, -.4), sun = K.spark(0xFFE9A0, 1.8), core = K.mesh(new THREE.SphereGeometry(.22, 20, 14), K.glow(0xFFD23F), sunP.x, sunP.y, sunP.z); sun.position.copy(sunP); g.add(sun, core);
+    const rayM = K.glow(0xFFE14D, {transparent:true, opacity:.5}), rays = LV.map(() => { const r = K.mesh(cyl, rayM); g.add(r); return r; });
+    const dots = K.dots(96, .04, K.glow(0xffffff)); g.add(dots);
+    let type = "tap", sunOn = true, waterOn = true, sunK = 1, turgor = 1, glowK = "", glowT = 0;
+    const INFO = {
+      roots:{t:"Roots · الجذور", en:"<b>Roots</b> anchor the plant in the soil and keep it upright, and they absorb water and minerals. <b>Root hairs</b> give them a huge surface to take in water.", ar:"الجذور تثبّت النبات في التربة وتمتصّ الماء والأملاح. والشعيرات الجذرية الصغيرة تزيد المساحة فتمتصّ ماء أكثر."},
+      stem:{t:"Stem · الساق", en:"<b>Stems</b> work like the plant's skeleton: they hold up the branches and leaves, and carry water, minerals and sugar.", ar:"الساق مثل هيكل النبات: يرفع الأغصان والأوراق، وينقل الماء والأملاح والسكر."},
+      xylem:{t:"Xylem · الخشب", en:"<b>Xylem</b> carries water and minerals <b>up</b> from the roots to the leaves.", ar:"الخشب (الأنبوب الأزرق) ينقل الماء والأملاح من الجذور لفوق إلى الأوراق."},
+      phloem:{t:"Phloem · اللحاء", en:"<b>Phloem</b> carries the sugar made in the leaves to the rest of the plant, up or down.", ar:"اللحاء (الأنبوب البرتقالي) ينقل السكر اللي تصنعه الأوراق لباقي النبات، لفوق أو لتحت."},
+      leaf:{t:"Leaf · الورقة", en:"<b>Photosynthesis</b> in the leaves uses light energy, water and carbon dioxide to make <b>glucose</b> (a sugar) and give off <b>oxygen</b>.", ar:"في الورقة يتم البناء الضوئي: ضوء + ماء + ثاني أكسيد الكربون ← سكر (جلوكوز) + أكسجين. والنبات يصنع غذاءه بنفسه."},
+      stoma:{t:"Stomata · الثغور", en:"<b>Transpiration:</b> water vapor leaves through the <b>stomata</b>, tiny openings in the leaves, and pulls more water up the xylem, like sipping through a straw.", ar:"النتح: بخار الماء يطلع من الثغور (فتحات صغيرة في الورقة) فيسحب ماء جديد لفوق في الخشب، مثل ما تشفط العصير بالمصّاصة."}
+    };
+    const ROOT = {
+      tap:{t:"Taproot · جذر وتدي", en:"<b>Taproot:</b> one large main root with small roots branching off, like a carrot or a dandelion.", ar:"الجذر الوتدي: جذر رئيسي واحد كبير تتفرّع منه جذور صغيرة، مثل الجزر."},
+      fib:{t:"Fibrous roots · جذور ليفية", en:"<b>Fibrous roots:</b> many small branching roots in a dense network.", ar:"الجذور الليفية: جذور صغيرة كثيرة متشابكة مثل الشبكة."},
+      prop:{t:"Prop roots · جذور دعامية", en:"<b>Prop roots:</b> extra roots above the ground that help hold the plant up.", ar:"الجذور الدعامية: جذور إضافية تطلع فوق الأرض وتسند النبات عشان ما يطيح."}};
+    const status = c.ui.note("", "badge ok");
+    const seg = c.ui.seg({value:"tap", opts:[{k:"tap", label:'وتدي<small>Taproot</small>'}, {k:"fib", label:'ليفي<small>Fibrous</small>'}, {k:"prop", label:'دعامي<small>Prop</small>'}], on:(k, quiet) => { type = k; for (const n in R) R[n].g.visible = n === k; if (!quiet){ c.info(ROOT[k]); c.sfx("pop"); } }});
+    const row = c.ui.row();
+    const tgS = c.ui.toggle({into:row, off_label:"☀️ شغّل الشمس", on_label:"🌙 طفّي الشمس", value:true, on:(v, quiet) => { sunOn = v; if (!quiet){ c.sfx(v ? "sparkle" : "pop"); c.info(v ? INFO.leaf : {t:"بدون ضوء", en:"Without light there is no <b>photosynthesis</b>: the leaves make no glucose and give off no oxygen.", ar:"بدون ضوء ما في بناء ضوئي: الورقة ما تصنع سكر وما تطلّع أكسجين."}); } }});
+    const tgW = c.ui.toggle({into:row, off_label:"💧 اسقِ النبات", on_label:"🚱 اقطع الماء", value:true, on:(v, quiet) => { waterOn = v; if (!quiet){ c.sfx(v ? "drip" : "pop"); c.info(v ? INFO.xylem : {t:"بدون ماء", en:"Water enters the roots and travels through the xylem to every part of the plant. Without water the plant wilts.", ar:"الماء يدخل من الجذور ويوصل لكل النبات. بدون ماء الأوراق ترتخي وتذبل، ويوقف البناء الضوئي."}); } }});
+    seg.set("tap", true);
+    const mid = i => LV[i].g.localToWorld(V(.78, .05, 0));
+    c.label("Leaf", () => mid(3), {pick:"leaf", dy:-22}); c.label("Stem", V(.16, 1.45, .1), {pick:"stem", dx:40, cls:"dim"});
+    c.label("Xylem: water up", V(-.06, .75, .12), {pick:"xylem", dx:-74}); c.label("Phloem: sugar", V(.06, .45, .12), {pick:"phloem", dx:66});
+    c.label("Roots", V(.25, -.8, .5), {pick:"roots", dx:46}); c.label("Stomata: water vapor out", () => mid(2).add(V(0, .45, 0)), {pick:"stoma", dy:-10, cls:"dim", show:() => turgor > .4});
+    c.label("CO₂ in", () => mid(1).add(V(.75, .55, .35)), {cls:"dim", show:() => sunK > .5 && turgor > .4}); c.label("O₂ out", () => mid(3).add(V(.7, .75, -.3)), {cls:"hot", show:() => sunK > .5 && turgor > .4});
+    c.onPick = k => { c.info(INFO[k]); c.hot(k); glowK = k; glowT = 1; };
+    c.tour = [
+      {t:"الجذور", en:"Roots anchor the plant in the soil and absorb water and minerals. Root hairs give them a huge surface.", ar:INFO.roots.ar, hot:"roots", run:async () => { tgS.set(true, true); tgW.set(true, true); seg.set("tap", true); await c.look({target:[0, -.5, 0], dist:5.4, theta:.45, phi:1.3}, 800); await c.wait(1800); }},
+      {t:"أنواع الجذور", en:"A taproot is one large main root. Fibrous roots are many small roots. Prop roots grow above the ground and help hold the plant up.", ar:"الوتدي جذر واحد كبير، والليفي جذور صغيرة كثيرة، والدعامي يطلع فوق الأرض ويسند النبات.", run:async () => { await c.wait(1500); seg.set("fib", true); await c.wait(2200); seg.set("prop", true); await c.look({target:[0, 0, 0], dist:6, theta:.45, phi:1.3}, 600); await c.wait(2200); seg.set("tap", true); }},
+      {t:"الساق والخشب", en:"Stems work like the plant's skeleton. Inside, the xylem carries water and minerals up to the leaves.", ar:"الساق مثل هيكل النبات، وجوّاه الخشب ينقل الماء والأملاح لفوق.", hot:"xylem", run:async () => { glowK = "xylem"; glowT = 1; await c.look({target:[0, .8, 0], dist:9.6, theta:.45, phi:1.36}, 800); await c.wait(2400); }},
+      {t:"البناء الضوئي", en:"Photosynthesis in the leaves uses light energy, water and carbon dioxide to make glucose and give off oxygen.", ar:INFO.leaf.ar, hot:"leaf", run:async () => { glowK = "leaf"; glowT = 1; await c.look({target:[.3, 2.1, 0], dist:5.2, theta:.45, phi:1.3}, 800); await c.wait(3000); }},
+      {t:"اللحاء", en:"The phloem carries the sugar made in the leaves to the rest of the plant.", ar:INFO.phloem.ar, hot:"phloem", run:async () => { glowK = "phloem"; glowT = 1; await c.look({target:[0, .8, 0], dist:9.6, theta:.45, phi:1.36}, 800); await c.wait(2600); }},
+      {t:"النتح", en:"Transpiration: water vapor leaves through the stomata and pulls more water up the xylem, like sipping through a straw.", ar:INFO.stoma.ar, hot:"stoma", run:() => c.wait(3000)},
+      {t:"بدون ماء", en:"Without water, the plant wilts and photosynthesis stops.", ar:"بدون ماء النبات يذبل ويوقف البناء الضوئي.", run:async () => { tgW.set(false, true); await c.wait(4800); tgW.set(true, true); await c.wait(2400); }}
+    ];
+    const p = V(), a = V(), b = V(), fresh = new THREE.Color(0x3FA85A), dry = new THREE.Color(0xA7A04A);
+    return {update(dt, t, real){
+      sunK = lerp(sunK, sunOn ? 1 : 0, .06); turgor = clamp(turgor + (waterOn ? .5 : -.22) * dt, 0, 1);
+      const live = sunK > .5 && turgor > .4, o = R[type], n = o.cv.length;
+      LV.forEach((l, i) => { l.g.rotation.z = lerp(-.95, .32, turgor) + .03 * Math.sin(t * 1.3 + i); K.between(rays[i], sunP, mid(i), .012); });
+      leafM.color.copy(dry).lerp(fresh, turgor); leafM.emissiveIntensity = (live ? .12 : 0) + (glowK === "leaf" ? glowT * .5 : 0);
+      rayM.opacity = sunK * .5; sun.material.opacity = .15 + sunK * .85; sun.scale.setScalar(.6 + sunK * 1.4); core.material.color.setHex(sunK > .5 ? 0xFFD23F : 0x7A7FA8);
+      glowT = Math.max(0, glowT - real * .35); xyM.emissiveIntensity = glowK === "xylem" ? glowT : 0; phM.emissiveIntensity = glowK === "phloem" ? glowT : 0;
+      for (let i = 0; i < 96; i++){
+        let on = false, s = 1, col = 0xffffff;
+        if (i < 40){   /* water: soil → root → xylem → leaf → out as vapor */
+          const L = i % 4, f = (t * .1 + (i * .37) % 1) % 1, cv = o.cv[i % n]; on = waterOn || turgor > .5; col = 0x4DA3FF;
+          if (f < .06){ cv.getPoint(1, a); p.copy(a).add(b.set(Math.sin(i * 7) * .3, -.1, Math.cos(i * 5) * .3)).lerp(a, f / .06); }
+          else if (f < .26){ const u = (f - .06) / .2; if (u < .8) cv.getPoint(1 - u / .8, p); else { cv.getPoint(0, a); p.copy(a).lerp(b.set(-.04, o.top, 0), (u - .8) / .2); } }
+          else if (f < .66){ p.set(-.05, lerp(o.top, LV[L].h, (f - .26) / .4), 0); }
+          else if (f < .82){ p.set(-.05, LV[L].h, 0).lerp(mid(L), (f - .66) / .16); }
+          else { const u = (f - .82) / .18; p.copy(mid(L)).add(b.set(Math.sin(i + t) * .12 * u, u * .65, Math.cos(i * 3) * .12 * u)); col = 0xFFFFFF; s = 1 - u * .8; on = on && turgor > .4; }
+          if (!waterOn && f < .3) on = false;
+        } else if (i < 64){   /* sugar: leaf → phloem → down to the roots */
+          const j = i - 40, L = j % 4, f = (t * .09 + (j * .29) % 1) % 1; on = live; col = 0xFFD23F;
+          if (f < .18) p.copy(mid(L)).lerp(b.set(.05, LV[L].h, 0), f / .18);
+          else if (f < .74) p.set(.05, lerp(LV[L].h, o.top, (f - .18) / .56), 0);
+          else { const u = (f - .74) / .26; o.cv[j % n].getPoint(u * .6, p); s = 1 - u * .7; }
+        } else {   /* carbon dioxide in (gray), oxygen out (blue-green) */
+          const k = i - 64, L = k % 4, out = k >= 16, f = (t * .22 + (k * .23) % 1) % 1, dir = LV[L].s; on = live;
+          a.copy(mid(L)); b.copy(a).add(V(dir * .75 * (out ? .9 : 1), out ? .8 : .55, out ? -.3 : .35));
+          if (out){ p.copy(a).lerp(b, f); col = 0x7CF0FF; } else { p.copy(b).lerp(a, f); col = 0xB9C2CF; }
+          s = .8;
+        }
+        if (on) dots.set(i, p, s, col); else dots.set(i, p.set(0, -99, 0), 0);
+      }
+      dots.done();
+      status.textContent = turgor < .4 ? "🥀 النبات ذابل: ما في ماء، والبناء الضوئي واقف" : !sunOn ? "🌙 ما في ضوء: الماء يطلع، لكن ما في سكر ولا أكسجين" : "🌞 ضوء + ماء + CO₂ ← سكر + أكسجين (photosynthesis)";
+      status.className = "note badge " + (turgor < .4 ? "bad" : "ok");
+    }};
+  }
+});
+
+/* ---------- the ear: sound from the pinna to the brain, and the canals that sense balance ---------- */
+Lab.scene({
+  id:"ear", les:5, icon:"👂", title:"الأذن: السمع والتوازن", en:"Hearing and balance", topic:"l5-ear",
+  cam:{target:[-.75, .15, 0], dist:9.8, theta:.22, phi:1.4}, floor:false,
+  intro:{t:"كيف نسمع؟",
+    en:"Sound is vibrations. <b>Pinna</b> → <b>ear canal</b> → the <b>eardrum</b> vibrates → the <b>hammer, anvil and stirrup</b> make the vibrations stronger → the <b>cochlea</b> → the <b>auditory nerve</b> → brain.",
+    ar:"الصوت اهتزازات. صيوان الأذن يجمعها، فتمشي في القناة السمعية وتهزّ الطبلة، والعظيمات الثلاث تقوّي الاهتزاز وتوصّله للقوقعة، وهناك تتحوّل لإشارة عصبية تروح للدماغ. اضغط «دقّ الجرس» وتابع الاهتزاز، وغيّر قوة الصوت."},
+  build(c){
+    const g = c.root, E = new THREE.Group(); g.add(E);
+    const skin = K.flat(0xE8B894, {roughness:.55}), bone = K.bone(), cyl = new THREE.CylinderGeometry(1, 1, 1, 10).translate(0, .5, 0);
+    const em = m => { m.emissive = new THREE.Color(0xFFD23F); m.emissiveIntensity = 0; return m; };
+    /* outer ear */
+    const pinna = new THREE.Group(); pinna.position.set(-2.35, 0, 0); E.add(pinna); c.pick(pinna, "pinna");
+    const pm = em(skin.clone()), rimG = K.mesh(new THREE.TorusGeometry(.72, .17, 12, 36, 5.3), pm); rimG.rotation.set(0, Math.PI / 2, 0); rimG.scale.set(1, 1.2, 1); rimG.rotation.x = -.6;
+    pinna.add(rimG, K.blob(pm, .02, -.92, 0, .13, .26, .24), K.blob(K.flat(0xD9A27E), .06, .05, 0, .09, .72, .58));
+    const canalC = K.curve([[-2.3, 0, 0], [-1.8, .07, 0], [-1.3, -.04, 0], [-.92, 0, 0]]);
+    const canal = K.mesh(K.tubeVar(canalC, 30, 14, .2), em(K.glass(0xF2C9A8, .36))); canal.renderOrder = 9; E.add(canal); c.pick(canal, "canal");
+    /* middle ear: the eardrum and the three tiny bones */
+    const drum = K.mesh(new THREE.CircleGeometry(.23, 28), em(new THREE.MeshStandardMaterial({color:0xF7E3C8, roughness:.4, side:THREE.DoubleSide}))); drum.rotation.y = Math.PI / 2; drum.position.set(-.9, 0, 0); E.add(drum); c.pick(drum, "drum");
+    const bm = em(bone), oss = new THREE.Group(); E.add(oss); c.pick(oss, "oss");
+    const hammer = new THREE.Group(); hammer.position.set(-.62, .3, 0); const hs = K.mesh(cyl, bm); K.between(hs, V(-.27, -.3, 0), V(0, 0, 0), .032); hammer.add(hs, K.blob(bm, 0, 0, 0, .075, .075, .075));
+    const anvil = new THREE.Group(); anvil.position.set(-.48, .3, 0); const al = K.mesh(cyl, bm); K.between(al, V(0, -.02, 0), V(.2, -.26, 0), .028); anvil.add(al, K.blob(bm, 0, 0, 0, .095, .07, .07));
+    const stir = new THREE.Group(); stir.position.set(-.2, .04, 0); stir.add(K.mesh(new THREE.TorusGeometry(.075, .02, 8, 18), bm), K.mesh(new THREE.BoxGeometry(.025, .17, .12), bm, .085, 0, 0));
+    oss.add(hammer, anvil, stir);
+    /* inner ear: the cochlea (a snail), the three balance canals, and the nerve */
+    const CX = .5, CY = -.18, sp = []; for (let i = 0; i <= 60; i++){ const a = Math.PI + i / 60 * 2.6 * TAU, r = .54 * (1 - i / 60 * .82); sp.push(V(CX + r * Math.cos(a), CY + r * Math.sin(a), i / 60 * .14)); }
+    const cochC = K.curve(sp), coch = K.mesh(K.tubeVar(cochC, 120, 12, t => lerp(.135, .05, t)), em(K.glass(0xC9A6E8, .6, {side:THREE.FrontSide}))); coch.renderOrder = 8; E.add(coch); c.pick(coch, "coch");
+    const hair = K.dots(16, .032, K.glow(0xffffff)); E.add(hair);
+    const canals = new THREE.Group(); canals.position.set(.34, .56, 0); E.add(canals); c.pick(canals, "bal");
+    const cm = em(K.glass(0x9ED0E6, .7, {side:THREE.FrontSide})), ROT = [[0, 0, 0], [0, Math.PI / 2, 0], [Math.PI / 2, 0, 0]], OFF = [[0, .08, 0], [.12, .02, 0], [0, -.1, .1]];
+    ROT.forEach((r, i) => { const m = K.mesh(new THREE.TorusGeometry(.3, .045, 10, 36), cm, OFF[i][0], OFF[i][1], OFF[i][2]); m.rotation.set(r[0], r[1], r[2]); m.renderOrder = 8; canals.add(m); });
+    E.add(K.blob(cm, .28, .24, 0, .17, .15, .14));
+    const fluid = K.dots(9, .028, K.glow(0x2F7DE1)); canals.add(fluid);
+    const nerveC = K.curve([[.9, -.22, .05], [1.35, -.05, -.02], [1.95, .22, -.1]]), nerve = K.mesh(K.tubeVar(nerveC, 20, 10, .07), em(K.organ(0xF2D16B))); E.add(nerve); c.pick(nerve, "nerve");
+    const brM = K.organ(0xE9A6B4, {emissive:0xFFFFFF, emissiveIntensity:0}), brain = new THREE.Group(); brain.add(K.blob(brM, 2.42, .52, -.3, .36, .34, .3), K.blob(brM, 2.42, .52, .12, .36, .34, .3)); g.add(brain); c.pick(brain, "brain");
+    const sig = K.dots(4, .05, K.glow(0xffffff)); E.add(sig);
+    /* a bell, and the sound waves that leave it */
+    const bell = new THREE.Group(); bell.position.set(-4.0, .05, 0); g.add(bell);
+    const gold = new THREE.MeshStandardMaterial({color:0xE8B23A, roughness:.3, metalness:.8, side:THREE.DoubleSide});
+    bell.add(K.mesh(new THREE.ConeGeometry(.36, .5, 24, 1, true), gold, 0, .1, 0), K.mesh(new THREE.SphereGeometry(.09, 12, 10), gold, 0, -.17, 0), K.mesh(new THREE.SphereGeometry(.07, 12, 10), gold, 0, .38, 0));
+    const waveM = K.glow(0xBFE9FF, {transparent:true, opacity:.6}), waves = [0, 1, 2, 3, 4, 5].map(() => { const w = K.mesh(new THREE.TorusGeometry(1, .03, 6, 40), waveM.clone()); w.rotation.y = Math.PI / 2; g.add(w); return w; });
+    const STEPS = ["Pinna", "Ear canal", "Eardrum", "Hammer, anvil, stirrup", "Cochlea", "Auditory nerve", "Brain"], KEYS = ["pinna", "canal", "drum", "oss", "coch", "nerve", "brain"];
+    const ol = document.createElement("ol"); ol.className = "steps"; ol.innerHTML = STEPS.map(s => "<li>" + s + "</li>").join(""); document.getElementById("ctl").appendChild(ol);
+    const INFO = {
+      pinna:{t:"1 · Pinna · صيوان الأذن", en:"The <b>pinna</b>, the part of the ear you can see, collects the sound.", ar:"الصيوان (الجزء اللي تشوفه من الأذن) يجمع الصوت ويدخّله."},
+      canal:{t:"2 · Ear canal · القناة السمعية", en:"The sound travels down the <b>ear canal</b> to the eardrum.", ar:"الصوت يمشي في القناة السمعية إلى أن يوصل الطبلة."},
+      drum:{t:"3 · Eardrum · طبلة الأذن", en:"Sound is vibrations: the <b>eardrum</b> vibrates when the sound reaches it.", ar:"الصوت اهتزازات، فلما يوصل الطبلة تهتزّ مثل جلد الطبل."},
+      oss:{t:"4 · Hammer, anvil, stirrup · العظيمات الثلاث", en:"Three tiny bones, the <b>hammer, anvil and stirrup</b>, pass the vibrations on and make them stronger.", ar:"ثلاث عظام صغيرة جدًّا: المطرقة والسندان والركاب. تنقل الاهتزاز وتقوّيه."},
+      coch:{t:"5 · Cochlea · القوقعة", en:"In the <b>cochlea</b>, hair cells turn the vibrations into nerve signals. Very loud sounds can damage the hair cells.", ar:"القوقعة تشبه الحلزون وفيها خلايا شعرية تحوّل الاهتزاز لإشارات عصبية. والصوت العالي جدًّا يضرّ هذي الخلايا."},
+      nerve:{t:"6 · Auditory nerve · العصب السمعي", en:"The <b>auditory nerve</b> carries the signals to the brain.", ar:"العصب السمعي يوصّل الإشارات للدماغ."},
+      brain:{t:"7 · Brain · الدماغ", en:"The brain makes sense of the signals: now you <b>hear</b> the sound.", ar:"الدماغ يفهم الإشارات، وهنا «تسمع» الصوت."},
+      bal:{t:"Semicircular canals · القنوات الهلالية", en:"The <b>semicircular canals</b> in the inner ear sense head movement. With the eyes, the <b>cerebellum</b> keeps you balanced.", ar:"ثلاث قنوات فيها سائل. لما يميل راسك يتحرك السائل فتحسّ بالحركة، والمخيخ مع العينين يحفظ توازنك."}
+    };
+    let loud = .5, cont = false, en = 0, bellT = -99, tilt = 0, fl = 0, step = -1, glowK = "", glowT = 0;
+    const status = c.ui.note("", "badge ok");
+    c.ui.buttons([{label:"🔔 دقّ الجرس", cls:"go", on:() => ring()}]);
+    const sL = c.ui.slider({label:"قوة الصوت", min:5, max:100, value:50, fmt:v => v < 30 ? "quiet" : v > 85 ? "too loud!" : v > 60 ? "loud" : "normal", on:v => { loud = v / 100; }});
+    const tgC = c.ui.toggle({off_label:"🎵 صوت مستمر", on_label:"⏹ أوقف الصوت", value:false, on:v => { cont = v; if (v) step = 7; }});
+    const sT = c.ui.slider({label:"ميّل الراس (التوازن)", min:-30, max:30, value:0, fmt:v => Math.round(v) + "°", on:(v, q) => { tilt = v; if (!q && glowK !== "bal"){ c.info(INFO.bal); glowK = "bal"; glowT = 1; c.hot("bal"); } }});
+    function ring(){ bellT = c.t; step = 0; c.sfx("ding"); glowK = ""; }
+    const W = (x, y, z) => E.localToWorld(V(x, y, z));
+    c.label("Pinna", () => W(-2.35, .95, 0), {pick:"pinna", dy:-14}); c.label("Ear canal", () => W(-1.6, -.3, 0), {pick:"canal", dy:16});
+    c.label("Eardrum", () => W(-.9, -.32, 0), {pick:"drum", dy:16, dx:-10}); c.label("Hammer, anvil, stirrup", () => W(-.5, .45, 0), {pick:"oss", dy:-16, dx:-30});
+    c.label("Cochlea", () => W(.5, -.8, 0), {pick:"coch", dy:14}); c.label("Semicircular canals", () => W(.36, 1.0, 0), {pick:"bal", dy:-12, dx:20});
+    c.label("Auditory nerve", () => W(1.5, -.1, 0), {pick:"nerve", dy:22, dx:20}); c.label("Brain", V(2.42, 1.0, 0), {pick:"brain", dy:-10});
+    c.onPick = k => { c.info(INFO[k]); c.hot(k); glowK = k; glowT = 1; };
+    c.tour = [
+      {t:"الصوت", en:"Sound is vibrations. The pinna collects them and they travel down the ear canal.", ar:"الصوت اهتزازات. الصيوان يجمعها وتمشي في القناة السمعية.", run:async () => { tgC.set(false, true); sT.set(0, true); sL.set(50, true); ring(); await c.wait(2600); }, min:1000},
+      {t:"الطبلة والعظيمات", en:"The eardrum vibrates, and the hammer, anvil and stirrup pass the vibrations on and make them stronger.", ar:"الطبلة تهتزّ، والمطرقة والسندان والركاب ينقلون الاهتزاز ويقوّونه.", hot:"oss", run:async () => { tgC.set(true, true); await c.look({target:[-.5, .1, 0], dist:4.2, theta:.22, phi:1.4}, 800); await c.wait(3000); }},
+      {t:"القوقعة والعصب", en:"In the cochlea, hair cells make nerve signals, and the auditory nerve carries them to the brain.", ar:"في القوقعة الخلايا الشعرية تصنع إشارات عصبية، والعصب السمعي يوصّلها للدماغ.", hot:"coch", run:async () => { await c.look({target:[.8, 0, 0], dist:5, theta:.22, phi:1.4}, 800); await c.wait(3200); }},
+      {t:"الصوت العالي", en:"Very loud sounds can damage the hair cells.", ar:"الصوت العالي جدًّا يضرّ الخلايا الشعرية، فلا تعلّي السمّاعات.", run:async () => { await c.tween(1500, k => sL.set(lerp(50, 100, k), true)); await c.wait(2200); await c.tween(900, k => sL.set(lerp(100, 45, k), true)); tgC.set(false, true); }},
+      {t:"التوازن", en:"The semicircular canals sense head movement. With the eyes, the cerebellum keeps you balanced.", ar:INFO.bal.ar, hot:"bal", run:async () => { await c.look({target:[.2, .4, 0], dist:5, theta:.22, phi:1.4}, 700); await c.tween(3600, k => sT.set(28 * Math.sin(k * TAU * 1.5), true), null); sT.set(0, true); await c.look({target:[-.75, .15, 0], dist:9.8, theta:.22, phi:1.4}, 800); }}
+    ];
+    const p = V(), DEL = [.55, .8, 1.25, 1.55, 1.95, 2.5, 3.1];
+    const mats = {pinna:pm, canal:canal.material, drum:drum.material, oss:bm, coch:coch.material, nerve:nerve.material, bal:cm};
+    return {update(dt, t, real){
+      const since = t - bellT;
+      en = cont ? 1 : clamp(1 - (since - 2.6) / 1.2, 0, 1) * (since >= 0 && since < 3.8 ? 1 : 0);
+      /* the vibration reaches each part a little later than the one before it */
+      const at = k => cont ? 1 : clamp((since - DEL[k]) / .25, 0, 1) * en, A = loud, vib = Math.sin(t * 46);
+      if (!cont){ const s = DEL.filter(d => since >= d).length - 1; if (since >= 0 && since < 4.2 && s !== step && s >= 0){ step = s; c.info(INFO[KEYS[s]]); c.hot(KEYS[s]); c.sfx(s === 6 ? "tada" : "tap"); } if (since > 4.2 && step >= 0 && step < 7) step = 7; }
+      [...ol.children].forEach((li, i) => { li.className = cont || step > i ? "done" : step === i ? "on" : ""; });
+      waves.forEach((w, i) => { const f = (t * .55 + i / 6) % 1, on = cont ? 1 : (since >= 0 && since < 2.6 && f < since / 1.25 ? 1 : 0), r = f < .5 ? lerp(.2, .72, f / .5) : lerp(.72, .16, (f - .5) / .5);
+        w.position.set(lerp(-3.7, -.98, f), 0, 0); w.scale.setScalar(r); w.material.opacity = on * (.25 + .65 * A) * (1 - Math.abs(f - .5) * .6); w.visible = on > 0; });
+      bell.rotation.z = (cont || (since >= 0 && since < 1.2)) ? .25 * Math.sin(t * 22) * (cont ? 1 : 1 - since / 1.2) : 0;
+      drum.position.x = -.9 + vib * .035 * A * at(2);
+      hammer.rotation.z = vib * .22 * A * at(3); anvil.rotation.z = -vib * .26 * A * at(3); stir.position.x = -.2 + vib * .03 * A * at(3) * 1.4;
+      const loudBad = A > .85 && at(4) > .3;
+      for (let i = 0; i < 16; i++){ cochC.getPoint(.04 + i / 16 * .9, p); const k = at(4) * (.5 + .5 * Math.sin(t * 11 - i * .7)); hair.set(i, p, .5 + k * (.8 + A), loudBad ? (Math.sin(t * 30 + i) > 0 ? 0xFF3B3B : 0x7A1A1A) : k > .1 ? 0x7CF0FF : 0x8A7FB0); }
+      hair.done();
+      for (let i = 0; i < 4; i++){ const f = (t * .9 + i / 4) % 1; nerveC.getPoint(f, p); sig.set(i, p, at(5) > .1 ? 1 : 0, 0xFFF3B0); } sig.done();
+      brM.emissiveIntensity = at(6) * (.25 + .35 * A) * (.6 + .4 * Math.sin(t * 9));
+      /* balance: the fluid in the canals lags behind when the head tilts */
+      E.rotation.z = lerp(E.rotation.z, rad(tilt), .15); fl = lerp(fl, rad(tilt), .04);
+      for (let i = 0; i < 9; i++){ const ring = i % 3, a = Math.floor(i / 3) * TAU / 3 + (E.rotation.z - fl) * 4 - E.rotation.z, q = V(Math.cos(a) * .3, Math.sin(a) * .3, 0); q.applyEuler(new THREE.Euler(ROT[ring][0], ROT[ring][1], ROT[ring][2])); q.add(p.set(OFF[ring][0], OFF[ring][1], OFF[ring][2])); fluid.set(i, q, 1, 0x2F7DE1); }
+      fluid.done();
+      glowT = Math.max(0, glowT - real * .4);
+      for (const k in mats) mats[k].emissiveIntensity = k === glowK ? glowT * .5 * (.6 + .4 * Math.sin(t * 8)) : 0;
+      status.className = "note badge " + (loudBad ? "bad" : "ok");
+      status.textContent = loudBad ? "⚠️ صوت عالي جدًّا: يضرّ الخلايا الشعرية في القوقعة" : Math.abs(tilt) > 4 ? "🤸 القنوات الهلالية حسّت بميلان الراس" : en > .05 ? "🔊 الاهتزاز ماشي من الصيوان للدماغ" : "اضغط «دقّ الجرس» أو شغّل صوت مستمر";
+    }};
   }
 });
 })();

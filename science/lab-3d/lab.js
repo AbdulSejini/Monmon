@@ -219,7 +219,11 @@ const Lab = (() => {
   let renderer = null, scene3 = null, camera = null, root = null, floor = null, cv = null;
   let cur = null, ctx = null, t = 0, last = 0, paused = false, userTurned = false, namesOn = true, tourTok = 0, touring = false;
   const orb = {theta:.5, phi:1.3, dist:6, target:V(0, 2, 0), min:3, max:10, fit:1};
-  const labels = [], tweens = [], tmp = V(), tmp2 = V();
+  const labels = [], tweens = [], waits = new Set(), tmp = V(), tmp2 = V();
+  /* a tour that is stopped (by a tap, or by opening another scene) must not go on moving the model: whatever its step
+     is waiting for fails with this mark, so the step ends there. A scene that is no longer open cannot move anything. */
+  const STOP = {tourStop:true};
+  window.addEventListener("unhandledrejection", e => { if (e.reason && e.reason.tourStop) e.preventDefault(); });
 
   function initGL(){
     cv = $("#gl");
@@ -304,7 +308,8 @@ const Lab = (() => {
   function frame(now){
     requestAnimationFrame(frame);
     if (!renderer || !cur || document.hidden) { last = now; return; }
-    const real = Math.min(.05, (now - last) / 1000 || 0); last = now;
+    /* a frame's time can be a little earlier than the moment a scene was opened: never go back in time */
+    const real = Math.min(.05, Math.max(0, (now - last) / 1000 || 0)); last = now;
     const dt = paused ? 0 : real; t += dt;
     for (let i = tweens.length - 1; i >= 0; i--){
       const w = tweens[i]; w.t += real * 1000 * speed; const k = w.ms <= 0 ? 1 : Math.min(1, w.t / w.ms);
@@ -332,7 +337,9 @@ const Lab = (() => {
   function makeCtx(def){
     const ctl = $("#ctl"); ctl.innerHTML = "";
     const c = {
-      root, K, sfx, say, wait, def, picks:[], onPick:null, tour:[],
+      root, K, say, def, picks:[], onPick:null, tour:[],
+      sfx(n){ if (ctx === c) sfx(n); },
+      wait(ms){ if (ctx !== c) return Promise.resolve(); const inTour = touring; return new Promise((done, fail) => { const w = {done, fail, inTour}; waits.add(w); setTimeout(() => { if (waits.delete(w)) done(); }, ms / speed); }); },
       get t(){ return t; }, still,
       /* a name over the model: pos is a point, an object or a function; tapping it is like tapping the part */
       label(text, pos, o){
@@ -342,14 +349,15 @@ const Lab = (() => {
         $("#labels").appendChild(el);
         const l = {el, pos, dx:o.dx, dy:o.dy, show:o.show, vis:false, on:true, key:o.pick}; labels.push(l); return l;
       },
-      hot(key){ labels.forEach(l => l.el.classList.toggle("hot", !!key && l.key === key)); },
+      hot(key){ if (ctx === c) labels.forEach(l => l.el.classList.toggle("hot", !!key && l.key === key)); },
       pick(obj, key){ obj.userData.pick = key; c.picks.push(obj); return obj; },
       /* the caption: a title, the lesson's sentence in English and a simple explanation in Arabic */
-      info(o){ setInfo(o); },
+      info(o){ if (ctx === c) setInfo(o); },
       /* run fn(k) with k from 0 to 1 over ms; the promise ends with it (or when the scene changes) */
-      tween(ms, fn, ez){ return new Promise(done => { tweens.push({ms, fn, t:0, ease:ez === null ? null : (ez || ease), done, scene:def.id}); }); },
+      tween(ms, fn, ez){ if (ctx !== c) return Promise.resolve(false); const inTour = touring; return new Promise((done, fail) => { tweens.push({ms, fn, t:0, ease:ez === null ? null : (ez || ease), done, fail, inTour}); }); },
       /* fly the camera */
       look(o, ms){
+        if (ctx !== c) return Promise.resolve(false);
         const a = {th:orb.theta, ph:orb.phi, d:orb.dist, tg:orb.target.clone()}; userTurned = true;
         const tg = o.target ? V(o.target[0], o.target[1], o.target[2]) : a.tg;
         return c.tween(ms === undefined ? 900 : ms, k => { if (o.theta !== undefined) orb.theta = lerp(a.th, o.theta, k); if (o.phi !== undefined) orb.phi = lerp(a.ph, o.phi, k); if (o.dist !== undefined) orb.dist = lerp(a.d, o.dist, k); orb.target.lerpVectors(a.tg, tg, k); });
@@ -418,7 +426,7 @@ const Lab = (() => {
     const def = BY[id] || SCENES[0]; if (!def || !renderer) return;
     stopTour(); hush();
     /* clear the old scene */
-    tweens.splice(0).forEach(w => w.done(false));
+    tweens.splice(0).forEach(w => w.done(false)); waits.forEach(w => w.done()); waits.clear(); ctx = null;
     if (cur && cur.live && cur.live.dispose) try { cur.live.dispose(); } catch (e) {}
     root.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => { for (const k of ["map", "alphaMap", "emissiveMap"]) if (m[k]) m[k].dispose(); m.dispose(); }); });
     root.clear(); labels.splice(0).forEach(l => l.el.remove());
@@ -451,7 +459,7 @@ const Lab = (() => {
       if (st.hot !== undefined) ctx.hot(st.hot);
       if (i) sfx("ding");
       const spoken = say(st.en, "en").then(ok => ok ? null : wait(readMs(st.en)));
-      const work = st.run ? Promise.resolve().then(() => st.run(ctx, () => my === tourTok && cur === def)).catch(e => console.error(e)) : null;
+      const work = st.run ? Promise.resolve().then(() => st.run(ctx, () => my === tourTok && cur === def)).catch(e => { if (!e || !e.tourStop) console.error(e); }) : null;
       await Promise.all([spoken, work, wait(st.min || 1800)]);
       if (my !== tourTok || cur !== def) return;
       await wait(450);
@@ -460,7 +468,11 @@ const Lab = (() => {
     touring = false; paintTour(); ctx.hot(null); sfx("tada");
     if (def.outro) setInfo(def.outro);
   }
-  function stopTour(){ if (!touring) return; tourTok++; touring = false; hush(); paintTour(); if (ctx) ctx.hot(null); }
+  function stopTour(){
+    if (!touring) return; tourTok++; touring = false; hush(); paintTour(); if (ctx) ctx.hot(null);
+    for (let i = tweens.length - 1; i >= 0; i--) if (tweens[i].inTour) tweens.splice(i, 1)[0].fail(STOP);
+    waits.forEach(w => { if (w.inTour){ waits.delete(w); w.fail(STOP); } });
+  }
   function paintTour(){ const b = $("#tourBtn"); b.setAttribute("aria-pressed", touring ? "true" : "false"); b.textContent = touring ? "⏹ أوقف الشرح" : "▶ شغّل الشرح"; }
   function paintPause(){ const b = $("#pauseBtn"); b.setAttribute("aria-pressed", paused ? "true" : "false"); b.textContent = paused ? "▶" : "⏸"; b.setAttribute("aria-label", paused ? "شغّل الحركة" : "أوقف الحركة"); }
   function paintSound(){ const b = $("#sndBtn"), on = soundOn(); b.setAttribute("aria-pressed", on ? "true" : "false"); b.setAttribute("aria-label", "الأصوات والقراءة: " + (on ? "شغّالة" : "مقفلة")); }
