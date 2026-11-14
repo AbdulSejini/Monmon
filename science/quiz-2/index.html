@@ -97,6 +97,19 @@ ul,ol{margin:0;padding:0}
 .words b{color:var(--ink)}
 .lab-cta{margin-top:12px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;background:var(--tint)}
 .lab-cta p{flex:1 1 240px;font-weight:600}
+/* the teacher's worksheets (#ws): choice rounds and written questions with a model answer */
+.ws-box{padding:14px 16px;display:grid;gap:12px;background:#FFF6E0;scroll-margin-top:12px}
+.ws-list{display:flex;flex-wrap:wrap;gap:8px}
+.ws-list .btn{gap:6px}
+.ws-n{display:inline-grid;place-items:center;min-width:24px;height:22px;padding:0 6px;border-radius:999px;background:var(--ink);color:#fff;font-size:12.5px}
+.ws-box h3{font-size:18px;margin-top:4px}
+.ws-write{display:grid;gap:8px}
+.ws-q{border:2px solid var(--ink);border-radius:var(--r-sm);background:#fff}
+.ws-q summary{cursor:pointer;padding:10px 12px;font-weight:700;line-height:1.5;min-height:44px}
+.ws-tag{display:block;font-size:12.5px;font-weight:800;color:var(--ink-2)}
+.ws-a{padding:0 12px 12px;border-top:2px dashed #E3D6B5}
+.ws-model{display:inline-block;margin-top:8px;font-size:13px;background:#DCF7E9;border:2px solid var(--ink);border-radius:8px;padding:0 8px}
+.ws-a p{margin:6px 0 0}
 .ixl-box{margin-top:14px;padding:14px 16px;display:grid;gap:10px;background:#DCF7E9;scroll-margin-top:12px}
 .ixl-box h3{font-size:24px}
 .ixl-box p{font-weight:600}
@@ -1077,6 +1090,112 @@ function testSteps(){
 }
 const MODES = Object.fromEntries(LESSONS.map(x => [x.id, {name:"Lesson " + x.n + ": " + x.name, short:"Lesson " + x.n + " practice", p:x.id, steps:() => lessonSteps(x.id)}]));
 MODES.test = {name:"Practice test", short:"Practice test", p:"test", steps:testSteps};
+
+/* ---------- THE TEACHER'S WORKSHEETS (sent on 14/11 for the quiz): homework worksheets 4–7 and the Lesson Checks of
+   Lessons 4 and 5, written again here with the same ideas (not copied), as choice questions and written answers.
+   ws: w4 w5 w6 w7 = worksheets 4 to 7, c4 c5 = the Lesson Checks of Lessons 4 and 5. ---------- */
+const WS_SHEETS = [
+  {id:"w4", name:"Worksheet 4", les:"Lesson 2 · Structure and Support"},
+  {id:"w5", name:"Worksheet 5", les:"Lesson 3 · Obtaining Energy and Removing Waste"},
+  {id:"w6", name:"Worksheet 6", les:"Lesson 4 · Moving Materials"},
+  {id:"c4", name:"Lesson Check", les:"Lesson 4 · Moving Materials"},
+  {id:"w7", name:"Worksheet 7", les:"Lesson 5 · Control and Information Processing"},
+  {id:"c5", name:"Lesson Check", les:"Lesson 5 · Control and Information Processing"}];
+const WS_RAW = [
+  /* Worksheet 4 · Lesson 2 */
+  {ws:"w4", l:"l2-musc", q:"When a muscle contracts, what happens to each muscle cell?", o:["It becomes shorter (and thicker)", "It becomes longer and thinner", "It pushes on a bone", "It stops using energy"], w:"Contracting muscle cells get shorter, so the muscle pulls on the bone. Muscles can only pull, never push."},
+  {ws:"w4", l:"l2-joint", q:"Three joint models: a ring that turns around a post, a ball that turns in a cup, and two bars joined like a door. Which model is the joint in a knee?", o:["The two bars joined like a door (hinge joint)", "The ball in a cup (ball-and-socket joint)", "The ring around a post (pivot joint)", "The ring and the ball together"], w:"A knee is a hinge joint: it bends back and forth in one direction, like a door."},
+  {ws:"w4", l:"l2-skel", q:"On a skeleton, which bones mainly protect soft parts such as the brain, the heart and the lungs?", o:["The skull and the rib cage", "The rib cage and the thigh bone", "The skull and the thigh bone", "The thigh bone only"], w:"The skull protects the brain; the rib cage protects the heart and lungs. The thigh bone supports the body’s weight."},
+  {ws:"w4", l:"l2-joint", q:"A strap crosses the joint between two bones and holds them together. What is it, and what does it do?", o:["A ligament: it connects the bones and keeps them from shifting apart", "A muscle: it pushes the two bones apart", "A bone: it makes red blood cells for the joint", "A nerve: it tells the muscles when to contract"], w:"Ligaments connect bone to bone at a joint and keep the bones in place."},
+  {ws:"w4", l:"l2-anim", q:"An earthworm has no bones and no shell, but it moves. How?", o:["Its muscles push on the fluid inside its body, so the body gets long and thin, then short and thick", "A hard outer covering pushes against the soil", "Tiny bones in each section pull on its muscles", "Air-filled sacs push it forward like a jet"], w:"An earthworm has a hydrostatic skeleton: a fluid-filled cavity surrounded by muscle."},
+  {ws:"w4", l:"l2-plant", q:"Which plant has a taproot?", o:["A plant with one large main root and smaller roots growing from it", "A plant with many thin roots of about the same size", "A plant with extra roots growing from its stem above the ground", "Every plant has a taproot"], w:"A taproot is one large main root, like a carrot. Many thin roots of the same size are fibrous roots; roots growing from the stem above the ground are prop roots."},
+  /* Worksheet 5 · Lesson 3 */
+  {ws:"w5", l:"l3-organs", q:"In which organ do MOST chemical digestion and nutrient absorption happen?", o:["The small intestine", "The stomach", "The mouth", "The large intestine"], w:"Most chemical digestion and absorption happen in the small intestine: its villi absorb the nutrients."},
+  {ws:"w5", l:"l3-organs", q:"Muscles squeeze the esophagus in waves. Which statement describes this process best?", o:["Waves of muscle contractions push the food along (peristalsis)", "Acid dissolves the food into tiny pieces", "Villi absorb nutrients into blood vessels", "Saliva neutralizes the acid in the food"], w:"Peristalsis: waves of muscle contractions push the food down the esophagus to the stomach."},
+  {ws:"w5", l:"l3-digest", q:"A cracker gets soft and tastes sweeter in your mouth. Which is an example of CHEMICAL digestion?", o:["Chemicals in saliva breaking down the carbohydrates in the cracker", "Your teeth grinding the cracker into crumbs", "Your tongue mashing the cracker against your mouth", "Your muscles pushing the cracker toward the stomach"], w:"Chemical digestion changes food into new, smaller molecules: saliva turns starch into sugar, which is why it tastes sweeter. Grinding and mashing are mechanical digestion."},
+  {ws:"w5", l:"l3-energy", q:"A chart shows: 1 grape = 2 Calories, 1 slice of cheese pizza = 220 Calories. About how many times more energy does the pizza have?", o:["110 times", "22 times", "218 times", "2 times"], w:"220 ÷ 2 = 110. (218 is the difference, not how many times more.)"},
+  {ws:"w5", l:"l3-waste", q:"Which organ filters waste out of the blood?", o:["The kidneys", "The villi", "The stomach", "The large intestine"], w:"The kidneys filter waste out of the blood and make urine."},
+  {ws:"w5", l:"l3-plant", q:"Which three things does a leaf take IN to carry out photosynthesis?", o:["Light energy, carbon dioxide and water", "Light energy, sugar and oxygen", "Water, oxygen and sugar", "Only carbon dioxide and oxygen"], w:"In: light energy, carbon dioxide (CO₂) and water (H₂O). Out: sugar (glucose) and oxygen (O₂)."},
+  /* Worksheet 6 · Lesson 4 */
+  {ws:"w6", l:"l4-plant", q:"Which vascular tissue carries water and dissolved nutrients from a plant’s roots to its stem and leaves?", o:["Xylem", "Phloem", "Stomata", "Epidermis"], w:"Xylem carries water and minerals up from the roots."},
+  {ws:"w6", l:"l4-plant", q:"What does phloem carry through a plant?", o:["Dissolved sugars", "Water only", "Carbon dioxide", "Oxygen"], w:"Phloem carries the sugar made in the leaves to the rest of the plant."},
+  {ws:"w6", l:"l4-plant", q:"What are stomata?", o:["Small openings in a leaf’s surface that let gases pass in and out", "Tubes that carry water from the roots", "Cells that make liquid sugar", "Thick walls that support the stem"], w:"Stomata let carbon dioxide in, and oxygen and water vapor out."},
+  {ws:"w6", l:"l4-resp", q:"What happens when your diaphragm contracts and moves down?", o:["You inhale: air rushes into the lungs", "You exhale", "Your heart beats faster", "The air pressure in your chest stays the same"], w:"When the diaphragm contracts and moves down, the chest gets bigger, the air pressure inside drops and air rushes into the lungs."},
+  {ws:"w6", l:"l4-resp", q:"What happens during gas exchange in the alveoli?", o:["Oxygen moves into the blood and carbon dioxide moves into the alveoli", "Carbon dioxide moves into the blood and oxygen moves into the alveoli", "Oxygen and carbon dioxide both stay in the alveoli", "Blood moves into the alveoli"], w:"Oxygen goes from the air sacs into the capillaries; carbon dioxide goes from the blood into the air sacs and is breathed out."},
+  {ws:"w6", l:"l4-circ", q:"Which statement about blood vessels is correct?", o:["Arteries carry blood away from the heart, and veins carry blood toward the heart", "Arteries carry blood toward the heart, and veins carry it away", "Veins are the smallest blood vessels", "Arteries and veins are the same type of vessel"], w:"A for Away: Arteries carry blood Away from the heart. Capillaries are the smallest vessels."},
+  /* Lesson Check · Lesson 4 */
+  {ws:"c4", l:"l4-resp", q:"Which of these is NOT part of the respiratory system?", o:["Ventricle", "Pharynx", "Trachea", "Bronchus"], w:"A ventricle is a chamber of the heart: it belongs to the circulatory system."},
+  {ws:"c4", l:"l4-resp", q:"Oxygen moves from the respiratory system into the circulatory system when it passes from the ____ into the ____.", o:["alveoli … capillaries", "bronchi … trachea", "capillaries … veins", "bronchi … capillaries"], w:"Oxygen crosses from the air sacs (alveoli) into the capillaries around them."},
+  {ws:"c4", l:"l4-resp", q:"The lungs contain millions of…", o:["alveoli", "villi", "valves", "ventricles"], w:"Alveoli are in the lungs; villi are in the small intestine."},
+  {ws:"c4", l:"l4-resp", tf:true, q:"During gas exchange, oxygen moves into the blood, and carbon dioxide moves into the alveoli.", a:true, w:"True: then the carbon dioxide is breathed out."},
+  {ws:"c4", l:"l4-resp", q:"Which best describes the job of the diaphragm?", o:["It changes the air pressure inside the chest, so air moves in and out", "It is where oxygen enters the capillaries", "It receives air, food and liquids from the mouth", "It vibrates to make sound when air passes"], w:"The diaphragm moves down (air in) and up (air out) by changing the pressure inside the chest."},
+  {ws:"c4", l:"l4-resp", q:"Where are the alveoli?", o:["Inside the lungs", "In the trachea", "Inside the mouth", "Outside the larynx"], w:"The alveoli are the tiny air sacs at the ends of the bronchioles, inside the lungs."},
+  {ws:"c4", l:"l4-circ", q:"Which blood vessels bring blood from the body back to the heart?", o:["Veins", "Arteries", "Capillaries", "Arterioles"], w:"Veins return blood to the heart; arteries carry it away."},
+  /* Worksheet 7 · Lesson 5 */
+  {ws:"w7", l:"l5-ns", q:"Which two organs make up the central nervous system (CNS)?", o:["The brain and the spinal cord", "The brain and the muscles", "The spinal cord and the skin", "The eyes and the ears"], w:"CNS = brain + spinal cord: the control center that every message passes through."},
+  {ws:"w7", l:"l5-neuron", q:"A surfer sees a big wave. Which cells carry the brain’s commands out to her leg muscles?", o:["Motor neurons", "Sensory neurons", "Chemoreceptors", "Hair cells"], w:"Sensory neurons carry signals IN to the CNS; motor neurons carry commands OUT to the muscles."},
+  {ws:"w7", l:"l5-eye", q:"Light is focused onto the back of the eye, where it is changed into electric signals. What is this part called?", o:["Retina", "Cornea", "Iris", "Pupil"], w:"The retina, with its rods and cones, changes light into signals; the optic nerve carries them to the brain."},
+  {ws:"w7", l:"l5-chem", q:"Maya holds her nose while chewing a food cube and can barely tell what it is. When she lets go, the flavor is clear. What does this show?", o:["Taste and smell work together, and both use chemoreceptors", "Taste buds only work when the nose is open", "Smell is not a real sense", "The brain stops processing taste when you breathe"], w:"Flavor comes from taste and smell together: both senses detect chemicals with chemoreceptors."},
+  {ws:"w7", l:"l5-ear", q:"Sound travels about 343 meters every second. A surfer hears a boom from a cliff 1,000 meters away. About how long did the sound take to reach her?", o:["About 3 seconds", "About 1 second", "About 4 seconds", "About 6 seconds"], w:"1,000 ÷ 343 ≈ 2.9, so about 3 seconds."},
+  {ws:"w7", l:"l5-neuron", q:"Radish seedlings in a pot lean toward a lamp on one side. What is the stimulus?", o:["The light", "The pot", "The seedlings", "The soil"], w:"A stimulus is a change the organism responds to: here, the light. Leaning toward it is the response."},
+  {ws:"w7", l:"l5-neuron", type:true, q:"The basic functioning unit of the nervous system is the ______.", a:"neuron", alt:["neurons", "nerve cell", "nerve cells"], w:"A neuron is a nerve cell: the basic unit of the nervous system."},
+  {ws:"w7", l:"l5-eye", q:"What does the iris control?", o:["How much light enters the eye, by changing the size of the pupil", "Which colors the retina can see", "The signals in the optic nerve", "How tears clean the eye"], w:"The iris (the colored part) makes the pupil smaller in bright light and bigger in dim light."},
+  {ws:"w7", l:"l5-ear", q:"Using the speed of sound (343 m/s), how long does sound take to travel 686 meters?", o:["2 seconds", "1 second", "3 seconds", "343 seconds"], w:"686 ÷ 343 = 2 seconds."},
+  {ws:"w7", l:"l5-ear", q:"Besides hearing, what job does the inner ear do?", o:["It helps keep the body balanced", "It helps you smell", "It controls the heartbeat", "It focuses light"], w:"Fluid in the semicircular canals moves when the head moves, and the brain uses this to keep you balanced."},
+  /* Lesson Check · Lesson 5 */
+  {ws:"c5", l:"l5-chem", q:"You feel the prick of a pin because nerve cells in your skin send information to your…", o:["brain", "finger", "eyes", "stomach"], w:"Receptors in the skin send signals along nerves to the brain, which makes you feel it."},
+  {ws:"c5", l:"l5-ear", tf:true, q:"Auditory receptors detect light.", a:false, w:"False: auditory receptors (hair cells in the cochlea) detect sound. Light is detected by the rods and cones of the retina."},
+  {ws:"c5", l:"l5-chem", q:"What do chemoreceptors detect?", o:["Tastes and odors", "Sounds", "Light", "Only tastes"], w:"Chemoreceptors detect chemicals: in the taste buds (tastes) and in the nose (odors)."},
+  {ws:"c5", l:"l5-chem", q:"Every part of the sensory system uses…", o:["receptors", "cone cells", "hair cells", "chemoreceptors"], w:"Each sense has its own receptors: for light, sound, touch or chemicals."},
+  {ws:"c5", l:"l5-chem", q:"Which of these is NOT a sense organ?", o:["The intestine", "The eyes", "The ears", "The tongue"], w:"The intestine is part of the digestive system."},
+  {ws:"c5", l:"l5-neuron", q:"You touch a hot pot. Which order is correct?", o:["Receptors send signals to the spinal cord → the spinal cord signals the arm muscles and you pull away → signals reach the brain → you feel pain", "Receptors send signals to the spinal cord → you feel pain → you pull your hand away → signals reach the brain", "Receptors send signals to the brain → the brain signals the muscles → you feel pain and pull away", "Signals reach the brain → you feel pain → the spinal cord signals the muscles → you pull away"], w:"In a reflex the spinal cord answers before the brain: you pull away first and feel the pain a moment later."},
+  {ws:"c5", l:"l5-neuron", q:"In a reflex, which part picks up the message in the fingertip?", o:["A receptor in the skin", "A motor neuron", "The arm muscle", "The spinal cord"], w:"Receptors detect the stimulus; sensory neurons carry the message to the spinal cord."},
+  {ws:"c5", l:"l5-neuron", q:"In a reflex, what carries the message from the spinal cord to the arm muscle?", o:["A motor neuron", "A sensory neuron", "A receptor", "The brain"], w:"Motor neurons carry commands from the spinal cord or brain out to the muscles."},
+  {ws:"c5", l:"l5-neuron", q:"In a reflex, what pulls the hand away?", o:["The arm muscle contracting", "The receptor in the finger", "The sensory neuron", "The spinal cord"], w:"The muscle is the part that responds: it contracts and pulls the hand away."},
+  {ws:"c5", l:"l5-ear", tf:true, q:"The movement of fluid in the ear helps signal the brain to control balance.", a:true, w:"True: the fluid in the semicircular canals moves when the head moves."}];
+const WSQ = tagged(WS_RAW);
+const wsStep = q => q.tf ? tfStep(q) : q.type ? tyStep(q) : mcStep(q);
+function wsSteps(ids){ return WSQ.filter(q => ids.includes(q.ws)).map(wsStep); }
+WS_SHEETS.forEach(s => { MODES["ws-" + s.id] = {name:s.name + " · " + s.les, short:s.name + " (" + s.les.split(" · ")[0] + ")", p:"test", steps:() => wsSteps([s.id])}; });
+MODES["ws-all"] = {name:"All the teacher’s worksheets", short:"All worksheets", p:"test", steps:() => wsSteps(WS_SHEETS.map(s => s.id))};
+/* the written questions, with a model answer to compare after he answers out loud */
+const WS_WRITE = [
+  {ws:"w4", q:"A person holds a handstand. Explain how body systems work together so he can support his weight on his arms. Use the words muscles, bones, joints and nervous system.",
+    a:"The <b>nervous system</b> (brain and nerves) sends signals to the <b>muscles</b>. The muscles contract and pull on the <b>bones</b> to hold the body straight and steady. The arm <b>bones</b> support the body’s weight, and the shoulder and elbow <b>joints</b> let the arms hold the right position. So the nervous, muscular and skeletal systems work together."},
+  {ws:"w4", q:"Compare what gives plants and animals structure and support (a Venn diagram: plants, animals, both).",
+    a:"<b>Plants only:</b> stems (woody or herbaceous) hold the plant up; roots (taproot, fibrous, prop roots) hold it in the soil; cell walls and the water inside the cells keep it stiff.<br><b>Animals only:</b> skeletons: an endoskeleton of bones (humans), an exoskeleton (crab), or a hydrostatic skeleton (earthworm); muscles move the skeleton.<br><b>Both:</b> have structures that give support and shape, hold the body up and protect soft parts."},
+  {ws:"w5", q:"What is digestion? Explain why your body must digest food before it can use the nutrients in it.",
+    a:"<b>Digestion</b> is breaking food down into nutrients small enough to be absorbed. Food is made of big pieces and big molecules, and the body can only absorb small molecules through the <b>villi</b> of the small intestine into the blood. So food must be broken down first: <b>mechanical digestion</b> (chewing, churning) makes small pieces, and <b>chemical digestion</b> (saliva, digestive juices) breaks them into nutrients."},
+  {ws:"w5", q:"Describe how nutrients get from the small intestine into the rest of the body. Name the structures involved.",
+    a:"Digested nutrients pass through the thin walls of the <b>villi</b> in the <b>small intestine</b> into the <b>capillaries</b> (blood vessels) inside them. The blood of the <b>circulatory system</b> then carries the nutrients through the blood vessels to every cell of the body."},
+  {ws:"w6", q:"Why does your pulse rate increase when you exercise?",
+    a:"When you exercise, your muscles work harder and need more <b>oxygen</b> and nutrients, and they make more carbon dioxide. The heart beats faster to pump blood faster, so more oxygen reaches the muscles and the carbon dioxide is taken away."},
+  {ws:"w6", q:"How does the structure of the alveoli help gas exchange happen quickly?",
+    a:"There are <b>millions</b> of tiny alveoli, which gives a huge surface area. Their walls are only <b>one cell thick</b>, and each one is surrounded by <b>capillaries</b>, so oxygen and carbon dioxide pass across very quickly."},
+  {ws:"w6", q:"What is the main job of capillaries?",
+    a:"Capillaries are the smallest blood vessels, with walls one cell thick. They connect arteries to veins, and in them <b>oxygen and nutrients pass from the blood into the cells</b>, and <b>carbon dioxide and wastes pass from the cells into the blood</b>."},
+  {ws:"w6", q:"Describe a closed circulatory system.",
+    a:"In a <b>closed</b> circulatory system the blood <b>always stays inside blood vessels</b>: the heart pumps it through arteries, capillaries and veins and back to the heart (humans, earthworms). In an <b>open</b> system the blood flows out into open spaces around the organs (insects)."},
+  {ws:"c4", q:"Name the three main types of blood vessels and the job of each. Then explain how a disease of the capillaries could affect the whole body.",
+    a:"<b>Arteries</b> carry blood away from the heart. <b>Veins</b> carry blood back to the heart. <b>Capillaries</b> are tiny vessels where materials are exchanged with the cells. If the capillaries were damaged, oxygen and nutrients could not reach the cells and wastes could not be taken away, so cells all over the body could not work well: the whole body would be affected."},
+  {ws:"c4", q:"What role does the trachea play in respiration?",
+    a:"The <b>trachea</b> (windpipe) is the tube that carries air from the pharynx down to the <b>bronchi</b> and the lungs, and back out again."},
+  {ws:"c4", q:"What process is made possible by the capillaries that surround the alveoli?",
+    a:"<b>Gas exchange</b>: oxygen passes from the alveoli into the capillaries, and carbon dioxide passes from the capillaries into the alveoli to be breathed out."},
+  {ws:"c5", q:"The body stays at about 37 °C. A diagram shows: special nerve cells in the skin and some organs detect a drop in temperature and send a message to the brain; the brain tells the body to shiver and to send blood flow to the body’s core. Brian says only the muscular system is involved when the body gets cold. Give two pieces of evidence that support or refute his claim.",
+    a:"The evidence <b>refutes</b> Brian’s claim. 1) <b>Special nerve cells</b> in the skin and organs detect the change and send a message to the <b>brain</b>: the <b>nervous system</b> is involved. 2) The brain directs <b>blood flow</b> to the body’s core: the <b>circulatory system</b> is involved too. Shivering (muscles) is only one part."},
+  {ws:"c5", q:"Dolphins: they gather when they hear whistles of dolphins they know, make clicks to find food or avoid objects, whistle faster in groups to defend themselves or catch food, and come to help when they hear pulsed squeaks. (a) Name two behaviors that different sounds cause.",
+    a:"Any two: they <b>gather together</b> when they hear the whistle of a dolphin they know; they <b>come to help</b> when they hear pulsed squeaks from a dolphin in trouble; they <b>whistle faster</b> in groups to defend themselves or catch food; they use clicks to <b>find food</b> or avoid objects."},
+  {ws:"c5", q:"(b) Describe what happens inside a dolphin when it hears a sound that decides its behavior.",
+    a:"Sound waves reach the ears; <b>receptors</b> (hair cells) in the inner ear detect the vibrations and change them into nerve signals. <b>Sensory neurons</b> carry the signals to the <b>brain</b>, which processes them and decides how to respond. <b>Motor neurons</b> carry the commands to the <b>muscles</b>, and the dolphin responds (it swims to the group, clicks or whistles)."}];
+function wsSection(){
+  const count = id => WSQ.filter(q => q.ws === id).length;
+  return '<section class="sec" id="ws"><div class="sec-head"><h2>📝 The teacher’s worksheets</h2><p>Homework worksheets 4–7 and the Lesson Checks of Lessons 4 and 5, written again here with the same ideas. Do the choice questions, then answer each written question out loud before you open the model answer.</p></div>'
+    + '<div class="ws-box panel"><div class="row"><button class="btn go" type="button" data-act="start" data-m="ws-all">All choice questions (' + WSQ.length + ')</button></div>'
+    + '<div class="ws-list">' + WS_SHEETS.map(s => '<button class="btn sm" type="button" data-act="start" data-m="ws-' + s.id + '"><b>' + s.name + '</b> · ' + esc(s.les.split(" · ")[0]) + ' <span class="ws-n">' + count(s.id) + '</span></button>').join("") + '</div>'
+    + '<h3>Written answers</h3><div class="ws-write">' + WS_WRITE.map(x => { const s = WS_SHEETS.find(y => y.id === x.ws);
+      return '<details class="ws-q"><summary><span class="ws-tag">' + s.name + ' · ' + esc(s.les.split(" · ")[0]) + '</span>' + esc(x.q) + '</summary><div class="ws-a"><b class="ws-model">Model answer</b><p>' + x.a + '</p></div></details>'; }).join("") + '</div></div></section>';
+}
 const PART_LABEL = {mc:"Choose the best answer", tf:"True or false?", type:"Type the science word", match:"Match each word", label:"Label the diagram", order:"Put them in order"};
 let R = null;
 function start(mode){ R = {mode, steps:MODES[mode].steps(), i:0, res:[], locked:false}; renderStep(); window.scrollTo(0, 0); }
@@ -1346,7 +1465,7 @@ function renderHome(){
   let h = '<section class="hero panel p-test"><h1>Science: Quiz 2 Review</h1>'
     + '<p class="sub">Sunday 15 November · Module 2: Body Systems · Lessons 2–5 <span class="badge' + (n >= 0 && n <= 1 ? " hot" : "") + '">' + when + '</span></p>'
     + '<div class="stats"><div class="stat"><b>' + (S.best === null ? "–" : S.best + "/30") + '</b><span>Best practice test</span></div><div class="stat"><b>' + S.tests + '</b><span>Tests done</span></div><div class="stat"><b>' + S.xp + '</b><span>Points</span></div></div>'
-    + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="test">Start a practice test</button><a class="btn sm" href="../../review/quiz-2/index.html#sci">Quiz 2 checklist</a></div>'
+    + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="test">Start a practice test</button><a class="btn sm go" href="#ws">📝 Teacher’s worksheets</a><a class="btn sm" href="../../review/quiz-2/index.html#sci">Quiz 2 checklist</a></div>'
     + '<p class="lv-tip">🎬 Tap the <b>3D</b> picture in a topic to turn the model and move it yourself, and <b>▶ Explain it</b> to hear the topic point by point. The speaker button at the top turns the sounds on or off.</p>'
     + '<div class="row"><a class="btn go" href="../lab-3d/index.html">🧊 3D Body Lab: turn the models and move them yourself →</a></div></section>';
   h += '<section class="sec"><div class="sec-head"><h2>What’s on the quiz</h2><p>Four lessons of Module 2, from the school’s assessment outline.</p></div><div class="tiles">'
@@ -1354,6 +1473,7 @@ function renderHome(){
       + '<button class="btn sm go" type="button" data-act="start" data-m="' + x.id + '">Practice</button></div></article>').join("") + '</div>'
     + '<div class="test-cta panel"><p><b>Practice test:</b> 30 questions from all four lessons (8 from Lesson 2, 8 from Lesson 3, 7 from Lesson 4, 7 from Lesson 5), then your result for each lesson.</p>'
     + '<button class="btn go" type="button" data-act="start" data-m="test">Start</button></div>' + ixlBox() + '</section>';
+  h += wsSection();
   h += LESSONS.map(lessonSection).join("");
   h += '<footer class="foot"><p>Lessons from the school’s assessment outline for Quiz 2. The summaries and questions are written for this page from the lessons; the book’s text is not copied. If anything here differs from the book, follow the teacher and the book.</p></footer>';
   lvStop();
