@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مختبر الجسم ثلاثي الأبعاد</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%231B2350%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M32 14l16 9v18l-16 9-16-9V23z%22 fill=%22%235FD9A9%22 stroke=%22%23fff%22 stroke-width=%223%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M16 23l16 9 16-9M32 32v18%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%223%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700;800&family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+/* 3D Body Lab (science/lab-3d): the page around the 3D view. The engine is lab.js and the scenes are scenes.js. */
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --col:#119C77; --tint:#D2F4E8;
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --font:"Tajawal","Segoe UI","Geeza Pro",Tahoma,sans-serif; --en:"Lexend","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+h1,h2,h3{margin:0;line-height:1.3;font-weight:800;text-wrap:balance}
+p{margin:0}
+:focus-visible{outline:3px solid #2F7DE1;outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.en,[dir="ltr"]{font-family:var(--en)}
+b.en{font-weight:700;unicode-bidi:isolate;direction:ltr;display:inline-block}
+
+.topbar{background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar-in{max-width:1180px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px}
+.logo{font-size:26px;font-weight:800;color:#5FD9A9;-webkit-text-stroke:1.2px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg);white-space:nowrap;line-height:1.2}
+.chip{font-size:13px;font-weight:800;background:var(--ink);color:#fff;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.spacer{flex:1}
+.icon-btn{flex:none;width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:10px;background:var(--sun-2);box-shadow:2px 2px 0 var(--ink);text-decoration:none;padding:0}
+.icon-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#sndBtn[aria-pressed="false"] .snd-on,#sndBtn[aria-pressed="true"] .snd-off{display:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:800;text-decoration:none;box-shadow:var(--shadow-sm);text-align:center}
+.btn:active{transform:translate(3px,3px);box-shadow:none}
+.btn.go{background:var(--sun)}
+.btn.sm{min-height:40px;padding:5px 12px;font-size:15px;border-width:2px;box-shadow:2px 2px 0 var(--ink)}
+.btn[aria-pressed="true"]{background:#FFC9DD}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+.hero{margin-top:18px;padding:14px 18px;display:grid;gap:6px;border-inline-start:12px solid var(--col)}
+.hero h1{font-size:clamp(24px,5vw,34px)}
+.hero .sub{color:var(--ink-2);font-weight:700;font-size:16px}
+
+/* the scenes, lesson by lesson: a row that scrolls sideways on a phone */
+.scenes{margin-top:16px;display:grid;gap:10px}
+.sgroup{display:grid;gap:6px;min-width:0}
+.slabel{font-size:14px;font-weight:800;color:var(--ink-2)}
+.schips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.schips button{flex:none;display:flex;align-items:center;gap:8px;min-height:52px;padding:6px 12px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);font-weight:800;font-size:15px;line-height:1.25;text-align:start}
+.schips button i{font-style:normal;font-size:22px}
+.schips button small{display:block;font-size:11.5px;font-weight:700;color:var(--ink-2);text-align:start}
+.schips button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.schips button[aria-pressed="true"] small{color:#C9CCF2}
+@media (min-width:900px){.scenes{grid-template-columns:repeat(2,minmax(0,1fr))}.schips{flex-wrap:wrap;overflow:visible}}
+
+
+/* the stage: the 3D view and, beside it (under it on a phone), the caption and the controls */
+.stage{margin-top:14px;padding:12px;display:grid;gap:12px;grid-template-columns:minmax(0,1fr);scroll-margin-top:calc(var(--site-nav-h,0px) + 8px)}
+.stage-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.stage-head h2{font-size:22px}
+.stage-head span{font-size:14px;font-weight:700;color:var(--ink-2)}
+.view{position:relative;height:clamp(300px,54vh,600px);border:3px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;background:radial-gradient(circle at 28% 18%,#3A4C9A 0%,#1B2350 48%,#0B0E24 100%)}
+#gl{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab;outline-offset:-4px}
+#gl:active{cursor:grabbing}
+#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.lb{position:absolute;left:0;top:0;pointer-events:auto;font:700 12px/1.2 var(--en);color:#fff;background:rgba(20,22,58,.72);border:1.5px solid rgba(255,255,255,.75);border-radius:999px;padding:3px 9px;white-space:nowrap;will-change:transform}
+.lb.hot{background:var(--sun);color:var(--ink);border-color:var(--ink)}
+.lb.big{font-size:14px;background:#fff;color:#E23F45;border-color:var(--ink);padding:5px 12px}
+.lb.dim{background:rgba(20,22,58,.45);border-color:rgba(255,255,255,.4);font-weight:500}
+.vbtns{position:absolute;inset-inline-end:8px;top:8px;display:grid;gap:6px}
+.vbtns button{width:40px;height:40px;display:grid;place-items:center;border:2px solid rgba(255,255,255,.8);border-radius:10px;background:rgba(20,22,58,.72);color:#fff;font:800 18px/1 var(--en);padding:0}
+#namesBtn[aria-pressed="false"]{opacity:.55}
+.hint{position:absolute;inset-inline:0;bottom:8px;margin:0 auto;width:max-content;max-width:92%;padding:3px 12px;border-radius:999px;background:rgba(20,22,58,.72);color:#fff;font-size:13px;font-weight:700;pointer-events:none;text-align:center}
+.nogl{position:absolute;inset:0;display:grid;place-content:center;gap:10px;padding:20px;text-align:center;color:#fff;font-weight:700}
+.nogl a{color:var(--sun)}
+.side{display:grid;gap:12px;align-content:start;min-width:0}
+.cap{border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--sun-2);padding:10px 12px;display:grid;gap:6px}
+.cap.pop{animation:cap .35s ease}
+@keyframes cap{from{transform:translateY(5px);opacity:.3}to{transform:none;opacity:1}}
+.cap h3{font-size:18px}
+.cap-en{direction:ltr;text-align:left;font:500 15.5px/1.55 var(--en);background:var(--paper);border:2px solid var(--ink);border-radius:8px;padding:7px 10px;unicode-bidi:isolate}
+.cap-en b{font-weight:800;color:#0C6B52}
+.cap-ar{font-size:16px;font-weight:500}
+.cap-ar b{font-weight:800}
+.say{display:flex;gap:8px}
+.say button{min-height:36px;padding:2px 12px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);font-weight:800;font-size:14px}
+.ctl{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;min-width:0}
+.sl{display:grid;gap:2px;border:2px solid var(--ink);border-radius:var(--r-sm);padding:8px 12px;background:var(--page)}
+.sl-top{display:flex;justify-content:space-between;gap:10px;font-size:15px}
+.sl-top output{font:700 14px var(--en);color:#0C6B52;white-space:nowrap}
+.sl input{width:100%;height:30px;accent-color:#119C77;touch-action:pan-y}
+.brow{display:flex;flex-wrap:wrap;gap:8px}
+.cbtn{flex:1 1 auto;min-height:44px;padding:6px 12px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);font-weight:800;font-size:15px;line-height:1.3}
+.cbtn:active{transform:translate(2px,2px);box-shadow:none}
+.cbtn small{display:block;font:700 11.5px var(--en);color:var(--ink-2);direction:ltr}
+.cbtn[aria-pressed="true"]:not(.tg){background:var(--ink);color:#fff}.cbtn[aria-pressed="true"]:not(.tg) small{color:#C9CCF2}
+.cbtn.go{background:var(--sun)}
+.cbtn.warn{background:#FFE1E2}
+.cbtn.tg[aria-pressed="true"]{background:#DCF7E9}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{flex:1 1 30%;min-height:46px;padding:5px 8px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:800;font-size:14.5px;line-height:1.25}
+.seg button small{display:block;font:700 11.5px var(--en);color:var(--ink-2);direction:ltr}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button[aria-pressed="true"] small{color:#C9CCF2}
+.note{font-size:14.5px;font-weight:700;color:var(--ink-2)}
+.note.ok{color:#0C6B52}.note.bad{color:#C2242C}
+.note.badge{border:2px solid currentColor;border-radius:14px;padding:2px 12px;justify-self:start;max-width:100%;background:var(--paper)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;direction:ltr}
+.steps li{font:700 12.5px var(--en);border:2px solid var(--ink);border-radius:999px;padding:2px 9px;background:var(--paper);opacity:.5}
+.steps li.on{opacity:1;background:var(--sun)}
+.steps li.done{opacity:1;background:#DCF7E9}
+.padw{display:flex;align-items:center;gap:12px}
+.pad{flex:none;position:relative;width:112px;height:112px;border:3px solid var(--ink);border-radius:50%;background:radial-gradient(circle,#fff 0 28%,var(--tint) 29% 100%);touch-action:none;cursor:grab}
+.pad i{position:absolute;left:50%;top:50%;width:36px;height:36px;margin:-18px;border:3px solid var(--ink);border-radius:50%;background:var(--sun);box-shadow:2px 2px 0 var(--ink);pointer-events:none}
+.count{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.count div{border:2px solid var(--ink);border-radius:var(--r-sm);padding:6px;text-align:center;background:var(--paper);display:grid}
+.count b{font:800 24px/1.2 var(--en)}
+.count span{font-size:13px;font-weight:700;color:var(--ink-2)}
+@media (min-width:900px){
+  .stage{grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);align-items:start}
+  .stage-head{grid-column:1 / -1}
+  .view{height:clamp(420px,66vh,640px);position:sticky;top:calc(var(--site-nav-h,0px) + 10px)}
+}
+.foot{margin-top:26px;font-size:14px;color:var(--ink-2);display:grid;gap:6px}
+@media (max-width:520px){.chip{display:none}.logo{font-size:22px}.stage{padding:8px}.stage-head h2{font-size:19px}}
+/* on a phone or an upright iPad: one row of all the scenes, so the model is near the top */
+@media (max-width:899px){
+  .scenes{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+  .sgroup{display:flex;align-items:center;gap:8px;flex:none}
+  .slabel{flex:none;font-size:12px;background:var(--ink);color:#fff;border-radius:6px;padding:2px 7px;white-space:nowrap}
+  .schips{overflow:visible;padding:0}
+  .hero{padding:10px 14px}.hero h1{font-size:22px}.hero .sub{font-size:14.5px;line-height:1.55}
+  /* the model stays in sight under the strip while he moves the controls; the controls come before the caption */
+  .view{position:sticky;top:calc(var(--site-nav-h,0px) + 4px);z-index:5;height:clamp(250px,42vh,440px)}
+  .side{display:flex;flex-direction:column}.side > *{min-width:0;max-width:100%}.ctl{order:1}.cap{order:2}.side > .row{order:3}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.view,.scenes,.ctl,.say,.topbar .icon-btn{display:none!important}}
+</style>
+</head>
+<body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+<script src="../../assets/rewards.js" data-root="../../"></script>
+<script src="../../assets/voice.js"></script>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="logo">مختبر 3D</span>
+    <span class="chip">العلوم · الاختبار القصير 2</span>
+    <span class="spacer"></span>
+    <button class="icon-btn" id="sndBtn" type="button" aria-pressed="true" aria-label="الأصوات والقراءة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="snd-on" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/><path class="snd-off" d="M16 9l5 6M21 9l-5 6"/></svg></button>
+    <a class="icon-btn" href="../../index.html" aria-label="الرئيسية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero panel">
+    <h1>مختبر الجسم ثلاثي الأبعاد</h1>
+    <p class="sub">دوّر المجسّم بإصبعك، وحرّك الأشرطة والأزرار، وشوف بعينك كيف يشتغل الجسم من جوّه. اضغط على أي جزء عشان تعرف اسمه ووظيفته.</p>
+    <div class="row"><a class="btn sm" href="../quiz-2/index.html">صفحة مراجعة العلوم ←</a></div>
+  </section>
+
+  <nav class="scenes" id="scenes" aria-label="المجسّمات"></nav>
+
+  <section class="stage panel" id="stage" aria-label="المجسّم">
+    <div class="stage-head"><h2 id="stageTitle"></h2><span id="stageEn" dir="ltr"></span></div>
+    <div class="view" id="view">
+      <canvas id="gl" tabindex="0" aria-label="مجسّم ثلاثي الأبعاد: اسحب للتدوير"></canvas>
+      <div id="labels"></div>
+      <div class="vbtns">
+        <button type="button" id="zin" aria-label="تكبير">+</button>
+        <button type="button" id="zout" aria-label="تصغير">−</button>
+        <button type="button" id="vreset" aria-label="رجّع الزاوية">⟲</button>
+        <button type="button" id="namesBtn" aria-pressed="true" aria-label="الأسماء">Aa</button>
+        <button type="button" id="pauseBtn" aria-pressed="false" aria-label="أوقف الحركة">⏸</button>
+      </div>
+      <p class="hint" id="hint">👆 اسحب يمين ويسار عشان تدوّر المجسّم</p>
+      <div class="nogl" id="nogl" hidden><p>هذا الجهاز ما يقدر يعرض المجسّمات الثلاثية الأبعاد.</p><p><a href="../quiz-2/index.html">افتح صفحة المراجعة: فيها نفس الدروس برسوم تتحرك ←</a></p></div>
+    </div>
+    <div class="side" id="side">
+      <div class="cap" id="cap" aria-live="polite">
+        <h3 id="capT"></h3>
+        <p class="cap-en" id="capEn"></p>
+        <p class="cap-ar" id="capAr"></p>
+        <div class="say"><button type="button" id="sayEn">🔊 English</button><button type="button" id="sayAr">🔊 عربي</button></div>
+      </div>
+      <div class="ctl" id="ctl"></div>
+      <div class="row"><button class="btn go" type="button" id="tourBtn" aria-pressed="false">▶ شغّل الشرح</button><a class="btn sm" id="lessonLink" href="../quiz-2/index.html">الدرس في صفحة المراجعة ←</a></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>المجسّمات مرسومة لهذه الصفحة عشان تقرّب الفكرة، وهي مبسّطة ومو صور طبية دقيقة. الجمل الإنجليزية من دروس الاختبار القصير 2 كما في صفحة المراجعة. إذا اختلف شيء عن الكتاب، فالكتاب والمعلم هم المرجع.</p>
+    <p dir="ltr" style="font-family:var(--en);font-size:12.5px">3D drawn with three.js (MIT License).</p>
+  </footer>
+</main>
+<script src="../../assets/vendor/three.min.js"></script>
+<script src="lab.js"></script>
+<script src="scenes.js"></script>
+<script>Lab.start();</script>
+</body>
+</html>
