@@ -3,7 +3,7 @@
    finger (a sideways drag turns it, an up-and-down swipe still scrolls the page), pinches or uses + and − to zoom, and
    taps a part or its name to read about it. Each scene has its own controls (sliders, buttons, a joystick pad), a caption
    with the English sentence of the lesson and a simple Arabic explanation, both read aloud (assets/voice.js), and a guided
-   tour («شغّل الشرح») that moves the model step by step. Sounds are made here (no files) and follow the site's sound
+   tour («Guided tour») that moves the model step by step. Sounds are made here (no files) and follow the site's sound
    switch. With "reduce motion" on, the model starts paused (the ⏯ button starts it). Nothing is saved and no points are
    given: this page is for looking and trying. */
 "use strict";
@@ -420,7 +420,8 @@ const Lab = (() => {
   let capNow = null;
   function setInfo(o){
     capNow = o;
-    $("#capT").innerHTML = o.t || (cur ? cur.title : "");
+    /* the title is English; an Arabic name after the last « · » is shown smaller, as a help */
+    $("#capT").innerHTML = (o.t || (cur ? cur.title : "")).replace(/ · ([^·<]*[\u0600-\u06FF][^·<]*)$/, ' <small class="ar" lang="ar" dir="rtl">$1</small>');
     $("#capEn").innerHTML = o.en || ""; $("#capEn").hidden = !o.en;
     $("#capAr").innerHTML = o.ar || ""; $("#capAr").hidden = !o.ar;
     const c = $("#cap"); c.classList.remove("pop"); void c.offsetWidth; c.classList.add("pop");
@@ -445,9 +446,9 @@ const Lab = (() => {
     document.querySelectorAll("#scenes button").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === def.id ? "true" : "false"));
     const on = $('#scenes button[data-id="' + def.id + '"]'); if (on && !quiet && on.scrollIntoView) try { on.scrollIntoView({block:"nearest", inline:"center"}); } catch (e) {}
     $("#lessonLink").href = "../quiz-2/index.html#" + def.topic;
-    $("#lessonLink").textContent = "الدرس " + def.les + " في صفحة المراجعة ←";
+    $("#lessonLink").textContent = "Lesson " + def.les + " on the review page →";
     $("#tourBtn").hidden = !ctx.tour.length;
-    $("#stageTitle").textContent = def.title; $("#stageEn").textContent = def.en;
+    $("#stageTitle").textContent = def.title; $("#stageAr").textContent = def.ar;
     $("#fullLink").href = "index.html#" + def.id;
     if (!quiet) try { history.replaceState(null, "", "#" + def.id); } catch (e) {}
     last = performance.now();
@@ -479,16 +480,16 @@ const Lab = (() => {
     for (let i = tweens.length - 1; i >= 0; i--) if (tweens[i].inTour) tweens.splice(i, 1)[0].fail(STOP);
     waits.forEach(w => { if (w.inTour){ waits.delete(w); w.fail(STOP); } });
   }
-  function paintTour(){ const b = $("#tourBtn"); b.setAttribute("aria-pressed", touring ? "true" : "false"); b.textContent = touring ? "⏹ أوقف الشرح" : "▶ شغّل الشرح"; }
-  function paintPause(){ const b = $("#pauseBtn"); b.setAttribute("aria-pressed", paused ? "true" : "false"); b.textContent = paused ? "▶" : "⏸"; b.setAttribute("aria-label", paused ? "شغّل الحركة" : "أوقف الحركة"); }
-  function paintSound(){ const b = $("#sndBtn"), on = soundOn(); b.setAttribute("aria-pressed", on ? "true" : "false"); b.setAttribute("aria-label", "الأصوات والقراءة: " + (on ? "شغّالة" : "مقفلة")); }
+  function paintTour(){ const b = $("#tourBtn"); b.setAttribute("aria-pressed", touring ? "true" : "false"); b.textContent = touring ? "⏹ Stop the tour" : "▶ Guided tour"; }
+  function paintPause(){ const b = $("#pauseBtn"); b.setAttribute("aria-pressed", paused ? "true" : "false"); b.textContent = paused ? "▶" : "⏸"; b.setAttribute("aria-label", paused ? "Play the motion" : "Pause the motion"); }
+  function paintSound(){ const b = $("#sndBtn"), on = soundOn(); b.setAttribute("aria-pressed", on ? "true" : "false"); b.setAttribute("aria-label", "Sounds and reading: " + (on ? "on" : "off")); }
 
   function start(){
     /* the scene buttons, lesson by lesson */
     const nav = $("#scenes"), les = [...new Set(SCENES.map(s => s.les))];
-    const LES = {2:"الدرس 2 · الدعامة والحركة", 3:"الدرس 3 · الطاقة والفضلات", 4:"الدرس 4 · نقل المواد", 5:"الدرس 5 · التحكم والحواس"};
+    const LES = {2:"Lesson 2 · Structure and Support", 3:"Lesson 3 · Obtaining Energy and Removing Waste", 4:"Lesson 4 · Moving Materials", 5:"Lesson 5 · Control and Information Processing"};
     nav.innerHTML = les.map(n => '<div class="sgroup"><span class="slabel">' + LES[n] + '</span><div class="schips">' + SCENES.filter(s => s.les === n).map(s =>
-      '<button type="button" data-id="' + s.id + '" aria-pressed="false"><i aria-hidden="true">' + s.icon + '</i><span>' + s.title + '<small dir="ltr">' + s.en + '</small></span></button>').join("") + '</div></div>').join("");
+      '<button type="button" data-id="' + s.id + '" aria-pressed="false"><i aria-hidden="true">' + s.icon + '</i><span>' + s.title + '<small lang="ar" dir="rtl">' + s.ar + '</small></span></button>').join("") + '</div></div>').join("");
     nav.addEventListener("click", e => { const b = e.target.closest("button[data-id]"); if (b){ sfx("tap"); open(b.dataset.id); const v = $("#stage"); if (v.getBoundingClientRect().top < 0 || v.getBoundingClientRect().top > innerHeight * .6) v.scrollIntoView({behavior:still() ? "auto" : "smooth", block:"start"}); } });
     $("#sndBtn").addEventListener("click", () => { const on = !soundOn(); if (window.MonmonRewards && MonmonRewards.sound) MonmonRewards.sound(on); else mute = !on; if (!on) hush(); paintSound(); });
     paintSound();
@@ -506,7 +507,8 @@ const Lab = (() => {
     $("#vreset").addEventListener("click", () => { if (cur){ const c = cur.cam; ctx.look({theta:c.theta, phi:c.phi, dist:c.dist, target:c.target}, 500); } });
     $("#namesBtn").addEventListener("click", e => { namesOn = !namesOn; e.currentTarget.setAttribute("aria-pressed", namesOn ? "true" : "false"); });
     $("#sayEn").addEventListener("click", () => { if (capNow && capNow.en){ stopTour(); say(capNow.en, "en"); } });
-    $("#sayAr").addEventListener("click", () => { if (capNow && capNow.ar){ stopTour(); say(capNow.ar, "ar").then(ok => { if (!ok && soundOn() && window.MonmonVoice && MonmonVoice.open) MonmonVoice.open("ar"); }); } });
+    /* the Arabic voice skips the English names in brackets */
+    $("#sayAr").addEventListener("click", () => { if (capNow && capNow.ar){ stopTour(); say(strip(capNow.ar).replace(/\s*\([^)\u0600-\u06FF]*\)/g, ""), "ar").then(ok => { if (!ok && soundOn() && window.MonmonVoice && MonmonVoice.open) MonmonVoice.open("ar"); }); } });
     document.addEventListener("visibilitychange", () => { if (document.hidden){ stopTour(); hush(); } });
     window.addEventListener("hashchange", () => { const id = location.hash.slice(1); if (BY[id] && (!cur || cur.id !== id)) open(id, true); });
     open(BY[location.hash.slice(1)] ? location.hash.slice(1) : SCENES[0].id, true);

@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>مختبر الجسم ثلاثي الأبعاد</title>
+<html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>3D Body Lab</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%231B2350%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M32 14l16 9v18l-16 9-16-9V23z%22 fill=%22%235FD9A9%22 stroke=%22%23fff%22 stroke-width=%223%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M16 23l16 9 16-9M32 32v18%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%223%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
-body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--en);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
 button,select,input{font:inherit;color:inherit}
 button{cursor:pointer}
 a{color:inherit}
@@ -28,7 +28,8 @@ p{margin:0}
 :focus-visible{outline:3px solid #2F7DE1;outline-offset:3px}
 .wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
 .panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
-.en,[dir="ltr"]{font-family:var(--en)}
+/* English first; Arabic is a help, in its own font and direction */
+[lang="ar"],[dir="rtl"]{font-family:var(--font)}
 b.en{font-weight:700;unicode-bidi:isolate;direction:ltr;display:inline-block}
 
 .topbar{background:var(--paper);border-bottom:3px solid var(--ink)}
@@ -57,7 +58,7 @@ b.en{font-weight:700;unicode-bidi:isolate;direction:ltr;display:inline-block}
 .schips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
 .schips button{flex:none;display:flex;align-items:center;gap:8px;min-height:52px;padding:6px 12px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);font-weight:800;font-size:15px;line-height:1.25;text-align:start}
 .schips button i{font-style:normal;font-size:22px}
-.schips button small{display:block;font-size:11.5px;font-weight:700;color:var(--ink-2);text-align:start}
+.schips button small{display:block;font-size:12.5px;font-weight:700;color:var(--ink-2);text-align:start}
 .schips button[aria-pressed="true"]{background:var(--ink);color:#fff}
 .schips button[aria-pressed="true"] small{color:#C9CCF2}
 @media (min-width:900px){.scenes{grid-template-columns:repeat(2,minmax(0,1fr))}.schips{flex-wrap:wrap;overflow:visible}}
@@ -89,8 +90,11 @@ b.en{font-weight:700;unicode-bidi:isolate;direction:ltr;display:inline-block}
 .cap h3{font-size:18px}
 .cap-en{direction:ltr;text-align:left;font:500 15.5px/1.55 var(--en);background:var(--paper);border:2px solid var(--ink);border-radius:8px;padding:7px 10px;unicode-bidi:isolate}
 .cap-en b{font-weight:800;color:#0C6B52}
-.cap-ar{font-size:16px;font-weight:500}
+.cap h3 small{font-size:15px;font-weight:700;color:var(--ink-2);margin-inline-start:4px}
+.cap-ar{font-size:16px;font-weight:500;line-height:1.75}
+.cap-ar::before{content:"بالعربي للفهم";display:block;font-size:12px;font-weight:800;color:var(--ink-3)}
 .cap-ar b{font-weight:800}
+.cap-ar b.t{font:700 14.5px var(--en);color:#0C6B52;unicode-bidi:isolate;direction:ltr;white-space:nowrap}
 .say{display:flex;gap:8px}
 .say button{min-height:36px;padding:2px 12px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);font-weight:800;font-size:14px}
 .ctl{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;min-width:0}
@@ -101,14 +105,14 @@ b.en{font-weight:700;unicode-bidi:isolate;direction:ltr;display:inline-block}
 .brow{display:flex;flex-wrap:wrap;gap:8px}
 .cbtn{flex:1 1 auto;min-height:44px;padding:6px 12px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);box-shadow:2px 2px 0 var(--ink);font-weight:800;font-size:15px;line-height:1.3}
 .cbtn:active{transform:translate(2px,2px);box-shadow:none}
-.cbtn small{display:block;font:700 11.5px var(--en);color:var(--ink-2);direction:ltr}
+.cbtn small{display:block;font:700 12.5px var(--font);color:var(--ink-2);direction:rtl}
 .cbtn[aria-pressed="true"]:not(.tg){background:var(--ink);color:#fff}.cbtn[aria-pressed="true"]:not(.tg) small{color:#C9CCF2}
 .cbtn.go{background:var(--sun)}
 .cbtn.warn{background:#FFE1E2}
 .cbtn.tg[aria-pressed="true"]{background:#DCF7E9}
 .seg{display:flex;flex-wrap:wrap;gap:6px}
 .seg button{flex:1 1 30%;min-height:46px;padding:5px 8px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:800;font-size:14.5px;line-height:1.25}
-.seg button small{display:block;font:700 11.5px var(--en);color:var(--ink-2);direction:ltr}
+.seg button small{display:block;font:700 12.5px var(--font);color:var(--ink-2);direction:rtl}
 .seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
 .seg button[aria-pressed="true"] small{color:#C9CCF2}
 .note{font-size:14.5px;font-weight:700;color:var(--ink-2)}
@@ -167,52 +171,53 @@ else document.write('<script src="../../assets/sync.js"><\/script><script src=".
 <script src="../../assets/voice.js"></script>
 <header class="topbar">
   <div class="topbar-in">
-    <span class="logo">مختبر 3D</span>
-    <span class="chip">العلوم · الاختبار القصير 2</span>
+    <span class="logo">3D Lab</span>
+    <span class="chip">Science · Quiz 2</span>
     <span class="spacer"></span>
-    <button class="icon-btn" id="sndBtn" type="button" aria-pressed="true" aria-label="الأصوات والقراءة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="snd-on" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/><path class="snd-off" d="M16 9l5 6M21 9l-5 6"/></svg></button>
-    <a class="icon-btn" href="../../index.html" aria-label="الرئيسية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></a>
+    <button class="icon-btn" id="sndBtn" type="button" aria-pressed="true" aria-label="Sounds and reading"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="snd-on" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/><path class="snd-off" d="M16 9l5 6M21 9l-5 6"/></svg></button>
+    <a class="icon-btn" href="../../index.html" aria-label="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></a>
   </div>
 </header>
 <main class="wrap">
   <section class="hero panel">
-    <h1>مختبر الجسم ثلاثي الأبعاد</h1>
-    <p class="sub">دوّر المجسّم بإصبعك، وحرّك الأشرطة والأزرار، وشوف بعينك كيف يشتغل الجسم من جوّه. اضغط على أي جزء عشان تعرف اسمه ووظيفته.</p>
-    <div class="row"><a class="btn sm" href="../quiz-2/index.html">صفحة مراجعة العلوم ←</a></div>
+    <h1>3D Body Lab</h1>
+    <p class="sub">Turn the model with your finger, move the sliders and buttons, and see how the body works inside. Tap any part to read its name and its job. The names are in English, as in the quiz.</p>
+    <p class="sub" lang="ar" dir="rtl">المصطلحات بالإنجليزي مثل الاختبار، والشرح العربي تحتها للفهم فقط.</p>
+    <div class="row"><a class="btn sm" href="../quiz-2/index.html">Science review page →</a></div>
   </section>
 
-  <nav class="scenes" id="scenes" aria-label="المجسّمات"></nav>
+  <nav class="scenes" id="scenes" aria-label="The models"></nav>
 
-  <section class="stage panel" id="stage" aria-label="المجسّم">
-    <div class="stage-head"><h2 id="stageTitle"></h2><span id="stageEn" dir="ltr"></span></div>
+  <section class="stage panel" id="stage" aria-label="The model">
+    <div class="stage-head"><h2 id="stageTitle"></h2><span id="stageAr" lang="ar" dir="rtl"></span></div>
     <div class="view" id="view">
-      <canvas id="gl" tabindex="0" aria-label="مجسّم ثلاثي الأبعاد: اسحب للتدوير"></canvas>
+      <canvas id="gl" tabindex="0" aria-label="3D model: drag to turn it"></canvas>
       <div id="labels"></div>
       <div class="vbtns">
-        <button type="button" id="zin" aria-label="تكبير">+</button>
-        <button type="button" id="zout" aria-label="تصغير">−</button>
-        <button type="button" id="vreset" aria-label="رجّع الزاوية">⟲</button>
-        <button type="button" id="namesBtn" aria-pressed="true" aria-label="الأسماء">Aa</button>
-        <button type="button" id="pauseBtn" aria-pressed="false" aria-label="أوقف الحركة">⏸</button>
+        <button type="button" id="zin" aria-label="Zoom in">+</button>
+        <button type="button" id="zout" aria-label="Zoom out">−</button>
+        <button type="button" id="vreset" aria-label="Reset the view">⟲</button>
+        <button type="button" id="namesBtn" aria-pressed="true" aria-label="Names">Aa</button>
+        <button type="button" id="pauseBtn" aria-pressed="false" aria-label="Pause the motion">⏸</button>
       </div>
-      <p class="hint" id="hint">👆 اسحب يمين ويسار عشان تدوّر المجسّم</p>
-      <div class="nogl" id="nogl" hidden><p>هذا الجهاز ما يقدر يعرض المجسّمات الثلاثية الأبعاد.</p><p><a href="../quiz-2/index.html">افتح صفحة المراجعة: فيها نفس الدروس برسوم تتحرك ←</a></p></div>
+      <p class="hint" id="hint">👆 Drag sideways to turn the model</p>
+      <div class="nogl" id="nogl" hidden><p>This device cannot show 3D models.</p><p><a href="../quiz-2/index.html">Open the review page: the same lessons with moving drawings →</a></p></div>
     </div>
     <div class="side" id="side">
       <div class="cap" id="cap" aria-live="polite">
         <h3 id="capT"></h3>
         <p class="cap-en" id="capEn"></p>
-        <p class="cap-ar" id="capAr"></p>
-        <div class="say"><button type="button" id="sayEn">🔊 English</button><button type="button" id="sayAr">🔊 عربي</button></div>
+        <p class="cap-ar" id="capAr" lang="ar" dir="rtl"></p>
+        <div class="say"><button type="button" id="sayEn">🔊 English</button><button type="button" id="sayAr" lang="ar">🔊 عربي</button></div>
       </div>
       <div class="ctl" id="ctl"></div>
-      <div class="row"><button class="btn go" type="button" id="tourBtn" aria-pressed="false">▶ شغّل الشرح</button><a class="btn sm" id="fullLink" href="index.html" target="_top">افتح المختبر كامل ←</a><a class="btn sm" id="lessonLink" href="../quiz-2/index.html">الدرس في صفحة المراجعة ←</a></div>
+      <div class="row"><button class="btn go" type="button" id="tourBtn" aria-pressed="false">▶ Guided tour</button><a class="btn sm" id="fullLink" href="index.html" target="_top">Open the full lab →</a><a class="btn sm" id="lessonLink" href="../quiz-2/index.html">The lesson on the review page →</a></div>
     </div>
   </section>
 
   <footer class="foot">
-    <p>المجسّمات مرسومة لهذه الصفحة عشان تقرّب الفكرة، وهي مبسّطة ومو صور طبية دقيقة. الجمل الإنجليزية من دروس الاختبار القصير 2 كما في صفحة المراجعة. إذا اختلف شيء عن الكتاب، فالكتاب والمعلم هم المرجع.</p>
-    <p dir="ltr" style="font-family:var(--en);font-size:12.5px">3D drawn with three.js (MIT License).</p>
+    <p>The models are drawn for this page to make the ideas clear. They are simplified, not exact medical pictures. The English sentences come from the Quiz 2 lessons, as on the review page. If anything differs from the book, the book and the teacher come first.</p>
+    <p style="font-size:12.5px">3D drawn with three.js (MIT License).</p>
   </footer>
 </main>
 <script src="../../assets/vendor/three.min.js"></script>

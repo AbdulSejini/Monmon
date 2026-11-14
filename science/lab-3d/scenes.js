@@ -14,11 +14,11 @@ const pct = s => (s >= 0 ? "+" : "") + Math.round(s * 100) + "%";
 /* ====================================================================== LESSON 2 */
 /* ---------- joints and ligaments: the three movable joints, each with its ligaments ---------- */
 Lab.scene({
-  id:"joints", les:2, icon:"🦴", title:"المفاصل والأربطة", en:"Joints and ligaments", topic:"l2-joint",
+  id:"joints", les:2, icon:"🦴", title:"Joints and ligaments", ar:"المفاصل والأربطة", topic:"l2-joint",
   cam:{target:[0, 2.45, 0], dist:7.4, theta:.75, phi:1.3}, floor:[0, 0, 0, 4.5],
-  intro:{t:"المفاصل والأربطة",
+  intro:{t:"Joints and ligaments · المفاصل والأربطة",
     en:"A <b>joint</b> is a place where two or more bones meet. <b>Ligaments</b> connect bone to bone at a joint: they stretch when the joint moves and keep the bones from shifting apart.",
-    ar:"المفصل هو مكان التقاء عظمين أو أكثر، وهو اللي يخلّي الهيكل يتحرك. والأربطة (الأشرطة الخضراء) تربط العظم بالعظم: تتمدّد مع الحركة وتمنع العظام تنفصل. اختر مفصل وحرّكه بنفسك."},
+    ar:"المفصل (<b class=t>joint</b>) هو مكان التقاء عظمين أو أكثر، وهو اللي يخلّي الهيكل يتحرك. والأربطة (<b class=t>ligaments</b>)، وهي الأشرطة الخضراء، تربط العظم بالعظم: تتمدّد مع الحركة وتمنع العظام (<b class=t>bones</b>) تنفصل. اختر مفصل وحرّكه بنفسك."},
   build(c){
     const bone = K.bone(), cart = K.cartilage(), dark = K.flat(0x2A2440);
     const G = {ball:new THREE.Group(), hinge:new THREE.Group(), pivot:new THREE.Group()};
@@ -68,24 +68,24 @@ Lab.scene({
 
     /* the controls */
     const status = c.ui.note("", "badge ok");
-    const seg = c.ui.seg({label:"نوع المفصل", value:"ball", opts:[
-      {k:"ball", label:'كروي حُقّي<small>Ball-and-socket</small>'}, {k:"hinge", label:'رزّي<small>Hinge</small>'}, {k:"pivot", label:'محوري<small>Pivot</small>'}],
+    const seg = c.ui.seg({label:"Kind of joint", value:"ball", opts:[
+      {k:"ball", label:'Ball-and-socket<small>كروي حُقّي</small>'}, {k:"hinge", label:'Hinge<small>رزّي</small>'}, {k:"pivot", label:'Pivot<small>محوري</small>'}],
       on:k => setMode(k)});
-    const pad = c.ui.pad({label:"حرّك الدائرة: العظم يتحرك في كل الاتجاهات تقريبًا", on:(x, y, q) => { mb.rotation.set(y * .85, 0, -x * .85); if (!q) creak(); }});
-    const sH = c.ui.slider({label:"اثنِ المفصل", min:0, max:140, value:0, fmt:v => Math.round(v) + "°", on:(v, q) => { mh.rotation.x = -rad(v); if (!q) creak(); }});
-    const sP = c.ui.slider({label:"لفّ الرأس يمين ويسار", min:-70, max:70, value:0, fmt:v => Math.round(v) + "°", on:(v, q) => { mp.rotation.y = rad(v); if (!q) creak(); }});
-    const [bAuto, bSide] = c.ui.buttons([{label:"🤸 حرّكه لي", cls:"go", on:() => auto()}, {label:"🚫 جرّب تثنيه بالعرض", on:() => sideways()}]);
-    const tg = c.ui.toggle({off_label:"🛡️ رجّع الأربطة", on_label:"😱 ماذا لو اختفت الأربطة؟", value:true, cls:"warn", on:(v, q) => setLig(v, q)});
+    const pad = c.ui.pad({label:"Move the circle: the bone moves in nearly all directions", on:(x, y, q) => { mb.rotation.set(y * .85, 0, -x * .85); if (!q) creak(); }});
+    const sH = c.ui.slider({label:"Bend the joint", min:0, max:140, value:0, fmt:v => Math.round(v) + "°", on:(v, q) => { mh.rotation.x = -rad(v); if (!q) creak(); }});
+    const sP = c.ui.slider({label:"Turn the head left and right", min:-70, max:70, value:0, fmt:v => Math.round(v) + "°", on:(v, q) => { mp.rotation.y = rad(v); if (!q) creak(); }});
+    const [bAuto, bSide] = c.ui.buttons([{label:"🤸 Move it for me", cls:"go", on:() => auto()}, {label:"🚫 Try to bend it sideways", on:() => sideways()}]);
+    const tg = c.ui.toggle({off_label:"🛡️ Bring the ligaments back", on_label:"😱 What if the ligaments vanish?", value:true, cls:"warn", on:(v, q) => setLig(v, q)});
     let lastCreak = 0;
     function creak(){ const n = performance.now(); if (n - lastCreak > 260){ lastCreak = n; c.sfx(mode === "ball" ? "whirr" : mode === "hinge" ? "creak" : "swish"); } }
 
     const INFO = {
-      ball:{t:"1 · المفصل الكروي الحُقّي", en:"<b>Ball-and-socket joint:</b> a ball turns in a cup, so it moves and rotates in nearly all directions. Examples: <b>hips, shoulders</b>.",
-        ar:"رأس العظم كرة تدور داخل تجويف يشبه الكوب، فيتحرك العظم في كل الاتجاهات تقريبًا. مثاله: الورك والكتف. جرّب: دوّر ذراعك من الكتف مثل المروحة."},
-      hinge:{t:"2 · المفصل الرزّي", en:"<b>Hinge joint:</b> it bends back and forth in one direction, like a door. Examples: <b>elbows, knees, fingers</b>.",
-        ar:"مثل مفصلة الباب: ينثني وينفرد في اتجاه واحد فقط. مثاله: الكوع والركبة والأصابع. جرّب تثنيه بالعرض وشوف إيش يصير!"},
-      pivot:{t:"3 · المفصل المحوري", en:"<b>Pivot joint:</b> it lets one bone turn on another. Examples: the <b>neck</b>, and below the elbow (turning the lower arm).",
-        ar:"عظم يدور حول عظم ثابت مثل الحلقة حول الوتد. مثاله: الرقبة لما تلفّ راسك وتقول «لا»، وتحت الكوع لما تقلب كفّك."}};
+      ball:{t:"1 · Ball-and-socket joint · المفصل الكروي الحُقّي", en:"<b>Ball-and-socket joint:</b> a ball turns in a cup, so it moves and rotates in nearly all directions. Examples: <b>hips, shoulders</b>.",
+        ar:"رأس العظم كرة (<b class=t>ball</b>) تدور داخل تجويف يشبه الكوب (<b class=t>socket</b>)، فيتحرك العظم في كل الاتجاهات تقريبًا. مثاله: الورك (<b class=t>hip</b>) والكتف (<b class=t>shoulder</b>). جرّب: دوّر ذراعك من الكتف مثل المروحة."},
+      hinge:{t:"2 · Hinge joint · المفصل الرزّي", en:"<b>Hinge joint:</b> it bends back and forth in one direction, like a door. Examples: <b>elbows, knees, fingers</b>.",
+        ar:"مثل مفصلة الباب: ينثني وينفرد في اتجاه واحد فقط. مثاله: الكوع (<b class=t>elbow</b>) والركبة (<b class=t>knee</b>) والأصابع (<b class=t>fingers</b>). جرّب تثنيه بالعرض وشوف إيش يصير!"},
+      pivot:{t:"3 · Pivot joint · المفصل المحوري", en:"<b>Pivot joint:</b> it lets one bone turn on another. Examples: the <b>neck</b>, and below the elbow (turning the lower arm).",
+        ar:"عظم يدور حول عظم ثابت مثل الحلقة حول الوتد. مثاله: الرقبة (<b class=t>neck</b>) لما تلفّ راسك وتقول «لا»، وتحت الكوع (<b class=t>elbow</b>) لما تقلب كفّك."}};
     function setMode(k, quiet){
       mode = k; for (const n in G) G[n].visible = n === k;
       pad.el.hidden = k !== "ball"; sH.el.hidden = k !== "hinge"; sP.el.hidden = k !== "pivot"; bSide.hidden = k !== "hinge";
@@ -97,8 +97,8 @@ Lab.scene({
       ligOn = v; const from = apart, to = v ? 0 : 1;
       if (!quiet){
         c.sfx(v ? "power" : "boing");
-        c.info(v ? {t:"رجعت الأربطة 🛡️", en:"<b>Ligaments connect bone to bone</b> at a joint and keep the bones from shifting apart.", ar:"رجعت الأربطة ومسكت العظمين مع بعض. بدونها المفصل ما يثبت."}
-                 : {t:"بدون أربطة 😱", en:"Without ligaments, the <b>bones shift apart</b>: nothing holds them together at the joint.", ar:"شوف! لما اختفت الأربطة انفصل العظم وطاح من مكانه. عشان كذا نقول: الأربطة تمنع العظام تنفصل."});
+        c.info(v ? {t:"The ligaments are back 🛡️ · رجعت الأربطة", en:"<b>Ligaments connect bone to bone</b> at a joint and keep the bones from shifting apart.", ar:"رجعت الأربطة (<b class=t>ligaments</b>) ومسكت العظمين مع بعض. بدونها المفصل (<b class=t>joint</b>) ما يثبت."}
+                 : {t:"No ligaments 😱 · بدون أربطة", en:"Without ligaments, the <b>bones shift apart</b>: nothing holds them together at the joint.", ar:"شوف! لما اختفت الأربطة (<b class=t>ligaments</b>) انفصل العظم وطاح من مكانه. عشان كذا نقول: الأربطة تمنع العظام (<b class=t>bones</b>) تنفصل."});
       }
       c.tween(quiet ? 0 : 700, k => { apart = lerp(from, to, k); });
     }
@@ -109,8 +109,8 @@ Lab.scene({
       return c.tween(3600, k => sP.set(65 * Math.sin(k * TAU * 1.5), true), null);
     }
     function sideways(){
-      c.sfx("wrong"); status.className = "note badge bad"; status.textContent = "🚫 ما ينثني بالعرض! اتجاه واحد فقط (one direction)";
-      c.info({t:"اتجاه واحد فقط", en:"A hinge joint moves <b>back and forth in one direction</b> only. It cannot bend sideways.", ar:"الكوع والركبة ما ينثنون بالعرض. المفصل الرزّي يتحرك للأمام والخلف فقط، مثل الباب."});
+      c.sfx("wrong"); status.className = "note badge bad"; status.textContent = "🚫 It won't bend sideways! One direction only";
+      c.info({t:"One direction only · اتجاه واحد فقط", en:"A hinge joint moves <b>back and forth in one direction</b> only. It cannot bend sideways.", ar:"الكوع (<b class=t>elbow</b>) والركبة (<b class=t>knee</b>) ما ينثنون بالعرض. المفصل الرزّي (<b class=t>hinge joint</b>) يتحرك للأمام والخلف فقط، مثل الباب."});
       return c.tween(700, k => { wobble = Math.sin(k * Math.PI * 6) * .11 * (1 - k); }, null).then(() => { wobble = 0; });
     }
     c.label("Joint", () => mode === "ball" ? C : mode === "hinge" ? H : P, {dx:-64, dy:-6});
@@ -123,12 +123,12 @@ Lab.scene({
     setMode("ball", true);
 
     c.tour = [
-      {t:"المفصل", en:"A joint is a place where two or more bones meet. Joints make the skeleton flexible.", ar:"المفصل مكان التقاء عظمين أو أكثر، وهو اللي يخلّي الهيكل العظمي مرن ويتحرك.", run:async () => { seg.set("ball"); await c.wait(900); }},
-      {t:"الأربطة", en:"Ligaments connect bone to bone at a joint. They stretch when the joint moves.", ar:"الأربطة الخضراء تربط العظم بالعظم. شوفها تتمدّد ويتغيّر لونها لما يتحرك المفصل.", run:() => c.tween(3200, k => pad.set(Math.sin(k * TAU) * .95, Math.sin(k * TAU * 2) * .3, true), null)},
-      {t:"بدون أربطة", en:"Ligaments keep the bones from shifting apart.", ar:"لو اختفت الأربطة ينفصل العظم عن مكانه. الأربطة تمنع العظام تنفصل.", run:async () => { pad.set(0, 0, true); tg.set(false); await c.wait(2400); tg.set(true); await c.wait(900); }},
-      {t:"1 · الكروي الحُقّي", en:"Ball-and-socket joint: a ball turns in a cup, in nearly all directions. Hips and shoulders.", ar:"كرة تدور في كوب: حركة في كل الاتجاهات تقريبًا. الورك والكتف.", run:() => auto()},
-      {t:"2 · الرزّي", en:"Hinge joint: it bends back and forth in one direction. Elbows, knees and fingers.", ar:"ينثني وينفرد في اتجاه واحد مثل الباب. الكوع والركبة والأصابع.", run:async () => { seg.set("hinge"); await c.wait(700); await auto(); }},
-      {t:"3 · المحوري", en:"Pivot joint: one bone turns on another. The neck, and below the elbow.", ar:"عظم يدور حول عظم ثاني. الرقبة، وتحت الكوع لما تقلب كفّك.", run:async () => { seg.set("pivot"); await c.wait(700); await auto(); }}
+      {t:"Joint · المفصل", en:"A joint is a place where two or more bones meet. Joints make the skeleton flexible.", ar:"المفصل (<b class=t>joint</b>) مكان التقاء عظمين أو أكثر، وهو اللي يخلّي الهيكل العظمي (<b class=t>skeleton</b>) مرن ويتحرك.", run:async () => { seg.set("ball"); await c.wait(900); }},
+      {t:"Ligaments · الأربطة", en:"Ligaments connect bone to bone at a joint. They stretch when the joint moves.", ar:"الأربطة (<b class=t>ligaments</b>) الخضراء تربط العظم بالعظم. شوفها تتمدّد ويتغيّر لونها لما يتحرك المفصل (<b class=t>joint</b>).", run:() => c.tween(3200, k => pad.set(Math.sin(k * TAU) * .95, Math.sin(k * TAU * 2) * .3, true), null)},
+      {t:"Without ligaments · بدون أربطة", en:"Ligaments keep the bones from shifting apart.", ar:"لو اختفت الأربطة (<b class=t>ligaments</b>) ينفصل العظم عن مكانه. الأربطة تمنع العظام (<b class=t>bones</b>) تنفصل.", run:async () => { pad.set(0, 0, true); tg.set(false); await c.wait(2400); tg.set(true); await c.wait(900); }},
+      {t:"1 · Ball-and-socket · كروي حُقّي", en:"Ball-and-socket joint: a ball turns in a cup, in nearly all directions. Hips and shoulders.", ar:"كرة (<b class=t>ball</b>) تدور في كوب (<b class=t>socket</b>): حركة في كل الاتجاهات تقريبًا. الورك (<b class=t>hip</b>) والكتف (<b class=t>shoulder</b>).", run:() => auto()},
+      {t:"2 · Hinge · رزّي", en:"Hinge joint: it bends back and forth in one direction. Elbows, knees and fingers.", ar:"ينثني وينفرد في اتجاه واحد مثل الباب. الكوع (<b class=t>elbow</b>) والركبة (<b class=t>knee</b>) والأصابع (<b class=t>fingers</b>).", run:async () => { seg.set("hinge"); await c.wait(700); await auto(); }},
+      {t:"3 · Pivot · محوري", en:"Pivot joint: one bone turns on another. The neck, and below the elbow.", ar:"عظم يدور حول عظم ثاني. الرقبة (<b class=t>neck</b>)، وتحت الكوع (<b class=t>elbow</b>) لما تقلب كفّك.", run:async () => { seg.set("pivot"); await c.wait(700); await auto(); }}
     ];
     const pc = V(), mid = V();
     return {update(){
@@ -146,19 +146,19 @@ Lab.scene({
         const s = Math.max(0, straight / b.L0 - 1); top = Math.max(top, s);
         b.m.update(p0, pc, p1, b.w / Math.sqrt(1 + s), b.out); b.m.material.color.copy(stretchColor(s));
       }
-      if (apart > .5){ status.className = "note badge bad"; status.textContent = "⚠️ الأربطة مختفية: العظام انفصلت (shifted apart)"; }
-      else if (!wobble){ status.className = "note badge ok"; status.textContent = "✅ الأربطة ماسكة العظام · تمدّدها: " + pct(top); }
+      if (apart > .5){ status.className = "note badge bad"; status.textContent = "⚠️ No ligaments: the bones shifted apart"; }
+      else if (!wobble){ status.className = "note badge ok"; status.textContent = "✅ The ligaments hold the bones · stretch: " + pct(top); }
     }};
   }
 });
 
 /* ---------- the arm: muscles pull on bones, and the elbow is the fixed point of a lever ---------- */
 Lab.scene({
-  id:"arm", les:2, icon:"💪", title:"العضلات تحرّك العظام", en:"Muscles and movement", topic:"l2-musc",
+  id:"arm", les:2, icon:"💪", title:"Muscles and movement", ar:"العضلات تحرّك العظام", topic:"l2-musc",
   cam:{target:[0, 2.2, .5], dist:6.6, theta:1.25, phi:1.36}, floor:[0, -.6, .4, 4],
-  intro:{t:"العضلات تحرّك العظام",
+  intro:{t:"Muscles and movement · العضلات تحرّك العظام",
     en:"When a muscle <b>contracts</b>, its cells get <b>shorter</b> and thicker. Muscles can only <b>pull</b>, not push, so they work in pairs.",
-    ar:"العضلة لما تنقبض تقصر وتسمن وتسحب العظم. العضلات تسحب فقط وما تدفّ، عشان كذا تشتغل أزواج: وحدة تثني ووحدة تفرد. حرّك الشريط وراقب العضلتين."},
+    ar:"العضلة (<b class=t>muscle</b>) لما تنقبض (<b class=t>contracts</b>) تقصر وتسمن وتسحب العظم. العضلات (<b class=t>muscles</b>) تسحب فقط وما تدفّ، عشان كذا تشتغل أزواج: وحدة تثني ووحدة تفرد. حرّك الشريط وراقب العضلتين."},
   build(c){
     const bone = K.bone(), skinM = K.flat(0xE8B894, {roughness:.6});
     const S = V(0, 3.7, 0), E = V(0, 1.7, 0);
@@ -188,24 +188,24 @@ Lab.scene({
     skin.add(up); fa.add(lo); skin.traverse(o => { o.renderOrder = 10; }); lo.renderOrder = 10; g.add(skin);
 
     const status = c.ui.note("", "badge ok");
-    const sA = c.ui.slider({label:"اثنِ الكوع", min:0, max:135, value:20, fmt:v => Math.round(v) + "°", on:v => { ang = v; }});
-    c.ui.buttons([{label:"💪 اثنِ وافرد", cls:"go", on:() => { c.sfx("whoosh"); c.tween(4200, k => sA.set(8 + 122 * (Math.sin(k * TAU * 1.5 - Math.PI / 2) * .5 + .5), true), null); }}]);
+    const sA = c.ui.slider({label:"Bend the elbow", min:0, max:135, value:20, fmt:v => Math.round(v) + "°", on:v => { ang = v; }});
+    c.ui.buttons([{label:"💪 Bend and straighten", cls:"go", on:() => { c.sfx("whoosh"); c.tween(4200, k => sA.set(8 + 122 * (Math.sin(k * TAU * 1.5 - Math.PI / 2) * .5 + .5), true), null); }}]);
     const row = c.ui.row();
-    c.ui.toggle({into:row, off_label:"🏋️ احمل وزن", on_label:"🏋️ نزّل الوزن", value:false, on:v => { db.visible = v; if (v) c.sfx("click"); }});
-    c.ui.toggle({into:row, off_label:"👁️ أظهر الجلد", on_label:"👁️ أخفِ الجلد", value:true, on:v => { up.visible = lo.visible = v; }});
+    c.ui.toggle({into:row, off_label:"🏋️ Hold a weight", on_label:"🏋️ Put the weight down", value:false, on:v => { db.visible = v; if (v) c.sfx("click"); }});
+    c.ui.toggle({into:row, off_label:"👁️ Show the skin", on_label:"👁️ Hide the skin", value:true, on:v => { up.visible = lo.visible = v; }});
     const lBi = c.label("Biceps", () => V(0, 3.0, .5), {pick:"bi", dx:-24, dy:-34}), lTri = c.label("Triceps", () => V(0, 2.5, -.5), {pick:"tri", dx:30, dy:30});
     c.label("Joint: the fixed point", E, {dx:-70, dy:22, cls:"dim"});
     c.label("Bone: the lever", () => fa.localToWorld(V(0, -1.2, 0)), {dy:26, cls:"dim"});
     c.pick(bi, "bi"); c.pick(tri, "tri");
     c.onPick = k => c.info(k === "bi"
-      ? {t:"Biceps · العضلة الأمامية", en:"The <b>biceps</b> contracts and pulls the lower arm <b>up</b>. Its cells get shorter and thicker.", ar:"العضلة اللي قدّام: لما تنقبض تقصر وتسمن وتسحب الساعد لفوق، فينثني الكوع."}
-      : {t:"Triceps · العضلة الخلفية", en:"The <b>triceps</b> contracts and pulls the lower arm <b>back down</b>. A muscle cannot push, so another muscle must pull the other way.", ar:"العضلة اللي ورا: لما تنقبض تسحب الساعد وتفرد الذراع. العضلة ما تدفّ، فلازم عضلة ثانية تسحب بالعكس."});
+      ? {t:"Biceps · العضلة الأمامية", en:"The <b>biceps</b> contracts and pulls the lower arm <b>up</b>. Its cells get shorter and thicker.", ar:"العضلة اللي قدّام (<b class=t>biceps</b>): لما تنقبض (<b class=t>contracts</b>) تقصر وتسمن وتسحب الساعد (<b class=t>lower arm</b>) لفوق، فينثني الكوع (<b class=t>elbow</b>)."}
+      : {t:"Triceps · العضلة الخلفية", en:"The <b>triceps</b> contracts and pulls the lower arm <b>back down</b>. A muscle cannot push, so another muscle must pull the other way.", ar:"العضلة اللي ورا (<b class=t>triceps</b>): لما تنقبض (<b class=t>contracts</b>) تسحب الساعد (<b class=t>lower arm</b>) وتفرد الذراع. العضلة ما تدفّ، فلازم عضلة ثانية تسحب بالعكس."});
     c.tour = [
-      {en:"A muscle is strong tissue that contracts to make the body move. Bones move when the muscles attached to them contract.", ar:"العضلة نسيج قوي ينقبض فيحرّك الجسم. العظم يتحرك لما تنقبض العضلة المربوطة فيه.", run:() => c.tween(1200, k => sA.set(lerp(sA.get(), 10, k), true))},
-      {t:"الانقباض", en:"When the biceps contracts, its cells get shorter and thicker, and it pulls the lower arm up.", ar:"العضلة الأمامية تنقبض: تقصر وتسمن وتسحب الساعد لفوق.", hot:"bi", run:() => c.tween(2600, k => sA.set(lerp(10, 130, k), true))},
-      {t:"الانبساط", en:"When a muscle relaxes, its cells go back to their original length.", ar:"ولما ترتخي العضلة ترجع لطولها الأصلي.", run:() => c.wait(1500)},
-      {t:"تسحب ولا تدفّ", en:"Muscles can only pull, not push. So the triceps pulls the arm straight again.", ar:"العضلات تسحب فقط. عشان يرجع الذراع مفرود، تنقبض العضلة الخلفية وتسحبه.", hot:"tri", run:() => c.tween(2600, k => sA.set(lerp(130, 10, k), true))},
-      {t:"الرافعة", en:"Bones and muscles work like a lever: the bone turns around a fixed point, which is the joint.", ar:"العظم والعضلة مثل الرافعة: العظم يدور حول نقطة ثابتة هي المفصل (الكوع).", run:() => c.tween(3000, k => sA.set(10 + 110 * Math.sin(k * Math.PI), true), null)}
+      {en:"A muscle is strong tissue that contracts to make the body move. Bones move when the muscles attached to them contract.", ar:"العضلة (<b class=t>muscle</b>) نسيج قوي ينقبض فيحرّك الجسم. العظم يتحرك لما تنقبض (<b class=t>contracts</b>) العضلة المربوطة فيه.", run:() => c.tween(1200, k => sA.set(lerp(sA.get(), 10, k), true))},
+      {t:"Contract · الانقباض", en:"When the biceps contracts, its cells get shorter and thicker, and it pulls the lower arm up.", ar:"العضلة الأمامية (<b class=t>biceps</b>) تنقبض (<b class=t>contracts</b>): تقصر وتسمن وتسحب الساعد (<b class=t>lower arm</b>) لفوق.", hot:"bi", run:() => c.tween(2600, k => sA.set(lerp(10, 130, k), true))},
+      {t:"Relax · الانبساط", en:"When a muscle relaxes, its cells go back to their original length.", ar:"ولما ترتخي (<b class=t>relaxes</b>) العضلة (<b class=t>muscle</b>) ترجع لطولها الأصلي.", run:() => c.wait(1500)},
+      {t:"Pull, not push · تسحب ولا تدفّ", en:"Muscles can only pull, not push. So the triceps pulls the arm straight again.", ar:"العضلات (<b class=t>muscles</b>) تسحب فقط. عشان يرجع الذراع مفرود، تنقبض (<b class=t>contracts</b>) العضلة الخلفية (<b class=t>triceps</b>) وتسحبه.", hot:"tri", run:() => c.tween(2600, k => sA.set(lerp(130, 10, k), true))},
+      {t:"A lever · الرافعة", en:"Bones and muscles work like a lever: the bone turns around a fixed point, which is the joint.", ar:"العظم والعضلة (<b class=t>muscle</b>) مثل الرافعة (<b class=t>lever</b>): العظم يدور حول نقطة ثابتة هي المفصل (<b class=t>joint</b>)، يعني الكوع (<b class=t>elbow</b>).", run:() => c.tween(3000, k => sA.set(10 + 110 * Math.sin(k * Math.PI), true), null)}
     ];
     const I = V();
     return {update(dt, t, real){
@@ -220,18 +220,18 @@ Lab.scene({
       tri.material.emissiveIntensity = lerp(tri.material.emissiveIntensity, dir < 0 ? .55 : 0, .15);
       lBi.el.textContent = "Biceps " + Math.round(biK * 100) + "%" + (dir > 0 ? " · contracts" : dir < 0 ? " · relaxes" : "");
       lTri.el.textContent = "Triceps " + Math.round(triK * 100) + "%" + (dir < 0 ? " · contracts" : dir > 0 ? " · relaxes" : "");
-      status.textContent = dir > 0 ? "العضلة الأمامية تنقبض وتسحب ⬆️ (Biceps contracts)" : dir < 0 ? "العضلة الخلفية تنقبض وتسحب ⬇️ (Triceps contracts)" : "حرّك الشريط وراقب العضلتين";
+      status.textContent = dir > 0 ? "⬆️ The biceps contracts and pulls" : dir < 0 ? "⬇️ The triceps contracts and pulls" : "Move the slider and watch the two muscles";
     }};
   }
 });
 
 /* ---------- the skeleton: its five jobs, shown on a whole skeleton ---------- */
 Lab.scene({
-  id:"skeleton", les:2, icon:"💀", title:"وظائف الهيكل العظمي", en:"What the skeleton does", topic:"l2-skel",
+  id:"skeleton", les:2, icon:"💀", title:"What the skeleton does", ar:"وظائف الهيكل العظمي", topic:"l2-skel",
   cam:{target:[0, 2.15, 0], dist:7.3, theta:.5, phi:1.4}, floor:[0, 0, 0, 3.6],
-  intro:{t:"وظائف الهيكل العظمي",
+  intro:{t:"What the skeleton does · وظائف الهيكل العظمي",
     en:"The skeleton gives <b>support</b> and shape, works with muscles for <b>movement</b>, <b>protects</b> organs, <b>makes red blood cells</b> and <b>stores calcium</b>.",
-    ar:"الهيكل العظمي له خمس وظائف: يسند الجسم، ويحرّكه مع العضلات، ويحمي الأعضاء، ويصنع خلايا الدم الحمراء، ويخزّن الكالسيوم. اضغط على كل وظيفة وشوفها قدّامك."},
+    ar:"الهيكل العظمي (<b class=t>skeleton</b>) له خمس وظائف: يسند الجسم، ويحرّكه مع العضلات (<b class=t>muscles</b>)، ويحمي الأعضاء، ويصنع خلايا الدم الحمراء (<b class=t>red blood cells</b>)، ويخزّن الكالسيوم (<b class=t>calcium</b>). اضغط على كل وظيفة وشوفها قدّامك."},
   build(c){
     const sk = new THREE.Group(); c.root.add(sk);
     const M = n => { const m = K.bone(); m.transparent = true; m.emissive = new THREE.Color(0xFFFFFF); m.emissiveIntensity = 0; m.name = n; return m; };
@@ -277,25 +277,25 @@ Lab.scene({
     let job = null, jobT = 0, see = 0;   /* see: 0 = solid bones, 1 = see-through */
     const reset = () => { [armL, armR, legL, legR].forEach(l => { l.top.rotation.set(0, 0, 0); l.mid.rotation.set(0, 0, 0); }); armL.top.rotation.z = -.13; armR.top.rotation.z = .13; head.rotation.set(0, 0, 0); sk.visible = true; sk.scale.set(1, 1, 1); sk.position.y = 0; flesh.scale.set(1, 1, 1); flesh.position.y = 0; fm.opacity = .12; };
     const JOBS = {
-      support:{label:"🧍 الدعامة<small>Support</small>", t:"1 · الدعامة والشكل", en:"<b>Support and shape:</b> the skeleton holds the body up. Without it the body would flop like gelatin.", ar:"الهيكل يسند الجسم ويعطيه شكله. بدون العظام يطيح الجسم ويصير رخو مثل الجلي!",
+      support:{label:"🧍 Support<small>الدعامة</small>", t:"1 · Support and shape · الدعامة والشكل", en:"<b>Support and shape:</b> the skeleton holds the body up. Without it the body would flop like gelatin.", ar:"الهيكل يسند الجسم ويعطيه شكله. بدون العظام (<b class=t>bones</b>) يطيح الجسم ويصير رخو مثل الجلي!",
         run:async () => { c.sfx("boing"); await c.tween(900, k => { sk.scale.set(1 + k * .4, 1 - k * .86, 1 + k * .4); flesh.scale.set(1 + k * .9, 1 - k * .8, 1 + k * 1.2); fm.opacity = .12 + k * .45; }); sk.visible = false;
           await c.tween(1400, k => { const w = Math.sin(k * 14) * .05 * (1 - k); flesh.scale.set(1.9 + w, .2 - w, 2.2 + w); }, null); await c.wait(500); sk.visible = true; c.sfx("power");
           await c.tween(800, k => { const q = 1 - k; sk.scale.set(1 + q * .4, 1 - q * .86, 1 + q * .4); flesh.scale.set(1 + q * .9, 1 - q * .8, 1 + q * 1.2); fm.opacity = .12 + q * .45; }); }},
-      move:{label:"🏃 الحركة<small>Movement</small>", t:"2 · الحركة", en:"<b>Movement:</b> bones move when the muscles attached to them contract, so the skeletal and muscular systems work together.", ar:"العظام تتحرك لما تسحبها العضلات، والمفاصل هي اللي تخلّيها تنثني. الهيكل والعضلات يشتغلون مع بعض.",
+      move:{label:"🏃 Movement<small>الحركة</small>", t:"2 · Movement · الحركة", en:"<b>Movement:</b> bones move when the muscles attached to them contract, so the skeletal and muscular systems work together.", ar:"العظام (<b class=t>bones</b>) تتحرك لما تسحبها العضلات (<b class=t>muscles</b>)، والمفاصل (<b class=t>joints</b>) هي اللي تخلّيها تنثني. الهيكل والعضلات يشتغلون مع بعض.",
         run:async () => { c.sfx("whoosh"); await c.tween(3600, k => { const a = Math.sin(k * TAU * 3), b = Math.sin(k * TAU * 3 + Math.PI);
             legL.top.rotation.x = -.55 * Math.max(0, a); legL.mid.rotation.x = 1.0 * Math.max(0, a); legR.top.rotation.x = -.55 * Math.max(0, b); legR.mid.rotation.x = 1.0 * Math.max(0, b);
             armL.top.rotation.x = .5 * b; armR.top.rotation.x = .5 * a; armL.mid.rotation.x = -.5; armR.mid.rotation.x = -.5; sk.position.y = Math.abs(Math.sin(k * TAU * 3)) * .04; }, null);
           reset(); await c.tween(2000, k => { armR.top.rotation.z = .13 + 2.5 * Math.min(1, k * 3); armR.mid.rotation.z = .5 * Math.sin(k * 30) * (k > .3 ? 1 : 0); }, null); reset(); }},
-      protect:{label:"🛡️ الحماية<small>Protection</small>", t:"3 · الحماية", en:"<b>Protection:</b> the <b>skull</b> protects the brain, the <b>rib cage</b> protects the heart and lungs, and the backbone protects the spinal cord.", ar:"الجمجمة خوذة تحمي المخ، والقفص الصدري يحمي القلب والرئتين، والعمود الفقري يحمي الحبل الشوكي اللي جوّاه.",
+      protect:{label:"🛡️ Protection<small>الحماية</small>", t:"3 · Protection · الحماية", en:"<b>Protection:</b> the <b>skull</b> protects the brain, the <b>rib cage</b> protects the heart and lungs, and the backbone protects the spinal cord.", ar:"الجمجمة (<b class=t>skull</b>) خوذة تحمي المخ (<b class=t>brain</b>)، والقفص الصدري (<b class=t>rib cage</b>) يحمي القلب (<b class=t>heart</b>) والرئتين (<b class=t>lungs</b>)، والعمود الفقري (<b class=t>backbone</b>) يحمي الحبل الشوكي (<b class=t>spinal cord</b>) اللي جوّاه.",
         run:async () => { c.sfx("sparkle"); await c.tween(700, k => { see = k; }); await c.wait(3800); await c.tween(700, k => { see = 1 - k; }); }},
-      blood:{label:"🩸 صنع الدم<small>Production</small>", t:"4 · صنع خلايا الدم", en:"<b>Production:</b> red blood cells are made inside the bones, in the marrow.", ar:"جوّا العظام (في النخاع) تنصنع خلايا الدم الحمراء. شوفها تطلع من عظم الفخذ!",
+      blood:{label:"🩸 Production<small>صنع الدم</small>", t:"4 · Production of blood cells · صنع خلايا الدم", en:"<b>Production:</b> red blood cells are made inside the bones, in the marrow.", ar:"جوّا العظام (<b class=t>bones</b>)، في النخاع (<b class=t>marrow</b>)، تنصنع خلايا الدم الحمراء (<b class=t>red blood cells</b>). شوفها تطلع من عظم الفخذ (<b class=t>thigh bone</b>)!",
         run:async () => { c.sfx("bubbles"); await c.look({target:[0, 1.3, 0], dist:5, theta:.5, phi:1.4}, 700); await c.wait(3600); await c.look({target:[0, 2.15, 0], dist:7.3, theta:.5, phi:1.4}, 700); }},
-      store:{label:"🥛 التخزين<small>Storage</small>", t:"5 · التخزين", en:"<b>Storage:</b> bones store <b>calcium</b>, for strong bones and many cell processes, and fat.", ar:"العظام مخزن الكالسيوم (اللي في الحليب واللبن) عشان تبقى قوية، وتخزّن الدهون كمان.",
+      store:{label:"🥛 Storage<small>التخزين</small>", t:"5 · Storage · التخزين", en:"<b>Storage:</b> bones store <b>calcium</b>, for strong bones and many cell processes, and fat.", ar:"العظام (<b class=t>bones</b>) مخزن الكالسيوم (<b class=t>calcium</b>) (اللي في الحليب واللبن) عشان تبقى قوية، وتخزّن الدهون كمان.",
         run:async () => { c.sfx("ding"); await c.wait(3200); }}
     };
     const btns = c.ui.buttons(Object.keys(JOBS).map(k => ({label:JOBS[k].label, on:() => go(k)})));
     btns.forEach(b => b.classList.add("jobbtn"));
-    c.ui.note("اضغط على وظيفة، أو على الجمجمة والأضلاع والمفاصل في المجسّم.");
+    c.ui.note("Tap a job, or tap the skull, the ribs or a joint on the model.");
     let running = 0;
     async function go(k){
       const my = ++running; job = k; jobT = 0; reset(); see = 0; c.info(JOBS[k]);
@@ -316,13 +316,13 @@ Lab.scene({
     c.pick(cran, "skull"); c.pick(ribs, "ribs"); c.pick(armL.jt, "shoulder"); c.pick(armR.jt, "shoulder"); c.pick(armL.jm, "elbow"); c.pick(armR.jm, "elbow");
     c.pick(legL.jt, "hip"); c.pick(legR.jt, "hip"); c.pick(legL.jm, "knee"); c.pick(legR.jm, "knee"); c.pick(legL.bone, "femur"); c.pick(legR.bone, "femur");
     const TAP = {
-      skull:{t:"Skull · الجمجمة", en:"The <b>skull</b> protects the brain.", ar:"الجمجمة تحمي المخ مثل الخوذة.", run:() => go("protect")},
-      ribs:{t:"Rib cage · القفص الصدري", en:"The <b>rib cage</b> protects the heart and lungs.", ar:"الأضلاع تحمي القلب والرئتين.", run:() => go("protect")},
-      femur:{t:"Thigh bone · عظم الفخذ", en:"Bones support the body's weight, and <b>red blood cells</b> are made inside them.", ar:"عظم الفخذ يشيل وزن الجسم، وجوّاه تنصنع خلايا الدم الحمراء.", run:() => go("blood")},
-      shoulder:{t:"Shoulder · الكتف", en:"The shoulder is a <b>ball-and-socket joint</b>: it moves in nearly all directions.", ar:"الكتف مفصل كروي حُقّي: يتحرك في كل الاتجاهات تقريبًا.", run:() => c.tween(2400, k => { armR.top.rotation.set(Math.sin(k * TAU * 2) * 1.2 * Math.sin(k * Math.PI), 0, .13 + 1.3 * Math.sin(k * Math.PI)); }, null).then(reset)},
-      elbow:{t:"Elbow · الكوع", en:"The elbow is a <b>hinge joint</b>: it bends back and forth in one direction.", ar:"الكوع مفصل رزّي: ينثني وينفرد في اتجاه واحد.", run:() => c.tween(2000, k => { armR.mid.rotation.x = -2.1 * Math.sin(k * Math.PI * 2) ** 2; armL.mid.rotation.x = armR.mid.rotation.x; }, null).then(reset)},
-      hip:{t:"Hip · الورك", en:"The hip is a <b>ball-and-socket joint</b>.", ar:"الورك مفصل كروي حُقّي مثل الكتف.", run:() => c.tween(2400, k => { legR.top.rotation.set(-.8 * Math.sin(k * TAU) * Math.sin(k * Math.PI), 0, .7 * Math.sin(k * Math.PI) ** 2); }, null).then(reset)},
-      knee:{t:"Knee · الركبة", en:"The knee is a <b>hinge joint</b>.", ar:"الركبة مفصل رزّي: للأمام والخلف فقط.", run:() => c.tween(2000, k => { legR.mid.rotation.x = 1.5 * Math.sin(k * Math.PI * 2) ** 2; }, null).then(reset)}
+      skull:{t:"Skull · الجمجمة", en:"The <b>skull</b> protects the brain.", ar:"الجمجمة (<b class=t>skull</b>) تحمي المخ (<b class=t>brain</b>) مثل الخوذة.", run:() => go("protect")},
+      ribs:{t:"Rib cage · القفص الصدري", en:"The <b>rib cage</b> protects the heart and lungs.", ar:"الأضلاع (<b class=t>ribs</b>) تحمي القلب (<b class=t>heart</b>) والرئتين (<b class=t>lungs</b>).", run:() => go("protect")},
+      femur:{t:"Thigh bone · عظم الفخذ", en:"Bones support the body's weight, and <b>red blood cells</b> are made inside them.", ar:"عظم الفخذ (<b class=t>thigh bone</b>) يشيل وزن الجسم، وجوّاه تنصنع خلايا الدم الحمراء (<b class=t>red blood cells</b>).", run:() => go("blood")},
+      shoulder:{t:"Shoulder · الكتف", en:"The shoulder is a <b>ball-and-socket joint</b>: it moves in nearly all directions.", ar:"الكتف (<b class=t>shoulder</b>) مفصل (<b class=t>joint</b>) كروي حُقّي (<b class=t>ball-and-socket</b>): يتحرك في كل الاتجاهات تقريبًا.", run:() => c.tween(2400, k => { armR.top.rotation.set(Math.sin(k * TAU * 2) * 1.2 * Math.sin(k * Math.PI), 0, .13 + 1.3 * Math.sin(k * Math.PI)); }, null).then(reset)},
+      elbow:{t:"Elbow · الكوع", en:"The elbow is a <b>hinge joint</b>: it bends back and forth in one direction.", ar:"الكوع (<b class=t>elbow</b>) مفصل رزّي (<b class=t>hinge joint</b>): ينثني وينفرد في اتجاه واحد.", run:() => c.tween(2000, k => { armR.mid.rotation.x = -2.1 * Math.sin(k * Math.PI * 2) ** 2; armL.mid.rotation.x = armR.mid.rotation.x; }, null).then(reset)},
+      hip:{t:"Hip · الورك", en:"The hip is a <b>ball-and-socket joint</b>.", ar:"الورك (<b class=t>hip</b>) مفصل (<b class=t>joint</b>) كروي حُقّي (<b class=t>ball-and-socket</b>) مثل الكتف (<b class=t>shoulder</b>).", run:() => c.tween(2400, k => { legR.top.rotation.set(-.8 * Math.sin(k * TAU) * Math.sin(k * Math.PI), 0, .7 * Math.sin(k * Math.PI) ** 2); }, null).then(reset)},
+      knee:{t:"Knee · الركبة", en:"The knee is a <b>hinge joint</b>.", ar:"الركبة (<b class=t>knee</b>) مفصل رزّي (<b class=t>hinge joint</b>): للأمام والخلف فقط.", run:() => c.tween(2000, k => { legR.mid.rotation.x = 1.5 * Math.sin(k * Math.PI * 2) ** 2; }, null).then(reset)}
     };
     c.onPick = k => { const o = TAP[k]; if (!o) return; if (k === "skull" || k === "ribs" || k === "femur") return o.run(); running++; job = null; reset(); c.info(o); c.sfx("creak"); o.run(); };
     c.tour = Object.keys(JOBS).map(k => ({t:JOBS[k].t, en:strip2(JOBS[k].en), ar:JOBS[k].ar, run:() => go(k)}));
@@ -350,11 +350,11 @@ function strip2(h){ return String(h).replace(/<[^>]+>/g, ""); }
 /* ====================================================================== LESSON 3 */
 /* ---------- digestion: the food's journey through a see-through body ---------- */
 Lab.scene({
-  id:"digest", les:3, icon:"🍎", title:"رحلة اللقمة", en:"The digestive system", topic:"l3-organs",
+  id:"digest", les:3, icon:"🍎", title:"The digestive system", ar:"رحلة اللقمة", topic:"l3-organs",
   cam:{target:[0, 2.3, 0], dist:7.1, theta:.3, phi:1.42}, floor:[0, .1, 0, 3.4],
-  intro:{t:"رحلة اللقمة في الجهاز الهضمي",
+  intro:{t:"The digestive system · رحلة اللقمة",
     en:"Food is <b>ingested</b>, <b>digested</b>, its nutrients and water are <b>absorbed</b>, and the undigested food is <b>eliminated</b>.",
-    ar:"اللقمة تمشي رحلة طويلة: فم، ثم مريء، ثم معدة، ثم أمعاء دقيقة، ثم أمعاء غليظة. حرّك الشريط وامشِ مع اللقمة (الكرة المضيئة) خطوة خطوة، أو اضغط على أي عضو."},
+    ar:"اللقمة تمشي رحلة طويلة: فم (<b class=t>mouth</b>)، ثم مريء (<b class=t>esophagus</b>)، ثم معدة (<b class=t>stomach</b>)، ثم أمعاء دقيقة (<b class=t>small intestine</b>)، ثم أمعاء غليظة (<b class=t>large intestine</b>). حرّك الشريط وامشِ مع اللقمة (الكرة المضيئة) خطوة خطوة، أو اضغط على أي عضو."},
   build(c){
     const g = c.root; g.add(K.bodyShell());
     const eso = K.curve([[0, 3.8, .25], [0, 3.55, .02], [0, 3.0, 0], [.08, 2.7, .04], [.22, 2.55, .1]]);
@@ -386,20 +386,20 @@ Lab.scene({
     const bits = K.dots(40, .03, K.glow(0xffffff, {depthTest:false, transparent:true})); bits.renderOrder = 31; g.add(bits);
     const P = []; for (let i = 0; i < 40; i++) P.push({p:V(0, -99, 0), v:V(), life:0, col:0});
     const INFO = {
-      mouth:{t:"1 · Mouth · الفم", en:"<b>Mouth:</b> digestion begins here. The teeth chew the food (<b>mechanical</b> digestion) and saliva starts to break down carbohydrates (<b>chemical</b> digestion).", ar:"الهضم يبدأ من الفم: الأسنان تقطّع وتطحن الأكل (هضم ميكانيكي)، واللعاب يبدأ يفكّك النشويات (هضم كيميائي)."},
-      saliv:{t:"Salivary glands · الغدد اللعابية", en:"The <b>salivary glands</b> make saliva, 1 to 2 liters a day.", ar:"الغدد اللعابية تصنع اللعاب: من لتر إلى لترين كل يوم!"},
-      eso:{t:"2 · Esophagus · المريء", en:"<b>Esophagus:</b> a muscular tube to the stomach. <b>Peristalsis</b>, waves of muscle contractions, pushes the food down.", ar:"المريء أنبوب عضلي يوصّل للمعدة. عضلاته تنقبض موجة ورا موجة وتدفّ اللقمة لتحت: هذي الحركة الدودية (peristalsis)."},
-      sto:{t:"3 · Stomach · المعدة", en:"<b>Stomach:</b> it stores the food and churns it with acidic gastric juice.", ar:"المعدة تخزّن الأكل وتخضّه وتخلطه مع العصارة الحمضية، إلى أن يصير مثل الشوربة."},
-      liver:{t:"Liver · الكبد", en:"The <b>liver</b> makes bile, which breaks up fat. Food does <b>not</b> pass through the liver.", ar:"الكبد يصنع العصارة الصفراء اللي تفتّت الدهون. انتبه: الأكل ما يمرّ من الكبد نفسه."},
-      si:{t:"4 · Small intestine · الأمعاء الدقيقة", en:"<b>Small intestine:</b> most chemical digestion happens here, and the <b>villi</b> absorb nutrients and most of the water into the blood.", ar:"هنا يتم أغلب الهضم الكيميائي، والخملات (villi) تمتصّ المغذّيات وأغلب الماء وتدخلها الدم. شوف النقاط الذهبية تطلع من اللقمة!"},
-      li:{t:"5 · Large intestine · الأمعاء الغليظة", en:"<b>Large intestine:</b> it absorbs more water. What is left becomes solid waste and is eliminated.", ar:"الأمعاء الغليظة تمتصّ باقي الماء (النقاط الزرقاء)، واللي يبقى يصير فضلات صلبة تطلع من الجسم."}
+      mouth:{t:"1 · Mouth · الفم", en:"<b>Mouth:</b> digestion begins here. The teeth chew the food (<b>mechanical</b> digestion) and saliva starts to break down carbohydrates (<b>chemical</b> digestion).", ar:"الهضم يبدأ من الفم (<b class=t>mouth</b>): الأسنان تقطّع وتطحن الأكل (هضم ميكانيكي، <b class=t>mechanical digestion</b>)، واللعاب (<b class=t>saliva</b>) يبدأ يفكّك النشويات (<b class=t>carbohydrates</b>) (هضم كيميائي، <b class=t>chemical digestion</b>)."},
+      saliv:{t:"Salivary glands · الغدد اللعابية", en:"The <b>salivary glands</b> make saliva, 1 to 2 liters a day.", ar:"الغدد اللعابية (<b class=t>salivary glands</b>) تصنع اللعاب (<b class=t>saliva</b>): من لتر إلى لترين كل يوم!"},
+      eso:{t:"2 · Esophagus · المريء", en:"<b>Esophagus:</b> a muscular tube to the stomach. <b>Peristalsis</b>, waves of muscle contractions, pushes the food down.", ar:"المريء (<b class=t>esophagus</b>) أنبوب عضلي يوصّل للمعدة (<b class=t>stomach</b>). عضلاته تنقبض (<b class=t>contracts</b>) موجة ورا موجة وتدفّ اللقمة لتحت: هذي الحركة الدودية (<b class=t>peristalsis</b>)."},
+      sto:{t:"3 · Stomach · المعدة", en:"<b>Stomach:</b> it stores the food and churns it with acidic gastric juice.", ar:"المعدة (<b class=t>stomach</b>) تخزّن الأكل وتخضّه وتخلطه مع العصارة الحمضية (<b class=t>gastric juice</b>)، إلى أن يصير مثل الشوربة."},
+      liver:{t:"Liver · الكبد", en:"The <b>liver</b> makes bile, which breaks up fat. Food does <b>not</b> pass through the liver.", ar:"الكبد (<b class=t>liver</b>) يصنع العصارة الصفراء (<b class=t>bile</b>) اللي تفتّت الدهون. انتبه: الأكل ما يمرّ من الكبد نفسه."},
+      si:{t:"4 · Small intestine · الأمعاء الدقيقة", en:"<b>Small intestine:</b> most chemical digestion happens here, and the <b>villi</b> absorb nutrients and most of the water into the blood.", ar:"هنا يتم أغلب الهضم الكيميائي (<b class=t>chemical digestion</b>)، والخملات (<b class=t>villi</b>) تمتصّ المغذّيات (<b class=t>nutrients</b>) وأغلب الماء وتدخلها الدم. شوف النقاط الذهبية تطلع من اللقمة!"},
+      li:{t:"5 · Large intestine · الأمعاء الغليظة", en:"<b>Large intestine:</b> it absorbs more water. What is left becomes solid waste and is eliminated.", ar:"الأمعاء الغليظة (<b class=t>large intestine</b>) تمتصّ باقي الماء (النقاط الزرقاء)، واللي يبقى يصير فضلات صلبة (<b class=t>solid waste</b>) تطلع من الجسم."}
     };
     const STAGES = [["mouth", 0, .1], ["eso", .1, .22], ["sto", .22, .42], ["si", .42, .76], ["li", .76, 1.001]];
     let q = 0, stage = "", lastQ = 0, emit = 0;
     const status = c.ui.note("", "badge ok");
-    const sQ = c.ui.slider({label:"امشِ مع اللقمة", min:0, max:100, step:.2, value:0, fmt:v => Math.round(v) + "%", on:v => { q = v / 100; }});
-    c.ui.buttons([{label:"▶ الرحلة كاملة", cls:"go", on:() => c.tween(24000, k => sQ.set(k * 100, true), null)},
-      {label:"👄", on:() => sQ.set(2)}, {label:"المريء", on:() => sQ.set(12)}, {label:"المعدة", on:() => sQ.set(26)}, {label:"الدقيقة", on:() => sQ.set(46)}, {label:"الغليظة", on:() => sQ.set(79)}]);
+    const sQ = c.ui.slider({label:"Follow the food", min:0, max:100, step:.2, value:0, fmt:v => Math.round(v) + "%", on:v => { q = v / 100; }});
+    c.ui.buttons([{label:"▶ The whole journey", cls:"go", on:() => c.tween(24000, k => sQ.set(k * 100, true), null)},
+      {label:"👄 Mouth", on:() => sQ.set(2)}, {label:"Esophagus", on:() => sQ.set(12)}, {label:"Stomach", on:() => sQ.set(26)}, {label:"Small intestine", on:() => sQ.set(46)}, {label:"Large intestine", on:() => sQ.set(79)}]);
     const NAMES = {mouth:"Mouth", saliv:"Salivary glands", eso:"Esophagus", sto:"Stomach", liver:"Liver", si:"Small intestine", li:"Large intestine"};
     const AT = {mouth:V(0, 3.84, .5), saliv:V(.4, 3.78, .2), eso:V(0, 3.1, .15), sto:V(.72, 2.25, .3), liver:V(-.55, 2.45, .5), si:V(0, 1.15, .4), li:V(-.72, 1.3, .2)};
     const DX = {mouth:-46, saliv:66, eso:54, sto:52, liver:-44, si:0, li:-70};
@@ -408,12 +408,12 @@ Lab.scene({
     let glowK = null, glowT = 0;
     function glow(k){ glowK = k; glowT = 1; c.hot(k); }
     c.tour = [
-      {t:"1 · الفم", en:"Mouth: the teeth chew the food, which is mechanical digestion, and saliva starts chemical digestion.", ar:INFO.mouth.ar, hot:"mouth", run:() => c.tween(2600, k => sQ.set(lerp(0, 9, k), true), null)},
-      {t:"2 · المريء", en:"Esophagus: peristalsis, waves of muscle contractions, pushes the food down to the stomach.", ar:INFO.eso.ar, hot:"eso", run:() => c.tween(3200, k => sQ.set(lerp(10, 22, k), true), null)},
-      {t:"3 · المعدة", en:"Stomach: it stores the food and churns it with acidic gastric juice.", ar:INFO.sto.ar, hot:"sto", run:() => c.tween(4200, k => sQ.set(lerp(22, 42, k), true), null)},
-      {t:"الكبد", en:"The liver makes bile, which breaks up fat. Food does not pass through the liver.", ar:INFO.liver.ar, hot:"liver", run:async () => { glow("liver"); await c.wait(1600); }},
-      {t:"4 · الأمعاء الدقيقة", en:"Small intestine: most chemical digestion happens here, and the villi absorb the nutrients into the blood.", ar:INFO.si.ar, hot:"si", run:() => c.tween(7000, k => sQ.set(lerp(42, 76, k), true), null)},
-      {t:"5 · الأمعاء الغليظة", en:"Large intestine: it absorbs more water, and what is left becomes solid waste.", ar:INFO.li.ar, hot:"li", run:() => c.tween(5500, k => sQ.set(lerp(76, 100, k), true), null)}
+      {t:"1 · Mouth · الفم", en:"Mouth: the teeth chew the food, which is mechanical digestion, and saliva starts chemical digestion.", ar:INFO.mouth.ar, hot:"mouth", run:() => c.tween(2600, k => sQ.set(lerp(0, 9, k), true), null)},
+      {t:"2 · Esophagus · المريء", en:"Esophagus: peristalsis, waves of muscle contractions, pushes the food down to the stomach.", ar:INFO.eso.ar, hot:"eso", run:() => c.tween(3200, k => sQ.set(lerp(10, 22, k), true), null)},
+      {t:"3 · Stomach · المعدة", en:"Stomach: it stores the food and churns it with acidic gastric juice.", ar:INFO.sto.ar, hot:"sto", run:() => c.tween(4200, k => sQ.set(lerp(22, 42, k), true), null)},
+      {t:"Liver · الكبد", en:"The liver makes bile, which breaks up fat. Food does not pass through the liver.", ar:INFO.liver.ar, hot:"liver", run:async () => { glow("liver"); await c.wait(1600); }},
+      {t:"4 · Small intestine · الأمعاء الدقيقة", en:"Small intestine: most chemical digestion happens here, and the villi absorb the nutrients into the blood.", ar:INFO.si.ar, hot:"si", run:() => c.tween(7000, k => sQ.set(lerp(42, 76, k), true), null)},
+      {t:"5 · Large intestine · الأمعاء الغليظة", en:"Large intestine: it absorbs more water, and what is left becomes solid waste.", ar:INFO.li.ar, hot:"li", run:() => c.tween(5500, k => sQ.set(lerp(76, 100, k), true), null)}
     ];
     const pos = V(), mouthP = V(0, 3.83, .3), stoC = V(.45, 2.2, .18), tmpv = V();
     return {update(dt, t, real){
@@ -446,7 +446,7 @@ Lab.scene({
       bits.done();
       glowT = Math.max(0, glowT - real * .5);
       for (const k in O) O[k].traverse(o => { if (o.material && o.material.emissive) o.material.emissiveIntensity = k === glowK ? glowT * .5 * (.6 + .4 * Math.sin(t * 8)) : 0; });
-      status.textContent = {mouth:"👄 الفم: مضغ ولعاب (ingest)", eso:"⬇️ المريء: حركة دودية (peristalsis)", sto:"🌀 المعدة: خضّ وعصارة حمضية (digest)", si:"✨ الأمعاء الدقيقة: امتصاص المغذّيات (absorb)", li:"💧 الأمعاء الغليظة: امتصاص الماء ثم الإخراج (eliminate)"}[stage];
+      status.textContent = {mouth:"👄 Mouth: chewing and saliva", eso:"⬇️ Esophagus: peristalsis", sto:"🌀 Stomach: churning with gastric juice", si:"✨ Small intestine: the villi absorb nutrients", li:"💧 Large intestine: water absorbed, then elimination"}[stage];
       lastQ = q;
     }};
   }
@@ -454,11 +454,11 @@ Lab.scene({
 
 /* ---------- villi: why the small intestine absorbs so much ---------- */
 Lab.scene({
-  id:"villi", les:3, icon:"🌿", title:"الخملات والامتصاص", en:"Absorption: the villi", topic:"l3-villi",
+  id:"villi", les:3, icon:"🌿", title:"Absorption: the villi", ar:"الخملات والامتصاص", topic:"l3-villi",
   cam:{target:[0, .55, 0], dist:7.6, theta:.5, phi:1.12}, floor:false,
-  intro:{t:"الخملات: ليش الأمعاء الدقيقة تمتصّ كثير؟",
+  intro:{t:"Villi: why the small intestine absorbs so much · الخملات",
     en:"<b>Villi</b> are finger-like projections in the small intestine. They have thin walls, a huge surface area and many blood vessels, so nutrients pass into the blood.",
-    ar:"جدار الأمعاء الدقيقة مو أملس: فيه نتوءات صغيرة مثل الأصابع اسمها الخملات. تزيد المساحة كثير، فتلقط المغذّيات (الكرات الذهبية) وتدخلها الدم. جرّب الجدار الأملس وقارن العدّاد!"},
+    ar:"جدار الأمعاء الدقيقة (<b class=t>small intestine</b>) مو أملس: فيه نتوءات صغيرة مثل الأصابع اسمها الخملات (<b class=t>villi</b>). تزيد المساحة كثير، فتلقط المغذّيات (<b class=t>nutrients</b>) (الكرات الذهبية) وتدخلها الدم. جرّب الجدار الأملس وقارن العدّاد!"},
   build(c){
     const g = c.root, wall = K.organ(0xF2A9A0), vm = K.organ(0xF7B4AE);
     g.add(K.mesh(new THREE.BoxGeometry(4.4, .4, 2.3), wall, 0, -.2, 0));
@@ -475,12 +475,12 @@ Lab.scene({
     const spawn = (s, any) => { s.p.set(any ? -2.2 + rnd() * 4.4 : -2.3, .14 + rnd() * 1.6, -.95 + rnd() * 1.9); s.st = 0; s.v = null; };
     PS.forEach(s => spawn(s, true));
     let villi = true, h = 1, got = 0, lost = 0;
-    const box = document.createElement("div"); box.className = "count"; box.innerHTML = '<div><b id="vGot" dir="ltr">0</b><span>دخلت الدم (absorbed)</span></div><div><b id="vLost" dir="ltr">0</b><span>راحت بدون امتصاص</span></div>';
-    const seg = c.ui.seg({value:"v", opts:[{k:"v", label:'🌿 جدار بالخملات<small>with villi</small>'}, {k:"s", label:'➖ جدار أملس<small>smooth wall</small>'}], on:(k, quiet) => {
+    const box = document.createElement("div"); box.className = "count"; box.innerHTML = '<div><b id="vGot" dir="ltr">0</b><span>Absorbed into the blood</span></div><div><b id="vLost" dir="ltr">0</b><span>Passed by, not absorbed</span></div>';
+    const seg = c.ui.seg({value:"v", opts:[{k:"v", label:'🌿 Wall with villi<small>جدار بالخملات</small>'}, {k:"s", label:'➖ Smooth wall<small>جدار أملس</small>'}], on:(k, quiet) => {
       villi = k === "v"; got = lost = 0; const from = h, to = villi ? 1 : .04; c.tween(700, z => { h = lerp(from, to, z); });
       if (!quiet){ c.sfx(villi ? "power" : "boing"); c.info(villi
-        ? {t:"جدار بالخملات", en:"The <b>villi</b> give the wall a huge surface area, so most nutrients touch it and pass into the blood.", ar:"الخملات تزيد مساحة السطح كثير، فأغلب المغذّيات تلمسها وتدخل الدم. شوف العدّاد الأخضر كيف يطلع بسرعة."}
-        : {t:"جدار أملس", en:"A smooth wall has a small surface area: most nutrients pass by without being absorbed. In <b>celiac disease</b>, gluten damages the small intestine, so the body absorbs less.", ar:"بدون خملات المساحة صغيرة، فأغلب المغذّيات تمرّ وتروح. وهذا اللي يصير في مرض السيلياك: الجلوتين يضرّ الأمعاء الدقيقة فيقلّ الامتصاص."}); }
+        ? {t:"Wall with villi · جدار بالخملات", en:"The <b>villi</b> give the wall a huge surface area, so most nutrients touch it and pass into the blood.", ar:"الخملات (<b class=t>villi</b>) تزيد مساحة السطح كثير، فأغلب المغذّيات (<b class=t>nutrients</b>) تلمسها وتدخل الدم. شوف العدّاد الأخضر كيف يطلع بسرعة."}
+        : {t:"Smooth wall · جدار أملس", en:"A smooth wall has a small surface area: most nutrients pass by without being absorbed. In <b>celiac disease</b>, gluten damages the small intestine, so the body absorbs less.", ar:"بدون خملات المساحة صغيرة، فأغلب المغذّيات (<b class=t>nutrients</b>) تمرّ وتروح. وهذا اللي يصير في مرض السيلياك (<b class=t>celiac disease</b>): الجلوتين (<b class=t>gluten</b>) يضرّ الأمعاء الدقيقة (<b class=t>small intestine</b>) فيقلّ الامتصاص (<b class=t>absorption</b>)."}); }
     }});
     document.getElementById("ctl").appendChild(box);
     const rate = c.ui.note("", "badge ok");
@@ -489,10 +489,10 @@ Lab.scene({
     c.label("Blood vessel", V(1.2, -.2, 1.3), {dy:-16, dx:30});
     c.label("Nutrients", V(-1.2, 1.7, .6), {dy:-16, cls:"dim"});
     c.tour = [
-      {en:"Villi are finger-like projections in the small intestine.", ar:"الخملات نتوءات صغيرة مثل الأصابع تغطّي جدار الأمعاء الدقيقة من جوّا.", run:async () => { seg.set("v", true); await c.look({theta:.5, phi:1.12, dist:7.6, target:[0, .55, 0]}, 500); await c.wait(1500); }},
-      {en:"They have thin walls and many blood vessels, so nutrients pass into the blood.", ar:"جدارها رقيق وجوّاها أوعية دموية، فالمغذّيات تعبر منها للدم بسهولة.", run:async () => { await c.look({theta:.25, phi:1.3, dist:3.4, target:[xv.x, .5, xv.z]}, 900); await c.wait(2600); await c.look({theta:.5, phi:1.12, dist:7.6, target:[0, .55, 0]}, 900); }},
-      {en:"Without villi, the surface area is small and most nutrients pass by.", ar:"بدون خملات المساحة صغيرة وأغلب المغذّيات تروح بدون امتصاص.", run:async () => { seg.set("s", true); await c.wait(5200); }},
-      {en:"The villi give a huge surface area, so the body absorbs much more.", ar:"مع الخملات المساحة كبيرة جدًّا، والجسم يمتصّ أكثر بكثير.", run:async () => { seg.set("v", true); await c.wait(5200); }}
+      {en:"Villi are finger-like projections in the small intestine.", ar:"الخملات (<b class=t>villi</b>) نتوءات صغيرة مثل الأصابع تغطّي جدار الأمعاء الدقيقة (<b class=t>small intestine</b>) من جوّا.", run:async () => { seg.set("v", true); await c.look({theta:.5, phi:1.12, dist:7.6, target:[0, .55, 0]}, 500); await c.wait(1500); }},
+      {en:"They have thin walls and many blood vessels, so nutrients pass into the blood.", ar:"جدارها رقيق وجوّاها أوعية دموية، فالمغذّيات (<b class=t>nutrients</b>) تعبر منها للدم بسهولة.", run:async () => { await c.look({theta:.25, phi:1.3, dist:3.4, target:[xv.x, .5, xv.z]}, 900); await c.wait(2600); await c.look({theta:.5, phi:1.12, dist:7.6, target:[0, .55, 0]}, 900); }},
+      {en:"Without villi, the surface area is small and most nutrients pass by.", ar:"بدون خملات المساحة صغيرة وأغلب المغذّيات (<b class=t>nutrients</b>) تروح بدون امتصاص.", run:async () => { seg.set("s", true); await c.wait(5200); }},
+      {en:"The villi give a huge surface area, so the body absorbs much more.", ar:"مع الخملات (<b class=t>villi</b>) المساحة كبيرة جدًّا، والجسم يمتصّ أكثر بكثير.", run:async () => { seg.set("v", true); await c.wait(5200); }}
     ];
     return {update(dt, t){
       VS.forEach(v => { v.m.scale.y = h; v.m.rotation.z = .07 * Math.sin(t * 1.5 + v.ph) * h; });
@@ -511,7 +511,7 @@ Lab.scene({
       });
       dots.done();
       document.getElementById("vGot").textContent = got; document.getElementById("vLost").textContent = lost;
-      const all = got + lost; rate.textContent = all < 8 ? "راقب العدّاد…" : "نسبة الامتصاص: " + Math.round(100 * got / all) + "%"; rate.className = "note badge " + (all >= 8 && got / all < .5 ? "bad" : "ok");
+      const all = got + lost; rate.textContent = all < 8 ? "Watch the counter…" : "Absorbed: " + Math.round(100 * got / all) + "%"; rate.className = "note badge " + (all >= 8 && got / all < .5 ? "bad" : "ok");
     }};
   }
 });
@@ -519,11 +519,11 @@ Lab.scene({
 /* ====================================================================== LESSON 4 */
 /* ---------- the heart and the two loops of blood ---------- */
 Lab.scene({
-  id:"heart", les:4, icon:"❤️", title:"القلب والدورة الدموية", en:"The circulatory system", topic:"l4-circ",
+  id:"heart", les:4, icon:"❤️", title:"The circulatory system", ar:"القلب والدورة الدموية", topic:"l4-circ",
   cam:{target:[0, -.35, 0], dist:8.8, theta:.12, phi:1.45}, floor:false,
-  intro:{t:"القلب والدورة الدموية",
+  intro:{t:"The circulatory system · القلب والدورة الدموية",
     en:"The <b>heart</b> is the pump, <b>blood</b> is the carrier and <b>blood vessels</b> are the roads. Blood travels in two loops: to the lungs, and to the body.",
-    ar:"القلب مضخّة ما توقف. الدم الأزرق (قليل الأكسجين) يروح للرئتين وياخذ أكسجين فيصير أحمر، ثم يرجع للقلب اللي يضخّه لكل الجسم. غيّر سرعة النبض، واضغط على أي جزء."},
+    ar:"القلب (<b class=t>heart</b>) مضخّة ما توقف. الدم الأزرق، اللي فيه أكسجين (<b class=t>oxygen</b>) قليل، يروح للرئتين (<b class=t>lungs</b>) وياخذ أكسجين فيصير أحمر، ثم يرجع للقلب اللي يضخّه لكل الجسم. غيّر سرعة النبض، واضغط على أي جزء."},
   build(c){
     const g = c.root, BLUE = 0x3D6FD6, RED = 0xD73C3C;
     const W = {
@@ -564,36 +564,36 @@ Lab.scene({
     const BC = []; for (let i = 0; i < N; i++) BC.push({t:i / N + Math.random() * .004, lp:i % 2});
     let bpm = 70, phase = 0, show = "all", beatOn = true, lastBeat = 0;
     const INFO = {
-      ra:{t:"Right atrium · الأذين الأيمن", en:"The two <b>atria</b> (top) <b>receive</b> blood. The right atrium receives blood coming back from the body.", ar:"الأذينان فوق يستقبلون الدم. الأذين الأيمن يستقبل الدم الراجع من الجسم (قليل الأكسجين)."},
-      la:{t:"Left atrium · الأذين الأيسر", en:"The left atrium receives oxygen-rich blood coming back from the lungs.", ar:"الأذين الأيسر يستقبل الدم الراجع من الرئتين وهو مليان أكسجين."},
-      rv:{t:"Right ventricle · البطين الأيمن", en:"The two <b>ventricles</b> (bottom) <b>pump</b> blood out. The right ventricle pumps blood to the lungs.", ar:"البطينان تحت يضخّون الدم لبرّا القلب. البطين الأيمن يضخّه للرئتين."},
-      lv:{t:"Left ventricle · البطين الأيسر", en:"The <b>left ventricle</b> pumps blood to the whole body, so it has the <b>thickest wall</b>.", ar:"البطين الأيسر يضخّ الدم لكل الجسم، عشان كذا جداره أسمك جدار في القلب."},
-      septum:{t:"Septum · الحاجز", en:"The <b>septum</b> keeps the two sides of the heart apart.", ar:"الحاجز جدار يفصل جهة اليمين عن جهة اليسار، فما يختلط الدم."},
-      valve:{t:"Valves · الصمّامات", en:"<b>Valves</b> keep blood flowing one way.", ar:"الصمّامات مثل أبواب تفتح باتجاه واحد، فالدم يمشي لقدّام وما يرجع."},
-      muscle:{t:"Heart · القلب", en:"The heart is made of <b>cardiac muscle</b>. It is involuntary: it beats by itself, without you thinking.", ar:"القلب عضلة قلبية لا إرادية: تنبض لحالها طول العمر بدون ما تفكّر."},
-      aorta:{t:"Artery · شريان", en:"<b>Arteries</b> carry blood <b>away</b> from the heart.", ar:"الشرايين تاخذ الدم من القلب وتوصّله للجسم."},
-      vein:{t:"Vein · وريد", en:"<b>Veins</b> carry blood <b>back</b> to the heart.", ar:"الأوردة ترجّع الدم للقلب."},
-      pa:{t:"To the lungs · إلى الرئتين", en:"<b>Pulmonary loop:</b> heart → lungs → heart. The blood picks up oxygen in the lungs.", ar:"الحلقة الرئوية: من القلب للرئتين ثم يرجع للقلب. في الرئتين الدم ياخذ أكسجين."},
-      pv:{t:"From the lungs · من الرئتين", en:"Oxygen-rich blood comes back from the lungs to the left atrium.", ar:"الدم الأحمر المليان أكسجين يرجع من الرئتين للأذين الأيسر."},
-      lungs:{t:"Lungs · الرئتان", en:"In the lungs the blood picks up <b>oxygen</b> and drops off <b>carbon dioxide</b>.", ar:"في الرئتين الدم ياخذ الأكسجين ويتخلّص من ثاني أكسيد الكربون، فيتحوّل من أزرق إلى أحمر."},
-      body:{t:"Body cells · خلايا الجسم", en:"<b>Systemic loop:</b> heart → body → heart. In the <b>capillaries</b>, oxygen and nutrients pass from the blood to the cells.", ar:"الحلقة الجهازية: من القلب للجسم ثم يرجع. في الشعيرات الدموية ينتقل الأكسجين والغذاء للخلايا، فيرجع الدم أزرق."}
+      ra:{t:"Right atrium · الأذين الأيمن", en:"The two <b>atria</b> (top) <b>receive</b> blood. The right atrium receives blood coming back from the body.", ar:"الأذينان (<b class=t>atria</b>) فوق يستقبلون الدم. الأذين الأيمن (<b class=t>right atrium</b>) يستقبل الدم الراجع من الجسم، وهو قليل الأكسجين (<b class=t>oxygen</b>)."},
+      la:{t:"Left atrium · الأذين الأيسر", en:"The left atrium receives oxygen-rich blood coming back from the lungs.", ar:"الأذين الأيسر (<b class=t>left atrium</b>) يستقبل الدم الراجع من الرئتين (<b class=t>lungs</b>) وهو مليان أكسجين (<b class=t>oxygen</b>)."},
+      rv:{t:"Right ventricle · البطين الأيمن", en:"The two <b>ventricles</b> (bottom) <b>pump</b> blood out. The right ventricle pumps blood to the lungs.", ar:"البطينان (<b class=t>ventricles</b>) تحت يضخّون الدم لبرّا القلب (<b class=t>heart</b>). البطين الأيمن (<b class=t>right ventricle</b>) يضخّه للرئتين (<b class=t>lungs</b>)."},
+      lv:{t:"Left ventricle · البطين الأيسر", en:"The <b>left ventricle</b> pumps blood to the whole body, so it has the <b>thickest wall</b>.", ar:"البطين الأيسر (<b class=t>left ventricle</b>) يضخّ الدم لكل الجسم، عشان كذا جداره أسمك جدار في القلب (<b class=t>heart</b>)."},
+      septum:{t:"Septum · الحاجز", en:"The <b>septum</b> keeps the two sides of the heart apart.", ar:"الحاجز (<b class=t>septum</b>) جدار يفصل جهة اليمين عن جهة اليسار، فما يختلط الدم."},
+      valve:{t:"Valves · الصمّامات", en:"<b>Valves</b> keep blood flowing one way.", ar:"الصمّامات (<b class=t>valves</b>) مثل أبواب تفتح باتجاه واحد، فالدم يمشي لقدّام وما يرجع."},
+      muscle:{t:"Heart · القلب", en:"The heart is made of <b>cardiac muscle</b>. It is involuntary: it beats by itself, without you thinking.", ar:"القلب (<b class=t>heart</b>) عضلة قلبية لا إرادية (<b class=t>involuntary</b>): تنبض لحالها طول العمر بدون ما تفكّر."},
+      aorta:{t:"Artery · شريان", en:"<b>Arteries</b> carry blood <b>away</b> from the heart.", ar:"الشرايين (<b class=t>arteries</b>) تاخذ الدم من القلب (<b class=t>heart</b>) وتوصّله للجسم."},
+      vein:{t:"Vein · وريد", en:"<b>Veins</b> carry blood <b>back</b> to the heart.", ar:"الأوردة (<b class=t>veins</b>) ترجّع الدم للقلب (<b class=t>heart</b>)."},
+      pa:{t:"To the lungs · إلى الرئتين", en:"<b>Pulmonary loop:</b> heart → lungs → heart. The blood picks up oxygen in the lungs.", ar:"الحلقة الرئوية (<b class=t>pulmonary loop</b>): من القلب (<b class=t>heart</b>) للرئتين (<b class=t>lungs</b>) ثم يرجع للقلب. في الرئتين الدم ياخذ أكسجين (<b class=t>oxygen</b>)."},
+      pv:{t:"From the lungs · من الرئتين", en:"Oxygen-rich blood comes back from the lungs to the left atrium.", ar:"الدم الأحمر المليان أكسجين (<b class=t>oxygen</b>) يرجع من الرئتين (<b class=t>lungs</b>) للأذين الأيسر (<b class=t>left atrium</b>)."},
+      lungs:{t:"Lungs · الرئتان", en:"In the lungs the blood picks up <b>oxygen</b> and drops off <b>carbon dioxide</b>.", ar:"في الرئتين (<b class=t>lungs</b>) الدم ياخذ الأكسجين (<b class=t>oxygen</b>) ويتخلّص من ثاني أكسيد الكربون (<b class=t>carbon dioxide</b>)، فيتحوّل من أزرق إلى أحمر."},
+      body:{t:"Body cells · خلايا الجسم", en:"<b>Systemic loop:</b> heart → body → heart. In the <b>capillaries</b>, oxygen and nutrients pass from the blood to the cells.", ar:"الحلقة الجهازية (<b class=t>systemic loop</b>): من القلب (<b class=t>heart</b>) للجسم ثم يرجع. في الشعيرات الدموية (<b class=t>capillaries</b>) ينتقل الأكسجين (<b class=t>oxygen</b>) والغذاء للخلايا، فيرجع الدم أزرق."}
     };
     c.onPick = k => { c.info(INFO[k]); c.hot(k); };
     const status = c.ui.note("", "badge ok");
-    c.ui.slider({label:"سرعة النبض", min:50, max:170, value:70, fmt:v => Math.round(v) + " bpm", on:v => { bpm = v; }});
-    const seg = c.ui.seg({value:"all", opts:[{k:"all", label:'الحلقتان<small>both loops</small>'}, {k:"pul", label:'الرئوية<small>Pulmonary</small>'}, {k:"sys", label:'الجهازية<small>Systemic</small>'}], on:(k, quiet) => { show = k; if (!quiet && k !== "all"){ c.info(k === "pul" ? INFO.pa : INFO.body); c.sfx("pop"); } }});
-    c.ui.toggle({off_label:"🔈 شغّل صوت النبض", on_label:"🔊 صوت النبض شغّال", value:true, on:v => { beatOn = v; }});
+    c.ui.slider({label:"Heart rate", min:50, max:170, value:70, fmt:v => Math.round(v) + " bpm", on:v => { bpm = v; }});
+    const seg = c.ui.seg({value:"all", opts:[{k:"all", label:'Both loops<small>الحلقتان</small>'}, {k:"pul", label:'Pulmonary loop<small>الرئوية</small>'}, {k:"sys", label:'Systemic loop<small>الجهازية</small>'}], on:(k, quiet) => { show = k; if (!quiet && k !== "all"){ c.info(k === "pul" ? INFO.pa : INFO.body); c.sfx("pop"); } }});
+    c.ui.toggle({off_label:"🔈 Play the heartbeat", on_label:"🔊 Heartbeat on", value:true, on:v => { beatOn = v; }});
     c.label("Right atrium", V(-.4, .52, .3), {pick:"ra", dx:-52, dy:-10}); c.label("Left atrium", V(.34, .5, .25), {pick:"la", dx:50, dy:-14});
     c.label("Right ventricle", V(-.25, -.3, .4), {pick:"rv", dx:-64, dy:14}); c.label("Left ventricle", V(.3, -.35, .35), {pick:"lv", dx:62, dy:14});
     c.label("Lungs", V(-1.95, 1.75, 0), {pick:"lungs", dy:-12}); c.label("Body cells", V(0, -2.5, .6), {pick:"body", dy:22});
     c.label("Artery", V(.85, .2, -.3), {pick:"aorta", dx:36, cls:"dim"}); c.label("Vein", V(-.62, -1.2, -.2), {pick:"vein", dx:-30, cls:"dim"});
     c.label("Valve", V(-.31, .2, .2), {pick:"valve", dx:-6, dy:0, cls:"dim", show:() => Lab.orb.dist < 8});
     c.tour = [
-      {en:"The heart is the pump, blood is the carrier and blood vessels are the roads.", ar:"القلب مضخّة، والدم هو الناقل، والأوعية الدموية هي الطرق.", run:async () => { seg.set("all", true); await c.wait(2200); }},
-      {t:"الأذينان والبطينان", en:"Two atria at the top receive blood, and two ventricles at the bottom pump it out. Valves keep blood flowing one way.", ar:"الأذينان فوق يستقبلون الدم، والبطينان تحت يضخّونه، والصمّامات تخلّيه يمشي باتجاه واحد.", run:async () => { await c.look({target:[0, 0, 0], dist:4.6, theta:.12, phi:1.45}, 900); await c.wait(3200); }},
-      {t:"الحلقة الرئوية", en:"Pulmonary loop: heart, lungs, heart. The blood picks up oxygen.", ar:"الحلقة الرئوية: القلب ثم الرئتين ثم القلب. الدم ياخذ أكسجين ويصير أحمر.", hot:"lungs", run:async () => { await c.look({target:[0, .4, 0], dist:8.2, theta:.12, phi:1.45}, 800); seg.set("pul", true); await c.wait(4200); }},
-      {t:"الحلقة الجهازية", en:"Systemic loop: heart, body, heart. The blood delivers oxygen to the cells.", ar:"الحلقة الجهازية: القلب ثم الجسم ثم القلب. الدم يوصّل الأكسجين للخلايا ويرجع أزرق.", hot:"body", run:async () => { await c.look({target:[0, -.35, 0], dist:8.8, theta:.12, phi:1.45}, 800); seg.set("sys", true); await c.wait(4200); }},
-      {t:"الشرايين والأوردة", en:"Arteries carry blood away from the heart, veins carry it back, and capillaries are where materials pass between the blood and the cells.", ar:"الشرايين تطلّع الدم من القلب، والأوردة ترجّعه، وفي الشعيرات يتبادل الدم والخلايا المواد.", run:async () => { seg.set("all", true); await c.wait(3600); }}
+      {en:"The heart is the pump, blood is the carrier and blood vessels are the roads.", ar:"القلب (<b class=t>heart</b>) مضخّة، والدم هو الناقل، والأوعية الدموية هي الطرق.", run:async () => { seg.set("all", true); await c.wait(2200); }},
+      {t:"Atria and ventricles · الأذينان والبطينان", en:"Two atria at the top receive blood, and two ventricles at the bottom pump it out. Valves keep blood flowing one way.", ar:"الأذينان (<b class=t>atria</b>) فوق يستقبلون الدم، والبطينان (<b class=t>ventricles</b>) تحت يضخّونه، والصمّامات (<b class=t>valves</b>) تخلّيه يمشي باتجاه واحد.", run:async () => { await c.look({target:[0, 0, 0], dist:4.6, theta:.12, phi:1.45}, 900); await c.wait(3200); }},
+      {t:"Pulmonary loop · الحلقة الرئوية", en:"Pulmonary loop: heart, lungs, heart. The blood picks up oxygen.", ar:"الحلقة الرئوية (<b class=t>pulmonary loop</b>): القلب (<b class=t>heart</b>) ثم الرئتين (<b class=t>lungs</b>) ثم القلب. الدم ياخذ أكسجين (<b class=t>oxygen</b>) ويصير أحمر.", hot:"lungs", run:async () => { await c.look({target:[0, .4, 0], dist:8.2, theta:.12, phi:1.45}, 800); seg.set("pul", true); await c.wait(4200); }},
+      {t:"Systemic loop · الحلقة الجهازية", en:"Systemic loop: heart, body, heart. The blood delivers oxygen to the cells.", ar:"الحلقة الجهازية (<b class=t>systemic loop</b>): القلب (<b class=t>heart</b>) ثم الجسم ثم القلب. الدم يوصّل الأكسجين (<b class=t>oxygen</b>) للخلايا ويرجع أزرق.", hot:"body", run:async () => { await c.look({target:[0, -.35, 0], dist:8.8, theta:.12, phi:1.45}, 800); seg.set("sys", true); await c.wait(4200); }},
+      {t:"Arteries and veins · الشرايين والأوردة", en:"Arteries carry blood away from the heart, veins carry it back, and capillaries are where materials pass between the blood and the cells.", ar:"الشرايين (<b class=t>arteries</b>) تطلّع الدم من القلب (<b class=t>heart</b>)، والأوردة (<b class=t>veins</b>) ترجّعه، وفي الشعيرات (<b class=t>capillaries</b>) يتبادل الدم والخلايا المواد.", run:async () => { seg.set("all", true); await c.wait(3600); }}
     ];
     const p = V(), col = new THREE.Color(), cB = new THREE.Color(0x4D8DF0), cR = new THREE.Color(0xE8353B);
     return {update(dt, t){
@@ -616,18 +616,18 @@ Lab.scene({
       });
       cells.done();
       lungs.forEach(l => l.scale.set(.52, .82 * (1 + .03 * Math.sin(t * 1.4)), .45));
-      status.textContent = bpm < 62 ? "😴 نبض هادي: نوم أو راحة" : bpm < 105 ? "🙂 نبض عادي" : bpm < 140 ? "🚶 حركة ولعب" : "🏃 يركض! القلب يضخّ أسرع عشان يوصّل أكسجين أكثر";
+      status.textContent = bpm < 62 ? "😴 Slow pulse: sleeping or resting" : bpm < 105 ? "🙂 Normal pulse" : bpm < 140 ? "🚶 Moving and playing" : "🏃 Running! The heart pumps faster to deliver more oxygen";
     }};
   }
 });
 
 /* ---------- breathing: the airways, the diaphragm, and gas exchange in an air sac ---------- */
 Lab.scene({
-  id:"lungs", les:4, icon:"🫁", title:"التنفّس وتبادل الغازات", en:"The respiratory system", topic:"l4-resp",
+  id:"lungs", les:4, icon:"🫁", title:"The respiratory system", ar:"التنفّس وتبادل الغازات", topic:"l4-resp",
   cam:{target:[0, 2.5, 0], dist:8, theta:.3, phi:1.42}, floor:[0, .1, 0, 3.4],
-  intro:{t:"التنفّس",
+  intro:{t:"Breathing · التنفّس",
     en:"Air path: nose or mouth → pharynx → <b>trachea</b> → <b>bronchi</b> → bronchioles → <b>alveoli</b>. The <b>diaphragm</b> moves down to pull air in and up to push it out.",
-    ar:"الهواء يدخل من الأنف أو الفم، وينزل في القصبة الهوائية، ثم يتفرّع في الشعب إلى أن يوصل الحويصلات الهوائية. والحجاب الحاجز (العضلة اللي تحت) ينزل فيدخل الهواء، ويطلع فيخرج. حرّك الشريط وتنفّس معه."},
+    ar:"الهواء يدخل من الأنف أو الفم (<b class=t>mouth</b>)، وينزل في القصبة الهوائية (<b class=t>trachea</b>)، ثم يتفرّع في الشعب الهوائية (<b class=t>bronchi</b>) إلى أن يوصل الحويصلات الهوائية (<b class=t>alveoli</b>). والحجاب الحاجز (<b class=t>diaphragm</b>)، وهو العضلة اللي تحت الرئتين، ينزل فيدخل الهواء، ويطلع فيخرج. حرّك الشريط وتنفّس معه."},
   build(c){
     const g = c.root; const shellG = K.bodyShell({op:.1}); g.add(shellG);
     const airM = K.organ(0xE9CDB6), main = new THREE.Group(), zoom = new THREE.Group(); g.add(main, zoom); zoom.visible = false;
@@ -663,16 +663,16 @@ Lab.scene({
     const gas = K.dots(40, .045, K.glow(0xffffff)); zoom.add(gas);
     let b = 0, auto = true, zoomed = false, lastDir = 0, lastB = 0;
     const status = c.ui.note("", "badge ok");
-    const sB = c.ui.slider({label:"تنفّس بنفسك: شهيق ↔ زفير", min:0, max:100, value:0, fmt:v => v > 50 ? "شهيق (in)" : "زفير (out)", on:(v, q) => { b = v / 100; if (!q && auto) tgA.set(false, true); }});
+    const sB = c.ui.slider({label:"Breathe yourself: inhale ↔ exhale", min:0, max:100, value:0, fmt:v => v > 50 ? "Inhale" : "Exhale", on:(v, q) => { b = v / 100; if (!q && auto) tgA.set(false, true); }});
     const row = c.ui.row();
-    const tgA = c.ui.toggle({into:row, off_label:"▶ تنفّس تلقائي", on_label:"⏸ تنفّس تلقائي", value:true, on:v => { auto = v; }});
-    const tgZ = c.ui.toggle({into:row, off_label:"🔍 كبّر على الحويصلات", on_label:"↩️ ارجع للرئتين", value:false, cls:"go", on:(v, quiet) => { zoomed = v; zoom.visible = v; main.visible = !v; shellG.visible = !v;
+    const tgA = c.ui.toggle({into:row, off_label:"▶ Breathe by itself", on_label:"⏸ Breathe by itself", value:true, on:v => { auto = v; }});
+    const tgZ = c.ui.toggle({into:row, off_label:"🔍 Zoom into the alveoli", on_label:"↩️ Back to the lungs", value:false, cls:"go", on:(v, quiet) => { zoomed = v; zoom.visible = v; main.visible = !v; shellG.visible = !v;
       c.look(v ? {target:[Z.x, Z.y - .1, 0], dist:5, theta:.25, phi:1.42} : {target:[0, 2.5, 0], dist:8, theta:.3, phi:1.42}, quiet ? 0 : 500);
       if (!quiet){ c.sfx("whoosh"); c.info(v ? INFO.alv : Lab.cur.intro); } }});
     const INFO = {
-      alv:{t:"Alveoli · الحويصلات الهوائية", en:"The lungs hold millions of <b>alveoli</b>, tiny air sacs with walls one cell thick, wrapped in capillaries. <b>Gas exchange:</b> oxygen moves into the blood, and carbon dioxide moves out of it.", ar:"في الرئتين ملايين الحويصلات: أكياس هواء صغيرة جدارها رقيق جدًّا (خلية واحدة) وحولها شعيرات دموية. الأكسجين يعبر للدم، وثاني أكسيد الكربون يطلع من الدم للهواء. شوف الدم كيف يدخل أزرق ويطلع أحمر!"},
-      lungs:{t:"Lungs · الرئتان", en:"Air goes down the trachea and the bronchi to the <b>alveoli</b> in the lungs.", ar:"الهواء ينزل في القصبة والشعب الهوائية إلى أن يوصل الحويصلات في الرئتين."},
-      dia:{t:"Diaphragm · الحجاب الحاجز", en:"The <b>diaphragm</b> is a muscle under the lungs. It moves <b>down</b> to pull air in and <b>up</b> to push it out, by changing the air pressure in the chest.", ar:"الحجاب الحاجز عضلة تحت الرئتين. لما تنقبض تنزل وتتسطّح فيتّسع الصدر ويدخل الهواء، ولما ترتخي تطلع فيخرج الهواء."}
+      alv:{t:"Alveoli · الحويصلات الهوائية", en:"The lungs hold millions of <b>alveoli</b>, tiny air sacs with walls one cell thick, wrapped in capillaries. <b>Gas exchange:</b> oxygen moves into the blood, and carbon dioxide moves out of it.", ar:"في الرئتين (<b class=t>lungs</b>) ملايين الحويصلات (<b class=t>alveoli</b>): أكياس هواء صغيرة جدارها رقيق جدًّا (خلية واحدة) وحولها شعيرات دموية (<b class=t>capillaries</b>). الأكسجين (<b class=t>oxygen</b>) يعبر للدم، وثاني أكسيد الكربون (<b class=t>carbon dioxide</b>) يطلع من الدم للهواء. شوف الدم كيف يدخل أزرق ويطلع أحمر!"},
+      lungs:{t:"Lungs · الرئتان", en:"Air goes down the trachea and the bronchi to the <b>alveoli</b> in the lungs.", ar:"الهواء ينزل في القصبة والشعب الهوائية (<b class=t>bronchi</b>) إلى أن يوصل الحويصلات (<b class=t>alveoli</b>) في الرئتين (<b class=t>lungs</b>)."},
+      dia:{t:"Diaphragm · الحجاب الحاجز", en:"The <b>diaphragm</b> is a muscle under the lungs. It moves <b>down</b> to pull air in and <b>up</b> to push it out, by changing the air pressure in the chest.", ar:"الحجاب الحاجز (<b class=t>diaphragm</b>) عضلة تحت الرئتين (<b class=t>lungs</b>). لما تنقبض (<b class=t>contracts</b>) تنزل وتتسطّح فيتّسع الصدر ويدخل الهواء، ولما ترتخي (<b class=t>relaxes</b>) تطلع فيخرج الهواء."}
     };
     c.onPick = k => { c.info(INFO[k]); c.hot(k); };
     c.label("Trachea", V(0, 3.5, .2), {dx:52, show:() => !zoomed}); c.label("Bronchi", V(-.4, 2.85, .1), {dx:-46, show:() => !zoomed, cls:"dim"});
@@ -680,14 +680,14 @@ Lab.scene({
     c.label("Alveolus (air sac)", V(Z.x, Z.y + .75, .2), {show:() => zoomed, dx:70}); c.label("Capillary", V(Z.x + 1.2, Z.y - .55, .4), {show:() => zoomed, dy:18});
     c.label("O₂ → blood", V(Z.x + .1, Z.y - .78, .5), {show:() => zoomed, dy:26, cls:"hot"}); c.label("CO₂ → out", V(Z.x - .55, Z.y - .2, .5), {show:() => zoomed, dx:-60});
     c.tour = [
-      {en:"Air goes in through the nose or mouth, down the trachea, and into the bronchi.", ar:"الهواء يدخل من الأنف أو الفم وينزل في القصبة الهوائية ثم الشعب.", run:async () => { tgZ.set(false, true); tgA.set(true, true); await c.wait(3000); }},
-      {t:"الحجاب الحاجز", en:"The diaphragm moves down to pull air in, and up to push it out.", ar:"الحجاب الحاجز ينزل فيدخل الهواء (شهيق)، ويطلع فيخرج الهواء (زفير).", hot:"dia", run:async () => { tgA.set(false, true); await c.tween(2200, k => sB.set(k * 100, true)); await c.wait(500); await c.tween(2200, k => sB.set(100 - k * 100, true)); tgA.set(true, true); }},
-      {t:"الحويصلات", en:"The lungs hold millions of alveoli, tiny air sacs with walls one cell thick, wrapped in capillaries.", ar:"في الرئتين ملايين الحويصلات الهوائية، جدارها رقيق جدًّا وحولها شعيرات دموية.", run:async () => { tgZ.set(true, true); await c.look({target:[Z.x, Z.y - .1, 0], dist:5, theta:.25, phi:1.42}, 900); await c.wait(2600); }},
-      {t:"تبادل الغازات", en:"Gas exchange: oxygen moves from the alveoli into the capillaries, and carbon dioxide moves from the blood into the alveoli and is breathed out.", ar:"تبادل الغازات: الأكسجين يعبر من الحويصلة للدم، وثاني أكسيد الكربون يعبر من الدم للحويصلة ويطلع مع الزفير.", run:async () => { await c.wait(5200); tgZ.set(false, true); await c.look({target:[0, 2.5, 0], dist:8, theta:.3, phi:1.42}, 800); }}
+      {en:"Air goes in through the nose or mouth, down the trachea, and into the bronchi.", ar:"الهواء يدخل من الأنف أو الفم (<b class=t>mouth</b>) وينزل في القصبة الهوائية (<b class=t>trachea</b>) ثم الشعب.", run:async () => { tgZ.set(false, true); tgA.set(true, true); await c.wait(3000); }},
+      {t:"Diaphragm · الحجاب الحاجز", en:"The diaphragm moves down to pull air in, and up to push it out.", ar:"الحجاب الحاجز (<b class=t>diaphragm</b>) ينزل فيدخل الهواء (شهيق، <b class=t>inhale</b>)، ويطلع فيخرج الهواء (زفير، <b class=t>exhale</b>).", hot:"dia", run:async () => { tgA.set(false, true); await c.tween(2200, k => sB.set(k * 100, true)); await c.wait(500); await c.tween(2200, k => sB.set(100 - k * 100, true)); tgA.set(true, true); }},
+      {t:"Alveoli · الحويصلات", en:"The lungs hold millions of alveoli, tiny air sacs with walls one cell thick, wrapped in capillaries.", ar:"في الرئتين (<b class=t>lungs</b>) ملايين الحويصلات الهوائية (<b class=t>alveoli</b>)، جدارها رقيق جدًّا وحولها شعيرات دموية.", run:async () => { tgZ.set(true, true); await c.look({target:[Z.x, Z.y - .1, 0], dist:5, theta:.25, phi:1.42}, 900); await c.wait(2600); }},
+      {t:"Gas exchange · تبادل الغازات", en:"Gas exchange: oxygen moves from the alveoli into the capillaries, and carbon dioxide moves from the blood into the alveoli and is breathed out.", ar:"تبادل الغازات (<b class=t>gas exchange</b>): الأكسجين (<b class=t>oxygen</b>) يعبر من الحويصلة للدم، وثاني أكسيد الكربون (<b class=t>carbon dioxide</b>) يعبر من الدم للحويصلة ويطلع مع الزفير (<b class=t>exhale</b>).", run:async () => { await c.wait(5200); tgZ.set(false, true); await c.look({target:[0, 2.5, 0], dist:8, theta:.3, phi:1.42}, 800); }}
     ];
     const p = V(), q2 = V(), o2a = V(Z.x + .1, Z.y - .15, .25), co2b = V(Z.x - .15, Z.y + .1, .2), outP = V(Z.x, Z.y + 1.3, 0);
     return {update(dt, t){
-      if (auto){ b = .5 - .5 * Math.cos(t * TAU / 4.6); sB.input.value = b * 100; sB.el.querySelector("output").textContent = b > lastB ? "شهيق (in)" : "زفير (out)"; }
+      if (auto){ b = .5 - .5 * Math.cos(t * TAU / 4.6); sB.input.value = b * 100; sB.el.querySelector("output").textContent = b > lastB ? "Inhale" : "Exhale"; }
       const d = b > lastB + 1e-4 ? 1 : b < lastB - 1e-4 ? -1 : lastDir;
       if (d !== lastDir && dt){ lastDir = d; if (!zoomed) c.sfx(d > 0 ? "breathIn" : "breathOut"); }
       lastB = b;
@@ -695,7 +695,7 @@ Lab.scene({
       const sy = lerp(1, .32, b); dia.scale.y = sy; dia.position.y = 1.02 - 1.2 * Math.cos(1.0) * sy;
       AP.forEach((a, i) => { a.c.getPoint(clamp(a.o * .5 + b * .5, 0, 1), p); air.set(i, p, 1, d > 0 ? 0xBFE9FF : 0xD9D2A6); });
       air.done();
-      status.textContent = d > 0 ? "⬇️ شهيق: الحجاب الحاجز ينزل والهواء يدخل" : "⬆️ زفير: الحجاب الحاجز يطلع والهواء يخرج";
+      status.textContent = d > 0 ? "⬇️ Inhale: the diaphragm moves down and air comes in" : "⬆️ Exhale: the diaphragm moves up and air goes out";
       if (zoomed){
         for (let i = 0; i < 40; i++){
           const f = (t * .22 + i / 40) % 1;
@@ -713,11 +713,11 @@ Lab.scene({
 /* ====================================================================== LESSON 5 */
 /* ---------- a reflex: the signal's path from a hot pot to the muscle, and only then to the brain ---------- */
 Lab.scene({
-  id:"reflex", les:5, icon:"⚡", title:"ردّ الفعل المنعكس والدماغ", en:"Neurons, stimulus and response", topic:"l5-neuron",
+  id:"reflex", les:5, icon:"⚡", title:"Neurons, stimulus and response", ar:"ردّ الفعل المنعكس والدماغ", topic:"l5-neuron",
   cam:{target:[.55, 2.9, 0], dist:8.4, theta:.18, phi:1.42}, floor:[.6, .9, .3, 3.6],
-  intro:{t:"ردّ الفعل المنعكس",
+  intro:{t:"Reflex · ردّ الفعل المنعكس",
     en:"<b>Stimulus</b> → <b>receptor</b> → sensory neuron → spinal cord → motor neuron → muscle → <b>response</b>. A <b>reflex</b> is fast and automatic and goes through the spinal cord.",
-    ar:"لما تلمس شيء حارّ، يدك تنسحب قبل ما تحسّ بالألم! الإشارة تروح من الجلد للحبل الشوكي وترجع للعضلة على طول، وبعدين توصل للدماغ. اضغط «المس القدر» وتابع الإشارة."},
+    ar:"لما تلمس شيء حارّ، يدك تنسحب قبل ما تحسّ بالألم! الإشارة تروح من الجلد للحبل الشوكي (<b class=t>spinal cord</b>) وترجع للعضلة (<b class=t>muscle</b>) على طول، وبعدين توصل للدماغ (<b class=t>brain</b>). اضغط «المس القدر» وتابع الإشارة."},
   build(c){
     const g = c.root, skin = K.glass(0xF2C9A8, .42, {side:THREE.FrontSide, roughness:.5}), bone = K.bone();
     /* head, brain and spinal cord */
@@ -767,41 +767,41 @@ Lab.scene({
       const my = ++busy; ouch = false; mark(-1); nS.visible = nM.visible = true;
       const ok = () => my === busy;
       await c.tween(500, k => { ang = lerp(ang, TOUCH, k); }); if (!ok()) return;
-      mark(0); c.sfx("sizzle"); c.info({t:"1 · المنبّه", en:"<b>Stimulus:</b> the hand touches a hot pot.", ar:"المنبّه: اليد لمست القدر الحارّ."}); hotK = 1; await c.wait(700 / slow); if (!ok()) return;
-      mark(1); c.info({t:"2 · المستقبِلات", en:"<b>Receptors</b> in the skin sense the heat.", ar:"المستقبِلات في الجلد حسّت بالحرارة."}); await c.wait(600 / slow); if (!ok()) return;
-      mark(2); c.info({t:"3 · العصب الحسّي", en:"A <b>sensory neuron</b> carries the signal to the spinal cord.", ar:"العصب الحسّي (الأزرق) يوصّل الإشارة للحبل الشوكي."}); await run(sens, 1500, 0x6FB6FF); if (!ok()) return;
-      mark(3); c.info({t:"4 · الحبل الشوكي", en:"In the <b>spinal cord</b>, an interneuron passes the signal straight to a motor neuron. There is no time to think!", ar:"في الحبل الشوكي الإشارة تتحوّل على طول للعصب الحركي. ما في وقت للتفكير!"}); c.sfx("ding"); await c.tween(600 / slow, k => { flash.scale.setScalar(.1 + Math.sin(k * Math.PI) * 1.1); }, null); if (!ok()) return;
-      mark(4); c.info({t:"5 · العصب الحركي", en:"A <b>motor neuron</b> carries the signal to the arm muscle.", ar:"العصب الحركي (الأحمر) يوصّل الأمر لعضلة الذراع."}); await run(motor, 1000, 0xFF7B6B); if (!ok()) return;
-      mark(5); c.info({t:"6 · العضلة والاستجابة", en:"The <b>muscle</b> contracts and pulls the hand away: the <b>response</b>.", ar:"العضلة تنقبض وتسحب اليد بعيد: هذي الاستجابة."}); c.sfx("swish"); nS.visible = nM.visible = false; hotK = 0;
+      mark(0); c.sfx("sizzle"); c.info({t:"1 · Stimulus · المنبّه", en:"<b>Stimulus:</b> the hand touches a hot pot.", ar:"المنبّه (<b class=t>stimulus</b>): اليد لمست القدر الحارّ."}); hotK = 1; await c.wait(700 / slow); if (!ok()) return;
+      mark(1); c.info({t:"2 · Receptors · المستقبِلات", en:"<b>Receptors</b> in the skin sense the heat.", ar:"المستقبِلات (<b class=t>receptors</b>) في الجلد حسّت بالحرارة."}); await c.wait(600 / slow); if (!ok()) return;
+      mark(2); c.info({t:"3 · Sensory neuron · العصب الحسّي", en:"A <b>sensory neuron</b> carries the signal to the spinal cord.", ar:"العصب الحسّي (<b class=t>sensory neuron</b>)، الأزرق، يوصّل الإشارة للحبل الشوكي (<b class=t>spinal cord</b>)."}); await run(sens, 1500, 0x6FB6FF); if (!ok()) return;
+      mark(3); c.info({t:"4 · Spinal cord · الحبل الشوكي", en:"In the <b>spinal cord</b>, an interneuron passes the signal straight to a motor neuron. There is no time to think!", ar:"في الحبل الشوكي (<b class=t>spinal cord</b>) الإشارة تتحوّل على طول للعصب الحركي (<b class=t>motor neuron</b>). ما في وقت للتفكير!"}); c.sfx("ding"); await c.tween(600 / slow, k => { flash.scale.setScalar(.1 + Math.sin(k * Math.PI) * 1.1); }, null); if (!ok()) return;
+      mark(4); c.info({t:"5 · Motor neuron · العصب الحركي", en:"A <b>motor neuron</b> carries the signal to the arm muscle.", ar:"العصب الحركي (<b class=t>motor neuron</b>)، الأحمر، يوصّل الأمر لعضلة الذراع."}); await run(motor, 1000, 0xFF7B6B); if (!ok()) return;
+      mark(5); c.info({t:"6 · Muscle: the response · العضلة والاستجابة", en:"The <b>muscle</b> contracts and pulls the hand away: the <b>response</b>.", ar:"العضلة (<b class=t>muscle</b>) تنقبض (<b class=t>contracts</b>) وتسحب اليد بعيد: هذي الاستجابة (<b class=t>response</b>)."}); c.sfx("swish"); nS.visible = nM.visible = false; hotK = 0;
       await c.tween(260 / Math.max(slow, .6), k => { ang = lerp(TOUCH, AWAY, k); bicK = k; }); mark(6); await c.wait(500 / slow); if (!ok()) return;
-      mark(7); c.info({t:"7 · الدماغ", en:"Only <b>then</b> does the signal reach the brain, and you feel the pain.", ar:"وبعد كل هذا توصل الإشارة للدماغ فتحسّ بالألم: آي!"}); await run(up, 900, 0xC77DFF); if (!ok()) return;
+      mark(7); c.info({t:"7 · Brain · الدماغ", en:"Only <b>then</b> does the signal reach the brain, and you feel the pain.", ar:"وبعد كل هذا توصل الإشارة للدماغ (<b class=t>brain</b>) فتحسّ بالألم: آي!"}); await run(up, 900, 0xC77DFF); if (!ok()) return;
       ouch = true; brainK = 1; c.sfx("ouch"); mark(8); await c.wait(1800); if (!ok()) return;
       ouch = false; await c.tween(900, k => { ang = lerp(AWAY, REST, k); bicK = 1 - k; }); nS.visible = nM.visible = true;
     }
     async function voluntary(){
       const my = ++busy; ouch = false; mark(-1); nS.visible = nM.visible = false; const ok = () => my === busy;
-      c.info({t:"حركة إرادية", en:"A <b>voluntary</b> action is chosen: the <b>cerebrum</b> decides, and the signal goes down the spinal cord to the muscles.", ar:"الحركة الإرادية أنت تختارها: المخ (cerebrum) يقرّر، والإشارة تنزل في الحبل الشوكي للعضلة. هذي أبطأ من ردّ الفعل المنعكس."});
+      c.info({t:"Voluntary action · حركة إرادية", en:"A <b>voluntary</b> action is chosen: the <b>cerebrum</b> decides, and the signal goes down the spinal cord to the muscles.", ar:"الحركة الإرادية (<b class=t>voluntary</b>) أنت تختارها: المخ (<b class=t>cerebrum</b>) يقرّر، والإشارة تنزل في الحبل الشوكي (<b class=t>spinal cord</b>) للعضلة (<b class=t>muscle</b>). هذي أبطأ من ردّ الفعل المنعكس (<b class=t>reflex</b>)."});
       brainK = 1; c.sfx("ding"); await c.tween(500, k => { ang = lerp(ang, REST, k); }); if (!ok()) return;
       await run(down, 1700, 0xC77DFF); if (!ok()) return;
       c.sfx("swish"); await c.tween(2400, k => { ang = REST + rad(34) * Math.sin(k * TAU * 2) * Math.sin(k * Math.PI); bicK = Math.abs(Math.sin(k * TAU * 2)); }, null); bicK = 0; nS.visible = nM.visible = true;
     }
-    c.ui.buttons([{label:"🔥 المس القدر", cls:"go", on:() => reflex()}, {label:"🧠 حركة إرادية: حرّك يدك", on:() => voluntary()}]);
-    c.ui.seg({value:"slow", opts:[{k:"slow", label:'🐢 بالتصوير البطيء<small>slow motion</small>'}, {k:"fast", label:'⚡ السرعة الحقيقية<small>real speed</small>'}], on:k => { slow = k === "slow" ? .45 : 1.6; }});
+    c.ui.buttons([{label:"🔥 Touch the hot pot", cls:"go", on:() => reflex()}, {label:"🧠 Voluntary: move your hand", on:() => voluntary()}]);
+    c.ui.seg({value:"slow", opts:[{k:"slow", label:'🐢 Slow motion<small>بالتصوير البطيء</small>'}, {k:"fast", label:'⚡ Real speed<small>السرعة الحقيقية</small>'}], on:k => { slow = k === "slow" ? .45 : 1.6; }});
     const INFO = {
-      cerebrum:{t:"Cerebrum · المخ", en:"The <b>cerebrum</b> is the largest part: thinking, memory, the senses and voluntary movement.", ar:"المخ أكبر جزء في الدماغ: التفكير والذاكرة والحواس والحركات الإرادية."},
-      cerebellum:{t:"Cerebellum · المخيخ", en:"The <b>cerebellum</b> controls balance and coordination.", ar:"المخيخ مسؤول عن التوازن وتناسق الحركات."},
-      stem:{t:"Brain stem · جذع الدماغ", en:"The <b>brain stem</b> controls breathing and heartbeat, which are involuntary.", ar:"جذع الدماغ يتحكم في التنفّس ونبض القلب: أشياء لا إرادية."},
-      cord:{t:"Spinal cord · الحبل الشوكي", en:"The <b>spinal cord</b> is the main pathway for messages, and it handles reflexes. Brain + spinal cord = the central nervous system.", ar:"الحبل الشوكي الطريق الرئيسي للرسائل، وهو اللي يدير ردود الفعل المنعكسة. الدماغ مع الحبل الشوكي = الجهاز العصبي المركزي."}
+      cerebrum:{t:"Cerebrum · المخ", en:"The <b>cerebrum</b> is the largest part: thinking, memory, the senses and voluntary movement.", ar:"المخ (<b class=t>cerebrum</b>) أكبر جزء في الدماغ (<b class=t>brain</b>): التفكير والذاكرة والحواس والحركات الإرادية (<b class=t>voluntary</b>)."},
+      cerebellum:{t:"Cerebellum · المخيخ", en:"The <b>cerebellum</b> controls balance and coordination.", ar:"المخيخ (<b class=t>cerebellum</b>) مسؤول عن التوازن (<b class=t>balance</b>) وتناسق الحركات."},
+      stem:{t:"Brain stem · جذع الدماغ", en:"The <b>brain stem</b> controls breathing and heartbeat, which are involuntary.", ar:"جذع الدماغ (<b class=t>brain stem</b>) يتحكم في التنفّس ونبض القلب (<b class=t>heart</b>): أشياء لا إرادية (<b class=t>involuntary</b>)."},
+      cord:{t:"Spinal cord · الحبل الشوكي", en:"The <b>spinal cord</b> is the main pathway for messages, and it handles reflexes. Brain + spinal cord = the central nervous system.", ar:"الحبل الشوكي (<b class=t>spinal cord</b>) الطريق الرئيسي للرسائل، وهو اللي يدير ردود الفعل المنعكسة. الدماغ (<b class=t>brain</b>) مع الحبل الشوكي = الجهاز العصبي المركزي (<b class=t>central nervous system</b>)."}
     };
     c.onPick = k => { c.info(INFO[k]); c.hot(k); brainK = k === "cord" ? 0 : 1; };
     c.label("Cerebrum", V(.3, 4.85, .2), {pick:"cerebrum", dx:44, dy:-8}); c.label("Cerebellum", V(0, 4.12, -.5), {pick:"cerebellum", dx:-58}); c.label("Brain stem", V(0, 3.95, 0), {pick:"stem", dx:-62, dy:14, cls:"dim"});
     c.label("Spinal cord", V(0, 2.2, -.1), {pick:"cord", dx:-56}); c.label("Ouch!", V(.1, 5.25, 0), {show:() => ouch, cls:"big"});
     c.label("Hot pot", () => pot.getWorldPosition(V()).add(V(0, -.2, .5)), {dy:20, cls:"dim"});
     c.tour = [
-      {en:"A stimulus is a change. Receptors sense it, and a sensory neuron carries the signal to the spinal cord.", ar:"المنبّه تغيّر يحسّ فيه الجسم. المستقبِلات تلقطه، والعصب الحسّي يوصّل الإشارة للحبل الشوكي.", run:async () => { slow = .45; const r = reflex(); await c.wait(5200); await r; }, min:1000},
-      {t:"منعكس", en:"A reflex is fast and automatic. The hand pulls away, and only then does the signal reach the brain and you feel the pain.", ar:"ردّ الفعل المنعكس سريع وتلقائي: اليد تنسحب أولًا، وبعدين توصل الإشارة للدماغ وتحسّ بالألم.", run:() => c.wait(1500)},
-      {t:"إرادي", en:"Voluntary actions are chosen, like raising your hand. The cerebrum decides.", ar:"الحركة الإرادية أنت تختارها، مثل رفع اليد. المخ هو اللي يقرّر.", run:() => voluntary()},
-      {t:"الدماغ", en:"Cerebrum: thinking and memory. Cerebellum: balance. Brain stem: breathing and heartbeat.", ar:"المخ للتفكير والذاكرة، والمخيخ للتوازن، وجذع الدماغ للتنفّس ونبض القلب.", run:async () => { await c.look({target:[0, 4.3, 0], dist:4, theta:.9, phi:1.4}, 900); await c.wait(3000); await c.look({target:[.55, 2.9, 0], dist:8.4, theta:.18, phi:1.42}, 900); }}
+      {en:"A stimulus is a change. Receptors sense it, and a sensory neuron carries the signal to the spinal cord.", ar:"المنبّه (<b class=t>stimulus</b>) تغيّر يحسّ فيه الجسم. المستقبِلات (<b class=t>receptors</b>) تلقطه، والعصب الحسّي (<b class=t>sensory neuron</b>) يوصّل الإشارة للحبل الشوكي (<b class=t>spinal cord</b>).", run:async () => { slow = .45; const r = reflex(); await c.wait(5200); await r; }, min:1000},
+      {t:"Reflex · منعكس", en:"A reflex is fast and automatic. The hand pulls away, and only then does the signal reach the brain and you feel the pain.", ar:"ردّ الفعل المنعكس (<b class=t>reflex</b>) سريع وتلقائي: اليد تنسحب أولًا، وبعدين توصل الإشارة للدماغ (<b class=t>brain</b>) وتحسّ بالألم.", run:() => c.wait(1500)},
+      {t:"Voluntary · إرادي", en:"Voluntary actions are chosen, like raising your hand. The cerebrum decides.", ar:"الحركة الإرادية (<b class=t>voluntary</b>) أنت تختارها، مثل رفع اليد. المخ (<b class=t>cerebrum</b>) هو اللي يقرّر.", run:() => voluntary()},
+      {t:"Brain · الدماغ", en:"Cerebrum: thinking and memory. Cerebellum: balance. Brain stem: breathing and heartbeat.", ar:"المخ (<b class=t>cerebrum</b>) للتفكير والذاكرة، والمخيخ (<b class=t>cerebellum</b>) للتوازن (<b class=t>balance</b>)، وجذع الدماغ (<b class=t>brain stem</b>) للتنفّس ونبض القلب (<b class=t>heart</b>).", run:async () => { await c.look({target:[0, 4.3, 0], dist:4, theta:.9, phi:1.4}, 900); await c.wait(3000); await c.look({target:[.55, 2.9, 0], dist:8.4, theta:.18, phi:1.42}, 900); }}
     ];
     ang = REST;
     return {update(dt, t, real){
@@ -818,11 +818,11 @@ Lab.scene({
 
 /* ---------- the eye: light in, an upside-down image on the retina, and the pupil that changes size ---------- */
 Lab.scene({
-  id:"eye", les:5, icon:"👁️", title:"العين والرؤية", en:"Sight", topic:"l5-eye",
+  id:"eye", les:5, icon:"👁️", title:"Sight", ar:"العين والرؤية", topic:"l5-eye",
   cam:{target:[-1.0, 0, 0], dist:8.6, theta:.32, phi:1.38}, floor:false,
-  intro:{t:"كيف نشوف؟",
+  intro:{t:"How we see · كيف نشوف؟",
     en:"Light → <b>cornea</b> (bends light) → <b>pupil</b> → <b>lens</b> (focuses) → <b>retina</b> (rods and cones) → <b>optic nerve</b> → brain, which makes sense of the upside-down image.",
-    ar:"هذي عين مقطوعة نصّين عشان تشوف جوّاها. الضوء يدخل من القرنية ثم البؤبؤ، والعدسة تجمّعه على الشبكية فتتكوّن صورة مقلوبة، والعصب البصري يوصّلها للدماغ اللي يعدّلها. حرّك شريط الضوء وراقب البؤبؤ."},
+    ar:"هذي عين مقطوعة نصّين عشان تشوف جوّاها. الضوء يدخل من القرنية (<b class=t>cornea</b>) ثم البؤبؤ (<b class=t>pupil</b>)، والعدسة (<b class=t>lens</b>) تجمّعه على الشبكية (<b class=t>retina</b>) فتتكوّن صورة مقلوبة، والعصب البصري (<b class=t>optic nerve</b>) يوصّلها للدماغ (<b class=t>brain</b>) اللي يعدّلها. حرّك شريط الضوء وراقب البؤبؤ."},
   build(c){
     const g = c.root, plane = new THREE.Plane(V(0, 0, -1), 0), cut = [plane];
     const clipM = [];
@@ -849,25 +849,25 @@ Lab.scene({
     const photons = K.dots(18, .035, K.glow(0xffffff)); g.add(photons);
     let light = 50, rp = .24, whole = false;
     const status = c.ui.note("", "badge ok");
-    const sL = c.ui.slider({label:"قوة الضوء: خافت ↔ قوي", min:0, max:100, value:50, fmt:v => v < 30 ? "dim" : v > 70 ? "bright" : "normal", on:(v, q) => { light = v; const n = lerp(.37, .1, v / 100); if (Math.abs(n - rp) > .004){ rp = n; iris.geometry.dispose(); iris.geometry = irisGeo(rp); } if (!q && Math.round(v) % 10 === 0) c.sfx("tap"); }});
-    c.ui.toggle({off_label:"✂️ اقطع العين وشوف جوّاها", on_label:"👁️ أظهر العين كاملة", value:true, on:(v, quiet) => { whole = !v; clipM.forEach(m => { m.clippingPlanes = v ? cut : []; m.needsUpdate = true; }); if (!quiet){ c.sfx("pop"); if (!v) c.look({theta:-.62, phi:1.4, dist:7.6, target:[-1.3, 0, 0]}, 800); else c.look({theta:.32, phi:1.38, dist:8.6, target:[-1, 0, 0]}, 800); } }});
+    const sL = c.ui.slider({label:"Light: dim ↔ bright", min:0, max:100, value:50, fmt:v => v < 30 ? "dim" : v > 70 ? "bright" : "normal", on:(v, q) => { light = v; const n = lerp(.37, .1, v / 100); if (Math.abs(n - rp) > .004){ rp = n; iris.geometry.dispose(); iris.geometry = irisGeo(rp); } if (!q && Math.round(v) % 10 === 0) c.sfx("tap"); }});
+    c.ui.toggle({off_label:"✂️ Cut the eye open", on_label:"👁️ Show the whole eye", value:true, on:(v, quiet) => { whole = !v; clipM.forEach(m => { m.clippingPlanes = v ? cut : []; m.needsUpdate = true; }); if (!quiet){ c.sfx("pop"); if (!v) c.look({theta:-.62, phi:1.4, dist:7.6, target:[-1.3, 0, 0]}, 800); else c.look({theta:.32, phi:1.38, dist:8.6, target:[-1, 0, 0]}, 800); } }});
     const INFO = {
-      cornea:{t:"Cornea · القرنية", en:"The <b>cornea</b> is the clear front of the eye. It bends the light.", ar:"القرنية الغطاء الشفّاف قدّام العين، وهي أول شيء يكسر الضوء."},
-      iris:{t:"Iris and pupil · القزحية والبؤبؤ", en:"The <b>iris</b> makes the <b>pupil</b> smaller in bright light and bigger in dim light.", ar:"القزحية (الجزء الملوّن) تصغّر البؤبؤ في الضوء القوي وتكبّره في الضوء الخافت، عشان تتحكم في كمية الضوء الداخل."},
-      lens:{t:"Lens · العدسة", en:"The <b>lens</b> focuses the light on the retina.", ar:"العدسة تجمّع الضوء وتركّزه على الشبكية."},
-      retina:{t:"Retina · الشبكية", en:"The <b>retina</b> has rods and cones. <b>Rods</b> work in dim light (black, white, gray); <b>cones</b> see color.", ar:"الشبكية في آخر العين وفيها العصي والمخاريط: العصي تشتغل في الضوء الخافت (أبيض وأسود)، والمخاريط تشوف الألوان. والصورة عليها مقلوبة!"},
-      nerve:{t:"Optic nerve · العصب البصري", en:"The <b>optic nerve</b> carries the signal to the brain. Where it leaves the eye there are no rods or cones: the <b>blind spot</b>.", ar:"العصب البصري يوصّل الإشارة للدماغ. والمكان اللي يطلع منه ما فيه عصي ولا مخاريط، واسمه البقعة العمياء."}
+      cornea:{t:"Cornea · القرنية", en:"The <b>cornea</b> is the clear front of the eye. It bends the light.", ar:"القرنية (<b class=t>cornea</b>) الغطاء الشفّاف قدّام العين، وهي أول شيء يكسر الضوء."},
+      iris:{t:"Iris and pupil · القزحية والبؤبؤ", en:"The <b>iris</b> makes the <b>pupil</b> smaller in bright light and bigger in dim light.", ar:"القزحية (<b class=t>iris</b>)، الجزء الملوّن، تصغّر البؤبؤ (<b class=t>pupil</b>) في الضوء القوي وتكبّره في الضوء الخافت، عشان تتحكم في كمية الضوء الداخل."},
+      lens:{t:"Lens · العدسة", en:"The <b>lens</b> focuses the light on the retina.", ar:"العدسة (<b class=t>lens</b>) تجمّع الضوء وتركّزه على الشبكية (<b class=t>retina</b>)."},
+      retina:{t:"Retina · الشبكية", en:"The <b>retina</b> has rods and cones. <b>Rods</b> work in dim light (black, white, gray); <b>cones</b> see color.", ar:"الشبكية (<b class=t>retina</b>) في آخر العين وفيها العصي (<b class=t>rods</b>) والمخاريط (<b class=t>cones</b>): العصي تشتغل في الضوء الخافت (أبيض وأسود)، والمخاريط تشوف الألوان. والصورة عليها مقلوبة!"},
+      nerve:{t:"Optic nerve · العصب البصري", en:"The <b>optic nerve</b> carries the signal to the brain. Where it leaves the eye there are no rods or cones: the <b>blind spot</b>.", ar:"العصب البصري (<b class=t>optic nerve</b>) يوصّل الإشارة للدماغ (<b class=t>brain</b>). والمكان اللي يطلع منه ما فيه عصي ولا مخاريط، واسمه البقعة العمياء (<b class=t>blind spot</b>)."}
     };
     c.onPick = k => { c.info(INFO[k]); c.hot(k); };
     c.label("Cornea", V(-1.14, .3, 0), {pick:"cornea", dx:-40, dy:-22}); c.label("Pupil", V(-.84, 0, 0), {pick:"iris", dx:-46, dy:30}); c.label("Iris", V(-.84, .42, 0), {pick:"iris", dx:-10, dy:-30, cls:"dim"});
     c.label("Lens", V(-.62, -.3, 0), {pick:"lens", dx:16, dy:34}); c.label("Retina", V(.7, .72, 0), {pick:"retina", dx:34, dy:-18}); c.label("Optic nerve", V(1.6, -.33, 0), {pick:"nerve", dy:26}); c.label("Blind spot", V(.96, -.14, 0), {pick:"nerve", dx:50, cls:"dim"});
     c.label("Upside-down image", V(.86, .02, 0), {dx:-30, dy:-52, cls:"hot", show:() => !whole});
     c.tour = [
-      {en:"Light enters through the cornea, which bends it, and then through the pupil.", ar:"الضوء يدخل من القرنية اللي تكسره، ثم من البؤبؤ.", hot:"cornea", run:() => c.wait(2200)},
-      {t:"البؤبؤ", en:"The iris makes the pupil smaller in bright light and bigger in dim light.", ar:"القزحية تصغّر البؤبؤ في الضوء القوي وتكبّره في الخافت.", hot:"iris", run:async () => { const s = sL; await c.tween(1800, k => s.set(lerp(50, 100, k), true)); await c.wait(500); await c.tween(2200, k => s.set(lerp(100, 0, k), true)); await c.wait(500); await c.tween(1200, k => s.set(lerp(0, 50, k), true)); }},
-      {t:"العدسة والشبكية", en:"The lens focuses the light on the retina, where the image is upside down.", ar:"العدسة تركّز الضوء على الشبكية، والصورة هناك تطلع مقلوبة.", hot:"retina", run:() => c.wait(2800)},
-      {t:"العصب البصري", en:"The optic nerve carries the signal to the brain, which makes sense of the upside-down image.", ar:"العصب البصري يوصّل الإشارة للدماغ، والدماغ هو اللي يعدّل الصورة ويفهمها.", hot:"nerve", run:() => c.wait(2600)},
-      {t:"العصي والمخاريط", en:"Rods work in dim light and see black, white and gray. Cones see color.", ar:"العصي تشتغل في الضوء الخافت وتشوف أبيض وأسود ورمادي، والمخاريط تشوف الألوان.", run:async () => { const s = sL; await c.tween(1500, k => s.set(lerp(50, 4, k), true)); await c.wait(1800); await c.tween(1500, k => s.set(lerp(4, 60, k), true)); }}
+      {en:"Light enters through the cornea, which bends it, and then through the pupil.", ar:"الضوء يدخل من القرنية (<b class=t>cornea</b>) اللي تكسره، ثم من البؤبؤ (<b class=t>pupil</b>).", hot:"cornea", run:() => c.wait(2200)},
+      {t:"Pupil · البؤبؤ", en:"The iris makes the pupil smaller in bright light and bigger in dim light.", ar:"القزحية (<b class=t>iris</b>) تصغّر البؤبؤ (<b class=t>pupil</b>) في الضوء القوي وتكبّره في الخافت.", hot:"iris", run:async () => { const s = sL; await c.tween(1800, k => s.set(lerp(50, 100, k), true)); await c.wait(500); await c.tween(2200, k => s.set(lerp(100, 0, k), true)); await c.wait(500); await c.tween(1200, k => s.set(lerp(0, 50, k), true)); }},
+      {t:"Lens and retina · العدسة والشبكية", en:"The lens focuses the light on the retina, where the image is upside down.", ar:"العدسة (<b class=t>lens</b>) تركّز الضوء على الشبكية (<b class=t>retina</b>)، والصورة هناك تطلع مقلوبة.", hot:"retina", run:() => c.wait(2800)},
+      {t:"Optic nerve · العصب البصري", en:"The optic nerve carries the signal to the brain, which makes sense of the upside-down image.", ar:"العصب البصري (<b class=t>optic nerve</b>) يوصّل الإشارة للدماغ (<b class=t>brain</b>)، والدماغ هو اللي يعدّل الصورة ويفهمها.", hot:"nerve", run:() => c.wait(2600)},
+      {t:"Rods and cones · العصي والمخاريط", en:"Rods work in dim light and see black, white and gray. Cones see color.", ar:"العصي (<b class=t>rods</b>) تشتغل في الضوء الخافت وتشوف أبيض وأسود ورمادي، والمخاريط (<b class=t>cones</b>) تشوف الألوان.", run:async () => { const s = sL; await c.tween(1500, k => s.set(lerp(50, 4, k), true)); await c.wait(1800); await c.tween(1500, k => s.set(lerp(4, 60, k), true)); }}
     ];
     const a0 = V(), a1 = V(), a2 = V(), gray = new THREE.Color(0x8A8A8A), cols = [], orig = [];
     [obj, img].forEach(t => t.traverse(o => { if (o.material){ cols.push(o.material); orig.push(o.material.color.clone()); } }));
@@ -880,18 +880,18 @@ Lab.scene({
         for (let j = 0; j < 3; j++){ const f = (t * .5 + j / 3 + i * .13) % 1; if (f < .6) a0.lerp(a1, f / .6); else a0.copy(a1).lerp(a2, (f - .6) / .4); photons.set(i * 3 + j, a0, .5 + L * .7, 0xFFF3B0); a0.set(-3.5, r.y0, 0); } });
       photons.done();
       retM.emissiveIntensity = .08 + L * .25; nerve.material.emissiveIntensity = .15 + .25 * Math.max(0, Math.sin(t * 6)) * L;
-      status.textContent = light < 28 ? "🌙 ضوء خافت: البؤبؤ يكبر، والعصي (rods) تشتغل: أبيض وأسود" : light > 72 ? "☀️ ضوء قوي: البؤبؤ يصغر، والمخاريط (cones) تشوف الألوان" : "ضوء عادي: المخاريط (cones) تشوف الألوان";
+      status.textContent = light < 28 ? "🌙 Dim light: the pupil gets bigger, and the rods work in black and white" : light > 72 ? "☀️ Bright light: the pupil gets smaller, and the cones see colors" : "Normal light: the cones see colors";
     }};
     return api;
   }
 });
 /* ---------- a plant: roots, stem and leaves; water up the xylem, sugar down the phloem, photosynthesis ---------- */
 Lab.scene({
-  id:"plant", les:4, icon:"🌱", title:"النبات من الجذر للورقة", en:"Plants: roots, stems and leaves", topic:"l4-plant",
+  id:"plant", les:4, icon:"🌱", title:"Plants: roots, stems and leaves", ar:"النبات من الجذر للورقة", topic:"l4-plant",
   cam:{target:[0, .8, 0], dist:9.6, theta:.45, phi:1.36}, floor:false,
-  intro:{t:"النبات من الجذر للورقة",
+  intro:{t:"From root to leaf · النبات من الجذر للورقة",
     en:"<b>Xylem</b> carries water and minerals <b>up</b> from the roots to the leaves. <b>Phloem</b> carries the sugar made in the leaves to the rest of the plant.",
-    ar:"التربة هنا شفّافة عشان تشوف الجذور. الماء (النقاط الزرقاء) يدخل من الجذور ويطلع في الخشب (xylem) للأوراق، والسكر (النقاط الذهبية) ينزل من الأوراق في اللحاء (phloem). جرّب تطفّي الشمس أو تقطع الماء، وغيّر نوع الجذور."},
+    ar:"التربة هنا شفّافة عشان تشوف الجذور (<b class=t>roots</b>). الماء (النقاط الزرقاء) يدخل من الجذور ويطلع في الخشب (<b class=t>xylem</b>) للأوراق (<b class=t>leaves</b>)، والسكر (النقاط الذهبية) ينزل من الأوراق في اللحاء (<b class=t>phloem</b>). جرّب تطفّي الشمس أو تقطع الماء، وغيّر نوع الجذور."},
   build(c){
     const g = c.root, cyl = new THREE.CylinderGeometry(1, 1, 1, 8).translate(0, .5, 0);
     const soil = K.mesh(new THREE.BoxGeometry(3.6, 1.75, 1.9), K.glass(0x8B5A2B, .3, {roughness:.9}), 0, -.9, 0); soil.renderOrder = 9; g.add(soil);
@@ -923,22 +923,22 @@ Lab.scene({
     const dots = K.dots(96, .04, K.glow(0xffffff)); g.add(dots);
     let type = "tap", sunOn = true, waterOn = true, sunK = 1, turgor = 1, glowK = "", glowT = 0;
     const INFO = {
-      roots:{t:"Roots · الجذور", en:"<b>Roots</b> anchor the plant in the soil and keep it upright, and they absorb water and minerals. <b>Root hairs</b> give them a huge surface to take in water.", ar:"الجذور تثبّت النبات في التربة وتمتصّ الماء والأملاح. والشعيرات الجذرية الصغيرة تزيد المساحة فتمتصّ ماء أكثر."},
-      stem:{t:"Stem · الساق", en:"<b>Stems</b> work like the plant's skeleton: they hold up the branches and leaves, and carry water, minerals and sugar.", ar:"الساق مثل هيكل النبات: يرفع الأغصان والأوراق، وينقل الماء والأملاح والسكر."},
-      xylem:{t:"Xylem · الخشب", en:"<b>Xylem</b> carries water and minerals <b>up</b> from the roots to the leaves.", ar:"الخشب (الأنبوب الأزرق) ينقل الماء والأملاح من الجذور لفوق إلى الأوراق."},
-      phloem:{t:"Phloem · اللحاء", en:"<b>Phloem</b> carries the sugar made in the leaves to the rest of the plant, up or down.", ar:"اللحاء (الأنبوب البرتقالي) ينقل السكر اللي تصنعه الأوراق لباقي النبات، لفوق أو لتحت."},
-      leaf:{t:"Leaf · الورقة", en:"<b>Photosynthesis</b> in the leaves uses light energy, water and carbon dioxide to make <b>glucose</b> (a sugar) and give off <b>oxygen</b>.", ar:"في الورقة يتم البناء الضوئي: ضوء + ماء + ثاني أكسيد الكربون ← سكر (جلوكوز) + أكسجين. والنبات يصنع غذاءه بنفسه."},
-      stoma:{t:"Stomata · الثغور", en:"<b>Transpiration:</b> water vapor leaves through the <b>stomata</b>, tiny openings in the leaves, and pulls more water up the xylem, like sipping through a straw.", ar:"النتح: بخار الماء يطلع من الثغور (فتحات صغيرة في الورقة) فيسحب ماء جديد لفوق في الخشب، مثل ما تشفط العصير بالمصّاصة."}
+      roots:{t:"Roots · الجذور", en:"<b>Roots</b> anchor the plant in the soil and keep it upright, and they absorb water and minerals. <b>Root hairs</b> give them a huge surface to take in water.", ar:"الجذور (<b class=t>roots</b>) تثبّت النبات في التربة وتمتصّ الماء والأملاح. والشعيرات الجذرية (<b class=t>root hairs</b>) الصغيرة تزيد المساحة فتمتصّ ماء أكثر."},
+      stem:{t:"Stem · الساق", en:"<b>Stems</b> work like the plant's skeleton: they hold up the branches and leaves, and carry water, minerals and sugar.", ar:"الساق (<b class=t>stem</b>) مثل هيكل النبات: يرفع الأغصان والأوراق (<b class=t>leaves</b>)، وينقل الماء والأملاح والسكر."},
+      xylem:{t:"Xylem · الخشب", en:"<b>Xylem</b> carries water and minerals <b>up</b> from the roots to the leaves.", ar:"الخشب (<b class=t>xylem</b>)، الأنبوب الأزرق، ينقل الماء والأملاح من الجذور (<b class=t>roots</b>) لفوق إلى الأوراق (<b class=t>leaves</b>)."},
+      phloem:{t:"Phloem · اللحاء", en:"<b>Phloem</b> carries the sugar made in the leaves to the rest of the plant, up or down.", ar:"اللحاء (<b class=t>phloem</b>)، الأنبوب البرتقالي، ينقل السكر اللي تصنعه الأوراق (<b class=t>leaves</b>) لباقي النبات، لفوق أو لتحت."},
+      leaf:{t:"Leaf · الورقة", en:"<b>Photosynthesis</b> in the leaves uses light energy, water and carbon dioxide to make <b>glucose</b> (a sugar) and give off <b>oxygen</b>.", ar:"في الورقة (<b class=t>leaf</b>) يتم البناء الضوئي (<b class=t>photosynthesis</b>): ضوء + ماء + ثاني أكسيد الكربون (<b class=t>carbon dioxide</b>) ← سكر (<b class=t>glucose</b>) + أكسجين (<b class=t>oxygen</b>). والنبات يصنع غذاءه بنفسه."},
+      stoma:{t:"Stomata · الثغور", en:"<b>Transpiration:</b> water vapor leaves through the <b>stomata</b>, tiny openings in the leaves, and pulls more water up the xylem, like sipping through a straw.", ar:"النتح (<b class=t>transpiration</b>): بخار الماء يطلع من الثغور (<b class=t>stomata</b>)، وهي فتحات صغيرة في الورقة، فيسحب ماء جديد لفوق في الخشب (<b class=t>xylem</b>)، مثل ما تشفط العصير بالمصّاصة."}
     };
     const ROOT = {
-      tap:{t:"Taproot · جذر وتدي", en:"<b>Taproot:</b> one large main root with small roots branching off, like a carrot or a dandelion.", ar:"الجذر الوتدي: جذر رئيسي واحد كبير تتفرّع منه جذور صغيرة، مثل الجزر."},
-      fib:{t:"Fibrous roots · جذور ليفية", en:"<b>Fibrous roots:</b> many small branching roots in a dense network.", ar:"الجذور الليفية: جذور صغيرة كثيرة متشابكة مثل الشبكة."},
-      prop:{t:"Prop roots · جذور دعامية", en:"<b>Prop roots:</b> extra roots above the ground that help hold the plant up.", ar:"الجذور الدعامية: جذور إضافية تطلع فوق الأرض وتسند النبات عشان ما يطيح."}};
+      tap:{t:"Taproot · جذر وتدي", en:"<b>Taproot:</b> one large main root with small roots branching off, like a carrot or a dandelion.", ar:"الجذر الوتدي (<b class=t>taproot</b>): جذر رئيسي واحد كبير تتفرّع منه جذور صغيرة، مثل الجزر."},
+      fib:{t:"Fibrous roots · جذور ليفية", en:"<b>Fibrous roots:</b> many small branching roots in a dense network.", ar:"الجذور الليفية (<b class=t>fibrous roots</b>): جذور صغيرة كثيرة متشابكة مثل الشبكة."},
+      prop:{t:"Prop roots · جذور دعامية", en:"<b>Prop roots:</b> extra roots above the ground that help hold the plant up.", ar:"الجذور الدعامية (<b class=t>prop roots</b>): جذور إضافية تطلع فوق الأرض وتسند النبات عشان ما يطيح."}};
     const status = c.ui.note("", "badge ok");
-    const seg = c.ui.seg({value:"tap", opts:[{k:"tap", label:'وتدي<small>Taproot</small>'}, {k:"fib", label:'ليفي<small>Fibrous</small>'}, {k:"prop", label:'دعامي<small>Prop</small>'}], on:(k, quiet) => { type = k; for (const n in R) R[n].g.visible = n === k; if (!quiet){ c.info(ROOT[k]); c.sfx("pop"); } }});
+    const seg = c.ui.seg({value:"tap", opts:[{k:"tap", label:'Taproot<small>وتدي</small>'}, {k:"fib", label:'Fibrous<small>ليفي</small>'}, {k:"prop", label:'Prop roots<small>دعامي</small>'}], on:(k, quiet) => { type = k; for (const n in R) R[n].g.visible = n === k; if (!quiet){ c.info(ROOT[k]); c.sfx("pop"); } }});
     const row = c.ui.row();
-    const tgS = c.ui.toggle({into:row, off_label:"☀️ شغّل الشمس", on_label:"🌙 طفّي الشمس", value:true, on:(v, quiet) => { sunOn = v; if (!quiet){ c.sfx(v ? "sparkle" : "pop"); c.info(v ? INFO.leaf : {t:"بدون ضوء", en:"Without light there is no <b>photosynthesis</b>: the leaves make no glucose and give off no oxygen.", ar:"بدون ضوء ما في بناء ضوئي: الورقة ما تصنع سكر وما تطلّع أكسجين."}); } }});
-    const tgW = c.ui.toggle({into:row, off_label:"💧 اسقِ النبات", on_label:"🚱 اقطع الماء", value:true, on:(v, quiet) => { waterOn = v; if (!quiet){ c.sfx(v ? "drip" : "pop"); c.info(v ? INFO.xylem : {t:"بدون ماء", en:"Water enters the roots and travels through the xylem to every part of the plant. Without water the plant wilts.", ar:"الماء يدخل من الجذور ويوصل لكل النبات. بدون ماء الأوراق ترتخي وتذبل، ويوقف البناء الضوئي."}); } }});
+    const tgS = c.ui.toggle({into:row, off_label:"☀️ Turn the sun on", on_label:"🌙 Turn the sun off", value:true, on:(v, quiet) => { sunOn = v; if (!quiet){ c.sfx(v ? "sparkle" : "pop"); c.info(v ? INFO.leaf : {t:"No light · بدون ضوء", en:"Without light there is no <b>photosynthesis</b>: the leaves make no glucose and give off no oxygen.", ar:"بدون ضوء ما في بناء ضوئي (<b class=t>photosynthesis</b>): الورقة (<b class=t>leaf</b>) ما تصنع سكر وما تطلّع أكسجين (<b class=t>oxygen</b>)."}); } }});
+    const tgW = c.ui.toggle({into:row, off_label:"💧 Water the plant", on_label:"🚱 Stop the water", value:true, on:(v, quiet) => { waterOn = v; if (!quiet){ c.sfx(v ? "drip" : "pop"); c.info(v ? INFO.xylem : {t:"No water · بدون ماء", en:"Water enters the roots and travels through the xylem to every part of the plant. Without water the plant wilts.", ar:"الماء يدخل من الجذور (<b class=t>roots</b>) ويوصل لكل النبات. بدون ماء الأوراق (<b class=t>leaves</b>) ترتخي وتذبل (<b class=t>wilt</b>)، ويوقف البناء الضوئي (<b class=t>photosynthesis</b>)."}); } }});
     seg.set("tap", true);
     const mid = i => LV[i].g.localToWorld(V(.78, .05, 0));
     c.label("Leaf", () => mid(3), {pick:"leaf", dy:-22}); c.label("Stem", V(.16, 1.45, .1), {pick:"stem", dx:40, cls:"dim"});
@@ -947,13 +947,13 @@ Lab.scene({
     c.label("CO₂ in", () => mid(1).add(V(.75, .55, .35)), {cls:"dim", show:() => sunK > .5 && turgor > .4}); c.label("O₂ out", () => mid(3).add(V(.7, .75, -.3)), {cls:"hot", show:() => sunK > .5 && turgor > .4});
     c.onPick = k => { c.info(INFO[k]); c.hot(k); glowK = k; glowT = 1; };
     c.tour = [
-      {t:"الجذور", en:"Roots anchor the plant in the soil and absorb water and minerals. Root hairs give them a huge surface.", ar:INFO.roots.ar, hot:"roots", run:async () => { tgS.set(true, true); tgW.set(true, true); seg.set("tap", true); await c.look({target:[0, -.5, 0], dist:5.4, theta:.45, phi:1.3}, 800); await c.wait(1800); }},
-      {t:"أنواع الجذور", en:"A taproot is one large main root. Fibrous roots are many small roots. Prop roots grow above the ground and help hold the plant up.", ar:"الوتدي جذر واحد كبير، والليفي جذور صغيرة كثيرة، والدعامي يطلع فوق الأرض ويسند النبات.", run:async () => { await c.wait(1500); seg.set("fib", true); await c.wait(2200); seg.set("prop", true); await c.look({target:[0, 0, 0], dist:6, theta:.45, phi:1.3}, 600); await c.wait(2200); seg.set("tap", true); }},
-      {t:"الساق والخشب", en:"Stems work like the plant's skeleton. Inside, the xylem carries water and minerals up to the leaves.", ar:"الساق مثل هيكل النبات، وجوّاه الخشب ينقل الماء والأملاح لفوق.", hot:"xylem", run:async () => { glowK = "xylem"; glowT = 1; await c.look({target:[0, .8, 0], dist:9.6, theta:.45, phi:1.36}, 800); await c.wait(2400); }},
-      {t:"البناء الضوئي", en:"Photosynthesis in the leaves uses light energy, water and carbon dioxide to make glucose and give off oxygen.", ar:INFO.leaf.ar, hot:"leaf", run:async () => { glowK = "leaf"; glowT = 1; await c.look({target:[.3, 2.1, 0], dist:5.2, theta:.45, phi:1.3}, 800); await c.wait(3000); }},
-      {t:"اللحاء", en:"The phloem carries the sugar made in the leaves to the rest of the plant.", ar:INFO.phloem.ar, hot:"phloem", run:async () => { glowK = "phloem"; glowT = 1; await c.look({target:[0, .8, 0], dist:9.6, theta:.45, phi:1.36}, 800); await c.wait(2600); }},
-      {t:"النتح", en:"Transpiration: water vapor leaves through the stomata and pulls more water up the xylem, like sipping through a straw.", ar:INFO.stoma.ar, hot:"stoma", run:() => c.wait(3000)},
-      {t:"بدون ماء", en:"Without water, the plant wilts and photosynthesis stops.", ar:"بدون ماء النبات يذبل ويوقف البناء الضوئي.", run:async () => { tgW.set(false, true); await c.wait(4800); tgW.set(true, true); await c.wait(2400); }}
+      {t:"Roots · الجذور", en:"Roots anchor the plant in the soil and absorb water and minerals. Root hairs give them a huge surface.", ar:INFO.roots.ar, hot:"roots", run:async () => { tgS.set(true, true); tgW.set(true, true); seg.set("tap", true); await c.look({target:[0, -.5, 0], dist:5.4, theta:.45, phi:1.3}, 800); await c.wait(1800); }},
+      {t:"Kinds of roots · أنواع الجذور", en:"A taproot is one large main root. Fibrous roots are many small roots. Prop roots grow above the ground and help hold the plant up.", ar:"الوتدي (<b class=t>taproot</b>) جذر واحد كبير، والليفي (<b class=t>fibrous</b>) جذور صغيرة كثيرة، والدعامي (<b class=t>prop roots</b>) يطلع فوق الأرض ويسند النبات.", run:async () => { await c.wait(1500); seg.set("fib", true); await c.wait(2200); seg.set("prop", true); await c.look({target:[0, 0, 0], dist:6, theta:.45, phi:1.3}, 600); await c.wait(2200); seg.set("tap", true); }},
+      {t:"Stem and xylem · الساق والخشب", en:"Stems work like the plant's skeleton. Inside, the xylem carries water and minerals up to the leaves.", ar:"الساق (<b class=t>stem</b>) مثل هيكل النبات، وجوّاه الخشب (<b class=t>xylem</b>) ينقل الماء والأملاح لفوق.", hot:"xylem", run:async () => { glowK = "xylem"; glowT = 1; await c.look({target:[0, .8, 0], dist:9.6, theta:.45, phi:1.36}, 800); await c.wait(2400); }},
+      {t:"Photosynthesis · البناء الضوئي", en:"Photosynthesis in the leaves uses light energy, water and carbon dioxide to make glucose and give off oxygen.", ar:INFO.leaf.ar, hot:"leaf", run:async () => { glowK = "leaf"; glowT = 1; await c.look({target:[.3, 2.1, 0], dist:5.2, theta:.45, phi:1.3}, 800); await c.wait(3000); }},
+      {t:"Phloem · اللحاء", en:"The phloem carries the sugar made in the leaves to the rest of the plant.", ar:INFO.phloem.ar, hot:"phloem", run:async () => { glowK = "phloem"; glowT = 1; await c.look({target:[0, .8, 0], dist:9.6, theta:.45, phi:1.36}, 800); await c.wait(2600); }},
+      {t:"Transpiration · النتح", en:"Transpiration: water vapor leaves through the stomata and pulls more water up the xylem, like sipping through a straw.", ar:INFO.stoma.ar, hot:"stoma", run:() => c.wait(3000)},
+      {t:"No water · بدون ماء", en:"Without water, the plant wilts and photosynthesis stops.", ar:"بدون ماء النبات يذبل ويوقف البناء الضوئي (<b class=t>photosynthesis</b>).", run:async () => { tgW.set(false, true); await c.wait(4800); tgW.set(true, true); await c.wait(2400); }}
     ];
     const p = V(), a = V(), b = V(), fresh = new THREE.Color(0x3FA85A), dry = new THREE.Color(0xA7A04A);
     return {update(dt, t, real){
@@ -987,7 +987,7 @@ Lab.scene({
         if (on) dots.set(i, p, s, col); else dots.set(i, p.set(0, -99, 0), 0);
       }
       dots.done();
-      status.textContent = turgor < .4 ? "🥀 النبات ذابل: ما في ماء، والبناء الضوئي واقف" : !sunOn ? "🌙 ما في ضوء: الماء يطلع، لكن ما في سكر ولا أكسجين" : "🌞 ضوء + ماء + CO₂ ← سكر + أكسجين (photosynthesis)";
+      status.textContent = turgor < .4 ? "🥀 The plant wilts: no water, so photosynthesis stops" : !sunOn ? "🌙 No light: water still goes up, but no sugar or oxygen is made" : "🌞 Light + water + CO₂ → sugar + oxygen (photosynthesis)";
       status.className = "note badge " + (turgor < .4 ? "bad" : "ok");
     }};
   }
@@ -995,11 +995,11 @@ Lab.scene({
 
 /* ---------- the ear: sound from the pinna to the brain, and the canals that sense balance ---------- */
 Lab.scene({
-  id:"ear", les:5, icon:"👂", title:"الأذن: السمع والتوازن", en:"Hearing and balance", topic:"l5-ear",
+  id:"ear", les:5, icon:"👂", title:"Hearing and balance", ar:"الأذن: السمع والتوازن", topic:"l5-ear",
   cam:{target:[-.75, .15, 0], dist:9.8, theta:.22, phi:1.4}, floor:false,
-  intro:{t:"كيف نسمع؟",
+  intro:{t:"How we hear · كيف نسمع؟",
     en:"Sound is vibrations. <b>Pinna</b> → <b>ear canal</b> → the <b>eardrum</b> vibrates → the <b>hammer, anvil and stirrup</b> make the vibrations stronger → the <b>cochlea</b> → the <b>auditory nerve</b> → brain.",
-    ar:"الصوت اهتزازات. صيوان الأذن يجمعها، فتمشي في القناة السمعية وتهزّ الطبلة، والعظيمات الثلاث تقوّي الاهتزاز وتوصّله للقوقعة، وهناك تتحوّل لإشارة عصبية تروح للدماغ. اضغط «دقّ الجرس» وتابع الاهتزاز، وغيّر قوة الصوت."},
+    ar:"الصوت اهتزازات. صيوان الأذن (<b class=t>pinna</b>) يجمعها، فتمشي في القناة السمعية (<b class=t>ear canal</b>) وتهزّ الطبلة (<b class=t>eardrum</b>)، والعظيمات الثلاث (<b class=t>hammer, anvil, stirrup</b>) تقوّي الاهتزاز (<b class=t>vibration</b>) وتوصّله للقوقعة (<b class=t>cochlea</b>)، وهناك تتحوّل لإشارة عصبية تروح للدماغ (<b class=t>brain</b>). اضغط «دقّ الجرس» وتابع الاهتزاز، وغيّر قوة الصوت."},
   build(c){
     const g = c.root, E = new THREE.Group(); g.add(E);
     const skin = K.flat(0xE8B894, {roughness:.55}), bone = K.bone(), cyl = new THREE.CylinderGeometry(1, 1, 1, 10).translate(0, .5, 0);
@@ -1037,21 +1037,21 @@ Lab.scene({
     const STEPS = ["Pinna", "Ear canal", "Eardrum", "Hammer, anvil, stirrup", "Cochlea", "Auditory nerve", "Brain"], KEYS = ["pinna", "canal", "drum", "oss", "coch", "nerve", "brain"];
     const ol = document.createElement("ol"); ol.className = "steps"; ol.innerHTML = STEPS.map(s => "<li>" + s + "</li>").join(""); document.getElementById("ctl").appendChild(ol);
     const INFO = {
-      pinna:{t:"1 · Pinna · صيوان الأذن", en:"The <b>pinna</b>, the part of the ear you can see, collects the sound.", ar:"الصيوان (الجزء اللي تشوفه من الأذن) يجمع الصوت ويدخّله."},
-      canal:{t:"2 · Ear canal · القناة السمعية", en:"The sound travels down the <b>ear canal</b> to the eardrum.", ar:"الصوت يمشي في القناة السمعية إلى أن يوصل الطبلة."},
-      drum:{t:"3 · Eardrum · طبلة الأذن", en:"Sound is vibrations: the <b>eardrum</b> vibrates when the sound reaches it.", ar:"الصوت اهتزازات، فلما يوصل الطبلة تهتزّ مثل جلد الطبل."},
-      oss:{t:"4 · Hammer, anvil, stirrup · العظيمات الثلاث", en:"Three tiny bones, the <b>hammer, anvil and stirrup</b>, pass the vibrations on and make them stronger.", ar:"ثلاث عظام صغيرة جدًّا: المطرقة والسندان والركاب. تنقل الاهتزاز وتقوّيه."},
-      coch:{t:"5 · Cochlea · القوقعة", en:"In the <b>cochlea</b>, hair cells turn the vibrations into nerve signals. Very loud sounds can damage the hair cells.", ar:"القوقعة تشبه الحلزون وفيها خلايا شعرية تحوّل الاهتزاز لإشارات عصبية. والصوت العالي جدًّا يضرّ هذي الخلايا."},
-      nerve:{t:"6 · Auditory nerve · العصب السمعي", en:"The <b>auditory nerve</b> carries the signals to the brain.", ar:"العصب السمعي يوصّل الإشارات للدماغ."},
-      brain:{t:"7 · Brain · الدماغ", en:"The brain makes sense of the signals: now you <b>hear</b> the sound.", ar:"الدماغ يفهم الإشارات، وهنا «تسمع» الصوت."},
-      bal:{t:"Semicircular canals · القنوات الهلالية", en:"The <b>semicircular canals</b> in the inner ear sense head movement. With the eyes, the <b>cerebellum</b> keeps you balanced.", ar:"ثلاث قنوات فيها سائل. لما يميل راسك يتحرك السائل فتحسّ بالحركة، والمخيخ مع العينين يحفظ توازنك."}
+      pinna:{t:"1 · Pinna · صيوان الأذن", en:"The <b>pinna</b>, the part of the ear you can see, collects the sound.", ar:"الصيوان (<b class=t>pinna</b>)، الجزء اللي تشوفه من الأذن، يجمع الصوت ويدخّله."},
+      canal:{t:"2 · Ear canal · القناة السمعية", en:"The sound travels down the <b>ear canal</b> to the eardrum.", ar:"الصوت يمشي في القناة السمعية (<b class=t>ear canal</b>) إلى أن يوصل الطبلة (<b class=t>eardrum</b>)."},
+      drum:{t:"3 · Eardrum · طبلة الأذن", en:"Sound is vibrations: the <b>eardrum</b> vibrates when the sound reaches it.", ar:"الصوت اهتزازات، فلما يوصل الطبلة (<b class=t>eardrum</b>) تهتزّ مثل جلد الطبل."},
+      oss:{t:"4 · Hammer, anvil, stirrup · العظيمات الثلاث", en:"Three tiny bones, the <b>hammer, anvil and stirrup</b>, pass the vibrations on and make them stronger.", ar:"ثلاث عظام صغيرة جدًّا: المطرقة (<b class=t>hammer</b>) والسندان (<b class=t>anvil</b>) والركاب (<b class=t>stirrup</b>). تنقل الاهتزاز (<b class=t>vibration</b>) وتقوّيه."},
+      coch:{t:"5 · Cochlea · القوقعة", en:"In the <b>cochlea</b>, hair cells turn the vibrations into nerve signals. Very loud sounds can damage the hair cells.", ar:"القوقعة (<b class=t>cochlea</b>) تشبه الحلزون وفيها خلايا شعرية (<b class=t>hair cells</b>) تحوّل الاهتزاز (<b class=t>vibration</b>) لإشارات عصبية. والصوت العالي جدًّا يضرّ هذي الخلايا."},
+      nerve:{t:"6 · Auditory nerve · العصب السمعي", en:"The <b>auditory nerve</b> carries the signals to the brain.", ar:"العصب السمعي (<b class=t>auditory nerve</b>) يوصّل الإشارات للدماغ (<b class=t>brain</b>)."},
+      brain:{t:"7 · Brain · الدماغ", en:"The brain makes sense of the signals: now you <b>hear</b> the sound.", ar:"الدماغ (<b class=t>brain</b>) يفهم الإشارات، وهنا «تسمع» الصوت."},
+      bal:{t:"Semicircular canals · القنوات الهلالية", en:"The <b>semicircular canals</b> in the inner ear sense head movement. With the eyes, the <b>cerebellum</b> keeps you balanced.", ar:"ثلاث قنوات هلالية (<b class=t>semicircular canals</b>) فيها سائل. لما يميل راسك يتحرك السائل فتحسّ بالحركة، والمخيخ (<b class=t>cerebellum</b>) مع العينين يحفظ توازنك."}
     };
     let loud = .5, cont = false, en = 0, bellT = -99, tilt = 0, fl = 0, step = -1, glowK = "", glowT = 0;
     const status = c.ui.note("", "badge ok");
-    c.ui.buttons([{label:"🔔 دقّ الجرس", cls:"go", on:() => ring()}]);
-    const sL = c.ui.slider({label:"قوة الصوت", min:5, max:100, value:50, fmt:v => v < 30 ? "quiet" : v > 85 ? "too loud!" : v > 60 ? "loud" : "normal", on:v => { loud = v / 100; }});
-    const tgC = c.ui.toggle({off_label:"🎵 صوت مستمر", on_label:"⏹ أوقف الصوت", value:false, on:v => { cont = v; if (v) step = 7; }});
-    const sT = c.ui.slider({label:"ميّل الراس (التوازن)", min:-30, max:30, value:0, fmt:v => Math.round(v) + "°", on:(v, q) => { tilt = v; if (!q && glowK !== "bal"){ c.info(INFO.bal); glowK = "bal"; glowT = 1; c.hot("bal"); } }});
+    c.ui.buttons([{label:"🔔 Ring the bell", cls:"go", on:() => ring()}]);
+    const sL = c.ui.slider({label:"Loudness", min:5, max:100, value:50, fmt:v => v < 30 ? "quiet" : v > 85 ? "too loud!" : v > 60 ? "loud" : "normal", on:v => { loud = v / 100; }});
+    const tgC = c.ui.toggle({off_label:"🎵 Steady sound", on_label:"⏹ Stop the sound", value:false, on:v => { cont = v; if (v) step = 7; }});
+    const sT = c.ui.slider({label:"Tilt the head (balance)", min:-30, max:30, value:0, fmt:v => Math.round(v) + "°", on:(v, q) => { tilt = v; if (!q && glowK !== "bal"){ c.info(INFO.bal); glowK = "bal"; glowT = 1; c.hot("bal"); } }});
     function ring(){ bellT = c.t; step = 0; c.sfx("ding"); glowK = ""; }
     const W = (x, y, z) => E.localToWorld(V(x, y, z));
     c.label("Pinna", () => W(-2.35, .95, 0), {pick:"pinna", dy:-14}); c.label("Ear canal", () => W(-1.6, -.3, 0), {pick:"canal", dy:16});
@@ -1060,11 +1060,11 @@ Lab.scene({
     c.label("Auditory nerve", () => W(1.5, -.1, 0), {pick:"nerve", dy:22, dx:20}); c.label("Brain", V(2.42, 1.0, 0), {pick:"brain", dy:-10});
     c.onPick = k => { c.info(INFO[k]); c.hot(k); glowK = k; glowT = 1; };
     c.tour = [
-      {t:"الصوت", en:"Sound is vibrations. The pinna collects them and they travel down the ear canal.", ar:"الصوت اهتزازات. الصيوان يجمعها وتمشي في القناة السمعية.", run:async () => { tgC.set(false, true); sT.set(0, true); sL.set(50, true); ring(); await c.wait(2600); }, min:1000},
-      {t:"الطبلة والعظيمات", en:"The eardrum vibrates, and the hammer, anvil and stirrup pass the vibrations on and make them stronger.", ar:"الطبلة تهتزّ، والمطرقة والسندان والركاب ينقلون الاهتزاز ويقوّونه.", hot:"oss", run:async () => { tgC.set(true, true); await c.look({target:[-.5, .1, 0], dist:4.2, theta:.22, phi:1.4}, 800); await c.wait(3000); }},
-      {t:"القوقعة والعصب", en:"In the cochlea, hair cells make nerve signals, and the auditory nerve carries them to the brain.", ar:"في القوقعة الخلايا الشعرية تصنع إشارات عصبية، والعصب السمعي يوصّلها للدماغ.", hot:"coch", run:async () => { await c.look({target:[.8, 0, 0], dist:5, theta:.22, phi:1.4}, 800); await c.wait(3200); }},
-      {t:"الصوت العالي", en:"Very loud sounds can damage the hair cells.", ar:"الصوت العالي جدًّا يضرّ الخلايا الشعرية، فلا تعلّي السمّاعات.", run:async () => { await c.tween(1500, k => sL.set(lerp(50, 100, k), true)); await c.wait(2200); await c.tween(900, k => sL.set(lerp(100, 45, k), true)); tgC.set(false, true); }},
-      {t:"التوازن", en:"The semicircular canals sense head movement. With the eyes, the cerebellum keeps you balanced.", ar:INFO.bal.ar, hot:"bal", run:async () => { await c.look({target:[.2, .4, 0], dist:5, theta:.22, phi:1.4}, 700); await c.tween(3600, k => sT.set(28 * Math.sin(k * TAU * 1.5), true), null); sT.set(0, true); await c.look({target:[-.75, .15, 0], dist:9.8, theta:.22, phi:1.4}, 800); }}
+      {t:"Sound · الصوت", en:"Sound is vibrations. The pinna collects them and they travel down the ear canal.", ar:"الصوت اهتزازات. الصيوان (<b class=t>pinna</b>) يجمعها وتمشي في القناة السمعية (<b class=t>ear canal</b>).", run:async () => { tgC.set(false, true); sT.set(0, true); sL.set(50, true); ring(); await c.wait(2600); }, min:1000},
+      {t:"Eardrum and the three small bones · الطبلة والعظيمات", en:"The eardrum vibrates, and the hammer, anvil and stirrup pass the vibrations on and make them stronger.", ar:"الطبلة (<b class=t>eardrum</b>) تهتزّ، والمطرقة (<b class=t>hammer</b>) والسندان (<b class=t>anvil</b>) والركاب (<b class=t>stirrup</b>) ينقلون الاهتزاز (<b class=t>vibration</b>) ويقوّونه.", hot:"oss", run:async () => { tgC.set(true, true); await c.look({target:[-.5, .1, 0], dist:4.2, theta:.22, phi:1.4}, 800); await c.wait(3000); }},
+      {t:"Cochlea and nerve · القوقعة والعصب", en:"In the cochlea, hair cells make nerve signals, and the auditory nerve carries them to the brain.", ar:"في القوقعة (<b class=t>cochlea</b>) الخلايا الشعرية (<b class=t>hair cells</b>) تصنع إشارات عصبية، والعصب السمعي (<b class=t>auditory nerve</b>) يوصّلها للدماغ (<b class=t>brain</b>).", hot:"coch", run:async () => { await c.look({target:[.8, 0, 0], dist:5, theta:.22, phi:1.4}, 800); await c.wait(3200); }},
+      {t:"Loud sound · الصوت العالي", en:"Very loud sounds can damage the hair cells.", ar:"الصوت العالي جدًّا يضرّ الخلايا الشعرية (<b class=t>hair cells</b>)، فلا تعلّي السمّاعات.", run:async () => { await c.tween(1500, k => sL.set(lerp(50, 100, k), true)); await c.wait(2200); await c.tween(900, k => sL.set(lerp(100, 45, k), true)); tgC.set(false, true); }},
+      {t:"Balance · التوازن", en:"The semicircular canals sense head movement. With the eyes, the cerebellum keeps you balanced.", ar:INFO.bal.ar, hot:"bal", run:async () => { await c.look({target:[.2, .4, 0], dist:5, theta:.22, phi:1.4}, 700); await c.tween(3600, k => sT.set(28 * Math.sin(k * TAU * 1.5), true), null); sT.set(0, true); await c.look({target:[-.75, .15, 0], dist:9.8, theta:.22, phi:1.4}, 800); }}
     ];
     const p = V(), DEL = [.55, .8, 1.25, 1.55, 1.95, 2.5, 3.1];
     const mats = {pinna:pm, canal:canal.material, drum:drum.material, oss:bm, coch:coch.material, nerve:nerve.material, bal:cm};
@@ -1092,7 +1092,7 @@ Lab.scene({
       glowT = Math.max(0, glowT - real * .4);
       for (const k in mats) mats[k].emissiveIntensity = k === glowK ? glowT * .5 * (.6 + .4 * Math.sin(t * 8)) : 0;
       status.className = "note badge " + (loudBad ? "bad" : "ok");
-      status.textContent = loudBad ? "⚠️ صوت عالي جدًّا: يضرّ الخلايا الشعرية في القوقعة" : Math.abs(tilt) > 4 ? "🤸 القنوات الهلالية حسّت بميلان الراس" : en > .05 ? "🔊 الاهتزاز ماشي من الصيوان للدماغ" : "اضغط «دقّ الجرس» أو شغّل صوت مستمر";
+      status.textContent = loudBad ? "⚠️ Too loud: it can damage the hair cells in the cochlea" : Math.abs(tilt) > 4 ? "🤸 The semicircular canals sense the head tilting" : en > .05 ? "🔊 The vibration travels from the pinna to the brain" : "Tap «Ring the bell» or play a steady sound";
     }};
   }
 });
