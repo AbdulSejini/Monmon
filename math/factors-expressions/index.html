@@ -368,6 +368,7 @@ sup.qm{display:inline-block;font-size:.8em;min-width:1.2em;padding:0 .12em;borde
 </style>
 </head><body>
 <script src="../../assets/sync.js"></script>
+<script src="../../assets/answers.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <script src="../../assets/rewards.js" data-root="../../"></script>
 <script src="../../assets/arcade.js" data-root="../../"></script>
@@ -1391,6 +1392,7 @@ const INPUT_ATTRS = ' autocomplete="off" autocapitalize="off" spellcheck="false"
 function renderQ(){
   const q = R.qs[R.i], n = R.qs.length, sec = $("#scr-quiz");
   R.locked = false; R.hinted = false; R.lastInput = null;
+  if (window.MonmonAnswers) MonmonAnswers.ask();
   const title = R.mode === "practice" ? "Zone " + (R.zi + 1) + " · " + ZONES[R.zi].name : "Final Challenge";
   let h = '<div class="land-' + qCol(q) + '"><div class="test-top"><div class="row"><span class="round-name">' + title + '</span><span class="counter">' + (R.i + 1) + ' / ' + n + '</span></div>'
     + '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + R.i + '" aria-label="Questions answered"><i style="width:' + pctOf(R.i, n) + '%"></i></div></div>'
@@ -1448,6 +1450,9 @@ function finish(ok, given, extra){
   /* no tip for this exact slip? fall back to the skill's own tip, so every wrong answer gets one */
   if (!ok && !extra) extra = M(SKILLS[q.skill].tip);
   R.res.push({ok, hinted:R.hinted, given, skill:q.skill, text:strip(q.text), correct:q.ansText, why:q.why});
+  /* every answer goes to the parent's report (assets/answers.js); a wrong answer keeps the tip about that exact slip */
+  if (window.MonmonAnswers) MonmonAnswers.log({tp:q.skill, tn:SKILLS[q.skill] ? SKILLS[q.skill].name : "", q:q.text, a:given, r:q.ansText, ok,
+    w:(R.hinted ? "Used a hint. " : "") + strip(q.why || "") + (!ok && extra ? " Tip: " + strip(extra) : "")});
   const sk = S.skills[q.skill] || (S.skills[q.skill] = {c:0, n:0});
   sk.n++; if (ok) sk.c++;
   save();

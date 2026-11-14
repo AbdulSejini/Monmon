@@ -741,6 +741,7 @@ body.motion-off *,body.motion-off *::before,body.motion-off *::after{animation:n
 </style>
 </head><body>
 <script src="../../assets/sync.js"></script>
+<script src="../../assets/answers.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <script src="../../assets/rewards.js" data-root="../../"></script>
 <script src="../../assets/fx.js"></script>
@@ -2655,9 +2656,12 @@ function mountQ(host, q, cfg){
   }
   host.innerHTML = `<div class="q-card panel"><p class="q-kicker">${cfg.kicker || ""}</p><p class="q-text">${q.q || (q.t === "spot" ? "Spot the mistake!" : "")}</p>${fig}${body}<div class="fb-slot"></div></div>`;
   const card = host.firstElementChild, slot = $(".fb-slot", card);
+  if (window.MonmonAnswers) MonmonAnswers.ask();
   let done = false;
   function finish(ok, extra, detail, el){
     if (done) return; done = true;
+    /* every answer goes to the parent's report (assets/answers.js) */
+    if (window.MonmonAnswers) MonmonAnswers.log({tp:q.ch || "", tn:strip(cfg.kicker || ""), k:q.t, q:q.q, a:(detail && detail.given) || "", r:(detail && detail.correct) || strip(extra || ""), ok, w:q.why || ""});
     if (ok){ Sound.good(); xpOnce(xqKey("q", q.t, q.q, JSON.stringify(q.o || q.items || q.pins || "")), cfg.xp || 10, el); FX.burstEl(el, 26); } else Sound.bad();
     if (cfg.onAnswer) cfg.onAnswer(ok, detail || {});
     slot.innerHTML = `<div class="fb ${ok ? "ok" : "no"}"><span class="burst">${P(ok)}</span><div class="fb-body">${extra || ""}${q.why ? `<p>${q.why}</p>` : ""}</div><div class="row"><button class="btn btn-go" data-next>${cfg.nextLabel || "Next"} ${ARROW}</button></div></div>`;

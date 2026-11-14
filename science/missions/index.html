@@ -363,6 +363,7 @@ ol.ord.no{border-color:var(--bad);background:var(--bad-soft)}
 </style>
 </head><body>
 <script src="../../assets/sync.js"></script>
+<script src="../../assets/answers.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <script src="../../assets/rewards.js" data-root="../../"></script>
 <script src="../../assets/arcade.js" data-root="../../"></script>
@@ -1139,6 +1140,7 @@ function startQuiz(m, onlyTopics){
 }
 function showQ(){
   const z = quiz, q = z.qs[z.i];
+  if (window.MonmonAnswers) MonmonAnswers.ask();
   const title = z.practice ? 'Science practice: weak topics' : (z.m.boss ? z.m.name : 'Mission ' + (z.m.i + 1) + ': ' + z.m.name);
   const cardEl = h('section', {class:'qcard'});
   cardEl.append(h('p', {class:'qsec'}, (TOPIC[q.skill] ? TOPIC[q.skill].t : '') + ' · ' + KIND_NAME[q.kind]));
@@ -1150,6 +1152,9 @@ function showQ(){
     z.score += score; z.streak = score === 1 ? z.streak + 1 : 0;
     z.answers.push({q, score, yours});
     record(q.skill, q.kind, score);
+    /* every answer goes to the parent's report (assets/answers.js) */
+    if (window.MonmonAnswers) MonmonAnswers.log({tp:q.skill, tn:TOPIC[q.skill] ? TOPIC[q.skill].t : '', k:q.kind, q:q.prompt + (q.ctx ? ' · ' + q.ctx : ''), a:yours, r:q.right, ok:score === 1,
+      w:(score > 0 && score < 1 ? 'Right with a hint. ' : '') + (q.why || ''), m:z.practice ? 'practice' : z.m.boss ? 'boss' : 'mission ' + (z.m.i + 1)});
     const rep = score > 0 && !xpOnce(q.key, Math.round(score * 10));
     save();
     if (score === 1) sfx.ok(); else sfx.no();

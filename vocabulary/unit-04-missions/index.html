@@ -323,6 +323,7 @@ table.log th{color:var(--muted);font-size:12.5px;text-transform:uppercase;letter
 </style>
 </head><body>
 <script src="../../assets/sync.js"></script>
+<script src="../../assets/answers.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <script src="../../assets/rewards.js" data-root="../../"></script>
 <script src="../../assets/arcade.js" data-root="../../"></script>
@@ -994,6 +995,7 @@ function startQuiz(m, words){
 }
 function showQ(){
   const z = quiz, q = z.qs[z.i];
+  if (window.MonmonAnswers) MonmonAnswers.ask();
   const title = z.practice ? 'Practice: weak words' : (z.m.boss ? z.m.name : 'Mission ' + (z.m.i + 1) + ' · ' + z.m.name);
   const card = h('section', {class:'qcard'});
   card.append(h('p', {class:'qsec'}, SECTIONS[q.type]), h('p', {class:'qp', html:q.prompt}));
@@ -1011,6 +1013,9 @@ function showQ(){
     save();
     if (score === 1) sfx.ok(); else sfx.no();
     const right = q.kind === 'mcq' ? q.opts.find((o) => o.ok).html : q.accept[0];
+    /* every answer goes to the parent's report (assets/answers.js) */
+    if (window.MonmonAnswers) MonmonAnswers.log({tp:q.word, tn:'Unit 4 word: ' + q.word, k:q.type, q:[q.prompt, q.cue, q.filled, q.sentence].filter(Boolean).join(' · '), a:yours, r:right, ok:score === 1,
+      w:score > 0 && score < 1 ? 'Right with a hint.' : '', m:z.practice ? 'practice' : z.m.boss ? 'boss' : 'mission'});
     fbBox.append(h('div', {class:'fb ' + (score === 1 ? 'ok' : score > 0 ? 'mid' : 'no')},
       h('span', {class:'fi', 'aria-hidden':'true'}, score === 1 ? (z.streak >= 3 ? '🔥' : '✅') : score > 0 ? '🟡' : '❌'),
       h('div', null, h('b', {class:'t'}, score === 1 ? pick(['Correct!', 'Nice!', 'Yes!', 'Spot on!']) + (z.streak >= 3 ? ' ' + z.streak + ' in a row!' : '') : score > 0 ? 'Right word — but you used a hint.' : 'Not quite.'),

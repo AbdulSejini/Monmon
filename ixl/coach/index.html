@@ -300,6 +300,7 @@ p.ar,div.ar{display:block}
 </head>
 <body>
 <script src="../../assets/sync.js"></script>
+<script src="../../assets/answers.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <script src="../../assets/rewards.js" data-root="../../"></script>
 <script src="../../assets/arcade.js" data-root="../../"></script>
@@ -1010,6 +1011,7 @@ function runner(box, c, mode){
     const q = st.deck[st.i];
     st.answered = false; st.busy = false;
     box.innerHTML = top() + qHTML(q, c.id + mode) + '<div class="hint-box" hidden></div><div class="fb" hidden></div>';
+    if (window.MonmonAnswers) MonmonAnswers.ask();
     const inp = $(".ixin", box);
     if (inp) setTimeout(() => inp.focus({preventScroll:true}), 30);
   }
@@ -1022,6 +1024,10 @@ function runner(box, c, mode){
       const fb = $(".fb", box); fb.hidden = false; fb.className = "fb"; fb.innerHTML = q.kind === "verb" ? "Type the missing word first." : "Choose an answer first."; return;
     }
     const r = judge(q, box), fb = $(".fb", box);
+    /* every answer goes to the parent's report (assets/answers.js), with the kind of slip the coach found */
+    if (window.MonmonAnswers){ const tr = !r.ok && (TRAPS[r.trap] || TAGS[r.trap]);
+      MonmonAnswers.log({s:"english", tp:c.id, tn:"IXL " + c.id + (q.kind === "verb" ? " · verb tense" : ""), k:q.kind, q:[q.ins, q.pass, q.q, q.kind === "verb" && q.s ? q.s.replace("___", "___ (" + q.v + ")") : ""].filter(Boolean).join(" · "),
+        a:q.kind === "verb" ? $(".ixin", box).value : picked(box).map(k => q.opts[k]).join(" · "), r:answerText(q), ok:!!r.ok, w:tr ? "Slip: " + tr.en + (r.tip ? ". " + r.tip : "") : "", m:mode}); }
     st.answered = true;
     $$(".ixq button, .ixq input", box).forEach(el => { if (el.classList.contains("ixq-go")) el.disabled = true; else if (el.tagName === "INPUT") el.readOnly = true; else el.disabled = true; });
     const inp = $(".ixin", box);
