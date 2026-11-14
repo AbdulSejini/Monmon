@@ -18,7 +18,12 @@ const Lab = (() => {
 
   /* ---------- sound: a tiny synth, following the site's switch ---------- */
   let mute = false, ac = null;
-  const soundOn = () => window.MonmonRewards && MonmonRewards.sound ? !!MonmonRewards.sound() : !mute;
+  const EMBED = !!window.EMBED;
+  /* the site's sound switch; inside a frame the rewards layer is not loaded, so its saved setting is read directly */
+  const fxSound = () => { try { return (JSON.parse(localStorage.getItem("monmon-fx-v1") || "{}") || {}).sound !== false; } catch (e) { return true; } };
+  const soundOn = () => window.MonmonRewards && MonmonRewards.sound ? !!MonmonRewards.sound() : EMBED ? fxSound() : !mute;
+  /* inside a frame: tell the page around it how tall the content is, and whether the model can be drawn */
+  const tell = o => { if (EMBED && window.parent !== window) try { window.parent.postMessage(Object.assign({lab3d:1}, o), "*"); } catch (e) {} };
   function audio(){
     if (!soundOn()) return null;
     try { if (!ac){ const A = window.AudioContext || window.webkitAudioContext; if (!A) return null; ac = new A(); } if (ac.state === "suspended") ac.resume(); } catch (e) { return null; }
@@ -443,6 +448,7 @@ const Lab = (() => {
     $("#lessonLink").textContent = "الدرس " + def.les + " في صفحة المراجعة ←";
     $("#tourBtn").hidden = !ctx.tour.length;
     $("#stageTitle").textContent = def.title; $("#stageEn").textContent = def.en;
+    $("#fullLink").href = "index.html#" + def.id;
     if (!quiet) try { history.replaceState(null, "", "#" + def.id); } catch (e) {}
     last = performance.now();
   }
@@ -486,7 +492,13 @@ const Lab = (() => {
     nav.addEventListener("click", e => { const b = e.target.closest("button[data-id]"); if (b){ sfx("tap"); open(b.dataset.id); const v = $("#stage"); if (v.getBoundingClientRect().top < 0 || v.getBoundingClientRect().top > innerHeight * .6) v.scrollIntoView({behavior:still() ? "auto" : "smooth", block:"start"}); } });
     $("#sndBtn").addEventListener("click", () => { const on = !soundOn(); if (window.MonmonRewards && MonmonRewards.sound) MonmonRewards.sound(on); else mute = !on; if (!on) hush(); paintSound(); });
     paintSound();
-    if (!window.THREE || !initGL()){ $("#nogl").hidden = false; $("#gl").hidden = true; $("#side").hidden = true; document.body.classList.add("no-gl"); return; }
+    if (EMBED){
+      const size = () => tell({h:document.querySelector("main").getBoundingClientRect().height});
+      if ("ResizeObserver" in window) new ResizeObserver(size).observe(document.querySelector("main")); window.addEventListener("resize", size); setTimeout(size, 300);
+      /* the page around stops this model's tour and voice when it starts reading something itself */
+      window.addEventListener("message", e => { if (e.data && e.data.lab3dStop){ stopTour(); hush(); } });
+    }
+    if (!window.THREE || !initGL()){ $("#nogl").hidden = false; $("#gl").hidden = true; $("#side").hidden = true; document.body.classList.add("no-gl"); tell({nogl:1}); return; }
     $("#tourBtn").addEventListener("click", runTour);
     $("#pauseBtn").addEventListener("click", () => { paused = !paused; paintPause(); });
     $("#zin").addEventListener("click", () => { orb.dist = clamp(orb.dist * .85, orb.min, orb.max); });

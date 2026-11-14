@@ -143,14 +143,27 @@ b.en{font-weight:700;unicode-bidi:isolate;direction:ltr;display:inline-block}
   .view{position:sticky;top:calc(var(--site-nav-h,0px) + 4px);z-index:5;height:clamp(250px,42vh,440px)}
   .side{display:flex;flex-direction:column}.side > *{min-width:0;max-width:100%}.ctl{order:1}.cap{order:2}.side > .row{order:3}
 }
+/* inside another page (?embed=1): only the model, its controls and its caption */
+#fullLink{display:none}
+.embed #fullLink{display:inline-flex}
+.embed body{background:none}
+.embed .topbar,.embed .hero,.embed .scenes,.embed .foot,.embed .stage-head,.embed #lessonLink{display:none!important}
+.embed .wrap{max-width:none;padding:0}
+.embed .stage{margin:0;border:0;border-radius:0;box-shadow:none;padding:2px;grid-template-columns:minmax(0,1fr)}
+.embed .view{position:relative;top:auto;height:clamp(300px,58vw,440px)}
+.embed .side{display:flex;flex-direction:column}.embed .side > *{min-width:0;max-width:100%}.embed .ctl{order:1}.embed .cap{order:2}.embed .side > .row{order:3}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media print{.view,.scenes,.ctl,.say,.topbar .icon-btn{display:none!important}}
 </style>
 </head>
 <body>
-<script src="../../assets/sync.js"></script>
-<script src="../../assets/site-nav.js" data-root="../../"></script>
-<script src="../../assets/rewards.js" data-root="../../"></script>
+<script>
+/* ?embed=1: one scene shown inside another page (science/quiz-2 puts it in a frame under a topic). Then only the model,
+   its controls and its caption show, and the site's strip, sync and rewards are not loaded a second time. */
+var EMBED = /[?&]embed=1/.test(location.search);
+if (EMBED) document.documentElement.classList.add("embed");
+else document.write('<script src="../../assets/sync.js"><\/script><script src="../../assets/site-nav.js" data-root="../../"><\/script><script src="../../assets/rewards.js" data-root="../../"><\/script>');
+</script>
 <script src="../../assets/voice.js"></script>
 <header class="topbar">
   <div class="topbar-in">
@@ -193,7 +206,7 @@ b.en{font-weight:700;unicode-bidi:isolate;direction:ltr;display:inline-block}
         <div class="say"><button type="button" id="sayEn">🔊 English</button><button type="button" id="sayAr">🔊 عربي</button></div>
       </div>
       <div class="ctl" id="ctl"></div>
-      <div class="row"><button class="btn go" type="button" id="tourBtn" aria-pressed="false">▶ شغّل الشرح</button><a class="btn sm" id="lessonLink" href="../quiz-2/index.html">الدرس في صفحة المراجعة ←</a></div>
+      <div class="row"><button class="btn go" type="button" id="tourBtn" aria-pressed="false">▶ شغّل الشرح</button><a class="btn sm" id="fullLink" href="index.html" target="_top">افتح المختبر كامل ←</a><a class="btn sm" id="lessonLink" href="../quiz-2/index.html">الدرس في صفحة المراجعة ←</a></div>
     </div>
   </section>
 

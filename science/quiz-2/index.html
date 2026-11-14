@@ -183,7 +183,22 @@ ul,ol{margin:0;padding:0}
 .lv-btn:hover{transform:translateY(-1px)}
 .lv-btn:active{transform:translateY(1px);box-shadow:1px 1px 0 var(--ink)}
 .lv-btn.lv-alt{background:var(--paper)}
-.lv-btn.lv-3d{background:#1B2350;color:#fff;text-decoration:none}
+/* a 3D model inside a topic: a picture of it with a play button, then the live model in a frame (science/lab-3d?embed=1) */
+.l3{display:grid;gap:8px;min-width:0}
+.l3-poster{position:relative;display:block;width:100%;padding:0;border:3px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;background:#141A3C;cursor:pointer;box-shadow:var(--shadow-sm)}
+.l3-poster img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:cover}
+.l3-badge{position:absolute;top:8px;inset-inline-start:8px;padding:1px 9px;border:2px solid var(--ink);border-radius:8px;background:#fff;font-weight:800;font-size:14px}
+.l3-play{position:absolute;inset-inline:0;bottom:10px;margin:0 auto;width:max-content;max-width:92%;padding:8px 16px;border:2px solid var(--ink);border-radius:999px;background:var(--sun);font-weight:800;font-size:16px;line-height:1.3;box-shadow:2px 2px 0 var(--ink)}
+.l3-poster:hover .l3-play{transform:translateY(-2px)}
+@media (max-width:560px){.l3-poster img{aspect-ratio:8/5}.l3-play{bottom:8px;padding:6px 12px;font-size:14px}}
+.l3 iframe{display:block;width:100%;border:3px solid var(--ink);border-radius:var(--r-sm);background:#fff}
+.l3-no{margin:0;padding:8px 12px;border:2px dashed var(--ink);border-radius:var(--r-sm);font-weight:700}
+.l3-flat{margin:8px 0}
+.l3-flat summary{cursor:pointer;font-weight:800;font-size:15px;min-height:40px;display:inline-flex;align-items:center;gap:8px;padding:4px 14px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);list-style:none}
+.l3-flat summary::-webkit-details-marker{display:none}
+.l3-flat summary::after{content:"▾"}
+.l3-flat[open] summary::after{content:"▴"}
+.l3-flat[open] summary{margin-bottom:8px}
 .lv-btn[aria-pressed="true"]{background:#FFC9DD}
 .lv-stamp{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border:2px solid #0E7A47;border-radius:999px;background:#DDF4E8;color:#0E7A47;font-weight:800;font-size:14px}
 .lv-stamp.lv-pop{animation:lv-pop .6s cubic-bezier(.2,1.8,.4,1)}
@@ -228,7 +243,7 @@ ul,ol{margin:0;padding:0}
 @keyframes lv-glow{50%{box-shadow:0 0 0 6px #FF6FB5,var(--shadow-sm)}}
 #sndBtn[aria-pressed="false"] .snd-on,#sndBtn[aria-pressed="true"] .snd-off{display:none}
 @media (max-width:374px){.topbar-in{gap:6px;padding:8px 10px}.topbar .icon-btn{width:38px;height:38px}.logo{font-size:21px}}
-@media print{.lv-toast,.lv-bar,.lv-figbar,.lv-cap{display:none!important}}
+@media print{.lv-toast,.lv-bar,.lv-figbar,.lv-cap,.l3{display:none!important}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* print, 3 pages: Lessons 2 and 3, then Lessons 4 and 5 with the word list, then a practice test with its answer key */
@@ -305,7 +320,8 @@ ul,ol{margin:0;padding:0}
    The IXL skills the Science Department sent for the quiz (its sheet of 9/11) are under «What's on the quiz» (#ixl, linked
    from the Week 12 plan) and at the end of each lesson.
    The lessons are lively (LIVELY LESSONS below): «Explain it» on every topic, moving diagrams with sounds, flip cards.
-   Fourteen topics link to their model in the 3D Body Lab (science/lab-3d, LAB3D below). */
+   Fourteen topics show their model from the 3D Body Lab (science/lab-3d, LAB3D below) in the topic itself: a picture with a
+   play button, then the live model in a frame. Their flat drawings fold away under «the names to learn». */
 const KEY = "science-g6-quiz2-v1", TZ = "Asia/Riyadh", QUIZ_DAY = "2026-11-15";
 const LESSONS = [
   {id:"l2", n:2, name:"Structure and Support", src:"Module 2: Body Systems · book pp. 76–96", blurb:"Muscles, joints and bones; the skeletons of other animals; three types of muscle; roots and stems."},
@@ -1094,6 +1110,9 @@ function renderStep(){
 
 /* ---------- LESSON CARDS, shown in place during a round and on the page ---------- */
 const topicBody = t => '<ul class="kp">' + t.pts.map(x => '<li>' + x + '</li>').join("") + '</ul>' + (t.fig ? figHTML(t.fig, null, true) : "") + (t.more || "");
+/* on the page, a topic with a 3D model shows the model first; its flat drawing (the one the label questions use) folds away */
+const cardBody = t => !LAB3D[t.id] || !t.fig ? topicBody(t)
+  : '<ul class="kp">' + t.pts.map(x => '<li>' + x + '</li>').join("") + '</ul><details class="l3-flat"><summary>🖼️ Flat drawing with the names</summary>' + figHTML(t.fig, null, true) + '</details>' + (t.more || "");
 const lessonPeek = l => '<details class="peek"><summary>Look at “' + esc(TOPIC[l].t) + '”</summary><div class="peek-in">' + topicBody(TOPIC[l]) + '</div></details>';
 const lessonLink = l => '<a href="#' + l + '" data-act="lesson" data-l="' + esc(l) + '">Review “' + esc(TOPIC[l].t) + '” →</a>';
 
@@ -1301,7 +1320,7 @@ function lessonSection(x){
   let h = '<section class="sec part p-' + x.id + '" id="p-' + x.id + '"><div class="part-head"><span class="lv-icon" aria-hidden="true">' + LV_ICON[x.id] + '</span><h2>Lesson ' + x.n + ': ' + x.name + '</h2><span>' + x.src + '</span><span class="lv-prog" data-les="' + x.id + '"></span></div>';
   if (x.lab) h += '<div class="lab-cta panel"><p>The full lesson, with moving diagrams and its own challenges, is in the <b>' + x.lab[1] + '</b>. Here are the key ideas to review.</p><a class="btn sm" href="' + x.lab[0] + '">Open the ' + x.lab[1] + ' →</a></div>';
   h += mine.map(t => '<article class="card panel" id="' + t.id + '"><h3>' + t.t + '</h3><div class="lv-bar"><button class="lv-btn" type="button" data-lv="explain" aria-pressed="false" data-label="▶ Explain it">▶ Explain it</button>'
-    + (LAB3D[t.id] ? '<a class="lv-btn lv-3d" href="../lab-3d/index.html#' + LAB3D[t.id] + '">🧊 See it in 3D</a>' : "") + '</div>' + topicBody(t) + '</article>').join("");
+    + '</div>' + (LAB3D[t.id] ? lab3dBlock(t.id) : "") + cardBody(t) + '</article>').join("");
   h += '<article class="card panel lv-words"><div class="lv-whead"><h3>Words to know</h3><button class="lv-btn lv-alt" type="button" data-lv="flipall" aria-pressed="false">↻ Show all meanings</button></div>'
     + '<p class="lv-hint">Say what each word means, then tap the card to check.</p><div class="words">'
     + words.map(v => '<button class="lv-flip" type="button" aria-pressed="false"><span class="lv-f">' + v[0] + '<small>Tap to check ↻</small></span><span class="lv-b"><span><b>' + v[0] + ':</b> ' + esc(v[1]) + '</span></span></button>').join("") + '</div></article>';
@@ -1324,7 +1343,7 @@ function renderHome(){
     + '<p class="sub">Sunday 15 November · Module 2: Body Systems · Lessons 2–5 <span class="badge' + (n >= 0 && n <= 1 ? " hot" : "") + '">' + when + '</span></p>'
     + '<div class="stats"><div class="stat"><b>' + (S.best === null ? "–" : S.best + "/30") + '</b><span>Best practice test</span></div><div class="stat"><b>' + S.tests + '</b><span>Tests done</span></div><div class="stat"><b>' + S.xp + '</b><span>Points</span></div></div>'
     + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="test">Start a practice test</button><a class="btn sm" href="../../review/quiz-2/index.html#sci">Quiz 2 checklist</a></div>'
-    + '<p class="lv-tip">🎬 Tap <b>▶ Explain it</b> on a topic to hear it point by point, and the <b>▶</b> button on a picture to watch it move. The speaker button at the top turns the sounds on or off.</p>'
+    + '<p class="lv-tip">🎬 Tap the <b>3D</b> picture in a topic to turn the model and move it yourself, and <b>▶ Explain it</b> to hear the topic point by point. The speaker button at the top turns the sounds on or off.</p>'
     + '<div class="row"><a class="btn go" href="../lab-3d/index.html">🧊 3D Body Lab: turn the models and move them yourself →</a></div></section>';
   h += '<section class="sec"><div class="sec-head"><h2>What’s on the quiz</h2><p>Four lessons of Module 2, from the school’s assessment outline.</p></div><div class="tiles">'
     + LESSONS.map(x => '<article class="tile p-' + x.id + '"><b>Lesson ' + x.n + ': ' + x.name + '</b><span>' + x.blurb + '</span><div class="row"><a class="btn sm" href="#p-' + x.id + '">Learn</a>'
@@ -1433,6 +1452,35 @@ const lvReadMs = t => Math.min(9000, Math.max(2600, 1400 + String(t).split(/\s+/
 /* ----- what is playing (one at a time) ----- */
 let LV = null;
 function lvStop(){ if (LV){ const x = LV; LV = null; try { x.stop(); } catch (e) {} } }
+
+/* ----- the 3D model inside a topic -----
+   The picture is a tap away from the live model: a frame of the 3D Body Lab showing that one scene (?embed=1). One model
+   is open at a time. The frame says how tall it is, and if the device cannot draw 3D the flat drawing opens instead. */
+const LAB3D_ALT = {arm:"an arm with its two muscles", joints:"a ball-and-socket joint with its ligaments", skeleton:"a skeleton", digest:"the digestive system inside the body", villi:"villi in the small intestine",
+  heart:"the heart and the two loops of blood", lungs:"the lungs, the airways and the diaphragm", plant:"a plant with its roots in the soil", reflex:"an arm, the spinal cord and the brain", eye:"an eye cut in half", ear:"the ear, from the pinna to the cochlea"};
+function lab3dBlock(id){
+  const sc = LAB3D[id];
+  return '<div class="l3" data-scene="' + sc + '"><button class="l3-poster" type="button" data-lv="l3" aria-label="Open the 3D model: ' + LAB3D_ALT[sc] + '">'
+    + '<img src="../lab-3d/posters/' + sc + '.jpg" alt="" loading="lazy" width="880" height="440"><span class="l3-badge">3D</span><span class="l3-play">▶ Move it yourself</span></button></div>';
+}
+let L3 = null;
+function lab3dClose(){ if (!L3) return; const o = L3; L3 = null; try { o.frame.contentWindow.speechSynthesis.cancel(); } catch (e) {} o.frame.remove(); o.x.remove(); o.box.querySelector(".l3-poster").hidden = false; }
+function lab3dOpen(box){
+  lab3dClose(); lvStop();
+  const frame = document.createElement("iframe"), x = document.createElement("button");
+  frame.src = "../lab-3d/index.html?embed=1#" + box.dataset.scene; frame.title = "3D model: " + LAB3D_ALT[box.dataset.scene]; frame.style.height = "660px";
+  x.type = "button"; x.className = "lv-btn lv-alt"; x.dataset.lv = "l3close"; x.textContent = "✕ Close the 3D model";
+  box.querySelector(".l3-poster").hidden = true; box.append(frame, x); L3 = {box, frame, x};
+  sfx("whoosh");
+}
+window.addEventListener("message", e => {
+  if (!L3 || e.source !== L3.frame.contentWindow || !e.data || !e.data.lab3d) return;
+  if (e.data.nogl){ const box = L3.box, flat = box.parentNode.querySelector(".l3-flat"); lab3dClose(); document.querySelectorAll(".l3").forEach(b => { b.hidden = true; }); if (flat) flat.open = true;
+    box.hidden = false; box.innerHTML = '<p class="l3-no">This device cannot draw the 3D model' + (flat ? ", so the flat drawing is open below." : ".") + '</p>'; announce(box.textContent); return; }
+  if (e.data.h > 100) L3.frame.style.height = Math.ceil(e.data.h) + 6 + "px";
+});
+/* when this page starts reading or playing something, the open model stops its own tour */
+const lab3dHush = () => { if (L3) try { L3.frame.contentWindow.postMessage({lab3dStop:1}, "*"); } catch (e) {} };
 function lvBtn(b, on){ if (!b) return; b.setAttribute("aria-pressed", on ? "true" : "false"); b.textContent = on ? "⏹ Stop" : b.dataset.label; }
 /* bring an element into view under the site strip, if it is not already */
 function lvShow(el){
@@ -1765,7 +1813,7 @@ function lvToggleSound(){
 
 /* after the home is drawn: stamps, progress, ▶ buttons on the diagrams, cards that rise in */
 function enliven(){
-  const main = $("#main");
+  const main = $("#main"); L3 = null;
   LESSONS.forEach(x => lvProgress(x.id));
   main.querySelectorAll(".part article.card[id]").forEach(card => lvStamp(card, !!(S.seen && S.seen[card.id]), false));
   main.querySelectorAll(".part figure.fig[data-fig]").forEach(fig => {
@@ -1784,9 +1832,11 @@ document.addEventListener("click", e => {
   const b = e.target.closest("[data-lv]");
   if (b){
     const a = b.dataset.lv;
-    if (a === "explain") lvExplain(b.closest("article.card"));
+    if (a === "l3") lab3dOpen(b.closest(".l3"));
+    else if (a === "l3close"){ const box = L3 && L3.box; lab3dClose(); if (box) box.querySelector(".l3-poster").focus(); }
+    else if (a === "explain"){ lab3dHush(); lvExplain(b.closest("article.card")); }
     else if (a === "next"){ if (LV && LV.next) LV.next(); }
-    else if (a === "watch") lvWatch(b.closest("figure.fig"));
+    else if (a === "watch"){ lab3dHush(); lvWatch(b.closest("figure.fig")); }
     else if (a === "snd") lvToggleSound();
     else if (a === "flipall"){
       const on = b.getAttribute("aria-pressed") !== "true";
