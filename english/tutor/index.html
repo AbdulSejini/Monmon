@@ -231,6 +231,7 @@ a{color:#1F5FB8;font-weight:700}
 </style>
 </head><body>
 <script src="../../assets/sync.js"></script>
+<script src="../../assets/answers.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <script src="../../assets/rewards.js" data-root="../../"></script>
 <script src="../../assets/arcade.js" data-root="../../"></script>
@@ -1827,6 +1828,7 @@ function renderRun(){
   el.className = many ? "screen u-" + UNIT[s.unit].col : el.className;
   el.innerHTML = top + `<div class="panel q-card">${many ? `<div class="q-kicker">${UNIT[s.unit].name} · ${s.name}</div>` : ""}${qHTML(q)}${hint}<div class="fb-slot"></div></div>`
     + (many ? '<div class="row" style="margin-top:12px"><button class="btn btn-sm" data-act="home">Stop and go home</button></div>' : "");
+  if (window.MonmonAnswers) MonmonAnswers.ask();
   if (many && current !== "run") show("run");
 }
 function answerMC(i, btn){
@@ -1862,6 +1864,8 @@ function settle(ok, given, el){
   if (ok){ k.ok++; R.streak++; Sound.good(); FX.burstEl(el, 16); xpOnce(xqKey("tu", q.skill, q.prompt || "", q.ctx || "", (q.opts || q.toks || q.items || []).slice().sort().join("~")), 5, el); }
   else { k.bad++; R.streak = 0; R.wrong++; Sound.bad(); if (R.list && k.done) k.review = 1; }
   R.res.push({s:q.skill, ok, g:String(given).slice(0, 90), c:answerPlain(q).slice(0, 120), p:plain(q.prompt + (q.ctx && q.kind !== "tap" ? " " + q.ctx : "")).slice(0, 220)});
+  /* every answer goes to the parent's report (assets/answers.js) */
+  if (window.MonmonAnswers) MonmonAnswers.log({tp:q.skill, tn:SKILL[q.skill] ? SKILL[q.skill].name : "", k:q.kind, q:plain(q.prompt + (q.ctx && q.kind !== "tap" ? " " + q.ctx : "")), a:given, r:answerPlain(q), ok, w:plain(q.why || ""), m:R.mode});
   save();
   const s = SKILL[q.skill], last = R.list ? R.i >= R.n - 1 : false;
   const label = R.mode === "prove" ? (ok && R.streak >= R.need ? "See my result →" : "Next question →") : R.mode === "try" ? (R.i >= 1 ? "Now prove it →" : "Next question →") : (last ? "See my results →" : "Next →");

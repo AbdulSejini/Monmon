@@ -168,7 +168,8 @@
   }
   /* the family's node: {d: {flat key: JSON}, t: time of the last change} */
   function fetchAll() {
-    return ask(url("")).then(function (j) {
+    /* only d and t: the answers kept for the parent's report (/a, assets/answers.js) are never downloaded here */
+    return ask(url("", "orderBy=%22%24key%22&startAt=%22d%22")).then(function (j) {
       var flat = j && isObj(j.d) ? j.d : {};
       return {rev: j && typeof j.t === "number" ? j.t : 0, flat: flat, data: fromFlat(flat)};
     });

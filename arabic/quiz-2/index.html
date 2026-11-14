@@ -173,6 +173,7 @@ ul,ol{margin:0;padding:0}
 </head>
 <body>
 <script src="../../assets/sync.js"></script>
+<script src="../../assets/answers.js"></script>
 <script src="../../assets/site-nav.js" data-root="../../"></script>
 <script src="../../assets/rewards.js" data-root="../../"></script>
 <script src="../../assets/arcade.js" data-root="../../"></script>
@@ -429,6 +430,7 @@ function renderStep(){
     + '<div class="run-top"><button class="btn sm" type="button" data-act="home">→ الصفحة</button><b>' + esc(MODES[R.mode].name) + '</b><span class="counter">' + (R.i + 1) + ' / ' + n + '</span></div>'
     + '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + R.i + '" aria-label="الأسئلة المنجزة"><i style="width:' + Math.round(R.i / n * 100) + '%"></i></div>'
     + '<p class="q-part">' + esc(LESSON[l].t) + ' · ' + PART[st.type] + '</p>' + body + '<div id="fbBox"></div></section>';
+  if (window.MonmonAnswers) MonmonAnswers.ask();
   const f = $(".opt") || $("#typeIn");
   if (f && window.matchMedia && matchMedia("(pointer: fine)").matches) f.focus({preventScroll:true});
 }
@@ -444,6 +446,8 @@ const lessonLink = id => '<a href="#l-' + id + '" data-act="lesson" data-l="' + 
 
 /* ---------- ANSWERS ---------- */
 function record(ok, given, right, why, l, text){
+  /* every answer goes to the parent's report (assets/answers.js) */
+  if (window.MonmonAnswers) MonmonAnswers.log({tp:l, tn:(typeof TOPIC === "object" && TOPIC && TOPIC[l] && TOPIC[l].t) || "", k:R.steps[R.i].type, q:text, a:given, r:right, ok, w:why, m:R.mode});
   R.res.push({ok, given, right, why, l, text, type:R.steps[R.i].type});
   R.rep = false;
   if (ok){

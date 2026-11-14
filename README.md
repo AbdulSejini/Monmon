@@ -201,6 +201,8 @@ Progress is saved in each browser's localStorage. Every page (the dashboard incl
 - **Storage:** the family's node is `/f/<CODE>`, with `CODE` from `assets/sync.js`. Inside it:
   - `d` holds one entry per value, keyed by its path, for example `monmon-done-v1|done|<item id>`. Each segment is %-escaped for Firebase, and each value is stored as JSON text, so arrays and empty objects come back exactly as saved.
   - `t` is the server time of the last change.
+  - `a` holds every answer for the parent's report (below). Pages never download it: `sync.js` reads only `d` and `t`.
+  - `ar` remembers the last answer already reported.
 - **Database rules:** they deny everything except reading and writing `f/<CODE>`:
 
   ```json
@@ -208,6 +210,16 @@ Progress is saved in each browser's localStorage. Every page (the dashboard incl
   ```
 
   `CODE` is in `assets/sync.js`, a public file, so it is not a secret: anyone who opens the site can read and change the progress. To make it private again, change the path in the rules and in `CODE`, stop syncing automatically, and give each device a link with the new code instead.
+
+## Parent's report after each study session
+
+Asked for on 14/11: an email to the parent after each study session, with the answers, what went well, the mistakes, the weak point and how to guide him.
+
+- **What is kept:** every page with questions loads `assets/answers.js` after `sync.js` and logs each answer: the page, the subject, the topic, the kind of question, the question, the answer given, the right answer, right or wrong, the seconds taken, and the page's explanation (or the IXL Coach's kind of slip, or the math pages' tip for that slip). Nothing personal is sent.
+- **Where:** at once to `/f/<CODE>/a` in the family's database, under time-sorted ids, apart from the progress. A device offline keeps them (`monmon-answers-q`, at most 300) and sends them later. A device with sync switched off on `sync/index.html` keeps and sends nothing.
+- **Pages:** the five Quiz 2 reviews (science, social studies, Arabic, English, Islamic Studies), the science, English and Unit 4 vocabulary missions, the English Tutor, the vocabulary tests (Units 1–4), the four math lessons, the two science labs, the ICT lesson and the IXL Coach.
+- **The report:** `tools/answers-report.mjs` (Node 18+, no packages) prints the facts of the sessions that ended since the last report: a session ends after 20 minutes without an answer. Per session: time, length, accuracy per page and topic, seconds per answer, every wrong answer with the right one and a link to its lesson, answers wrong in under 5 seconds, questions wrong twice, questions fixed after a mistake, the first half against the second. Also the last 30 days per topic. `--mark <id>` records what was reported and removes answers older than 60 days.
+- **The email:** a scheduled task runs every hour from 15:00 to 23:00 (Riyadh). When a session has ended it writes the analysis in Arabic (terms in English, as in the tests) and sends it from the family's Gmail, then marks it reported. Nothing is sent when he has not studied.
 
 Every page has its own A4 print layout. The screen view is hidden and a paper version is printed instead:
 
