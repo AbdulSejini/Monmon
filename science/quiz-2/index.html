@@ -183,6 +183,7 @@ ul,ol{margin:0;padding:0}
 .lv-btn:hover{transform:translateY(-1px)}
 .lv-btn:active{transform:translateY(1px);box-shadow:1px 1px 0 var(--ink)}
 .lv-btn.lv-alt{background:var(--paper)}
+.lv-btn.lv-3d{background:#1B2350;color:#fff;text-decoration:none}
 .lv-btn[aria-pressed="true"]{background:#FFC9DD}
 .lv-stamp{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border:2px solid #0E7A47;border-radius:999px;background:#DDF4E8;color:#0E7A47;font-weight:800;font-size:14px}
 .lv-stamp.lv-pop{animation:lv-pop .6s cubic-bezier(.2,1.8,.4,1)}
@@ -303,7 +304,8 @@ ul,ol{margin:0;padding:0}
    once (assets/arcade.js). review/quiz-2 links Lessons 2 and 3 here (#p-l2, #p-l3).
    The IXL skills the Science Department sent for the quiz (its sheet of 9/11) are under «What's on the quiz» (#ixl, linked
    from the Week 12 plan) and at the end of each lesson.
-   The lessons are lively (LIVELY LESSONS below): «Explain it» on every topic, moving diagrams with sounds, flip cards. */
+   The lessons are lively (LIVELY LESSONS below): «Explain it» on every topic, moving diagrams with sounds, flip cards.
+   Ten topics link to their model in the 3D Body Lab (science/lab-3d, LAB3D below). */
 const KEY = "science-g6-quiz2-v1", TZ = "Asia/Riyadh", QUIZ_DAY = "2026-11-15";
 const LESSONS = [
   {id:"l2", n:2, name:"Structure and Support", src:"Module 2: Body Systems · book pp. 76–96", blurb:"Muscles, joints and bones; the skeletons of other animals; three types of muscle; roots and stems."},
@@ -1298,7 +1300,8 @@ function lessonSection(x){
   const mine = TOPICS.filter(t => t.les === x.id), words = VOCAB.filter(v => TOPIC[v[2]].les === x.id);
   let h = '<section class="sec part p-' + x.id + '" id="p-' + x.id + '"><div class="part-head"><span class="lv-icon" aria-hidden="true">' + LV_ICON[x.id] + '</span><h2>Lesson ' + x.n + ': ' + x.name + '</h2><span>' + x.src + '</span><span class="lv-prog" data-les="' + x.id + '"></span></div>';
   if (x.lab) h += '<div class="lab-cta panel"><p>The full lesson, with moving diagrams and its own challenges, is in the <b>' + x.lab[1] + '</b>. Here are the key ideas to review.</p><a class="btn sm" href="' + x.lab[0] + '">Open the ' + x.lab[1] + ' →</a></div>';
-  h += mine.map(t => '<article class="card panel" id="' + t.id + '"><h3>' + t.t + '</h3><div class="lv-bar"><button class="lv-btn" type="button" data-lv="explain" aria-pressed="false" data-label="▶ Explain it">▶ Explain it</button></div>' + topicBody(t) + '</article>').join("");
+  h += mine.map(t => '<article class="card panel" id="' + t.id + '"><h3>' + t.t + '</h3><div class="lv-bar"><button class="lv-btn" type="button" data-lv="explain" aria-pressed="false" data-label="▶ Explain it">▶ Explain it</button>'
+    + (LAB3D[t.id] ? '<a class="lv-btn lv-3d" href="../lab-3d/index.html#' + LAB3D[t.id] + '">🧊 See it in 3D</a>' : "") + '</div>' + topicBody(t) + '</article>').join("");
   h += '<article class="card panel lv-words"><div class="lv-whead"><h3>Words to know</h3><button class="lv-btn lv-alt" type="button" data-lv="flipall" aria-pressed="false">↻ Show all meanings</button></div>'
     + '<p class="lv-hint">Say what each word means, then tap the card to check.</p><div class="words">'
     + words.map(v => '<button class="lv-flip" type="button" aria-pressed="false"><span class="lv-f">' + v[0] + '<small>Tap to check ↻</small></span><span class="lv-b"><span><b>' + v[0] + ':</b> ' + esc(v[1]) + '</span></span></button>').join("") + '</div></article>';
@@ -1321,7 +1324,8 @@ function renderHome(){
     + '<p class="sub">Sunday 15 November · Module 2: Body Systems · Lessons 2–5 <span class="badge' + (n >= 0 && n <= 1 ? " hot" : "") + '">' + when + '</span></p>'
     + '<div class="stats"><div class="stat"><b>' + (S.best === null ? "–" : S.best + "/30") + '</b><span>Best practice test</span></div><div class="stat"><b>' + S.tests + '</b><span>Tests done</span></div><div class="stat"><b>' + S.xp + '</b><span>Points</span></div></div>'
     + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="test">Start a practice test</button><a class="btn sm" href="../../review/quiz-2/index.html#sci">Quiz 2 checklist</a></div>'
-    + '<p class="lv-tip">🎬 Tap <b>▶ Explain it</b> on a topic to hear it point by point, and the <b>▶</b> button on a picture to watch it move. The speaker button at the top turns the sounds on or off.</p></section>';
+    + '<p class="lv-tip">🎬 Tap <b>▶ Explain it</b> on a topic to hear it point by point, and the <b>▶</b> button on a picture to watch it move. The speaker button at the top turns the sounds on or off.</p>'
+    + '<div class="row"><a class="btn go" href="../lab-3d/index.html">🧊 3D Body Lab: turn the models and move them yourself →</a></div></section>';
   h += '<section class="sec"><div class="sec-head"><h2>What’s on the quiz</h2><p>Four lessons of Module 2, from the school’s assessment outline.</p></div><div class="tiles">'
     + LESSONS.map(x => '<article class="tile p-' + x.id + '"><b>Lesson ' + x.n + ': ' + x.name + '</b><span>' + x.blurb + '</span><div class="row"><a class="btn sm" href="#p-' + x.id + '">Learn</a>'
       + '<button class="btn sm go" type="button" data-act="start" data-m="' + x.id + '">Practice</button></div></article>').join("") + '</div>'
@@ -1348,6 +1352,8 @@ function renderHome(){
    as the stickers' sounds), which also silences the reading voice. With "reduce motion" on, nothing moves: the steps still
    light up one by one. Only one thing plays at a time; any other button stops it. */
 const LV_ICON = {l2:"🦴", l3:"🍎", l4:"❤️", l5:"🧠"};
+/* topics with a model in the 3D Body Lab (science/lab-3d): the topic → its scene there */
+const LAB3D = {"l2-musc":"arm", "l2-joint":"joints", "l2-skel":"skeleton", "l3-organs":"digest", "l3-villi":"villi", "l4-circ":"heart", "l4-resp":"lungs", "l5-ns":"reflex", "l5-neuron":"reflex", "l5-eye":"eye"};
 const lvStill = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 let lvMute = false;   /* only used if the rewards layer is missing */
 const lvSoundOn = () => window.MonmonRewards && MonmonRewards.sound ? !!MonmonRewards.sound() : !lvMute;
