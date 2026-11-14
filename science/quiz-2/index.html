@@ -170,6 +170,64 @@ ul,ol{margin:0;padding:0}
 
 @media (max-width:620px){.parts4{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:520px){.chip{display:none}.logo{font-size:24px}.mrow{grid-template-columns:1fr}.mrow.num{grid-template-columns:34px minmax(0,1fr)}.q-text{font-size:18px}.stat b{font-size:21px}.sec-head h2,.part-head h2{font-size:32px}}
+/* lively lessons (LIVELY LESSONS in the script): cards that rise in, the «Explain it» teacher, moving diagrams, flip cards */
+.lv-tip{font-size:15px;font-weight:600;color:var(--ink-2)}
+.lv-in{opacity:0;transform:translateY(22px) scale(.97)}
+.lv-in.lv-on{opacity:1;transform:none;transition:opacity .5s ease,transform .6s cubic-bezier(.2,1.5,.4,1)}
+.lv-in .kp > li{opacity:0;transform:translateX(-12px)}
+.lv-in.lv-on .kp > li{opacity:1;transform:none;transition:opacity .4s ease,transform .45s cubic-bezier(.2,1.4,.4,1);transition-delay:calc(var(--i,0) * 90ms + 200ms)}
+.lv-bar,.lv-figbar,.lv-whead{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.lv-figbar{justify-content:center}
+.lv-whead{justify-content:space-between}
+.lv-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:5px 14px;border:2px solid var(--ink);border-radius:999px;background:var(--sun);color:var(--ink);font:800 15px/1.2 var(--body);box-shadow:2px 2px 0 var(--ink);cursor:pointer;transition:transform .12s}
+.lv-btn:hover{transform:translateY(-1px)}
+.lv-btn:active{transform:translateY(1px);box-shadow:1px 1px 0 var(--ink)}
+.lv-btn.lv-alt{background:var(--paper)}
+.lv-btn[aria-pressed="true"]{background:#FFC9DD}
+.lv-stamp{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border:2px solid #0E7A47;border-radius:999px;background:#DDF4E8;color:#0E7A47;font-weight:800;font-size:14px}
+.lv-stamp.lv-pop{animation:lv-pop .6s cubic-bezier(.2,1.8,.4,1)}
+@keyframes lv-pop{0%{transform:scale(.2) rotate(-12deg);opacity:0}70%{transform:scale(1.25) rotate(4deg);opacity:1}100%{transform:none}}
+/* the teacher: one point lit at a time, its key words marked */
+.lv-teach .kp > li{opacity:.4;transition:opacity .3s,background-color .3s,transform .3s}
+.lv-teach .kp > li.lv-past{opacity:.75}
+.lv-teach .kp > li.lv-now{opacity:1;background:var(--tint);border-radius:10px;box-shadow:0 0 0 3px var(--col);transform:scale(1.015);padding:4px 8px;margin-inline-start:-8px}
+.lv-now b{background:linear-gradient(transparent 58%,#FFE066 58%) no-repeat 0 0/0 100%;animation:lv-mark .7s ease forwards;animation-delay:calc(var(--k,0) * .35s + .3s)}
+@keyframes lv-mark{to{background-size:100% 100%}}
+/* lesson heads: the lesson's icon bounces in, and how many topics are explained */
+.part-head .lv-icon{display:inline-block;align-self:center;font-size:34px;line-height:1;color:inherit;transform-origin:50% 90%}
+.part-head.lv-on .lv-icon{animation:lv-boing 1s cubic-bezier(.2,1.6,.4,1)}
+@keyframes lv-boing{0%{transform:scale(0) rotate(-30deg)}60%{transform:scale(1.3) rotate(8deg)}100%{transform:none}}
+.lv-prog{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ink-2)}
+.lv-prog i{display:block;width:90px;height:12px;border:2px solid var(--ink);border-radius:999px;background:linear-gradient(90deg,var(--col) var(--p,0%),var(--paper) var(--p,0%))}
+.lv-prog.lv-full span::after{content:" 🎉"}
+/* moving diagrams */
+.lv-cap{max-width:440px;width:100%;margin:0;padding:8px 12px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);font-weight:700;font-size:15px;box-shadow:2px 2px 0 var(--col);text-align:center}
+.lv-cap:empty{display:none}
+.lv-cap.lv-pop{animation:lv-cap .35s ease}
+@keyframes lv-cap{from{transform:translateY(6px);opacity:.2}to{transform:none;opacity:1}}
+.lv-playing svg{box-shadow:0 0 0 4px var(--sun),4px 4px 0 4px var(--ink)}
+.fig .mk.lv-hot circle{fill:#FF6FB5}
+.fig ol li.lv-hot{background:var(--sun-2);border-radius:8px;box-shadow:0 0 0 2px var(--ink)}
+/* the words: flip cards */
+.lv-hint{font-size:14px;color:var(--ink-2);font-weight:600}
+.lv-flip{display:grid;width:100%;padding:0;border:0;background:none;cursor:pointer;perspective:800px;text-align:start;font:inherit;color:inherit}
+.lv-flip > span{grid-area:1/1;display:grid;align-content:center;gap:2px;min-height:64px;padding:8px 12px;border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);box-shadow:2px 2px 0 var(--col);backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .5s cubic-bezier(.3,1.3,.5,1)}
+.lv-flip .lv-f{font-weight:800;font-size:18px}
+.lv-flip .lv-f small{font-size:12px;font-weight:700;color:var(--ink-2)}
+.lv-flip .lv-b{transform:rotateY(180deg);background:var(--tint);font-size:15px}
+.lv-flip[aria-pressed="true"] .lv-f{transform:rotateY(-180deg)}
+.lv-flip[aria-pressed="true"] .lv-b{transform:rotateY(0)}
+.lv-flip:focus-visible > span{outline:3px solid var(--ink);outline-offset:2px}
+/* a whole lesson explained */
+.lv-toast{position:fixed;z-index:70;left:50%;top:calc(env(safe-area-inset-top,0px) + var(--site-nav-h,0px) + 12px);transform:translateX(-50%);display:grid;gap:2px;width:max-content;max-width:min(92vw,420px);padding:12px 18px;border:3px solid var(--ink);border-radius:16px;background:var(--sun);box-shadow:4px 4px 0 var(--ink);font-size:15px;font-weight:600;text-align:center;animation:lv-down .5s cubic-bezier(.2,1.5,.4,1)}
+.lv-toast b{font-size:19px}
+.lv-toast.lv-bye{opacity:0;transition:opacity .4s}
+@keyframes lv-down{from{transform:translate(-50%,-30px);opacity:0}to{transform:translateX(-50%);opacity:1}}
+.lv-glow{animation:lv-glow 1s ease-in-out 5}
+@keyframes lv-glow{50%{box-shadow:0 0 0 6px #FF6FB5,var(--shadow-sm)}}
+#sndBtn[aria-pressed="false"] .snd-on,#sndBtn[aria-pressed="true"] .snd-off{display:none}
+@media (max-width:374px){.topbar-in{gap:6px;padding:8px 10px}.topbar .icon-btn{width:38px;height:38px}.logo{font-size:21px}}
+@media print{.lv-toast,.lv-bar,.lv-figbar,.lv-cap{display:none!important}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* print, 3 pages: Lessons 2 and 3, then Lessons 4 and 5 with the word list, then a practice test with its answer key */
@@ -216,12 +274,14 @@ ul,ol{margin:0;padding:0}
 <script src="../../assets/rewards.js" data-root="../../"></script>
 <script src="../../assets/arcade.js" data-root="../../"></script>
 <script src="../../assets/fx.js" data-sound="1" data-enter=".run"></script>
+<script src="../../assets/voice.js"></script>
 <header class="topbar">
   <div class="topbar-in">
     <span class="logo">Science</span>
     <span class="chip">Quiz 2 Review</span>
     <span class="spacer"></span>
     <span class="xp" title="Your points on this page">⭐ <b id="xpVal">0</b></span>
+    <button class="icon-btn" id="sndBtn" type="button" data-lv="snd" aria-pressed="true" aria-label="Sounds and reading voice"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="snd-on" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/><path class="snd-off" d="M16 9l5 6M21 9l-5 6"/></svg></button>
     <button class="icon-btn" id="printBtn" type="button" aria-label="Print the study sheet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg></button>
     <a class="icon-btn" href="../../index.html" aria-label="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></a>
   </div>
@@ -242,7 +302,8 @@ ul,ol{margin:0;padding:0}
    its xp counts towards the rewards, and a lesson mastered (80% of a full round, or 24 of 30 in the test) opens arcade time
    once (assets/arcade.js). review/quiz-2 links Lessons 2 and 3 here (#p-l2, #p-l3).
    The IXL skills the Science Department sent for the quiz (its sheet of 9/11) are under «What's on the quiz» (#ixl, linked
-   from the Week 12 plan) and at the end of each lesson. */
+   from the Week 12 plan) and at the end of each lesson.
+   The lessons are lively (LIVELY LESSONS below): «Explain it» on every topic, moving diagrams with sounds, flip cards. */
 const KEY = "science-g6-quiz2-v1", TZ = "Asia/Riyadh", QUIZ_DAY = "2026-11-15";
 const LESSONS = [
   {id:"l2", n:2, name:"Structure and Support", src:"Module 2: Body Systems · book pp. 76–96", blurb:"Muscles, joints and bones; the skeletons of other animals; three types of muscle; roots and stems."},
@@ -565,7 +626,8 @@ const T45 = [
     "Two <b>atria</b> (top) receive blood and two <b>ventricles</b> (bottom) pump it out. The <b>septum</b> keeps the two sides apart and <b>valves</b> keep blood flowing one way. The left ventricle has the thickest wall.",
     "<b>Pulmonary loop:</b> heart → lungs → heart (the blood picks up oxygen). <b>Systemic loop:</b> heart → body → heart (it delivers oxygen).",
     "<b>Arteries</b> carry blood away from the heart, <b>veins</b> carry it back, and <b>capillaries</b> (walls one cell thick) are where materials pass between the blood and the cells.",
-    "Blood is <b>plasma</b> (about 55%, mostly water) with <b>red blood cells</b> (carry oxygen with hemoglobin), <b>white blood cells</b> (fight infection) and <b>platelets</b> (help blood clot)."]},
+    "Blood is <b>plasma</b> (about 55%, mostly water) with <b>red blood cells</b> (carry oxygen with hemoglobin), <b>white blood cells</b> (fight infection) and <b>platelets</b> (help blood clot)."],
+    fig:"heart"},
   {id:"l4-resp", t:"Breathing: the respiratory system", pts:[
     "Air path: nose or mouth → <b>pharynx</b> (throat) → <b>trachea</b> (the windpipe, which joins the pharynx to the bronchi) → <b>bronchi</b> → <b>bronchioles</b> → <b>alveoli</b>.",
     "The <b>diaphragm</b>, a muscle under the lungs, changes the air pressure inside the chest: it moves down to pull air in and up to push it out.",
@@ -587,7 +649,8 @@ const T45 = [
     "<b>Sensory neurons</b>: senses → brain and spinal cord. <b>Interneurons</b>: inside the brain and spinal cord, they connect and process. <b>Motor neurons</b>: brain and spinal cord → muscles and glands.",
     "<b>Stimulus</b> (a change) → <b>receptor</b> → sensory neuron → brain or spinal cord → motor neuron → muscle → <b>response</b>.",
     "A <b>reflex</b> is fast and automatic and goes through the spinal cord. Touch a hot pot: receptors in the hand → spinal cord → arm muscles pull the hand away, and only <b>then</b> does the signal reach the brain and you feel the pain.",
-    "Animals respond to signals the same way: when a dolphin hears a whistle it knows, receptors send a signal to the brain, which processes it and sends signals that control what the dolphin does."]},
+    "Animals respond to signals the same way: when a dolphin hears a whistle it knows, receptors send a signal to the brain, which processes it and sends signals that control what the dolphin does."],
+    fig:"reflex"},
   {id:"l5-chem", t:"Taste, smell and touch", pts:[
     "Every sense works with <b>receptors</b>, special nerve cells that detect a stimulus. The intestine is not a sense organ; the eyes, ears, tongue, nose and skin are.",
     "Taste and smell receptors are <b>chemoreceptors</b>: they detect chemicals.",
@@ -751,13 +814,17 @@ function curl(d, ex, ey, dx, dy){
 }
 const SEP = '<path d="M100 8v108M200 8v108" stroke="' + INK + '" stroke-width="2" stroke-dasharray="5 5" opacity=".35"/>';
 
+/* the paths the blood and the nerve signals take (drawn in the figures and followed by the moving diagrams) */
+const PUL_A = "M140 92 C 118 86, 98 80, 100 62 C 102 44, 128 40, 150 44", PUL_B = "M150 44 C 172 40, 198 44, 200 62 C 202 80, 182 86, 160 92";
+const SYS_A = "M160 124 C 196 130, 220 146, 214 168 C 210 186, 180 192, 150 192", SYS_B = "M150 192 C 120 192, 90 186, 86 168 C 80 146, 104 130, 140 124";
+const NERVE_IN = "M98 153 C 140 156, 190 140, 242 134", NERVE_OUT = "M242 108 C 232 100, 222 92, 214 86";
 const FIGS = {
   skeleton:{vb:"0 0 240 318", w:300, alt:"A human skeleton seen from the front",
     svg:/* arms and legs behind the body */
-      bone(86, 90, 76, 142, 8) + bone(76, 142, 70, 192, 7) + bone(154, 90, 164, 142, 8) + bone(164, 142, 170, 192, 7)
-      + dot(69, 199, 6) + dot(171, 199, 6)
-      + bone(106, 204, 100, 256, 10) + bone(134, 204, 140, 256, 10) + bone(100, 256, 98, 302, 8) + bone(140, 256, 142, 302, 8)
-      + bone(98, 304, 86, 310, 5) + bone(142, 304, 154, 310, 5)
+      bone(86, 90, 76, 142, 8) + bone(76, 142, 70, 192, 7) + bone(154, 90, 164, 142, 8) + '<g class="mv-fore">' + bone(164, 142, 170, 192, 7) + dot(171, 199, 6) + '</g>'
+      + dot(69, 199, 6)
+      + bone(106, 204, 100, 256, 10) + bone(134, 204, 140, 256, 10) + '<g class="mv-shin">' + bone(100, 256, 98, 302, 8) + bone(98, 304, 86, 310, 5) + '</g>'
+      + bone(140, 256, 142, 302, 8) + bone(142, 304, 154, 310, 5)
       /* backbone below the ribs, and the pelvis */
       + [150, 158, 166].map(y => '<rect x="114" y="' + y + '" width="12" height="7" rx="2.5" fill="#fff" stroke="' + INK + '" stroke-width="2.2"/>').join("")
       + '<path d="M98 176 Q120 168 142 176 Q149 197 133 206 Q127 199 120 199 Q113 199 107 206 Q91 197 98 176 Z" fill="#fff" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>'
@@ -785,12 +852,12 @@ const FIGS = {
   joints:{vb:"0 0 300 124", alt:"Three models of movable joints",
     svg:SEP
       /* ball-and-socket */
-      + bone(50, 96, 50, 114, 9) + bone(50, 52, 30, 18, 9)
+      + bone(50, 96, 50, 114, 9) + '<g class="mv-bs">' + bone(50, 52, 30, 18, 9) + '</g>'
       + '<path d="M24 58 Q24 96 50 96 Q76 96 76 58 L66 58 Q66 86 50 86 Q34 86 34 58 Z" fill="#fff" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>'
       + '<circle cx="50" cy="64" r="14" fill="#fff" stroke="' + INK + '" stroke-width="3"/>'
       + curl("M58 16 A 30 30 0 0 1 84 44", 84, 44, .45, 1)
       /* hinge */
-      + bone(122, 92, 150, 92, 10) + bone(150, 92, 176, 46, 10) + dot(150, 92, 7, "#FFD23F")
+      + bone(122, 92, 150, 92, 10) + '<g class="mv-hinge">' + bone(150, 92, 176, 46, 10) + '</g>' + dot(150, 92, 7, "#FFD23F")
       + curl("M186 88 Q198 66 184 50", 184, 50, -.8, -1)
       /* pivot */
       + '<path d="M228 66 A 22 8 0 0 1 272 66" fill="none" stroke="' + INK + '" stroke-width="7"/>'
@@ -804,17 +871,17 @@ const FIGS = {
   muscles:{vb:"0 0 300 124", alt:"Three kinds of muscle cells seen under a microscope",
     svg:SEP
       /* skeletal: long striped fibers, many nuclei at the edges */
-      + [26, 60].map(y => '<rect x="10" y="' + y + '" width="80" height="26" rx="12" fill="#FFD9DE" stroke="' + INK + '" stroke-width="2.5"/>'
+      + [26, 60].map(y => '<g class="mv-sk"><rect x="10" y="' + y + '" width="80" height="26" rx="12" fill="#FFD9DE" stroke="' + INK + '" stroke-width="2.5"/>'
         + Array.from({length:12}, (x, i) => '<path d="M' + (17 + i * 6) + ' ' + (y + 4) + 'v18" stroke="#E23F66" stroke-width="1.6"/>').join("")
-        + [[22, y + 4], [46, y + 22], [70, y + 4]].map(p => '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="5" ry="2.6" fill="' + INK + '"/>').join("")).join("")
+        + [[22, y + 4], [46, y + 22], [70, y + 4]].map(p => '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="5" ry="2.6" fill="' + INK + '"/>').join("") + '</g>').join("")
       /* smooth: spindle cells, one nucleus in the middle */
-      + [34, 58, 82].map((y, i) => '<path d="M' + (112 + i * 4) + ' ' + y + ' Q150 ' + (y - 15) + ' ' + (188 - i * 4) + ' ' + y + ' Q150 ' + (y + 15) + ' ' + (112 + i * 4) + ' ' + y + ' Z" fill="#FFE8C2" stroke="' + INK + '" stroke-width="2.5"/>'
-        + '<ellipse cx="150" cy="' + y + '" rx="6" ry="3.4" fill="' + INK + '"/>').join("")
+      + [34, 58, 82].map((y, i) => '<g class="mv-sm"><path d="M' + (112 + i * 4) + ' ' + y + ' Q150 ' + (y - 15) + ' ' + (188 - i * 4) + ' ' + y + ' Q150 ' + (y + 15) + ' ' + (112 + i * 4) + ' ' + y + ' Z" fill="#FFE8C2" stroke="' + INK + '" stroke-width="2.5"/>'
+        + '<ellipse cx="150" cy="' + y + '" rx="6" ry="3.4" fill="' + INK + '"/></g>').join("")
       /* cardiac: branched striped cells, nuclei in the middle, dark discs */
-      + '<path d="M210 30 H290 V50 H262 L276 70 H290 V90 H210 V70 H244 L230 50 H210 Z" fill="#FFDDE6" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/>'
+      + '<g class="mv-cd"><path d="M210 30 H290 V50 H262 L276 70 H290 V90 H210 V70 H244 L230 50 H210 Z" fill="#FFDDE6" stroke="' + INK + '" stroke-width="2.5" stroke-linejoin="round"/>'
         + [214, 220, 226, 232, 238, 256, 262, 268, 274, 280, 286].map(x => '<path d="M' + x + ' 33v14M' + x + ' 73v14" stroke="#E23F66" stroke-width="1.5"/>').join("")
         + '<path d="M250 30v20M250 70v20" stroke="' + INK + '" stroke-width="3.5"/>'
-        + [[230, 40], [270, 40], [228, 80], [270, 80], [253, 60]].map(p => '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="4.5" ry="2.8" fill="' + INK + '"/>').join(""),
+        + [[230, 40], [270, 40], [228, 80], [270, 80], [253, 60]].map(p => '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="4.5" ry="2.8" fill="' + INK + '"/>').join("") + '</g>',
     parts:[
       {name:"Skeletal muscle", at:[14, 110], job:"long, striped cells with many nuclei; attached to bones; voluntary."},
       {name:"Smooth muscle", at:[114, 110], job:"thin cells with one nucleus in the middle; lines blood vessels and organs; involuntary."},
@@ -832,8 +899,8 @@ const FIGS = {
       /* esophagus */
       + tube("M120 62 L120 126 Q120 134 128 136", 8, "#F7B26A")
       /* liver, then stomach */
-      + '<path d="M68 116 Q92 100 126 110 Q132 118 124 128 Q104 148 76 146 Q62 136 68 116 Z" fill="#C2593F" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>'
-      + '<path d="M126 132 Q150 110 168 128 Q178 152 160 170 Q140 184 128 168 Q138 158 136 148 Q132 138 126 132 Z" fill="#F48FA8" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>'
+      + '<g class="mv-liv"><path d="M68 116 Q92 100 126 110 Q132 118 124 128 Q104 148 76 146 Q62 136 68 116 Z" fill="#C2593F" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/></g>'
+      + '<g class="mv-sto"><path d="M126 132 Q150 110 168 128 Q178 152 160 170 Q140 184 128 168 Q138 158 136 148 Q132 138 126 132 Z" fill="#F48FA8" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/></g>'
       /* large intestine around, small intestine coiled inside */
       + tube("M86 262 L86 194 Q86 186 94 186 L148 186 Q156 186 156 194 L156 254 Q156 270 138 274 L126 278 L124 292", 13, "#F7C873")
       + tube("M132 172 Q140 184 128 194 Q104 198 106 208 Q108 218 138 214 Q150 224 120 230 Q100 234 104 244 Q110 256 140 250 Q146 260 118 262 L90 262", 6, "#F59EB5"),
@@ -846,20 +913,64 @@ const FIGS = {
       {name:"Small intestine", at:[122, 222], job:"most chemical digestion; the villi absorb nutrients and most water into the blood."},
       {name:"Large intestine", at:[86, 224], job:"absorbs more water; what is left becomes solid waste."}]},
   leaf:{vb:"0 0 260 170", alt:"A leaf in sunlight, with arrows for what goes in and what comes out",
-    svg:'<circle cx="34" cy="32" r="17" fill="#FFD23F" stroke="' + INK + '" stroke-width="3"/>'
-      + [0, 45, 90, 135, 180, 225, 270, 315].map(d => { const r = d * Math.PI / 180; return '<line x1="' + (34 + 22 * Math.cos(r)).toFixed(1) + '" y1="' + (32 + 22 * Math.sin(r)).toFixed(1) + '" x2="' + (34 + 29 * Math.cos(r)).toFixed(1) + '" y2="' + (32 + 29 * Math.sin(r)).toFixed(1) + '" stroke="' + INK + '" stroke-width="2.5" stroke-linecap="round"/>'; }).join("")
+    svg:'<g class="mv-sun"><circle cx="34" cy="32" r="17" fill="#FFD23F" stroke="' + INK + '" stroke-width="3"/>'
+      + [0, 45, 90, 135, 180, 225, 270, 315].map(d => { const r = d * Math.PI / 180; return '<line x1="' + (34 + 22 * Math.cos(r)).toFixed(1) + '" y1="' + (32 + 22 * Math.sin(r)).toFixed(1) + '" x2="' + (34 + 29 * Math.cos(r)).toFixed(1) + '" y2="' + (32 + 29 * Math.sin(r)).toFixed(1) + '" stroke="' + INK + '" stroke-width="2.5" stroke-linecap="round"/>'; }).join("") + '</g>'
       + tube("M74 112 Q62 130 54 160", 5, "#3E9B5F")
       + '<path d="M72 112 Q118 38 212 68 Q172 142 72 112 Z" fill="#5BC98A" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>'
       + '<path d="M74 111 Q140 86 206 70" fill="none" stroke="' + INK + '" stroke-width="2"/>'
       + '<path d="M110 98 l6 -22M140 88 l8 -24M170 80 l8 -18M114 97 l16 16M146 88 l16 18M176 79 l12 14" stroke="' + INK + '" stroke-width="1.6" opacity=".6"/>'
-      + '<polygon points="138,78 148,84 148,96 138,102 128,96 128,84" fill="#FFF3C4" stroke="' + INK + '" stroke-width="2.5"/>'
+      + '<g class="mv-glu"><polygon points="138,78 148,84 148,96 138,102 128,96 128,84" fill="#FFF3C4" stroke="' + INK + '" stroke-width="2.5"/></g>'
       + arrow(50, 48, 98, 80, "#FFD23F") + arrow(246, 34, 196, 62, "#B9C2CF") + arrow(46, 166, 64, 128, "#4DA3FF") + arrow(176, 108, 226, 140, "#E8F4FF"),
     parts:[
       {name:"Light energy", at:[80, 46], job:"from the sun: goes in."},
       {name:"Carbon dioxide", at:[238, 60], job:"from the air: goes in through tiny openings."},
       {name:"Water", at:[30, 148], job:"from the roots, up the xylem: goes in."},
       {name:"Glucose (sugar)", at:[114, 98], job:"made in the leaf; the phloem carries it to every cell."},
-      {name:"Oxygen", at:[214, 110], job:"given off into the air."}]}
+      {name:"Oxygen", at:[214, 110], job:"given off into the air."}]},
+  /* Lesson 4: the heart with its two loops of blood (blue = less oxygen, red = rich in oxygen) */
+  heart:{vb:"0 0 300 210", w:420, alt:"The heart in the middle, the lungs above it and the body below it, with the two loops of blood",
+    svg:'<rect x="96" y="160" width="108" height="40" rx="16" fill="#FFE8C2" stroke="' + INK + '" stroke-width="3"/>'
+      + [[116, 182], [134, 172], [150, 188], [168, 172], [186, 184]].map(p => '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="5" fill="#FFF6EC" stroke="' + INK + '" stroke-width="1.6"/><circle cx="' + p[0] + '" cy="' + p[1] + '" r="1.6" fill="' + INK + '"/>').join("")
+      + tube("M150 4 L150 26 Q150 32 124 40 M150 26 Q150 32 176 40", 5, "#E3EEF9")
+      + '<g class="mv-lungs"><path d="M106 22 Q86 26 84 50 Q84 74 106 72 Q122 70 124 54 L124 34 Q122 22 106 22 Z" fill="#F9B4C4" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>'
+      + '<path d="M194 22 Q214 26 216 50 Q216 74 194 72 Q178 70 176 54 L176 34 Q178 22 194 22 Z" fill="#F9B4C4" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/></g>'
+      + tube(PUL_A, 6, "#8FBAFF") + tube(PUL_B, 6, "#FF8C99") + tube(SYS_A, 6, "#FF8C99") + tube(SYS_B, 6, "#8FBAFF")
+      + [[100, 66, -90, "#8FBAFF"], [200, 60, 90, "#FF8C99"], [215, 164, 100, "#FF8C99"], [85, 164, -80, "#8FBAFF"]].map(([x, y, d, c]) => {
+          const a = d * Math.PI / 180, p = [[9, 0], [-6, 6], [-6, -6]].map(([u, v]) => (x + u * Math.cos(a) - v * Math.sin(a)).toFixed(1) + "," + (y + u * Math.sin(a) + v * Math.cos(a)).toFixed(1)).join(" ");
+          return '<polygon points="' + p + '" fill="' + c + '" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/>'; }).join("")
+      + '<g class="mv-heart"><path d="M150 138 C 124 124, 110 104, 120 90 C 128 80, 144 82, 150 94 Z" fill="#8FBAFF"/><path d="M150 138 C 176 124, 190 104, 180 90 C 172 80, 156 82, 150 94 Z" fill="#FF8C99"/>'
+      + '<path d="M150 98 L150 132" stroke="' + INK + '" stroke-width="2"/>'
+      + '<path d="M150 138 C 124 124, 110 104, 120 90 C 128 80, 144 82, 150 94 C 156 82, 172 80, 180 90 C 190 104, 176 124, 150 138 Z" fill="none" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/></g>',
+    parts:[
+      {name:"Heart", at:[150, 112], job:"the pump, made of cardiac muscle. One side (blue) pumps blood to the lungs; the other side (red, with the thickest wall) pumps it to the whole body. Valves keep the blood flowing one way."},
+      {name:"Lungs: the pulmonary loop", at:[150, 58], job:"heart → lungs → heart: the blood picks up oxygen and drops off carbon dioxide."},
+      {name:"Body: the systemic loop", at:[150, 180], job:"heart → body → heart: the blood delivers oxygen and nutrients to the cells and carries wastes away."},
+      {name:"Arteries and veins", at:[236, 150], job:"arteries carry blood away from the heart, veins bring it back; in the capillaries, materials pass between the blood and the cells."}]},
+  /* Lesson 5: a reflex. A hand on a hot pot, the nerve pathway to the spinal cord, the arm muscle, and the brain last */
+  reflex:{vb:"0 0 300 196", w:440, alt:"A hand touching a hot pot, with the nerve pathway through the spinal cord to the arm muscle, and up to the brain",
+    svg:'<ellipse cx="250" cy="30" rx="36" ry="22" fill="#F6B7C8" stroke="' + INK + '" stroke-width="3"/>'
+      + '<path d="M222 32 q7 -9 14 0 q7 9 14 0 q7 -9 14 0 q7 9 14 0 M232 18 q8 6 16 0 q8 -6 16 0" fill="none" stroke="' + INK + '" stroke-width="1.6" opacity=".55"/>'
+      + '<rect x="242" y="50" width="16" height="138" rx="7" fill="#FFE29A" stroke="' + INK + '" stroke-width="3"/>'
+      + '<path d="' + [64, 80, 96, 112, 128, 144, 160, 176].map(y => 'M242 ' + y + 'h16').join("") + '" stroke="' + INK + '" stroke-width="1.4" opacity=".45"/>'
+      + '<path d="M22 162 h92 v16 q0 10 -10 10 h-72 q-10 0 -10 -10 Z" fill="#E2574C" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>'
+      + '<path d="M114 168 h20" stroke="' + INK + '" stroke-width="6" stroke-linecap="round"/><path d="M18 162 h100" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>'
+      + '<path d="M34 154 q-5 -7 0 -14 q5 -7 0 -14 M116 154 q-5 -7 0 -14 q5 -7 0 -14" fill="none" stroke="#9AA5B1" stroke-width="2.5" stroke-linecap="round"/>'
+      + tube("M240 78 L168 84", 18, "#FFD7B5")
+      + '<g class="mv-bic"><ellipse cx="204" cy="78" rx="22" ry="11" fill="#FFB98F" stroke="' + INK + '" stroke-width="2.5"/></g>'
+      + '<g class="mv-arm">' + tube("M168 84 L100 134", 16, "#FFD7B5")
+      + '<path d="M78 128 Q100 120 108 134 Q112 152 96 158 L74 158 Q62 154 64 142 Q66 130 78 128 Z" fill="#FFD7B5" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/></g>'
+      + dot(168, 84, 6)
+      + '<path d="' + NERVE_IN + '" fill="none" stroke="#2F7DE1" stroke-width="3" stroke-linecap="round"/>'
+      + '<path d="' + NERVE_OUT + '" fill="none" stroke="#E23F45" stroke-width="3" stroke-linecap="round"/>'
+      + '<path d="M250 132 L250 112" stroke="#7B3FE4" stroke-width="3" stroke-linecap="round"/><path d="M250 106 L250 54" stroke="#7B3FE4" stroke-width="2.5" stroke-dasharray="4 4"/>'
+      + '<circle cx="97" cy="153" r="4" fill="#FFD23F" stroke="' + INK + '" stroke-width="1.5"/>',
+    parts:[
+      {name:"Receptors in the skin", at:[72, 108], job:"sense the stimulus: the heat of the pot."},
+      {name:"Sensory neuron", at:[180, 160], job:"carries the signal from the skin to the spinal cord."},
+      {name:"Spinal cord", at:[278, 150], job:"an interneuron passes the signal straight on. In a reflex there is no time to think."},
+      {name:"Motor neuron", at:[226, 114], job:"carries the signal from the spinal cord to the arm muscle."},
+      {name:"Arm muscle", at:[196, 52], job:"contracts and pulls the hand away: the response."},
+      {name:"Brain", at:[276, 24], job:"gets the signal last; only then do you feel the pain."}]}
 };
 
 /* ---------- HELPERS ---------- */
@@ -874,7 +985,7 @@ const dayDiff = (a, b) => Math.round((Date.UTC(...b.split("-").map((x, i) => i =
 function announce(t){ const l = $("#live"); if (l){ l.textContent = ""; setTimeout(() => { l.textContent = t; }, 40); } }
 
 /* ---------- SAVED PROGRESS ---------- */
-const fresh = () => ({xp:0, xq:{}, best:null, tests:0, rounds:0, mastered:{}});
+const fresh = () => ({xp:0, xq:{}, best:null, tests:0, rounds:0, mastered:{}, seen:{}});
 let S = (() => { try { const v = JSON.parse(localStorage.getItem(KEY) || "null"); if (v && typeof v === "object") return Object.assign(fresh(), v); } catch (e) {} return fresh(); })();
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 function addXP(n){ S.xp += n; save(); $("#xpVal").textContent = S.xp; }
@@ -899,7 +1010,7 @@ function figHTML(key, ids, named){
   const F = FIGS[key], list = ids || F.parts.map((x, i) => i);
   const marks = list.map((i, n) => { const [x, y] = F.parts[i].at;
     return '<g class="mk"><circle cx="' + x + '" cy="' + y + '" r="11" fill="#FFD23F" stroke="#14163A" stroke-width="2.5"/><text x="' + x + '" y="' + (y + 4.5) + '" text-anchor="middle" font-size="13" font-weight="800" font-family="Lexend,system-ui,sans-serif" fill="#14163A">' + (n + 1) + '</text></g>'; }).join("");
-  return '<figure class="fig"><svg viewBox="' + F.vb + '" style="max-width:' + (F.w || 440) + 'px" role="img" aria-label="' + esc(F.alt) + (named ? "" : ", with numbered parts to label") + '">' + F.svg + marks + '</svg>'
+  return '<figure class="fig" data-fig="' + key + '"><svg viewBox="' + F.vb + '" style="max-width:' + (F.w || 440) + 'px" role="img" aria-label="' + esc(F.alt) + (named ? "" : ", with numbered parts to label") + '">' + F.svg + marks + '</svg>'
     + (named ? '<ol>' + list.map((i, n) => '<li><i>' + (n + 1) + '</i><span><b>' + F.parts[i].name + ':</b> ' + F.parts[i].job + '</span></li>').join("") + '</ol>' : "") + '</figure>';
 }
 
@@ -1162,7 +1273,7 @@ function renderPrint(){
   const notes = id => PS[id].map(([h, t]) => '<li><b>' + h + ':</b> ' + esc(t) + '</li>').join("");
   const head = (x, extra) => '<div class="ps-b"><h3>Lesson ' + x.n + ': ' + x.name + (extra || "") + '</h3><ul>' + notes(x.id) + '</ul></div>';
   const keyOf = (fig, ids) => '<ol>' + ids.map((i, n) => '<li><b>' + (n + 1) + '</b> ' + FIGS[fig].parts[i].name + ': ' + FIGS[fig].parts[i].job + '</li>').join("") + '</ol>';
-  const figBox = (fig, ids, list) => '<div class="ps-fig">' + figHTML(fig, ids, false).replace(/<figure class="fig">|<\/figure>/g, "") + '<div>' + list + '</div></div>';
+  const figBox = (fig, ids, list) => '<div class="ps-fig">' + figHTML(fig, ids, false).replace(/<figure class="fig"[^>]*>|<\/figure>/g, "") + '<div>' + list + '</div></div>';
   const dIds = [0, 2, 4, 5, 6], all = k => FIGS[k].parts.map((x, i) => i);
   $("#printSheet").innerHTML = '<header class="ps-head"><h1>Science · Quiz 2 Study Sheet</h1><p>Grade 6 · Module 2: Body Systems · Sunday 15/11/2026</p></header><div class="ps-cols"><div>'
     + head(LESSONS[0], " (pp. 76–96)") + figBox("skeleton", all("skeleton"), keyOf("skeleton", all("skeleton"))) + '</div><div>'
@@ -1185,10 +1296,12 @@ function renderPrint(){
 /* ---------- HOME ---------- */
 function lessonSection(x){
   const mine = TOPICS.filter(t => t.les === x.id), words = VOCAB.filter(v => TOPIC[v[2]].les === x.id);
-  let h = '<section class="sec part p-' + x.id + '" id="p-' + x.id + '"><div class="part-head"><h2>Lesson ' + x.n + ': ' + x.name + '</h2><span>' + x.src + '</span></div>';
+  let h = '<section class="sec part p-' + x.id + '" id="p-' + x.id + '"><div class="part-head"><span class="lv-icon" aria-hidden="true">' + LV_ICON[x.id] + '</span><h2>Lesson ' + x.n + ': ' + x.name + '</h2><span>' + x.src + '</span><span class="lv-prog" data-les="' + x.id + '"></span></div>';
   if (x.lab) h += '<div class="lab-cta panel"><p>The full lesson, with moving diagrams and its own challenges, is in the <b>' + x.lab[1] + '</b>. Here are the key ideas to review.</p><a class="btn sm" href="' + x.lab[0] + '">Open the ' + x.lab[1] + ' →</a></div>';
-  h += mine.map(t => '<article class="card panel" id="' + t.id + '"><h3>' + t.t + '</h3>' + topicBody(t) + '</article>').join("");
-  h += '<article class="card panel"><h3>Words to know</h3><div class="words">' + words.map(v => '<p><b>' + v[0] + ':</b> ' + esc(v[1]) + '</p>').join("") + '</div></article>';
+  h += mine.map(t => '<article class="card panel" id="' + t.id + '"><h3>' + t.t + '</h3><div class="lv-bar"><button class="lv-btn" type="button" data-lv="explain" aria-pressed="false" data-label="▶ Explain it">▶ Explain it</button></div>' + topicBody(t) + '</article>').join("");
+  h += '<article class="card panel lv-words"><div class="lv-whead"><h3>Words to know</h3><button class="lv-btn lv-alt" type="button" data-lv="flipall" aria-pressed="false">↻ Show all meanings</button></div>'
+    + '<p class="lv-hint">Say what each word means, then tap the card to check.</p><div class="words">'
+    + words.map(v => '<button class="lv-flip" type="button" aria-pressed="false"><span class="lv-f">' + v[0] + '<small>Tap to check ↻</small></span><span class="lv-b"><span><b>' + v[0] + ':</b> ' + esc(v[1]) + '</span></span></button>').join("") + '</div></article>';
   h += '<div class="row" style="margin-top:12px"><button class="btn go" type="button" data-act="start" data-m="' + x.id + '">Practice Lesson ' + x.n + '</button>'
     + (x.lab ? '<a class="btn sm" href="' + x.lab[0] + '">' + x.lab[1] + '</a>' : "")
     + IXL_SKILLS[x.id].map(([k, label]) => ixlLink(k, "IXL: " + label.replace(/^(Body systems|Science literacy): /, ""))).join("") + '</div></section>';
@@ -1207,7 +1320,8 @@ function renderHome(){
   let h = '<section class="hero panel p-test"><h1>Science: Quiz 2 Review</h1>'
     + '<p class="sub">Sunday 15 November · Module 2: Body Systems · Lessons 2–5 <span class="badge' + (n >= 0 && n <= 1 ? " hot" : "") + '">' + when + '</span></p>'
     + '<div class="stats"><div class="stat"><b>' + (S.best === null ? "–" : S.best + "/30") + '</b><span>Best practice test</span></div><div class="stat"><b>' + S.tests + '</b><span>Tests done</span></div><div class="stat"><b>' + S.xp + '</b><span>Points</span></div></div>'
-    + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="test">Start a practice test</button><a class="btn sm" href="../../review/quiz-2/index.html#sci">Quiz 2 checklist</a></div></section>';
+    + '<div class="row"><button class="btn go" type="button" data-act="start" data-m="test">Start a practice test</button><a class="btn sm" href="../../review/quiz-2/index.html#sci">Quiz 2 checklist</a></div>'
+    + '<p class="lv-tip">🎬 Tap <b>▶ Explain it</b> on a topic to hear it point by point, and the <b>▶</b> button on a picture to watch it move. The speaker button at the top turns the sounds on or off.</p></section>';
   h += '<section class="sec"><div class="sec-head"><h2>What’s on the quiz</h2><p>Four lessons of Module 2, from the school’s assessment outline.</p></div><div class="tiles">'
     + LESSONS.map(x => '<article class="tile p-' + x.id + '"><b>Lesson ' + x.n + ': ' + x.name + '</b><span>' + x.blurb + '</span><div class="row"><a class="btn sm" href="#p-' + x.id + '">Learn</a>'
       + '<button class="btn sm go" type="button" data-act="start" data-m="' + x.id + '">Practice</button></div></article>').join("") + '</div>'
@@ -1215,8 +1329,477 @@ function renderHome(){
     + '<button class="btn go" type="button" data-act="start" data-m="test">Start</button></div>' + ixlBox() + '</section>';
   h += LESSONS.map(lessonSection).join("");
   h += '<footer class="foot"><p>Lessons from the school’s assessment outline for Quiz 2. The summaries and questions are written for this page from the lessons; the book’s text is not copied. If anything here differs from the book, follow the teacher and the book.</p></footer>';
+  lvStop();
   $("#main").innerHTML = h;
+  enliven();
 }
+
+/* ---------- LIVELY LESSONS ----------
+   The lessons on this page come alive (asked for on 14/11):
+   - cards and their points rise in as they scroll into view; each lesson head has its icon and how many topics are explained;
+   - «▶ Explain it» walks through a topic point by point: the point lights up, its key words get marked, and it is read aloud
+     in English when the device can (assets/voice.js). At the end the topic is stamped «Explained» (saved in S.seen, so it
+     syncs), and a whole lesson explained gets a celebration that points to its practice;
+   - the ▶ button on a diagram plays it step by step, with a caption (read aloud too), the part's number lit up and sounds:
+     the joints and the muscles at work, the skeleton tour (the arm waves, the knee kicks), the food's journey, photosynthesis,
+     the heart's two loops and a reflex (a hand on a hot pot);
+   - the words of each lesson are flip cards: say the meaning, then tap to check.
+   The sounds are made here (no files) and follow the site's sound switch (the speaker button in the top bar, the same switch
+   as the stickers' sounds), which also silences the reading voice. With "reduce motion" on, nothing moves: the steps still
+   light up one by one. Only one thing plays at a time; any other button stops it. */
+const LV_ICON = {l2:"🦴", l3:"🍎", l4:"❤️", l5:"🧠"};
+const lvStill = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+let lvMute = false;   /* only used if the rewards layer is missing */
+const lvSoundOn = () => window.MonmonRewards && MonmonRewards.sound ? !!MonmonRewards.sound() : !lvMute;
+
+/* ----- sounds: a tiny synth ----- */
+let lvAC = null;
+function lvAudio(){
+  if (!lvSoundOn()) return null;
+  try {
+    if (!lvAC){ const A = window.AudioContext || window.webkitAudioContext; if (!A) return null; lvAC = new A(); }
+    if (lvAC.state === "suspended") lvAC.resume();
+  } catch (e) { return null; }
+  return lvAC;
+}
+/* one note: frequency (Hz), start (s from now), length (s), wave, volume, and a slide to another frequency */
+function lvTone(f, at, dur, type, vol, to){
+  const ac = lvAudio(); if (!ac) return;
+  try {
+    const t = ac.currentTime + (at || 0), o = ac.createOscillator(), g = ac.createGain();
+    o.type = type || "sine"; o.frequency.setValueAtTime(f, t); if (to) o.frequency.exponentialRampToValueAtTime(to, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.06, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + dur + 0.03);
+  } catch (e) {}
+}
+/* a puff of noise through a filter: crunch, whoosh, sizzle, breath */
+function lvNoise(at, dur, freq, q, vol, to){
+  const ac = lvAudio(); if (!ac) return;
+  try {
+    const n = Math.max(1, Math.floor(ac.sampleRate * dur)), buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    const src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(), t = ac.currentTime + (at || 0);
+    src.buffer = buf; f.type = "bandpass"; f.frequency.setValueAtTime(freq, t); if (to) f.frequency.exponentialRampToValueAtTime(to, t + dur); f.Q.value = q || 1;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.2, t + Math.min(0.04, dur / 3)); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(f); f.connect(g); g.connect(ac.destination); src.start(t); src.stop(t + dur + 0.02);
+  } catch (e) {}
+}
+const SND = {
+  whoosh:() => lvNoise(0, .45, 400, .8, .3, 2400),
+  ding:() => { lvTone(1318, 0, .25, "sine", .05); lvTone(1976, .05, .3, "sine", .025); },
+  tada:() => [523, 659, 784, 1047].forEach((f, i) => lvTone(f, i * .09, i === 3 ? .5 : .14, "square", .035)),
+  fanfare:() => { [392, 523, 659, 784, 1047, 1319].forEach((f, i) => lvTone(f, i * .1, i === 5 ? .7 : .16, "square", .035)); lvTone(1568, .6, .6, "sine", .03); },
+  flip:() => lvNoise(0, .12, 1800, 1.5, .15, 900),
+  crunch:() => [0, .42, .84].forEach(at => lvNoise(at, .11, 900, .7, .4)),
+  gulp:() => { lvTone(320, 0, .22, "sine", .12, 120); lvTone(180, .18, .14, "sine", .08, 90); },
+  gurgle:() => { for (let i = 0; i < 7; i++) lvTone(180 + Math.random() * 260, i * .09, .09, "sine", .07, 90 + Math.random() * 200); },
+  drip:() => { lvTone(1400, 0, .1, "sine", .06, 500); lvTone(1100, .25, .1, "sine", .05, 400); },
+  zip:() => lvTone(300, 0, .5, "sawtooth", .03, 1600),
+  squish:() => [0, .3, .6].forEach(at => lvNoise(at, .22, 500, .9, .25, 250)),
+  sparkle:() => [1568, 2093, 2637, 3136].forEach((f, i) => lvTone(f, i * .06, .18, "sine", .025)),
+  bloop:() => [0, .4, .8].forEach(at => lvTone(300, at, .16, "sine", .08, 700)),
+  bubbles:() => { for (let i = 0; i < 6; i++) lvTone(600 + Math.random() * 900, i * .08, .07, "sine", .05, 1400 + Math.random() * 600); },
+  chime:() => [880, 1109, 1319].forEach((f, i) => lvTone(f, i * .12, .5, "sine", .04)),
+  creak:() => lvTone(140, 0, .5, "sawtooth", .03, 90),
+  whirr:() => lvTone(200, 0, .6, "triangle", .05, 520),
+  swish:() => lvNoise(0, .3, 1200, 1, .2, 3000),
+  knock:() => [0, .14].forEach(at => lvTone(700, at, .06, "square", .05, 300)),
+  boing:() => lvTone(180, 0, .35, "sine", .1, 520),
+  beat:() => { lvTone(70, 0, .14, "sine", .3, 45); lvTone(62, .2, .12, "sine", .24, 40); },
+  breath:() => lvNoise(0, .9, 700, .6, .14, 400),
+  zap:() => { lvTone(1800, 0, .18, "square", .03, 200); lvNoise(0, .12, 3000, 2, .12); },
+  sizzle:() => lvNoise(0, .8, 5000, .5, .1, 7000),
+  ouch:() => { lvTone(600, 0, .12, "triangle", .08, 900); lvTone(900, .1, .3, "triangle", .07, 300); }
+};
+const sfx = name => { try { if (SND[name]) SND[name](); } catch (e) {} };
+
+/* ----- the reading voice (English), through assets/voice.js ----- */
+const lvSayable = t => String(t).replace(/\s*→\s*/g, ", then ").replace(/\(([^)]*)\)/g, ", $1,");
+function lvSay(text, done){
+  if (!lvSoundOn() || !window.MonmonVoice || !MonmonVoice.can) return false;
+  try { return !!MonmonVoice.speak(lvSayable(text), {lang:"en", onend:done}); } catch (e) { return false; }
+}
+const lvHush = () => { try { if (window.MonmonVoice) MonmonVoice.stop(); } catch (e) {} };
+/* how long to show a point when nothing reads it aloud */
+const lvReadMs = t => Math.min(9000, Math.max(2600, 1400 + String(t).split(/\s+/).length * 330));
+
+/* ----- what is playing (one at a time) ----- */
+let LV = null;
+function lvStop(){ if (LV){ const x = LV; LV = null; try { x.stop(); } catch (e) {} } }
+function lvBtn(b, on){ if (!b) return; b.setAttribute("aria-pressed", on ? "true" : "false"); b.textContent = on ? "⏹ Stop" : b.dataset.label; }
+/* bring an element into view under the site strip, if it is not already */
+function lvShow(el){
+  const r = el.getBoundingClientRect(), nav = document.querySelector(".site-nav"), top = (nav ? nav.getBoundingClientRect().bottom : 0) + 10;
+  if (r.top >= top && r.bottom <= innerHeight - 10) return;
+  window.scrollBy({top:r.top - top - Math.max(0, (innerHeight - top - r.height) / 3), behavior:lvStill() ? "auto" : "smooth"});
+}
+
+/* ----- «Explain it»: a topic, point by point ----- */
+function lvExplain(card){
+  const same = LV && LV.kind === "explain" && LV.el === card;
+  lvStop();
+  if (same || !card) return;
+  const items = [...card.querySelectorAll(":scope > .kp > li")], btn = card.querySelector('[data-lv="explain"]'), bar = card.querySelector(".lv-bar");
+  if (!items.length) return;
+  const nx = document.createElement("button");
+  nx.type = "button"; nx.className = "lv-btn lv-alt"; nx.dataset.lv = "next"; nx.textContent = "⏭ Next";
+  const my = {kind:"explain", el:card, dead:false, timer:0, i:-1};
+  my.stop = () => { my.dead = true; clearTimeout(my.timer); lvHush(); card.classList.remove("lv-teach"); items.forEach(li => li.classList.remove("lv-now", "lv-past")); nx.remove(); lvBtn(btn, false); };
+  const next = () => {
+    if (my.dead) return;
+    clearTimeout(my.timer); lvHush();
+    const i = ++my.i;
+    if (i >= items.length){ my.stop(); if (LV === my) LV = null; lvExplored(card); return; }
+    items.forEach((li, j) => { li.classList.toggle("lv-now", j === i); li.classList.toggle("lv-past", j < i); });
+    const li = items[i];
+    li.querySelectorAll("b").forEach((b, k) => b.style.setProperty("--k", k));
+    if (i) sfx("ding");
+    lvShow(li);
+    const t0 = performance.now(), text = li.textContent.replace(/\s+/g, " ").trim();
+    const spoke = lvSay(text, () => { if (!my.dead && my.i === i) my.timer = setTimeout(next, Math.max(0, 1300 - (performance.now() - t0)) + 450); });
+    if (!spoke) my.timer = setTimeout(next, lvReadMs(text));
+  };
+  my.next = next;
+  card.classList.remove("lv-in", "lv-on");
+  LV = my; card.classList.add("lv-teach"); lvBtn(btn, true); bar.appendChild(nx);
+  sfx("whoosh"); next();
+}
+function lvStamp(card, on, pop){
+  const bar = card.querySelector(".lv-bar"); if (!bar) return;
+  let st = bar.querySelector(".lv-stamp");
+  if (!on){ if (st) st.remove(); return; }
+  if (!st){ st = document.createElement("span"); st.className = "lv-stamp"; st.textContent = "✓ Explained"; bar.appendChild(st); }
+  if (pop && !lvStill()){ st.classList.remove("lv-pop"); void st.offsetWidth; st.classList.add("lv-pop"); }
+}
+const lvLessonDone = les => TOPICS.filter(t => t.les === les).every(t => S.seen && S.seen[t.id]);
+function lvProgress(les){
+  const el = document.querySelector('.lv-prog[data-les="' + les + '"]'); if (!el) return;
+  const all = TOPICS.filter(t => t.les === les), n = all.filter(t => S.seen && S.seen[t.id]).length;
+  el.innerHTML = '<i style="--p:' + Math.round(100 * n / all.length) + '%"></i><span>' + n + '/' + all.length + ' explained</span>';
+  el.classList.toggle("lv-full", n === all.length);
+}
+function lvExplored(card){
+  const id = card.id, first = !(S.seen && S.seen[id]);
+  if (!S.seen || typeof S.seen !== "object") S.seen = {};
+  if (first){ S.seen[id] = Date.now(); save(); }
+  lvStamp(card, true, true);
+  sfx("tada");
+  if (window.MonmonFx && !lvStill()){ const r = card.querySelector(".lv-bar").getBoundingClientRect(); MonmonFx.burst(r.left + 70, r.top + r.height / 2, 26); }
+  const les = TOPIC[id].les;
+  lvProgress(les);
+  announce("Explained: " + TOPIC[id].t);
+  if (first && lvLessonDone(les)) setTimeout(() => lvCelebrate(les), 700);
+}
+function lvCelebrate(les){
+  sfx("fanfare");
+  if (window.MonmonFx && !lvStill()) [0, 250, 500].forEach((d, k) => setTimeout(() => MonmonFx.burst(innerWidth * (.3 + .2 * k), innerHeight * .4, 40, true), d));
+  const L = LESSON[les], t = document.createElement("div");
+  t.className = "lv-toast"; t.setAttribute("role", "status");
+  t.innerHTML = '<b>' + LV_ICON[les] + ' Lesson ' + L.n + ' explained!</b><span>Now show what you know: Practice Lesson ' + L.n + '.</span>';
+  document.body.appendChild(t);
+  setTimeout(() => t.classList.add("lv-bye"), 4300); setTimeout(() => t.remove(), 4800);
+  const pb = document.querySelector('#p-' + les + ' [data-act="start"][data-m="' + les + '"]');
+  if (pb){ pb.classList.add("lv-glow"); setTimeout(() => pb.classList.remove("lv-glow"), 5200); }
+}
+
+/* ----- moving diagrams ----- */
+const NS = "http://www.w3.org/2000/svg";
+const lvEase = p => p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+const lvWave = (t, ms) => (1 - Math.cos(t / ms * 2 * Math.PI)) / 2;   /* 0 → 1 → 0, once every ms */
+/* the heart's lub-dub: a beat, a smaller second beat, then a rest, once every per ms */
+function lvLubdub(t, per){ const f = (t % per) / per; return f < .14 ? Math.sin(f / .14 * Math.PI) : f > .22 && f < .34 ? .6 * Math.sin((f - .22) / .12 * Math.PI) : 0; }
+const lvRot = (el, a, cx, cy) => { if (el) el.setAttribute("transform", "rotate(" + a.toFixed(2) + " " + cx + " " + cy + ")"); };
+const lvScale = (el, sx, sy, cx, cy) => { if (el) el.setAttribute("transform", "translate(" + cx + " " + cy + ") scale(" + sx.toFixed(3) + " " + sy.toFixed(3) + ") translate(" + (-cx) + " " + (-cy) + ")"); };
+function lvAt(el, q){
+  if (el.tagName === "g") el.setAttribute("transform", "translate(" + q.x.toFixed(1) + " " + q.y.toFixed(1) + ")");
+  else { el.setAttribute("cx", q.x.toFixed(1)); el.setAttribute("cy", q.y.toFixed(1)); }
+}
+/* a round label (CO₂, O₂) that travels */
+function lvBubble(c, txt, fill){
+  const g = c.add("g", {});
+  c.add("circle", {r:9, fill, stroke:INK, "stroke-width":1.5}, null, g);
+  c.add("text", {y:3, "text-anchor":"middle", "font-size":7.5, "font-weight":800, "font-family":"Lexend,system-ui,sans-serif", fill:INK}, txt, g);
+  return g;
+}
+/* dots that run round a loop, each coloured by where it is */
+function lvFlow(route, dots, t, ms, color){
+  dots.forEach((e, i) => { const f = ((t / ms) + i / dots.length) % 1; lvAt(e, route(f)); e.setAttribute("fill", color(f)); });
+}
+/* sparks that fly off a moving thing and fade (nutrients, water) */
+function lvShed(c, t, q, every, mk){
+  if (q && c.once("shed" + Math.floor(t / every))) c.sh.push({e:mk(q), x:q.x, y:q.y, t0:t, a:Math.random() * 6.28});
+  c.sh.forEach(s => { const f = Math.min(1, (t - s.t0) / 700); s.e.setAttribute("cx", (s.x + Math.cos(s.a) * 16 * f).toFixed(1)); s.e.setAttribute("cy", (s.y + Math.sin(s.a) * 16 * f).toFixed(1)); s.e.setAttribute("opacity", (1 - f).toFixed(2)); });
+}
+const BLUE = "#4D8DF0", RED = "#E23F45";
+const lvSpark = c => c.add("circle", {r:6, fill:"#FFE14D", stroke:INK, "stroke-width":1.5});
+function lvBeat(c, t){
+  const k = lvLubdub(t, 950);
+  lvScale(c.q(".mv-heart"), 1 + .08 * k, 1 + .08 * k, 150, 112);
+  if (k > .9 && c.once("beat" + Math.floor(t / 950))) sfx("beat");
+}
+const SMALL_INT = "M150 156 L132 172 Q140 184 128 194 Q104 198 106 208 Q108 218 138 214 Q150 224 120 230 Q100 234 104 244 Q110 256 140 250 Q146 260 118 262 L90 262";
+const LARGE_INT = "M90 262 L86 262 L86 194 Q86 186 94 186 L148 186 Q156 186 156 194 L156 254 Q156 270 138 274 L126 278 L124 292 L124 304";
+/* each diagram: its button, the steps (mk = the numbered part lit up, cap = the caption, read aloud; sfx; dur = how long the
+   movement takes in ms; init makes the step's moving things; tick moves them: p goes 0 → 1, t is ms since the step began),
+   and the line shown at the end */
+const LV_FIG = {
+  joints:{label:"▶ Watch the joints move", end:"Three movable joints: ball-and-socket, hinge and pivot.", steps:[
+    {mk:0, sfx:"whirr", dur:3400, cap:"Ball-and-socket joint: a ball turns in a cup, so the bone can move in nearly every direction. Your shoulders and hips work like this.",
+     tick:(c, p, t) => lvRot(c.q(".mv-bs"), 34 * Math.sin(t / 330), 50, 64)},
+    {mk:1, sfx:"creak", dur:3400, cap:"Hinge joint: it bends back and forth in one direction only, like a door. Your elbows, knees and fingers work like this.",
+     tick:(c, p, t) => lvRot(c.q(".mv-hinge"), -78 * lvWave(t, 1700), 150, 92)},
+    {mk:2, sfx:"swish", dur:3400, cap:"Pivot joint: one bone turns on another, like your head turning to say no. Your neck works like this.",
+     init:c => {
+       c.add("circle", {cx:250, cy:19, r:13, fill:"#FFF6EC", stroke:INK, "stroke-width":2.5});
+       c.eyes = [c.add("circle", {cx:245, cy:17, r:2.4, fill:INK}), c.add("circle", {cx:255, cy:17, r:2.4, fill:INK})];
+       c.dot = c.add("circle", {cx:272, cy:66, r:5, fill:"#FF6FB5", stroke:INK, "stroke-width":2});
+     },
+     tick:(c, p, t) => { const a = t / 320, dx = 5 * Math.sin(a);
+       c.eyes[0].setAttribute("cx", (245 + dx).toFixed(1)); c.eyes[1].setAttribute("cx", (255 + dx).toFixed(1));
+       lvAt(c.dot, {x:250 + 22 * Math.cos(a), y:66 + 8 * Math.sin(a)}); c.dot.setAttribute("opacity", Math.sin(a) < 0 ? .35 : 1); }}
+  ]},
+  skeleton:{label:"▶ Take the skeleton tour", end:"Support, movement, protection, making blood cells and storing calcium: that's what your skeleton does!", steps:[
+    {mk:0, sfx:"knock", dur:2800, cap:"Skull: a helmet of bone that protects your brain.",
+     init:c => { c.brain = c.add("path", {d:"M104 30 Q106 16 120 15 Q134 16 136 30 Q128 25 120 28 Q112 25 104 30 Z", fill:"#F6B7C8", stroke:INK, "stroke-width":1.5, opacity:0}); },
+     tick:(c, p) => c.brain.setAttribute("opacity", Math.min(1, p * 2.5).toFixed(2))},
+    {mk:1, sfx:"whirr", dur:2600, cap:"Shoulder joint: a ball-and-socket joint, so your arm can swing in nearly every direction.",
+     init:c => { c.ring = c.add("circle", {cx:86, cy:90, r:13, fill:"none", stroke:"#FF6FB5", "stroke-width":3, "stroke-dasharray":"8 6"}); },
+     tick:(c, p, t) => lvRot(c.ring, t / 4, 86, 90)},
+    {mk:2, dur:3000, cap:"Rib cage: it protects your heart and lungs.",
+     init:c => { c.heart = c.add("path", {d:"M128 128 C 118 122, 115 114, 120 110 C 123 108, 127 109, 128 112 C 129 109, 133 108, 136 110 C 141 114, 138 122, 128 128 Z", fill:RED, stroke:INK, "stroke-width":1.5, opacity:.9}); },
+     tick:(c, p, t) => { const k = lvLubdub(t, 900); lvScale(c.heart, 1 + .25 * k, 1 + .25 * k, 128, 118); if (k > .9 && c.once("b" + Math.floor(t / 900))) sfx("beat"); }},
+    {mk:3, sfx:"creak", dur:3600, cap:"Elbow joint: a hinge joint. It bends back and forth, like when you wave hello!",
+     tick:(c, p, t) => lvRot(c.q(".mv-fore"), -125 * lvEase(Math.min(1, t / 900)) + (t > 900 ? 18 * Math.sin((t - 900) / 170) : 0), 164, 142)},
+    {mk:4, sfx:"zip", dur:2800, cap:"Backbone: it holds your body up and protects the spinal cord inside it.",
+     init:c => { c.cord = c.add("path", {d:"M120 60 L120 178", stroke:"#FFC21A", "stroke-width":5, "stroke-linecap":"round", fill:"none", "stroke-dasharray":"118", "stroke-dashoffset":"118", opacity:.9}); },
+     tick:(c, p) => c.cord.setAttribute("stroke-dashoffset", (118 * (1 - lvEase(p))).toFixed(1))},
+    {mk:5, sfx:"whirr", dur:2400, cap:"Hip joint: another ball-and-socket joint.",
+     init:c => { c.ring = c.add("circle", {cx:106, cy:203, r:13, fill:"none", stroke:"#FF6FB5", "stroke-width":3, "stroke-dasharray":"8 6"}); },
+     tick:(c, p, t) => lvRot(c.ring, t / 4, 106, 203)},
+    {mk:6, sfx:"bubbles", dur:3000, cap:"Thigh bone: it carries your weight. Red blood cells are made inside bones, in the marrow.",
+     init:c => { c.cells = [0, 1, 2, 3, 4, 5].map(() => c.add("circle", {cx:137, cy:230, r:3.2, fill:RED, stroke:INK, "stroke-width":1, opacity:0})); },
+     tick:(c, p, t) => c.cells.forEach((e, i) => { const f = ((t / 1400) + i / 6) % 1, a = i * 1.05; lvAt(e, {x:137 + Math.cos(a) * 26 * f, y:230 + Math.sin(a) * 26 * f}); e.setAttribute("opacity", (1 - f).toFixed(2)); })},
+    {mk:7, sfx:"boing", dur:2600, cap:"Knee joint: a hinge joint, so your leg can kick forward and back.",
+     tick:(c, p, t) => lvRot(c.q(".mv-shin"), t < 2400 ? 38 * Math.sin(t / 1200 * 2 * Math.PI) : 0, 100, 256)}
+  ]},
+  muscles:{label:"▶ Watch the muscles work", end:"Skeletal muscle is voluntary; smooth and cardiac muscle are involuntary.", steps:[
+    {mk:0, sfx:"boing", dur:3300, cap:"Skeletal muscle: you control it. Its long, striped cells contract, getting shorter and thicker, to pull on your bones.",
+     tick:(c, p, t) => c.qa(".mv-sk").forEach((g, i) => { const k = lvWave(t, 1100); lvScale(g, 1 - .2 * k, 1 + .14 * k, 50, i ? 73 : 39); })},
+    {mk:1, sfx:"squish", dur:3300, cap:"Smooth muscle: it works on its own. Its cells squeeze in waves to push food through your digestive tract.",
+     tick:(c, p, t) => c.qa(".mv-sm").forEach((g, i) => { const k = lvWave(t + i * 260, 1100); lvScale(g, 1 - .16 * k, 1 + .3 * k, 150, [34, 58, 82][i]); })},
+    {mk:2, dur:3400, cap:"Cardiac muscle: it is only in your heart. It contracts by itself, beat after beat, without you thinking.",
+     tick:(c, p, t) => { const k = lvLubdub(t, 950); lvScale(c.q(".mv-cd"), 1 + .07 * k, 1 + .07 * k, 250, 60); if (k > .9 && c.once("b" + Math.floor(t / 950))) sfx("beat"); }}
+  ]},
+  digestive:{label:"▶ Follow the food", end:"Ingest, digest, absorb, eliminate: that's the food's whole journey!",
+    setup:c => { c.ball = c.add("circle", {cx:120, cy:56, r:8.5, fill:"#F2A541", stroke:INK, "stroke-width":2, opacity:0}, null, true); },
+    steps:[
+    {mk:0, sfx:"crunch", dur:2600, cap:"Mouth: your teeth chew the food into small pieces (mechanical digestion), and saliva starts to break it down (chemical digestion).",
+     tick:(c, p, t) => { const bites = Math.min(3, Math.floor(t / 420)); c.ball.setAttribute("opacity", 1); c.ball.setAttribute("r", (8.5 - bites * 1.2 - (t % 420 < 110 && t < 1300 ? 1 : 0)).toFixed(1)); lvAt(c.ball, {x:120, y:56}); }},
+    {mk:1, sfx:"drip", dur:2400, cap:"Salivary glands: they make saliva, 1 to 2 liters every day!",
+     init:c => { c.drops = [95, 145].map(x => c.add("ellipse", {cx:x, cy:56, rx:2.6, ry:3.6, fill:"#4DA3FF", stroke:INK, "stroke-width":1})); },
+     tick:(c, p, t) => c.drops.forEach((d, i) => { const f = (t / 900) % 1, x0 = i ? 145 : 95; lvAt(d, {x:x0 + (120 - x0) * f, y:56 + 4 * Math.sin(f * Math.PI)}); d.setAttribute("opacity", (1 - f * .6).toFixed(2)); })},
+    {mk:2, sfx:"gulp", dur:2600, cap:"Esophagus: waves of muscle, called peristalsis, push the food down to the stomach.",
+     init:c => { c.rt = c.route("M120 56 L120 126 Q120 134 128 136"); c.ring = c.add("ellipse", {rx:9, ry:3.5, fill:"none", stroke:"#C2593F", "stroke-width":2.5}); },
+     tick:(c, p) => { const q = c.rt(lvEase(p)); lvAt(c.ball, q); lvAt(c.ring, {x:q.x, y:q.y - 9}); }},
+    {mk:4, sfx:"gurgle", dur:3000, cap:"Stomach: it stores the food and churns it with acidic gastric juice.",
+     init:c => { c.bub = [0, 1, 2, 3].map(() => c.add("circle", {r:2.2, fill:"#fff", stroke:INK, "stroke-width":1})); },
+     tick:(c, p, t) => { const a = t / 180, k = Math.min(1, t / 500); lvAt(c.ball, {x:128 + (150 + 8 * Math.cos(a) - 128) * k, y:136 + (150 + 6 * Math.sin(a) - 136) * k});
+       lvScale(c.q(".mv-sto"), 1 + .05 * Math.sin(t / 140), 1 - .04 * Math.sin(t / 140), 150, 150);
+       c.bub.forEach((b, i) => { const f = ((t / 1100) + i / 4) % 1; lvAt(b, {x:140 + i * 7, y:166 - 26 * f}); b.setAttribute("opacity", (1 - f).toFixed(2)); }); }},
+    {mk:3, sfx:"drip", dur:2800, cap:"Liver: it makes bile, which breaks fat into tiny drops. Food does not pass through the liver.",
+     init:c => { c.bile = c.add("ellipse", {rx:3, ry:4, fill:"#7CC86A", stroke:INK, "stroke-width":1.2}); c.rt = c.route("M104 138 Q118 160 132 172"); },
+     tick:(c, p, t) => { const k = 1 + .05 * lvWave(t, 700); lvScale(c.q(".mv-liv"), k, k, 96, 128); lvAt(c.bile, c.rt((t / 1300) % 1)); }},
+    {mk:5, sfx:"zip", dur:4200, cap:"Small intestine: most chemical digestion happens here, and the villi absorb the nutrients into the blood.",
+     init:c => { c.rt = c.route(SMALL_INT); c.sh = []; },
+     tick:(c, p, t) => { const q = c.rt(lvEase(p)); lvAt(c.ball, q); c.ball.setAttribute("r", (6 - 2 * p).toFixed(1));
+       lvShed(c, t, p < 1 ? q : null, 280, q => c.add("circle", {cx:q.x, cy:q.y, r:2.2, fill:"#FFD23F", stroke:INK, "stroke-width":.8})); }},
+    {mk:6, sfx:"whoosh", dur:4000, cap:"Large intestine: it takes in more water, and what is left becomes solid waste that leaves the body.",
+     init:c => { c.rt = c.route(LARGE_INT); c.sh = []; },
+     tick:(c, p, t) => { const q = c.rt(lvEase(p)); lvAt(c.ball, q); c.ball.setAttribute("fill", p > .3 ? "#9C6B3E" : "#C98A4B"); c.ball.setAttribute("opacity", p < .97 ? 1 : 0);
+       lvShed(c, t, p < .95 ? q : null, 330, q => c.add("ellipse", {cx:q.x, cy:q.y, rx:2.2, ry:3, fill:"#4DA3FF", stroke:INK, "stroke-width":.8})); }}
+  ]},
+  leaf:{label:"▶ Watch photosynthesis", end:"Light + water + carbon dioxide → glucose + oxygen. That's photosynthesis!", steps:[
+    {mk:0, sfx:"sparkle", dur:3000, cap:"Light energy from the sun goes into the leaf.",
+     init:c => { c.ph = [0, 1, 2].map(() => c.add("circle", {r:3.5, fill:"#FFD23F", stroke:INK, "stroke-width":1.2})); c.rt = c.route("M50 48 L98 80"); },
+     tick:(c, p, t) => { lvRot(c.q(".mv-sun"), t / 25, 34, 32); c.ph.forEach((e, i) => { const f = ((t / 900) + i / 3) % 1; lvAt(e, c.rt(f)); e.setAttribute("opacity", (f < .85 ? 1 : (1 - f) / .15).toFixed(2)); }); }},
+    {mk:2, sfx:"bloop", dur:3000, cap:"Water comes up from the roots through the xylem.",
+     init:c => { c.dr = [0, 1, 2].map(() => c.add("ellipse", {rx:3, ry:4, fill:"#4DA3FF", stroke:INK, "stroke-width":1.2})); c.rt = c.route("M48 164 L64 128 Q80 112 104 102"); },
+     tick:(c, p, t) => c.dr.forEach((e, i) => { const f = ((t / 1200) + i / 3) % 1; lvAt(e, c.rt(f)); e.setAttribute("opacity", (f < .85 ? 1 : (1 - f) / .15).toFixed(2)); })},
+    {mk:1, sfx:"swish", dur:3000, cap:"Carbon dioxide from the air goes in through tiny openings in the leaf.",
+     init:c => { c.co = [0, 1].map(() => lvBubble(c, "CO₂", "#B9C2CF")); c.rt = c.route("M250 30 L190 66"); },
+     tick:(c, p, t) => c.co.forEach((e, i) => { const f = ((t / 1500) + i / 2) % 1; lvAt(e, c.rt(f)); e.setAttribute("opacity", (f < .8 ? 1 : (1 - f) / .2).toFixed(2)); })},
+    {mk:3, sfx:"chime", dur:3200, cap:"With the light's energy, the leaf makes glucose, a sugar. The phloem carries it to every cell.",
+     tick:(c, p, t) => { const k = 1 + .22 * lvWave(t, 800); lvScale(c.q(".mv-glu"), k, k, 138, 90); }},
+    {mk:4, sfx:"bubbles", dur:3000, cap:"Oxygen is given off into the air.",
+     init:c => { c.ox = [0, 1].map(() => lvBubble(c, "O₂", "#fff")); c.rt = c.route("M176 108 L234 146"); },
+     tick:(c, p, t) => c.ox.forEach((e, i) => { const f = ((t / 1500) + i / 2) % 1; lvAt(e, c.rt(f)); e.setAttribute("opacity", (f < .8 ? 1 : (1 - f) / .2).toFixed(2)); })}
+  ]},
+  heart:{label:"▶ Watch the blood flow", end:"Two loops, one heart: heart → lungs → heart → body → heart.", steps:[
+    {mk:0, dur:3200, cap:"The heart is a pump made of cardiac muscle. Lub-dub: every beat pushes blood out into the arteries.",
+     tick:(c, p, t) => lvBeat(c, t)},
+    {mk:1, sfx:"breath", dur:4200, cap:"Pulmonary loop: blood goes from the heart to the lungs, picks up oxygen, drops off carbon dioxide, then goes back to the heart.",
+     init:c => { c.rt = c.route(PUL_A + " " + PUL_B.replace(/^M[\d. ]+/, "L150 44 ")); c.bl = [0, 1, 2, 3, 4].map(() => c.add("circle", {r:4, stroke:INK, "stroke-width":1.2})); },
+     tick:(c, p, t) => { lvBeat(c, t); const k = 1 + .05 * lvWave(t, 1800); lvScale(c.q(".mv-lungs"), k, k + .02, 150, 46); lvFlow(c.rt, c.bl, t, 2600, f => f < .5 ? BLUE : RED); }},
+    {mk:2, sfx:"whoosh", dur:4200, cap:"Systemic loop: the heart pumps the oxygen-rich blood to the body. The cells take the oxygen and nutrients, and the blood comes back to the heart.",
+     init:c => { c.rt = c.route(SYS_A + " " + SYS_B.replace(/^M[\d. ]+/, "L150 192 ")); c.bl = [0, 1, 2, 3, 4, 5].map(() => c.add("circle", {r:4, stroke:INK, "stroke-width":1.2})); },
+     tick:(c, p, t) => { lvBeat(c, t); lvFlow(c.rt, c.bl, t, 3000, f => f < .5 ? RED : BLUE); }},
+    {mk:3, dur:4200, cap:"Arteries carry blood away from the heart, and veins bring it back. In the tiny capillaries, materials pass between the blood and the cells.",
+     init:c => { c.r1 = c.route(PUL_A + " " + PUL_B.replace(/^M[\d. ]+/, "L150 44 ")); c.r2 = c.route(SYS_A + " " + SYS_B.replace(/^M[\d. ]+/, "L150 192 "));
+       c.b1 = [0, 1, 2, 3].map(() => c.add("circle", {r:4, stroke:INK, "stroke-width":1.2})); c.b2 = [0, 1, 2, 3, 4].map(() => c.add("circle", {r:4, stroke:INK, "stroke-width":1.2})); },
+     tick:(c, p, t) => { lvBeat(c, t); lvFlow(c.r1, c.b1, t, 2600, f => f < .5 ? BLUE : RED); lvFlow(c.r2, c.b2, t, 3000, f => f < .5 ? RED : BLUE); }}
+  ]},
+  reflex:{label:"▶ Watch the reflex", end:"Stimulus → receptor → sensory neuron → spinal cord → motor neuron → muscle → response.", steps:[
+    {mk:0, sfx:"sizzle", dur:2800, cap:"Stimulus: the hand touches a hot pot! Receptors in the skin sense the heat.",
+     init:c => { c.glow = c.add("circle", {cx:97, cy:153, r:6, fill:"none", stroke:"#FF6F3C", "stroke-width":3}); },
+     tick:(c, p, t) => { const k = lvWave(t, 600); c.glow.setAttribute("r", (6 + 10 * k).toFixed(1)); c.glow.setAttribute("opacity", (1 - .8 * k).toFixed(2)); }},
+    {mk:1, sfx:"zap", dur:1800, cap:"A sensory neuron carries the signal to the spinal cord.",
+     init:c => { c.rt = c.route(NERVE_IN); c.sp = lvSpark(c); },
+     tick:(c, p) => lvAt(c.sp, c.rt(lvEase(p)))},
+    {mk:2, sfx:"zap", dur:1800, cap:"In the spinal cord, an interneuron passes the signal straight to a motor neuron. That shortcut is a reflex: no time to think!",
+     init:c => { c.fl = c.add("rect", {x:242, y:100, width:16, height:40, rx:6, fill:"#FFD23F", opacity:0}); c.rt = c.route("M242 134 L250 132 L250 112 L242 108"); c.sp = lvSpark(c); },
+     tick:(c, p, t) => { lvAt(c.sp, c.rt(lvEase(p))); c.fl.setAttribute("opacity", (.7 * lvWave(t, 400)).toFixed(2)); }},
+    {mk:3, sfx:"zap", dur:1500, cap:"A motor neuron carries the signal to the arm muscle.",
+     init:c => { c.rt = c.route(NERVE_OUT); c.sp = lvSpark(c); },
+     tick:(c, p) => lvAt(c.sp, c.rt(lvEase(p)))},
+    {mk:4, sfx:"swish", dur:2400, cap:"Response: the muscle contracts and pulls the hand away, fast!",
+     tick:(c, p) => { const k = lvEase(Math.min(1, p * 2.2)); lvRot(c.q(".mv-arm"), 32 * k, 168, 84); lvScale(c.q(".mv-bic"), 1 - .12 * k, 1 + .3 * k, 204, 78); }},
+    {mk:5, dur:3000, cap:"Only then does the signal reach the brain, and you feel the pain. Ouch!",
+     init:c => { c.rt = c.route("M250 112 L250 52"); c.sp = lvSpark(c); },
+     tick:(c, p, t) => {
+       lvAt(c.sp, c.rt(lvEase(Math.min(1, p * 1.6))));
+       if (p >= .62 && c.once("ouch")){ sfx("ouch"); c.ouch = c.add("g", {}); c.ouchT = t;
+         c.add("rect", {x:-30, y:-13, width:60, height:26, rx:11, fill:"#fff", stroke:INK, "stroke-width":2.5}, null, c.ouch);
+         c.add("text", {y:5, "text-anchor":"middle", "font-size":14, "font-weight":800, "font-family":"Lexend,system-ui,sans-serif", fill:RED}, "Ouch!", c.ouch); }
+       if (c.ouch){ const s = Math.min(1, (t - c.ouchT) / 220); c.ouch.setAttribute("transform", "translate(176 22) scale(" + (s < 1 ? (s * 1.15).toFixed(2) : 1) + ")"); } }}
+  ]}
+};
+function lvWatch(fig){
+  const same = LV && LV.kind === "watch" && LV.el === fig;
+  lvStop();
+  if (same || !fig) return;
+  const A = LV_FIG[fig.dataset.fig], svg = fig.querySelector("svg"), cap = fig.querySelector(".lv-cap"), btn = fig.querySelector('[data-lv="watch"]');
+  if (!A || !svg) return;
+  const marks = [...svg.querySelectorAll(".mk")], rows = [...fig.querySelectorAll("ol > li")];
+  const layer = document.createElementNS(NS, "g");
+  layer.setAttribute("class", "lv-layer"); layer.setAttribute("aria-hidden", "true");
+  svg.insertBefore(layer, marks[0] || null);
+  const c = {svg, layer, sl:null, n:{}, q:s => svg.querySelector(s), qa:s => [...svg.querySelectorAll(s)],
+    /* make an element: in this step's layer (gone when the step ends), in the diagram's layer (keep = true) or in a group */
+    add(tag, at, txt, where){ const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (txt != null) e.textContent = txt;
+      (where === true ? layer : where || c.sl || layer).appendChild(e); return e; },
+    route(d){ const pth = c.add("path", {d, fill:"none", stroke:"none"}), L = pth.getTotalLength(); return f => pth.getPointAtLength(Math.max(0, Math.min(1, f)) * L); },
+    once(k){ if (c.n[k]) return false; c.n[k] = 1; return true; }};
+  const halo = c.add("circle", {r:15, fill:"none", stroke:"#FF6FB5", "stroke-width":4, opacity:0}, null, true);
+  const hot = mk => {
+    marks.forEach((m, j) => m.classList.toggle("lv-hot", j === mk)); rows.forEach((r, j) => r.classList.toggle("lv-hot", j === mk));
+    const at = mk >= 0 && FIGS[fig.dataset.fig].parts[mk].at;
+    if (at){ halo.setAttribute("cx", at[0]); halo.setAttribute("cy", at[1]); halo.setAttribute("opacity", 1); } else halo.setAttribute("opacity", 0);
+  };
+  const say = text => { cap.textContent = text; cap.classList.remove("lv-pop"); void cap.offsetWidth; cap.classList.add("lv-pop"); };
+  const my = {kind:"watch", el:fig, dead:false, raf:0, timer:0};
+  my.stop = () => {
+    my.dead = true; cancelAnimationFrame(my.raf); clearTimeout(my.timer); lvHush(); hot(-1);
+    layer.remove(); svg.querySelectorAll('[class^="mv-"]').forEach(g => g.removeAttribute("transform"));
+    fig.classList.remove("lv-playing"); lvBtn(btn, false);
+    if (!my.ended) cap.textContent = "";
+  };
+  LV = my; fig.classList.add("lv-playing"); lvBtn(btn, true);
+  if (A.setup) A.setup(c);
+  let i = -1;
+  const step = () => {
+    if (my.dead) return;
+    if (c.sl) c.sl.remove();
+    c.sl = document.createElementNS(NS, "g"); layer.insertBefore(c.sl, halo); c.n = {};
+    const st = A.steps[++i];
+    if (!st){ my.ended = true; my.stop(); if (LV === my) LV = null; say(A.end); sfx("tada"); lvSay(A.end); return; }
+    hot(st.mk);
+    say(st.cap);
+    if (st.sfx) sfx(st.sfx);
+    if (st.init) st.init(c);
+    let said = false;
+    if (!lvSay(st.cap, () => { said = true; })) said = true;
+    const t0 = performance.now(), still = lvStill();
+    const frame = now => {
+      if (my.dead) return;
+      const t = Math.max(0, now - t0), p = Math.min(1, t / st.dur);
+      if (!still && st.tick) st.tick(c, p, t);
+      halo.setAttribute("r", (14 + 4 * lvWave(t, 700)).toFixed(1));
+      if (p >= 1 && said){ my.timer = setTimeout(step, 400); return; }
+      my.raf = requestAnimationFrame(frame);
+    };
+    my.raf = requestAnimationFrame(frame);
+  };
+  lvShow(svg);
+  sfx("whoosh"); step();
+}
+
+/* ----- cards that rise in as they come into view ----- */
+let lvIO = null;
+function lvReveal(root){
+  if (lvIO){ lvIO.disconnect(); lvIO = null; }
+  if (lvStill() || !("IntersectionObserver" in window)) return;   /* nothing is hidden */
+  const els = [...root.querySelectorAll(".part .part-head, .part article.card, .part .lab-cta")];
+  els.forEach(el => { el.classList.add("lv-in"); el.querySelectorAll(":scope > .kp > li").forEach((li, i) => li.style.setProperty("--i", Math.min(i, 8))); });
+  /* once it has risen in, the card goes back to plain (so «Explain it» can dim and light its points) */
+  lvIO = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const el = e.target; el.classList.add("lv-on"); lvIO.unobserve(el); setTimeout(() => el.classList.remove("lv-in", "lv-on"), 1700); }),
+    {rootMargin:"0px 0px -6% 0px", threshold:.06});
+  els.forEach(el => lvIO.observe(el));
+}
+
+/* ----- the sound switch in the top bar ----- */
+function lvSndBtn(){ const b = $("#sndBtn"); if (b){ const on = lvSoundOn(); b.setAttribute("aria-pressed", on ? "true" : "false"); b.setAttribute("aria-label", "Sounds and reading voice: " + (on ? "on" : "off")); } }
+function lvToggleSound(){
+  const on = !lvSoundOn();
+  if (window.MonmonRewards && MonmonRewards.sound) MonmonRewards.sound(on); else lvMute = !on;
+  if (!on) lvHush();
+  lvSndBtn();
+  announce(on ? "Sounds on" : "Sounds off");
+}
+
+/* after the home is drawn: stamps, progress, ▶ buttons on the diagrams, cards that rise in */
+function enliven(){
+  const main = $("#main");
+  LESSONS.forEach(x => lvProgress(x.id));
+  main.querySelectorAll(".part article.card[id]").forEach(card => lvStamp(card, !!(S.seen && S.seen[card.id]), false));
+  main.querySelectorAll(".part figure.fig[data-fig]").forEach(fig => {
+    const A = LV_FIG[fig.dataset.fig];
+    if (!A || fig.querySelector(".lv-figbar")) return;
+    const bar = document.createElement("div"); bar.className = "lv-figbar";
+    bar.innerHTML = '<button class="lv-btn" type="button" data-lv="watch" aria-pressed="false" data-label="' + esc(A.label) + '">' + esc(A.label) + '</button>';
+    fig.insertBefore(bar, fig.firstChild);
+    const cap = document.createElement("p"); cap.className = "lv-cap"; cap.setAttribute("aria-live", "polite");
+    fig.querySelector("svg").after(cap);
+  });
+  lvReveal(main);
+  lvSndBtn();
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-lv]");
+  if (b){
+    const a = b.dataset.lv;
+    if (a === "explain") lvExplain(b.closest("article.card"));
+    else if (a === "next"){ if (LV && LV.next) LV.next(); }
+    else if (a === "watch") lvWatch(b.closest("figure.fig"));
+    else if (a === "snd") lvToggleSound();
+    else if (a === "flipall"){
+      const on = b.getAttribute("aria-pressed") !== "true";
+      b.setAttribute("aria-pressed", on ? "true" : "false"); b.textContent = on ? "↺ Hide the meanings" : "↻ Show all meanings";
+      b.closest(".lv-words").querySelectorAll(".lv-flip").forEach((f, i) => setTimeout(() => f.setAttribute("aria-pressed", on ? "true" : "false"), lvStill() ? 0 : i * 35));
+      sfx("flip");
+    }
+    return;
+  }
+  const f = e.target.closest(".lv-flip");
+  if (f){ f.setAttribute("aria-pressed", f.getAttribute("aria-pressed") === "true" ? "false" : "true"); sfx("flip"); return; }
+  if (e.target.closest("[data-act]")) lvStop();   /* a practice round or the print button: stop what is playing */
+});
+document.addEventListener("visibilitychange", () => { if (document.hidden) lvStop(); });
+/* another device explained a topic: show it here */
+window.addEventListener("monmon-sync", () => {
+  if (typeof R !== "undefined" && R) return;
+  LESSONS.forEach(x => lvProgress(x.id));
+  document.querySelectorAll(".part article.card[id]").forEach(card => lvStamp(card, !!(S.seen && S.seen[card.id]), false));
+});
 
 /* ---------- EVENTS ---------- */
 document.addEventListener("click", e => {
