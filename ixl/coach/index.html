@@ -1026,7 +1026,7 @@ function runner(box, c, mode){
     const r = judge(q, box), fb = $(".fb", box);
     /* every answer goes to the parent's report (assets/answers.js), with the kind of slip the coach found */
     if (window.MonmonAnswers){ const tr = !r.ok && (TRAPS[r.trap] || TAGS[r.trap]);
-      MonmonAnswers.log({s:"english", tp:c.id, tn:"IXL " + c.id + (q.kind === "verb" ? " · verb tense" : ""), k:q.kind, q:[q.ins, q.pass, q.q].filter(Boolean).join(" · "),
+      MonmonAnswers.log({s:"english", tp:c.id, tn:"IXL " + c.id + (q.kind === "verb" ? " · verb tense" : ""), k:q.kind, q:[q.ins, q.pass, q.q, q.kind === "verb" && q.s ? q.s.replace("___", "___ (" + q.v + ")") : ""].filter(Boolean).join(" · "),
         a:q.kind === "verb" ? $(".ixin", box).value : picked(box).map(k => q.opts[k]).join(" · "), r:answerText(q), ok:!!r.ok, w:tr ? "Slip: " + tr.en + (r.tip ? ". " + r.tip : "") : "", m:mode}); }
     st.answered = true;
     $$(".ixq button, .ixq input", box).forEach(el => { if (el.classList.contains("ixq-go")) el.disabled = true; else if (el.tagName === "INPUT") el.readOnly = true; else el.disabled = true; });

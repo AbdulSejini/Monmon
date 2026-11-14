@@ -20,8 +20,9 @@
   var asked = 0, lastAt = performance.now(), seq = 0, sending = false;
 
   function status() { try { return window.MonmonSync ? MonmonSync.status() : null; } catch (e) { return null; } }
+  /* plain text: x<sup>3</sup> becomes x^3, so a power is not read as a bigger number */
   function cut(x, n) {
-    var s = String(x === undefined || x === null ? "" : x).replace(/<(br|\/p|\/li|\/div|\/h\d)\b[^>]*>/gi, " ").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim();
+    var s = String(x === undefined || x === null ? "" : x).replace(/<sup>\s*([^<]*?)\s*<\/sup>/gi, "^$1").replace(/<sub>\s*([^<]*?)\s*<\/sub>/gi, "_$1").replace(/<(br|\/p|\/li|\/div|\/h\d)\b[^>]*>/gi, " ").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim();
     return s.length > n ? s.slice(0, n - 1) + "…" : s;
   }
   function readQ() { try { var q = JSON.parse(store.getItem(QKEY) || "{}"); return q && typeof q === "object" && !Array.isArray(q) ? q : {}; } catch (e) { return {}; } }
