@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>محمد: تفوّق واجتهاد</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Ccircle cx=%2232%22 cy=%2232%22 r=%2228%22 fill=%22%23FFD23F%22 stroke=%22%2314163A%22 stroke-width=%225%22/%3E%3Cpath d=%22M32 16l4.7 10 10.8 1.3-8 7.4 2.1 10.7L32 40.2 22.4 45.4l2.1-10.7-8-7.4L27.3 26z%22 fill=%22%23fff%22 stroke=%22%2314163A%22 stroke-width=%223%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+/* Mohammed's Term 1 grades and his teachers' notes (achievements/index.html).
+   Published by the owner's choice (18/11): first name only, no teacher names (each note is credited to its subject),
+   and the remarks that ask for more focus are summarised gently, not quoted. Every number on the page is computed from
+   the data block in the script below, so they always agree. */
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --blue:#2F7DE1; --orange:#F39200; --purple:#9A4FE0; --rose:#E23F66;
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --font:"Tajawal","Segoe UI","Geeza Pro",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+a{color:inherit}
+h1,h2,h3{margin:0;line-height:1.25;font-weight:800;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.num,.n{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;display:inline-block}
+.nw{white-space:nowrap}
+.en{direction:ltr;unicode-bidi:isolate;font-family:"Segoe UI",system-ui,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:20px 16px 56px;display:grid;gap:20px}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.sec{display:grid;gap:12px}
+.sec-head{display:grid;gap:2px}
+.sec-head h2{font-size:clamp(22px,4.6vw,26px)}
+.sec-head p{font-size:15px;font-weight:700;color:var(--ink-2)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:20px 18px;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:linear-gradient(135deg,var(--sun-2),var(--paper) 65%)}
+.ring{position:relative;width:150px;height:150px}
+.ring svg{width:100%;height:100%;display:block}
+.ring .val{position:absolute;inset:0;display:grid;place-content:center;text-align:center;line-height:1.05}
+.ring .val b{font-size:34px;font-weight:800}
+.ring .val small{font-size:12.5px;font-weight:800;color:var(--ink-2)}
+.hero-t{display:grid;gap:8px;min-width:0}
+.kick{justify-self:start;font-size:14px;font-weight:800;padding:1px 12px;border-radius:999px;background:var(--ink);color:var(--sun)}
+.hero h1{font-size:clamp(30px,6.4vw,44px)}
+.hero .lead{font-size:17px;font-weight:700;color:var(--ink-2)}
+.hero .pts{font-weight:800}
+.spark{position:absolute;font-size:22px;opacity:.85;pointer-events:none;animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px) rotate(8deg)}}
+
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tile{padding:14px 10px;display:grid;gap:2px;justify-items:center;text-align:center;align-content:start}
+.tile .em{font-size:28px;line-height:1.2}
+.tile .big{font-size:28px;font-weight:800;line-height:1.15}
+.tile .lbl{font-size:14.5px;font-weight:800;color:var(--ink-2);line-height:1.35}
+
+/* subjects */
+.subj{padding:8px 14px}
+.srow{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,2fr) auto;gap:6px 12px;align-items:center;padding:10px 0;border-bottom:2px dashed #DCE3F2}
+.srow:last-child{border-bottom:0}
+.srow .nm{display:flex;align-items:center;gap:8px;font-weight:800;min-width:0}
+.srow .nm i{flex:none;width:14px;height:14px;border-radius:4px;border:2px solid var(--ink);background:var(--c)}
+.srow .nm small{font-weight:700;color:var(--ink-3);font-size:13px}
+.bar{height:16px;border:2.5px solid var(--ink);border-radius:999px;background:#F3F6FD;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--c);border-radius:999px;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.srow .sc{display:grid;justify-items:end;line-height:1.2;text-align:end}
+.srow .sc b{font-size:18px}
+.srow .sc small{font-size:12.5px;font-weight:700;color:var(--ink-2)}
+.full{font-size:12.5px;font-weight:800;color:#7A5200;background:var(--sun);border:2px solid var(--ink);border-radius:999px;padding:0 8px;white-space:nowrap}
+.srow.none .bar{background:repeating-linear-gradient(-45deg,#F2F4FA 0 8px,#E8ECF6 8px 16px)}
+
+/* big assessments */
+.tests{padding:6px 14px}
+.trow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:10px 0;border-bottom:2px dashed #DCE3F2}
+.trow:last-child{border-bottom:0}
+.trow .dt{font-size:13px;font-weight:800;color:var(--ink-2);text-align:center;min-width:62px;line-height:1.25}
+.trow .dt b{display:block;font-size:17px;color:var(--ink)}
+.trow .ti{font-weight:800;min-width:0}
+.trow .ti small{display:block;font-size:13px;font-weight:700;color:var(--ink-3)}
+.score{min-width:82px;text-align:center;font-weight:800;border:2.5px solid var(--ink);border-radius:12px;padding:2px 8px;background:var(--paper);line-height:1.3}
+.score.top{background:var(--good-bg)}
+.score small{display:block;font-size:12px;color:var(--ink-2)}
+.score.wait{background:#F3F6FD;color:var(--ink-2);font-size:14px}
+
+/* praise */
+.praise{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.quote{position:relative;padding:14px 14px 12px;display:grid;gap:8px;align-content:start;border-inline-start:10px solid var(--c)}
+.quote .tag{justify-self:start;display:inline-flex;gap:6px;align-items:center;font-size:13.5px;font-weight:800;padding:1px 10px;border-radius:999px;background:var(--c);color:#fff;border:2px solid var(--ink)}
+.quote blockquote{margin:0;font-size:18px;font-weight:800;line-height:1.55}
+.quote blockquote.en{font-size:16.5px;text-align:left}
+.quote .meta{font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.quote .times{font-weight:800;color:var(--ink);background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:0 8px;margin-inline-start:4px}
+.quote.wide{grid-column:1/-1}
+.medal{background:linear-gradient(135deg,#FFE8A3,var(--paper) 70%)}
+
+/* a little focus */
+.focus{padding:14px 16px;display:grid;gap:12px;background:#FFF9EC}
+.focus li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;align-items:start}
+.focus .ic{width:40px;height:40px;display:grid;place-items:center;font-size:22px;border:2.5px solid var(--ink);border-radius:12px;background:var(--paper)}
+.focus b{font-size:17px}
+.focus p{font-size:15.5px;color:var(--ink-2);font-weight:600}
+.focus .tip{display:block;margin-top:2px;font-size:14.5px;color:var(--good);font-weight:800}
+.closing{padding:18px;display:grid;gap:8px;text-align:center;background:linear-gradient(135deg,var(--good-bg),var(--paper) 70%)}
+.closing .em{font-size:40px;line-height:1.1}
+.closing h2{font-size:clamp(22px,5vw,28px)}
+.closing p{font-weight:700;color:var(--ink-2)}
+.foot{font-size:13.5px;color:var(--ink-2);display:grid;gap:4px}
+
+@media (max-width:760px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.praise{grid-template-columns:1fr}}
+@media (max-width:560px){
+  .hero{grid-template-columns:1fr;justify-items:center;text-align:center}.hero-t{justify-items:center}.kick{justify-self:center}
+  .ring{width:132px;height:132px}
+  .srow{grid-template-columns:minmax(0,1fr) auto}.srow .bar{grid-column:1/-1;grid-row:2}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{
+  html,body{background:#fff!important}body{background-image:none!important;font-size:12.5pt}
+  .panel{box-shadow:none;break-inside:avoid}.spark{display:none}.bar i{transition:none}
+  .wrap{padding:0;gap:12px}
+}
+</style>
+</head>
+<body>
+<script src="../assets/sync.js"></script>
+<script src="../assets/site-nav.js" data-root="../"></script>
+<script src="../assets/rewards.js" data-root="../"></script>
+<main class="wrap" id="main">
+  <section class="hero panel" aria-labelledby="pageTitle">
+    <div class="ring" id="ring" role="img"></div>
+    <div class="hero-t">
+      <span class="kick">الفصل الدراسي الأول · حتى الأربعاء <span class="num">18/11/2026</span></span>
+      <h1 id="pageTitle">محمد: تفوّق واجتهاد</h1>
+      <p class="lead" id="lead"></p>
+      <p class="pts" id="pts"></p>
+    </div>
+  </section>
+
+  <section class="tiles" id="tiles" aria-label="أرقام سريعة"></section>
+
+  <section class="sec" aria-labelledby="subjTitle">
+    <div class="sec-head"><h2 id="subjTitle">المواد</h2><p>كل درجات الفصل في EduPage، مادة مادة: النقاط من المجموع، والنسبة، وعدد الدرجات.</p></div>
+    <div class="subj panel" id="subjects"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="testTitle">
+    <div class="sec-head"><h2 id="testTitle">الاختبارات الكبيرة</h2><p>بتاريخ رصد كل درجة.</p></div>
+    <div class="tests panel" id="tests"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="praiseTitle">
+    <div class="sec-head"><h2 id="praiseTitle">ماذا يقول المعلمون</h2><p>بكلماتهم كما كتبوها في EduPage، وكل كلمة باسم المادة.</p></div>
+    <div class="praise" id="praise"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="focusTitle">
+    <div class="sec-head"><h2 id="focusTitle">قليل من التركيز هنا وهناك</h2><p>كل ملاحظات المعلمين التي تطلب تحسينًا، باختصار، مع المادة والتاريخ.</p></div>
+    <ul class="focus panel" id="focus"></ul>
+  </section>
+
+  <section class="closing panel" aria-labelledby="closeTitle">
+    <div class="em" aria-hidden="true">🏆</div>
+    <h2 id="closeTitle">بطل في لغتي والدراسات الإسلامية</h2>
+    <p id="closeText"></p>
+  </section>
+
+  <footer class="foot">
+    <p>المصدر: EduPage، درجات وملاحظات الفصل الدراسي الأول حتى الأربعاء <span class="num">18/11/2026</span>. اختبار الاجتماعيات القصير 2 (<span class="num">17/11</span>) واختبار لغتي القصير 2 (<span class="num">19/11</span>) لم تُرصد درجاتهما بعد.</p>
+    <p>نُشرت هذه الصفحة باختيار ولي الأمر: بالاسم الأول فقط، وبدون أسماء المعلمين، وكل ملاحظة منسوبة لمادتها.</p>
+  </footer>
+</main>
+<script>
+"use strict";
+/* ---------- the data: EduPage, Term 1, up to Wednesday 18/11/2026 ---------- */
+const YEAR = 2026;
+const SUBJECTS = [   /* name, colour, points, possible, number of grades */
+  {name:"لغتي", en:"Arabic", c:"#E23D45", got:205, of:205, n:39},
+  {name:"الدراسات الإسلامية", en:"Islamic Studies", c:"#0E8A6B", got:170, of:170, n:30},
+  {name:"القرآن الكريم", en:"Qur'an", c:"#12A15E", got:220, of:220, n:41},
+  {name:"الاجتماعيات", en:"Social Studies", c:"#B8741A", got:55, of:55, n:8},
+  {name:"التربية الفنية", en:"Art", c:"#E23F66", got:55, of:55, n:11},
+  {name:"Be Well", en:"Be Well", c:"#F39200", got:70, of:70, n:11},
+  {name:"العلوم", en:"Science", c:"#2F7DE1", got:313.75, of:315, n:59},
+  {name:"الرياضيات", en:"Math", c:"#5B2BB5", got:345, of:350, n:66},
+  {name:"الحاسب", en:"ICT/MECHA", c:"#5B6270", got:59, of:60, n:9},
+  {name:"الإنجليزي", en:"English", c:"#9A4FE0", got:292, of:305, n:57}];
+const NO_GRADES = [{name:"التربية البدنية", en:"PE"}];
+const TESTS = [   /* the big assessments, with the date each grade was posted */
+  {d:"6/10", s:"الرياضيات", t:"اختبار الرياضيات", got:15, of:15},
+  {d:"11/10", s:"الدراسات الإسلامية", t:"اختبار الدراسات الإسلامية", got:15, of:15},
+  {d:"14/10", s:"العلوم", t:"اختبار العلوم", got:15, of:15},
+  {d:"15/10", s:"الإنجليزي", t:"اختبار الإنجليزي", got:13.5, of:15},
+  {d:"19/10", s:"لغتي", t:"اختبار لغتي", got:15, of:15},
+  {d:"19/10", s:"الاجتماعيات", t:"اختبار الاجتماعيات", got:20, of:20},
+  {d:"19/10", s:"القرآن الكريم", t:"الاختبار الدوري للقرآن الكريم", got:20, of:20},
+  {d:"11/11", s:"الرياضيات", t:"اختبار الرياضيات", got:15, of:15},
+  {d:"15/11", s:"Be Well", t:"عرض المشروع", got:20, of:20},
+  {d:"16/11", s:"الدراسات الإسلامية", t:"اختبار الدراسات الإسلامية", got:15, of:15},
+  {d:"17/11", s:"العلوم", t:"الاختبار القصير 2", got:14.75, of:15},
+  {d:"17/11", s:"الحاسب", t:"الاختبار العملي", got:20, of:20},
+  {d:"18/11", s:"الإنجليزي", t:"الاختبار القصير 2", got:12.5, of:15},
+  {d:"17/11", s:"الاجتماعيات", t:"الاختبار القصير 2", wait:true},
+  {d:"19/11", s:"لغتي", t:"الاختبار القصير 2", wait:true}];
+const PRAISE = [   /* the teachers' words, quoted; each one credited to its subject */
+  {s:"لغتي", q:"ممتاز ورائع وبطل", times:8, when:"من 30/8 إلى 29/10", wide:true},
+  {s:"لغتي", q:"الطالب ممتاز ورائع وبطل ما شاء الله تبارك الله", when:"29/10"},
+  {s:"لغتي", q:"الأدب والتميز", when:"7/9", extra:"ومعها «الانضباط» (30/8)، ونقاط إيجابية أخرى (5/10 و16/11)."},
+  {s:"الدراسات الإسلامية", q:"ما شاء الله وبورك فيك يا محمد على هذه المشاركة ودائما من تفوق إلى تفوق", when:"4/10"},
+  {s:"الدراسات الإسلامية", q:"أضاف وأفاض محمد من ثقافته الدينية على ما ذكره الكتاب؛ فبارك الله فيه ووفقه لما يحب ويرضى", when:"5/10", extra:"عن درس «من فضائل صلة الرحم»."},
+  {s:"الإنجليزي", q:"Well participated and maintained a good knowledge about the story", when:"16/9", en:true},
+  {s:"الإنجليزي", q:"Well participated and enthusiastic during the lesson today. Well done", when:"27/10", en:true},
+  {s:"الاجتماعيات", q:"المشاركة والتفوق", when:"1/9", extra:"ونقاط إيجابية في 1/9، ومرتين في 12/10."},
+  {s:"Be Well", q:"الالتزام بالمواعيد", times:5, when:"27/9", extra:"Punctuality"},
+  {s:"الحاسب", q:"Well done Mohammed, great job, everything is done correctly… Bravo for taking from your personal time to train on ICT.", when:"29/10", en:true, wide:true},
+  {s:"التربية الفنية", q:"سلوك إيجابي", when:"10/11", plain:true}];
+const MEDAL = {t:"مسابقة الأذان «أحفاد بلال»", text:"اجتاز المرحلة الأولى، وترشّح للمرحلة الثانية", when:"6/10"};
+const FOCUS = [   /* every remark that asks for more, summarised gently */
+  {ic:"🎒", t:"إحضار الكتب والدفاتر", p:"الإنجليزي: كتاب المفردات (21/9)، والكتاب والدفتر (16/11). لغتي: كتاب الخط (8/10).", tip:"تجهيز الحقيبة من الليلة على جدول الغد يحلّها كلها."},
+  {ic:"🎯", t:"التركيز واتباع التعليمات في الحصة", p:"الإنجليزي: يلتزم بالنشاط المطلوب على الجهاز، كان على موقع آخر بدل IXL (21/10)، ويبقى في الحصة حتى نهايتها (27/10)، ويقلّل الكلام الجانبي (16/11). الرياضيات: المزاح في الحصة مكانه بعدها (8/11).", tip:"نشاطه حلو، وإذا وجّهه للدرس يزيد تفوّقه في الإنجليزي."},
+  {ic:"✍️", t:"إكمال المهام ومراجعة الكتابة قبل التسليم", p:"الحاسب (22/10).", tip:"دقيقة مراجعة قبل الضغط على «تسليم» تكفي."}];
+
+/* ---------- helpers ---------- */
+const DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+const day = dm => { const [d, m] = dm.split("/").map(Number); return DAYS[new Date(YEAR, m - 1, d).getDay()]; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;"}[c]));
+const fmt = x => String(+x.toFixed(2));                     /* 313.75, 1784.75, 15 */
+const pct = (a, b) => (Math.round(a / b * 1000) / 10).toFixed(1).replace(/\.0$/, "");   /* 98.9, 100 */
+const N = s => '<span class="num">' + s + '</span>';
+/* dates inside text: the number, its brackets and the comma after it never split across lines */
+const dates = h => h.replace(/(\(?)(\d+\/\d+)(\)?[،.]?)/g, '<span class="nw">$1<span class="num">$2</span>$3</span>');
+/* the counted noun: 3 to 10 درجات, otherwise درجة */
+const grade = n => n % 100 >= 3 && n % 100 <= 10 ? "درجات" : "درجة";
+const COLOR = Object.fromEntries(SUBJECTS.map(x => [x.name, x.c]));
+const $ = id => document.getElementById(id);
+
+/* ---------- the totals ---------- */
+const got = SUBJECTS.reduce((a, x) => a + x.got, 0), of = SUBJECTS.reduce((a, x) => a + x.of, 0), grades = SUBJECTS.reduce((a, x) => a + x.n, 0);
+const fullSubj = SUBJECTS.filter(x => x.got === x.of), graded = TESTS.filter(x => !x.wait), fullTests = graded.filter(x => x.got === x.of);
+const overall = got / of;
+
+/* hero */
+(function () {
+  const R = 60, C = 2 * Math.PI * R, k = overall;
+  $("ring").setAttribute("aria-label", pct(got, of) + "% من كل درجات الفصل");
+  $("ring").innerHTML = '<svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="' + R + '" fill="#fff" stroke="#DCE3F2" stroke-width="16"/>'
+    + '<circle id="arc" cx="75" cy="75" r="' + R + '" fill="none" stroke="#12A15E" stroke-width="16" stroke-linecap="round" stroke-dasharray="0 ' + C.toFixed(1) + '" transform="rotate(-90 75 75)" style="transition:stroke-dasharray 1.4s cubic-bezier(.2,.8,.2,1)"/>'
+    + '<circle cx="75" cy="75" r="' + (R + 11) + '" fill="none" stroke="#14163A" stroke-width="3"/></svg>'
+    + '<div class="val"><b>' + N(pct(got, of) + "%") + '</b><small>من كل الدرجات</small></div>';
+  requestAnimationFrame(() => requestAnimationFrame(() => { $("arc").setAttribute("stroke-dasharray", (C * k).toFixed(1) + " " + C.toFixed(1)); }));
+  $("lead").textContent = "طالب متفوّق ومجتهد، ومعلّموه يشهدون له. وفيه نقاط صغيرة إذا رتّبها يصير الأول في كل شيء.";
+  $("pts").innerHTML = N(fmt(got)) + " نقطة من " + N(fmt(of)) + " في " + N(grades) + " " + grade(grades) + "، في " + N(SUBJECTS.length) + " مواد.";
+  /* a few sparkles around the hero */
+  const hero = document.querySelector(".hero");
+  [["✨", "8%", "10%", 0], ["⭐", "88%", "14%", .8], ["🌟", "6%", "78%", 1.6], ["✨", "92%", "72%", 2.4]].forEach(([e, x, y, d]) => {
+    const s = document.createElement("span"); s.className = "spark"; s.setAttribute("aria-hidden", "true"); s.textContent = e;
+    s.style.insetInlineStart = x; s.style.top = y; s.style.animationDelay = d + "s"; hero.appendChild(s); });
+})();
+
+/* tiles */
+$("tiles").innerHTML = [
+  ["🎯", N(pct(got, of) + "%"), "من كل درجات الفصل"],
+  ["⭐", N(fullSubj.length) + " من " + N(SUBJECTS.length), "مواد بالعلامة الكاملة"],
+  ["🏅", N(fullTests.length) + " من " + N(graded.length), "اختبارات كبيرة بالعلامة الكاملة"],
+  ["💬", N(PRAISE[0].times), "مرات «ممتاز ورائع وبطل» في لغتي"]
+].map(([em, big, lbl]) => '<div class="tile panel"><span class="em" aria-hidden="true">' + em + '</span><b class="big">' + big + '</b><span class="lbl">' + lbl + '</span></div>').join("");
+
+/* subjects, highest first (the full marks keep their order) */
+$("subjects").innerHTML = SUBJECTS.slice().sort((a, b) => b.got / b.of - a.got / a.of).map(x => {
+  const full = x.got === x.of;
+  return '<div class="srow" style="--c:' + x.c + '"><span class="nm"><i aria-hidden="true"></i><span>' + esc(x.name) + (x.name !== x.en ? ' <small class="en">' + esc(x.en) + '</small>' : "") + '</span></span>'
+    + '<div class="bar" role="img" aria-label="' + pct(x.got, x.of) + '%"><i data-w="' + (x.got / x.of * 100).toFixed(2) + '"></i></div>'
+    + '<span class="sc"><b>' + N(pct(x.got, x.of) + "%") + (full ? ' <span class="full">كاملة ⭐</span>' : "") + '</b><small>' + N(fmt(x.got) + "/" + fmt(x.of)) + " · " + N(x.n) + ' ' + grade(x.n) + '</small></span></div>';
+}).join("") + NO_GRADES.map(x => '<div class="srow none" style="--c:#C7CDE0"><span class="nm"><i aria-hidden="true"></i><span>' + esc(x.name) + ' <small class="en">' + esc(x.en) + '</small></span></span><div class="bar" aria-hidden="true"></div><span class="sc"><small>لا درجات بعد</small></span></div>').join("");
+requestAnimationFrame(() => requestAnimationFrame(() => document.querySelectorAll(".bar i[data-w]").forEach(i => { i.style.width = i.dataset.w + "%"; })));
+
+/* big assessments, by date */
+const order = dm => { const [d, m] = dm.split("/").map(Number); return m * 100 + d; };
+$("tests").innerHTML = TESTS.slice().sort((a, b) => order(a.d) - order(b.d) || (a.wait ? 1 : 0) - (b.wait ? 1 : 0)).map(x => {
+  const top = !x.wait && x.got === x.of;
+  return '<div class="trow"><span class="dt">' + day(x.d) + '<b>' + N(x.d) + '</b></span><span class="ti" style="color:' + COLOR[x.s] + '"><span style="color:var(--ink)">' + esc(x.t) + '</span><small>' + esc(x.s) + '</small></span>'
+    + (x.wait ? '<span class="score wait">لم تُرصد بعد</span>'
+      : '<span class="score' + (top ? " top" : "") + '">' + N(fmt(x.got) + "/" + fmt(x.of)) + (top ? " ⭐" : "") + '<small>' + N(pct(x.got, x.of) + "%") + '</small></span>') + '</div>';
+}).join("");
+
+/* the teachers' words */
+$("praise").innerHTML = PRAISE.map(x => '<figure class="quote panel' + (x.wide ? " wide" : "") + '" style="--c:' + COLOR[x.s] + ';margin:0"><span class="tag">' + esc(x.s) + '</span>'
+  + '<blockquote' + (x.en ? ' class="en" lang="en" dir="ltr"' : "") + '>' + (x.plain ? esc(x.q) : (x.en ? "“" + esc(x.q) + "”" : "«" + esc(x.q) + "»")) + '</blockquote>'
+  + '<figcaption class="meta">' + (/^من /.test(x.when) ? "من " + N(x.when.replace(/^من /, "").replace(" إلى ", "</span> إلى <span class=\"num\">")) : day(x.when) + " " + N(x.when))
+  + (x.times ? '<span class="times">' + N(x.times) + ' مرات</span>' : "") + (x.extra ? " · " + (x.extra === "Punctuality" ? '<span class="en">Punctuality</span>' : dates(esc(x.extra))) : "") + '</figcaption></figure>').join("")
+  + '<figure class="quote panel wide medal" style="--c:#C98A00;margin:0"><span class="tag">🥇 إنجاز</span><blockquote>' + esc(MEDAL.t) + '</blockquote><figcaption class="meta">' + esc(MEDAL.text) + " · " + day(MEDAL.when) + " " + N(MEDAL.when) + '</figcaption></figure>';
+
+/* a little focus */
+$("focus").innerHTML = FOCUS.map(x => '<li><span class="ic" aria-hidden="true">' + x.ic + '</span><div><b>' + esc(x.t) + '</b><p>' + dates(esc(x.p)).replace(/IXL/g, '<span class="en">IXL</span>') + '<span class="tip">' + esc(x.tip) + '</span></p></div></li>').join("");
+
+/* the closing words */
+$("closeText").innerHTML = "والعلامة الكاملة في " + N(fullSubj.length) + " مواد من " + N(SUBJECTS.length) + "، " + '<span class="nw">و' + N(pct(got, of) + "%") + '</span>' + " من كل درجات الفصل. قليل من التركيز في حصة الإنجليزي، ويكون الأول في كل شيء. 💪";
+</script>
+</body>
+</html>
