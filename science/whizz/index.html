@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Science Whizz · 145 Terms</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%224%22 y=%224%22 width=%2256%22 height=%2256%22 rx=%2212%22 fill=%22%235FD9A9%22 stroke=%22%2314163A%22 stroke-width=%224%22/%3E%3Ctext x=%2232%22 y=%2243%22 font-size=%2230%22 text-anchor=%22middle%22%3E%F0%9F%A7%AA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Lexend:wght@400;500;700;800&family=Tajawal:wght@500;700;800&display=swap">
+<style>
+/* Science Whizz (science/whizz): the 145 Grade 6 scientific terms of the Science Whizz competition (kick-off Sunday
+   6 Dec 2026: Round 1 in class, Round 2 across the grade, then a grand final for the top 4 of each grade).
+   The terms are in terms.js. Progress is saved in science-g6-whizz-v1, synced by assets/sync.js; its xp counts towards
+   the rewards once per question, and each topic test or the Grand Final at 80% or more is an arcade part (assets/arcade.js).
+   Each term has a box (0 new … 5): a right answer moves it up one box (from box 2 up, once a day; choosing from options
+   can lift it to box 3 only, so boxes 4 and 5 need the term typed or defined), a wrong one sends it back to box 1.
+   Box 4 or 5 = mastered. Boxes come back for review after 0, 1, 2, 4 and 7 days. */
+:root{
+  --ink:#14163A; --ink-2:#4A4D78; --ink-3:#8A8DB0;
+  --paper:#FFFFFF; --page:#E4F2FF; --dot:rgba(20,22,58,.07);
+  --sun:#FFD23F; --sun-2:#FFF3C4;
+  --good:#12A15E; --good-bg:#DCF7E9;
+  --bad:#E23D45; --bad-bg:#FFE1E2;
+  --mid:#B26A00; --mid-bg:#FFF1D6;
+  --col:#119C77; --tint:#D2F4E8;
+  --shadow:4px 4px 0 var(--ink); --shadow-sm:3px 3px 0 var(--ink);
+  --r:14px; --r-sm:10px;
+  --display:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,-apple-system,sans-serif;
+  --ar:"Tajawal","Geeza Pro","Noto Sans Arabic",system-ui,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--page);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.7px);background-size:18px 18px;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+:focus-visible{outline:3px solid #2F7DE1;outline-offset:3px}
+.ar{font-family:var(--ar);direction:rtl;unicode-bidi:isolate}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.muted{color:var(--ink-2)}
+.num{font-variant-numeric:tabular-nums}
+
+/* top bar */
+.topbar{background:var(--paper);border-bottom:3px solid var(--ink)}
+.topbar .in{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.logo{font-family:var(--display);font-size:28px;letter-spacing:.05em;color:#5FD9A9;-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:rotate(-3deg);white-space:nowrap;line-height:1.2}
+.chip{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.sp{flex:1}
+.xp{display:inline-flex;align-items:center;gap:5px;font-weight:800;font-variant-numeric:tabular-nums;background:var(--sun-2);border:2px solid var(--ink);border-radius:999px;padding:2px 11px;white-space:nowrap}
+.icon-btn{min-width:44px;min-height:44px;display:inline-grid;place-items:center;padding:0 10px;border:2px solid var(--ink);border-radius:10px;background:#fff;box-shadow:2px 2px 0 var(--ink);font-weight:800}
+.icon-btn[aria-pressed="true"]{background:var(--sun-2)}
+
+/* hero + plan */
+.hero{margin-top:18px;padding:18px;display:grid;gap:14px;background:linear-gradient(135deg,#FFF8D6,#fff 60%)}
+.hero h1{font-size:clamp(34px,7vw,52px);color:var(--ink)}
+.hero .lead{font-size:16.5px;color:var(--ink-2)}
+.hero .lead .ar{display:block;margin-top:4px;font-size:16px}
+.count{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.days{display:grid;place-items:center;min-width:92px;padding:6px 12px;border:3px solid var(--ink);border-radius:14px;background:var(--sun);box-shadow:var(--shadow-sm);text-align:center;line-height:1.05}
+.days b{font-family:var(--display);font-size:40px;font-weight:400}
+.days small{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.count p{flex:1;min-width:200px;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{padding:10px;border:2px solid var(--ink);border-radius:12px;background:#fff;display:grid;gap:4px}
+.stat b{font-size:22px;font-weight:800}
+.stat small{font-size:13px;font-weight:700;color:var(--ink-2);line-height:1.3}
+.bar{height:10px;border:2px solid var(--ink);border-radius:99px;background:#fff;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--good);transition:width .6s ease}
+.today{padding:14px;border:3px dashed var(--ink);border-radius:14px;background:#fff;display:grid;gap:10px}
+.today h2{font-size:24px}
+.today ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.today li{padding:2px 9px;border:2px solid var(--ink);border-radius:99px;font-size:14px;font-weight:700;background:var(--tint)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:8px 16px;border:3px solid var(--ink);border-radius:12px;background:#fff;box-shadow:var(--shadow-sm);font-weight:800;text-decoration:none;text-align:center}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn-main{background:var(--sun)}
+.btn-go{background:#5FD9A9}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px}
+.timeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.tl{padding:8px;border:2px solid var(--ink);border-radius:10px;background:#fff;font-size:13.5px;line-height:1.35}
+.tl b{display:block;font-size:14px}
+.tl.now{background:var(--sun-2)}
+
+/* sections */
+.sec-h{margin:26px 0 10px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sec-h h2{font-size:30px}
+.sec-h p{color:var(--ink-2);font-size:15px}
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.mode{padding:14px;display:grid;gap:8px;align-content:start;text-align:start;border:3px solid var(--ink);border-radius:var(--r);background:#fff;box-shadow:var(--shadow)}
+.mode .em{font-size:30px;line-height:1}
+.mode b{font-size:18px}
+.mode small{color:var(--ink-2);font-size:14px;line-height:1.4}
+.mode .best{font-size:13px;font-weight:800;color:var(--good)}
+.topics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.topic{--col:#2F7DE1;--tint:#DCEBFF;padding:12px;display:grid;gap:8px;align-content:start;border:3px solid var(--ink);border-radius:var(--r);background:#fff;box-shadow:var(--shadow);border-top:10px solid var(--col)}
+.topic h3{font-size:22px}
+.topic .ar{font-size:15px;font-weight:700;color:var(--ink-2)}
+.topic .meta{font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.topic .bar i{background:var(--col)}
+.topic .acts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.topic .acts button{min-height:40px;padding:4px 6px;border:2px solid var(--ink);border-radius:9px;background:var(--tint);font-size:14px;font-weight:800}
+.topic .pass{font-size:13px;font-weight:800;color:var(--good)}
+
+/* the run area */
+.run{margin-top:18px;padding:16px;display:grid;gap:12px;scroll-margin-top:calc(var(--site-nav-h,0px) + 12px)}
+.run-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.run-h h2{font-size:26px;flex:1;min-width:160px}
+.prog{font-weight:800;font-variant-numeric:tabular-nums}
+.streak{font-weight:800}
+.qcard{display:grid;gap:12px}
+.qsec{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+.qp{font-size:19px;font-weight:700;line-height:1.45}
+.term-big{font-family:var(--display);font-size:clamp(34px,8vw,50px);letter-spacing:.03em;line-height:1.05}
+.say{font-size:14px;color:var(--ink-2);font-weight:600}
+.opts{display:grid;gap:8px}
+.opt{width:100%;min-height:50px;padding:10px 14px;border:3px solid var(--ink);border-radius:12px;background:#fff;box-shadow:var(--shadow-sm);text-align:start;font-weight:600;line-height:1.4}
+.opt.term{font-weight:800;font-size:18px}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--good-bg);border-color:var(--good)}
+.opt.no{background:var(--bad-bg);border-color:var(--bad)}
+.typein{width:100%;min-height:50px;padding:10px 12px;border:3px solid var(--ink);border-radius:12px;background:#fff;font-size:18px}
+textarea.typein{min-height:110px;resize:vertical;font-size:16.5px;line-height:1.5}
+.keys{display:flex;flex-wrap:wrap;gap:6px}
+.key{display:inline-flex;align-items:center;gap:4px;min-height:40px;padding:4px 10px;border:2px solid var(--ink);border-radius:99px;background:#fff;font-weight:700;font-size:14.5px}
+.key[aria-pressed="true"],.key.hit{background:var(--good-bg);border-color:var(--good)}
+.key.miss{background:var(--bad-bg);border-color:var(--bad)}
+.def{padding:10px 12px;border-left:6px solid var(--col);border-radius:8px;background:var(--tint);font-size:16.5px;line-height:1.5}
+.def mark{background:var(--sun);padding:0 3px;border-radius:4px;color:inherit;font-weight:700}
+.fb{display:flex;gap:10px;align-items:flex-start;padding:12px;border:3px solid var(--ink);border-radius:12px}
+.fb.ok{background:var(--good-bg)} .fb.no{background:var(--bad-bg)} .fb.mid{background:var(--mid-bg)}
+.fb .fi{font-size:24px;line-height:1}
+.fb .t{display:block;font-size:17px}
+.qfoot{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.timer{height:12px;border:2px solid var(--ink);border-radius:99px;overflow:hidden;background:#fff}
+.timer i{display:block;height:100%;width:100%;background:var(--sun);transform-origin:left;transition:transform linear}
+.score-big{font-family:var(--display);font-size:56px;line-height:1}
+.res-list{display:grid;gap:6px;list-style:none}
+.res-list li{padding:8px 10px;border:2px solid var(--ink);border-radius:10px;background:#fff;font-size:15px}
+.res-list li.no{background:var(--bad-bg)} .res-list li.mid{background:var(--mid-bg)}
+
+/* learn cards and flashcards */
+.cards{display:grid;gap:10px}
+.lcard{padding:12px;border:3px solid var(--ink);border-radius:12px;background:#fff;display:grid;gap:6px}
+.lcard .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lcard .t{font-size:20px;font-weight:800;flex:1;min-width:150px}
+.lcard .pr{font-size:13.5px;color:var(--ink-2);font-style:italic}
+.lcard .ar{font-size:15.5px;font-weight:700;color:var(--ink-2)}
+.boxes{display:inline-flex;gap:3px}
+.boxes i{width:10px;height:10px;border:2px solid var(--ink);border-radius:50%;background:#fff}
+.boxes i.on{background:var(--good)}
+.flash{min-height:230px;padding:18px;border:3px solid var(--ink);border-radius:16px;background:#fff;box-shadow:var(--shadow);display:grid;place-items:center;text-align:center;gap:10px;cursor:pointer}
+.flash.back{background:var(--tint)}
+.flash .def{border-left:0;background:transparent;text-align:start}
+
+/* the full list */
+.search{width:100%;min-height:46px;padding:8px 12px;border:3px solid var(--ink);border-radius:12px;background:#fff}
+.all{display:grid;gap:6px;list-style:none;margin-top:10px}
+.all li{padding:8px 10px;border:2px solid var(--ink);border-radius:10px;background:#fff;display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start;font-size:15px}
+.all .n{font-weight:800;color:var(--ink-3);font-variant-numeric:tabular-nums;min-width:28px}
+.all .t{font-weight:800}
+.all .d{color:var(--ink-2);font-size:14.5px}
+
+/* parent's note (Arabic) */
+.parent{margin-top:26px;padding:16px;display:grid;gap:8px;direction:rtl;font-family:var(--ar);font-size:16.5px;line-height:1.75}
+.parent h2{font-family:var(--ar);font-weight:800;font-size:22px;letter-spacing:0}
+.parent ul{padding-inline-start:20px;display:grid;gap:4px}
+.parent .en{font-family:var(--body);direction:ltr;unicode-bidi:isolate}
+
+@media (max-width:760px){
+  .modes,.topics{grid-template-columns:1fr 1fr}
+  .timeline{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){
+  .modes,.topics{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .stat{padding:8px}
+  .stat b{font-size:19px}
+  .all li{grid-template-columns:auto 1fr}
+  .all li .boxes{grid-column:2}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{.topbar,.modes,.run,.icon-btn,.btn-row,.search{display:none!important}body{background:#fff}.panel{box-shadow:none}}
+</style>
+</head>
+<body>
+<script src="../../assets/sync.js"></script>
+<script src="../../assets/answers.js"></script>
+<script src="../../assets/site-nav.js" data-root="../../"></script>
+<script src="../../assets/rewards.js" data-root="../../"></script>
+<script src="../../assets/arcade.js" data-root="../../"></script>
+<script src="../../assets/fx.js" data-sound="1" data-enter=".run"></script>
+<script src="../../assets/voice.js"></script>
+<script src="terms.js"></script>
+
+<header class="topbar"><div class="in">
+  <span class="logo">SCIENCE WHIZZ</span><span class="chip">Grade 6 · 145 terms</span>
+  <span class="sp"></span>
+  <span class="xp" title="Points from this page"><span aria-hidden="true">⭐</span><span id="xp" class="num">0</span></span>
+  <button class="icon-btn" type="button" id="soundBtn" aria-pressed="true" aria-label="Read terms aloud">🔊</button>
+  <button class="icon-btn" type="button" data-voice-panel="en" aria-label="Choose the reading voice">🗣️</button>
+</div></header>
+
+<main class="wrap">
+  <section class="hero panel" aria-labelledby="heroTitle">
+    <h1 id="heroTitle">Become the class Science Whizz</h1>
+    <p class="lead">In Science Whizz you <b>define scientific terms</b>. Learn the 145 terms on the Grade 6 list a few each day, then practise saying each definition with its <mark style="background:var(--sun);padding:0 3px;border-radius:4px">key words</mark>. <span class="ar">المسابقة: تعرّف المصطلحات العلمية بالإنجليزي. نتعلّم كم مصطلح كل يوم ونكرر.</span></p>
+    <div class="count"><div class="days"><b id="daysLeft" class="num">–</b><small id="daysWord">days</small></div><p id="countText"></p></div>
+    <div class="stats">
+      <div class="stat"><b class="num" id="stSeen">0</b><small>of 145 learned</small><div class="bar"><i id="barSeen"></i></div></div>
+      <div class="stat"><b class="num" id="stMast">0</b><small>of 145 mastered</small><div class="bar"><i id="barMast"></i></div></div>
+      <div class="stat"><b class="num" id="stTop">0</b><small>of 9 topic tests passed</small><div class="bar"><i id="barTop"></i></div></div>
+    </div>
+    <div class="today" id="today"></div>
+    <div class="timeline" aria-label="How the competition goes">
+      <div class="tl now"><b>Kick-off · Sun 6 Dec</b>The challenge starts in science class.</div>
+      <div class="tl"><b>Round 1 · Class</b>Define the terms; the best in each class go on.</div>
+      <div class="tl"><b>Round 2 · Grade</b>Class winners meet the other classes.</div>
+      <div class="tl"><b>Grand Final</b>The top 4 of each grade.</div>
+    </div>
+  </section>
+
+  <div class="sec-h"><h2>Competition practice</h2><p>Like the real rounds.</p></div>
+  <section class="modes" aria-label="Competition practice">
+    <button class="mode" type="button" data-act="whizz"><span class="em" aria-hidden="true">⚡</span><b>Whizz Round</b><small>You see a term and hear it. Say (or type) its definition in 20 seconds, then check the key words. 10 terms.</small><span class="best" id="bestWhizz"></span></button>
+    <button class="mode" type="button" data-act="rapid"><span class="em" aria-hidden="true">🔥</span><b>Rapid Fire</b><small>Read a definition and pick the term before the 8-second bar runs out. 15 in a row.</small><span class="best" id="bestRapid"></span></button>
+    <button class="mode" type="button" data-act="final"><span class="em" aria-hidden="true">🏆</span><b>Grand Final test</b><small>30 questions from all 9 topics, every kind. 80% passes.</small><span class="best" id="bestFinal"></span></button>
+  </section>
+
+  <section class="run panel" id="run" hidden aria-live="polite"></section>
+
+  <div class="sec-h"><h2>The 9 topics</h2><p>Learn, flip the cards, practise, then pass the topic test (80%).</p></div>
+  <section class="topics" id="topics" aria-label="Topics"></section>
+
+  <div class="sec-h"><h2>All 145 terms</h2><p>Search, listen, and see each term's box.</p></div>
+  <input class="search" id="search" type="search" placeholder="Search a term or a word in a definition" aria-label="Search the terms">
+  <ul class="all" id="all"></ul>
+
+  <section class="parent panel" aria-labelledby="parentTitle">
+    <h2 id="parentTitle">للأهل: كيف تساعده</h2>
+    <ul>
+      <li>المسابقة تبدأ <b>الأحد 6/12</b> في حصص العلوم: يُطلب منه <b>تعريف المصطلح</b> بالإنجليزي. الجولة 1 داخل الفصل، والجولة 2 بين فصول الصف، والنهائي لأفضل 4 في كل صف.</li>
+      <li>الخطة بالأعلى توزّع المصطلحات الـ145 على الأيام حتى 3/12، ويبقى يوما 4 و5/12 للمراجعة. إجازة الخريف (20–28/11) فرصة ممتازة للتقدّم.</li>
+      <li>اطلب منه أن يقول التعريف بصوت عالٍ، وانتبه للكلمات المفتاحية المظلّلة: هي ما يبحث عنه المحكّم.</li>
+      <li>المصطلح «متقَن» عندما يصل الصندوق 4 من 5: يعني أنه كتبه أو عرّفه صح في يومين مختلفين على الأقل.</li>
+      <li>كل إجاباته تصلك في تقرير المذاكرة كالعادة.</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+"use strict";
+const KEY = "science-g6-whizz-v1";
+const KICKOFF = "2026-12-06", LAST_NEW = "2026-12-03";   /* new terms until Thursday 3 Dec; Fri 4 and Sat 5 for review */
+const PASS = .8, INTERVAL = [0, 0, 1, 2, 4, 7];       /* days until a term in box n comes back */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const put = (el, ...kids) => { el.append(...kids.flat().filter(k => k != null && k !== false)); return el; };
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+function h(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  if (attrs) for (const k in attrs) { const v = attrs[k]; if (v == null || v === false) continue; if (k === "html") e.innerHTML = v; else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v === true ? "" : v); }
+  kids.flat().forEach(k => { if (k != null && k !== false) e.append(k.nodeType ? k : document.createTextNode(k)); });
+  return e;
+}
+
+/* ---------- the terms ---------- */
+const TOPICS = window.WHIZZ_TOPICS;
+const TERMS = [];
+TOPICS.forEach(tp => { tp.list = tp.terms.map(x => { const t = {id: slug(x[0]), t: x[0], d: x[1], k: x[2].split("|").map(k => k.split("/")), ar: x[3], p: x[4] || "", topic: tp, n: TERMS.length + 1}; TERMS.push(t); return t; }); });
+const BY_ID = Object.fromEntries(TERMS.map(t => [t.id, t]));
+
+/* ---------- dates (Riyadh) ---------- */
+const today = () => new Date().toLocaleDateString("en-CA", {timeZone: "Asia/Riyadh"});
+const dnum = s => Math.round(Date.UTC(+s.slice(0, 4), +s.slice(5, 7) - 1, +s.slice(8, 10)) / 86400000);
+const daysBetween = (a, b) => dnum(b) - dnum(a);
+
+/* ---------- saved progress ---------- */
+function fresh() { return {v: 1, xp: 0, xq: {}, t: {}, mastered: {}, best: {}, sound: true}; }
+let S = fresh();
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(fresh(), JSON.parse(raw)); } catch (e) { /* storage unavailable */ }
+["xq", "t", "mastered", "best"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* storage unavailable */ } paintXp(); }
+
+
+const st = id => S.t[id] || {b: 0};
+const box = id => st(id).b || 0;
+const mastered = id => box(id) >= 4;
+const seen = id => box(id) >= 1;
+function due(id) { const s = st(id); if (!s.b) return false; if (s.b >= 1 && !s.d) return true; return daysBetween(s.d, today()) >= INTERVAL[s.b]; }
+/* a right answer moves the term up one box (from box 2 up, once a day; options alone stop at box 3); a wrong one sends it to box 1 */
+function record(id, score, strong) {
+  const s = S.t[id] || (S.t[id] = {b: 0}), d = today();
+  s.r = (s.r || 0) + (score >= 1 ? 1 : 0); s.w = (s.w || 0) + (score < .5 ? 1 : 0);
+  if (score >= 1) {
+    if (s.b < 2) { s.b++; s.d = d; }
+    else if (s.d !== d && s.b < 5 && (strong || s.b < 3)) { s.b++; s.d = d; }
+    else if (!s.d) s.d = d;
+  } else if (score < .5) { s.b = 1; s.d = d; }
+  else if (!s.b) { s.b = 1; s.d = d; }
+}
+function markSeen(id) { const s = S.t[id] || (S.t[id] = {b: 0}); if (!s.b) { s.b = 1; s.d = today(); } }
+/* xp (counts towards the site's rewards) once per question */
+function xpOnce(key, n) {
+  let hs = 5381; for (let i = 0; i < key.length; i++) hs = ((hs << 5) + hs + key.charCodeAt(i)) | 0;
+  const k = (hs >>> 0).toString(36);
+  if (S.xq[k]) return false;
+  S.xq[k] = 1; S.xp = (S.xp || 0) + n; return true;
+}
+
+/* ---------- reading aloud ---------- */
+function speak(text) {
+  if (!S.sound) return;
+  try { if (window.MonmonVoice && MonmonVoice.can) { MonmonVoice.speak(text, {lang: "en"}); return; } } catch (e) {}
+  try { const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = .9; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {}
+}
+const hush = () => { try { if (window.MonmonVoice) MonmonVoice.stop(); else speechSynthesis.cancel(); } catch (e) {} };
+const sayBtn = (text, label) => h("button", {class: "icon-btn", type: "button", "aria-label": label || "Hear it", onclick: e => { e.stopPropagation(); const was = S.sound; S.sound = true; speak(text); S.sound = was; }}, "🔊");
+
+/* ---------- key words ---------- */
+const norm = s => String(s).toLowerCase().replace(/[’']/g, "'").replace(/[^a-z0-9°.' ]+/g, " ").replace(/\s+/g, " ").trim();
+function markKeys(t) {
+  let html = esc(t.d);
+  t.k.forEach(alts => { for (const a of alts) { const re = new RegExp("(" + a.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s+/g, "[\\s-]+") + ")", "i"); if (re.test(html)) { html = html.replace(re, "<mark>$1</mark>"); break; } } });
+  return html;
+}
+/* does a typed definition contain this key word? each word may match a word of the answer by its stem */
+function hasKey(answer, alts) {
+  const A = norm(answer), words = A.split(" ");
+  return alts.some(a => {
+    const n = norm(a); if (!n) return false;
+    if (A.includes(n)) return true;
+    /* a word matches by its first letters: 4 for short words, up to 6 for long ones (contractions ~ contracting, absorbed ~ absorb) */
+    return n.split(" ").every(w => w.length <= 3 ? words.includes(w) : words.some(x => { const L = Math.min(w.length, Math.max(4, Math.min(6, w.length - 2))); return x.length >= L && x.slice(0, L) === w.slice(0, L); }));
+  });
+}
+const keyLabel = alts => alts[0];
+/* spelling: distance between two words (Levenshtein) */
+function dist(a, b) { const m = a.length, n = b.length, d = Array.from({length: m + 1}, (_, i) => [i]); for (let j = 1; j <= n; j++) d[0][j] = j; for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[m][n]; }
+
+/* ---------- the plan ---------- */
+function plan() {
+  const d = today(), left = daysBetween(d, KICKOFF), newDays = Math.max(1, daysBetween(d, LAST_NEW) + 1);
+  const unseen = TERMS.filter(t => !seen(t.id));
+  const per = left <= 2 ? 0 : Math.min(15, Math.max(6, Math.ceil(unseen.length / newDays)));
+  const learnedToday = TERMS.filter(t => S.t[t.id] && S.t[t.id].f === d).length;
+  const fresh = unseen.slice(0, Math.max(0, per - learnedToday));
+  const dueList = TERMS.filter(t => seen(t.id) && due(t.id) && !fresh.includes(t));
+  return {d, left, per, fresh, dueList, unseen: unseen.length, learnedToday};
+}
+
+/* ---------- painting the page ---------- */
+function paintXp() { $("#xp").textContent = S.xp || 0; }
+function paintHero() {
+  const P = plan(), nSeen = TERMS.filter(t => seen(t.id)).length, nM = TERMS.filter(t => mastered(t.id)).length, nT = TOPICS.filter(tp => S.mastered[tp.id]).length;
+  $("#daysLeft").textContent = Math.max(0, P.left);
+  $("#daysWord").textContent = P.left === 1 ? "day" : "days";
+  $("#countText").textContent = P.left > 0 ? "until the kick-off on Sunday 6 December. " + (P.unseen ? P.unseen + " terms still to learn: about " + P.per + " a day." : "All 145 terms learned: now keep them fresh.")
+    : P.left === 0 ? "Science Whizz starts today. Good luck!" : "Science Whizz has started: keep practising for the next round.";
+  $("#stSeen").textContent = nSeen; $("#stMast").textContent = nM; $("#stTop").textContent = nT;
+  requestAnimationFrame(() => { $("#barSeen").style.width = (nSeen / 1.45) + "%"; $("#barMast").style.width = (nM / 1.45) + "%"; $("#barTop").style.width = (nT / 9 * 100) + "%"; });
+  const T = $("#today"); T.innerHTML = "";
+  const n = P.fresh.length + Math.min(P.dueList.length, 20);
+  put(T, h("h2", null, "Today's session"),
+    h("p", null, P.fresh.length ? "Learn " + P.fresh.length + " new term" + (P.fresh.length === 1 ? "" : "s") + (P.dueList.length ? " and review " + Math.min(P.dueList.length, 20) + "." : ", then a quick check.")
+      : P.dueList.length ? "No new terms today: review " + Math.min(P.dueList.length, 20) + " term" + (P.dueList.length === 1 ? "" : "s") + "." : P.unseen ? "Today's new terms are done. Try a Whizz Round or a topic test!" : "Everything is up to date. Try a Whizz Round!"),
+    P.fresh.length ? h("ul", null, P.fresh.map(t => h("li", {style: "--tint:" + t.topic.tint}, t.t))) : null,
+    h("div", {class: "btn-row"}, n ? h("button", {class: "btn btn-main", type: "button", "data-act": "session", onclick: () => startSession()}, "▶ Start today's session") : h("button", {class: "btn btn-main", type: "button", onclick: () => startWhizz()}, "⚡ Whizz Round")));
+  $("#bestWhizz").textContent = S.best.whizz ? "Best: " + S.best.whizz + "/10" : "";
+  $("#bestRapid").textContent = S.best.rapid ? "Best: " + S.best.rapid + "/15" : "";
+  $("#bestFinal").textContent = S.best.final ? "Best: " + S.best.final + "%" + (S.mastered.final ? " ✓ passed" : "") : "";
+}
+function boxesEl(id) { const b = box(id); return h("span", {class: "boxes", "aria-label": "Box " + b + " of 5", title: "Box " + b + " of 5"}, [1, 2, 3, 4, 5].map(i => h("i", {class: i <= b ? "on" : null}))); }
+function paintTopics() {
+  const G = $("#topics"); G.innerHTML = "";
+  TOPICS.forEach(tp => {
+    const nS = tp.list.filter(t => seen(t.id)).length, nM = tp.list.filter(t => mastered(t.id)).length;
+    G.append(h("article", {class: "topic", style: "--col:" + tp.col + ";--tint:" + tp.tint, "data-topic": tp.id},
+      h("h3", null, tp.name), h("span", {class: "ar", lang: "ar"}, tp.ar),
+      h("span", {class: "meta"}, tp.list.length + " terms · " + nS + " learned · " + nM + " mastered"),
+      h("div", {class: "bar"}, h("i", {style: "width:" + (nM / tp.list.length * 100) + "%"})),
+      S.mastered[tp.id] ? h("span", {class: "pass"}, "✓ Topic test passed (" + (S.best[tp.id] || 80) + "%)") : S.best[tp.id] ? h("span", {class: "meta"}, "Best test: " + S.best[tp.id] + "%") : null,
+      h("div", {class: "acts"},
+        h("button", {type: "button", "data-act": "learn", onclick: () => showLearn(tp)}, "📖 Learn"),
+        h("button", {type: "button", "data-act": "flash", onclick: () => showFlash(tp)}, "🃏 Cards"),
+        h("button", {type: "button", "data-act": "practice", onclick: () => startRound("practice", tp)}, "✏️ Practise"),
+        h("button", {type: "button", "data-act": "test", onclick: () => startRound("test", tp)}, "🎯 Test"))));
+  });
+}
+function paintAll() { paintXp(); paintHero(); paintTopics(); paintList(); }
+function paintList() {
+  const raw = ($("#search").value || "").trim(), q = norm(raw), arabic = /[\u0600-\u06FF]/.test(raw), L = $("#all"); L.innerHTML = "";
+  TERMS.filter(t => !raw || (arabic ? t.ar.includes(raw) : q && norm(t.t + " " + t.d).includes(q))).forEach(t => L.append(h("li", null,
+    h("span", {class: "n"}, t.n),
+    h("div", null, h("span", {class: "t"}, t.t), " ", h("span", {class: "ar", lang: "ar", style: "font-size:14px;color:var(--ink-2)"}, t.ar), h("div", {class: "d", html: markKeys(t)})),
+    boxesEl(t.id))));
+}
+
+/* ---------- the run area ---------- */
+const RUN = $("#run");
+let timerId = 0;
+function openRun(title, sub) {
+  clearTimeout(timerId); hush();
+  RUN.hidden = false; RUN.innerHTML = "";
+  RUN.append(h("div", {class: "run-h"}, h("h2", null, title), h("span", {class: "prog", id: "prog"}, sub || ""), h("span", {class: "streak", id: "streak"}), h("button", {class: "icon-btn", type: "button", "aria-label": "Close", onclick: closeRun}, "✕")));
+  RUN.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start"});
+  return RUN;
+}
+function closeRun() { clearTimeout(timerId); hush(); RUN.hidden = true; RUN.innerHTML = ""; paintAll(); }
+
+/* learn: every term of a topic (or today's new terms) as a card */
+function learnCard(t) {
+  return h("div", {class: "lcard", style: "--col:" + t.topic.col + ";--tint:" + t.topic.tint},
+    h("div", {class: "top"}, h("span", {class: "t"}, t.t), sayBtn(t.t + ". " + t.d, "Hear " + t.t), boxesEl(t.id)),
+    t.p ? h("span", {class: "pr"}, "say it: /" + t.p + "/") : null,
+    h("span", {class: "ar", lang: "ar"}, t.ar),
+    h("div", {class: "def", html: markKeys(t)}));
+}
+function showLearn(tp) {
+  const R = openRun("📖 " + tp.name, tp.list.length + " terms");
+  R.append(h("p", {class: "muted"}, "Read each term, listen, and say the definition aloud. The highlighted words are the key words to remember."),
+    h("div", {class: "cards"}, tp.list.map(learnCard)),
+    h("div", {class: "btn-row"}, h("button", {class: "btn btn-main", type: "button", onclick: () => showFlash(tp)}, "🃏 Flip the cards"), h("button", {class: "btn", type: "button", onclick: () => startRound("practice", tp)}, "✏️ Practise")));
+}
+
+/* flashcards: tap to flip; "Again" puts the card back in the pile */
+function showFlash(tp) {
+  let pile = shuffle(tp.list), back = false, known = 0;
+  const R = openRun("🃏 " + tp.name, "");
+  const area = h("div"); R.append(area);
+  const draw = () => {
+    area.innerHTML = "";
+    const prog = $("#prog") || h("span"); prog.textContent = "";
+    if (!pile.length) { save(); area.append(h("div", {class: "fb ok"}, h("span", {class: "fi"}, "🎉"), h("div", null, h("b", {class: "t"}, "All " + tp.list.length + " cards done!"), "Now test yourself: practise this topic.")), h("div", {class: "btn-row", style: "margin-top:10px"}, h("button", {class: "btn btn-main", type: "button", onclick: () => startRound("practice", tp)}, "✏️ Practise"), h("button", {class: "btn", type: "button", onclick: () => showFlash(tp)}, "Again"))); return; }
+    const t = pile[0];
+    const card = h("div", {class: "flash" + (back ? " back" : ""), role: "button", tabindex: "0", "aria-label": back ? "Definition. Tap to see the term." : "Term: " + t.t + ". Tap to see the definition.",
+      onclick: () => { back = !back; draw(); if (back) speak(t.d); }, onkeydown: e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); back = !back; draw(); } }},
+      back ? [h("b", {style: "font-size:20px"}, t.t), h("div", {class: "def", html: markKeys(t)}), h("span", {class: "ar", lang: "ar"}, t.ar)] : [h("span", {class: "term-big"}, t.t), t.p ? h("span", {class: "say"}, "/" + t.p + "/") : null, h("span", {class: "say"}, "Say the definition, then tap to check")]);
+    area.append(h("p", {class: "muted"}, pile.length + " card" + (pile.length === 1 ? "" : "s") + " left · " + known + " known"), card,
+      h("div", {class: "btn-row", style: "margin-top:10px;justify-content:center"},
+        h("button", {class: "btn", type: "button", onclick: () => { pile.push(pile.shift()); back = false; draw(); }}, "↺ Again"),
+        h("button", {class: "btn btn-go", type: "button", onclick: () => { markSeen(t.id); known++; pile.shift(); back = false; draw(); }}, "✓ I knew it")));
+    if (!back) speak(t.t);
+  };
+  draw();
+}
+
+/* ---------- questions ---------- */
+function others(t, n, sameTopic) {
+  let pool = TERMS.filter(x => x !== t && (!sameTopic || x.topic === t.topic));
+  if (pool.length < n) pool = TERMS.filter(x => x !== t);
+  return shuffle(pool).slice(0, n);
+}
+function makeQ(type, t) {
+  if (type === "pick-term") return {type, t, prompt: "Which term matches this definition?", show: t.d, opts: shuffle([t].concat(others(t, 3, true))).map(x => ({x, ok: x === t}))};
+  if (type === "pick-def") return {type, t, prompt: "What does this term mean?", term: t.t, opts: shuffle([t].concat(others(t, 3, true))).map(x => ({x, ok: x === t}))};
+  if (type === "type-term") return {type, t, prompt: "Type the term for this definition.", show: t.d};
+  return {type: "define", t, prompt: "Define this term.", term: t.t};
+}
+const KIND = {"pick-term": "Definition → term", "pick-def": "Term → definition", "type-term": "Type the term", "define": "Define it"};
+/* the kind of question a term gets, from its box: options first, then typing, then defining */
+const kindFor = t => { const b = box(t.id); return b <= 1 ? pick(["pick-term", "pick-def"]) : b === 2 ? pick(["pick-term", "type-term"]) : b === 3 ? pick(["type-term", "define"]) : "define"; };
+function weighted(list, n) {
+  let pool = list.slice(); const out = [];
+  while (out.length < n && pool.length) {
+    const ws = pool.map(t => 1 + (5 - box(t.id)) * 1.5 + (st(t.id).w || 0));
+    let r = Math.random() * ws.reduce((a, b) => a + b, 0), k = 0; while (r > ws[k]) { r -= ws[k]; k++; }
+    out.push(pool[k]); pool.splice(k, 1);
+  }
+  return out;
+}
+
+/* a round: {name, mode, qs, tp, timed (seconds), onEnd} */
+let R0 = null;
+function startRound(mode, tp) {
+  let qs;
+  if (mode === "practice") qs = weighted(tp.list, Math.min(10, tp.list.length)).map(t => makeQ(kindFor(t), t));
+  else if (mode === "test") {   /* 12 questions (fewer in a small topic), every kind: about a sixth typed, a sixth defined, the rest with options */
+    const ts = shuffle(tp.list), n = Math.min(12, ts.length), d = Math.max(1, Math.round(n / 6)), ty = Math.max(1, Math.round(n / 6)), pt = Math.ceil((n - d - ty) / 2);
+    const kinds = [].concat(Array(d).fill("define"), Array(ty).fill("type-term"), Array(pt).fill("pick-term"), Array(n - d - ty - pt).fill("pick-def"));
+    qs = shuffle(ts.slice(0, n).map((t, i) => makeQ(kinds[i], t)));
+  }
+  runRound({name: (mode === "test" ? "🎯 Topic test · " : "✏️ Practise · ") + tp.name, mode, tp, qs});
+}
+function startSession() {
+  const P = plan(), fresh = P.fresh, rev = weighted(P.dueList, Math.min(20, P.dueList.length));
+  if (!fresh.length) return runRound({name: "▶ Today's review", mode: "session", qs: shuffle(rev.map(t => makeQ(kindFor(t), t)))});
+  /* first learn the new terms one by one, then the questions */
+  let i = 0; const R = openRun("▶ Today's new terms", "");
+  const area = h("div", {class: "qcard"}); R.append(area);
+  const draw = () => {
+    area.innerHTML = ""; $("#prog").textContent = (i + 1) + " / " + fresh.length;
+    const t = fresh[i]; markSeen(t.id); S.t[t.id].f = S.t[t.id].f || today(); save();
+    area.append(h("p", {class: "qsec"}, "New term · " + t.topic.name), learnCard(t),
+      h("p", {class: "muted"}, "Say it aloud twice: the term, then its definition with the key words."),
+      h("div", {class: "qfoot"}, i ? h("button", {class: "btn", type: "button", onclick: () => { i--; draw(); }}, "← Back") : null,
+        h("button", {class: "btn btn-main", type: "button", onclick: () => { if (++i < fresh.length) draw(); else runRound({name: "▶ Today's check", mode: "session", qs: shuffle(fresh.map(t => makeQ(pick(["pick-term", "pick-def"]), t)).concat(rev.map(t => makeQ(kindFor(t), t))))}); }}, i < fresh.length - 1 ? "Next term →" : "Check myself →")));
+    speak(t.t + ". " + t.d);
+  };
+  draw();
+}
+function startWhizz() {
+  const pool = TERMS.filter(t => seen(t.id)), list = pool.length >= 10 ? weighted(pool, 10) : weighted(TERMS.filter(t => t.topic === TOPICS[0]).concat(pool), 10);
+  runRound({name: "⚡ Whizz Round", mode: "whizz", qs: list.map(t => makeQ("define", t)), timed: 20});
+}
+function startRapid() {
+  const pool = TERMS.filter(t => seen(t.id)), list = weighted(pool.length >= 15 ? pool : TERMS, 15);
+  runRound({name: "🔥 Rapid Fire", mode: "rapid", qs: list.map(t => makeQ("pick-term", t)), timed: 8});
+}
+function startFinal() {
+  const per = TOPICS.map(tp => shuffle(tp.list)), all = []; let k = 0;
+  while (all.length < 30) { const tp = per[k % per.length]; if (tp.length) all.push(tp.shift()); k++; }
+  const kinds = [].concat(Array(10).fill("pick-term"), Array(8).fill("pick-def"), Array(6).fill("type-term"), Array(6).fill("define"));
+  runRound({name: "🏆 Grand Final test", mode: "final", qs: shuffle(all.map((t, i) => makeQ(kinds[i], t)))});
+}
+
+function runRound(round) {
+  R0 = Object.assign({i: 0, score: 0, answers: [], streak: 0}, round);
+  openRun(round.name, "");
+  showQ();
+}
+function showQ() {
+  const z = R0, q = z.qs[z.i], t = q.t;
+  if (window.MonmonAnswers) MonmonAnswers.ask();
+  [...RUN.children].slice(1).forEach(e => e.remove());   /* keep only the header */
+  $("#prog").textContent = (z.i + 1) + " / " + z.qs.length;
+  const card = h("section", {class: "qcard", style: "--col:" + t.topic.col + ";--tint:" + t.topic.tint});
+  card.append(h("p", {class: "qsec"}, KIND[q.type] + " · " + t.topic.name), h("p", {class: "qp"}, q.prompt));
+  let timerBar = null;
+  if (z.timed) { timerBar = h("div", {class: "timer", role: "img", "aria-label": z.timed + " seconds"}, h("i")); card.append(timerBar); }
+  if (q.show) card.append(h("div", {class: "def"}, q.show), sayBtn(q.show, "Hear the definition"));
+  if (q.term) put(card, h("div", {style: "display:flex;align-items:center;gap:10px;flex-wrap:wrap"}, h("span", {class: "term-big"}, q.term), sayBtn(q.term, "Hear the term")), t.p ? h("span", {class: "say"}, "/" + t.p + "/") : null);
+  const foot = h("div", {class: "qfoot"}), fbBox = h("div");
+  let answered = false;
+  const next = h("button", {class: "btn btn-main", type: "button", onclick: () => { z.i++; z.i < z.qs.length ? showQ() : finish(); }}, z.i < z.qs.length - 1 ? "Next →" : "See my score");
+  const done = (score, yours, extra) => {
+    if (answered) return; answered = true; clearTimeout(timerId);
+    if (timerBar) { const i = timerBar.firstChild, w = getComputedStyle(i).transform; i.style.transition = "none"; i.style.transform = w; }
+    z.score += score; z.streak = score >= 1 ? z.streak + 1 : 0;
+    z.answers.push({q, score, yours});
+    const strong = q.type === "type-term" || q.type === "define";
+    record(t.id, score, strong);
+    const rep = score > 0 && !xpOnce([q.type, t.id].join("|"), Math.round(score * 10));
+    save();
+    const right = q.type === "pick-def" || q.type === "define" ? t.d : t.t;
+    if (window.MonmonAnswers) MonmonAnswers.log({tp: t.id, tn: "Science Whizz: " + t.topic.name, k: q.type, q: (q.term ? q.term + " · " : "") + q.prompt + (q.show ? " · " + q.show : ""), a: yours, r: right, ok: score >= 1,
+      w: q.type === "define" ? "Key words: " + t.k.map(keyLabel).join(", ") + (extra ? " · " + extra : "") : t.t + ": " + t.d, m: z.mode});
+    const cls = score >= 1 ? "ok" : score > 0 ? "mid" : "no";
+    fbBox.append(h("div", {class: "fb " + cls}, h("span", {class: "fi", "aria-hidden": "true"}, score >= 1 ? (z.streak >= 3 ? "🔥" : "✅") : score > 0 ? "🟡" : "❌"),
+      h("div", null, h("b", {class: "t"}, score >= 1 ? pick(["Correct!", "Yes!", "Spot on!", "Whizz!"]) + (z.streak >= 3 ? " " + z.streak + " in a row!" : "") : score > 0 ? "Almost!" : yours === "(time)" ? "Time's up." : "Not quite."),
+        extra && q.type !== "define" ? h("div", null, extra) : null,
+        q.type !== "define" ? h("div", null, h("b", null, t.t), ": ", h("span", {html: markKeys(t)})) : null,
+        h("div", {class: "ar", lang: "ar", style: "font-size:15px"}, t.ar),
+        rep ? h("div", {class: "muted", style: "font-size:14px;margin-top:4px"}, "⭐ Already counted: you got points for this question before.") : null)));
+    foot.innerHTML = ""; foot.append(next); setTimeout(() => next.focus({preventScroll: true}), 60);
+    const s = $("#streak"); if (s) s.textContent = z.streak >= 2 ? "🔥 " + z.streak : "";
+  };
+  if (q.opts) {
+    const box = h("div", {class: "opts"});
+    q.opts.forEach(o => box.append(h("button", {class: "opt" + (q.type === "pick-term" ? " term" : ""), type: "button", onclick: e => {
+      box.querySelectorAll("button").forEach(b => b.disabled = true);
+      q.opts.forEach((p, k) => { if (p.ok) box.children[k].classList.add("ok"); });
+      if (!o.ok) e.currentTarget.classList.add("no");
+      done(o.ok ? 1 : 0, q.type === "pick-term" ? o.x.t : o.x.d);
+    }}, q.type === "pick-term" ? o.x.t : o.x.d)));
+    card.append(box);
+  } else if (q.type === "type-term") {
+    const inp = h("input", {class: "typein", type: "text", autocomplete: "off", autocapitalize: "none", spellcheck: "false", "aria-label": "The term"});
+    const go = () => {
+      const v = inp.value.trim(); if (!v) { inp.focus(); return; }
+      inp.disabled = true;
+      const a = norm(v).replace(/-/g, " "), b = norm(t.t).replace(/-/g, " "), d = dist(a, b);
+      if (d === 0) done(1, v);
+      else if (d <= (b.length >= 8 ? 2 : 1)) done(.5, v, "Spelling: " + t.t);
+      else done(0, v);
+    };
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") go(); });
+    card.append(inp); foot.append(h("button", {class: "btn btn-main", type: "button", onclick: go}, "Check"));
+    setTimeout(() => inp.focus({preventScroll: true}), 80);
+  } else {
+    /* define it: type the definition (the page looks for the key words), or say it aloud and tick the key words you said */
+    const ta = h("textarea", {class: "typein", "aria-label": "Your definition", placeholder: "Type your definition… or say it aloud and tap “I said it”"});
+    const result = (found, yours, how) => {
+      ta.disabled = true; foot.innerHTML = "";
+      const n = t.k.length, f = found.filter(Boolean).length, score = f >= Math.ceil(n * 2 / 3) ? 1 : f > 0 ? .5 : 0;
+      card.append(h("div", {class: "def", html: "<b>" + esc(t.t) + ":</b> " + markKeys(t)}),
+        h("div", {class: "keys"}, t.k.map((alts, i) => h("span", {class: "key " + (found[i] ? "hit" : "miss")}, (found[i] ? "✓ " : "✗ ") + keyLabel(alts)))));
+      done(score, yours, f + " of " + n + " key words (" + how + ")");
+    };
+    const check = () => { const v = ta.value.trim(); if (!v) { ta.focus(); return; } result(t.k.map(alts => hasKey(v, alts)), v, "typed"); };
+    const said = () => {
+      clearTimeout(timerId); ta.disabled = true; foot.innerHTML = "";
+      const picked = t.k.map(() => false);
+      const self = h("div", {class: "qcard", "data-self": ""},
+        h("div", {class: "def", html: "<b>" + esc(t.t) + ":</b> " + markKeys(t)}), h("p", {class: "say"}, "Tap the key words you said:"),
+        h("div", {class: "keys"}, t.k.map((alts, i) => h("button", {class: "key", type: "button", "aria-pressed": "false", onclick: e => { picked[i] = !picked[i]; e.currentTarget.setAttribute("aria-pressed", picked[i]); }}, keyLabel(alts)))));
+      card.append(self);
+      foot.append(h("button", {class: "btn btn-main", type: "button", "data-done": "", onclick: () => { self.remove(); result(picked, "(said aloud) " + (t.k.filter((_, i) => picked[i]).map(keyLabel).join(", ") || "none of the key words"), "said aloud"); }}, "Done"));
+    };
+    card.append(ta);
+    foot.append(h("button", {class: "btn", type: "button", "data-said": "", onclick: said}, "🗣️ I said it"), h("button", {class: "btn btn-main", type: "button", "data-check": "", onclick: check}, "Check"));
+    if (z.mode === "whizz") speak(t.t);
+  }
+  RUN.append(card, fbBox, foot);
+  if (z.timed) {
+    const bar = timerBar.firstChild;
+    requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.transition = "transform " + z.timed + "s linear"; bar.style.transform = "scaleX(0)"; }));
+    timerId = setTimeout(() => {
+      if (answered) return;
+      if (q.opts) { card.querySelectorAll(".opt").forEach((b, k) => { b.disabled = true; if (q.opts[k].ok) b.classList.add("ok"); }); done(0, "(time)"); }
+      else { const ta = card.querySelector("textarea"), b = foot.querySelector(ta && ta.value.trim() ? "[data-check]" : "[data-said]"); if (b) b.click(); }
+    }, z.timed * 1000);
+  }
+}
+function finish() {
+  clearTimeout(timerId); hush();
+  const z = R0, n = z.qs.length, pct = Math.round(z.score / n * 100), right = z.answers.filter(a => a.score >= 1).length;
+  let note = "";
+  if (z.mode === "test" && z.tp) {
+    if (pct > (S.best[z.tp.id] || 0)) S.best[z.tp.id] = pct;
+    if (pct >= PASS * 100 && !S.mastered[z.tp.id]) { S.mastered[z.tp.id] = 1; note = "Topic test passed: " + z.tp.name + " ✓"; }
+    else if (pct < PASS * 100) note = "80% passes the topic test. Practise the red ones, then try again.";
+  }
+  if (z.mode === "final") {
+    if (pct > (S.best.final || 0)) S.best.final = pct;
+    if (pct >= PASS * 100 && !S.mastered.final) { S.mastered.final = 1; note = "Grand Final test passed! 🏆"; }
+    else if (pct < PASS * 100) note = "80% passes. Look at the topics of the red ones.";
+  }
+  if (z.mode === "whizz" && right > (S.best.whizz || 0)) S.best.whizz = right;
+  if (z.mode === "rapid" && right > (S.best.rapid || 0)) S.best.rapid = right;
+  save();
+  const R = openRun(z.name.replace(/^\S+\s/, "") + ": done", "");
+  const wrong = z.answers.filter(a => a.score < 1);
+  R.append(h("div", {style: "display:flex;align-items:center;gap:16px;flex-wrap:wrap"}, h("span", {class: "score-big num"}, z.mode === "whizz" || z.mode === "rapid" ? right + "/" + n : pct + "%"),
+      h("div", null, h("b", {style: "font-size:19px"}, pct >= 90 ? "Whizz level! 🌟" : pct >= 80 ? "Great work! 💪" : pct >= 60 ? "Good effort: keep going." : "Every try helps you learn."), h("div", {class: "muted"}, right + " right out of " + n + (note ? " · " + note : "")))),
+    wrong.length ? h("div", null, h("p", {style: "font-weight:800;margin-bottom:6px"}, "Learn these again:"), h("ul", {class: "res-list"}, wrong.map(a => h("li", {class: a.score > 0 ? "mid" : "no"}, h("b", null, a.q.t.t), ": ", h("span", {html: markKeys(a.q.t)}))))) : h("p", null, "No mistakes. Brilliant!"),
+    h("div", {class: "btn-row"},
+      h("button", {class: "btn btn-main", type: "button", onclick: () => z.mode === "whizz" ? startWhizz() : z.mode === "rapid" ? startRapid() : z.mode === "final" ? startFinal() : z.tp ? startRound(z.mode, z.tp) : startSession()}, "↺ Again"),
+      h("button", {class: "btn", type: "button", onclick: closeRun}, "Back to the plan")));
+  paintHero(); paintTopics(); paintList();
+}
+
+/* ---------- wiring ---------- */
+/* progress from another device: show it here at once, unless a round is running (then sync.js shows its banner) */
+window.addEventListener("monmon-sync", e => {
+  if (!RUN.hidden) return;
+  try { const raw = localStorage.getItem(KEY); if (raw) { S = Object.assign(fresh(), JSON.parse(raw)); ["xq", "t", "mastered", "best"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; }); paintAll(); e.preventDefault(); } } catch (err) {}
+});
+document.querySelector('[data-act="whizz"]').addEventListener("click", startWhizz);
+document.querySelector('[data-act="rapid"]').addEventListener("click", startRapid);
+document.querySelector('[data-act="final"]').addEventListener("click", startFinal);
+$("#search").addEventListener("input", paintList);
+const sb = $("#soundBtn");
+const paintSound = () => { sb.setAttribute("aria-pressed", S.sound ? "true" : "false"); sb.textContent = S.sound ? "🔊" : "🔈"; };
+sb.addEventListener("click", () => { S.sound = !S.sound; if (!S.sound) hush(); save(); paintSound(); });
+paintSound(); paintAll();
+</script>
+</body></html>
