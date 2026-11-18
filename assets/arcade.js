@@ -40,6 +40,8 @@
   var ENG = {read: "Reading", idea: "Main idea", vocab: "Vocabulary", gram: "Grammar", write: "Letter", test: "Practice test"};
   var AR = {a1: "همزتا الوصل والقطع", a2: "الهمزة المتوسطة", a3: "الهمزة المتطرفة", a4: "كان وأخواتها", dict: "قطعة الإملاء", mock: "الاختبار التجريبي"};
   var SCI = {l2: "Structure and Support", l3: "Energy and Waste", l4: "Moving Materials", l5: "Control and Information", test: "Practice test"};
+  var WHZ = {c: "Cells & Life", d: "Digestion, Energy & Waste", r: "Blood & Breathing", m: "Support, Movement & Control", g: "Reproduction & Genetics",
+             p: "Plants", e: "Energy & Heat", w: "Weather, Climate & Oceans", n: "Environment & Resources", final: "Grand Final test"};   /* science/whizz */
   var SOC = {so1: "قبل الدولة السعودية الأولى", so2: "تأسيس الدولة", so3: "أئمة الدولة", mock: "الاختبار التجريبي"};
   var TUT = {read: "Reading", idea: "Main idea", vocab: "Vocabulary", gram: "Grammar", write: "Letter", test: "Practice test"};   /* english/tutor: units understood, a test at 80% */
   var WQ4 = ["Courtroom", "Fan Stage", "Storm Coast", "Castle of Kings", "Explorer Lab"];   /* the lands of vocabulary/unit-04, saved by index */
@@ -102,6 +104,9 @@
     {key: "science-g6-quiz2-v1", page: "science/quiz-2/index.html", title: "العلوم: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة، أو 24 من 30 في الاختبار التجريبي",
      all: Object.keys(SCI).map(function (m) { return ["sci-" + m, "العلوم: " + SCI[m]]; }),
      parts: function (v) { return keys(v && v.mastered).filter(function (m) { return SCI[m]; }).map(function (m) { return ["sci-" + m, "العلوم: " + SCI[m]]; }); }},
+    {key: "science-g6-whizz-v1", page: "science/whizz/index.html", title: "العلوم: مسابقة Science Whizz", rule: "80% أو أكثر في اختبار الموضوع، أو في اختبار Grand Final",
+     all: Object.keys(WHZ).map(function (m) { return ["whz-" + m, "Science Whizz: " + WHZ[m]]; }),
+     parts: function (v) { return keys(v && v.mastered).filter(function (m) { return WHZ[m]; }).map(function (m) { return ["whz-" + m, "Science Whizz: " + WHZ[m]]; }); }},
     {key: "social-g6-quiz2-v1", page: "social/quiz-2/index.html", title: "الاجتماعيات: الاختبار القصير 2", rule: "80% أو أكثر في جولة كاملة أو في الاختبار التجريبي",
      all: Object.keys(SOC).map(function (m) { return ["soc-" + m, "الاجتماعيات: " + SOC[m]]; }),
      parts: function (v) { return keys(v && v.mastered).filter(function (m) { return SOC[m]; }).map(function (m) { return ["soc-" + m, "الاجتماعيات: " + SOC[m]]; }); }},
