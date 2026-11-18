@@ -6,7 +6,7 @@ Learning materials for a Grade 6 student (Class 6.3).
 
 [`index.html`](index.html) is the home page, in Arabic: what he has to do (homework not yet due, grouped by due date, with ticks), his upcoming tests with what to study (and a link to the study page when there is one), links to the practice pages, and every earlier week's homework and tests.
 
-The homework and tests come from the school's public EduPage list for class 6.3 (`https://aisedusa.edupage.org/exam/`), which needs no login. Grades, attendance and messages need a login and are not included.
+The homework and tests come from the school's public EduPage list for class 6.3 (`https://aisedusa.edupage.org/exam/`), which needs no login. Grades, attendance and messages need a login and are not included, with one exception: by the owner's choice (18/11), [`achievements/index.html`](achievements/index.html) shows his Term 1 grades and his teachers' notes. That page uses his first name only, names no teacher (each note is credited to its subject), and summarises gently, without quoting, the remarks that ask for more focus.
 
 - `tools/edupage_sync.py` re-reads that list and rewrites the data block in `index.html` (standard library only; `--dry-run` prints the items without changing anything). The block keeps two times: `synced`, when the list last changed, and `checked`, when it was last read (stamped at least once a day). If the list hasn't been read for two days, the dashboard shows a warning at the top.
 - `.github/workflows/edupage-sync.yml` runs it every hour from 05:41 to 23:41 Jeddah time and commits only when something changed, plus one "EduPage checked: no changes" commit a day. GitHub often starts scheduled runs late or skips some, so the hourly schedule keeps the site close to EduPage. EduPage refuses connections from many of GitHub's machines (from 29 Oct, every run on GitHub's usual Linux machines failed to connect), so the sync runs on a macOS machine, and when EduPage can't be read from there it tries once more from an ARM Linux machine, which has other addresses. If neither can reach it, the next run tries again, and the workflow only fails (with GitHub's failure email) once the list hasn't been read for 24 hours. The workflow can also be started by hand from the Actions tab ("Sync EduPage", then "Run workflow").
@@ -125,6 +125,15 @@ The outline gives no marks for Arabic, so nothing is marked out of a total. Prog
 Each page is a single self-contained HTML file: open it in a browser, no build step or server needed.
 
 Every study page also loads `assets/site-nav.js`, which puts the same navigation strip at the top: the dashboard (لوحتي), this week's plan, the IXL plan and the list of all pages. It picks this week's plan from the date, so when a new weekly plan is added, add it to `WEEK_PAGES` there as well as in `index.html`. Right after it comes `assets/rewards.js` (below), so a new page should load all three: `sync.js`, `site-nav.js` and `rewards.js`.
+
+## His achievements (Term 1 grades and teachers' notes)
+
+[`achievements/index.html`](achievements/index.html), «محمد: تفوّق واجتهاد», added on 18/11 at the owner's request: his Term 1 grades from EduPage up to Wednesday 18/11 and his teachers' notes, presented warmly and honestly (the real numbers, nothing inflated).
+
+- **What it shows:** the overall score (1784.75 of 1805 points, 98.9%), each subject's points, percentage and number of grades (PE has none yet), the big assessments with the date each grade was posted (Social Studies and Arabic Quiz 2 not graded yet), the teachers' praise quoted and credited to its subject (and the Adhan competition, second stage), the remarks that ask for more focus summarised gently in three points with their subjects and dates, and an encouraging close.
+- **Privacy:** published by the owner's choice although the site is public. It uses his first name only, names no teacher, and quotes none of the remarks that ask for more focus. The page asks search engines not to index it.
+- **Data:** the `SUBJECTS`, `TESTS`, `PRAISE` and `FOCUS` arrays at the top of its script; every total, percentage and count on the page is computed from them. Update them by hand when new grades come in.
+- **Links:** a card in the dashboard's «ابدأ من هنا» group, and a line under «إنجازاتي» in the dashboard's rewards card.
 
 ## Rewards (points, stickers and celebrations)
 

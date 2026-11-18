@@ -462,6 +462,8 @@
     var sp = Math.round((s.earned - s.next.from) / Math.max(1, s.next.to - s.next.from) * 100);
     return '<div class="rw-head"><h2 id="rwTitle">إنجازاتي</h2><button class="rw-snd" type="button" aria-pressed="' + s.sound + '" aria-label="صوت الاحتفالات">'
       + (s.sound ? ICON_ON : ICON_OFF) + "</button></div>"
+      /* his grades and his teachers' words (achievements/index.html) */
+      + '<p class="rw-honor"><a href="' + root + 'achievements/index.html">🏅 تفوّق واجتهاد: درجاتي وكلام معلّميّ&nbsp;←</a></p>'
       + '<div class="rw-grid">'
       + '<div class="rw-box rw-lv"><div class="rw-badge" aria-hidden="true">' + s.level + '</div><div class="rw-lvt"><b>المستوى ' + s.level + " · " + s.title + "</b>"
       + '<div class="rw-bar" role="img" aria-label="' + pct + '٪ من المستوى ' + s.level + '"><i style="width:' + pct + '%"></i></div>'
@@ -577,6 +579,7 @@
     '.rw-card{margin-top:20px;padding:14px 16px 16px;display:grid;gap:12px;background:#fff;border:3px solid #14163A;border-radius:14px;box-shadow:4px 4px 0 #14163A;color:#14163A}' +
     '.rw-card p{margin:0}' +
     '.rw-head{display:flex;align-items:center;gap:10px}' +
+    '.rw-honor{margin:-4px 0 0;font-size:15px;font-weight:800}.rw-honor a{color:#14163A;text-decoration:none;border-bottom:2px solid #FFD23F}.rw-honor a:hover{background:#FFF3C4}' +
     '.rw-head h2{flex:1;margin:0;font-size:26px;font-weight:800;line-height:1.25}' +
     '.rw-snd{flex:none;width:44px;height:44px;display:grid;place-items:center;padding:0;border:2px solid #14163A;border-radius:10px;background:#FFF3C4;box-shadow:2px 2px 0 #14163A;cursor:pointer}' +
     '.rw-snd[aria-pressed="false"]{background:#fff}' +
